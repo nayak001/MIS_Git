@@ -1,0 +1,106 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>OPERATIONS</h4>
+						</div>
+						<div class="col">
+							<form role="form" [formGroup]="centerimageFormGroup" (ngSubmit)="FormSubmitAction()">
+	                			<div class="row">
+									<div class="col col-xl-4 col-lg-4">	
+										<select value="" (change)="onselect_centerimage_user_select($event)" class="form-control" placeholder="Manager">
+											<option value="">-- Select User --</option>
+											<option *ngFor="let manager of managers;" value="{{ manager.userid }}">{{ manager.username }}</option>									
+										</select>
+									</div>
+									<div class="col col-xl-4 col-lg-4">	
+										<select value="" (change)="onselect_operation_select($event)" class="form-control" placeholder="Manager">
+											<option value="">-- Select Operation --</option>
+											<option value="assessment">Assessment</option>
+											<option value="issues">Issues</option>
+											<option value="community">Community Visit</option>
+											<option value="paymentinfo">Payment</option>									
+										</select>
+									</div>
+									<div class="col col-xl-4 col-lg-4">
+										<button class="btn btn-sm btn-primary" type="submit">&nbsp;&nbsp;&nbsp;Get Info&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>					
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+
+					<div class="div_img_container">
+						<div class="row">
+							<div id="no_results_div" class="no_results_div" [hidden]="hideNo_results_div" >
+								<span class="no_results_span">No results found ...</span>
+							</div>
+							
+							<div *ngFor="let operation of operation_list" class="div_img">
+								<table class="tbl">
+									<tr class="headingtr">
+										<th>
+											{{operation.createdon | date: 'EEEE, MMMM d, y'}}
+											(Center: {{ operation.centername }} )
+										</th>
+									</tr>
+									<tr>
+										<td class="vltd">
+											<div *ngIf="selected_operation == 'assessment'">
+												<div class="labelhead">Assessment</div>
+												<div class="scrolldiv">
+													<div *ngFor="let element of operation.assessmentinfo; let j = index;" class="">
+														<div class="labelhead">{{j+1}} ) {{element.assessment_q}}</div>
+														<div class="ansdiv"> {{element.assessment_a}}</div>
+													</div>
+												</div>
+											</div>
+											<div *ngIf="selected_operation == 'issues'">
+												<div class="labelhead">Issues</div>
+												<div class="scrolldiv">
+													<div *ngFor="let element of operation.issues; let j = index;" class="">
+														<div class="labelhead">{{j+1}} ) {{element.issue_q}}</div>
+														<div class="ansdiv"> {{element.issue_a}}</div>
+													</div>
+												</div>
+											</div>
+											<div *ngIf="selected_operation == 'community'">
+												<div class="labelhead">Community Visit</div>
+												<div class="scrolldiv">
+													<div *ngFor="let element of operation.community; let j = index;" class="">
+														<div class="labelhead">{{j+1}} ) {{element.community_q}}</div>
+														<div class="ansdiv"> {{element.community_a}}</div>
+													</div>
+												</div>
+											</div>
+											<div *ngIf="selected_operation == 'paymentinfo'">
+												<div class="labelhead">Payment Info</div>
+												<div class="scrolldiv">
+													<div *ngFor="let element of operation.paymentinfo; let j = index;" class="">
+														<div class="labelhead">{{j+1}} ) {{element.payment_q}}</div>
+														<div class="ansdiv"> {{element.payment_a}}</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>             	
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

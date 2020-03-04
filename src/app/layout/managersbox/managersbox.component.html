@@ -1,0 +1,96 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>MANAGER'S BOX</h4>
+						</div>
+					</div>					
+				</div>
+				<div class="card-body table-responsive">
+					<div class="row">
+						<div class="col col-lg-4 col-md-4 col-sm-4">
+							<div class="filechooser">
+								<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+									<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+										attr.aria-valuenow="{{progress.percentage}}"
+										aria-valuemin="0" aria-valuemax="100" 
+										[ngStyle]="{width:progress.percentage+'%'}">
+										{{progress.percentage}}%
+									</div>
+								</div>
+								<div>
+									<label class="">
+										<input #fileInput type="file" (change)="filechooser_onchange($event)">
+									</label>
+								</div>
+								<div class="fileuploadbutton">
+									<button class="btn btn-success" [disabled]="!selectedFiles" (click)="uploadfile_button_click()">Upload</button>
+								</div>
+							</div>
+							<div class="total_file_count">
+								{{ total_file_count_str }}
+							</div>
+						</div>
+						<div class="col col-lg-8 col-md-8 col-sm-8">
+							<div class="file_preview_panel">
+								<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+									<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+								</div>
+								<div class="filelist_background">
+									<div *ngFor="let dt of data; let i=index;">
+										<div class="row filelist_card">
+											<div class="col col-lg-3 col-md-3 col-sm-3">
+												<span *ngIf="dt.filetype=='jpg' || dt.filetype=='jpeg' || dt.filetype=='png' || dt.filetype=='gif' || dt.filetype=='bmp' || dt.filetype=='ico' || dt.filetype=='tiff'"  class="">
+													<img src="assets/images/filetypeicons/filetype_bmp.png" alt="Image File" class="iconsize" />
+												</span>
+												<span *ngIf="dt.filetype=='mpeg' || dt.filetype=='mpg' || dt.filetype=='mp4' || dt.filetype=='m4p' || dt.filetype=='3gp' || dt.filetype=='avi' || dt.filetype=='mov' || dt.filetype=='flv' || dt.filetype=='wmv' || dt.filetype=='webm'"  class="">
+													<img src="assets/images/filetypeicons/filetype_avi.png" alt="Video File" class="iconsize" />
+												</span>
+												<span *ngIf="dt.filetype=='mp3' || dt.filetype=='aac' || dt.filetype=='m4a' || dt.filetype=='wma' || dt.filetype=='rm' || dt.filetype=='aiff' || dt.filetype=='wav' || dt.filetype=='ogg'"  class="">
+													<img src="assets/images/filetypeicons/filetype_mp3.png" alt="Audio File" class="iconsize" />
+												</span>
+												<span *ngIf="dt.filetype=='pdf'"  class="">
+													<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" />
+												</span>
+												<span *ngIf="dt.filetype=='doc' || dt.filetype=='docx' || dt.filetype=='odt'"  class="">
+													<img src="assets/images/filetypeicons/filetype_doc.png" alt="Doc File" class="iconsize" />
+												</span>
+												<span *ngIf="dt.filetype=='xls' || dt.filetype=='xlsx' || dt.filetype=='csv' || dt.filetype=='ods'"  class="">
+													<img src="assets/images/filetypeicons/filetype_xls.png" alt="Excel File" class="iconsize" />
+												</span>
+												<span *ngIf="dt.filetype=='ppt' || dt.filetype=='pptx'"  class="">
+													<img src="assets/images/filetypeicons/filetype_ppt.png" alt="Ppt File" class="iconsize" />
+												</span>
+												<span *ngIf="dt.filetype=='txt' || dt.filetype=='md' || dt.filetype=='css' || dt.filetype=='js' || dt.filetype=='ts' || dt.filetype=='htm' || dt.filetype=='html'"  class="">
+													<img src="assets/images/filetypeicons/filetype_txt.png" alt="Text File" class="iconsize" />
+												</span>
+												<span *ngIf="dt.filetype=='zip' || dt.filetype=='rar'"  class="">
+													<img src="assets/images/filetypeicons/filetype_zip.png" alt="Zip File" class="iconsize" />
+												</span>
+											</div>
+											<div class="col col-lg-7 col-md-7 col-sm-7">
+											<a href="{{ baseUrl }}{{ dt.s3name }}">
+													<span class="bold_font">{{ dt.displayname }}</span>
+												</a><br>
+												<span class="grey_font">{{ dt.createdon | date:'medium' }}</span>
+											</div>
+											<div class="col col-lg-2 col-md-2 col-sm-2">
+												<div class="fileuploadbutton">
+													<button class="btn btn-danger" (click)="delete_button_click(dt)">X</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>                       
+        </div>        
+    </div>
+</div>

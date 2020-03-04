@@ -1,0 +1,113 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>WORKSHOP LEVEL MANAGER</h4>
+						</div>
+					</div>
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<div class="">
+						<div class="modal-body">
+							<div class="row">
+								<div class="col col-xl-3 col-lg-3">Pref.Language</div>
+								<div class="col col-xl-3 col-lg-3 row-fluid">
+									<div class="form-group">
+										<select value="{{ selected_preferredlanguage }}" (change)="preferredlanguage_onchange($event)" class="form-control">
+											<option value="en">English</option>
+											<option value="od">ଓଡିଆ</option>
+										</select>
+									</div>	
+								</div>
+								<div class="col col-xl-3 col-lg-3">Workshop Day</div>
+								<div class="col col-xl-3 col-lg-3 row-fluid">
+									<div class="form-group">
+										<select value="{{ selected_workshopday }}" (change)="workshopday_onchange($event)" class="form-control">
+										<option value="{{ day }}" *ngFor="let day of days;">{{ day }}</option>
+										</select>
+									</div>	
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col-xl-3 col-lg-3">Workshop Type</div>
+								<div class="col col-xl-3 col-lg-3 row-fluid">
+									<div class="form-group">
+										<select value="{{ selected_workshoptype }}" (change)="workshoptype_onchange($event)" class="form-control">
+											<option value="sr">School Readiness</option>
+											<option value="lp">LEAP</option>
+										</select>
+									</div>	
+								</div>
+								<div class="col col-xl-3 col-lg-3" [hidden]="hide_subject_dropdown">Subject</div>
+								<div class="col col-xl-3 col-lg-3 row-fluid" [hidden]="hide_subject_dropdown">
+									<div class="form-group">
+										<select value="{{ selected_subject }}" (change)="subject_onchange($event)" class="form-control">
+										<option value="english">English</option>
+										<option value="math">Math</option>
+										<option value="odia">Odia</option>
+										</select>
+									</div>	
+								</div>
+							</div>
+						</div>
+						<!-- <div class="modal-footer">
+							<button type="button" class="btn btn-primary" (click)="show_data()">&nbsp;&nbsp;&nbsp;Show&nbsp;&nbsp;&nbsp;</button>
+						</div> -->
+					</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<!-- =================================================== -->
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div>
+						<table>
+							<tr style="background: #f1f1f1;;">
+								<td>Level</td>
+								<td>Level Name</td>
+								<td>
+									<div class="row">
+										<div class="col col-lg-5 col-md-5 col-sm-5">
+											<button type="button" class="btn btn-primary input-block-level form-control" (click)="add_level()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+										</div>
+										<div class="col col-lg-2 col-md-2 col-sm-2"></div>
+										<div class="col col-lg-5 col-md-5 col-sm-5">
+											<button type="button" class="btn btn-danger input-block-level form-control" (click)="delete_level()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr *ngIf="levels.length <= 0;">
+								<td style="width: 10%"></td>
+								<td style="width: 50%"> No records found</td>
+								<td style="width: 40%"></td>
+							</tr>
+							<tr *ngFor="let row of levels; let i = index;">
+								<td style="width: 10%">{{ row.level }}</td>
+								<td style="width: 50%">{{ row.levelname }}</td>
+								<td style="width: 40%"></td>
+							</tr>
+						</table>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

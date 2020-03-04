@@ -1,0 +1,126 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+									<div class="row">
+										<div class="col col-xl-4 col-lg-4">
+											<h4>BLOCKS & DISTRICTS</h4>
+										</div>
+									</div>					
+                </div>
+                <div class="card-body table-responsive">
+									<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+										<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+									</div>
+									
+									<div class="row">
+										<div class="col col-xl-4 col-lg-4">
+											<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+												<thead>
+												<tr>
+													<th style="width: 20%">
+														<mfDefaultSorter by="district">District</mfDefaultSorter>
+													</th>
+													<th style="width: 45%">
+														<mfDefaultSorter by="block">Block</mfDefaultSorter>
+													</th>						  
+													<th style="width: 35%">
+														Action
+													</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr *ngFor="let dist of mf.data">
+													<td>
+														<span class="bold-font">{{dist.district}}</span><br>
+														<span class="grey-font">{{dist.id}}</span>
+													</td>
+													<td>{{dist.block}}</td>						  
+													<td>
+													<div class="row">
+														<div class="col col-xl-6 col-lg-6">
+															<!-- delete button datatable -->
+															<button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+														</div>
+													</div>	
+																											
+													<!-- Modal starts from here -->
+													<ng-template #deletemodal let-c="close" let-d="dismiss">
+														<form role="form" (ngSubmit)="deleteFormSubmitAction(dist._id)">
+															<div class="modal-body">											
+																<div class="row">
+																<img src="assets/images/warning.png" class="warning-icon">											
+																<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this Block of: {{ dist.district}} !</span>									
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+																<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+															</div>
+														</form>
+													</ng-template>
+													</td>
+												</tr>
+												</tbody>
+												<tfoot>
+												<tr>
+													<td colspan="4">
+														<!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+														<mfBootstrapPaginator></mfBootstrapPaginator>
+													</td>
+												</tr>
+												</tfoot>
+											</table>
+										</div>
+										<div class="col col-xl-2 col-lg-2">
+											<!-- delete button datatable -->
+											<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(createmodal,{})"><i class="fa fa-pencil" aria-hidden="true"></i>Create New</button>
+											
+											<!-- create modal -->
+											<ng-template #createmodal let-c="close" let-d="dismiss">
+												<form role="form" [formGroup]="distFormGroup" (ngSubmit)="formSubmitAction()">
+													<div class="modal-body">									
+															<div class="form-content">												
+																<div class="row">
+																	<div class="col col-xl-4 col-lg-4">
+																		District
+																	</div>
+																	<div class="col col-xl-8 col-lg-8">
+																		<div class="form-group">
+																			<select value="{{ selected_district }}" (change)="district_on_change($event)" class="form-control" placeholder="District">
+																				<option *ngFor="let dist of all_districts;" value="{{ dist }}">{{ dist }}</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>												
+																
+																<div class="row">
+																	<div class="col col-xl-4 col-lg-4">
+																		Block
+																	</div>
+																	<div class="col col-xl-8 col-lg-8">
+																		<div class="form-group">
+																			<input type="text" id="block_name" value="{{ block_name }}" formControlName="block_name" [(ngModel)]="block_name" class="form-control input-underline input-lg" placeholder="Block Name">
+																			<div class="validation-error-message"  *ngIf="distFormGroup.controls.block_name.invalid">Invalid</div> 
+																		</div>
+																	</div>
+																</div>
+															</div>									
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+														<button type="submit" class="btn btn-success" [disabled]="!distFormGroup.valid">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+													</div>
+												</form>
+											</ng-template>
+										</div>
+										<div class="col col-xl-4 col-lg-4">
+										</div>
+									</div>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

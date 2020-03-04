@@ -1,0 +1,204 @@
+<div>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>ASSESSMENT DETAILS</h4>
+						</div>
+					</div>					
+				</div>
+
+                <div class="card-body table-responsive">
+					<div class="col">
+						<div class="row">
+							<div class="col col-xl-2 col-lg-2">
+								User
+								<div class="form-group">
+									<!-- user auto-complete  -->
+									<div class="ng-autocomplete">
+										<ng-autocomplete 
+										[data]="teachers"
+										[searchKeyword]="keyword"
+										(selected)='onselect_teachers_select($event)'
+										(inputChanged)='onchange_teachers_select($event)'
+										(inputFocused)='onfocus_teachers_select($event)'
+										[itemTemplate]="itemTemplate"
+										[notFoundTemplate]="notFoundTemplate">                                 
+										</ng-autocomplete>
+										
+										<ng-template #itemTemplate let-item>
+											<a [innerHTML]="item.username"></a>
+										</ng-template>
+										
+										<ng-template #notFoundTemplate let-notFound>
+											<div [innerHTML]="notFound"></div>
+										</ng-template>
+									</div>
+								</div>
+							</div>
+							<div class="col col-xl-2 col-lg-2">
+								Program
+								<div class="form-group">
+									<select value="" (change)="onselect_program($event)" class="form-control">
+										<option value="">-- Select --</option>
+										<option value="ece">ECE</option>
+										<option value="pge">PGE</option>
+									</select>
+								</div>	
+							</div>
+							<div class="col col-xl-2 col-lg-2" [hidden]="hide_subject_dropdown">
+								Subject
+								<div class="form-group">
+									<select value="{{selected_subject}}" (change)="onselect_subject($event)" class="form-control">
+										<option value="">-- Select --</option>
+										<option value="english">English</option>
+										<option value="math">Math</option>
+										<option value="odia">Odia</option>
+									</select>
+								</div>	
+							</div>
+							<div class="col col-xl-2 col-lg-2" [hidden]="hide_month_dropdown">
+								Month
+								<div class="form-group">
+									<select value="{{ selected_month }}" (change)="onselect_month($event)" class="form-control">
+										<option value="">-- Select --</option>
+										<option value="month1">1</option>
+										<option value="month2">2</option>
+										<option value="month3">3</option>
+										<option value="month4">4</option>
+										<option value="month5">5</option>
+										<option value="month6">6</option>
+										<option value="month7">7</option>
+										<option value="month8">8</option>
+										<option value="month9">9</option>
+										<option value="month10">10</option>
+									</select>
+								</div>	
+							</div>
+							
+							<div class="col col-xl-2 col-lg-2" [hidden]="hide_quarter_dropdown">
+								Quarter
+								<div class="form-group">
+									<select value="{{ selected_month }}" (change)="onselect_month($event)" class="form-control">
+										<option value="">-- Select --</option>
+										<option value="quarter1">1</option>
+										<option value="quarter2">2</option>
+										<option value="quarter3">3</option>
+										<option value="quarter4">4</option>>
+									</select>
+								</div>	
+							</div>
+							<div class="margintop27">
+								<!-- <button (click)="gettchactivitybyuserid()" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp;Get Info&nbsp;&nbsp;&nbsp;</button> -->
+							</div>					
+						</div>
+					</div>
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+                    <table class="simpletable">
+						<tr>
+							<!-- list  -->
+							<td class="width35">
+								<div class="listpanel">
+									<div *ngFor="let user of data; let i = index;" (click)="view_btn_click(user)" class="row list">
+										<div class="col col-lg-2 col-md-2 col-sm-2">
+											<span>{{ i+1 }}.</span>
+										</div>
+										<div class="col col-lg-5 col-md-5 col-sm-5">
+											<span>{{ user.studentname }}</span>
+										</div>
+										<div class="col col-lg-3 col-md-3 col-sm-3">
+											<span>(Level: {{ user.level }})</span>
+										</div>
+										<div class="col col-lg-2 col-md-2 col-sm-2 pull-right">
+											<span><i class="fa fa-fw fa-caret-right"></i></span>
+										</div>
+									</div>
+								</div>
+							</td>
+	
+							<!-- view  -->
+							<td>
+								<div class="assessment_container">
+									<div class="assessment_page">
+										<div class="assessment_heading">
+											<div *ngIf="!hide_no_records">
+												<div class="row text11">
+													<div class="col col-lg-5 col-md-5 col-sm-5"></div>
+													<div class="col col-lg-7 col-md-7 col-sm-7">
+														<span class="assessment_head">NO RECORDS FOUND</span>
+													</div>
+												</div>	
+											</div>
+											<div *ngIf="hide_no_records">
+												<div class="row text11">
+													<div class="col col-lg-5 col-md-5 col-sm-5">
+														<div class="row">
+															<div class="col col-lg-3 col-md-3 col-sm-3">Name</div>
+															<div class="col col-lg-9 col-md-9 col-sm-9">: {{ preview_studentname }}</div>
+														</div>
+														<div class="row">
+															<div class="col col-lg-3 col-md-3 col-sm-3">Prog.</div>
+															<div class="col col-lg-9 col-md-9 col-sm-9">: {{ preview_program }}</div>
+														</div>
+														<div class="row">
+															<div class="col col-lg-3 col-md-3 col-sm-3">Sub.</div>
+															<div class="col col-lg-9 col-md-9 col-sm-9">: {{ preview_subject }}</div>
+														</div>
+														<div class="row">
+															<div class="col col-lg-3 col-md-3 col-sm-3">Stage</div>
+															<div class="col col-lg-9 col-md-9 col-sm-9">: {{ preview_month }}</div>
+														</div>
+														<div class="row">
+															<div class="col col-lg-3 col-md-3 col-sm-3">Level</div>
+															<div class="col col-lg-9 col-md-9 col-sm-9">: {{ preview_level }}</div>
+														</div>
+														<div class="row">
+															<div class="col col-lg-3 col-md-3 col-sm-3">Date</div>
+															<div class="col col-lg-9 col-md-9 col-sm-9">: {{ preview_date | date }}</div>
+														</div>
+													</div>
+													<div class="col col-lg-7 col-md-7 col-sm-7">
+														<span class="assessment_head">ASSESSMENT</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div *ngFor="let assessment of assessment_details; let i = index;" class="row padding10">
+											<div class="col col-lg-1 col-md-1 col-sm-1">
+												<span class="text18"> {{ i+1 }}</span>
+											</div>
+											<div class="col col-lg-10 col-md-10 col-sm-10">
+												<span class="text18"> {{ assessment.question }} </span>
+											</div>
+											<div class="col col-lg-1 col-md-10 col-sm-1">
+												<span class="text18 correct" *ngIf="assessment.answer == 'yes'"> 
+													<i class="fa fa-fw fa-check"></i>
+												</span>
+												<span class="text18 wrong" *ngIf="assessment.answer == 'no'"> 
+													<i class="fa fa-fw fa-close"></i>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

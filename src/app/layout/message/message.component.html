@@ -1,0 +1,150 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>Messages</h4>
+						</div>
+						<div class="col">
+							<button (click)="open(content, {})" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Message</button>
+
+							<!-- Modal starts from here -->
+							<ng-template #content let-c="close" let-d="dismiss">
+								<form role="form" [formGroup]="messageModalFormGroup" (ngSubmit)="formSubmitAction()">
+									<div class="modal-body">
+											<div class="form-content">
+                        <div class="row">
+                          <div class="col col-xl-4 col-lg-4">
+                            Title
+                          </div>
+                          <div class="col col-xl-8 col-lg-8">
+                            <div class="form-group">
+                              <input id="txt_title" [value]="txt_title" formControlName="txt_title" [(ngModel)]="txt_title" type="text" class="form-control input-underline input-lg" placeholder="Title">
+                              <div class="validation-error-message"  *ngIf="messageModalFormGroup.controls.txt_title.invalid">Title required</div>
+                            </div>
+                          </div>
+                        </div>
+
+												<div class="row">
+													<div class="col col-xl-4 col-lg-4">
+														Message
+													</div>
+													<div class="col col-xl-8 col-lg-8">
+														<div class="form-group">
+															<input id="txt_message" [value]="txt_message" formControlName="txt_message" [(ngModel)]="txt_message" type="text" class="form-control input-underline input-lg" placeholder="Message">
+															<div class="validation-error-message"  *ngIf="messageModalFormGroup.controls.txt_message.invalid">Message required</div>
+														</div>
+													</div>
+												</div>
+
+                        <!--===============================-->
+                        <div class="row">
+                          <div class="col col-xl-4 col-lg-4">
+                            Recipients
+                          </div>
+                          <div class="col col-xl-8 col-lg-8">
+                            <div class="row">
+                              <div class="col col-xl-2 col-lg-2">
+                                <input type="checkbox" (change)="alluser_on_select($event)"  class="form-control input-underline input-lg chk" />
+                              </div>
+                              <div class="col col-xl-10 col-lg-10">
+                                All Users
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="div_scroll">
+                          <div *ngFor="let user of all_users" class="form-group">
+                            <div class="row">
+                              <div class="col col-xl-2 col-lg-2">
+                                <input value="{{user._id}}" type="checkbox" [checked]="isChecked" [disabled]="isDisabled" (change)="user_on_select($event, user)"  class="form-control input-underline input-lg chk" />
+                              </div>
+                              <div class="col col-xl-10 col-lg-10">
+                                {{user.userid}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--===============================-->
+											</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-success" [disabled]="!messageModalFormGroup.valid">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						</div>
+					</div>
+                </div>
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+                    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						  <th style="width: 20%">
+							  <mfDefaultSorter by="Message">Message</mfDefaultSorter>
+						  </th>
+						  <th style="width: 45%">
+							  <mfDefaultSorter by="Recipients">Recipients</mfDefaultSorter>
+						  </th>
+						  <th style="width: 35%">
+							  Action
+						  </th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr *ngFor="let center of mf.data">
+						  <td>
+						  	<span class="bold-font">{{center.message}}</span>
+						  </td>
+						  <td><span class="grey-font">{{center.userid}}</span></td>
+						  <td>
+								<div class="row">
+                  <button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal,center)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                  <!--<div class="col col-xl-6 col-lg-6">
+                          <button type="button" class="btn btn-primary input-block-level form-control" (click)="open(content,center)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                      </div>
+                      <div class="col col-xl-6 col-lg-6">
+                          <button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal,center)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                      </div>-->
+								</div>
+
+							<!-- Modal starts from here -->
+							<ng-template #deletemodal let-c="close" let-d="dismiss">
+								<form role="form" (ngSubmit)="deleteFormSubmitAction(center._id)">
+									<div class="modal-body">
+										<div class="row">
+										<img src="assets/images/warning.png" class="warning-icon">
+										<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of center: {{ center.centername}} !</span>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						  </td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

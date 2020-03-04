@@ -1,0 +1,164 @@
+/*
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+*/
+
+.table-striped{
+	font-size: 12px !important;	
+	color: #2e2ef9;
+	font-family: 'Arial';
+}
+.table-striped th{
+	font-size: 11px !important;	
+	font-weight: bold;
+	color: #636161;
+	font-family: 'Arial black';
+}
+.bold-font{
+	font-size: 11px !important;	
+	font-weight: bold;
+	color: #2e2ef9;
+	font-family: 'Arial';
+}
+.loading_indicator{
+    /*margin-left: 27%;
+    width: 210px;
+    border: 1px solid grey;
+    padding: 30px;
+    position: absolute;
+    background-color: white;
+    box-shadow: -2px 3px 20px 0px;
+    margin-top: 7%;
+	*/
+}
+.modal-footer{
+    border-top: 1px solid #848484;
+    background-color: #c3c3c3;
+}
+.btn{
+	border-radius: 1.25rem;
+}
+.modal-text{
+	font-size: 22px;
+    color: #505050;
+}
+.warning-icon{
+	width: 40px;
+	height: 40px;
+	margin-left: 40px;
+}
+.validation-error-message{
+	color: red;
+    font-size: 10px;
+    font-weight: bold;
+}
+.modal_textbox{
+	width: 100%;
+    border: none;
+    border-bottom: 1px solid #b7b7b7;
+    margin-bottom: 30px;
+    font-family: arial;
+    font-size: 12px;
+
+}
+.modal_textbox:focus {
+    outline-width: 0;
+}
+
+.div_img_container{
+    /*background-color: #d2cdcd;
+    height: 400px;
+    overflow-y: unset;
+    */
+}
+
+.div_img{
+    border: 10px solid white;
+    margin: 15px;
+    padding: 15px;
+    width: 98%;
+    background-color: white; /*#8a7845;*/
+    box-shadow: -1px 2px 4px;
+    position: relative;
+}
+.div_img span{
+    position: absolute;
+    bottom: 0;
+    width: 85%;
+}
+
+.img_{
+    padding-bottom: 0%;
+    background-image: url(/assets/images/default.jpg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    /*width: 100%;
+    height: 100%;
+    */
+    float: right;
+    cursor: pointer;
+}
+
+.no_results_div{
+    width: 100%;
+}
+.no_results_span{
+    background-color: white;
+    padding: 20px;
+    margin-left: 40%;
+}
+.transperentbg{
+    background: #00000082;
+    color: white;
+}
+
+.tbl{
+    width: 100%;
+}
+.scrolldiv{
+    height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.vltd{
+    vertical-align: top !important;
+    text-align: left;
+    width: 80%;
+}
+.vrtd{
+    vertical-align: top;
+    text-align: right;
+}
+.headingtr{
+    background: #e9e9fc;
+    text-align: center;
+    line-height: 50px;
+}
+.labelhead{
+    font-weight: bold;
+}
+
+
+
+
+
+.alwaysontop {
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.5); 
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999999;
+    padding: 30px;
+}
+.closemap_button_div{
+    background: white;
+    text-align: center;
+    padding: 15px;
+}
+.ansdiv{
+    margin-left: 20px;
+    color: #2b2bb6;
+}
+

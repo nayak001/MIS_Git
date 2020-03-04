@@ -1,0 +1,285 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>STUDENT DETAILS</h4>
+						</div>
+						<div class="col">
+							<div class="row">
+								<div class="col col-xl-8 col-lg-8">	
+										
+									<select value="{{ selected_userid }}" (change)="onselect_teachers_select($event)" class="form-control" placeholder="Manager">
+										<option *ngFor="let teacher of teachers;" value="{{ teacher.userid }}">{{ teacher.username }}</option>									
+									</select>
+								</div>
+								<div class="col col-xl-4 col-lg-4">
+									<button (click)="getstudentdetailsbyuserid()" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp;Get Info&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+						<div class="col">
+							<!-- <button (click)="open(content, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New User</button> -->
+							
+							<!-- Modal starts from here -->
+							<ng-template #content let-c="close" let-d="dismiss">
+								<!--<div class="modal-header">
+									<h4 class="modal-title">{{ usersubmitaction }} User</h4>
+									<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								-->
+								<form role="form" [formGroup]="userModalFormGroup" (ngSubmit)="formSubmitAction(usersubmitaction)">
+									<div class="modal-body">									
+											<div class="form-content">
+												<div class="row">
+													<div class="col col-xl-3 col-lg-3"></div>
+													<div class="col col-xl-6 col-lg-6">
+														<div class="form-group">
+															<input id="modal_id" value="{{ modal_id }}" formControlName="modal_id" [(ngModel)]="modal_id" type="hidden">
+														</div>
+													</div>
+												</div>
+												
+												<div class="row">
+													<div class="col col-xl-3 col-lg-3">
+														User Name
+													</div>
+													<div class="col col-xl-9 col-lg-9">
+														<div class="form-group">
+															<input id="modal_username" [value]="modal_username" formControlName="modal_username" [(ngModel)]="modal_username" type="text" class="form-control input-underline input-lg" placeholder="Username">													
+															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_username.invalid">Username required</div> 
+														</div>
+													</div>
+												</div>
+												
+												<div class="row">
+													<div class="col col-xl-3 col-lg-3">
+														Email ID
+													</div>
+													<div class="col col-xl-9 col-lg-9">
+														<div class="form-group">
+															<input id="modal_emailid" value="{{ modal_emailid }}" formControlName="modal_emailid" [(ngModel)]="modal_emailid" type="text" class="form-control input-underline input-lg" placeholder="Mail ID" [disabled]="disable_emailid">
+															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_emailid.invalid">Enter valid eMail ID</div> 
+														</div>
+													</div>
+													<!--<div class="col col-xl-3 col-lg-3">
+														<button type="button" class="btn btn-warning float-right" (click)="c('Close click')">Check</button>
+													</div>-->
+												</div>
+												
+												<div class="row">
+													<div class="col col-xl-3 col-lg-3">
+														Password
+													</div>
+													<div class="col col-xl-6 col-lg-6">
+														<div class="form-group">
+															<input [type]="showpassword ? 'text' : 'password'" id="modal_password" value="{{ modal_password }}" formControlName="modal_password" [(ngModel)]="modal_password" class="form-control input-underline input-lg" placeholder="Password">
+															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_password.invalid">Enter valid Password</div> 
+														</div>
+													</div>
+													<div class="col col-xl-3 col-lg-3">
+														<button type="button" class="btn btn-warning float-right" (click)="showpass()">{{ showhide_button }}&nbsp;</button>
+													</div>
+												</div>
+												
+												<!--<div class="form-group">
+													<input id="crt_cpassword" formControlName="password" type="password" class="form-control input-underline input-lg" placeholder="Confirm password">
+												</div>-->
+												
+												<div class="row">
+													<div class="col col-xl-2 col-lg-2">
+														Type
+													</div>
+													<div class="col col-xl-4 col-lg-4">
+														<div class="form-group">
+															<select id="modal_usertype" value="{{modal_usertype}}" (change)="onSelect_modal_usertype($event)" class="form-control">
+																<option value="manager">Manager</option>
+																<option value="teacher">Teacher</option>
+																<option value="fieldstaff">Field Staff</option>
+															</select>
+														</div>														
+													</div>
+													<div class="col col-xl-2 col-lg-2">
+														Gender
+													</div>
+													<div class="col col-xl-4 col-lg-4">
+														<div class="form-group">
+															<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
+																<option value="male">Male</option>
+																<option value="female">Female</option>														
+															</select>
+														</div>														
+													</div>
+												</div>
+												
+												<div class="row">
+													<div class="col col-xl-2 col-lg-2">
+														Phone
+													</div>
+													<div class="col col-xl-4 col-lg-4">
+														<div class="form-group">
+															<input id="modal_contactnumber" value="{{ modal_contactnumber }}" formControlName="modal_contactnumber" [(ngModel)]="modal_contactnumber" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number">
+															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_contactnumber.invalid">Enter valid Phone number</div> 
+														</div>
+													</div>
+													<div class="col col-xl-2 col-lg-2">
+														City
+													</div>
+													<div class="col col-xl-4 col-lg-4">
+														<div class="form-group">
+															<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" formControlName="modal_permanentaddress" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
+															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_permanentaddress.invalid">Enter valid City</div> 
+														</div>
+													</div>
+												</div>
+											</div>									
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-success" [disabled]="!userModalFormGroup.valid">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						</div>
+					</div>					
+                </div>
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+                    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						  <th style="width: 90%">
+							  <mfDefaultSorter by="studentname">Info</mfDefaultSorter>
+						  </th>
+						  <th style="width: 20%">
+							  Action
+						  </th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr *ngFor="let student of mf.data; let i = index">
+						  <td>
+							  <div class="">
+								  <table class="simpletable">
+									  <tr>
+										  <td style="width: 20%">Student Name:</td>
+										  <td><span class="bold-font">{{ student.studentname }}</span>
+											<button type="button" class="btn btn-primary input-block-level form-control payinfo-btn" (click)="open(infomodal,student)"><i class="fa fa-info-circle" aria-hidden="true"></i>View Payment Info</button>
+											
+										  </td>
+									  </tr>
+									  <tr>
+										  <td>Student ID:</td><td>{{ student.studentid }}</td>
+									  </tr>
+									  <tr>
+										  <td>Program:</td><td>{{ student.program }}</td>
+									  </tr>
+									  <tr>
+										  <td>Class:</td><td>{{ student.class }}</td>
+									  </tr>
+									  <tr>
+										  <td>Gender:</td><td>{{ student.gender }}</td>
+									  </tr>
+									  <tr>
+										  <td>DOB:</td><td>{{ student.dob | date: 'EEEE, MMMM d, y' }}</td>
+									  </tr>
+									  <tr>
+										  <td>Phone No.:</td><td>{{ student.phone }}</td>
+									  </tr>
+									  <tr>
+										  <td>Parents Name:</td><td>{{ student.parentsname }}</td>
+									  </tr>
+									  <tr>
+										  <td>Regd. Date:</td><td>{{ student.registration_date | date: 'EEEE, MMMM d, y' }}</td>
+									  </tr>	
+								  </table>
+							  </div>
+						  </td>
+						  <td>
+								<div class="row">
+									<!-- <div class="col col-xl-6 col-lg-6">
+										<button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(infomodal,student)"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+									</div> -->
+									<div class="col col-xl-6 col-lg-6">
+										<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="open(deletemodal)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+									</div>
+								</div>
+																					
+							<!-- Modal starts from here -->
+							<ng-template #infomodal let-c="close" let-d="dismiss">
+								<div class="modal-body">											
+									<div class="row modal_div">
+										<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+											<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+										</div>
+										<table class="table table-striped" [mfData]="paymentinfolist" #mf="mfDataTable" [mfRowsOnPage]="4">
+											<thead>
+											<tr>
+												<th style="width: 30%">
+													<mfDefaultSorter by="studentname">Type</mfDefaultSorter>
+												</th>
+												<th style="width: 30%">
+													<mfDefaultSorter by="studentname">Amount</mfDefaultSorter>
+												</th>
+												<th style="width: 40%">Date</th>
+											</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let payment of mf.data; let i = index">
+													<td>{{ payment.payment_type }}</td>
+													<td>{{ payment.amount }}</td>
+													<td>{{ payment.createdon | date: 'EEEE, MMMM d, y' }}</td>
+												</tr>
+											</tbody>
+										</table>	
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+									<!-- <button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button> -->
+								</div>
+							</ng-template>
+
+							<ng-template #deletemodal let-c="close" let-d="dismiss">
+								<form role="form" (ngSubmit)="deleteFormSubmitAction(student._id)">
+									<div class="modal-body">											
+										<div class="row">
+										<img src="assets/images/warning.png" class="warning-icon">											
+										<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of {{ student.studentname}} !</span>									
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						  </td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

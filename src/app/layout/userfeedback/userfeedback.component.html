@@ -1,0 +1,85 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>USER FEEDBACK</h4>
+						</div>
+					</div>
+                </div>
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+                    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						  <th style="width: 20%">
+							  <mfDefaultSorter by="Message">User</mfDefaultSorter>
+						  </th>
+						  <th style="width: 10%">
+							  <mfDefaultSorter by="Recipients">Feedback/ Issue</mfDefaultSorter>
+						  </th>
+						  <th style="width: 30%">
+							  <mfDefaultSorter by="Recipients">Description</mfDefaultSorter>
+						  </th>
+						  <th style="width: 15%">
+							  <mfDefaultSorter by="Recipients">Date</mfDefaultSorter>
+						  </th>
+						  <th style="width: 15%">
+							  <mfDefaultSorter by="Recipients">Status</mfDefaultSorter>
+						  </th>
+						  <th style="width: 10%">
+							  Action
+						  </th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr *ngFor="let feedback of mf.data">
+						  <td>
+						  	<span class="bold-font">{{feedback.username}}</span>
+						  </td>
+						  <td><span class="grey-font">{{feedback.type}}</span></td>
+						  <td><span class="grey-font">{{feedback.description}}</span></td>
+						  <td><span class="grey-font">{{feedback.createdon | date: 'dd/MM/yyyy'}}</span></td>
+						  <td><span class="grey-font">{{feedback.status}}</span></td>
+						  <td>
+							<div class="row">
+                  				<button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal,feedback)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                  			</div>
+
+							<!-- Modal starts from here -->
+							<ng-template #deletemodal let-c="close" let-d="dismiss">
+								<form role="form" (ngSubmit)="deleteFormSubmitAction(feedback._id)">
+									<div class="modal-body">
+										<div class="row">
+										<img src="assets/images/warning.png" class="warning-icon">
+										<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of center: {{ feedback.username}} !</span>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						  </td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

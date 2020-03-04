@@ -1,0 +1,59 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3" style="height: 600px;">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-8 col-lg-8">
+              <h4>School Readiness General Info</h4>
+            </div>
+            <div class="col col-xl-4 col-lg-4">
+            </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <div class="row">
+            <div class="col col-lg-3 col-xl-3">
+              <span class="bold-font">Language</span>
+              <span>
+                <select id="selected_prefLanguage" value="{{selected_prefLanguage}}"
+                  (change)="prefLanguage_select_onchange($event)" class="form-control">
+                  <option value="">Select</option>
+                  <option value="od">Odia</option>
+                  <option value="en">English</option>
+                </select>
+              </span>
+            </div>
+            <div class="col col-lg-9 col-xl-9">
+              <div id="content_div">
+                <div class="pad25">
+                  <div>
+                    <span class="bold-font">Language</span>
+                    <span>
+                      <select id="selected_language" value="{{selected_language}}"
+                        (change)="language_select_onchange($event)" class="form-control">
+                        <option value="">Select</option>
+                        <option value="od">Odia</option>
+                        <option value="en">English</option>
+                      </select>
+                    </span>
+                  </div> <br>
+                  <div>
+                    <!-- <span class="bold-font">Content:</span> -->
+                    <!-- <textarea [(ngModel)]="content_value" class="area-width"></textarea> -->
+                    <ckeditor [editor]="Editor" [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
+                  </div>
+                  <br />
+                  <div>
+                    <button (click)="save_btn_click()" class="btn btn-primary float-right"
+                      type="button">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

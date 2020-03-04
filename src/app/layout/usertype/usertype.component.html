@@ -1,0 +1,68 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>USER TYPE</h4>
+						</div>
+					</div>
+				</div>
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div class="">
+						<div class="">
+							<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+								<thead>
+									<tr>
+										<th style="width: 40%">
+											<mfDefaultSorter by="usertype">User Type</mfDefaultSorter>
+										</th>
+										<th style="width: 20%">
+											<mfDefaultSorter by="status">Status</mfDefaultSorter>
+										</th>
+										<th style="width: 20%">
+											<mfDefaultSorter by="createdon">Created On</mfDefaultSorter>
+										</th>
+										<th style="width: 20%">
+											<mfDefaultSorter by="createdon">Action</mfDefaultSorter>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let usrtype of mf.data">
+										<td><span class="bold-font">{{usrtype.usertype | uppercase}}</span></td>
+										<td><span class="grey-font">{{usrtype.status | titlecase}}</span></td>
+										<td><span class="grey-font">{{usrtype.createdon | date: 'medium'}}</span></td>
+										<td>
+											<span class="grey-font" *ngIf="usrtype.status == 'active'; else disabledUsertype">
+												<button type="button" class="btn btn-danger" (click)="disable_button_click(usrtype, 'disabled')">Disable</button>
+											</span>
+											<ng-template #disabledUsertype>
+												<span class="grey-font" *ngIf="usrtype.status == 'disabled'">
+													<button type="button" class="btn btn-primary" (click)="disable_button_click(usrtype, 'active')">Enable</button>
+												</span>
+											</ng-template>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot>
+								<tr>
+									<td colspan="4">
+										<!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+										<mfBootstrapPaginator></mfBootstrapPaginator>
+									</td>
+								</tr>
+								</tfoot>
+							  </table>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

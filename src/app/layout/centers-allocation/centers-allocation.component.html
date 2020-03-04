@@ -1,0 +1,267 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>CENTER ALLOCATION</h4>
+						</div>
+
+
+						<div class="col">
+							<button (click)="open(content, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Allocate A Center</button>
+							
+							<!-- Modal starts from here -->
+							<ng-template #content let-c="close" let-d="dismiss">
+								<!--<div class="modal-header">
+									<h4 class="modal-title">{{ usersubmitaction }} User</h4>
+									<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								-->
+								<form role="form" [formGroup]="centerAllotModalFormGroup" (ngSubmit)="formSubmitAction(centersubmitaction)">
+									<div class="modal-body">									
+											<div class="form-content">
+												<div class="row">
+													<div class="col col-xl-3 col-lg-3"></div>
+													<div class="col col-xl-6 col-lg-6">
+														<div class="form-group">
+															<input id="modal_id" value="{{ modal_id }}" formControlName="modal_id" [(ngModel)]="modal_id" type="hidden">
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col col-xl-3 col-lg-3">Manager</div>
+													<div class="col col-xl-6 col-lg-6">
+														<div class="form-group">
+															<select (change)="onSelect_modal_manager($event)" id="modal_manager" value="{{modal_manager}}" class="manager-select">
+															   <option [value]="mgr['userid']" *ngFor="let mgr of availablemanagerslist">{{mgr['username']}}</option>
+															</select>
+															<br><span class="availability_status">{{ availability_status }}</span>
+														</div>
+													</div>
+												</div>
+
+												<hr>
+												<div class=""> Centers({{filterData.length}})
+													<input type="text" (keyup)='search($event.target.value)' class="searchtxt">
+													<table>
+														<tr>
+															<td class="l_td">
+																	<table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="5" class="tblwidth">
+																		<tbody>
+																			<tr *ngFor="let item of mf.data">
+																				<td (click)="select_center(item)">
+																					<a class="list-group-item">
+																						<label for="{{ item['_id'] }}">
+																							<!-- <input type="checkbox" id="{{ item['_id'] }}"  data-md-icheck (change)="checkboxChanged($event,item)"/> -->
+																							<span class="center-names">{{item['centername']}}</span>
+																							<i class="fa fa-caret-right float_r" aria-hidden="true"></i>
+																						</label>
+																					</a>
+																				</td>
+																			</tr>
+																		</tbody>
+																		<tfoot>
+																			<tr>
+																			<td colspan="12">
+																				<!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
+																				<mfBootstrapPaginator></mfBootstrapPaginator>
+																			</td>
+																			</tr>
+																		</tfoot>
+																	</table>
+															</td>
+															<td class="r_td">
+																	<div class="selected_td_div">
+																		<div class="row" *ngFor="let cntr of selected_centers_arr">
+																			<a class="list-group-item" (click)="deselect_center(cntr)">
+																				<label for="{{ cntr['_id'] }}">
+																					<!-- <input type="checkbox" id="{{ cntr['_id'] }}"  data-md-icheck (change)="checkboxChanged($event,cntr)"/> -->
+																					<i class="fa fa-caret-left" aria-hidden="true"></i>
+																					<span class="center-names float_l">{{cntr['centername']}}</span>
+																				</label>
+																			</a>
+																		</div>
+																	</div>
+															</td>
+														</tr>
+													</table>
+													
+														
+													
+												
+
+													
+												</div>
+												<!-- <div class="centers_container" >
+													<div class="row" *ngFor="let cntr of allcenterslist">
+														<a class="list-group-item">
+															<label for="{{ cntr['_id'] }}">
+																<input type="checkbox" id="{{ cntr['_id'] }}"  data-md-icheck (change)="checkboxChanged($event,cntr)"/>
+																<span class="center-names">{{cntr['centername']}}</span>
+															</label>
+														</a>
+													</div>
+												</div> -->
+												<hr>
+											</div>									
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-success">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						</div>
+
+
+					</div>					
+                </div>
+                <div class="card-body table-responsive" >
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+                    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						  <th style="width: 20%">
+							  <mfDefaultSorter by="uname">Manager</mfDefaultSorter>
+						  </th>
+						  <th style="width: 45%">
+							  <mfDefaultSorter by="cnames">Centers</mfDefaultSorter>
+						  </th>						  
+						  <th style="width: 35%">
+							  Action
+						  </th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr *ngFor="let callot of mf.data">
+						  <td>
+						  	<span class="bold-font">{{callot.uname}}</span><br>
+						  </td>
+						  <td>{{callot.cnames}}</td>						  
+						  <td>
+								<!-- <div class="row">
+									<div class="col col-xl-6 col-lg-6">
+										<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="open(deletemodal)"><i class="fa fa-times-circle-o" aria-hidden="true"></i></button>
+									</div>
+								</div> -->
+								<div (click)="open(addcentermodal, callot)" class="row">
+									<span class="btn action_link_add">Add Center</span>
+								</div>
+								<div (click)="open(deletemodal, callot)" class="row">
+									<span class="btn action_link_del">Delete Allocation</span>
+								</div>
+								<div (click)="open(deletecentermodal, callot)" class="row">
+									<span class="btn action_link_del">Delete Center</span>
+								</div>
+								<div class="row">
+									<!-- <a class="action_link">Add Center</a> -->
+								</div>	
+								<!-- Add center to selected centers modal starts from here -->
+								<ng-template #addcentermodal let-c="close" let-d="dismiss">
+									<div class="modal-body">											
+										<div class="modal-body">									
+											<div class="form-content">
+												<div class="row">
+													<div class="col col-xl-3 col-lg-3">Manager:</div>
+													<div class="col col-xl-6 col-lg-6">
+														<div class="form-group bfont">
+															{{callot.uname}}
+														</div>
+													</div>
+												</div>
+												<hr>
+												<div class="centerlist">
+													<div class="row" *ngFor="let cntr of filterData">
+														<a class="list-group-item">
+															<label for="{{ cntr['_id'] }}">
+																<input type="checkbox" id="{{ cntr['_id'] }}"  data-md-icheck (change)="addCheckboxChanged($event,cntr)"/>															
+																<span class="centerlist-text float_l">{{cntr['centername']}}</span>
+															</label>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+										<button type="button" class="btn btn-primary" (click)="addCenterFormSubmitAction(callot)">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</ng-template>										
+								<!-- Delete total allocation modal starts from here -->
+								<ng-template #deletemodal let-c="close" let-d="dismiss">
+									<form role="form" (ngSubmit)="deleteAllocationFormSubmitAction(callot.id)">
+									<!-- <form role="form"> -->
+										<div class="modal-body">											
+											<div class="row">
+											<img src="assets/images/warning.png" class="warning-icon">											
+											<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of Manager: {{ callot.uname}} !</span>									
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+											<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+										</div>
+									</form>
+								</ng-template>	
+
+								<!-- Delete center from selected centers modal starts from here -->
+								<ng-template #deletecentermodal let-c="close" let-d="dismiss">
+									<form role="form" (ngSubmit)="deleteCenterFormSubmitAction(callot.id, callot.uid, callot.uname)">
+										<div class="modal-body">											
+											<div class="modal-body">									
+												<div class="form-content">
+													<div class="row">
+														<div class="col col-xl-3 col-lg-3">Manager:</div>
+														<div class="col col-xl-6 col-lg-6">
+															<div class="form-group bfont">
+																{{callot.uname}}
+															</div>
+														</div>
+													</div>
+													<hr>
+													<div class="centerlist">
+														<div class="row" *ngFor="let cntr of callot.centers">
+															<a class="list-group-item">
+																<label for="{{ cntr['_id'] }}">
+																	<input type="checkbox" id="{{ cntr['_id'] }}"  data-md-icheck (change)="deleteCheckboxChanged($event,cntr)"/>															
+																	<span class="centerlist-text float_l">{{cntr['centername']}}</span>
+																</label>
+															</a>
+														</div>
+													</div>
+													
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+											<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+										</div>
+									</form>
+								</ng-template>
+						  </td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

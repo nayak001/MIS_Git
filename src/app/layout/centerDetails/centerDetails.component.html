@@ -1,0 +1,205 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4">
+                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Center Details</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding: 25px; font-size: 15px;color: black;">
+                    <div class="col-2">
+                        <label>Center Type</label>
+                        <select class="form-control select2" [(ngModel)]="center_type" style="font-size: 14px; height: 30px;">
+							<option value="all">All</option>
+							<option value="anganwadi">Anganwadi</option>
+							<option value="school">School</option>
+							<option value="fellow">Fellow</option>
+						</select>
+
+                    </div>
+                    <div class="col-2">
+                        <label>Select District</label>
+                        <select class="form-control select2" [(ngModel)]="distric" (change)="selectBlock(distric)" style=" height: 30px;">
+                            
+                            <option value="all">All</option>
+							<option *ngFor="let distic of allDistics" value={{distic.district}}>{{distic.district}}
+							</option>
+						</select>
+                    </div>
+                    <div class="col-2">
+                        <label>Select Block</label>
+                        <select class="form-control select2" [(ngModel)]="block" style=" height: 30px;">
+                           
+                            <option value="all">All</option>
+							<option *ngFor="let block of all_blocks" value={{block.block}}>{{block.block}}</option>
+						</select>
+                    </div>
+                    <div class="col-2">
+                        <label>Program Type</label>
+                        <select class="form-control select2" [(ngModel)]="program_type" style=" height: 30px;">
+                         
+                            <option value="all">All</option>
+							<option value="ece">ECE</option>
+							<option value="pge">PGE</option>
+						</select>
+                    </div>
+                    <div class = "col-2">
+                        <label>Month</label>
+                        <select class="form-control select2" style=" height: 30px;">
+                            
+                            <option value="all">All</option>
+							<option value="ece">ECE</option>
+							<option value="pge">PGE</option>
+						</select>
+                    </div>
+                     <!-- <div class="col-1">
+                       
+                        <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
+                    </div> -->
+                    <div class="col-2">
+                        
+                        <div class="row">
+                            <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
+
+                            <i class="fa fa-download" (click)="download()" title="Download" style="float: right;"></i>
+                        </div>
+
+
+                    </div>
+                   
+
+
+                </div>
+                <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
+                    <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
+							alt="Loading. Please wait..."></span>
+                </div>
+
+                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto;">
+                        <table class="table table-striped main-table" *ngIf="isdata_table" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Block</th>
+                                    <th>District</th>
+                                    <th>State</th>
+                                    <th>Educator Name</th>
+                                    <th>Students</th>
+                                    <th>ECE - Level 1</th>
+                                    <th>ECE - Level 2</th>
+                                    <th>ECE - Level 3</th>
+                                    <th>PG English Level 1</th>
+                                    <th>PG English Level 2</th>
+                                    <th>PG English Level 3</th>
+                                    <th>PG English Level 4</th>
+                                    <th>PG English Level 5</th>
+                                    <th>PG Odia Level 1</th>
+                                    <th>PG Odia Level 2</th>
+                                    <th>PG Odia Level 3</th>
+                                    <th>PG Odia Level 4</th>
+                                    <th>PG Odia Level 5</th>
+                                    <th>PG Math Level 1</th>
+                                    <th>PG Math Level 2</th>
+                                    <th>PG Math Level 3</th>
+                                    <th>PG Math Level 4</th>
+                                    <th>PG Math Level 5</th>
+
+                                    <th>Average Attendance</th>
+                                   <th> Percentage of students achieving monthly goals in PG - English</th>
+                                   <th>Percentage of students achieving monthly goals in PG - Odia</th>
+                                   <th>Percentage of students achieving monthly goals in PG - Maths</th>
+                                    <th>Percentage of students achieving quarterly goals in ECE Program</th>
+                                    <th>Percentage of students achieving age-appropriate skills in ECE Program2</th>
+                                    <th>Percentage of students who jumped 1 Level in PG - English</th>
+                                    <th>Percentage of students who jumped 1 Level in PG - Odia</th>
+                                    <th>Percentage of students who jumped 1 Level in PG - Maths</th>
+                                    <th>Percentage of students who jumped 2 Levels in PG - English</th>
+                                    <th>Percentage of students who jumped 2 Levels in PG - Odia</th>
+                                    <th>Percentage of students who jumped 2 Levels in PG - Maths</th>
+                                    <th>Pre-Program Training Marks Secured</th>
+                                    <th>Online Training Module Details</th>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of mf.data">
+
+                                    <td>{{user.center.centerid}}</td>
+                                    <td>{{user.center.centername}}</td>
+                                    <td>{{user.center.centertype}}</td>
+                                    <td>{{user.center.block}}</td>
+                                    <td>{{user.center.district}}</td>
+                                    <td>{{user.state}}</td>
+                                    <td>{{user.educator}}</td>
+                                    <td>{{user.no_of_students}}</td>
+                                    <td>{{user.eceLevel1}}</td>
+                                    <td>{{user.eceLevel2}}</td>
+                                    <td>{{user.eceLevel3}}</td>
+                                    <td>{{user.pgEngl1}}</td>
+                                    <td>{{user.pgEngl2}}</td>
+                                    <td>{{user.pgEngl3}}</td>
+                                    <td>{{user.pgEngl4}}</td>
+                                    <td>{{user.pgEngl5}}</td>
+                                    <td>{{user.pgOdia1}} </td>
+                                    <td>{{user.pgOdia2}} </td>
+                                    <td> {{user.pgOdia3}}</td>
+                                    <td>{{user.pgOdia4}}</td>
+                                    <td>{{user.pgOdia5}} </td>
+                                    <td> {{user.pgMath1}}</td>
+                                    <td> {{user.pgMath2}}</td>
+                                    <td> {{user.pgMath3}}</td>
+                                    <td> {{user.pgMath4}}</td>
+                                    <td> {{user.pgMath5}}</td>
+                                    <td> {{user.percentage_of_student_monthly_gaol_odia}}</td>
+                                    <td> {{user.percentage_of_student_monthly_gaol_math}}</td>
+                                    <td> {{user.percentage_of_student_monthly_gaol_eceProgram}}</td>
+                                    <td> {{user.percentage_of_student_monthly_gaol_eceProgram2}}</td>
+                                    <td> {{user.percentage_of_students_jump1_level_pg_eng}}</td>
+                                    <td> {{user.percentage_of_students_jump1_level_pg_odia}}</td>
+                                    <td> {{user.percentage_of_students_jump1_level_pg_math}}</td>
+                                    <td> {{user.percentage_of_students_jump2_level_pg_eng}}</td>
+                                    <td> {{user.percentage_of_students_jump2_level_pg_odia}}</td>
+                                    <td> {{user.percentage_of_students_jump2_level_pg_math}}</td>
+                                    <td> {{user.preProgram_training_marks_Secured}}</td>
+                                    <td> {{user.online_training_Module}}</td>
+                                    <td> {{user.avrg_Attendance}}</td>
+                                    <td> {{user.monthly_Attendance}}</td>
+
+                                </tr>
+
+                            </tbody>
+
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="20">
+                                        <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                        <div class="row" *ngIf="!isdata_table" style="text-align: center;margin:10%;margin-left:30%">
+                            <h1>Oops!!</h1>
+                            <br>
+                            <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

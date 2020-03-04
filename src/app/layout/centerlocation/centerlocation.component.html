@@ -1,0 +1,67 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>CENTER LOCATION</h4>
+						</div>
+						<div class="col">
+							<form role="form" [formGroup]="centerlocationFormGroup" (ngSubmit)="FormSubmitAction()">
+	                			<div class="row">
+									<div class="col col-xl-8 col-lg-8">								
+										<select value="{{ selected_userid }}" (change)="onselect_centerimage_user_select($event)" class="form-control" placeholder="Manager">
+											<option *ngFor="let manager of managers;" value="{{ manager.userid }}">{{ manager.username }}</option>									
+										</select>
+									</div>
+									<div class="col col-xl-4 col-lg-4">
+										<button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Find</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>					
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+                	<!-- <div #gmap style="width:100%;height:400px"></div> -->
+                	
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<table class="table table-striped" [mfData]="locations" #mf="mfDataTable" [mfRowsOnPage]="4">
+							  <tbody>
+							  <tr *ngFor="let location of mf.data; let i = index" id="{{ 'tr' + i }}" [attr.data-index]="i">
+								  <td>{{location.centername}}
+								  <br>{{location.createdon  | date: 'EEEE, MMMM d, y'}}
+								  <br><button type="button" class="btn btn-warning input-block-level form-control _btn" (click)="locate(location.latlng.lat,location.latlng.lng)">Locate</button>
+								  </td>
+							  </tr>
+							  </tbody>
+							  <tfoot>
+							  <tr>
+								  <td colspan="4">
+									  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+									  <mfBootstrapPaginator></mfBootstrapPaginator>
+								  </td>						  
+							  </tr>
+							  </tfoot>
+							</table>
+						</div>
+
+						<div class="col col-xl-8 col-lg-8">
+							<div #gmap id="gmap" style="width:100%;height:400px"></div>
+						</div>
+
+					</div>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

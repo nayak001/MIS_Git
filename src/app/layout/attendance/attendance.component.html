@@ -1,0 +1,148 @@
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>STUDENT ATTENDANCE</h4>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col col-xl-4 col-lg-4">
+                  <select value="" (change)="onselect_teachers_select($event)" class="form-control"
+                    placeholder="Manager">
+                    <option value="">-- Select Teacher --</option>
+                    <option *ngFor="let teacher of teachers;" value="{{ teacher.userid }}">{{ teacher.username }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col col-xl-4 col-lg-4">
+                  <ejs-datepicker format="dd-MM-yyyy" strictMode='true' id='datepicker' placeholder='Select a date'
+                    [value]='dateValue' [min]='minDate' [max]='maxDate' (change)="datepicker_onchange($event)"
+                    [(ngModel)]="selected_date"></ejs-datepicker>
+                </div>
+                <div class="col col-xl-4 col-lg-4">
+                  <button (click)="getattendancebyuserid()" class="btn btn-sm btn-primary"
+                    type="button">&nbsp;&nbsp;&nbsp;Get Info&nbsp;&nbsp;&nbsp;</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator">
+            <span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..."></span>
+          </div>
+          <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+            <thead>
+              <tr>
+                <th style="width: 40%">
+                  <mfDefaultSorter by="studentname">Student Name</mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                  Availability
+                </th>
+                <th style="width: 20%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of mf.data; let i = index">
+                <td>
+                  <div class="">
+                    <span class="bold-font">
+                      {{ student.studentname }}
+                      <!-- <button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(infomodal,student)"><i class="fa fa-info-circle" aria-hidden="true"></i></button> -->
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div class="">
+                    <span class="bold-font">{{ student.availability }}</span>
+                  </div>
+                  <!-- <div class="row divbg">
+									<div class="col col-xl-6 col-lg-6">
+										<button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(infomodal,student)"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+									</div>
+									<div class="col col-xl-6 col-lg-6">
+										<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="open(deletemodal)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+									</div>
+								</div> -->
+
+
+
+                  <ng-template #deletemodal let-c="close" let-d="dismiss">
+                    <form role="form" (ngSubmit)="deleteFormSubmitAction(student._id)">
+                      <div class="modal-body">
+                        <div class="row">
+                          <img src="assets/images/warning.png" class="warning-icon">
+                          <span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of
+                            {{ student.studentname}} !</span>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+                        <button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+                      </div>
+                    </form>
+                  </ng-template>
+                </td>
+                <td>
+                  <div class="">
+                    <span class="bold-font">
+                      <button type="button" class="btn btn-primary input-block-level form-control"
+                        (click)="open(infomodal,student)"><i class="fa fa-info-circle" aria-hidden="true"></i>View
+                        complete attendance</button>
+                    </span>
+                  </div>
+                  <!-- Modal starts from here -->
+                  <ng-template #infomodal let-c="close" let-d="dismiss">
+                    <div class="modal-body">
+                      <div class="row modal_div">
+                        <div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator">
+                          <span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..."></span>
+                        </div>
+                        <table class="table table-striped" [mfData]="monthly_attendance_list" #mf="mfDataTable"
+                          [mfRowsOnPage]="4">
+                          <thead>
+                            <tr>
+                              <th style="width: 30%">
+                                <mfDefaultSorter>Date</mfDefaultSorter>
+                              </th>
+                              <th style="width: 30%">
+                                <mfDefaultSorter>Availability</mfDefaultSorter>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let std of mf.data; let i = index">
+                              <td>{{ std.attendancedate| slice:0:10 }}</td>
+                              <td>{{ std.availability }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+                      <!-- <button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button> -->
+                    </div>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+                  <mfBootstrapPaginator></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

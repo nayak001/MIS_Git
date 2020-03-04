@@ -1,0 +1,135 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3" style="height: 600px;">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-8 col-lg-8">
+              <h4>LEAP General Info</h4>
+            </div>
+            <div class="col col-xl-4 col-lg-4">
+              <button (click)="add_content()" class="btn btn-primary float-right"
+                type="button">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <div class="" [hidden]="backContent_div">
+            <button (click)="back_content()" class="btn btn-primary float-right"
+              type="button">&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;</button>
+          </div>
+          <div class="row">
+            <div class="col col-lg-3 col-xl-3" [hidden]="addContent_div">
+              <div>
+                <span class="bold-font">Language</span>
+                <span>
+                  <select id="selected_prefLanguage" value="{{selected_prefLanguage}}"
+                    (change)="prefLanguage_select_onchange($event)" class="form-control">
+                    <option value="">Select</option>
+                    <option value="od">Odia</option>
+                    <option value="en">English</option>
+                  </select>
+                </span>
+              </div> <br>
+              <div>
+                <span class="bold-font">Subject</span>
+                <span>
+                  <select id="selected_prefSubject" value="{{selected_prefSubject}}"
+                    (change)="prefSubject_select_onchange($event)" class="form-control">
+                    <option value="">Select</option>
+                    <option value="odia">Odia</option>
+                    <option value="english">English</option>
+                    <option value="math">Math</option>
+                  </select>
+                </span>
+              </div> <br>
+              <table class="table table-striped" *ngIf="(workshopDetails | json) != '{}'; else elseBlock">
+                <thead>
+                  <th style="width: 20%">Sl. No.</th>
+                  <th style="width: 40%">Type</th>
+                  <th style="width: 20%;">Subject</th>
+                  <th style="width: 20%">Language</th>
+                </thead>
+                <ng-container>
+                  <tbody>
+                    <tr *ngFor="let detail of workshopDetails; let i=index">
+                      <td (click)="update(detail)">
+                        <div class="">
+                          <span class="bold-font">
+                            {{ i + 1 }}
+                          </span>
+                        </div>
+                      </td>
+                      <td (click)="update(detail)">
+                        <div class="">
+                          <span class="bold-font">
+                            {{ detail.action.replace('_', ' ') | titlecase }}
+                          </span>
+                        </div>
+                      </td>
+                      <td (click)="update(detail)">
+                        <div class="">
+                          <span class="bold-font">
+                            {{ detail.subject | titlecase }}
+                          </span>
+                        </div>
+                      </td>
+                      <td (click)="update(detail)">
+                        <div class="">
+                          <span class="bold-font">
+                            {{ detail.language | titlecase}}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </ng-container>
+
+              </table>
+              <ng-template #elseBlock>
+                <h5>No Data to show !</h5>
+              </ng-template>
+            </div>
+            <div class="col col-lg-9 col-xl-9">
+              <div id="content_div" class="pad25" [hidden]="hideContent_div">
+                <div>
+                  <span class="bold-font">Language</span>
+                  <span>
+                    <select id="selected_language" value="{{selected_language}}"
+                      (change)="language_select_onchange($event)" class="form-control">
+                      <option value="">Select</option>
+                      <option value="od">Odia</option>
+                      <option value="en">English</option>
+                    </select>
+                  </span>
+                </div> <br>
+                <div>
+                  <span class="bold-font">Subject</span>
+                  <span>
+                    <select id="selected_subject" value="{{selected_subject}}"
+                      (change)="subject_select_onchange($event)" class="form-control">
+                      <option value="">Select</option>
+                      <option value="odia">Odia</option>
+                      <option value="english">English</option>
+                      <option value="math">Math</option>
+                    </select>
+                  </span>
+                </div> <br>
+                <!-- Text Contents  -->
+                <div>
+                  <ckeditor [editor]="Editor" [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
+                </div>
+                <br />
+                <div>
+                  <button (click)="save_btn_click()" class="btn btn-primary float-right"
+                    type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

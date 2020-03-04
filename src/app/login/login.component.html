@@ -1,0 +1,32 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <!--<img src="assets/images/logo.png" width="100px" class="user-avatar" />-->
+            
+			<div class="login-box">
+				<span class="heading-title"><span class="heading-title-p1">MIS</span><span class="heading-title-p2">ThinkZone India</span></span>
+				<form role="form" [formGroup]="loginForm" (ngSubmit)="onLoggedin()">
+					<div class="form-content">
+						<div class="form-group">
+							<input type="text" id="emailid" formControlName="email" class="form-control input-underline input-lg" placeholder="{{ 'Email' | translate }}">
+							<div class=""  *ngIf="loginForm.controls.email.invalid && (loginForm.controls.email.dirty || loginForm.controls.email.touched)">Invalid Email address</div> 
+						</div>
+
+						<div class="form-group">
+							<input type="password" id="password" formControlName="password" class="form-control input-underline input-lg"  placeholder="{{ 'Password' | translate }}">
+							<div class=""  *ngIf="loginForm.controls.password.invalid && (loginForm.controls.password.dirty || loginForm.controls.password.touched)">Invalid Password(char+num min 6 chars)</div> 
+						</div>
+					</div>
+					<div class=""  *ngIf="invalidCredentials">Invalid Email ID or Password</div> 
+					<button class="btn rounded-btn" type="submit" [disabled]="!loginForm.valid">{{ 'Log in' | translate }}</button>
+					<!--&nbsp;
+					<a class="btn rounded-btn" [routerLink]="['/signup']">{{ 'Register' | translate }}</a>
+					-->
+				</form>
+				<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+					<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>

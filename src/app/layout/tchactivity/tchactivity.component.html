@@ -1,0 +1,145 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>TEACHER ACTIVITIES</h4>
+						</div>
+					</div>					
+				</div>
+                <div class="card-body table-responsive">
+					<div class="col">
+						<div class="row">
+							<div class="col col-xl-2 col-lg-2">
+								User
+								<div class="form-group">
+									<select value="" (change)="onselect_teachers_select($event)" class="form-control" placeholder="Manager">
+										<option value="">-- Select --</option>
+										<option *ngFor="let teacher of teachers;" value="{{ teacher.userid }}">{{ teacher.username }}</option>									
+									</select>
+								</div>
+							</div>
+							<div class="col col-xl-2 col-lg-2">
+								Program
+								<div class="form-group">
+									<select value="" (change)="onselect_program($event)" class="form-control">
+										<option value="">-- Select --</option>
+										<option value="ece">ECE</option>
+										<option value="pge">PGE</option>
+									</select>
+								</div>	
+							</div>
+							<div class="col col-xl-2 col-lg-2" [hidden]="hide_subject_dropdown">
+								Subject
+								<div class="form-group">
+									<select value="{{selected_subject}}" (change)="onselect_subject($event)" class="form-control">
+										<option value="">-- Select --</option>
+										<option value="english">English</option>
+										<option value="math">Math</option>
+										<option value="odia">Odia</option>
+									</select>
+								</div>	
+							</div>
+							<div class="col col-xl-2 col-lg-2">
+								Month
+								<div class="form-group">
+									<select value="" (change)="onselect_month($event)" class="form-control">
+										<option value="">-- Select --</option>
+										<option value="1">Month 1</option>
+										<option value="2">Month 2</option>
+										<option value="3">Month 3</option>
+										<option value="4">Month 4</option>
+										<option value="5">Month 5</option>
+										<option value="6">Month 6</option>
+										<option value="7">Month 7</option>
+										<option value="8">Month 8</option>
+										<option value="9">Month 9</option>
+										<option value="10">Month 10</option>
+									</select>
+								</div>	
+							</div>
+							<div class="col col-xl-2 col-lg-2">
+								Week
+								<div class="form-group">
+									<select value="" (change)="onselect_week($event)" class="form-control" placeholder="Level">
+										<option value="">-- Select --</option>
+										<option value="1">Week 1</option>
+										<option value="2">Week 2</option>
+										<option value="3">Week 3</option>
+										<option value="4">Week 4</option>
+									</select>
+								</div>	
+							</div>
+							<div class="margintop27">
+								<!-- <button (click)="gettchactivitybyuserid()" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp;Get Info&nbsp;&nbsp;&nbsp;</button> -->
+							</div>					
+						</div>
+					</div>
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+                    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						  <th>Activities</th>
+						  <th></th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr>
+						  <td style="width: 255px;">
+							  <div class="activity-left-panel">
+								<div *ngFor="let activity of mf.data; let i = index">
+									<button (click)="gettchactivitydetailsbyuserid(activity)" class="btn btn-sm btn-primary" type="button">Activity {{ activity }}</button>
+									<br>
+								</div>
+							  </div>
+						  </td>
+						  <td>
+								<div class="activity-left-panel">
+									<div *ngFor="let detail of activity_details">
+										<table class="result-table">
+											<tr>
+												<td>Content status</td>
+												<td>
+													<div *ngIf="detail.content_status" class="green25"><i class="fa fa-check" aria-hidden="true"></i></div>
+													<div *ngIf="!detail.content_status" class="red25"><i class="fa fa-times" aria-hidden="true"></i></div>
+												</td>
+											</tr>
+											<tr>
+												<td>Video status</td>
+												<td>
+													<div *ngIf="detail.video_status" class="green25"><i class="fa fa-check" aria-hidden="true"></i></div>
+													<div *ngIf="!detail.video_status" class="red25"><i class="fa fa-times" aria-hidden="true"></i></div>
+												</td>
+											</tr>
+											<tr>
+												<td>Worksheet status</td>
+												<td>
+													<div *ngIf="detail.worksheet_status" class="green25"><i class="fa fa-check" aria-hidden="true"></i></div>
+													<div *ngIf="!detail.worksheet_status" class="red25"><i class="fa fa-times" aria-hidden="true"></i></div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+						  </td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

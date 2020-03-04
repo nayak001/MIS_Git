@@ -1,0 +1,185 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>DAILY INFO</h4>
+						</div>
+						<div class="col">
+							<form role="form" [formGroup]="centerimageFormGroup" (ngSubmit)="FormSubmitAction()">
+	                			<div class="row">
+									<div class="col col-xl-8 col-lg-8">	
+																	
+										<select value="{{ selected_userid }}" (change)="onselect_centerimage_user_select($event)" class="form-control" placeholder="Manager">
+											<option *ngFor="let manager of managers;" value="{{ manager.userid }}">{{ manager.username }}</option>									
+										</select>
+									</div>
+									<div class="col col-xl-4 col-lg-4">
+										<button class="btn btn-sm btn-primary" type="submit">&nbsp;&nbsp;&nbsp;Get Info&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>					
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+
+					<div class="div_img_container">
+						<div class="row">
+							<div id="no_results_div" class="no_results_div" [hidden]="hideNo_results_div" >
+								<span class="no_results_span">No results found ...</span>
+							</div>
+
+							
+							
+							<!-- <div id="open-modal" class="modal-window" [hidden]="hide_gmap_div">
+								<div>
+									<div #gmap id="gmap" style="width:100%;height:400px"></div>
+									<div class="">
+										<button (click)="closemap()" class="btn btn-sm btn-default" type="button"><i class="fa fa-close" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</div>
+							</div> -->
+							<div class="alwaysontop" [hidden]="hide_gmap_div">
+								<div #gmap id="gmap" style="width:100%;height:400px"></div>
+								<div class="closemap_button_div">
+									<button (click)="closemap()" class="btn btn-sm btn-default" type="button"><i class="fa fa-close" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Close&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</div>
+
+
+
+
+
+
+
+
+
+
+							<div *ngFor="let image of images" class="div_img">
+								<table class="tbl">
+									<tr class="headingtr">
+										<th>{{image.date | date: 'EEEE, MMMM d, y'}}</th>
+										<th></th>
+									</tr>
+									<tr>
+										<td class="vltd">
+											<div class="labelhead">Feedback:</div>
+											<div class="scrolldiv">
+												<div *ngFor="let feed of image.centrefeedback; let j = index;" class="">
+													<div class="labelhead">{{j+1}} ) {{feed.feedback_q}}</div>
+													<div class="ansdiv"> {{feed.feedback_a}}</div>
+												</div>
+											</div>
+										</td>
+										<td class="vrtd">
+											<div class="labelhead">Center Pic:</div>
+											<div>
+												<img [src]="image.image" (click)="open(viewmodal,image.image,'view')" class="img_">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td class="vrtd">
+											<div>
+												<div class="labelhead">Co-ordinates: <br>{{image.latlng.lat}}, {{image.latlng.lng}}</div>
+												<div class="">
+													<button (click)="showmap(image.latlng.lat, image.latlng.lng)" class="btn btn-sm btn-warning" type="button"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Locate&nbsp;&nbsp;&nbsp;</button>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</table>
+
+								<ng-template #viewmodal let-c="close" let-d="dismiss">
+									<div class="modal-body">	
+									<div class="row">
+											<div class="col-md-12">
+												<ngb-carousel>
+													<ng-template ngbSlide *ngFor="let slider of sliders">
+														<img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Preview" width="100%">
+														<div class="carousel-caption">
+															<h3>{{slider.label}}</h3>
+															<p>{{slider.text}}</p>
+														</div>
+													</ng-template>
+												</ngb-carousel>
+											</div>
+										</div> 
+									</div>
+								</ng-template>
+
+								 
+								
+<!-- 								
+								<img [src]="image.image" (click)="open(viewmodal,images,'view')" class="img_">
+								<br>
+								<span class="transperentbg">
+									<br>{{image.centername}}
+									<br>{{image.createdon | date: 'EEEE, MMMM d, y'}}
+								
+									<div class="row">
+										<div class="col clo-xl-3 col-lg-3"></div>
+										<div class="col clo-xl-3 col-lg-3"></div>
+										<div class="col clo-xl-3 col-lg-3">
+											<button type="button" class="btn btn-primary input-block-level form-control" (click)="downloadimage(image)"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></button>
+										</div>
+										<div class="col clo-xl-3 col-lg-3">
+											<button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal,image,'delete')"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
+										</div>
+
+										
+										<ng-template #viewmodal let-c="close" let-d="dismiss">
+											<div class="modal-body">	
+											<div class="row">
+											        <div class="col-md-12">
+											            <ngb-carousel>
+											                <ng-template ngbSlide *ngFor="let slider of sliders">
+											                    <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random slide" width="100%">
+											                    <div class="carousel-caption">
+											                        <h3>{{slider.label}}</h3>
+											                        <p>{{slider.text}}</p>
+											                    </div>
+											                </ng-template>
+											            </ngb-carousel>
+											        </div>
+											    </div> 
+											</div>
+										</ng-template>
+
+										
+										<ng-template #deletemodal let-c="close" let-d="dismiss">
+											<form role="form" (ngSubmit)="deleteimage(image)">
+												<div class="modal-body">											
+													<div class="row">
+													<img src="assets/images/warning.png" class="warning-icon">											
+													<span class="col col-xl-9 col-lg-9">Are you sure, you want to delete this image?  </span>									
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+													<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+												</div>
+											</form>
+										</ng-template>
+									</div>
+								</span> 
+-->
+
+							</div>
+						</div>
+					</div>             	
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

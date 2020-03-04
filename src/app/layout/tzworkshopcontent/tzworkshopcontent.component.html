@@ -1,0 +1,149 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>WORKSHOP CONTENT MANAGER</h4>
+						</div>
+					</div>
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<div class="">
+						<div class="modal-body">
+							<div class="row">
+								<div class="col col-xl-2 col-lg-2">Pref.Language</div>
+								<div class="col col-xl-2 col-lg-2 row-fluid">
+									<div class="form-group">
+										<select value="{{ selected_preferredlanguage }}" (change)="preferredlanguage_onchange($event)" class="form-control">
+											<option value="en">English</option>
+											<option value="od">ଓଡିଆ</option>
+										</select>
+									</div>	
+								</div>
+								<div class="col col-xl-2 col-lg-2">Workshop Day</div>
+								<div class="col col-xl-2 col-lg-2 row-fluid">
+									<div class="form-group">
+										<select value="{{ selected_workshopday }}" (change)="workshopday_onchange($event)" class="form-control">
+										<option value="{{ day }}" *ngFor="let day of days;">{{ day }}</option>
+										</select>
+									</div>	
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col-xl-2 col-lg-2">Workshop Type</div>
+								<div class="col col-xl-2 col-lg-2 row-fluid">
+									<div class="form-group">
+										<select value="{{ selected_workshoptype }}" (change)="workshoptype_onchange($event)" class="form-control">
+											<option value="sr">School Readiness</option>
+											<option value="lp">LEAP</option>
+										</select>
+									</div>	
+								</div>
+								<div class="col col-xl-2 col-lg-2" [hidden]="hide_subject_dropdown">Subject</div>
+								<div class="col col-xl-2 col-lg-2 row-fluid" [hidden]="hide_subject_dropdown">
+									<div class="form-group">
+										<select value="{{ selected_subject }}" (change)="subject_onchange($event)" class="form-control">
+										<option value="english">English</option>
+										<option value="math">Math</option>
+										<option value="odia">Odia</option>
+										</select>
+									</div>	
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col-xl-2 col-lg-2">Action</div>
+								<div class="col col-xl-2 col-lg-2 row-fluid">
+									<div class="form-group">
+										<select value="{{ selected_action }}" (change)="action_onchange($event)" class="form-control">
+											<option value="gi">General Info</option>
+											<option value="gt">Group Task</option>
+											<option value="ip">Individual Practice</option>
+										</select>
+									</div>	
+								</div>
+								<div class="col col-xl-2 col-lg-2" [hidden]="hide_level_dropdown">Level</div>
+								<div class="col col-xl-2 col-lg-2 row-fluid" [hidden]="hide_level_dropdown">
+									<div class="form-group">
+										<select value="{{ selected_level }}" (change)="level_onchange($event)" class="form-control">
+											<option value="{{ level.level }}" *ngFor="let level of levels;">{{ level.levelname | titlecase }}</option>
+										</select>
+									</div>	
+								</div>
+							</div>
+						</div>
+						<!-- <div class="modal-footer">
+							<button type="button" class="btn btn-primary" (click)="show_data()">&nbsp;&nbsp;&nbsp;Show&nbsp;&nbsp;&nbsp;</button>
+						</div> -->
+					</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<!-- =================================================== -->
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div>
+						<table>
+							<tr style="background: #f1f1f1;;">
+								<td>Content</td>
+								<td>
+								</td>
+							</tr>
+							<tr *ngIf="contents.length <= 0;">
+								<td style="width: 90%"> No records found</td>
+								<td>
+									<div class="row">
+										<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(addeditmodal)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+									</div>
+								</td>
+							</tr>
+							<tr *ngFor="let content of contents; let i = index;">
+								<td style="width: 90%">
+									<div class="div_content">
+										<div class="" [innerHTML]="content.content"></div>
+									</div>
+								</td>
+								<td>
+									<div class="row">
+										<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(addeditmodal)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+										<button type="button" class="btn btn-danger input-block-level form-control" (click)="delete_button_clicked()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+									</div>
+								</td>
+							</tr>
+						</table>
+
+						<!-- Add or Edit Modal starts from here -->
+						<ng-template #addeditmodal let-c="close" let-d="dismiss">
+							<div class="modal-body">
+								<!-- Text Contents  -->
+								<div>
+									<ckeditor [editor]="Editor"  [(ngModel)]="selected_content" data="{{ selected_content }}"></ckeditor>
+								</div>
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+								<button type="button" class="btn btn-primary" (click)="save_button_click()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+							</div>
+						</ng-template>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,214 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>CENTER DETAILS</h4>
+						</div>
+						<div class="col">
+							<button (click)="open(content, {})" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Center</button>
+							
+							<!-- Modal starts from here -->
+							<ng-template #content let-c="close" let-d="dismiss">
+								<form role="form" [formGroup]="centerModalFormGroup" (ngSubmit)="formSubmitAction(centersubmitaction)">
+									<div class="modal-body">									
+											<div class="form-content">
+												<div class="row">
+													<div class="col col-xl-3 col-lg-3"></div>
+													<div class="col col-xl-6 col-lg-6">
+														<div class="form-group">
+															<input id="modal_id" value="{{ modal_id }}" formControlName="modal_id" [(ngModel)]="modal_id" type="hidden">
+														</div>
+													</div>
+												</div>
+												
+												<div class="row">
+													<div class="col col-xl-4 col-lg-4">
+														Center Name
+													</div>
+													<div class="col col-xl-8 col-lg-8">
+														<div class="form-group">
+															<input id="modal_centername" [value]="modal_centername" formControlName="modal_centername" [(ngModel)]="modal_centername" type="text" class="form-control input-underline input-lg" placeholder="Center name">													
+															<div class="validation-error-message"  *ngIf="centerModalFormGroup.controls.modal_centername.invalid">Center name required</div> 
+														</div>
+													</div>
+												</div>	
+
+												<div class="row">
+													<div class="col col-xl-4 col-lg-4">
+														Center Type
+													</div>
+													<div class="col col-xl-8 col-lg-8">
+														<div class="form-group">
+															<select id="modal_centertype" value="{{modal_centertype}}" (change)="onSelect_modal_centertype($event)" class="form-control">
+																<ng-container *ngFor="let usrtype of all_usertypes;">
+																	<option *ngIf="usrtype.usertype != 'admin'" value="{{ usrtype.usertype }}">{{ usrtype.usertype | titlecase }}</option>
+																</ng-container>
+															</select>
+														</div>
+													</div>
+												</div>	
+
+												<div class="row">
+													<div class="col col-xl-4 col-lg-4">
+														Teacher id
+													</div>
+													<div class="col col-xl-8 col-lg-8">
+														<div class="form-group">
+															<ng-autocomplete #auto
+																[data]="data_teachers"
+																[searchKeyword]="keyword_teachers"
+																[initialValue]="selected_userid"
+																(selected)='onselect_teachers_select($event)'
+																(inputChanged)='onchange_teachers_select($event)'
+																(inputFocused)='onfocus_teachers_select($event)'
+																[itemTemplate]="itemTemplate"
+																[notFoundTemplate]="notFoundTemplate">                                 
+															</ng-autocomplete>
+																				
+															<ng-template #itemTemplate let-item>
+																<a [innerHTML]="item.userid"></a>
+															</ng-template>
+															
+															<ng-template #notFoundTemplate let-notFound>
+																<div [innerHTML]="notFound"></div>
+															</ng-template>
+														</div>
+													</div>
+												</div>												
+												
+												<div class="row">
+													<div class="col col-xl-4 col-lg-4">
+														District
+													</div>
+													<div class="col col-xl-8 col-lg-8">
+														<div class="form-group">
+															<select value="{{ selected_district }}" (change)="district_on_change($event)" class="form-control" placeholder="District">
+																<option *ngFor="let dist of all_districts;" value="{{ dist }}">{{ dist }}</option>
+															</select>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col col-xl-4 col-lg-4">
+														Block
+													</div>
+													<div class="col col-xl-8 col-lg-8">
+														<div class="form-group">
+															<select value="{{ selected_block }}" (change)="block_on_change($event)" class="form-control" placeholder="District">
+																<option *ngFor="let block of all_blocks;" value="{{ block }}">{{ block }}</option>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>									
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-success" [disabled]="!centerModalFormGroup.valid">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						</div>
+					</div>					
+                </div>
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+
+					<div class="row">
+						<div class="col col-lg-4 col-md-4 col-sm-4">
+							<ng-autocomplete #auto
+								[data]="data"
+								[searchKeyword]="keyword"
+								(selected)='onselect_centers_select($event)'
+								(inputChanged)='onchange_centers_select($event)'
+								(inputFocused)='onfocus_centers_select($event)'
+								[itemTemplate]="itemTemplate"
+								[notFoundTemplate]="notFoundTemplate"
+								[disabled]="disable_autocomplete">                                 
+							</ng-autocomplete>
+												
+							<ng-template #itemTemplate let-item>
+								<a [innerHTML]="item.centername"></a>
+							</ng-template>
+							
+							<ng-template #notFoundTemplate let-notFound>
+								<div [innerHTML]="notFound"></div>
+							</ng-template>
+						</div>
+						<div class="col col-lg-2 col-md-2 col-sm-2">
+							<button type="button" class="btn btn-primary input-block-level form-control" (click)="refresh()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+						</div>
+						<div class="col col-lg-4 col-md-4 col-sm-4"></div>
+					</div>
+					
+
+                    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						  <th style="width: 65%">
+							  <mfDefaultSorter by="centername">Center</mfDefaultSorter>
+						  </th>
+						  <th style="width: 35%">
+							  Action
+						  </th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr *ngFor="let center of mf.data">
+						  <td>
+						  	<span class="bold-font">{{center.centername | titlecase}}</span><br>
+							<span class="grey-font">{{center.userid}}</span><br>
+							<span class="grey-font">{{center.block | titlecase}}, {{center.district | titlecase}}</span><br>  
+							<span class="grey-font">{{center.centertype | titlecase}}</span> 
+						  </td>
+						  <td>
+							<div class="row">
+								<div class="col col-xl-6 col-lg-6">
+									<!-- edit button datatable -->
+									<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(content,center)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+								</div>
+								<div class="col col-xl-6 col-lg-6">
+									<!-- delete button datatable -->
+									<button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal,center)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+								</div>
+							</div>
+																					
+							<!-- Modal starts from here -->
+							<ng-template #deletemodal let-c="close" let-d="dismiss">
+								<form role="form" (ngSubmit)="deleteFormSubmitAction(center._id)">
+									<div class="modal-body">											
+										<div class="row">
+										<img src="assets/images/warning.png" class="warning-icon">											
+										<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of center: {{ center.centername}} !</span>									
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						  </td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

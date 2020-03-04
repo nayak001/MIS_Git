@@ -1,0 +1,74 @@
+$topnav-background-color: #222;
+:host {
+    .navbar {
+        background-color: #16589c;/*$topnav-background-color;*/
+        .navbar-brand {
+            color: #fff;
+        }
+        .nav-item > a {
+            color: #999;
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+    .messages {
+        width: 300px;
+        .media {
+            border-bottom: 1px solid #ddd;
+            padding: 5px 10px;
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        .media-body {heading-title
+            h5 {
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .small {
+                margin: 0;
+            }
+            .last {
+                font-size: 12px;
+                margin: 0;
+            }
+        }
+    }
+}
+
+.heading-title{
+	color: #ffffff;
+    font-size: 25px;
+    font-family: cursive;
+    font-weight: bolder;
+}
+.heading-title-highlight{
+    background-color: white;
+    color: #807171;
+    padding: 0px 20px;
+    border-radius: 30px;
+}
+
+.user_icon{
+    font-size: 21px;
+}
+.title_span{
+    font-weight: bold;
+    background: #f1eded;
+}
+.user_dropdown{
+    top: 40px !important;
+    left: -250px !important;
+}
+.modal_title{
+    text-align: center;
+    font-size: 30px;
+}
+.modal_span{
+    font-weight: bold;
+    font-size: 19px;
+}
+.logo{
+    width: 15%;
+}
