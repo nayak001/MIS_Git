@@ -1,7 +1,17 @@
-<div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
+<div [@routerTransition]>    
+    <div class="row" style="margin-top: 2%;">
+
+        <select class="form-control select2"  [(ngModel)]="managerData" (change)="getUserData(managerData)" style="font-size: 14px; height: 35px; width: 15%; margin-left: 30px;" >
+            <option value="select">Select</option>
+            <input type="text"  placeholder="Search..."> 
+            <option *ngFor="let man of managerDetails" value={{man.manager._id}}>{{man.manager.username}}</option>
+
+        </select>
+        
+         
+        <!-- <h3 style="margin-left:29px;text-transform: capitalize;" *ngIf="userDetails && userDetails.manger && userDetails.manger.username">{{userDetails.manger.username}} &nbsp; Detail</h3> -->
+        <div class="col col-xl-12 col-lg-12" style="padding: 3%;padding-top: unset;margin-top: 2%;">
+
             <div class="card mb-3">
                 <div class="card-header">
                     <div class="row">
@@ -10,267 +20,321 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="padding: 25px; font-size: 15px;color: black;">
-                    <div class="col-2" >
-                        <label>Search</label>
-                        
-                        
-                        <input type="text" (keyup)='search($event.target.value)'>
-                   
-                    </div> 
-                    
-                   
-                    <div class="col-2">
-                        <button type="button" (click)="viewData()" class="btn btn-info">Display</button>
-                    </div>
-                    <div class="col-2">
-                        <div class="row" style="float: right;">
-
-                            <i class="fa fa-download" (click)="download()" title="Download" style="cursor: pointer;"></i>
-                        </div>
-
+                <!-- <div class="row" style="padding: 25px; font-size: 15px;color: black;"> -->
+                <div class="type1">
+                    <div class="row">
+                        <div class="col-4 sideheading">Name :</div>
+                        <div class="col-6"><span *ngIf="userDetails && userDetails.manger && userDetails.manger.username">{{userDetails.manger.username}}</span></div>
 
                     </div>
-                   
+
+                    <div class="row">
+                        <div class="col-4 sideheading">Qualification :</div>
+                        <div class="col-6"></div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-4 sideheading">Contact No :</div>
+                        <div class="col-6"><span *ngIf="userDetails && userDetails.contact_no">{{userDetails.contact_no}}</span></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-4 sideheading">Address :</div>
+                        <div class="col-6"><span *ngIf="userDetails && userDetails.address">{{userDetails.address}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 sideheading">Special Initiatives :</div>
+                        <div class="col-6"><span *ngIf="userDetails && userDetails.special_initiatives">{{userDetails.special_initiatives}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 sideheading">Aspirations :</div>
+                        <div class="col-6"><span *ngIf="userDetails && userDetails.aspirations">{{userDetails.aspirations}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 sideheading">Centre Start Date :</div>
+                        <div class="col-6">{{getDate(userDetails)}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 sideheading">Pre-Program Training Marks Secured :</div>
+                        <div class="col-6"><span *ngIf="userDetails && userDetails.pre_Program_Training_Marks_Secured">{{userDetails.pre_Program_Training_Marks_Secured}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 sideheading">Online Training Module Details :</div>
+                        <div class="col-6"><span  *ngIf="userDetails && userDetails.online_Training_Module_Details">{{userDetails.online_Training_Module_Details}}</span></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-4 sideheading">Average Students Attendance :</div>
+                        <div class="col-6"><span  *ngIf="userDetails && userDetails.average_Students_Attendance">{{userDetails.average_Students_Attendance}}</span></div>
+                    </div>
 
 
                 </div>
-                <div id="loading_indicator" class="loading_indicator" *ngIf="isLoaded">
-                    <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
-							alt="Loading. Please wait..."></span>
-                </div>
-
-             
             </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4">
+                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Center Details</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="type2">
+                    <div class="row">
+                        <div class="col-6 sideheading">Id :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.manger && userDetails.manger._id">{{userDetails.manger._id}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Name :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.manger && userDetails.manger._id">{{userDetails.manger.username}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Type :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.center && userDetails.center.centertype">{{userDetails.center.centertype}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Block :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.center && userDetails.center.block">{{userDetails.center.block}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">District :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.center && userDetails.center.district">{{userDetails.center.district}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">State :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.center && userDetails.center.state">{{userDetails.center.state}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Educator Name :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.educator_name">{{userDetails.educator_name}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 sideheading">No of Students :</div>
+                        <div class="col-6"><span *ngIf="userDetails && userDetails.no_of_Students ">{{userDetails.no_of_Students}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">ECE - Level 1 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.ece_level1 ">{{userDetails.ece_level1}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">ECE - Level 2 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.ece_level2 ">{{userDetails.ece_level2}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">ECE - Level 3 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.ece_level3">{{userDetails.ece_level3}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG English Level 1 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pge_eng_level1 == 0 || userDetails.pge_eng_level1) ">{{userDetails.pge_eng_level1}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG English Level 2 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pge_eng_level2 == 0 || userDetails.pge_eng_level2)">{{userDetails.pge_eng_level2}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG English Level 3 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pge_eng_level3 == 0 || userDetails.pge_eng_level3)">{{userDetails.pge_eng_level3}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG English Level 4 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pge_eng_level4 == 0 || userDetails.pge_eng_level4)">{{userDetails.pge_eng_level4}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG English Level 5 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pge_eng_level5 == 0 || userDetails.pge_eng_level5)">{{userDetails.pge_eng_level5}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Odia Level 1 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_odia_level1 == 0 || userDetails.pg_odia_level1)">{{userDetails.pg_odia_level1}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Odia Level 2 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_odia_level2 == 0 || userDetails.pg_odia_level2) ">{{userDetails.pg_odia_level2}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Odia Level 3 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_odia_level3 == 0 || userDetails.pg_odia_level3) ">{{userDetails.pg_odia_level3}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Odia Level 4 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_odia_level4 == 0 || userDetails.pg_odia_level4) ">{{userDetails.pg_odia_level4}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Odia Level 5 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_odia_level5 == 0 || userDetails.pg_odia_level5) ">{{userDetails.pg_odia_level5}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Maths Level 1 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_math_level1 == 0 || userDetails.pg_math_level1)">{{userDetails.pg_math_level1}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Maths Level 2 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_math_level2 == 0 || userDetails.pg_math_level2)">{{userDetails.pg_math_level2}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Maths Level 3 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_math_level3 == 0 || userDetails.pg_math_level3)">{{userDetails.pg_math_level3}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Maths Level 4 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_math_level4 == 0 || userDetails.pg_math_level4) ">{{userDetails.pg_math_level4}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Maths Level 5 :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_math_level5 == 0 || userDetails.pg_math_level5)">{{userDetails.pg_math_level5}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Average Attendance :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.avrage_attendance == 0 || userDetails.avrage_attendance)">{{userDetails.avrage_attendance}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students achieving monthly goals in PG - English :
+                        </div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_ach_moth_goal_pg_eng ==0 || userDetails.perc_of_students_ach_moth_goal_pg_eng)">{{userDetails.perc_of_students_ach_moth_goal_pg_eng}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students achieving monthly goals in PG - Odia :
+                        </div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_ach_moth_goal_pg_odia ==0 || userDetails.perc_of_students_ach_moth_goal_pg_odia)">{{userDetails.perc_of_students_ach_moth_goal_pg_odia}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students achieving monthly goals in PG - Maths :
+                        </div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_ach_moth_goal_pg_math ==0  || userDetails.perc_of_students_ach_moth_goal_pg_math)">{{userDetails.perc_of_students_ach_moth_goal_pg_math}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students achieving quarterly goals in ECE Program :
+                        </div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_ach_quaterly_goal_pg_ece_prog ==0 || userDetails.perc_of_students_ach_quaterly_goal_pg_ece_prog)">{{userDetails.perc_of_students_ach_quaterly_goal_pg_ece_prog}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students achieving age-appropriate skills in ECE
+                            Program :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_age_appr_sk_ece_prog  ==0 || userDetails.perc_of_students_age_appr_sk_ece_prog)">{{userDetails.perc_of_students_age_appr_sk_ece_prog}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students who jumped 1 Level in PG - English :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_jump1_level_pg_eng ==0 || userDetails.perc_of_students_jump1_level_pg_eng)">{{userDetails.perc_of_students_jump1_level_pg_eng}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students who jumped 1 Level in PG - Odia :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_jump1_level_pg_odia ==0 || userDetails.perc_of_students_jump1_level_pg_odia)">{{userDetails.perc_of_students_jump1_level_pg_odia}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students who jumped 1 Level in PG - Maths :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_jump1_level_pg_math ==0 || userDetails.perc_of_students_jump1_level_pg_math)">{{userDetails.perc_of_students_jump1_level_pg_math}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students who jumped 2 Levels in PG - English :
+                        </div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_jump2_level_pg_eng ==0 || userDetails.perc_of_students_jump2_level_pg_eng)">{{userDetails.perc_of_students_jump2_level_pg_eng}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students who jumped 2 Levels in PG - Odia :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_jump2_level_pg_odia ==0 || userDetails.perc_of_students_jump2_level_pg_odia)">{{userDetails.perc_of_students_jump2_level_pg_odia}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Percentage of students who jumped 2 Levels in PG - Maths :</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.perc_of_students_jump2_level_pg_math ==0 || userDetails.perc_of_students_jump2_level_pg_math)">{{userDetails.perc_of_students_jump2_level_pg_math}}</span></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card mb-3"> 
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4">
+                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Student Details</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="type3">
+                    <div class="row">
+                        <div class="col-6 sideheading">Name of the Student :</div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Name of the Type :</div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Type :</div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Block :</div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">District :</div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">State :</div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">ECE Level :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.pg_ec_level">{{userDetails.pg_ec_level}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Maths Level :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.pg_math_level">{{userDetails.pg_math_level}}</span>{{userDetails.pg_math_level}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG English Level :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.pg_eng_level">{{userDetails.pg_eng_level}}</span>{{userDetails.pg_eng_level}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">PG Odia Level :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.pg_odia_level">{{userDetails.pg_odia_level}}</span>{{userDetails.pg_odia_level}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Avg Monthly Assessment Score :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.avg_month_assesmt_score">{{userDetails.avg_month_assesmt_score}}</span>{{userDetails.avg_month_assesmt_score}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Quarterly Assessment Score :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.quaterly_assesmt_score">{{userDetails.quaterly_assesmt_score}}</span>{{userDetails.quaterly_assesmt_score}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Monthly English Assessment Score :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.month_eng_assesmt">{{userDetails.month_eng_assesmt}}</span>{{userDetails.month_eng_assesmt}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Avg Quarterly Assessment Score :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.avg_quaterly_assesmt_score">{{userDetails.avg_quaterly_assesmt_score}}</span>{{userDetails.avg_quaterly_assesmt_score}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Level Jumped :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.level_jump">{{userDetails.level_jump}}</span>{{userDetails.level_jump}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Age-appropriate Learning Outcomes Achieved :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.age_appr_lerng_outcoms_achieved">{{userDetails.age_appr_lerng_outcoms_achieved}}</span>{{userDetails.age_appr_lerng_outcoms_achieved}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 sideheading">Average Attendance :</div>
+                        <div class="col-4"><span *ngIf="userDetails && userDetails.avr_attendance">{{userDetails.avr_attendance}}</span>{{userDetails.avr_attendance}}</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- <div id="loading_indicator" class="loading_indicator" *ngIf="isLoaded">
+                    <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
+                            alt="Loading. Please wait..."></span>
+                </div> -->
+
+
+
         </div>
     </div>
 </div>
 
 
 
-<!-- <ng-template #editmodal let-c="close" let-d="dismiss">
-    <form role="form" ><div class="row"> 
-        <span class="cross" style="cursor: pointer;"><i class="fa fa-times" (click) ="c('Close click')" aria-hidden="true"></i></span>
-    </div>
-		<label class ="heading" >
-            
-            
-            <span>{{userDetails.student.studentname}} Detail
-            </span></label>
-        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
-            <div class="accordion" id="accordionExample" >
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link" (click)="show('shoDetails')" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Basic Details
-                      </button>
-                    </h2>
-                  </div>
-              
-                  <div id="collapseOne" *ngIf="check" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
-                    <div class="card-body">
-
-                        <div class="row">
-                            <div class="col-6 sideheading" >Student Name &nbsp;:</div>
-                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.student.studentname}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">Date of Enrollment&nbsp;:</div>
-                            <div class="col-6">{{userDetails.student.registration_date}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">Name of the type&nbsp;:</div>
-                            <div class="col-6">{{userDetails.user.usertype}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">Type</div>
-                            <div class="col-6">{{userDetails.student.program}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">Block</div>
-                            <div class="col-6">block</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">District</div>
-                            <div class="col-6">district</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">State</div>
-                            <div class="col-6">state</div>
-                        </div>
-              
-                        
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingTwo">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link collapsed"   (click)="show('eceDetails')" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                       ECE Details
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseTwo"  *ngIf="check1" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-4 sideheading">ECE Level &nbsp;: </div>
-                            <div class="col-8">{{userDetails.student.ec_level}}</div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingThree">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link collapsed" (click)="show('pgeDetails')" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                        PGE Details
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseThree"  *ngIf="check2" class="collapse show"  aria-labelledby="headingThree" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Maths Level :</div>
-                            <div class="col-6">{{userDetails.student.math_level}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG English Level :</div>
-                            <div class="col-6">{{userDetails.student.eng_level}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Odia Level :</div>
-                            <div class="col-6">{{userDetails.student.odia_level}}</div>
-                        </div>
-                        
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingfour">
-                      <h2 class="mb-0">
-                        <button class="btn btn-link collapsed"  (click)="show('scoresDetails')" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                         Scores
-                        </button>
-                      </h2>
-                    </div>
-                    <div id="collapsefour" *ngIf="check3" class="collapse show"  aria-labelledby="headingfour" data-parent="#accordionExample">
-                      <div class="card-body">
-                        <div class="row">
-                            <div class="col-8 sideheading">Avg Monthly Assessment Score</div>
-                            <div class="col-4">{{userDetails.averages.AvgMonthlyAssestmentScore}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Quarterly Assessment Score</div>
-                            <div class="col-4">{{userDetails.averages.QuarterlyAssestmentScore}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Monthly English Assessment Score</div>
-                            <div class="col-4">{{userDetails.averages.MonthlyEnglishAssestmentScore}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Avg Quarterly Assessment Score</div>
-                            <div class="col-4"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Level Jumped</div>
-                            <div class="col-4">{{userDetails.averages.LevelJumped}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Age-appropriate Learning Outcomes Achieved</div>
-                            <div class="col-4"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Average Attendance</div>
-                            <div class="col-4">{{userDetails.averages.AverageAttendance}}</div>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            
-<!-- 			
-            <div class="row">
-                <span>Student Name &nbsp;:  &nbsp;&nbsp;&nbsp;{{userDetails.student.studentname}}</span>
-
-            </div>
-            <div class="row">
-                <span>Date of Enrollment &nbsp;:  &nbsp;&nbsp;&nbsp; {{userDetails.student.registration_date}}</span>
-
-            </div>
-            <div class="row">
-                <span>Name of the type &nbsp;:  &nbsp;&nbsp;&nbsp; {{userDetails.user.usertype}}</span>
-
-			</div>
-         
-            <div class="row">
-                <span>Type &nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>Block&nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>District&nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>State&nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>ECE Level&nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>PG Maths Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>PG English Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>PG Odia Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>Avg Monthly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.AvgMonthlyAssestmentScore}}</span>
-
-            </div>
-            <div class="row">
-                <span>Quarterly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.QuarterlyAssestmentScore}}</span>
-
-            </div>
-           
-            <div class="row">
-                <span>Monthly English Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>Avg Quarterly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>Level Jumped &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.LevelJumped}}</span>
-
-            </div>
-            <div class="row">
-                <span>Age-appropriate Learning Outcomes Achieved &nbsp; : &nbsp;&nbsp;&nbsp;</span>
-
-            </div>
-            <div class="row">
-                <span>Average Attendance &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.AverageAttendance}}</span>
-
-            </div>
-            
-			 
-        </div>
-        <div class="modal-footer" style="margin-right: 8%;">
-            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
-        </div>
-    </form>
-</ng-template> -->
+		

@@ -2,110 +2,12 @@
 @import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
 @import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
 */
-.table-scroll {
-  position: relative;
-  max-width: 100%;
-  margin: auto;
-  overflow: hidden;
-  padding: 25px;
-
-
-}
-
-.table-wrap {
-  width: 100%;
-  overflow: auto;
-
-}
-
-.table-scroll table {
-  width: 100%;
-  margin: auto;
-  border-collapse: separate;
-  border-spacing: 0;
-
-}
-
-.table-scroll th,
-.table-scroll td {
-  padding: 5px 10px;
-
-
-  white-space: nowrap;
-  vertical-align: top;
-}
-
-
-.main-table td,
-.main-table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.main-table tr th {
-  color: white;
-  background-color: #59677e;
-}
-
-.main-table {
-  font-size: 12px;
-  background-color: white;
-}
-
-.main-table tr td {
-  color: #867e95;
-}
-
-
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: white !important;
-}
-
-.select2 {
-  font-size: 14px;
-  height: 30px !important;
-}
-.btn{
-    margin-top: 27px;
-    height: 30px;
-    font-size: 14px;
-    padding: 5px;
-    width: 92%;
-    margin-top: 29px;
-}
-.card-header{
-    padding:8px !important;
-}
-.fa-download{
-  font-size:22px;
-  margin-top:33px;
-  color:green;
-  margin-right: 14px;
-  float:right;
-}
-.sname{
-  text-transform: capitalize;
-  color: #007bff !important;
-  cursor: pointer;
-}
-.heading{
-  margin-left: 27%;
-  color: black;
-  margin-top: 5%;
-  text-transform: capitalize;
-  font-size: 23px;
-  font-weight: 600;
-}
-.cross{
-  margin-top: 3%;
-    position: relative;
-    left: 88%;
-}
 .card-body row{
   color: black;
 }
 .sideheading{
   color: black;
+  margin-left: 15px;
 }
 
 

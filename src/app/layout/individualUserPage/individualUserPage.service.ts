@@ -13,9 +13,17 @@ export class IndividualUserPageService {
 		private http: HttpClient
 	) { }
   
-	getManagerDetails(id, type){
+	getManagerDetails(id){
 		
-		return this.http.get(baseUrl + 'indivisualManagerDetails/' + id + "?userType=" + type,
+		return this.http.get(baseUrl + 'indivisualManagerDetails/' + id ,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});	
+
+	}
+	getManagers(){
+		return this.http.get(baseUrl + 'getAllManagersDetails/',
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

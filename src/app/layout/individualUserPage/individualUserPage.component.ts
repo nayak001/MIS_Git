@@ -11,6 +11,7 @@ import { $ } from 'protractor';
 import * as jquery from "jquery";
 import * as  moment from 'moment/moment';
 import { shallowEqual } from '@angular/router/src/utils/collection';
+import { SelectorMatcher } from '@angular/compiler';
 
 
 
@@ -24,6 +25,11 @@ export class IndividualUserPageComponent implements OnInit {
 	userModalFormGroup: FormGroup;
 	managerId:any;
 	userType:any;
+	managerData:any ="select";
+	userDetails:any;
+	public data : any;
+	managerDetails: any;
+	
 
 	constructor(
 		private modalService: NgbModal,
@@ -35,27 +41,56 @@ export class IndividualUserPageComponent implements OnInit {
 	) {
 		var _self = this
 		this.activatedRoute.params.subscribe((params: Params) => {
-		var data  =	params['id']
-		 var obj =	data.split("?")
-			 _self.managerId = obj[0]
-			_self.userType = obj[1]
+			debugger
+			_self.managerId  =	params['id']	
 			_self.getManagerDetails()
 		});
 	}
 	async ngOnInit() {
-	
+	this.getmanagers()
 	
 	}
 
 	getManagerDetails(){
-		this.IndividualUserPageService.getManagerDetails(this.managerId,this.userType).subscribe(data => {
+		this.IndividualUserPageService.getManagerDetails(this.managerId).subscribe(data => {
 			console.log(data)
+			this.userDetails = data;
 		})
 
 	}
+
+	getUserData(value){
+		this.managerId  =	value	
+		this.getManagerDetails()
+
+	}
+	getDate(data){
+		if(data && data.manger && data.manger.createdon){
+			var date = moment(data.manger.createdon).format('DD MMM, YYYY')
+			return date
+			
+		}
+		return ''
+
+		
+
+	}
+	search(managername){
+		
+		
+
+	}
+	getmanagers(){
+		this.IndividualUserPageService.getManagers().subscribe(data => {
+			debugger
+			console.log(data)
+			this.managerDetails = data;
+	})
 	
 
 	
+}
+
 }
 
 
