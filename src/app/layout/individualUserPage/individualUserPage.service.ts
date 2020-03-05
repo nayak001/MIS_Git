@@ -13,8 +13,9 @@ export class IndividualUserPageService {
 		private http: HttpClient
 	) { }
   
-	getCenterDetails(){
-		return this.http.get(baseUrl+'centerDetails',
+	getManagerDetails(id, type){
+		
+		return this.http.get(baseUrl + 'indivisualManagerDetails/' + id + "?userType=" + type,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

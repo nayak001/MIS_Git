@@ -39,11 +39,19 @@ export class IndividualUserPageComponent implements OnInit {
 		 var obj =	data.split("?")
 			 _self.managerId = obj[0]
 			_self.userType = obj[1]
+			_self.getManagerDetails()
 		});
 	}
 	async ngOnInit() {
 	
 	
+	}
+
+	getManagerDetails(){
+		this.IndividualUserPageService.getManagerDetails(this.managerId,this.userType).subscribe(data => {
+			console.log(data)
+		})
+
 	}
 	
 
