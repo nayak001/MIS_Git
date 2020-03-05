@@ -89,66 +89,45 @@ export class ManagerDetailsComponent implements OnInit {
 			info_type:this.info_type,
 			
 		} 
-		debugger
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe(data => {
-			
 			this.gotoTable(this.info_type);
 			this.data = data;
-			debugger
 			this.all_managers_data = data;
-			console.log(this.all_managers_data)
 			this.isLoaded = true
 			if(this.all_managers_data.length == 0){
 				this.isdata_table = true;
 				}
 				else{
 					this.isdata_table = false;
-	
 				}
-
-			
 				},
 				error => {},
 				() => {}
 			);
-
 		  }
 		  viewData(){
 			this.isLoaded = false
 			this.getManagersDetails()
-			
-
-			
 		}
 
 		  gotoTable(value){
-			  
 			  this.check= true;
 			  this.check1= false;
 			  this.check2= false;
 			  this.check3= false;
-
 			  if(value == 'dailyinfo'){
 				  this.check = true
-
 			  } else if(value == 'skillstought'){
 				  this.check=false;
 				this.check1= true;
-				
-
 			  }else if(value == 'Monthlyinfo'){
 				this.check=false;
 				this.check2= true;
-
 			  }else if(value == 'feedbackissues'){
 				this.check=false;
 				this.check3= true;
 			  }
 		  }
-
-
-
-	
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
             return 'by pressing ESC';
@@ -165,16 +144,11 @@ export class ManagerDetailsComponent implements OnInit {
 			
 		}
 		return ''
-
-		
-
 	}
 	
 	search(term: string) {
-		
 	  }
 	
-
    getBlockDetails() {		
 	this.ManagerDetailsService.getBlocks().subscribe(data => {
 		// console.log('### data: '+JSON.stringify(data));
@@ -211,36 +185,71 @@ export class ManagerDetailsComponent implements OnInit {
 }
 
 download(){
-	const rows = [
-	["Name", "Date of Enrollment", "Name of the Type", "Program Type", "Block","District","State",
-	"ECE Level", "PG Maths Level", "PG English Level", "PG Odia Level","Avg Monthly Assessment Score",
-	"Quarterly Assessment Score","AvgQuarterly Assessment Score", "Monthly English Assessment Score", "Avg Attendance","Age Appropriate Learning Outcomes Achieved",
-	"LevelJumped"]
-	];
-	this.getallStudents.forEach(value => {
-	var usertType =''
-	if (value && value.user && value.user.usertype){
-	usertType = value.user.usertype
+	var rows = []
+	if (this.info_type == 'dailyinfo'){
+		rows = [
+			["Name", "Center", "Date of Visit", "Educator Present", "Activity Plan Followed", "Kids able to participate in activities", "Class Segregated Level-Wise",
+				"TLM's used"]
+		];
+		this.all_managers_data.forEach(value => {						
+			var array = [value.manager.username,value.center.centername, value.date_of_visit, value.educator_present, value.activity_plan_followed, value.kids_able_participate,
+				 value.class_segregated_levelWise, value.Tlm]
+			rows.push(array)
+		});
 	}
-	var array = [value.student.studentname , value.student.registration_date , usertType , value.student.program , value.center.block , value.center.district,value.center.state,
-	value.student.ec_level , value.student.math_level , value.student.eng_level , value.student.odia_level ,
-	value.averages.AvgMonthlyAssestmentScore , value.averages.QuarterlyAssestmentScore , value.averages.AvgQuarterlyAssestmentScore,value.averages.MonthlyEnglishAssestmentScore , value.averages.AverageAttendance,
-	value.averages.AgeAppropriateLearningOutcomesAchieved , value.averages.LevelJumped]
-	rows.push(array)
-	});
-	
+	else if (this.info_type == 'skillstought'){
+		rows = [
+			["Name", "Center", "Date of Visit", "Name of the PGE skills of Level 1", "Name of the PGE skills of Level 2", "Name of the PGE skills of Level 3", "Name of the PGE skills of Level 4",
+				"Name of the PGE skills of Level 5", "Name of the ECE skills of Level 1", "Name of the ECE skills of Level 2", "Name of the ECE skills of Level 3"]
+		];
+		this.all_managers_data.forEach(value => {			
+			var array = [value.manager.username,value.center.centertype, value.date_of_visit, value.name_of_pge_skills_level1, value.name_of_pge_skills_level2, value.name_of_pge_skills_level3,
+				value.name_of_pge_skills_level4, value.name_of_pge_skills_level5,
+				value.name_of_ece_skills_level1, value.name_of_ece_skills_level2, value.name_of_ece_skills_level3]
+			rows.push(array)
+		});
+	}
+	else if (this.info_type == 'Monthlyinfo') {
+		rows = [
+			["Name", "Center", "Month", "No.of days managers visit", "No.of days educators present", "No. of days activity plan is followed", "No of days worksheets are done",
+				"Activities done", "Kids performance", "Doing Training Module", "Educators performance", "Test Being Done Regularly",
+				"PTM being conducted"]
+		];
+		this.all_managers_data.forEach(value => {
+			var usertType = ''
+			if (value && value.user && value.user.usertype) {
+				usertType = value.user.usertype
+			}
+			var array = [value.manager.username,value.center.centername, value.month, value.no_of_days_managers_visit, value.no_of_days_educators_visit, value.no_of_days_activity_plan, value.no_of_days_workSheet_done, value.activities_done,
+				value.kids_performance, value.doing_training_module, value.educator_performance, value.test_being_done_regularly,
+				value.ptm_being_conducted]
+			rows.push(array)
+		});
+	}
+	else if (this.info_type == 'feedbackissues') {
+		rows = [
+			["Name", "Center", "Date of Visit", "Extra Activity", "Supervisor's Feedback", "Headmaster's Feedback", "Parent's Feedback",
+				"Specific Issues from the center"]
+		];
+		this.all_managers_data.forEach(value => {
+			var usertType = ''
+			if (value && value.user && value.user.usertype) {
+				usertType = value.user.usertype
+			}
+			var array = [value.manager.username,value.center.centertype, value.date_of_visit, value.extra_activites, value.superVisor_feedback, value.headMaster_feedback, value.parents_feedback, value.specific_issues_from_center]
+			rows.push(array)
+		});
+	}	
 	let csvContent = "data:text/csv;charset=utf-8,"
 	+ rows.map(e => e.join(",")).join("\n");
 	var encodedUri = encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
-	link.setAttribute("download", "StudentDetails.csv");
-	document.body.appendChild(link); // Required for FF
-	
+	link.setAttribute("download", "ManagerDetails.csv");
+	document.body.appendChild(link); // Required for FF	
 	link.click()
 	}
 selectBlock(distic) {
-	//this.selectedBlock = 'all'
 	this.all_blocks = []
 	for (let i = 0; i < this.allDisticBlocks.length; i++) {
 		if (this.allDisticBlocks[i] && this.allDisticBlocks[i].district) {
@@ -248,7 +257,6 @@ selectBlock(distic) {
 				this.all_blocks.push(this.allDisticBlocks[i])
 			}
 		}
-
 	}
 	console.log(this.all_blocks)
 
@@ -257,9 +265,7 @@ selectBlock(distic) {
 
 gotoViewDetails(data){
 	const mangerId = data.manager._id
-	this.router.navigate(['individualUserPage/' + mangerId + '?user1']);
-	// [routerLink]=['/managerDetails/' + mangerId]
-
+	this.router.navigate(['individualUserPage/' + mangerId]);
 }
 
 }
