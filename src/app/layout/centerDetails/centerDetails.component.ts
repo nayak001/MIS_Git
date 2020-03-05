@@ -131,7 +131,13 @@ export class CenterDetailsComponent implements OnInit {
 			
 			//this.filterData = [];
 			this.isLoaded = true;
+			if(this.filterData.length == 0){
 			this.isdata_table = true;
+			}
+			else{
+				this.isdata_table = false;
+
+			}
 		},
 			error => { },
 			() => { }

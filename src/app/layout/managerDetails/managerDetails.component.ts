@@ -5,31 +5,32 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { StudentDetailsPageService,ValidationService } from './studentDetailsPage.service';
+import { ManagerDetailsService,ValidationService } from './managerDetails.service';
 import { $ } from 'protractor';
 
-import * as jquery from "jquery";
 import * as  moment from 'moment/moment';
 import { shallowEqual } from '@angular/router/src/utils/collection';
+import { RouterModule, Route } from '@angular/router';  
 
 
 
 @Component({
 	selector: 'app-studentDetailsPage',
-	templateUrl: './studentDetailsPage.component.html',
-	styleUrls: ['./studentDetailsPage.component.scss'],
+	templateUrl: './managerDetails.component.html',
+	styleUrls: ['./managerDetails.component.scss'],
 	animations: [routerTransition()]
 })
-export class StudentDetailsPageComponent implements OnInit {
+export class ManagerDetailsComponent implements OnInit {
 	userModalFormGroup: FormGroup;
 	check:boolean = false;
 	check1:boolean = false;
 	check2:boolean = false;
 	check3:boolean = false;
+	isdata_table: boolean = false;
 	
 	userType:any = 'all'
-	distric: any =  'all'
-	block: any =  'all'
+	center_type: any =  'all'
+	info_type: any =  'dailyinfo'
 	program_type: any =  'all'
 
 
@@ -58,47 +59,94 @@ export class StudentDetailsPageComponent implements OnInit {
 	modal_gender: string;
 	selectedBlock: any;
 	all_Data: any = [];
-	isdata_table: boolean = false;
-    userDetails:any;
+	userDetails:any;
+	all_managers_data:any;
 
 	constructor(
 		private modalService: NgbModal,
 		private formBuilder: FormBuilder,
 		private translate: TranslateService,
 		public router: Router,
-		private StudentDetailsPageService: StudentDetailsPageService
+		private ManagerDetailsService: ManagerDetailsService
 	) {
 
 		this.hideLoading_indicator = true;
 		this.showpassword = false;
 		this.showhide_button = 'Show';
 		this.hideLoading_indicator = false;
-		this.getBlockDetails()
+		
 
-		 this.getallDetailsStudents()
-
+	
 	}
 
 	async ngOnInit() {
-	
-	
+		this.getManagersDetails();
 	}
-	openStudentDetails(content, center){
-		this.userDetails = center
-			this.modalReference = this.modalService.open(content, center);
-			this.modalReference.result.then((result) => {
-				this.closeResult = `Closed with: ${result}`;
-				this.check = false;
-				this.check1 = false;
-				this.check2 = false;
-				this.check3 = false;
 
-			}, (reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-			});
+	getManagersDetails(){
+		const data = {
+			center_type:this.center_type,
+			info_type:this.info_type,
+			
+		} 
+		debugger
+		this.ManagerDetailsService.getAllManagersDetails(data).subscribe(data => {
+			
+			this.gotoTable(this.info_type);
+			this.data = data;
+			debugger
+			this.all_managers_data = data;
+			console.log(this.all_managers_data)
+			this.isLoaded = true
+			if(this.all_managers_data.length == 0){
+				this.isdata_table = true;
+				}
+				else{
+					this.isdata_table = false;
 	
+				}
 
-	}
+			
+				},
+				error => {},
+				() => {}
+			);
+
+		  }
+		  viewData(){
+			this.isLoaded = false
+			this.getManagersDetails()
+			
+
+			
+		}
+
+		  gotoTable(value){
+			  
+			  this.check= true;
+			  this.check1= false;
+			  this.check2= false;
+			  this.check3= false;
+
+			  if(value == 'dailyinfo'){
+				  this.check = true
+
+			  } else if(value == 'skillstought'){
+				  this.check=false;
+				this.check1= true;
+				
+
+			  }else if(value == 'Monthlyinfo'){
+				this.check=false;
+				this.check2= true;
+
+			  }else if(value == 'feedbackissues'){
+				this.check=false;
+				this.check3= true;
+			  }
+		  }
+
+
 
 	
     private getDismissReason(reason: any): string {
@@ -125,36 +173,10 @@ export class StudentDetailsPageComponent implements OnInit {
 	search(term: string) {
 		
 	  }
-	viewData(){
-		this.isLoaded = false
-		this.isdata_table = false
-		this.getallDetailsStudents()
-	}
-	getallDetailsStudents(){
-		const data = {
-			userType:this.userType,
-			distric:this.distric,
-			block:this.block,
-			program_type:this.program_type
-		}
-		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
-			// console.log('### data: '+JSON.stringify(data));
-			console.log(data)
-		
-			this.getallStudents = data
-			this.isLoaded = true
-			if(this.getallStudents.length == 0){
-				this.isdata_table = true;
-				}
-				else{
-					this.isdata_table = false;
 	
-				}
 
-	})
-   };
    getBlockDetails() {		
-	this.StudentDetailsPageService.getBlocks().subscribe(data => {
+	this.ManagerDetailsService.getBlocks().subscribe(data => {
 		// console.log('### data: '+JSON.stringify(data));
 		//console.log(data)
 		
@@ -232,20 +254,15 @@ selectBlock(distic) {
 
 
 }
-show(value){
-	if(value == 'shoDetails'){
-		this.check  =  !this.check ;
-	}
-	 if(value == 'eceDetails'){
-		this.check1 = !this.check1 ;
-	}
-	if(value == 'pgeDetails'){
-		this.check2 = !this.check2 ;
-	}
-	if(value == 'scoresDetails'){
-		this.check3 = !this.check3 ;;
-	}
+
+gotoViewDetails(data){
+	const mangerId = data.manager._id
+	this.router.navigate(['individualUserPage/' + mangerId + '?userType=user1']);
+	// [routerLink]=['/managerDetails/' + mangerId]
+
 }
+
 }
+
 
 

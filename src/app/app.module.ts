@@ -9,7 +9,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
-
+import { RouterModule,  } from '@angular/router';  
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
@@ -29,6 +29,7 @@ export const createTranslateLoader = (http: HttpClient) => {
     imports: [
         CommonModule,
         BrowserModule,
+        RouterModule,
         BrowserAnimationsModule,
         HttpClientModule,
         TranslateModule.forRoot({

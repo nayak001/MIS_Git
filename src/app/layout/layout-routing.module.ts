@@ -54,6 +54,10 @@ const routes: Routes = [
       { path: 'centerDetails', loadChildren: './centerDetails/centerDetails.module#CenterDetailsModule' },
       { path: 'studentDetailsPage', loadChildren: './studentDetailsPage/studentDetailsPage.module#StudentDetailsPageModule' },
       { path: 'usertype', loadChildren: './usertype/usertype.module#UsertypeModule' },
+      { path: 'individualUserPage/:id', loadChildren: './individualUserPage/individualUserPage.module#IndividualUserPageModule' },
+      { path: 'managerDetails', loadChildren: './managerDetails/managerDetails.module#ManagerDetailsModule' },
+
+
     ]
   }
 ];

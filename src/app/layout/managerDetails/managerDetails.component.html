@@ -1,0 +1,338 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4">
+                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Manager Details</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding: 25px; font-size: 15px;color: black;">
+                    
+                    <div class="col-2">
+                        <label>Info Type</label>
+                        <select class="form-control select2" [(ngModel)]="info_type" (onChange)="gotoTable(info_type)" style="font-size: 14px; height: 30px;">
+							<option value="dailyinfo" selected>Daily Info Table</option>
+							<option value="skillstought">Skills Tought Table</option>
+                            <option value="Monthlyinfo" >Monthly Info Table</option>
+                            <option value="feedbackissues" >Feedback & Issues Table</option>
+    
+						</select>
+                    </div>
+                    <div class="col-2">
+                        <label>Center Type</label>
+                        <select class="form-control select2" [(ngModel)]="center_type" style="font-size: 14px; height: 30px;">
+							<option value="all">All</option>
+							<option value="anganwadi">Anganwadi</option>
+							<option value="school">School</option>
+							<option value="fellow">Fellow</option>
+						</select>
+                    </div>
+                   
+                    <div class="col-2">
+                        <label>Month</label>
+                        <select class="form-control select2" [(ngModel)]="program_type" style=" height: 30px;">
+							
+							<option value="all">All</option>
+							<option value="jan">JAN</option>
+							<option value="feb">FEB</option>
+							
+						</select>
+                    </div>
+                    <div class="col-2">
+                        <label>Year</label>
+                        <select class="form-control select2" [(ngModel)]="manager_name" style="font-size: 14px; height: 30px;">
+                            <option value="all">All</option>
+                            <option value="2019">2019</option>
+							
+						</select>
+
+                    </div>
+                    <div class="col-2">
+                        <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
+                    </div>
+                    <!-- <div class="col-2">
+                        <div class="row" style="float: right;">
+
+                            <i class="fa fa-download" (click)="download()" title="Download" style="cursor: pointer;"></i>
+                        </div>
+
+
+                    </div> --> 
+                    <!-- <div class="col-2" style="width: 20%;margin-left: 79%;margin-top: 3%;">
+                        <label>Search</label>
+                        
+                        
+                        <input type="text" (keyup)='search($event.target.value)'>
+                   
+                    </div> -->
+
+
+                </div>
+                <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
+                    <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
+							alt="Loading. Please wait..."></span>
+                </div>
+
+                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto;margin-bottom: 5%;">
+                        <table class="table table-striped main-table" *ngIf="check &&  !isdata_table"  [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+
+                                    <th> Name</th>
+                                    <th>Center </th>
+                                    <th>Date of Visit</th>
+                                    <th>Educator Present</th>
+                                    <th>Activity Plan Followed</th>
+                                    <th>Kids able to participate in activities</th>
+                                    <th>Class Segregated Level-Wise</th>
+                                    <th>TLM's used</th>
+                                   
+
+
+                                </tr>
+                            </thead>
+                             <tbody>
+                                <tr *ngFor="let user of mf.data">
+                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    
+                                    <td>{{user.center.centername}}</td>
+                                    <td>{{user.date_of_visit}}</td>
+                                    <td>{{user.educator_present}}</td>
+                                    <td>{{user.activity_plan_followed}}</td>
+                                    <td>{{user.kids_able_participate}}</td>
+                                    <td>{{user.class_segregated_levelWise}}</td>
+                                    <td>{{user.Tlm}}</td>
+                                   
+
+                                </tr>
+
+                            </tbody> 
+
+
+                              <tfoot>
+                                <tr>
+                                    <td colspan="40">
+                                        <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot> 
+
+                        </table>
+                         <!-- <div class="row"  style="text-align: center;margin:10%;margin-left:30%">
+                            <h1>Oops!!</h1>
+                            <br>
+                            <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
+                        </div>  -->
+
+
+                    </div>
+                </div>
+                <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
+                    <h1>Oops!!</h1>
+                    <br>
+                    <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
+                </div>
+    
+
+                <div id="table-scroll" class="table-scroll tb1" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto;margin-bottom: 5%">
+                        <table class="table table-striped main-table"  *ngIf="check1"   [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+
+                                    <th>Name</th>
+                                    <th>Center</th>
+                                    <th>Date of Visit</th>
+                                    <th>Name of the PGE skills of Level 1</th>
+                                    <th>Name of the PGE skills of Level 2</th>
+                                    <th>Name of the PGE skills of Level 3</th>
+                                    <th>Name of the PGE skills of Level 4</th>
+                                    <th>Name of the PGE skills of Level 5</th>
+                                    <th>Name of the ECE skills of Level 1</th>
+                                    <th>Name of the ECE skills of Level 2</th>
+                                    <th>Name of the ECE skills of Level 3</th>
+                                   
+
+
+                                </tr>
+                            </thead>
+                             <tbody>
+                                <tr *ngFor="let user of mf.data">
+                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    <td>{{user.center.centertype}}</td>
+                                    <td>{{user.date_of_visit}}</td>
+                                    <td>{{user.name_of_pge_skills_level1}}</td>
+                                    <td>{{user.name_of_pge_skills_level2}}</td>
+                                    <td>{{user.name_of_pge_skills_level3}}</td>
+                                    <td>{{user.name_of_pge_skills_level4}}</td>
+                                    <td>{{user.name_of_pge_skills_level5}}</td>
+                                    <td>{{user.name_of_ece_skills_level1}}</td>
+                                    <td>{{user.name_of_ece_skills_level2}}</td>
+                                    <td>{{user.name_of_ece_skills_level3}}</td>
+
+
+                                   
+
+                                </tr>
+
+                            </tbody> 
+
+
+                              <tfoot>
+                                <tr>
+                                    <td colspan="40">
+                                        <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>  
+
+                        </table>
+                         <!-- <div class="row"  style="text-align: center;margin:10%;margin-left:30%">
+                            <h1>Oops!!</h1>
+                            <br>
+                            <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
+                        </div>  -->
+
+
+                    </div>
+                </div>
+                
+
+
+                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto;margin-bottom: 5%">
+                        <table class="table table-striped main-table" *ngIf="check2"  [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10" >
+                            <thead>
+                            <tr>
+                            
+                                    <th>Manager's Name</th>
+                                    <th>Center</th>
+                                    <th>Month</th>
+                                    <th>No.of days managers visit</th>
+                                    <th>No.of days educators present</th>
+                                    <th>No. of days activity plan is followed</th>
+                                    <th>No of days worksheets are done</th>
+                                    <th>Activities done</th>
+                                    <th>Kids performance</th>
+                                    <th>Doing Training Module</th>
+                                    <th>Educators performance</th>
+                                    <th>Test Being Done Regularly</th>
+                                    <th>PTM being conducted</th>
+                                   
+                                
+
+                                </tr>
+                            </thead>
+                            
+                             <tbody>
+                                <tr *ngFor="let user of mf.data">
+                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>                                    <td>{{user.center.centername}}</td>
+                                    <td>{{user.month}}</td>
+                                    <td>{{user.no_of_days_managers_visit}}</td>
+                                    <td>{{user.no_of_days_educators_visit}}</td>
+                                    <td>{{user.no_of_days_activity_plan}}</td>
+                                    <td>{{user.no_of_days_workSheet_done}}</td>
+                                    <td>{{user.activities_done}}</td>
+                                    <td>{{user.kids_performance}}</td>
+                                    <td>{{user.doing_training_module}}</td>
+                                    <td>{{user.educator_performance}}</td>
+                                    <td>{{user.test_being_done_regularly}}</td>
+                                    <td>{{user.ptm_being_conducted}}</td>
+                                    
+
+
+                                </tr>
+
+                            </tbody> 
+
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="40">
+                                        <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot> 
+
+                        </table>
+                        <!-- <div class="row"  style="text-align: center;margin:10%;margin-left:30%">
+                            <h1>Oops!!</h1>
+                            <br>
+                            <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
+                        </div> -->
+
+
+                    </div>
+                </div>
+                 <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto;margin-bottom: 5%">
+                        <table class="table table-striped main-table" *ngIf="check3"  [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+
+                                    <th>Manager's Name</th>
+                                    <th>Center</th>
+                                    <th>Date of Visit</th>
+                                    <th>Extra Activity</th>
+                                    <th>Supervisor's Feedback</th>
+                                    <th>Headmaster's Feedback</th>
+                                    <th>Parent's Feedback</th>
+                                    <th>Specific Issues from the center</th>
+                                   
+
+
+                                </tr>
+                            </thead>
+                             <tbody>
+                                <tr *ngFor="let user of mf.data">
+                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>                                    <td>{{user.center.centertype}}</td>
+                                    <td>{{user.date_of_visit}}</td>
+                                    <td>{{user.extra_activites}}</td>
+                                    <td>{{user.superVisor_feedback}}</td>
+                                    <td>{{user.headMaster_feedback}}</td>
+                                    <td>{{user.parents_feedback}}</td>
+                                    <td>{{user.specific_issues_from_center}}</td>
+                                   
+
+                                </tr>
+
+                            </tbody> 
+
+
+                              <tfoot>
+                                <tr>
+                                    <td colspan="40">
+                                        <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
+                                        <mfBootstrapPaginator></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot> 
+
+                        </table>
+                         <!-- <div class="row"  style="text-align: center;margin:10%;margin-left:30%">
+                            <h1>Oops!!</h1>
+                            <br>
+                            <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
+                        </div>  -->
+
+
+                    </div>
+                </div>
+               
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
