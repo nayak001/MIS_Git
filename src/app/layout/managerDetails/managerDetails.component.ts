@@ -257,7 +257,7 @@ selectBlock(distic) {
 
 gotoViewDetails(data){
 	const mangerId = data.manager._id
-	this.router.navigate(['individualUserPage/' + mangerId + '?userType=user1']);
+	this.router.navigate(['individualUserPage/' + mangerId + '?user1']);
 	// [routerLink]=['/managerDetails/' + mangerId]
 
 }

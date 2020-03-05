@@ -22,7 +22,8 @@ import { shallowEqual } from '@angular/router/src/utils/collection';
 })
 export class IndividualUserPageComponent implements OnInit {
 	userModalFormGroup: FormGroup;
-	
+	managerId:any;
+	userType:any;
 
 	constructor(
 		private modalService: NgbModal,
@@ -32,10 +33,14 @@ export class IndividualUserPageComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private IndividualUserPageService: IndividualUserPageService
 	) {
-		debugger
-
+		var _self = this
+		this.activatedRoute.params.subscribe((params: Params) => {
+		var data  =	params['id']
+		 var obj =	data.split("?")
+			 _self.managerId = obj[0]
+			_self.userType = obj[1]
+		});
 	}
-
 	async ngOnInit() {
 	
 	
