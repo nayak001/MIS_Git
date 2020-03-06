@@ -1,0 +1,75 @@
+/*
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+*/
+.modal-content {
+    max-width: 1024px !important;
+    margin: 1.75rem auto;
+}
+
+.table-striped{
+	font-size: 12px !important;	
+	color: #2e2ef9;
+	font-family: 'Arial';
+}
+.table-striped th{
+	font-size: 11px !important;	
+	font-weight: bold;
+	color: #636161;
+	font-family: 'Arial black';
+}
+.bold-font{
+	font-size: 11px !important;	
+	font-weight: bold;
+	color: #2e2ef9;
+	font-family: 'Arial';
+}
+.loading_indicator{
+    /*margin-left: 27%;
+    width: 210px;
+    border: 1px solid grey;
+    padding: 30px;
+    position: absolute;
+    background-color: white;
+    box-shadow: -2px 3px 20px 0px;
+    margin-top: 7%;
+	*/
+}
+.modal-footer{
+    border-top: 1px solid #848484;
+    background-color: #c3c3c3;
+}
+.btn{
+	border-radius: 1.25rem;
+}
+.modal-text{
+	font-size: 22px;
+    color: #505050;
+}
+.warning-icon{
+	width: 40px;
+	height: 40px;
+	margin-left: 40px;
+}
+.validation-error-message{
+	color: red;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.delete-button{
+    background-color: #ffffff00;
+    color: red;
+    font-size: 20px;
+    padding: 0px;
+    border: none;
+}
+
+.edit-button{
+    background-color: #ffffff00;
+    color: blue;
+    font-size: 20px;
+    padding: 0px;
+    border: none;
+}
+

@@ -1,0 +1,200 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>TEACHER PROFILE</h4>
+						</div>
+						<div class="col">
+							<button (click)="open(content, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Add Teacher Profile</button>
+							
+							<!-- Modal starts from here -->
+							<ng-template #content let-c="close" let-d="dismiss" class="width1024">
+								<div class="modal-body">									
+									<div class="form-content">
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3"></div>
+											<div class="col col-xl-6 col-lg-6">
+												<div class="form-group">
+													<input id="modal_id" value="{{ modal_id }}" [(ngModel)]="modal_id" type="hidden">
+												</div>
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="col col-xl-2 col-lg-2">
+												Name
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<div class="form-group">
+													<input id="modal_username" [value]="modal_teachername" [(ngModel)]="modal_teachername" type="text" class="form-control input-underline input-lg" placeholder="Teacher name">
+												</div>
+											</div>
+											<div class="col col-xl-2 col-lg-2">
+												Contact number
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<div class="form-group">
+													<input id="modal_emailid" value="{{ modal_emailid }}" [(ngModel)]="modal_emailid" type="text" class="form-control input-underline input-lg" placeholder="Mail ID" >
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col col-xl-2 col-lg-2">
+												Qualification
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<div class="form-group">
+													<select id="modal_usertype" value="{{modal_usertype}}" (change)="onSelect_modal_usertype($event)" class="form-control">
+														<ng-container *ngFor="let usrtype of all_usertypes_list;">
+															<option *ngIf="usrtype.usertype != 'admin'" value="{{ usrtype.usertype }}">{{ usrtype.usertype | titlecase }}</option>
+														</ng-container>
+													</select>
+												</div>														
+											</div>
+											<div class="col col-xl-2 col-lg-2">
+												Address
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<div class="form-group">
+													<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
+														<option value="male">Male</option>
+														<option value="female">Female</option>														
+													</select>
+												</div>														
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="col col-xl-2 col-lg-2">
+												Special initiatives
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<div class="form-group">
+													<input id="modal_contactnumber" value="{{ modal_contactnumber }}" [(ngModel)]="modal_contactnumber" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number">
+												</div>
+											</div>
+											<div class="col col-xl-2 col-lg-2">
+												Aspirations
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<div class="form-group">
+													<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col col-xl-2 col-lg-2">
+												Centre start date
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<div class="form-group">
+													<input id="modal_contactnumber" value="{{ modal_contactnumber }}" [(ngModel)]="modal_contactnumber" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number">
+												</div>
+											</div>
+											<div class="col col-xl-2 col-lg-2">
+												Pre-program training marks secured
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<div class="form-group">
+													<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
+												</div>
+											</div>
+										</div>
+									</div>									
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+									<button type="submit" class="btn btn-success">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</ng-template>
+						</div>
+					</div>					
+                </div>
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+                    <table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						  <th style="width: 15%">
+							  <mfDefaultSorter by="username">User Name</mfDefaultSorter>
+						  </th>
+						  <th style="width: 5%">
+							  <mfDefaultSorter by="usertype">User Type</mfDefaultSorter>
+						  </th>
+						  <th style="width: 30%">
+							  <mfDefaultSorter by="emailid">User Email</mfDefaultSorter>
+						  </th>
+						  <th style="width: 5%">
+							  <mfDefaultSorter by="gender">Gender</mfDefaultSorter>
+						  </th>
+						  <th style="width: 5%">
+							  <mfDefaultSorter by="contactnumber">Mobile</mfDefaultSorter>
+						  </th>
+						  <th style="width: 15%">
+							  <mfDefaultSorter by="permanentaddress">City</mfDefaultSorter>
+						  </th>
+						  <th style="width: 20%">
+							  Action
+							  <input type="text" (keyup)='search($event.target.value)'>
+						  </th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr *ngFor="let user of mf.data">
+						  <td><span class="bold-font">{{user.username}}</span></td>
+						  <td>{{user.usertype}}</td>
+						  <td>{{user.emailid}}</td>
+						  <td>{{user.gender}}</td>
+						  <td>{{user.contactnumber}}</td>
+						  <td>{{user.permanentaddress}}</td>
+						  <td>
+								<div class="row">
+									<div class="col col-xl-6 col-lg-6">
+										<!-- edit button datatable -->
+										<button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(content,user)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+									</div>
+									<div class="col col-xl-6 col-lg-6">
+										<!-- delete button datatable -->
+										<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="open(deletemodal)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+									</div>
+								</div>
+																					
+							<!-- Modal starts from here -->
+							<ng-template #deletemodal let-c="close" let-d="dismiss">
+								<form role="form" (ngSubmit)="deleteFormSubmitAction(user._id)">
+									<div class="modal-body">											
+										<div class="row">
+										<img src="assets/images/warning.png" class="warning-icon">											
+										<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of {{ user.username}} !</span>									
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+										<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</form>
+							</ng-template>
+						  </td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator> 
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>
