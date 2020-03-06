@@ -22,7 +22,7 @@ import { shallowEqual } from '@angular/router/src/utils/collection';
 })
 export class StudentDetailsPageComponent implements OnInit {
 	userModalFormGroup: FormGroup;
-	check:boolean = false;
+	check:boolean = true;
 	check1:boolean = false;
 	check2:boolean = false;
 	check3:boolean = false;
@@ -233,8 +233,9 @@ selectBlock(distic) {
 
 }
 show(value){
+	
 	if(value == 'shoDetails'){
-		this.check  =  !this.check ;
+		this.check  ==  !this.check ;
 	}
 	 if(value == 'eceDetails'){
 		this.check1 = !this.check1 ;

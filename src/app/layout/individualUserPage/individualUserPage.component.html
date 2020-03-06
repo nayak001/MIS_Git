@@ -1,12 +1,14 @@
 <div [@routerTransition]>    
     <div class="row" style="margin-top: 2%;">
 
-        <select class="form-control select2"  [(ngModel)]="managerData" (change)="getUserData(managerData)" style="font-size: 14px; height: 35px; width: 15%; margin-left: 30px;" >
+        <select class="form-control select2"  [(ngModel)]="managerData"  style="font-size: 14px; height: 35px; width: 15%; margin-left: 30px;" >
             <option value="select">Select</option>
-            <input type="text"  placeholder="Search..."> 
+            
             <option *ngFor="let man of managerDetails" value={{man.manager._id}}>{{man.manager.username}}</option>
+           
+        </select>&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary" (click)="getUserData(managerData)" style="height: 35px;">Search</button>
 
-        </select>
         
          
         <!-- <h3 style="margin-left:29px;text-transform: capitalize;" *ngIf="userDetails && userDetails.manger && userDetails.manger.username">{{userDetails.manger.username}} &nbsp; Detail</h3> -->

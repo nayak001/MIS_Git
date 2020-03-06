@@ -73,7 +73,7 @@
                 </div>
 
                 <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
-                    <div class="table-wrap" style="overflow-x:auto;">
+                    <div class="table-wrap" style="overflow-x:auto; margin-top: -2%;">
                         <table class="table table-striped main-table" *ngIf="isLoaded && !isdata_table" [mfData]="getallStudents" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
@@ -157,21 +157,23 @@
 
 
 <ng-template #editmodal let-c="close" let-d="dismiss">
-    <form role="form" ><div class="row"> 
+    <form role="form" >
+    <div class="row"> 
         <span class="cross" style="cursor: pointer;"><i class="fa fa-times" (click) ="c('Close click')" aria-hidden="true"></i></span>
-    </div>
+    
 		<label class ="heading" >
             
             
-            <span>{{userDetails.student.studentname}} Detail
-            </span></label>
+            <span>{{userDetails.student.studentname}} Detail</span>
+        </label>
+        </div>
         <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
             <div class="accordion" id="accordionExample" >
                 <div class="card">
                   <div class="card-header" id="headingOne">
                     <h2 class="mb-0">
-                      <button class="btn btn-link collapsed" (click)="show('shoDetails')" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Basic Details
+                      <button class="btn btn-link collapsed"  (click)="show('shoDetails')" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                       Basic Details
                       </button>
                     </h2>
                   </div>

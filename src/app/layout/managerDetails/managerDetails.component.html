@@ -85,8 +85,8 @@
 							alt="Loading. Please wait..."></span>
                 </div>
 
-                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
-                    <div class="table-wrap" style="overflow-x:auto;margin-bottom: 5%;">
+                <div id="table-scroll" class="table-scroll table1" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto;">
                         <table class="table table-striped main-table" *ngIf="check &&  !isdata_table" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
@@ -106,7 +106,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)" style="cursor: pointer; color: blue;">{{user.manager.username}}</td>
 
                                     <td>{{user.center.centername}}</td>
                                     <td>{{user.date_of_visit}}</td>
@@ -148,8 +148,8 @@
                 </div>
 
 
-                <div id="table-scroll" class="table-scroll tb1" *ngIf="isLoaded">
-                    <div class="table-wrap" style="overflow-x:auto;margin-bottom: 5%">
+                <div id="table-scroll" class="table-scroll table2" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto;">
                         <table class="table table-striped main-table" *ngIf="check1" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
@@ -214,8 +214,8 @@
 
 
 
-                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
-                    <div class="table-wrap" style="overflow-x:auto;margin-bottom: 5%">
+                <div id="table-scroll" class="table-scroll table3" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto; ">
                         <table class="table table-striped main-table" *ngIf="check2" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
@@ -281,8 +281,8 @@
 
                     </div>
                 </div>
-                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
-                    <div class="table-wrap" style="overflow-x:auto;margin-bottom: 5%">
+                <div id="table-scroll" class="table-scroll table4" *ngIf="isLoaded">
+                    <div class="table-wrap" style="overflow-x:auto;">
                         <table class="table table-striped main-table" *ngIf="check3" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
