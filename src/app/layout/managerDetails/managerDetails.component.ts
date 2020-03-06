@@ -91,6 +91,7 @@ export class ManagerDetailsComponent implements OnInit {
 		} 
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe(data => {
 			this.gotoTable(this.info_type);
+			debugger
 			this.data = data;
 			this.all_managers_data = data;
 			this.isLoaded = true

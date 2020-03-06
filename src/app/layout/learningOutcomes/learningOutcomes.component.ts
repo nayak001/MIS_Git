@@ -5,7 +5,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { Router,ActivatedRoute,Params, Route} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import {IndividualUserPageService } from './individualUserPage.service';
+import {LearningOutcomesService } from './learningOutcomes.service';
 import { $ } from 'protractor';
 
 import * as jquery from "jquery";
@@ -17,11 +17,11 @@ import { SelectorMatcher } from '@angular/compiler';
 
 @Component({
 	selector: 'app-studentDetailsPage',
-	templateUrl: './individualUserPage.component.html',
-	styleUrls: ['./individualUserPage.component.scss'],
+	templateUrl: './learningOutcomes.component.html',
+	styleUrls: ['./learningOutcomes.component.scss'],
 	animations: [routerTransition()]
 })
-export class IndividualUserPageComponent implements OnInit {
+export class LearningOutcomesComponent implements OnInit {
 	userModalFormGroup: FormGroup;
 	managerId:any;
 	userType:any;
@@ -37,7 +37,7 @@ export class IndividualUserPageComponent implements OnInit {
 		private translate: TranslateService,
 		public router: Router,
 		private activatedRoute: ActivatedRoute,
-		private IndividualUserPageService: IndividualUserPageService
+		private LearningOutcomesService: LearningOutcomesService
 	) {
 		var _self = this
 		this.activatedRoute.params.subscribe((params: Params) => {
@@ -52,7 +52,7 @@ export class IndividualUserPageComponent implements OnInit {
 	}
 
 	getManagerDetails(){
-		this.IndividualUserPageService.getManagerDetails(this.managerId).subscribe(data => {
+		this.LearningOutcomesService.getManagerDetails(this.managerId).subscribe(data => {
 			console.log(data)
 			this.userDetails = data;
 		})
@@ -75,9 +75,13 @@ export class IndividualUserPageComponent implements OnInit {
 		
 
 	}
+	search(managername){
+		
+		
 
+	}
 	getmanagers(){
-		this.IndividualUserPageService.getManagers().subscribe(data => {
+		this.LearningOutcomesService.getManagers().subscribe(data => {
 			debugger
 			console.log(data)
 			this.managerDetails = data;
@@ -86,18 +90,6 @@ export class IndividualUserPageComponent implements OnInit {
 
 	
 }
-onchange_teachers_select(val: string) {
-	console.log('--> auto-complete change event'+JSON.stringify(val));
-}
-onfocus_teachers_select(e){
-	console.log('--> auto-complete focus event'+JSON.stringify(e));
-}
-onselect_teachers_select(item){
-	console.log('--> auto-complete select event'+JSON.stringify(item));
-	
-	this.getManagerDetails();
-}
-
 
 }
 

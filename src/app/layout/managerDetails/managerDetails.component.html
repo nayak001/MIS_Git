@@ -10,6 +10,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row" style="padding: 25px; font-size: 15px;color: black;">
 
                     <div class="col-2">
@@ -106,7 +107,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)" style="cursor: pointer; color: blue;">{{user.manager.username}}</td>
+                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)" style="cursor: pointer; color:#007bff !important;">{{user.manager.username}}</td>
 
                                     <td>{{user.center.centername}}</td>
                                     <td>{{user.date_of_visit}}</td>
@@ -141,16 +142,13 @@
 
                     </div>
                 </div>
-                <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
-                    <h1>Oops!!</h1>
-                    <br>
-                    <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
-                </div>
+               
+                
 
 
                 <div id="table-scroll" class="table-scroll table2" *ngIf="isLoaded">
                     <div class="table-wrap" style="overflow-x:auto;">
-                        <table class="table table-striped main-table" *ngIf="check1" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-striped main-table" *ngIf="check1 && !isdata_table" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
 
@@ -172,7 +170,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    <td *ngIf="user && user.manager && user.manager.username"  style="cursor: pointer; color: #007bff !important;" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
                                     <td>{{user.center.centertype}}</td>
                                     <td>{{user.date_of_visit}}</td>
                                     <td>{{user.name_of_pge_skills_level1}}</td>
@@ -216,7 +214,7 @@
 
                 <div id="table-scroll" class="table-scroll table3" *ngIf="isLoaded">
                     <div class="table-wrap" style="overflow-x:auto; ">
-                        <table class="table table-striped main-table" *ngIf="check2" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-striped main-table" *ngIf="check2 && !isdata_table" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
 
@@ -241,7 +239,7 @@
 
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    <td *ngIf="user && user.manager && user.manager.username"  style="cursor: pointer; color: #007bff !important;" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
                                     <td>{{user.center.centername}}</td>
                                     <td>{{user.month}}</td>
                                     <td>{{user.no_of_days_managers_visit}}</td>
@@ -283,7 +281,7 @@
                 </div>
                 <div id="table-scroll" class="table-scroll table4" *ngIf="isLoaded">
                     <div class="table-wrap" style="overflow-x:auto;">
-                        <table class="table table-striped main-table" *ngIf="check3" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-striped main-table" *ngIf="check3 && !isdata_table" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
 
@@ -302,7 +300,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    <td *ngIf="user && user.manager && user.manager.username"  style="cursor: pointer; color:#007bff !important;" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
                                     <td>{{user.center.centertype}}</td>
                                     <td>{{user.date_of_visit}}</td>
                                     <td>{{user.extra_activites}}</td>
@@ -335,6 +333,11 @@
 
 
                     </div>
+                </div>
+                <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
+                    <h1>Oops!!&nbsp;</h1>
+                    <br>
+                    <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
                 </div>
 
 
