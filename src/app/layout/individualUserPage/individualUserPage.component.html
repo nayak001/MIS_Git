@@ -281,47 +281,47 @@
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">ECE Level :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.pg_ec_level">{{userDetails.pg_ec_level}}</span></div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_ec_level == 0 || userDetails.pg_ec_level)">{{userDetails.pg_ec_level}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">PG Maths Level :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.pg_math_level">{{userDetails.pg_math_level}}</span>{{userDetails.pg_math_level}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_math_level == 0 || userDetails.pg_math_level)">{{userDetails.pg_math_level}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">PG English Level :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.pg_eng_level">{{userDetails.pg_eng_level}}</span>{{userDetails.pg_eng_level}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_eng_level == 0 || userDetails.pg_eng_level)">{{userDetails.pg_eng_level}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">PG Odia Level :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.pg_odia_level">{{userDetails.pg_odia_level}}</span>{{userDetails.pg_odia_level}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.pg_odia_level == 0 || userDetails.pg_odia_level)">{{userDetails.pg_odia_level}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">Avg Monthly Assessment Score :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.avg_month_assesmt_score">{{userDetails.avg_month_assesmt_score}}</span>{{userDetails.avg_month_assesmt_score}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.avg_month_assesmt_score == 0 || userDetails.avg_month_assesmt_score)">{{userDetails.avg_month_assesmt_score}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">Quarterly Assessment Score :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.quaterly_assesmt_score">{{userDetails.quaterly_assesmt_score}}</span>{{userDetails.quaterly_assesmt_score}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.quaterly_assesmt_score == 0 || userDetails.quaterly_assesmt_score)">{{userDetails.quaterly_assesmt_score}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">Monthly English Assessment Score :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.month_eng_assesmt">{{userDetails.month_eng_assesmt}}</span>{{userDetails.month_eng_assesmt}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.month_eng_assesmt == 0 || userDetails.month_eng_assesmt)">{{userDetails.month_eng_assesmt}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">Avg Quarterly Assessment Score :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.avg_quaterly_assesmt_score">{{userDetails.avg_quaterly_assesmt_score}}</span>{{userDetails.avg_quaterly_assesmt_score}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.avg_quaterly_assesmt_score == 0 || userDetails.avg_quaterly_assesmt_score)">{{userDetails.avg_quaterly_assesmt_score}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">Level Jumped :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.level_jump">{{userDetails.level_jump}}</span>{{userDetails.level_jump}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.level_jump == 0 || userDetails.level_jump)">{{userDetails.level_jump}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">Age-appropriate Learning Outcomes Achieved :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.age_appr_lerng_outcoms_achieved">{{userDetails.age_appr_lerng_outcoms_achieved}}</span>{{userDetails.age_appr_lerng_outcoms_achieved}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.age_appr_lerng_outcoms_achieved == 0 || userDetails.age_appr_lerng_outcoms_achieved)">{{userDetails.age_appr_lerng_outcoms_achieved}}</span></div>
                     </div>
                     <div class="row">
                         <div class="col-6 sideheading">Average Attendance :</div>
-                        <div class="col-4"><span *ngIf="userDetails && userDetails.avr_attendance">{{userDetails.avr_attendance}}</span>{{userDetails.avr_attendance}}</div>
+                        <div class="col-4"><span *ngIf="userDetails && (userDetails.avr_attendance == 0 || userDetails.avr_attendance)">{{userDetails.avr_attendance}}</span></div>
                     </div>
 
                 </div>
