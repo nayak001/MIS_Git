@@ -88,13 +88,17 @@ export class StudentDetailsPageComponent implements OnInit {
 			this.modalReference = this.modalService.open(content, center);
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
-				this.check = false;
+				this.check = true;
 				this.check1 = false;
 				this.check2 = false;
 				this.check3 = false;
 
 			}, (reason) => {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				this.check = true;
+				this.check1 = false;
+				this.check2 = false;
+				this.check3 = false;
 			});
 	
 
@@ -233,9 +237,11 @@ selectBlock(distic) {
 
 }
 show(value){
+
 	
 	if(value == 'shoDetails'){
-		this.check  ==  !this.check ;
+		
+		this.check  =  !this.check ;
 	}
 	 if(value == 'eceDetails'){
 		this.check1 = !this.check1 ;

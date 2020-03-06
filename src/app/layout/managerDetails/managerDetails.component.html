@@ -172,7 +172,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    <td *ngIf="user && user.manager && user.manager.username"  style="cursor: pointer; color: blue;" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
                                     <td>{{user.center.centertype}}</td>
                                     <td>{{user.date_of_visit}}</td>
                                     <td>{{user.name_of_pge_skills_level1}}</td>
@@ -241,7 +241,7 @@
 
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    <td *ngIf="user && user.manager && user.manager.username"  style="cursor: pointer; color: blue;" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
                                     <td>{{user.center.centername}}</td>
                                     <td>{{user.month}}</td>
                                     <td>{{user.no_of_days_managers_visit}}</td>
@@ -302,7 +302,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
+                                    <td *ngIf="user && user.manager && user.manager.username"  style="cursor: pointer; color: blue;" (click)="gotoViewDetails(user)">{{user.manager.username}}</td>
                                     <td>{{user.center.centertype}}</td>
                                     <td>{{user.date_of_visit}}</td>
                                     <td>{{user.extra_activites}}</td>
