@@ -2,7 +2,7 @@
     <div class="row" style="margin-top: 2%;">
         <!-- <input type="text" placeholder="Search.." id="myInput" (keyup)="filterFunction()" [(ngModel)]="managerData"  style="font-size: 14px; height: 35px; width: 15%; margin-left: 30px;"> -->
 
-        <select class="form-control select2"  [(ngModel)]="managerData"  style="font-size: 14px; height: 35px; width: 15%; margin-left: 30px;" >
+        <select class="form-control select2"  [(ngModel)]="managerData"  style="font-size: 14px; height: 35px; width: 15%; margin-left: 32px;" >
           
             <option value="select">Select</option>
             <option *ngFor="let man of managerDetails" value={{man.manager._id}}>{{man.manager.username}}</option>
@@ -19,7 +19,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col col-xl-4 col-lg-4">
-                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Individual User Details</h4>
+                            <h4 style="font-size: 16px; margin-top: 5px;  margin-left: -6px;color: black;">Individual User Details</h4>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col col-xl-4 col-lg-4">
-                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Center Details</h4>
+                            <h4 style="font-size: 16px; margin-left: -6px; margin-top: 5px;color: black;">Center Details</h4>
                         </div>
                     </div>
                 </div>
@@ -250,7 +250,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col col-xl-4 col-lg-4">
-                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Student Details</h4>
+                            <h4 style="font-size: 16px; margin-left: -6px; margin-top: 5px;color: black;">Student Details</h4>
                         </div>
                     </div>
                 </div>

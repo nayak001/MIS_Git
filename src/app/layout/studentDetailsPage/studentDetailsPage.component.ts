@@ -144,7 +144,6 @@ export class StudentDetailsPageComponent implements OnInit {
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));
 			console.log(data)
-		
 			this.getallStudents = data
 			this.isLoaded = true
 			if(this.getallStudents.length == 0){

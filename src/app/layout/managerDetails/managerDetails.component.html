@@ -10,6 +10,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row" style="padding: 25px; font-size: 15px;color: black;">
 
                     <div class="col-2">
@@ -141,16 +142,13 @@
 
                     </div>
                 </div>
-                <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
-                    <h1>Oops!!</h1>
-                    <br>
-                    <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
-                </div>
+               
+                
 
 
                 <div id="table-scroll" class="table-scroll table2" *ngIf="isLoaded">
                     <div class="table-wrap" style="overflow-x:auto;">
-                        <table class="table table-striped main-table" *ngIf="check1" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-striped main-table" *ngIf="check1 && !isdata_table" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
 
@@ -216,7 +214,7 @@
 
                 <div id="table-scroll" class="table-scroll table3" *ngIf="isLoaded">
                     <div class="table-wrap" style="overflow-x:auto; ">
-                        <table class="table table-striped main-table" *ngIf="check2" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-striped main-table" *ngIf="check2 && !isdata_table" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
 
@@ -283,7 +281,7 @@
                 </div>
                 <div id="table-scroll" class="table-scroll table4" *ngIf="isLoaded">
                     <div class="table-wrap" style="overflow-x:auto;">
-                        <table class="table table-striped main-table" *ngIf="check3" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-striped main-table" *ngIf="check3 && !isdata_table" [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
 
@@ -335,6 +333,11 @@
 
 
                     </div>
+                </div>
+                <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
+                    <h1>Oops!!&nbsp;</h1>
+                    <br>
+                    <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
                 </div>
 
 

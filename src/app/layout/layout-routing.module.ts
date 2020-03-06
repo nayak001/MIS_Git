@@ -56,6 +56,7 @@ const routes: Routes = [
       { path: 'usertype', loadChildren: './usertype/usertype.module#UsertypeModule' },
       { path: 'individualUserPage/:id', loadChildren: './individualUserPage/individualUserPage.module#IndividualUserPageModule' },
       { path: 'managerDetails', loadChildren: './managerDetails/managerDetails.module#ManagerDetailsModule' },
+      { path: 'learningOutcomes', loadChildren: './learningOutcomes/learningOutcomes.module#LearningOutcomesModule' },
 
 
     ]
