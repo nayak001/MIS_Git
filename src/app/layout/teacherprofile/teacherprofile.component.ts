@@ -3,8 +3,8 @@ import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { TeacherprofileService, ValidationService } from './teacherprofile.service';
+import swal from 'sweetalert2';
+import { TeacherprofileService } from './teacherprofile.service';
 
 @Component({
     selector: 'app-teacherprofile',
@@ -13,69 +13,57 @@ import { TeacherprofileService, ValidationService } from './teacherprofile.servi
     animations: [routerTransition()]
 })
 export class TeacherprofileComponent implements OnInit {
-	all_usertypes_list: any = [];
-
-	usersubmitaction: string;
 	public data : any;
+	allteacherprofile_data: any= [];
 	public filterData : any;
+	modalReference: any;
 	closeResult: string;
 	model: any;
-	hideLoading_indicator: boolean;
 	
-	modalReference: any;
 	modal_id: string;
 	modal_userid: string;
 	modal_teachername: string;
-	modal_emailid: string;
-	modal_password: string;
-	modal_usertype: string;
-	modal_gender: string;
-	modal_contactnumber: string;
-	modal_permanentaddress: string;
+	modal_contactno: string;
+	modal_qualification: string;
+	modal_address: string;
+	modal_specialinitiatives: string;
+	modal_aspirations: string;
+	//modal_startdate: string = '';
+	modal_pretrainingmark: string = '';
+	teacherprofile_status: string = '';
 
-	emailid_exists: boolean = false;
-	disable_emailid: boolean = false;
+	public minDate: Date = new Date ("01/01/2015");
+    public maxDate: Date = new Date ();
+	public dateValue: Date = new Date ();
+	modal_startdate: Date = new Date ();
+
+	button_action: string = '';
+	hideLoading_indicator: boolean;
 
     constructor(
 		private modalService: NgbModal,
-        private translate: TranslateService,
         public router: Router,
 		private teacherprofileService: TeacherprofileService
 	) {
 		this.hideLoading_indicator = true;
+		this.getallteacherprofiles();
 	}
 	
-	ngOnInit() {
-		this.getAllUsertypes();
-		this.getallUsers();
-	}
+	ngOnInit() {}
 
 	// get all user types
-	getAllUsertypes() {
+	getallteacherprofiles() {
 		this.hideLoading_indicator = false;
-		this.teacherprofileService.getallactiveusertypes().subscribe(data => {
-        this.data = data;
-				this.all_usertypes_list = data;
+		this.teacherprofileService.getallteacherprofiles().subscribe(data => {
+				console.log('### allteacherprofile_data: '+JSON.stringify(data));
+				this.data = data;
+				this.allteacherprofile_data = data;
 				this.hideLoading_indicator = true;
 			},
 			error => {},
 			() => {}
 		);
   	}
-
-	// get all users
-	getallUsers() {
-		this.hideLoading_indicator = false;
-		this.teacherprofileService.getalluser().subscribe(data => {
-				console.log('### data: '+JSON.stringify(data));
-				this.data = data;
-				this.filterData = data;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
-		);
-	}
 
 	search(term: string) {
 		term = (term == undefined || term == null) ? '' : term;
@@ -86,47 +74,143 @@ export class TeacherprofileComponent implements OnInit {
 			element.emailid.toLowerCase().includes(term.trim().toLowerCase())
 		  );
 		}
-	  }
-	
+	}
 
-    /*open(content) {
-        this.modalService.open(content).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-    }*/
+	// selecting user type
+	onSelect_modal_qualification(event: Event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
+		this.modal_qualification = selectedOptionValue;
+	}
 
-	open(content,user) {
-		//console.log('#### user: '+ JSON.stringify(user));
-		// update
-		if(user != undefined || user != null){
-			this.usersubmitaction = 'Update';
-			this.modal_id = user._id;
-			this.modal_userid = user.userid;
-			this.modal_teachername = user.username;
-			this.modal_emailid = user.emailid;
-			this.modal_password = user.password;
-			this.modal_usertype = user.usertype;
-			this.modal_gender = user.gender;
-			this.modal_contactnumber = user.contactnumber;
-			this.modal_permanentaddress = user.permanentaddress;
-			//this.userModalFormGroup.controls['modal_emailid'].disable();
-		} 
-		// create new
-		else {
-			this.usersubmitaction = 'Create';
-			this.modal_id = '';
-			this.modal_userid = '';
-			this.modal_teachername = '';
-			this.modal_emailid = '';
-			this.modal_password = '';
-			this.modal_usertype = 'manager';
-			this.modal_gender = 'male';
-			this.modal_contactnumber = '';
-			this.modal_permanentaddress = '';
+	datepicker_onchange(event){
+		this.modal_startdate = new Date(event.value);
+		console.log('###selected_date: '+this.modal_startdate);
+	}
+
+	// save user
+	save_button_click() {
+		if(this.modal_teachername == undefined || this.modal_teachername == null || this.modal_teachername == ''){
+			swal.fire(
+				'Data insufficient',
+				'Please mention teacher name.',
+				'warning'
+			);
 		}
-		console.log('#### this.disable_emailid: '+ this.disable_emailid);
+		else if(this.modal_contactno == undefined || this.modal_contactno == null || this.modal_contactno == ''){
+			swal.fire(
+				'Data insufficient',
+				'Please mention contact no.',
+				'warning'
+			);
+		}
+		else{
+			const body = {
+				teachername : this.modal_teachername,
+				qualification : this.modal_qualification,
+				contactno : this.modal_contactno,
+				address : this.modal_address,
+				special_initiatives : this.modal_specialinitiatives,
+				aspirations : this.modal_aspirations,
+				center_start_date : this.modal_startdate,
+				preprogram_training_mark : this.modal_pretrainingmark,
+				status : this.teacherprofile_status
+			};
+			if(this.button_action === 'new') {
+				this.save(body);
+			}
+			else if (this.button_action === 'edit') {
+				this.update(body);
+			} else {
+				swal.fire(
+					'Success',
+					'Data saved successfully.',
+					'success'
+				);
+			}
+		}
+	}
+
+	save(body) {
+		this.teacherprofileService.createnewteacherprofile(body).subscribe(data => {
+				console.log('### res data: ' + JSON.stringify(data));
+				this.modalReference.close();
+				this.getallteacherprofiles();
+			},
+			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			() => {}
+		);
+		swal.fire(
+			'Success',
+			'Data saved successfully.',
+			'success'
+		);
+	}
+
+	update(body) {
+		console.log('### inside elseif');
+		this.teacherprofileService.updateteacherprofile(this.modal_id, body).subscribe(data => {
+				console.log('### res data: ' + JSON.stringify(data));
+				this.modalReference.close();
+				this.getallteacherprofiles();
+			},
+			error => {},
+			() => {}
+		);
+		swal.fire(
+			'Success',
+			'Data updated successfully.',
+			'success'
+		);
+	}
+
+	disable_button_click(teacherprofile, current_status){
+		let id = teacherprofile._id;
+		let body = {
+		  status: current_status
+		}
+		this.hideLoading_indicator = false;
+		this.teacherprofileService.updateteacherprofile(id, body).subscribe(data => {
+			console.log('### res data: ' + JSON.stringify(data));
+			this.getallteacherprofiles();
+		},
+		error => {},
+		() => {}
+		);
+	}
+	
+	open(content,teacherprofile) {
+		// edit
+		if(teacherprofile != undefined || teacherprofile != null){
+			this.button_action = 'edit';
+			this.modal_id = teacherprofile._id;
+			this.modal_teachername = teacherprofile.teachername;
+			this.modal_qualification = teacherprofile.qualification;
+			this.modal_contactno = teacherprofile.contactno;
+			this.modal_address = teacherprofile.address;
+			this.modal_specialinitiatives = teacherprofile.special_initiatives;
+			this.modal_aspirations = teacherprofile.aspirations;
+			this.modal_startdate = teacherprofile.center_start_date;
+			this.modal_pretrainingmark = teacherprofile.preprogram_training_mark;
+			this.teacherprofile_status = teacherprofile.status;
+		} 
+		// new
+		else {
+			this.button_action = 'new';
+			this.modal_id = '';
+			this.modal_teachername = '';
+			this.modal_qualification = 'matric';
+			this.modal_contactno = '';
+			this.modal_address = '';
+			this.modal_specialinitiatives = '';
+			this.modal_aspirations = '';
+			this.modal_startdate = new Date();
+			this.modal_pretrainingmark = '';
+			this.teacherprofile_status = 'active';
+		}
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -144,112 +228,4 @@ export class TeacherprofileComponent implements OnInit {
             return  `with: ${reason}`;
         }
     }
-
-	// selecting user type
-	onSelect_modal_usertype(event: Event) {
-		const selectedOptions = event.target['options'];
-		const selectedIndex = selectedOptions.selectedIndex;
-		const selectedOptionValue = selectedOptions[selectedIndex].value;
-		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
-		this.modal_usertype = selectedOptionValue;
-	}
-
-	// selecting gender
-	onSelect_modal_gender(event: Event) {
-		const selectedOptions = event.target['options'];
-		const selectedIndex = selectedOptions.selectedIndex;
-		const selectedOptionValue = selectedOptions[selectedIndex].value;
-		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' +selectedOptionValue+'   Text= '+selectElementText);
-		this.modal_gender = selectedOptionValue;
-	}
-
-	// save user
-	formSubmitAction(usersubmitaction) {
-		const frm_id = this.modal_id;
-		const frm_userid = this.modal_userid;
-		const frm_username = this.modal_teachername;
-		const frm_usertype = this.modal_usertype;
-		const frm_emailid = this.modal_emailid;
-		const frm_password = this.modal_password;
-		const frm_status = 'active';
-		const frm_gender = this.modal_gender;
-		const frm_dob = '1990-12-30T18:30:00.000+0000';
-		const frm_contactnumber = this.modal_contactnumber;
-		const frm_permanentaddress = this.modal_permanentaddress;
-
-
-		const user = {
-			// userid: frm_userid,
-			username: frm_username,
-			usertype: frm_usertype,
-			emailid: frm_emailid,
-			password: frm_password,
-			status: frm_status,
-			gender: frm_gender,
-			dob: frm_dob,
-			contactnumber: frm_contactnumber,
-			permanentaddress: frm_permanentaddress
-		};
-		console.log('###111'+usersubmitaction+' frm_id: '+frm_id+' user: ' + JSON.stringify(user));
-		if(usersubmitaction === 'Create' && frm_id === '') {
-			console.log('### inside if');
-
-			// check the emailid is already exist or not
-			this.isMailIdExists(frm_emailid);
-			if(this.emailid_exists){
-				alert('Email id already taken !!!');
-			}else{
-				user['userid'] = frm_emailid;
-				this.teacherprofileService.createnewuser(user).subscribe(data => {
-						console.log('### res data: ' + JSON.stringify(data));
-						this.modalReference.close();
-						location.reload();
-					},
-					error => {console.log('###2 error: ' + JSON.stringify(error)); },
-					() => {}
-				);
-			}
-			
-			// alert('Data saved successfully !!!');
-		} else if (usersubmitaction === 'Update' && frm_id !== '') {
-			console.log('### inside elseif');
-			this.teacherprofileService.updateuser(frm_id, user).subscribe(data => {
-					console.log('### res data: ' + JSON.stringify(data));
-					this.modalReference.close();
-					location.reload();
-				},
-				error => {},
-				() => {}
-			);
-			// alert('Data updated successfully !!!');
-		} else {
-			console.log('### inside else');
-			alert('Data can not be saved !!!');
-		}
-	}
-
-	// check mail id is existing or not
-	isMailIdExists(frm_emailid){
-		this.data.forEach(element => {
-			if(element.emailid == frm_emailid){
-				this.emailid_exists = true;
-				return;
-			}
-		});
-	}
-
-	// delete user
-	deleteFormSubmitAction(id) {
-		console.log('### id: ' + id);
-		this.teacherprofileService.deleteuser(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
-				this.modalReference.close();
-				location.reload();
-			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
-			() => {}
-		);
-	}
 }

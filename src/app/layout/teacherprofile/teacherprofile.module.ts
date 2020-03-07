@@ -6,6 +6,7 @@ import { TeacherprofileRoutingModule } from './teacherprofile-routing.module';
 import { TeacherprofileComponent } from './teacherprofile.component';
 import { PageHeaderModule } from './../../shared';
 import { DataTableModule } from "angular-6-datatable";
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 import { TeacherprofileService } from  './teacherprofile.service';
 
@@ -16,7 +17,8 @@ import { TeacherprofileService } from  './teacherprofile.service';
 		PageHeaderModule, 
 		DataTableModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		DatePickerModule
 	],
     declarations: [TeacherprofileComponent],
 	providers: [TeacherprofileService]

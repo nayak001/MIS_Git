@@ -12,14 +12,14 @@
 							<button (click)="open(content, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Add Teacher Profile</button>
 							
 							<!-- Modal starts from here -->
-							<ng-template #content let-c="close" let-d="dismiss" class="width1024">
-								<div class="modal-body">									
+							<ng-template #content let-c="close" let-d="dismiss">
+								<div class="modal-body largewidth">									
 									<div class="form-content">
 										<div class="row">
 											<div class="col col-xl-3 col-lg-3"></div>
 											<div class="col col-xl-6 col-lg-6">
 												<div class="form-group">
-													<input id="modal_id" value="{{ modal_id }}" [(ngModel)]="modal_id" type="hidden">
+													<input value="{{ modal_id }}" [(ngModel)]="modal_id" type="hidden">
 												</div>
 											</div>
 										</div>
@@ -30,7 +30,7 @@
 											</div>
 											<div class="col col-xl-4 col-lg-4">
 												<div class="form-group">
-													<input id="modal_username" [value]="modal_teachername" [(ngModel)]="modal_teachername" type="text" class="form-control input-underline input-lg" placeholder="Teacher name">
+													<input value="{{ modal_teachername }}" [(ngModel)]="modal_teachername" type="text" class="form-control input-underline input-lg" placeholder="Teacher name">
 												</div>
 											</div>
 											<div class="col col-xl-2 col-lg-2">
@@ -38,7 +38,7 @@
 											</div>
 											<div class="col col-xl-4 col-lg-4">
 												<div class="form-group">
-													<input id="modal_emailid" value="{{ modal_emailid }}" [(ngModel)]="modal_emailid" type="text" class="form-control input-underline input-lg" placeholder="Mail ID" >
+													<input value="{{ modal_contactno }}" [(ngModel)]="modal_contactno" type="text" class="form-control input-underline input-lg" placeholder="Contact Number" >
 												</div>
 											</div>
 										</div>
@@ -48,10 +48,13 @@
 											</div>
 											<div class="col col-xl-4 col-lg-4">
 												<div class="form-group">
-													<select id="modal_usertype" value="{{modal_usertype}}" (change)="onSelect_modal_usertype($event)" class="form-control">
-														<ng-container *ngFor="let usrtype of all_usertypes_list;">
-															<option *ngIf="usrtype.usertype != 'admin'" value="{{ usrtype.usertype }}">{{ usrtype.usertype | titlecase }}</option>
-														</ng-container>
+													<select value="{{ modal_qualification }}" (change)="onSelect_modal_qualification($event)" class="form-control">
+														<option value="matric">Matric</option>
+														<option value="intermediate">Intermediate</option>
+														<option value="graduate">Graduate</option>
+														<option value="masters">Masters</option>
+														<option value="doctorate">Doctorate</option>
+														<option value="other">Others</option>
 													</select>
 												</div>														
 											</div>
@@ -60,10 +63,7 @@
 											</div>
 											<div class="col col-xl-4 col-lg-4">
 												<div class="form-group">
-													<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
-														<option value="male">Male</option>
-														<option value="female">Female</option>														
-													</select>
+													<input value="{{ modal_address }}" [(ngModel)]="modal_address" type="text" class="form-control input-underline input-lg" placeholder="Teacher Address" >
 												</div>														
 											</div>
 										</div>
@@ -74,7 +74,7 @@
 											</div>
 											<div class="col col-xl-4 col-lg-4">
 												<div class="form-group">
-													<input id="modal_contactnumber" value="{{ modal_contactnumber }}" [(ngModel)]="modal_contactnumber" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number">
+													<input value="{{ modal_specialinitiatives }}" [(ngModel)]="modal_specialinitiatives" type="text" class="form-control input-underline input-lg" placeholder="Special Initiatives">
 												</div>
 											</div>
 											<div class="col col-xl-2 col-lg-2">
@@ -82,7 +82,7 @@
 											</div>
 											<div class="col col-xl-4 col-lg-4">
 												<div class="form-group">
-													<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
+													<input value="{{ modal_aspirations }}" [(ngModel)]="modal_aspirations" type="text" class="form-control input-underline input-lg" placeholder="Aspirations">
 												</div>
 											</div>
 										</div>
@@ -93,7 +93,9 @@
 											</div>
 											<div class="col col-xl-4 col-lg-4">
 												<div class="form-group">
-													<input id="modal_contactnumber" value="{{ modal_contactnumber }}" [(ngModel)]="modal_contactnumber" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number">
+													<ejs-datepicker format="dd-MM-yyyy" strictMode='true' id='datepicker' placeholder='Select a date'
+													  [value]='dateValue' [min]='minDate' [max]='maxDate' (change)="datepicker_onchange($event)"
+													  [(ngModel)]="modal_startdate"></ejs-datepicker>
 												</div>
 											</div>
 											<div class="col col-xl-2 col-lg-2">
@@ -101,15 +103,15 @@
 											</div>
 											<div class="col col-xl-4 col-lg-4">
 												<div class="form-group">
-													<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
+													<input value="{{ modal_pretrainingmark }}" [(ngModel)]="modal_pretrainingmark" type="text" class="form-control input-underline input-lg" placeholder="Pre-program Training Mark">
 												</div>
 											</div>
 										</div>
 									</div>									
 								</div>
-								<div class="modal-footer">
+								<div class="modal-footer largewidth">
 									<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
-									<button type="submit" class="btn btn-success">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+									<button type="button" (click)="save_button_click()" class="btn btn-success">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
 								</div>
 							</ng-template>
 						</div>
@@ -119,68 +121,67 @@
 					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
 						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
 					</div>
-                    <table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="4">
+                    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
 					  <thead>
 					  <tr>
-						  <th style="width: 15%">
-							  <mfDefaultSorter by="username">User Name</mfDefaultSorter>
-						  </th>
-						  <th style="width: 5%">
-							  <mfDefaultSorter by="usertype">User Type</mfDefaultSorter>
-						  </th>
-						  <th style="width: 30%">
-							  <mfDefaultSorter by="emailid">User Email</mfDefaultSorter>
-						  </th>
-						  <th style="width: 5%">
-							  <mfDefaultSorter by="gender">Gender</mfDefaultSorter>
-						  </th>
-						  <th style="width: 5%">
-							  <mfDefaultSorter by="contactnumber">Mobile</mfDefaultSorter>
-						  </th>
-						  <th style="width: 15%">
-							  <mfDefaultSorter by="permanentaddress">City</mfDefaultSorter>
-						  </th>
 						  <th style="width: 20%">
-							  Action
 							  <input type="text" (keyup)='search($event.target.value)'>
+							  <mfDefaultSorter by="teachername">Teacher Name</mfDefaultSorter>
+						  </th>
+						  <th style="width: 5%">
+							  <mfDefaultSorter by="qualification">Qualification</mfDefaultSorter>
+						  </th>
+						  <th style="width: 10%">
+							  <mfDefaultSorter by="">Contact No.</mfDefaultSorter>
+						  </th>
+						  <th style="width: 10%">
+							  <mfDefaultSorter by="address">Address</mfDefaultSorter>
+						  </th>
+						  <th style="width: 10%">
+							  <mfDefaultSorter by="">Sp. initiatives</mfDefaultSorter>
+						  </th>
+						  <th style="width: 10%">
+							  <mfDefaultSorter by="">Aspirations</mfDefaultSorter>
+						  </th>
+						  <th style="width: 10%">
+							  <mfDefaultSorter by="center_start_date">Start date</mfDefaultSorter>
+						  </th>
+						  <th style="width: 5%">
+							  <mfDefaultSorter by="preprogram_training_mark">Pre-training mark</mfDefaultSorter>
+						  </th>
+						  <th style="width: 5%">
+							  <mfDefaultSorter by="status">Status</mfDefaultSorter>
+						  </th>
+						  <th style="width: 15%">
+							  Action
 						  </th>
 					  </tr>
 					  </thead>
 					  <tbody>
-					  <tr *ngFor="let user of mf.data">
-						  <td><span class="bold-font">{{user.username}}</span></td>
-						  <td>{{user.usertype}}</td>
-						  <td>{{user.emailid}}</td>
-						  <td>{{user.gender}}</td>
-						  <td>{{user.contactnumber}}</td>
-						  <td>{{user.permanentaddress}}</td>
+					  <tr *ngFor="let teacherprofile of mf.data">
+						  <td><span class="bold-font">{{teacherprofile.teachername}}</span></td>
+						  <td>{{teacherprofile.qualification}}</td>
+						  <td>{{teacherprofile.contactno}}</td>
+						  <td>{{teacherprofile.address}}</td>
+						  <td>{{teacherprofile.special_initiatives}}</td>
+						  <td>{{teacherprofile.aspirations}}</td>
+						  <td>{{teacherprofile.center_start_date | date:'mediumDate'}}</td>
+						  <td>{{teacherprofile.preprogram_training_mark}}</td>
+						  <td>{{teacherprofile.status}}</td>
 						  <td>
 								<div class="row">
-									<div class="col col-xl-6 col-lg-6">
-										<!-- edit button datatable -->
-										<button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(content,user)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-									</div>
-									<div class="col col-xl-6 col-lg-6">
-										<!-- delete button datatable -->
-										<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="open(deletemodal)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+									<div>
+										<span class="grey-font" *ngIf="teacherprofile.status == 'active'; else disabledUsertype">
+											<button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(content,teacherprofile)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+											<button type="button" class="btn btn-danger" (click)="disable_button_click(teacherprofile, 'disabled')">Disable</button>
+										</span>
+										<ng-template #disabledUsertype>
+											<span class="grey-font">
+												<button type="button" class="btn btn-primary" (click)="disable_button_click(teacherprofile, 'active')">Enable</button>
+											</span>
+										</ng-template>
 									</div>
 								</div>
-																					
-							<!-- Modal starts from here -->
-							<ng-template #deletemodal let-c="close" let-d="dismiss">
-								<form role="form" (ngSubmit)="deleteFormSubmitAction(user._id)">
-									<div class="modal-body">											
-										<div class="row">
-										<img src="assets/images/warning.png" class="warning-icon">											
-										<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of {{ user.username}} !</span>									
-										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-										<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</form>
-							</ng-template>
 						  </td>
 					  </tr>
 					  </tbody>

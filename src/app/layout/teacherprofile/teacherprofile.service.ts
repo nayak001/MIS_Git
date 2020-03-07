@@ -11,49 +11,25 @@ const baseUrl = environment.baseUrl;
 export class TeacherprofileService {
 	constructor(private http: HttpClient) { }
   
-	getallusertypes(){				
-		return this.http.get(baseUrl+'getallusertypes/',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
-	}
-
-	getallactiveusertypes(){				
-		return this.http.get(baseUrl+'getallactiveusertypes/',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
-	}
-
-	getalluser(){				
-		return this.http.get(baseUrl+'getalluser',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
-	}
-
-	getuserbyuserid(userid){				
-		return this.http.get(baseUrl+'getuserbyuserid/'+userid,
+	getallteacherprofiles(){				
+		return this.http.get(baseUrl+'getallteacherprofiles/',
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});			
 	}
 	
-	createnewuser(user){
-		return this.http.post(baseUrl+'createnewuser',
-		user,{
+	createnewteacherprofile(body){
+		return this.http.post(baseUrl+'createnewteacherprofile',
+		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			,responseType: 'text' 
 		});
 	}
 	
-	updateuser(id,user){
-		return this.http.put(baseUrl+'updateuser/'+id,
-		user,{
+	updateteacherprofile(id,body){
+		return this.http.put(baseUrl+'updateteacherprofile/'+id,
+		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			,responseType: 'text' 
 		});
