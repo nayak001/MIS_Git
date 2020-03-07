@@ -33,10 +33,10 @@
 												</div>
 												
 												<div class="row">
-													<div class="col col-xl-3 col-lg-3">
+													<div class="col col-xl-2 col-lg-2">
 														User Name
 													</div>
-													<div class="col col-xl-9 col-lg-9">
+													<div class="col col-xl-10 col-lg-10">
 														<div class="form-group">
 															<input id="modal_username" [value]="modal_username" formControlName="modal_username" [(ngModel)]="modal_username" type="text" class="form-control input-underline input-lg" placeholder="Username">													
 															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_username.invalid">Username required</div> 
@@ -45,25 +45,33 @@
 												</div>
 												
 												<div class="row">
-													<div class="col col-xl-3 col-lg-3">
+													<div class="col col-xl-2 col-lg-2">
 														Email ID
 													</div>
-													<div class="col col-xl-9 col-lg-9">
+													<div class="col col-xl-4 col-lg-4">
 														<div class="form-group">
 															<input id="modal_emailid" value="{{ modal_emailid }}" formControlName="modal_emailid" [(ngModel)]="modal_emailid" type="text" class="form-control input-underline input-lg" placeholder="Mail ID" > <!--[disabled]="disable_emailid"-->
 															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_emailid.invalid">Enter valid eMail ID</div> 
 														</div>
 													</div>
-													<!--<div class="col col-xl-3 col-lg-3">
-														<button type="button" class="btn btn-warning float-right" (click)="c('Close click')">Check</button>
-													</div>-->
+													<div class="col col-xl-2 col-lg-2">
+														Gender
+													</div>
+													<div class="col col-xl-4 col-lg-4">
+														<div class="form-group">
+															<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
+																<option value="male">Male</option>
+																<option value="female">Female</option>														
+															</select>
+														</div>
+													</div>
 												</div>
 												
 												<div class="row">
-													<div class="col col-xl-3 col-lg-3">
+													<div class="col col-xl-2 col-lg-2">
 														Password
 													</div>
-													<div class="col col-xl-6 col-lg-6">
+													<div class="col col-xl-4 col-lg-4">
 														<div class="form-group">
 															<input [type]="showpassword ? 'text' : 'password'" id="modal_password" value="{{ modal_password }}" formControlName="modal_password" [(ngModel)]="modal_password" class="form-control input-underline input-lg" placeholder="Password">
 															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_password.invalid">Enter valid Password</div> 
@@ -73,11 +81,6 @@
 														<button type="button" class="btn btn-warning float-right" (click)="showpass()">{{ showhide_button }}&nbsp;</button>
 													</div>
 												</div>
-												
-												<!--<div class="form-group">
-													<input id="crt_cpassword" formControlName="password" type="password" class="form-control input-underline input-lg" placeholder="Confirm password">
-												</div>-->
-												
 												<div class="row">
 													<div class="col col-xl-2 col-lg-2">
 														Type
@@ -91,15 +94,30 @@
 															</select>
 														</div>														
 													</div>
-													<div class="col col-xl-2 col-lg-2">
-														Gender
+													<div class="col col-xl-2 col-lg-2" [hidden]="hide_teacherprofile_dropdown">
+														Teacher
 													</div>
 													<div class="col col-xl-4 col-lg-4">
 														<div class="form-group">
-															<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
-																<option value="male">Male</option>
-																<option value="female">Female</option>														
-															</select>
+															<ng-autocomplete #auto
+																[data]="teacherprofile_data1"
+																[searchKeyword]="keyword_teachername"
+																[initialValue]="selected_teacherprofile"
+																(selected)='onselect_teacherprofile($event)'
+																(inputChanged)='onchange_teacherprofile($event)'
+																(inputFocused)='onfocus_teacherprofile($event)'
+																[itemTemplate]="itemTemplate"
+																[notFoundTemplate]="notFoundTemplate"
+																[hidden]="hide_teacherprofile_dropdown">                                 
+															</ng-autocomplete>
+																				
+															<ng-template #itemTemplate let-item>
+																<a [innerHTML]="item.teachername"></a>
+															</ng-template>
+															
+															<ng-template #notFoundTemplate let-notFound>
+																<div [innerHTML]="notFound"></div>
+															</ng-template>
 														</div>														
 													</div>
 												</div>

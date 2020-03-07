@@ -42,6 +42,14 @@ export class UsersService {
 			//responseType: 'text' 
 		});			
 	}
+
+	getallactiveteacherprofiles(){				
+		return this.http.get(baseUrl+'getallactiveteacherprofiles',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
 	
 	createnewuser(user){
 		return this.http.post(baseUrl+'createnewuser',

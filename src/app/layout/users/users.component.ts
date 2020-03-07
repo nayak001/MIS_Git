@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,7 @@ import { UsersService, ValidationService } from './users.service';
     animations: [routerTransition()]
 })
 export class UsersComponent implements OnInit {
+	@ViewChild('auto') auto;
 	userModalFormGroup: FormGroup;
 	
 	all_usertypes_list: any = [];
@@ -41,6 +42,17 @@ export class UsersComponent implements OnInit {
 	emailid_exists: boolean = false;
 	disable_emailid: boolean = false;
 
+	teacherprofile_data1: any = [];
+	teacherprofile_data2: any = [];
+	selected_teacherprofile_data: any = [];
+	selected_teacherprofile: string = '';
+
+	// teacher profile auto-complete 
+	//data_teachers: any;
+	//teachers: any;
+	keyword_teachername = 'teachername';
+	hide_teacherprofile_dropdown: boolean = true;
+
     constructor(
 		private modalService: NgbModal,
 		private formBuilder: FormBuilder,
@@ -58,14 +70,29 @@ export class UsersComponent implements OnInit {
 			modal_permanentaddress: ['', [Validators.required]]
 		});
 		this.hideLoading_indicator = true;
+		this.hide_teacherprofile_dropdown = true;
 		this.showpassword = false;
 		this.showhide_button='Show';
 	}
 	
 	ngOnInit() {
+		this.getallactiveteacherprofiles();
 		this.getAllUsertypes();
 		this.getallUsers();
 	}
+
+	// get all all active teacher profiles
+	getallactiveteacherprofiles() {
+		this.hideLoading_indicator = false;
+		this.usersService.getallactiveteacherprofiles().subscribe(data => {
+				this.teacherprofile_data1 = data;
+				console.log('### teacherprofile_data1: '+JSON.stringify(this.teacherprofile_data1));
+				this.hideLoading_indicator = true;
+			},
+			error => {},
+			() => {}
+		);
+  	}
 
 	// get all user types
 	getAllUsertypes() {
@@ -105,6 +132,21 @@ export class UsersComponent implements OnInit {
 		}
 	  }
 	
+	// teacher profile auto complete
+	onchange_teacherprofile(val: string) {
+		console.log('--> teachers auto-complete change event'+JSON.stringify(val));
+	}
+	onfocus_teacherprofile(e){
+		console.log('--> teachers auto-complete focus event'+JSON.stringify(e));
+		this.teacherprofile_data2 = this.teacherprofile_data1;
+	}
+	onselect_teacherprofile(item){
+		console.log('--> teachers auto-complete select event'+JSON.stringify(item));
+		this.selected_teacherprofile_data = [];
+		this.selected_teacherprofile_data = item;
+		this.selected_teacherprofile = (item.teachername == undefined) ? '' : item.teachername;
+		console.log('--> selected_teacherprofile: '+this.selected_teacherprofile);
+	}
 
     /*open(content) {
         this.modalService.open(content).result.then((result) => {
@@ -114,55 +156,6 @@ export class UsersComponent implements OnInit {
         });
     }*/
 
-	open(content,user) {
-		//console.log('#### user: '+ JSON.stringify(user));
-		// update
-		if(user != undefined || user != null){
-			this.usersubmitaction = 'Update';
-			this.modal_id = user._id;
-			this.modal_userid = user.userid;
-			this.modal_username = user.username;
-			this.modal_emailid = user.emailid;
-			this.modal_password = user.password;
-			this.modal_usertype = user.usertype;
-			this.modal_gender = user.gender;
-			this.modal_contactnumber = user.contactnumber;
-			this.modal_permanentaddress = user.permanentaddress;
-			//this.userModalFormGroup.controls['modal_emailid'].disable();
-		} 
-		// create new
-		else {
-			this.usersubmitaction = 'Create';
-			this.modal_id = '';
-			this.modal_userid = '';
-			this.modal_username = '';
-			this.modal_emailid = '';
-			this.modal_password = '';
-			this.modal_usertype = 'manager';
-			this.modal_gender = 'male';
-			this.modal_contactnumber = '';
-			this.modal_permanentaddress = '';
-			this.userModalFormGroup.controls['modal_emailid'].enable();
-		}
-		console.log('#### this.disable_emailid: '+ this.disable_emailid);
-		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
-        this.modalReference.result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-    }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-        } else {
-            return  `with: ${reason}`;
-        }
-    }
-
 	// selecting user type
 	onSelect_modal_usertype(event: Event) {
 		const selectedOptions = event.target['options'];
@@ -171,6 +164,16 @@ export class UsersComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.modal_usertype = selectedOptionValue;
+
+		if(selectedOptionValue == 'anganwadi' || selectedOptionValue == 'school' || selectedOptionValue == 'fellow') {
+			this.selected_teacherprofile = '';
+			this.selected_teacherprofile_data = [];
+			this.hide_teacherprofile_dropdown = false;
+		} else {
+			this.selected_teacherprofile = '';
+			this.selected_teacherprofile_data = [];
+			this.hide_teacherprofile_dropdown = true;
+		}
 	}
 
 	// selecting gender
@@ -202,6 +205,7 @@ export class UsersComponent implements OnInit {
 			// userid: frm_userid,
 			username: frm_username,
 			usertype: frm_usertype,
+			teacherprofile: this.selected_teacherprofile_data,
 			emailid: frm_emailid,
 			password: frm_password,
 			status: frm_status,
@@ -281,4 +285,58 @@ export class UsersComponent implements OnInit {
 			this.showhide_button = 'Hide ';
 		}
 	}
+	
+	open(content,user) {
+		//console.log('#### user: '+ JSON.stringify(user));
+		// update
+		if(user != undefined || user != null){
+			this.usersubmitaction = 'Update';
+			this.modal_id = user._id;
+			this.modal_userid = user.userid;
+			this.modal_username = user.username;
+			this.modal_emailid = user.emailid;
+			this.modal_password = user.password;
+			this.modal_usertype = user.usertype;
+			this.modal_gender = user.gender;
+			this.modal_contactnumber = user.contactnumber;
+			this.modal_permanentaddress = user.permanentaddress;
+			this.selected_teacherprofile = user.teacherprofile.teachername;
+			this.selected_teacherprofile_data = user.teacherprofile;
+			this.hide_teacherprofile_dropdown = (user.usertype == 'manager') ? true : false;
+		} 
+		// create new
+		else {
+			this.usersubmitaction = 'Create';
+			this.modal_id = '';
+			this.modal_userid = '';
+			this.modal_username = '';
+			this.modal_emailid = '';
+			this.modal_password = '';
+			this.modal_usertype = 'manager';
+			this.modal_gender = 'male';
+			this.modal_contactnumber = '';
+			this.modal_permanentaddress = '';
+			this.selected_teacherprofile = '';
+			this.selected_teacherprofile_data = [];
+			this.hide_teacherprofile_dropdown = (user.usertype == 'manager') ? true : false;
+			this.userModalFormGroup.controls['modal_emailid'].enable();
+		}
+		console.log('#### this.disable_emailid: '+ this.disable_emailid);
+		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return  `with: ${reason}`;
+        }
+    }
 }

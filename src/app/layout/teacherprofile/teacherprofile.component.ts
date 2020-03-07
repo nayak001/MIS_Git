@@ -68,10 +68,10 @@ export class TeacherprofileComponent implements OnInit {
 	search(term: string) {
 		term = (term == undefined || term == null) ? '' : term;
 		if(!term) {
-		  this.filterData = this.data;
+		  this.allteacherprofile_data = this.data;
 		} else {
-		  this.filterData = this.data.filter(element => 
-			element.emailid.toLowerCase().includes(term.trim().toLowerCase())
+		  this.allteacherprofile_data = this.data.filter(element => 
+			element.teachername.toLowerCase().includes(term.trim().toLowerCase())
 		  );
 		}
 	}
@@ -168,18 +168,30 @@ export class TeacherprofileComponent implements OnInit {
 	}
 
 	disable_button_click(teacherprofile, current_status){
-		let id = teacherprofile._id;
-		let body = {
-		  status: current_status
-		}
-		this.hideLoading_indicator = false;
-		this.teacherprofileService.updateteacherprofile(id, body).subscribe(data => {
-			console.log('### res data: ' + JSON.stringify(data));
-			this.getallteacherprofiles();
-		},
-		error => {},
-		() => {}
-		);
+		swal.fire({
+		  title: 'Are you sure?',
+		  text: "This teacher will be "+current_status+" .",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes'
+		}).then((result) => {
+		  if (result.value) {
+			let id = teacherprofile._id;
+			let body = {
+			status: current_status
+			}
+			this.hideLoading_indicator = false;
+			this.teacherprofileService.updateteacherprofile(id, body).subscribe(data => {
+				console.log('### res data: ' + JSON.stringify(data));
+				this.getallteacherprofiles();
+			},
+			error => {},
+			() => {}
+			);
+		  }
+		});
 	}
 	
 	open(content,teacherprofile) {

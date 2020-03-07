@@ -6,6 +6,7 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
 import { PageHeaderModule } from './../../shared';
 import { DataTableModule } from "angular-6-datatable";
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { UsersService } from  './users.service';
 
@@ -16,7 +17,8 @@ import { UsersService } from  './users.service';
 		PageHeaderModule, 
 		DataTableModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		AutocompleteLibModule
 	],
     declarations: [UsersComponent],
 	providers: [UsersService]
