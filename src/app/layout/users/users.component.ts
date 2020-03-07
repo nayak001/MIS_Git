@@ -318,7 +318,7 @@ export class UsersComponent implements OnInit {
 			this.modal_permanentaddress = '';
 			this.selected_teacherprofile = '';
 			this.selected_teacherprofile_data = [];
-			this.hide_teacherprofile_dropdown = (user.usertype == 'manager') ? true : false;
+			this.hide_teacherprofile_dropdown = true;
 			this.userModalFormGroup.controls['modal_emailid'].enable();
 		}
 		console.log('#### this.disable_emailid: '+ this.disable_emailid);
