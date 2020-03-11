@@ -55,14 +55,12 @@
 														</div>
 													</div>
 													<div class="col col-xl-2 col-lg-2">
-														Gender
+														City
 													</div>
 													<div class="col col-xl-4 col-lg-4">
 														<div class="form-group">
-															<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
-																<option value="male">Male</option>
-																<option value="female">Female</option>														
-															</select>
+															<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" formControlName="modal_permanentaddress" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
+															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_permanentaddress.invalid">Enter valid City</div> 
 														</div>
 													</div>
 												</div>
@@ -121,7 +119,9 @@
 														</div>														
 													</div>
 												</div>
-												
+
+												<!-- commented by nrusingh on 09-03-2020 -->
+												<!-- 										
 												<div class="row">
 													<div class="col col-xl-2 col-lg-2">
 														Phone
@@ -133,16 +133,20 @@
 														</div>
 													</div>
 													<div class="col col-xl-2 col-lg-2">
-														City
+														Gender
 													</div>
 													<div class="col col-xl-4 col-lg-4">
 														<div class="form-group">
-															<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" formControlName="modal_permanentaddress" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
-															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_permanentaddress.invalid">Enter valid City</div> 
+															<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
+																<option value="male">Male</option>
+																<option value="female">Female</option>														
+															</select>
 														</div>
 													</div>
 												</div>
-											</div>									
+												 -->
+
+										</div>									
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>

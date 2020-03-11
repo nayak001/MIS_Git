@@ -13,78 +13,86 @@
 							
 							<!-- Modal starts from here -->
 							<ng-template #content let-c="close" let-d="dismiss">
+								<div class="card-body">
+									<div class="form-content">
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3"></div>
+											<div class="col col-xl-6 col-lg-6">
+												<div class="form-group">
+													<input id="modal_id" value="{{ modal_id }}" [(ngModel)]="modal_id" type="hidden">
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3">App Type</div>
+											<div class="col col-xl-6 col-lg-6">
+												<div class="form-group">
+													<select id="modal_id" value="{{ selected_apptype }}" (change)="onSelect_apptype_select($event)"  class="form-control width157">
+														<option value="teacherapp">Teacher App</option>
+														<option value="managerapp">Manager App</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3">
+												Users
+											</div>
+											<div class="col col-xl-9 col-lg-9">
+												<div class="form-group">
+													<ng-multiselect-dropdown
+														[placeholder]="'Select Users'"
+														[data]="multiselect_userlist"
+														[(ngModel)]="multiselect_selecteduserlist"
+														[settings]="multiselect_settings"
+														(onSelect)="multiselect_onselectitem($event)"
+														(onSelectAll)="multiselect_onselectall($event)"
+													>
+													</ng-multiselect-dropdown>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3">
+												Title
+											</div>
+											<div class="col col-xl-9 col-lg-9">
+												<div class="form-group">
+													<input type="text" [(ngModel)]="modal_push_title" class="form-control input-underline input-lg" placeholder="Title">													
+												</div>
+											</div>
+										</div>
+										
+										<!-- <div class="row">
+											<div class="col col-xl-3 col-lg-3">
+												Sub-title
+											</div>
+											<div class="col col-xl-9 col-lg-9">
+												<div class="form-group">
+													<input type="text" id="modal_push_subtitle" formControlName="modal_push_subtitle" [(ngModel)]="modal_push_subtitle" class="form-control input-underline input-lg" placeholder="Sub-title">
+													<div class="validation-error-message"  *ngIf="pushModalFormGroup.controls.modal_push_subtitle.invalid">Required</div> 
+												</div>
+											</div>
+										</div> -->
+										
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3">
+												Message
+											</div>
+											<div class="col col-xl-6 col-lg-6">
+												<div class="form-group">
+													<textarea [(ngModel)]="modal_push_message" class="form-control input-underline input-lg txt-area" placeholder="Enter Message"></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" (click)="c('Close click')">Close</button>
-								</div>
-								<div class="card-body table-responsive">
-									<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-										<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-									</div>
-									<table class="table table-striped" [mfData]="allnotifications" #mf="mfDataTable" [mfRowsOnPage]="4">
-										<thead>
-										<tr>
-											<th style="width: 15%">
-												<mfDefaultSorter by="username">User</mfDefaultSorter>
-											</th>
-											<th style="width: 30%">
-												<mfDefaultSorter by="message">Notification</mfDefaultSorter>
-											</th>
-											<th style="width: 15%">
-												<mfDefaultSorter by="createdon">Date</mfDefaultSorter>
-											</th>
-											<th style="width: 20%">
-												Action
-											</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr *ngFor="let notify of mf.data">
-											<td>
-												<span class="bold-font">{{notify.username}}</span>
-												<br><span>{{notify.userid}}</span>
-											</td>
-											<td>
-												<span class="bold-font">{{notify.title}}</span>
-												<br><span>{{notify.body}}</span>
-												<br><span>{{notify.message}}</span>
-											</td>
-											<td>{{notify.createdon}}</td>
-											
-											<td>
-												<div class="row">
-													<div class="col col-xl-6 col-lg-6">
-														<!-- delete button datatable -->
-														<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="open(deletemodal)"><i class="fa fa-trash" aria-hidden="true"></i></button>
-													</div>
-												</div>
-																									
-											<!-- Modal starts from here -->
-											<ng-template #deletemodal let-c="close" let-d="dismiss">
-												<form role="form" (ngSubmit)="deleteFormSubmitAction(notify)">
-													<div class="delmodal">											
-														<div class="row">
-														<img src="assets/images/warning.png" class="warning-icon">											
-														<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of {{ notify.username}} !</span>									
-														</div>
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-														<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-													</div>
-												</form>
-											</ng-template>
-											</td>
-										</tr>
-										</tbody>
-										<tfoot>
-										<tr>
-											<td colspan="4">
-												<!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
-												<mfBootstrapPaginator></mfBootstrapPaginator>
-											</td>
-										</tr>
-										</tfoot>
-									</table>
+									<button type="submit" class="btn btn-primary" (click)="send_button_click()">&nbsp;&nbsp;&nbsp;Send&nbsp;&nbsp;&nbsp;</button>
 								</div>
 							</ng-template>
 						</div>
@@ -98,60 +106,76 @@
 
 
 				<div>
-					<form role="form" [formGroup]="pushModalFormGroup" (ngSubmit)="formSubmitAction()">
-						<div class="modal-body">									
-								<div class="form-content">
-									<div class="row">
-										<div class="col col-xl-3 col-lg-3"></div>
-										<div class="col col-xl-6 col-lg-6">
-											<div class="form-group">
-												<input id="modal_id" value="{{ modal_id }}" formControlName="modal_id" [(ngModel)]="modal_id" type="hidden">
+						<div class="modal-body">	
+								<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+									<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+								</div>
+								<table class="table table-striped" [mfData]="allnotifications" #mf="mfDataTable" [mfRowsOnPage]="4">
+									<thead>
+									<tr>
+										<th style="width: 15%">
+											<mfDefaultSorter by="username">User</mfDefaultSorter>
+										</th>
+										<th style="width: 30%">
+											<mfDefaultSorter by="message">Notification</mfDefaultSorter>
+										</th>
+										<th style="width: 15%">
+											<mfDefaultSorter by="createdon">Date</mfDefaultSorter>
+										</th>
+										<th style="width: 20%">
+											Action
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr *ngFor="let notify of mf.data">
+										<td>
+											<span class="bold-font">{{notify.username}}</span>
+											<br><span>{{notify.userid}}</span>
+										</td>
+										<td>
+											<span class="bold-font">{{notify.title}}</span>
+											<br><span>{{notify.body}}</span>
+											<br><span>{{notify.message}}</span>
+										</td>
+										<td>{{notify.createdon}}</td>
+										
+										<td>
+											<div class="row">
+												<div class="col col-xl-6 col-lg-6">
+													<!-- delete button datatable -->
+													<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="open(deletemodal)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+												</div>
 											</div>
-										</div>
-									</div>
-									
-									<div class="row">
-										<div class="col col-xl-3 col-lg-3">
-											Title
-										</div>
-										<div class="col col-xl-9 col-lg-9">
-											<div class="form-group">
-												<input type="text" id="modal_push_title" formControlName="modal_push_title" [(ngModel)]="modal_push_title" class="form-control input-underline input-lg" placeholder="Title">													
-												<div class="validation-error-message"  *ngIf="pushModalFormGroup.controls.modal_push_title.invalid">Required</div> 
-											</div>
-										</div>
-									</div>
-									
-									<div class="row">
-										<div class="col col-xl-3 col-lg-3">
-											Sub-title
-										</div>
-										<div class="col col-xl-9 col-lg-9">
-											<div class="form-group">
-												<input type="text" id="modal_push_subtitle" formControlName="modal_push_subtitle" [(ngModel)]="modal_push_subtitle" class="form-control input-underline input-lg" placeholder="Sub-title">
-												<div class="validation-error-message"  *ngIf="pushModalFormGroup.controls.modal_push_subtitle.invalid">Required</div> 
-											</div>
-										</div>
-									</div>
-									
-									<div class="row">
-										<div class="col col-xl-3 col-lg-3">
-											Message
-										</div>
-										<div class="col col-xl-6 col-lg-6">
-											<div class="form-group">
-												<textarea  id="modal_push_message" formControlName="modal_push_message" [(ngModel)]="modal_push_message" class="form-control input-underline input-lg txt-area" placeholder="Enter Message"></textarea>
-												<div class="validation-error-message"  *ngIf="pushModalFormGroup.controls.modal_push_message.invalid">Required</div> 
-											</div>
-										</div>
-									</div>
-								</div>									
+																								
+										<!-- Modal starts from here -->
+										<ng-template #deletemodal let-c="close" let-d="dismiss">
+											<form role="form" (ngSubmit)="deleteFormSubmitAction(notify)">
+												<div class="delmodal">											
+													<div class="row">
+													<img src="assets/images/warning.png" class="warning-icon">											
+													<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of {{ notify.username}} !</span>									
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+													<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+												</div>
+											</form>
+										</ng-template>
+										</td>
+									</tr>
+									</tbody>
+									<tfoot>
+									<tr>
+										<td colspan="4">
+											<!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+											<mfBootstrapPaginator></mfBootstrapPaginator>
+										</td>
+									</tr>
+									</tfoot>
+								</table>
 						</div>
-						<div class="modal-footer">
-							<!-- <button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button> -->
-							<button type="submit" class="btn btn-primary" [disabled]="!pushModalFormGroup.valid">&nbsp;&nbsp;&nbsp;Send&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</form>
 				</div>
 
                 

@@ -66,9 +66,10 @@ export class UsersComponent implements OnInit {
 			modal_username: ['', [Validators.required]],
 			modal_emailid: ['', [Validators.required, ValidationService.emailValidator]],
 			modal_password: ['', [Validators.required, ValidationService.passwordValidator]],
-			modal_contactnumber: ['', [Validators.required]],
+			// modal_contactnumber: ['', [Validators.required]],
 			modal_permanentaddress: ['', [Validators.required]]
 		});
+		this.modal_contactnumber = '';		// set default
 		this.hideLoading_indicator = true;
 		this.hide_teacherprofile_dropdown = true;
 		this.showpassword = false;

@@ -6,6 +6,7 @@ import { PushnotificationRoutingModule } from './pushnotification-routing.module
 import { PushnotificationComponent } from './pushnotification.component';
 import { PageHeaderModule } from './../../shared';
 import { DataTableModule } from "angular-6-datatable";
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { PushnotificationService } from  './pushnotification.service';
 
@@ -16,7 +17,8 @@ import { PushnotificationService } from  './pushnotification.service';
 		PageHeaderModule, 
 		DataTableModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		NgMultiSelectDropDownModule
 	],
     declarations: [PushnotificationComponent],
 	providers: [PushnotificationService]

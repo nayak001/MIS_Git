@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PushnotificationService, ValidationService } from './pushnotification.service';
+import { PushnotificationService } from './pushnotification.service';
 import { environment } from './../../../environments/environment.prod';
+
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import swal from 'sweetalert2';
 
 const teacherappAuthkey = environment.teacherappAuthkey;
 
@@ -17,8 +19,7 @@ const teacherappAuthkey = environment.teacherappAuthkey;
     animations: [routerTransition()]
 })
 export class PushnotificationComponent implements OnInit {
-	pushModalFormGroup: FormGroup;
-	
+	alluserlist: any= [];
 	availabledevices: any = [];
 	allnotifications: any = [];
 	public data : any;
@@ -26,6 +27,7 @@ export class PushnotificationComponent implements OnInit {
 	closeResult: string;
 	model: any;
 	hideLoading_indicator: boolean;
+	selected_apptype: string = 'teacherapp';
 
 	
 	modalReference: any;
@@ -37,24 +39,40 @@ export class PushnotificationComponent implements OnInit {
 
 	notificationid: number = 0;
 
+	// multi select settins
+	multiselect_userlist = [];
+	multiselect_selecteduserlist = [];
+	multiselect_settings:IDropdownSettings = {};
+
     constructor(
 		private modalService: NgbModal,
-		private formBuilder: FormBuilder,
-        private translate: TranslateService,
         public router: Router,
 		private pushnotificationService: PushnotificationService
 	) {
 		this.hideLoading_indicator = true;
-		
-		this.pushModalFormGroup = this.formBuilder.group({
-			modal_id: ['', []],
-			modal_push_title: ['', [Validators.required]],
-			modal_push_subtitle: ['', [Validators.required]],
-			modal_push_message: ['', [Validators.required]]
-		});
+		this.selected_apptype = 'teacherapp';
 	}
 	
 	ngOnInit() {
+		this.getallmanagerslist();
+		this.getallfcmtokenmessages();
+		this.initialize_multiselect();
+	}
+
+	async getallmanagerslist(){
+		this.hideLoading_indicator = false;
+		this.pushnotificationService.getallmanager().subscribe(data => {
+				console.log('### userlist: '+JSON.stringify(data));
+				this.alluserlist = data;
+				this.multiselect_userlist = this.alluserlist;
+				this.hideLoading_indicator = true;
+			},
+			error => {},
+			() => {}
+		);
+	}
+
+	async getallfcmtokenmessages(){
 		this.hideLoading_indicator = false;
 		this.pushnotificationService.getallfcmtokenmessages().subscribe(data => {
 				console.log('### data: '+JSON.stringify(data));
@@ -64,6 +82,35 @@ export class PushnotificationComponent implements OnInit {
 			error => {},
 			() => {}
 		);
+	}
+
+	// --------------------- multi select starts -----------------------
+	initialize_multiselect() {
+		//this.multiselect_userlist = this.alluserlist;
+		this.multiselect_selecteduserlist = [];
+		this.multiselect_settings = {
+		  singleSelection: false,
+		  idField: 'userid',
+		  textField: 'username',
+		  selectAllText: 'Select All',
+		  unSelectAllText: 'UnSelect All',
+		  itemsShowLimit: 3,
+		  allowSearchFilter: true
+		};
+	  }
+	  multiselect_onselectitem(item: any) {}
+	  multiselect_onselectall(items: any) {
+		this.multiselect_selecteduserlist = items;
+	  }
+	// -----------------------------------------------------------------
+	
+	onSelect_apptype_select(event: Event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
+		this.selected_apptype = selectedOptionValue;
 	}
 
     open(content) {
@@ -86,7 +133,28 @@ export class PushnotificationComponent implements OnInit {
 	}
 	
 	// send notification
-	async formSubmitAction() {
+	send_button_click() {
+		if(this.selected_apptype == undefined || this.selected_apptype == null || this.selected_apptype == ''){
+			swal.fire('Info','Invalid app type','warning');
+		}else if(this.multiselect_selecteduserlist == undefined || this.multiselect_selecteduserlist == null || this.multiselect_selecteduserlist.length <= 0){
+			swal.fire('Info','Select some user, who will get this notification','warning');
+		}else if(this.modal_push_title == undefined || this.modal_push_title == null || this.modal_push_title == ''){
+			swal.fire('Info','Invalid notification title','warning');
+		}else if(this.modal_push_message == undefined || this.modal_push_message == null || this.modal_push_message == ''){
+			swal.fire('Info','Invalid notification message','warning');
+		}else{
+			if(this.selected_apptype == 'managerapp'){
+				this.send_notification_to_managerapp();
+			}else if(this.selected_apptype == 'teacherapp'){
+				this.send_notification_to_teacherapp();
+			}else{
+
+			}
+		}
+	}
+
+	
+	async send_notification_to_teacherapp(){
 		this.notificationid = new Date().getTime();
 		// get all available devices
 		this.hideLoading_indicator = false;
@@ -112,7 +180,28 @@ export class PushnotificationComponent implements OnInit {
 				this.modal_push_message = '';
 			}
 		);
-		
+	}
+
+	async send_notification_to_managerapp(){
+		let body = {
+			userid : this.multiselect_selecteduserlist,
+			title: this.modal_push_title,
+			body: this.modal_push_message
+		}	
+		await this.pushnotificationService.addusernotification(body).subscribe(data => {
+				console.log('### managerbapp send msg response: '+JSON.stringify(data));
+				swal.fire('Success','Notification sent successfully','success');
+
+				// clear all fields and close modal
+				//this.selected_apptype = 'teacherapp';
+				this.multiselect_selecteduserlist = [];
+				this.modal_push_title = '';
+				this.modal_push_message = '';
+				this.modalReference.close();
+			},
+			error => {},
+			() => {}
+		);	
 	}
 
 	async send_notification_to_each_device(item: any) {
