@@ -15,11 +15,17 @@ import { CenterDetailsService } from './centerDetails.service';
 })
 export class CenterDetailsComponent implements OnInit {
 	userModalFormGroup: FormGroup;
-	center_type:any = 'all'
-	distric: any =  'all'
-	block: any =  'all'
-	program_type: any =  'all'
-
+	center_type: any = 'all'
+	distric: any = 'all'
+	block: any = 'all'
+	program_type: any = 'all'
+	centerDetails: any;
+	check: boolean = true;
+	check1: boolean = false;
+	check2: boolean = false;
+	check3: boolean = false;
+	check4:boolean = false;
+	user : any ;
 	usersubmitaction: string;
 	all_blocks: any = [];
 	allDistics: any = [];
@@ -71,7 +77,7 @@ export class CenterDetailsComponent implements OnInit {
 		await this.getCenterDetails()
 	}
 
-	getBlockDetails() {		
+	getBlockDetails() {
 		this.centerDetailsService.getBlocks().subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));
 			//console.log(data)
@@ -104,7 +110,7 @@ export class CenterDetailsComponent implements OnInit {
 		);
 
 	}
-	viewData(){
+	viewData() {
 		this.isLoaded = false
 		this.isdata_table = false
 		this.getCenterDetails()
@@ -119,22 +125,22 @@ export class CenterDetailsComponent implements OnInit {
 		// 	program_type:"all"
 		// }
 		const data = {
-			center_type:this.center_type,
-			distric:this.distric,
-			block:this.block,
-			program_type:this.program_type
+			center_type: this.center_type,
+			distric: this.distric,
+			block: this.block,
+			program_type: this.program_type
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));
-			 console.log(data)
+			console.log(data)
 			this.filterData = data;
-			
+
 			//this.filterData = [];
 			this.isLoaded = true;
-			if(this.filterData.length == 0){
-			this.isdata_table = true;
+			if (this.filterData.length == 0) {
+				this.isdata_table = true;
 			}
-			else{
+			else {
 				this.isdata_table = false;
 
 			}
@@ -143,7 +149,38 @@ export class CenterDetailsComponent implements OnInit {
 			() => { }
 		);
 	}
+	opencenterDetails(content, center) {
+		this.user = center
+		this.modalReference = this.modalService.open(content,{ size: 'lg' });
+		this.modalReference.result.then((result) => {
+			this.closeResult = `Closed with: ${result}`;
+			this.check = true;
+			this.check1 = false;
+			this.check2 = false;
+			this.check3 = false;
+			this.check4 = false;
 
+
+		}, (reason) => {
+			this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+			this.check = true;
+			this.check1 = false;
+			this.check2 = false;
+			this.check3 = false;
+			this.check4 = false;
+		});
+
+
+	}
+	private getDismissReason(reason: any): string {
+		if (reason === ModalDismissReasons.ESC) {
+			return 'by pressing ESC';
+		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+			return 'by clicking on a backdrop';
+		} else {
+			return `with: ${reason}`;
+		}
+	}
 
 	selectBlock(distic) {
 		this.selectedBlock = 'all'
@@ -160,66 +197,85 @@ export class CenterDetailsComponent implements OnInit {
 
 
 	}
-	download(){
+	download() {
 		const rows = [
-		["Id", "Name", "Type", "Program Type", "Block","District","State","Educator Name","Students",
-		"ECE - Level 1", "ECE - Level 2","ECE - Level 3","PG English Level 1","PG English Level 2", "PG English Level 3",
-		"PG English Level 4","PG English Level 5","PG Odia Level 1","PG Odia Level 2","PG Odia Level 3",
-		"PG Odia Level 4","PG Odia Level 5","PG Math Level 1","PG Math Level 2","PG Math Level 3","PG Math Level 4",
-		"PG Math Level 5","Average Attendance","Percentage of students achieving monthly goals in PG - English",
-		"Percentage of students achieving monthly goals in PG - Odia","Percentage of students achieving monthly goals in PG - Maths	",
-		"Percentage of students achieving quarterly goals in ECE Program","Percentage of students achieving age-appropriate skills in ECE Program2",
-		"Percentage of students who jumped 1 Level in PG - English","Percentage of students who jumped 1 Level in PG - Odia	",
-		"Percentage of students who jumped 1 Level in PG - Maths","Percentage of students who jumped 2 Levels in PG - English",
-		"Percentage of students who jumped 2 Levels in PG - Odia","Percentage of students who jumped 2 Levels in PG - Maths	",
-		"Pre-Program Training Marks Secured	","Online Training Module Details", ]
-		
+			["Id", "Name", "Type", "Program Type", "Block", "District", "State", "Educator Name", "Students",
+				"ECE - Level 1", "ECE - Level 2", "ECE - Level 3", "PG English Level 1", "PG English Level 2", "PG English Level 3",
+				"PG English Level 4", "PG English Level 5", "PG Odia Level 1", "PG Odia Level 2", "PG Odia Level 3",
+				"PG Odia Level 4", "PG Odia Level 5", "PG Math Level 1", "PG Math Level 2", "PG Math Level 3", "PG Math Level 4",
+				"PG Math Level 5", "Average Attendance", "Percentage of students achieving monthly goals in PG - English",
+				"Percentage of students achieving monthly goals in PG - Odia", "Percentage of students achieving monthly goals in PG - Maths	",
+				"Percentage of students achieving quarterly goals in ECE Program", "Percentage of students achieving age-appropriate skills in ECE Program2",
+				"Percentage of students who jumped 1 Level in PG - English", "Percentage of students who jumped 1 Level in PG - Odia	",
+				"Percentage of students who jumped 1 Level in PG - Maths", "Percentage of students who jumped 2 Levels in PG - English",
+				"Percentage of students who jumped 2 Levels in PG - Odia", "Percentage of students who jumped 2 Levels in PG - Maths	",
+				"Pre-Program Training Marks Secured	", "Online Training Module Details",]
+
 		];
 		this.filterData.forEach(value => {
-		var usertType =''
-		if (value && value.user && value.user.usertype){
-		usertType = value.user.usertype
-		}
-		var array = [value.center.centerid , value.center.centername, usertType , value.center.centertype || "", value.center.block || "", value.center.district || "",
-		value.state ,value.educator ,value.no_of_students ,value.educator 
-		,value.eceLevel1 ,value.eceLevel2,value.eceLevel3 ,value.pgEngl1 ,value.pgEngl2 
-		,value.pgEngl3,,value.pgEngl4 ,value.pgEngl5 ,value.pgOdia1 ,value.pgOdia2 
-		,value.pgOdia3 ,value.pgOdia4 ,value.pgOdia5 ,value.pgMath1 ,value.pgMath2 ,
-		value.pgMath3 ,value.pgMath4 ,value.pgMath5 ,
-		value.percentage_of_student_monthly_gaol_odia ,
-		value.percentage_of_student_monthly_gaol_math ,
-		value.percentage_of_student_monthly_gaol_eceProgram ,
-		value.percentage_of_student_monthly_gaol_eceProgram2 ,
-		value.percentage_of_students_jump1_level_pg_eng ,
-		value.percentage_of_students_jump1_level_pg_odia ,
-		value.percentage_of_students_jump1_level_pg_math ,
-		value.percentage_of_students_jump2_level_pg_eng ,
-		value.percentage_of_students_jump2_level_pg_odia ,
-		value.percentage_of_students_jump2_level_pg_math ,
-		value.preProgram_training_marks_Secured ,
-		value.online_training_Module ,
-		value.avrg_Attendance ,
-		value.monthly_Attendance ,
-		]
-		rows.push(array)
+			var usertType = ''
+			if (value && value.user && value.user.usertype) {
+				usertType = value.user.usertype
+			}
+			var array = [value.center.centerid, value.center.centername, usertType, value.center.centertype || "", value.center.block || "", value.center.district || "",
+			value.state, value.educator, value.no_of_students, value.educator
+				, value.eceLevel1, value.eceLevel2, value.eceLevel3, value.pgEngl1, value.pgEngl2
+				, value.pgEngl3, , value.pgEngl4, value.pgEngl5, value.pgOdia1, value.pgOdia2
+				, value.pgOdia3, value.pgOdia4, value.pgOdia5, value.pgMath1, value.pgMath2,
+			value.pgMath3, value.pgMath4, value.pgMath5,
+			value.percentage_of_student_monthly_gaol_odia,
+			value.percentage_of_student_monthly_gaol_math,
+			value.percentage_of_student_monthly_gaol_eceProgram,
+			value.percentage_of_student_monthly_gaol_eceProgram2,
+			value.percentage_of_students_jump1_level_pg_eng,
+			value.percentage_of_students_jump1_level_pg_odia,
+			value.percentage_of_students_jump1_level_pg_math,
+			value.percentage_of_students_jump2_level_pg_eng,
+			value.percentage_of_students_jump2_level_pg_odia,
+			value.percentage_of_students_jump2_level_pg_math,
+			value.preProgram_training_marks_Secured,
+			value.online_training_Module,
+			value.avrg_Attendance,
+			value.monthly_Attendance,
+			]
+			rows.push(array)
 		});
-		
+
 		let csvContent = "data:text/csv;charset=utf-8,"
-		+ rows.map(e => e.join(",")).join("\n");
+			+ rows.map(e => e.join(",")).join("\n");
 		var encodedUri = encodeURI(csvContent);
 		var link = document.createElement("a");
 		link.setAttribute("href", encodedUri);
 		link.setAttribute("download", "CenterDetails.csv");
 		document.body.appendChild(link); // Required for FF
-		
+
 		link.click()
+	}
+	show(value) {
+
+
+		if (value == 'shoDetails') {
+
+			this.check = !this.check;
 		}
-	
-	
+		if (value == 'eceDetails') {
+			this.check1 = !this.check1;
+		}
+		if (value == 'pgeDetails') {
+			this.check2 = !this.check2;
+		}
+		if (value == 'scoresDetails') {
+			this.check3 = !this.check3;;
+		}
+		if(value == 'otherDetails'){
+			this.check4 = !this.check4;
+		}
+	}
+
 	// viewData() {
 	// 	this.filterData = []
 	// 	this.isdata_table = false;
-		
+
 
 	// 	if(this.selectedDistic || this.selectedBlock){
 	// 		for(var i = 0; i < this.all_Data.length; i++){
@@ -230,9 +286,9 @@ export class CenterDetailsComponent implements OnInit {
 	// 			else if(this.all_Data[i].district == this.selectedDistic){
 	// 				this.filterData.push(this.all_Data[i])
 	// 			}
-    //            console.log(this.filterData)
+	//            console.log(this.filterData)
 	// 		  }
-			  
+
 	// 		}
 	// 		this.isdata_table=true;
 	// 	}
@@ -240,13 +296,13 @@ export class CenterDetailsComponent implements OnInit {
 	// 	else{
 	// 		this.filterData = this.all_Data
 	// 	}
-		
-		
+
+
 	// }
 	// downloadCSV(){
 	// 	//this.dtHolidays : JSONDATA , HolidayList : CSV file Name, this.csvOptions : file options
 	// 	new  AngularCsv(this.all_Data, "HolidayList", this.csvOptions);
 	//   }
-	
+
 }
 
