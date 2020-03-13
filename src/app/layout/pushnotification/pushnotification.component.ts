@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PushnotificationService } from './pushnotification.service';
 import { environment } from './../../../environments/environment.prod';
 
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
+//import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import swal from 'sweetalert2';
 
 const teacherappAuthkey = environment.teacherappAuthkey;
@@ -42,7 +42,7 @@ export class PushnotificationComponent implements OnInit {
 	// multi select settins
 	multiselect_userlist = [];
 	multiselect_selecteduserlist = [];
-	multiselect_settings:IDropdownSettings = {};
+	multiselect_settings = {};
 
     constructor(
 		private modalService: NgbModal,

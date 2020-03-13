@@ -288,7 +288,7 @@ export class UsersComponent implements OnInit {
 	}
 	
 	open(content,user) {
-		//console.log('#### user: '+ JSON.stringify(user));
+		console.log('#### user: '+ JSON.stringify(user));
 		// update
 		if(user != undefined || user != null){
 			this.usersubmitaction = 'Update';
@@ -301,7 +301,7 @@ export class UsersComponent implements OnInit {
 			this.modal_gender = user.gender;
 			this.modal_contactnumber = user.contactnumber;
 			this.modal_permanentaddress = user.permanentaddress;
-			this.selected_teacherprofile = user.teacherprofile.teachername;
+			this.selected_teacherprofile = (user.teacherprofile == undefined || user.teacherprofile == null) ? '' : user.teacherprofile.teachername;
 			this.selected_teacherprofile_data = user.teacherprofile;
 			this.hide_teacherprofile_dropdown = (user.usertype == 'manager') ? true : false;
 		} 
