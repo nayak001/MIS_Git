@@ -48,12 +48,26 @@
 						</select>
                     </div>
                     <div class = "col-2">
-                        <label>Month</label>
+                        <label>Stages</label>
                         <select class="form-control select2" style=" height: 30px;">
                             
                             <option value="all">All</option>
-							<option value="ece">Jan</option>
-							<option value="pge">Feb</option>
+                            <option *ngIf="program_type == 'ece'" value="">Quater 1 </option>
+                            <option *ngIf="program_type == 'ece'" value="">Quater 2 </option>
+                            <option *ngIf="program_type == 'ece'" value="">Quater 3 </option>
+                            <option *ngIf="program_type == 'ece'" value="">Quater 4 </option>
+							<option *ngIf="program_type == 'pge'" value="">Month 1</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 2</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 3</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 4</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 5</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 6</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 7</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 8</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 9</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 10</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 11</option>
+                            <option *ngIf="program_type == 'pge'"value="">Month 12</option>
 						</select>
                     </div>
                      <!-- <div class="col-1">
@@ -94,24 +108,27 @@
                                     <th>Students</th>
                                     <th>Female Students</th>
 
-                                    <th>ECE - Level 1</th>
-                                    <th>ECE - Level 2</th>
-                                    <th>ECE - Level 3</th>
-                                    <th>PG English Level 1</th>
-                                    <th>PG English Level 2</th>
-                                    <th>PG English Level 3</th>
-                                    <th>PG English Level 4</th>
-                                    <th>PG English Level 5</th>
-                                    <th>PG Odia Level 1</th>
-                                    <th>PG Odia Level 2</th>
-                                    <th>PG Odia Level 3</th>
-                                    <th>PG Odia Level 4</th>
-                                    <th>PG Odia Level 5</th>
-                                    <th>PG Math Level 1</th>
-                                    <th>PG Math Level 2</th>
-                                    <th>PG Math Level 3</th>
+                                    <!-- <th *ngIf="program_type == 'ece'"> ECE - Level 1</th> -->
+                                    <th > ECE - Level 1</th>
+                                    <th >ECE - Level 2</th>
+                                    <th >ECE - Level 3</th>
+                                   <th >PG English Level 1</th>
+                                    <th >PG English Level 2</th>
+                                    <th >PG English Level 3</th>
+                                    <th >PG English Level 4</th>
+                                    <th >PG English Level 5</th>
+                                    <th >PG Odia Level 1</th>
+                                    <th >PG Odia Level 2</th>
+                                    <th >PG Odia Level 3</th>
+                                    <th >PG Odia Level 4</th>
+                                    <th >PG Odia Level 5</th>
+                                    <th >PG Math Level 1</th>
+                                    <th >PG Math Level 2</th>
+                                    <th >PG Math Level 3</th>
                                     <th>PG Math Level 4</th>
                                     <th>PG Math Level 5</th>
+                            
+
 
                                     <th>Average Attendance</th>
                                    <th> Percentage of students achieving monthly goals in PG - English</th>
@@ -150,10 +167,11 @@
                                     <td>{{user.educator}}</td>
                                     <td>{{user.no_of_students}}</td>
                                     <td>{{user.no_female_students}}</td>
-                                    <td>femalestudents</td>
-                                    <td>{{user.eceLevel1}}</td>
-                                    <td>{{user.eceLevel2}}</td>
-                                    <td>{{user.eceLevel3}}</td>
+                                
+                                    <td>{{user.ecelevel1}}</td>
+                                    <td>{{user.ecelevel2}}</td>
+                                    <td>{{user.ecelevel3}}</td>
+                                
                                     <td>{{user.pgEngl1}}</td>
                                     <td>{{user.pgEngl2}}</td>
                                     <td>{{user.pgEngl3}}</td>
@@ -161,17 +179,18 @@
                                     <td>{{user.pgEngl5}}</td>
                                     <td>{{user.pgOdia1}} </td>
                                     <td>{{user.pgOdia2}} </td>
-                                    <td> {{user.pgOdia3}}</td>
+                                    <td>{{user.pgOdia3}}</td>
                                     <td>{{user.pgOdia4}}</td>
                                     <td>{{user.pgOdia5}} </td>
-                                    <td> {{user.pgMath1}}</td>
-                                    <td> {{user.pgMath2}}</td>
-                                    <td> {{user.pgMath3}}</td>
-                                    <td> {{user.pgMath4}}</td>
-                                    <td> {{user.pgMath5}}</td>
+                                    <td>{{user.pgMath1}}</td>
+                                    <td>{{user.pgMath2}}</td>
+                                    <td>{{user.pgMath3}}</td>
+                                    <td>{{user.pgMath4}}</td>
+                                    <td>{{user.pgMath5}}</td>
+                                    
                                     <td>{{user.percentage_of_student_monthly_gaol_eng}}</td>
-                                    <td> {{user.percentage_of_student_monthly_gaol_odia}}</td>
-                                    <td> {{user.percentage_of_student_monthly_gaol_math}}</td>
+                                    <td>{{user.percentage_of_student_monthly_gaol_odia}}</td>
+                                    <td>{{user.percentage_of_student_monthly_gaol_math}}</td>
                                     <td>{{user.Percentage_of_students_achieving_atleast_of_age_appropriate_skills_in_ece_Program}}</td>
                                     <!-- <td> {{user.percentage_of_student_monthly_gaol_eceProgram}}</td>
                                     <td> {{user.percentage_of_student_monthly_gaol_eceProgram2}}</td> -->
