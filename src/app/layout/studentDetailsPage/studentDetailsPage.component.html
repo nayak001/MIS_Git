@@ -126,13 +126,18 @@
                                     <td>{{user.student.eng_level}}</td>
                                     <td>{{user.student.odia_level}}</td>
                                     <td>
-                                        <div class="yes" *ngIf = "user.scores.math.value != 'null'" >Yes</div>
-                                        <div class = "No">No</div>
-                                        {{user.scores.math.value}}
+                                        
+                                        <div class="sc" *ngIf = "user.scores.math.value != null"><span class = "yes" >Yes</span>
+                                           {{ getRoundedValue(user.scores.math.value) }}%
+                                        </div>
+                                        
+                                        <div class = "No" *ngIf = "user.scores.math.value ==  null " >No</div>
+                                      
+                                        
                         
                                     </td>
-                                    <td>{{user.scores.english.value}}</td>
-                                    <td>{{user.scores.odia.value}}</td>
+                                    <td>{{getRoundedValue(user.scores.english.value)}}%</td>
+                                    <td>{{getRoundedValue(user.scores.odia.value)}}%</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>

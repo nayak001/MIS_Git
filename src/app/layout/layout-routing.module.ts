@@ -58,6 +58,7 @@ const routes: Routes = [
       { path: 'individualUserPage/:id', loadChildren: './individualUserPage/individualUserPage.module#IndividualUserPageModule' },
       { path: 'managerDetails', loadChildren: './managerDetails/managerDetails.module#ManagerDetailsModule' },
       { path: 'learningOutcomes', loadChildren: './learningOutcomes/learningOutcomes.module#LearningOutcomesModule' },
+      { path: 'individualTeachersEducatorPage', loadChildren: './individualTeachersEducatorPage/individualTeachersEducatorPage.module#IndividualTeachersEducatorPageModule' },
 
 
     ]

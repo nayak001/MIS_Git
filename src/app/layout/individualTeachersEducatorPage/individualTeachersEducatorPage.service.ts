@@ -21,8 +21,8 @@ export class IndividualTeachersEducatorPageService {
 		});	
 
 	}
-	TeacherEducatorDetail(){
-		return this.http.get(baseUrl+'getteacherprofilelist',
+	TeacherEducatorDetail(data){
+		return this.http.get(baseUrl+'getteacherprofilelist?center_type=' + data.center_type + '&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

@@ -26,6 +26,9 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	check3: boolean = false;
 	check4:boolean = false;
 	user : any ;
+	
+
+
 	usersubmitaction: string;
 	all_blocks: any = [];
 	allDistics: any = [];
@@ -112,11 +115,18 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 	}
     individualTeacherEducatorDetail(){
-	this.IndividualTeachersEducatorPageService.TeacherEducatorDetail().subscribe(data => {
+		const data = {
+			center_type:this.center_type,
+			distric:this.distric,
+			block:this.block,
+			program_type:this.program_type
+		}
+	this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
+		debugger
 		// console.log('### data: '+JSON.stringify(data));
 		//console.log(data)
 		this.filterData = data
-
+		 this.isLoaded = true
 		console.log(this.filterData)
 		// this.all_blocks=data;
 	},
@@ -124,11 +134,11 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		() => { }
 	);
  }
-	// viewData() {
-	// 	this.isLoaded = false
-	// 	// this.isdata_table = false
-	// 	// this.getCenterDetails()
-	// }
+	viewData() {
+		this.isLoaded = false
+		// this.isdata_table = false
+		 this.individualTeacherEducatorDetail()
+	}
 
 
 	
