@@ -72,7 +72,8 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 	async ngOnInit() {
 		this.hideLoading_indicator = false;
-		await this.getBlockDetails()
+		await this.getBlockDetails();
+		await this.individualTeacherEducatorDetail();
 
 		
 	}
@@ -110,7 +111,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		);
 
 	}
- individualTeacherEducatorDetail(){
+    individualTeacherEducatorDetail(){
 	this.IndividualTeachersEducatorPageService.TeacherEducatorDetail().subscribe(data => {
 		// console.log('### data: '+JSON.stringify(data));
 		//console.log(data)

@@ -126,12 +126,13 @@
                                     <td>{{user.student.eng_level}}</td>
                                     <td>{{user.student.odia_level}}</td>
                                     <td>
-                                        <div class="yes">Yes</div>
-                                        <div class = "No" >No</div>
+                                        <div class="yes" *ngIf = "user.scores.math.value != 'null'" >Yes</div>
+                                        <div class = "No">No</div>
+                                        {{user.scores.math.value}}
                         
                                     </td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{user.scores.english.value}}</td>
+                                    <td>{{user.scores.odia.value}}</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
