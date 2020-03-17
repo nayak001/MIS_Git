@@ -13,50 +13,52 @@
                 <div class="row" style="padding: 25px; font-size: 15px;color: black;">
                     <div class="col-2">
                         <label>Center Type</label>
-                        <select class="form-control select2" [(ngModel)]="center_type" style="font-size: 14px; height: 30px;">
-							<option value="all">All</option>
-							<option value="anganwadi">Anganwadi</option>
-							<option value="school">School</option>
-							<option value="fellow">Fellow</option>
-						</select>
+                        <select class="form-control select2" [(ngModel)]="center_type"
+                            style="font-size: 14px; height: 30px;">
+                            <option value="all">All</option>
+                            <option value="anganwadi">Anganwadi</option>
+                            <option value="school">School</option>
+                            <option value="fellow">Fellow</option>
+                        </select>
 
                     </div>
                     <div class="col-2">
                         <label>Select District</label>
-                        <select class="form-control select2" [(ngModel)]="distric" (change)="selectBlock(distric)" style=" height: 30px;">
-                            
+                        <select class="form-control select2" [(ngModel)]="distric" (change)="selectBlock(distric)"
+                            style=" height: 30px;">
+
                             <option value="all">All</option>
-							<option *ngFor="let distic of allDistics" value={{distic.district}}>{{distic.district}}
-							</option>
-						</select>
+                            <option *ngFor="let distic of allDistics" value={{distic.district}}>{{distic.district}}
+                            </option>
+                        </select>
                     </div>
                     <div class="col-2">
                         <label>Select Block</label>
                         <select class="form-control select2" [(ngModel)]="block" style=" height: 30px;">
-                           
+
                             <option value="all">All</option>
-							<option *ngFor="let block of all_blocks" value={{block.block}}>{{block.block}}</option>
-						</select>
+                            <option *ngFor="let block of all_blocks" value={{block.block}}>{{block.block}}</option>
+                        </select>
                     </div>
                     <div class="col-2">
                         <label>Program Type</label>
                         <select class="form-control select2" [(ngModel)]="program_type" style=" height: 30px;">
-                         
+
                             <option value="all">All</option>
-							<option value="ece">ECE</option>
-							<option value="pge">PGE</option>
-						</select>
+                            <option value="ece">ECE</option>
+                            <option value="pge">PGE</option>
+                        </select>
                     </div>
-                    <div class = "col-2">
+                    <div class="col-2">
                         <label>Stages</label>
                         <select class="form-control select2" style=" height: 30px;">
-                            
+
                             <option value="all">All</option>
                             <option *ngIf="program_type == 'ece'" value="">Quater 1 </option>
                             <option *ngIf="program_type == 'ece'" value="">Quater 2 </option>
                             <option *ngIf="program_type == 'ece'" value="">Quater 3 </option>
                             <option *ngIf="program_type == 'ece'" value="">Quater 4 </option>
-							<option *ngIf="program_type == 'pge'" value="">Month 1</option>
+                            <option *ngIf="program_type == 'pge'" value="">Month 1</option>
                             <option *ngIf="program_type == 'pge'" value="">Month 2</option>
                             <option *ngIf="program_type == 'pge'" value="">Month 3</option>
                             <option *ngIf="program_type == 'pge'" value="">Month 4</option>
@@ -67,15 +69,15 @@
                             <option *ngIf="program_type == 'pge'" value="">Month 9</option>
                             <option *ngIf="program_type == 'pge'" value="">Month 10</option>
                             <option *ngIf="program_type == 'pge'" value="">Month 11</option>
-                            <option *ngIf="program_type == 'pge'"value="">Month 12</option>
-						</select>
+                            <option *ngIf="program_type == 'pge'" value="">Month 12</option>
+                        </select>
                     </div>
-                     <!-- <div class="col-1">
+                    <!-- <div class="col-1">
                        
                         <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
                     </div> -->
                     <div class="col-2">
-                        
+
                         <div class="row">
                             <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
 
@@ -84,18 +86,19 @@
 
 
                     </div>
-                   
+
 
 
                 </div>
                 <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
                     <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
-							alt="Loading. Please wait..."></span>
+                            alt="Loading. Please wait..."></span>
                 </div>
 
-                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table" >
+                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
                     <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
-                        <table class="table table-striped main-table"  [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <table class="table table-striped main-table" [mfData]="filterData" #mf="mfDataTable"
+                            [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -109,32 +112,33 @@
                                     <th>Female Students</th>
 
                                     <!-- <th *ngIf="program_type == 'ece'"> ECE - Level 1</th> -->
-                                    <th > ECE - Level 1</th>
-                                    <th >ECE - Level 2</th>
-                                    <th >ECE - Level 3</th>
-                                   <th >PG English Level 1</th>
-                                    <th >PG English Level 2</th>
-                                    <th >PG English Level 3</th>
-                                    <th >PG English Level 4</th>
-                                    <th >PG English Level 5</th>
-                                    <th >PG Odia Level 1</th>
-                                    <th >PG Odia Level 2</th>
-                                    <th >PG Odia Level 3</th>
-                                    <th >PG Odia Level 4</th>
-                                    <th >PG Odia Level 5</th>
-                                    <th >PG Math Level 1</th>
-                                    <th >PG Math Level 2</th>
-                                    <th >PG Math Level 3</th>
+                                    <th> ECE - Level 1</th>
+                                    <th>ECE - Level 2</th>
+                                    <th>ECE - Level 3</th>
+                                    <th>PG English Level 1</th>
+                                    <th>PG English Level 2</th>
+                                    <th>PG English Level 3</th>
+                                    <th>PG English Level 4</th>
+                                    <th>PG English Level 5</th>
+                                    <th>PG Odia Level 1</th>
+                                    <th>PG Odia Level 2</th>
+                                    <th>PG Odia Level 3</th>
+                                    <th>PG Odia Level 4</th>
+                                    <th>PG Odia Level 5</th>
+                                    <th>PG Math Level 1</th>
+                                    <th>PG Math Level 2</th>
+                                    <th>PG Math Level 3</th>
                                     <th>PG Math Level 4</th>
                                     <th>PG Math Level 5</th>
-                            
+
 
 
                                     <th>Average Attendance</th>
-                                   <th> Percentage of students achieving monthly goals in PG - English</th>
-                                   <th>Percentage of students achieving monthly goals in PG - Odia</th>
-                                   <th>Percentage of students achieving monthly goals in PG - Maths</th>
-                                   <th>Percentage of students achieving atleast 70% of age-appropriate skills in ECE Program</th>
+                                    <th> Percentage of students achieving monthly goals in PG - English</th>
+                                    <th>Percentage of students achieving monthly goals in PG - Odia</th>
+                                    <th>Percentage of students achieving monthly goals in PG - Maths</th>
+                                    <th>Percentage of students achieving atleast 70% of age-appropriate skills in ECE
+                                        Program</th>
                                     <!-- <th>Percentage of students achieving quarterly goals in ECE Program</th>
                                     <th>Percentage of students achieving age-appropriate skills in ECE Program2</th> -->
                                     <th>Percentage of students who jumped 1 Level in PG - English</th>
@@ -158,7 +162,8 @@
                             <tbody>
                                 <tr *ngFor="let user of mf.data">
 
-                                   <td class="sname" aria-hidden="true" (click)="opencenterDetails(editmodal,user)" style="color: blue;cursor: pointer;">{{user.center.centerid}}</td>
+                                    <td class="sname" aria-hidden="true" (click)="opencenterDetails(editmodal,user)"
+                                        style="color: blue;cursor: pointer;">{{user.center.centerid}}</td>
                                     <td>{{user.center.centername}}</td>
                                     <td>{{user.center.centertype}}</td>
                                     <td>{{user.center.block}}</td>
@@ -167,11 +172,11 @@
                                     <td>{{user.educator}}</td>
                                     <td>{{user.no_of_students}}</td>
                                     <td>{{user.no_female_students}}</td>
-                                
+
                                     <td>{{user.ecelevel1}}</td>
                                     <td>{{user.ecelevel2}}</td>
                                     <td>{{user.ecelevel3}}</td>
-                                
+
                                     <td>{{user.pgEngl1}}</td>
                                     <td>{{user.pgEngl2}}</td>
                                     <td>{{user.pgEngl3}}</td>
@@ -187,11 +192,12 @@
                                     <td>{{user.pgMath3}}</td>
                                     <td>{{user.pgMath4}}</td>
                                     <td>{{user.pgMath5}}</td>
-                                    
+
                                     <td>{{user.percentage_of_student_monthly_gaol_eng}}</td>
                                     <td>{{user.percentage_of_student_monthly_gaol_odia}}</td>
                                     <td>{{user.percentage_of_student_monthly_gaol_math}}</td>
-                                    <td>{{user.Percentage_of_students_achieving_atleast_of_age_appropriate_skills_in_ece_Program}}</td>
+                                    <td>{{user.Percentage_of_students_achieving_atleast_of_age_appropriate_skills_in_ece_Program}}
+                                    </td>
                                     <!-- <td> {{user.percentage_of_student_monthly_gaol_eceProgram}}</td>
                                     <td> {{user.percentage_of_student_monthly_gaol_eceProgram2}}</td> -->
                                     <td> {{user.percentage_of_students_jump1_level_pg_eng}}</td>
@@ -205,11 +211,11 @@
                                     <td>{{user.student_dropped_ece_program}}</td>
                                     <td>{{user.student_dropped_pg_program}}</td>
                                     <td>{{user.grade_of_student}}</td>
-                                   
-                              
-                     
 
-                                    
+
+
+
+
 
                                     <!-- <td> {{user.preProgram_training_marks_Secured}}</td>
                                     <td> {{user.online_training_Module}}</td>
@@ -229,10 +235,10 @@
                                     </td>
                                 </tr>
                             </tfoot>
-                            
+
 
                         </table>
-                        
+
 
 
                     </div>
@@ -248,269 +254,300 @@
         </div>
     </div>
 </div>
-<ng-template #editmodal let-c="close" let-d="dismiss" > 
-    
-    <form role="form" >
-    <div class="row"> 
-        <span class="cross" style="cursor: pointer;"><i class="fa fa-times fa-1x" (click) ="c('Close click')" aria-hidden="true"></i></span>
-    
-		<label class ="heading" >
+<ng-template #editmodal let-c="close" let-d="dismiss">
 
-            
-            <span>{{user.center.centername}}&nbsp; Center Detail</span>
-        </label>
+    <form role="form">
+        <div class="row">
+            <span class="cross" style="cursor: pointer;"><i class="fa fa-times fa-1x" (click)="c('Close click')"
+                    aria-hidden="true"></i></span>
+
+            <label class="heading">
+
+
+                <span>{{user.center.centername}}&nbsp; Center Detail</span>
+            </label>
         </div>
         <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
-            <div class="accordion" id="accordionExample" >
+            <div class="accordion" id="accordionExample">
                 <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link collapsed" style=" margin-top: -10px; margin-left: 21%" (click)="show('shoDetails')" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                       Basic Details
-                      </button>
-                    </h2>
-                  </div>
-              
-                  <div id="collapseOne" *ngIf="check"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
-                    <div class="card-body">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" style=" margin-top: -10px; margin-left: 21%"
+                                (click)="show('shoDetails')" type="button" data-toggle="collapse"
+                                data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Basic Details
+                            </button>
+                        </h2>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-8 sideheading" >ID &nbsp;:</div>
-                            <div class="col-4" >{{user.center._id}}</div>
+                    <div id="collapseOne" *ngIf="check" class="collapse show" aria-labelledby="headingOne"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-8 sideheading">ID &nbsp;:</div>
+                                <div class="col-4">{{user.center._id}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Name&nbsp;:</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.center.centername}}</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-8 sideheading">Type</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.center.centertype}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Block</div>
+                                <div class="col-4" style="text-transform:capitalize;">block</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">District</div>
+                                <div class="col-4" style="text-transform:capitalize;">district</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">State</div>
+                                <div class="col-4" style="text-transform:capitalize;">state</div>
+                            </div>
+
+
                         </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Name&nbsp;:</div>
-                            <div class="col-4" style="text-transform:capitalize;" >{{user.center.centername}}</div>
-                        </div>
-                      
-                        <div class="row">
-                            <div class="col-8 sideheading">Type</div>
-                            <div class="col-4" style="text-transform:capitalize;">{{user.center.centertype}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Block</div>
-                            <div class="col-4" style="text-transform:capitalize;">block</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">District</div>
-                            <div class="col-4" style="text-transform:capitalize;">district</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">State</div>
-                            <div class="col-4" style="text-transform:capitalize;">state</div>
-                        </div>
-              
-                        
                     </div>
-                  </div>
                 </div>
                 <div class="card">
-                  <div class="card-header" id="headingTwo">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link collapsed" style=" margin-top: -10px; margin-left: 21%"  (click)="show('eceDetails')" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                       ECE Details
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseTwo"  *ngIf="check1"  class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-4 sideheading">ECE Level 1 &nbsp;: </div>
-                            <div class="col-8">{{user.eceLevel1}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4 sideheading">ECE Level 2 &nbsp;: </div>
-                            <div class="col-8">{{user.eceLevel2}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4 sideheading">ECE Level 3 &nbsp;: </div>
-                            <div class="col-8">{{user.eceLevel3}}</div>
+                    <div class="card-header" id="headingTwo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" style=" margin-top: -10px; margin-left: 21%"
+                                (click)="show('eceDetails')" type="button" data-toggle="collapse"
+                                data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                ECE Details
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseTwo" *ngIf="check1" class="collapse show" aria-labelledby="headingTwo"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4 sideheading">ECE Level 1 &nbsp;: </div>
+                                <div class="col-8">{{user.eceLevel1}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 sideheading">ECE Level 2 &nbsp;: </div>
+                                <div class="col-8">{{user.eceLevel2}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 sideheading">ECE Level 3 &nbsp;: </div>
+                                <div class="col-8">{{user.eceLevel3}}</div>
+                            </div>
                         </div>
                     </div>
-                  </div>
                 </div>
                 <div class="card">
-                  <div class="card-header" id="headingThree">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link collapsed"  style=" margin-top: -10px;margin-left: 21%;" (click)="show('pgeDetails')" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                        PGE Details
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseThree" *ngIf="check2"  class="collapse show"  aria-labelledby="headingThree" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6 sideheading">PG English Level 1 :</div>
-                            <div class="col-6">{{user.pgEngl1}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG English Level 2 :</div>
-                            <div class="col-6">{{user.pgEngl2}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG English Level 3 :</div>
-                            <div class="col-6">{{user.pgEngl3}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG English Level 4 :</div>
-                            <div class="col-6">{{user.pgEngl4}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG English Level 5 :</div>
-                            <div class="col-6">{{user.pgEngl5}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Odia Level 1:</div>
-                            <div class="col-6">{{user.pgOdia1}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Odia Level 2:</div>
-                            <div class="col-6">{{user.pgOdia2}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Odia Level 3:</div>
-                            <div class="col-6">{{user.pgOdia3}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Odia Level 4:</div>
-                            <div class="col-6">{{user.pgOdia4}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Odia Level 5:</div>
-                            <div class="col-6">{{user.pgOdia5}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Maths Level 1 :</div>
-                            <div class="col-6">{{user.pgMath1}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Maths Level 2 :</div>
-                            <div class="col-6">{{user.pgMath2}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Maths Level 3 :</div>
-                            <div class="col-6">{{user.pgMath3}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Maths Level 4 :</div>
-                            <div class="col-6">{{user.pgMath4}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 sideheading">PG Maths Level 5 :</div>
-                            <div class="col-6">{{user.pgMath5}}</div>
-                        </div>
-                        
-                     
-                        
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" style=" margin-top: -10px;margin-left: 21%;"
+                                (click)="show('pgeDetails')" type="button" data-toggle="collapse"
+                                data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                PGE Details
+                            </button>
+                        </h2>
                     </div>
-                  </div>
+                    <div id="collapseThree" *ngIf="check2" class="collapse show" aria-labelledby="headingThree"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 sideheading">PG English Level 1 :</div>
+                                <div class="col-6">{{user.pgEngl1}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG English Level 2 :</div>
+                                <div class="col-6">{{user.pgEngl2}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG English Level 3 :</div>
+                                <div class="col-6">{{user.pgEngl3}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG English Level 4 :</div>
+                                <div class="col-6">{{user.pgEngl4}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG English Level 5 :</div>
+                                <div class="col-6">{{user.pgEngl5}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Odia Level 1:</div>
+                                <div class="col-6">{{user.pgOdia1}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Odia Level 2:</div>
+                                <div class="col-6">{{user.pgOdia2}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Odia Level 3:</div>
+                                <div class="col-6">{{user.pgOdia3}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Odia Level 4:</div>
+                                <div class="col-6">{{user.pgOdia4}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Odia Level 5:</div>
+                                <div class="col-6">{{user.pgOdia5}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Maths Level 1 :</div>
+                                <div class="col-6">{{user.pgMath1}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Maths Level 2 :</div>
+                                <div class="col-6">{{user.pgMath2}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Maths Level 3 :</div>
+                                <div class="col-6">{{user.pgMath3}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Maths Level 4 :</div>
+                                <div class="col-6">{{user.pgMath4}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 sideheading">PG Maths Level 5 :</div>
+                                <div class="col-6">{{user.pgMath5}}</div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="card-header" id="headingfour">
-                      <h2 class="mb-0">
-                        <button class="btn btn-link collapsed" style=" margin-top: -10px; margin-left: 21%"    (click)="show('scoresDetails')" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                         Scores
-                        </button>
-                      </h2>
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" style=" margin-top: -10px; margin-left: 21%"
+                                (click)="show('scoresDetails')" type="button" data-toggle="collapse"
+                                data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                Scores
+                            </button>
+                        </h2>
                     </div>
-                    <div id="collapsefour" *ngIf="check3"  class="collapse show"  aria-labelledby="headingfour" data-parent="#accordionExample">
-                      <div class="card-body">
-<!--                     
+                    <div id="collapsefour" *ngIf="check3" class="collapse show" aria-labelledby="headingfour"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+                            <!--                     
                         <div class="row">
                             <div class="col-8 sideheading">Average Attendance</div>
                             <div class="col-4"></div>
                         </div> -->
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved in PG - English</div>
-                            <div class="col-4">{{user.percentage_of_student_monthly_gaol_eng}}</div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved
+                                    in PG - English</div>
+                                <div class="col-4">{{user.percentage_of_student_monthly_gaol_eng}}</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved
+                                    in PG - Odia</div>
+                                <div class="col-4">{{user.percentage_of_student_monthly_gaol_odia}}</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved
+                                    in PG - Maths</div>
+                                <div class="col-4">{{user.percentage_of_student_monthly_gaol_math}}</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students achieving atleast 70% of
+                                    age-appropriate skills in ECE Program</div>
+                                <div class="col-4">
+                                    {{user.Percentage_of_students_achieving_atleast_of_age_appropriate_skills_in_ece_Program}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - English
+                                </div>
+                                <div class="col-4">{{user.percentage_of_students_jump1_level_pg_eng}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - Odia
+                                </div>
+                                <div class="col-4">{{user.percentage_of_students_jump1_level_pg_odia}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - Maths
+                                </div>
+                                <div class="col-4">{{user.percentage_of_students_jump1_level_pg_math}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG
+                                    - Maths</div>
+                                <div class="col-4">{{user.percentage_of_students_jump2_level_pg_math}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG
+                                    - Odia</div>
+                                <div class="col-4">{{user.percentage_of_students_jump2_level_pg_odia}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG
+                                    - English</div>
+                                <div class="col-4">{{user.percentage_of_students_jump2_level_pg_eng}}</div>
+                            </div>
+
+
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved in PG - Odia</div>
-                            <div class="col-4">{{user.percentage_of_student_monthly_gaol_odia}}</div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved in PG - Maths</div>
-                            <div class="col-4">{{user.percentage_of_student_monthly_gaol_math}}</div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students achieving atleast 70% of age-appropriate skills in ECE Program</div>
-                            <div class="col-4">{{user.Percentage_of_students_achieving_atleast_of_age_appropriate_skills_in_ece_Program}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - English</div>
-                            <div class="col-4">{{user.percentage_of_students_jump1_level_pg_eng}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - Odia</div>
-                            <div class="col-4">{{user.percentage_of_students_jump1_level_pg_odia}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - Maths</div>
-                            <div class="col-4">{{user.percentage_of_students_jump1_level_pg_math}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG - Maths</div>
-                            <div class="col-4">{{user.percentage_of_students_jump2_level_pg_math}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG - Odia</div>
-                            <div class="col-4">{{user.percentage_of_students_jump2_level_pg_odia}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG - English</div>
-                            <div class="col-4">{{user.percentage_of_students_jump2_level_pg_eng}}</div>
-                        </div>
-                        
-                        
-                      </div>
                     </div>
-                  </div>
-                  <div class="card">
+                </div>
+                <div class="card">
                     <div class="card-header" id="headingfour">
-                      <h2 class="mb-0">
-                        <button class="btn btn-link collapsed" style=" margin-top: -10px; margin-left: 21%"   (click)="show('otherDetails')" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                         Other Details
-                        </button>
-                      </h2>
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" style=" margin-top: -10px; margin-left: 21%"
+                                (click)="show('otherDetails')" type="button" data-toggle="collapse"
+                                data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                Other Details
+                            </button>
+                        </h2>
                     </div>
-                    <div id="collapsefour" *ngIf="check4"  class="collapse show"  aria-labelledby="headingfour" data-parent="#accordionExample">
-                      <div class="card-body">
-                    
-                       
-                        <div class="row">
-                            <div class="col-8 sideheading">No of Students who have graduated from ECE program</div>
-                            <div class="col-4">{{user.student_graduated_ece_program}}</div>
+                    <div id="collapsefour" *ngIf="check4" class="collapse show" aria-labelledby="headingfour"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+
+
+                            <div class="row">
+                                <div class="col-8 sideheading">No of Students who have graduated from ECE program</div>
+                                <div class="col-4">{{user.student_graduated_ece_program}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">No of Students who have graduated from PG program</div>
+                                <div class="col-4">{{user.student_graduated_pg_program}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">No of Students who have dropped out of the ECE program
+                                </div>
+                                <div class="col-4">{{user.student_dropped_ece_program}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">No of Students who have dropped out of the PG program
+                                </div>
+                                <div class="col-4">{{user.student_dropped_pg_program}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Class/Grade of the Student</div>
+                                <div class="col-4">{{user.grade_of_student}}</div>
+                            </div>
+
+
                         </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">No of Students who have graduated from PG program</div>
-                            <div class="col-4">{{user.student_graduated_pg_program}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">No of Students who have dropped out of the ECE program</div>
-                            <div class="col-4">{{user.student_dropped_ece_program}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">No of Students who have dropped out of the PG program</div>
-                            <div class="col-4">{{user.student_dropped_pg_program}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Class/Grade of the Student</div>
-                            <div class="col-4">{{user.grade_of_student}}</div>
-                        </div>
-                        
-                        
-                      </div>
                     </div>
-                  </div>
-              </div>
-	 
+                </div>
+            </div>
+
         </div>
         <div class="modal-footer">
-            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default" style="width: 100%;">Cancel</button>
+            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default"
+                style="width: 100%;">Cancel</button>
         </div>
     </form>
-    
+
 </ng-template>

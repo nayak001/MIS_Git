@@ -65,80 +65,44 @@
   font-size: 14px;
   height: 30px !important;
 }
-
-.btn {
-
-  height: 30px;
-  font-size: 14px;
-  padding: 5px;
-  width: 92%;
-
+.btn{
+    
+    height: 30px;
+    font-size: 14px;
+    padding: 5px;
+    width: 50%;
+    margin-top: 29px;
 }
-
-.card-header {
-  padding: 8px !important;
+.card-header{
+    padding:8px !important;
 }
-
-.fa-download {
-  font-size: 22px;
-  margin-top: 33px;
-  color: green;
-  margin-right: 14px;
-  float: right;
-}
-
-.sname {
-  text-transform: capitalize;
-  color: #007bff !important;
+.fa-download{
+  font-size:22px;
+  margin-top:33px;
+  color:green;
   cursor: pointer;
+  margin-left: 27%;
 }
 
-.heading {
-  margin-left: 4%;
-  color: black;
-  margin-top: 5%;
-  text-transform: capitalize;
-  font-size: 23px;
-  font-weight: 600;
-}
+  .heading{
+    margin-left: 33%;
+    color: black;
+    margin-top: 5%;
+    text-transform: capitalize;
+    font-size: 23px;
+    font-weight: 600;
+  }
+  .sname{
+   
+    color: #007bff !important;
+    cursor: pointer;
+  }
+  .sideheading{
+    color: black;
+  }
+  .cross{
+    margin-top: 4%;
+      position: relative;
+      left: 95%;
+  }
 
-.cross {
-  margin-top: 3%;
-  position: relative;
-  left: 88%;
-}
-
-.card-body row {
-  color: black;
-}
-
-.sideheading {
-  color: black;
-}
-
-.btn-link {
-  color: black !important;
-}
-
-.yes {
-  background: green;
-  padding: 2px 4px;
-  border-radius: 7px;
-  color: white;
-  display: inline-block;
-  text-align: center;
-  max-width: 60px;
-  font-size: 12px;
-}
-
-.No {
-
-  background: red;
-  padding: 2px 4px;
-  border-radius: 7px;
-  color: white;
-  display: inline-block;
-  text-align: center;
-  max-width: 60px;
-  font-size: 12px;
-}

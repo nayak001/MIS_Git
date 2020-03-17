@@ -67,13 +67,17 @@
 
 
                 </div>
+               
+           
+
                 <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
                     <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
 							alt="Loading. Please wait..."></span>
                 </div>
 
                 <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
-                    <div class="table-wrap" style="overflow-x:auto; margin-top: -2%;">
+
+                       <div class="table-wrap" style="overflow-x:auto; margin-top: -2%;">
                         <table class="table table-striped main-table" *ngIf="isLoaded && !isdata_table" [mfData]="getallStudents" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
@@ -89,14 +93,20 @@
                                     <th>PG Maths Level</th>
                                     <th>PG English Level</th>
                                     <th>PG Odia Level</th>
-                                    <th>Avg Monthly Assessment Score</th>
-                                    <th>Quarterly Assessment Score</th>
-                                    <th>Avg Quarterly Assessment Score</th>
-                                    <th>Monthly English Assessment Score</th>
+                                    <th>Maths Assessment Score</th>
+                                    <th>English Assessment Score</th>
+                                    <th>Odia Assessment Score</th>
+                                    <th>Quarterly ECE Assessment Score</th>
                                     <!-- <th>Avg Quarterly Assessment Score</th> -->
                                     <th>Avg Attendance</th>
-                                    <th>Age Appropriate Learning Outcomes Achieved</th>
-                                    <th>LevelJumped</th>
+                                    <th>No of Endline Assessment Completed in PG</th>
+                                    <th>No of Levels jumped in Maths</th>
+                                    <th>No of Levels jumped in Odia</th>
+                                    <th>No of Levels jumped in English</th>
+                                    <th>Total Number of Quarter 4 Assessment Completed in ECE</th>
+                                    <th>Acheived atleast 70% age-appropriate learning outcomes in ECE</th>
+                                    <th>Baseline Test Completed</th>
+                                    <th>Class/Grade of the Student</th>
 
 
                                 </tr>
@@ -115,13 +125,26 @@
                                     <td>{{user.student.math_level}}</td>
                                     <td>{{user.student.eng_level}}</td>
                                     <td>{{user.student.odia_level}}</td>
-                                    <td>{{user.averages.AvgMonthlyAssestmentScore}}</td>
-                                    <td>{{user.averages.QuarterlyAssestmentScore}}</td>
-                                    <td>{{user.averages.AvgQuarterlyAssestmentScore}}</td>
-                                    <td>{{user.averages.MonthlyEnglishAssestmentScore}}</td>
-                                    <td>{{user.averages.AverageAttendance}}</td>
-                                    <td>{{user.averages.AgeAppropriateLearningOutcomesAchieved}}</td>
-                                    <td>{{user.averages.LevelJumped}}</td>
+                                    <td>
+                                        <div class="yes">Yes</div>
+                                        <div class = "No" >No</div>
+                        
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    
+                                
+                                    
 
 
 
