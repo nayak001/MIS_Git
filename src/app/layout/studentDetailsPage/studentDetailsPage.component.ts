@@ -83,6 +83,10 @@ export class StudentDetailsPageComponent implements OnInit {
 	
 	
 	}
+
+	getRoundedValue(value){
+ 	return	Math.round(value);
+	}
 	openStudentDetails(content, center){
 		this.userDetails = center
 			this.modalReference = this.modalService.open(content, center);

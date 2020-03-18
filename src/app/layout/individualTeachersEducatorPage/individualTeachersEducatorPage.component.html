@@ -6,7 +6,8 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col col-xl-4 col-lg-4">
-                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Individual Teacher Educator Details </h4>
+                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Individual Teacher Educator
+                                Details </h4>
                         </div>
                     </div>
                 </div>
@@ -50,30 +51,31 @@
                         </select>
                     </div>
 
-                    <!-- <div class="col-1">
-                       
-                        <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
-                    </div> -->
+                    
+
                     <div class="col-2">
+                        <button type="button" (click)="viewData()" class="btn btn-info" style="margin-top:29px;width: 92%;">Filter</button>
+                    </div>
+                    <div class="col-2">
+                        <div class="row" style="float: right;">
 
-                        <div class="row">
-                            <button type="button" class="btn btn-info">Filter</button>
-
-                            <i class="fa fa-download" (click)="download()" title="Download" style="float: right;"></i>
+                            <i class="fa fa-download" (click)="download()" title="Download" style="cursor: pointer;margin-right: 21px;"></i>
                         </div>
 
+
+                    </div>
 
                     </div>
 
 
 
                 </div>
-                <!-- <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
+                <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
                     <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
                             alt="Loading. Please wait..."></span>
-                </div> -->
+                </div>
 
-                <div id="table-scroll" class="table-scroll">
+                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
                     <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
                         <table class="table table-striped main-table" [mfData]="filterData" #mf="mfDataTable"
                             [mfRowsOnPage]="10">
@@ -87,51 +89,40 @@
                                     <th>Block</th>
                                     <th>District</th>
                                     <th>State</th>
-
                                     <th>Qualification</th>
                                     <th>Contact No </th>
-
-                                    <!-- <th *ngIf="program_type == 'ece'"> ECE - Level 1</th> -->
                                     <th> Address</th>
                                     <th>Special Initiatives</th>
                                     <th>Aspirations</th>
                                     <th>Centre Start Date</th>
                                     <th>Pre-Program Training Marks Secured</th>
                                     <th>Online Training Module Details</th>
-
-
-
-
-
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-
-                                    <td>Educator Name</td>
-                                    <td>Status</td>
-                                    <td>Center Name</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-                                    <td></td>
-                                    <td></td>
-
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    
+                                <tr *ngFor="let detail of  mf.data">
+                                <td>{{detail.user?.teachername}}</td>
+                                  <td>{{detail.user?.status}}</td>
+                                  <td>{{detail.center?.centername}}</td>
+                                  <td>{{detail.center?.centertype}}</td>
+                                  <td>{{detail.center?.centerid}}</td>
+                                  <td>{{detail.center?.block}}</td>
+                                  <td>{{detail.center?.district}}</td>
+                                  <td>  </td>
+                                  <td>{{detail.user?.qualification}}</td>
+                                  <td>{{detail.user?.contactno}}</td>
+                                  <td>{{detail.user?.address}}</td>
+                                  <td>{{detail.user?.special_initiatives}}</td>
+                                  <td>{{detail.user?.aspirations}}</td>
+                                  <td>{{detail.user?.center_start_date}}</td>
+                                  <td>{{detail.user?.preprogram_training_mark}}</td>
+                                  <td></td>
                                 </tr>
-
+    
                             </tbody>
-
+    
+    
+    
 
                             <tfoot>
                                 <tr>
@@ -150,13 +141,12 @@
                     </div>
                 </div>
 
-                <div class="row" style="text-align: center;margin:10%;margin-left:30%">
-                    <h1>Oops!!</h1>
-                    <br>
-                    <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
-                </div>
-
+            <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
+                <h1>Oops!!</h1>
+                <br>
+                <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
             </div>
+
         </div>
     </div>
 </div>
