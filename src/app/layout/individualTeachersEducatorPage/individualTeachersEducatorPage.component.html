@@ -75,7 +75,7 @@
                             alt="Loading. Please wait..."></span>
                 </div>
 
-                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
+                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
                     <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
                         <table class="table table-striped main-table" [mfData]="filterData" #mf="mfDataTable"
                             [mfRowsOnPage]="10">
@@ -141,7 +141,7 @@
                     </div>
                 </div>
 
-            <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
+            <div class="row" style="text-align: center;margin:10%;margin-left:30%">
                 <h1>Oops!!</h1>
                 <br>
                 <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
