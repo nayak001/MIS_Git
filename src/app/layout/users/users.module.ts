@@ -10,6 +10,9 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { UsersService } from  './users.service';
 
+
+import { NgxCroppieModule } from 'ngx-croppie';
+
 @NgModule({
     imports: [
 		CommonModule, 
@@ -18,7 +21,8 @@ import { UsersService } from  './users.service';
 		DataTableModule,
 		FormsModule,
 		ReactiveFormsModule,
-		AutocompleteLibModule
+		AutocompleteLibModule,
+		NgxCroppieModule
 	],
     declarations: [UsersComponent],
 	providers: [UsersService]

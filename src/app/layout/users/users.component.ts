@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,12 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UsersService, ValidationService } from './users.service';
 
+
+import { NgxCroppieComponent } from 'ngx-croppie';
+import { CroppieOptions } from 'croppie';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
@@ -14,6 +20,18 @@ import { UsersService, ValidationService } from './users.service';
     animations: [routerTransition()]
 })
 export class UsersComponent implements OnInit {
+	@Input()
+	public imgCropToHeight = '400';								/* Pass the height of the image to this component */
+	@Input()
+	public imgCropToWidth = '400';								/* Pass the width of the image to this component */
+	@Input()
+	private responseType: 'blob' | 'base64' = 'base64';			/* Return type of our image */
+	public croppieImage;										/* Our cropped image and the value of our image controller */
+	public outputoption = { type: 'blob', size: 'original' };	/* Options for the cropped image type and size */
+	@ViewChild('ngxCroppie')
+	ngxCroppie: NgxCroppieComponent;							/* Element to paint our form control */
+
+
 	@ViewChild('auto') auto;
 	userModalFormGroup: FormGroup;
 	
