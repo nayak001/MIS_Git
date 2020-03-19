@@ -148,6 +148,25 @@ export class StudentDetailsPageComponent implements OnInit {
 
 	}
 
+	openQuaterlyAssessDetails(content, center){
+		this.assessDetails = center
+		debugger
+		this.check=true;
+			this.modalReference = this.modalService.open(content, center);
+			
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+			
+			});
+	
+
+	}
+
 
 
 	openStudentDetails(content, center){
