@@ -354,6 +354,61 @@
 
 
 
+<ng-template #editq let-c="close" let-d="dismiss">
+    <form role="form" >
+    
+        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
+            <div class="accordion" id="accordionExample" >
+                <div class="card">
+                 
+              
+                  <div id="collapseOne"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
+                    <div class="card-body">
+
+                        <table class="tb" >
+                        <tr>
+                            <th scope="row" class="tat">Quarter 1 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.quarter1.value)}}</td>
+                            <td>{{assessDetails.scores.quarter1.isgiven}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Quarter 2 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.quarter2.value)}}</td>
+                            <td>{{assessDetails.scores.quarter2.isgiven}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Quarter 3 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.quarter3.value)}}</td>
+                            <td>{{assessDetails.scores.quarter3.isgiven}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Quarter 4 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.quarter4.value)}}</td>
+                            <td>{{assessDetails.scores.quarter4.isgiven}}</td>
+                        </tr>
+                       
+                        </table>
+                        
+                       
+                        
+                    </div>
+                  </div>
+                </div>
+               
+                        
+                      </div>
+                    </div>
+                
+            
+	
+       
+        <div class="modal-footer" style="margin-right: 8%;">
+            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
+        </div>
+    </form>
+</ng-template>
+
+
 
 <ng-template #editmodal let-c="close" let-d="dismiss">
     <form role="form" >
@@ -598,56 +653,3 @@
 
 
 
-<ng-template #editq let-c="close" let-d="dismiss">
-    <form role="form" >
-    
-        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
-            <div class="accordion" id="accordionExample" >
-                <div class="card">
-                 
-              
-                  <div id="collapseOne"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
-                    <div class="card-body">
-
-                        <table class="tb" >
-                        <tr>
-                            <th scope="row" class="tat">Quarter 1 :</th>
-                            <td>{{getRoundedValue(assessDetails.scores.quarter1.value)}}</td>
-                            <td>{{assessDetails.scores.quarter1.isgiven}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tat">Quarter 2 :</th>
-                            <td>{{getRoundedValue(assessDetails.scores.quarter2.value)}}</td>
-                            <td>{{assessDetails.scores.quarter2.isgiven}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tat">Quarter 3 :</th>
-                            <td>{{getRoundedValue(assessDetails.scores.quarter3.value)}}</td>
-                            <td>{{assessDetails.scores.quarter3.isgiven}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tat">Quarter 4 :</th>
-                            <td>{{getRoundedValue(assessDetails.scores.quarter4.value)}}</td>
-                            <td>{{assessDetails.scores.quarter4.isgiven}}</td>
-                        </tr>
-                       
-                        </table>
-                        
-                       
-                        
-                    </div>
-                  </div>
-                </div>
-               
-                        
-                      </div>
-                    </div>
-                
-            
-	
-       
-        <div class="modal-footer" style="margin-right: 8%;">
-            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
-        </div>
-    </form>
-</ng-template>

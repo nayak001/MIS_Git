@@ -175,12 +175,20 @@ export class StudentDetailsPageComponent implements OnInit {
 			this.modalReference = this.modalService.open(content, center);
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
-				
+				this.check = true;
+			this.check1 = false;
+			this.check2 = false;
+			this.check3 = false;
+			
 
 			}, (reason) => {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
 				
-			});
+			});this.check = true;
+			this.check1 = false;
+			this.check2 = false;
+			this.check3 = false;
+			
 	
 
 	}
