@@ -56,6 +56,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	emailid_exists: boolean = false;
 	disable_emailid: boolean = false;
+	Details:any;
 
 	constructor(
 		private modalService: NgbModal,
@@ -149,6 +150,91 @@ export class CenterDetailsComponent implements OnInit {
 			() => { }
 		);
 	}
+
+
+
+	getRoundedValue(value){
+		return	Math.round(value);
+	   }
+
+	   
+	   quarterStudentsDetails(content, center){
+		this.Details = center
+		debugger
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
+
+
+	englishStudentsDetails(content, center){
+		this.Details = center
+		debugger
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
+
+
+	mathStudentsDetails(content, center){
+		this.Details = center
+		debugger
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
+
+
+	odiaStudentsDetails(content, center){
+		this.Details = center
+		debugger
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
+
+
+
 	opencenterDetails(content, center) {
 		this.user = center
 		this.modalReference = this.modalService.open(content,{ size: 'lg' });
