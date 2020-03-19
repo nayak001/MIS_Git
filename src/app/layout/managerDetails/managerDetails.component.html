@@ -108,7 +108,7 @@
                                     <td *ngIf="user && user.manager && user.manager.username" (click)="gotoViewDetails(user)" style="cursor: pointer; color:#007bff !important;">{{user.manager.username}}</td>
 
                                     <td>{{user.center.centername}}</td>
-                                    <td>{{user.date_of_visit}}</td>
+                                    <td>{{user.manager.date}}</td>
                                     <td>{{user.educator_present}}</td>
                                     <td>{{user.activity_plan_followed}}</td>
                                     <td>{{user.kids_able_participate}}</td>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
+import * as  moment from 'moment/moment';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { IndividualTeachersEducatorPageService } from './individualTeachersEducatorPage.service';
@@ -56,6 +56,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	modal_permanentaddress: string;
 	all_Data: any = [];
 	// isdata_table: boolean = false;
+	userDetails:any;
 
 	emailid_exists: boolean = false;
 	disable_emailid: boolean = false;
@@ -114,6 +115,17 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		);
 
 	}
+	getDate(data){
+		if(data && data.user && data.user.center_start_date){
+			var date = moment(data.user.center_start_date).format('DD MMM, YYYY')
+			return date
+			
+		}
+		return ''
+
+		
+
+	}
     individualTeacherEducatorDetail(){
 		const data = {
 			center_type:this.center_type,
@@ -125,7 +137,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		debugger
 		// console.log('### data: '+JSON.stringify(data));
 		//console.log(data)
-		this.filterData = data
+				this.filterData = data
 		 this.isLoaded = true
 		console.log(this.filterData)
 		// this.all_blocks=data;
@@ -139,6 +151,30 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		// this.isdata_table = false
 		 this.individualTeacherEducatorDetail()
 	}
+
+
+	openTeacherDetails(content, center){
+		this.userDetails = center
+		debugger
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				this.check = true;
+				this.check1 = false;
+				this.check2 = false;
+				this.check3 = false;
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				this.check = true;
+				this.check1 = false;
+				this.check2 = false;
+				this.check3 = false;
+			});
+	
+
+	}
+
 
 
 	

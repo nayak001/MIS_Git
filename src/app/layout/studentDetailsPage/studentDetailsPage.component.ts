@@ -22,7 +22,7 @@ import { shallowEqual } from '@angular/router/src/utils/collection';
 })
 export class StudentDetailsPageComponent implements OnInit {
 	userModalFormGroup: FormGroup;
-	check:boolean = true;
+	check:boolean = false;
 	check1:boolean = false;
 	check2:boolean = false;
 	check3:boolean = false;
@@ -59,7 +59,8 @@ export class StudentDetailsPageComponent implements OnInit {
 	selectedBlock: any;
 	all_Data: any = [];
 	isdata_table: boolean = false;
-    userDetails:any;
+	userDetails:any;
+	assessDetails:any;
 
 	constructor(
 		private modalService: NgbModal,
@@ -87,22 +88,79 @@ export class StudentDetailsPageComponent implements OnInit {
 	getRoundedValue(value){
  	return	Math.round(value);
 	}
-	openStudentDetails(content, center){
-		this.userDetails = center
+
+	
+
+	openmathAssessDetails(content, center){
+		this.assessDetails = center
+		debugger
+		this.check=true;
 			this.modalReference = this.modalService.open(content, center);
+			
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
-				this.check = true;
-				this.check1 = false;
-				this.check2 = false;
-				this.check3 = false;
+				
+			
 
 			}, (reason) => {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				this.check = true;
-				this.check1 = false;
-				this.check2 = false;
-				this.check3 = false;
+			
+			});
+	
+
+	}
+	openenglishAssessDetails(content, center){
+		this.assessDetails = center
+		debugger
+		
+			this.modalReference = this.modalService.open(content, center);
+		
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+			
+			});
+	
+
+	}
+
+
+	openodiaAssessDetails(content, center){
+		this.assessDetails = center
+		debugger
+		
+			this.modalReference = this.modalService.open(content, center);
+		
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+			
+			});
+	
+
+	}
+
+
+
+	openStudentDetails(content, center){
+		this.userDetails = center
+		debugger
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
 			});
 	
 

@@ -126,18 +126,19 @@
                                     <td>{{user.student.eng_level}}</td>
                                     <td>{{user.student.odia_level}}</td>
                                     <td>
-                                        
-                                        <div class="sc" *ngIf = "user.scores.math.value != null"><span class = "yes" >Yes</span>
-                                           {{ getRoundedValue(user.scores.math.value) }}%
-                                        </div>
-                                        
-                                        <div class = "No" *ngIf = "user.scores.math.value ==  null " >No</div>
-                                      
-                                        
+                                                    
+                              <div class="tint"aria-hidden="true" (click)="openmathAssessDetails(edit,user)">Maths Assessments</div>
                         
                                     </td>
-                                    <td>{{getRoundedValue(user.scores.english.value)}}%</td>
-                                    <td>{{getRoundedValue(user.scores.odia.value)}}%</td>
+                                    <td>
+                                        <div class="tint"aria-hidden="true" (click)="openenglishAssessDetails(editm,user)">English Assessments</div>
+                                    </td>
+                                    <!-- {{getRoundedValue(user.scores.odia.value)}}%
+                                {{getRoundedValue(user.scores.english.value)}}% -->
+                                    <td>
+                                        <div class="tint"aria-hidden="true" (click)="openodiaAssessDetails(edito,user)">Odia Assessments</div>
+
+                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -182,6 +183,173 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #edit let-c="close" let-d="dismiss">
+    <form role="form" >
+    
+        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
+            <div class="accordion" id="accordionExample" >
+                <div class="card">
+                 
+              
+                  <div id="collapseOne"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
+                    <div class="card-body">
+
+                        <table class="tb" >
+                        <tr>
+                            <th scope="row" class="tat">Assisment 1 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.math.month1.value)}}</td>
+                            <td>{{assessDetails.scores.math.month1.isgiven}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Assisment 2 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.math.month2.value)}}</td>
+                            <td>{{assessDetails.scores.math.month2.isgiven}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Assisment 3 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.math.month3.value)}}</td>
+                            <td>{{assessDetails.scores.math.month3.isgiven}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Assisment 4 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.math.month4.value)}}</td>
+                            <td>{{assessDetails.scores.math.month4.isgiven}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Assisment 5 :</th>
+                            <td>{{getRoundedValue(assessDetails.scores.math.month5.value)}}</td>
+                            <td>{{assessDetails.scores.math.month5.isgiven}}</td>
+                        </tr>
+                        </table>
+                        
+                       
+                        
+                    </div>
+                  </div>
+                </div>
+               
+                        
+                      </div>
+                    </div>
+                
+            
+	
+       
+        <div class="modal-footer" style="margin-right: 8%;">
+            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
+        </div>
+    </form>
+</ng-template>
+
+
+
+
+<ng-template #editm let-c="close" let-d="dismiss">
+    <form role="form" >
+    
+        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
+            <div class="accordion" id="accordionExample" >
+                <div class="card">
+                 
+              
+                  <div id="collapseOne"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
+                    <div class="card-body">
+
+                        <table class="tb" >
+                            <tr>
+                                <th scope="row" class="tat">Assisment 1 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.english.month1.value)}}</td>
+                                <td>{{assessDetails.scores.english.month1.isgiven}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="tat" >Assisment 2 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.english.month2.value)}}</td>
+                                <td>{{assessDetails.scores.english.month2.isgiven}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="tat">Assisment 3 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.english.month3.value)}}</td>
+                                <td>{{assessDetails.scores.english.month3.isgiven}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="tat">Assisment 4 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.english.month4.value)}}</td>
+                                <td>{{assessDetails.scores.english.month4.isgiven}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="tat">Assisment 5 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.english.month5.value)}}</td>
+                                <td>{{assessDetails.scores.english.month5.isgiven}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+
+        <div class="modal-footer" style="margin-right: 8%;">
+            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
+        </div>
+        </div>
+        </div>
+        </div>
+        
+    </form>
+</ng-template>
+
+
+
+<ng-template #edito let-c="close" let-d="dismiss">
+    <form role="form" >
+    
+        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
+            <div class="accordion" id="accordionExample" >
+                <div class="card">
+                 
+              
+                  <div id="collapseOne"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
+                    <div class="card-body">
+
+                        <table class="tb" >
+                            <tr>
+                                <th scope="row" class="tat" >Assisment 1 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.odia.month1.value)}}</td>
+                                <td>{{assessDetails.scores.odia.month1.isgiven}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="tat">Assisment 2 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.odia.month2.value)}}</td>
+                                <td>{{assessDetails.scores.odia.month2.isgiven}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="tat">Assisment 3 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.odia.month3.value)}}</td>
+                                <td>{{assessDetails.scores.odia.month3.isgiven}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="tat">Assisment 4 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.odia.month4.value)}}</td>
+                                <td>{{assessDetails.scores.odia.month4.isgiven}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="tat">Assisment 5 :</th>
+                                <td>{{getRoundedValue(assessDetails.scores.odia.month5.value)}}</td>
+                                <td>{{assessDetails.scores.odia.month5.isgiven}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+
+        <div class="modal-footer" style="margin-right: 8%;">
+            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
+        </div>
+        </div>
+        </div>
+        </div>
+        
+    </form>
+</ng-template>
+
 
 
 

@@ -6,8 +6,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col col-xl-4 col-lg-4">
-                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Individual Teacher Educator
-                                Details </h4>
+                           <h4 style="font-size: 16px; margin-top: 5px;color: black;">Teacher Educator</h4>
                         </div>
                     </div>
                 </div>
@@ -100,8 +99,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let detail of  mf.data">
-                                <td>{{detail.user?.teachername}}</td>
+                                
+                                   <tr *ngFor="let detail of  mf.data" >
+                                        <td class="sname" aria-hidden="true" (click)="openTeacherDetails(editmodal,detail)">
+                                            {{detail.user?.teachername}}</td>
                                   <td>{{detail.user?.status}}</td>
                                   <td>{{detail.center?.centername}}</td>
                                   <td>{{detail.center?.centertype}}</td>
@@ -114,7 +115,7 @@
                                   <td>{{detail.user?.address}}</td>
                                   <td>{{detail.user?.special_initiatives}}</td>
                                   <td>{{detail.user?.aspirations}}</td>
-                                  <td>{{detail.user?.center_start_date}}</td>
+                                  <td>{{getDate(detail)}}</td>
                                   <td>{{detail.user?.preprogram_training_mark}}</td>
                                   <td></td>
                                 </tr>
@@ -150,3 +151,187 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #editmodal let-c="close" let-d="dismiss">
+    <form role="form" >
+    <div class="row"> 
+        <span class="cross" style="cursor: pointer;margin-left: -18px;"><i class="fa fa-times" (click) ="c('Close click')" aria-hidden="true"></i></span>
+    
+		<label class ="heading" >
+            
+            
+            <span>Teacher Detail</span>
+        </label>
+        </div>
+        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
+            <div class="accordion" id="accordionExample" >
+                <div class="card">
+                  <!-- <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link collapsed" style=" margin-top: -10px;" (click)="show('shoDetails')" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                       Basic Details
+                      </button>
+                    </h2>
+                  </div> -->
+              
+                  <div id="collapseOne" *ngIf="check" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-6 sideheading" >Teacher Name &nbsp;:</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.teachername}} </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6 sideheading" >Status &nbsp;:</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.status}} </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6 sideheading">Center Name</div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center?.centername}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Center Type</div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center?.centertype}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Center Id</div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center?.centerid}}</div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-6 sideheading">Block</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.center?.block}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">District</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.center?.district}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">State</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.center?.state}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Qualification</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.qualification}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Contact No</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.contactno}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Address</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.address}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Special Initiative</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.special_initiative}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Aspirations</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.aspiration}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Center Start Date</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.center_start_date}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Pre Programming Training Marks</div>
+                            <div class="col-6" style="text-transform:capitalize;"></div>
+                        </div>
+              
+              
+                        
+                    </div>
+                  </div>
+                </div>
+               
+               
+                
+              </div>
+            
+<!-- 			
+            <div class="row">
+                <span>Student Name &nbsp;:  &nbsp;&nbsp;&nbsp;{{userDetails.student.studentname}}</span>
+
+            </div>
+            <div class="row">
+                <span>Date of Enrollment &nbsp;:  &nbsp;&nbsp;&nbsp; {{userDetails.student.registration_date}}</span>
+
+            </div>
+            <div class="row">
+                <span>Name of the type &nbsp;:  &nbsp;&nbsp;&nbsp; {{userDetails.user.usertype}}</span>
+
+			</div>
+         
+            <div class="row">
+                <span>Type &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Block&nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>District&nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>State&nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>ECE Level&nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>PG Maths Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>PG English Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>PG Odia Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Avg Monthly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.AvgMonthlyAssestmentScore}}</span>
+
+            </div>
+            <div class="row">
+                <span>Quarterly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.QuarterlyAssestmentScore}}</span>
+
+            </div>
+           
+            <div class="row">
+                <span>Monthly English Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Avg Quarterly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Level Jumped &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.LevelJumped}}</span>
+
+            </div>
+            <div class="row">
+                <span>Age-appropriate Learning Outcomes Achieved &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Average Attendance &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.AverageAttendance}}</span>
+
+            </div>
+            
+			 -->
+        </div>
+        <div class="footer" style="border: none!important;">
+            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
+        </div>
+    </form>
+</ng-template>
