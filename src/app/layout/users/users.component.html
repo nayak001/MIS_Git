@@ -9,162 +9,8 @@
 							<h4>USER DETAILS</h4>
 						</div>
 						<div class="col">
-							<button (click)="open(content, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New User</button>
-							
-							<!-- Modal starts from here -->
-							<ng-template #content let-c="close" let-d="dismiss">
-								<!--<div class="modal-header">
-									<h4 class="modal-title">{{ usersubmitaction }} User</h4>
-									<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								-->
-								<form role="form" [formGroup]="userModalFormGroup" (ngSubmit)="formSubmitAction(usersubmitaction)">
-									<div class="modal-body">									
-											<div class="form-content">
-												<div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
-													<ngx-croppie *ngIf="croppieImage" #ngxCroppie [outputFormatOptions]="outputoption" [croppieOptions]="croppieOptions" [imageUrl]="croppieImage"
-													  (result)="newImageResultFromCroppie($event)"></ngx-croppie>
-													<input #imageUpload hidden type="file" id="fileupload" #imageUpload (change)="imageUploadEvent($event)" accept="image/gif, image/jpeg, image/png"
-													/>
-													<button fxFlex="100" class="text-white font-weight-bold mat-elevation-z0" type="button" mat-raised-button color="primary"
-													  (click)="imageUpload.click()">add_a_photo Select Image
-													</button>
-												  </div>
-
-
-												<div class="row">
-													<div class="col col-xl-3 col-lg-3"></div>
-													<div class="col col-xl-6 col-lg-6">
-														<div class="form-group">
-															<input id="modal_id" value="{{ modal_id }}" formControlName="modal_id" [(ngModel)]="modal_id" type="hidden">
-														</div>
-													</div>
-												</div>
-												
-												<div class="row">
-													<div class="col col-xl-2 col-lg-2">
-														User Name
-													</div>
-													<div class="col col-xl-10 col-lg-10">
-														<div class="form-group">
-															<input id="modal_username" [value]="modal_username" formControlName="modal_username" [(ngModel)]="modal_username" type="text" class="form-control input-underline input-lg" placeholder="Username">													
-															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_username.invalid">Username required</div> 
-														</div>
-													</div>
-												</div>
-												
-												<div class="row">
-													<div class="col col-xl-2 col-lg-2">
-														Email ID
-													</div>
-													<div class="col col-xl-4 col-lg-4">
-														<div class="form-group">
-															<input id="modal_emailid" value="{{ modal_emailid }}" formControlName="modal_emailid" [(ngModel)]="modal_emailid" type="text" class="form-control input-underline input-lg" placeholder="Mail ID" > <!--[disabled]="disable_emailid"-->
-															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_emailid.invalid">Enter valid eMail ID</div> 
-														</div>
-													</div>
-													<div class="col col-xl-2 col-lg-2">
-														City
-													</div>
-													<div class="col col-xl-4 col-lg-4">
-														<div class="form-group">
-															<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" formControlName="modal_permanentaddress" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
-															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_permanentaddress.invalid">Enter valid City</div> 
-														</div>
-													</div>
-												</div>
-												
-												<div class="row">
-													<div class="col col-xl-2 col-lg-2">
-														Password
-													</div>
-													<div class="col col-xl-4 col-lg-4">
-														<div class="form-group">
-															<input [type]="showpassword ? 'text' : 'password'" id="modal_password" value="{{ modal_password }}" formControlName="modal_password" [(ngModel)]="modal_password" class="form-control input-underline input-lg" placeholder="Password">
-															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_password.invalid">Enter valid Password</div> 
-														</div>
-													</div>
-													<div class="col col-xl-3 col-lg-3">
-														<button type="button" class="btn btn-warning float-right" (click)="showpass()">{{ showhide_button }}&nbsp;</button>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col col-xl-2 col-lg-2">
-														Type
-													</div>
-													<div class="col col-xl-4 col-lg-4">
-														<div class="form-group">
-															<select id="modal_usertype" value="{{modal_usertype}}" (change)="onSelect_modal_usertype($event)" class="form-control">
-																<ng-container *ngFor="let usrtype of all_usertypes_list;">
-																	<option *ngIf="usrtype.usertype != 'admin'" value="{{ usrtype.usertype }}">{{ usrtype.usertype | titlecase }}</option>
-																</ng-container>
-															</select>
-														</div>														
-													</div>
-													<div class="col col-xl-2 col-lg-2" [hidden]="hide_teacherprofile_dropdown">
-														Teacher
-													</div>
-													<div class="col col-xl-4 col-lg-4">
-														<div class="form-group">
-															<ng-autocomplete #auto
-																[data]="teacherprofile_data1"
-																[searchKeyword]="keyword_teachername"
-																[initialValue]="selected_teacherprofile"
-																(selected)='onselect_teacherprofile($event)'
-																(inputChanged)='onchange_teacherprofile($event)'
-																(inputFocused)='onfocus_teacherprofile($event)'
-																[itemTemplate]="itemTemplate"
-																[notFoundTemplate]="notFoundTemplate"
-																[hidden]="hide_teacherprofile_dropdown">                                 
-															</ng-autocomplete>
-																				
-															<ng-template #itemTemplate let-item>
-																<a [innerHTML]="item.teachername"></a>
-															</ng-template>
-															
-															<ng-template #notFoundTemplate let-notFound>
-																<div [innerHTML]="notFound"></div>
-															</ng-template>
-														</div>														
-													</div>
-												</div>
-
-												<!-- commented by nrusingh on 09-03-2020 -->
-												<!-- 										
-												<div class="row">
-													<div class="col col-xl-2 col-lg-2">
-														Phone
-													</div>
-													<div class="col col-xl-4 col-lg-4">
-														<div class="form-group">
-															<input id="modal_contactnumber" value="{{ modal_contactnumber }}" formControlName="modal_contactnumber" [(ngModel)]="modal_contactnumber" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number">
-															<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_contactnumber.invalid">Enter valid Phone number</div> 
-														</div>
-													</div>
-													<div class="col col-xl-2 col-lg-2">
-														Gender
-													</div>
-													<div class="col col-xl-4 col-lg-4">
-														<div class="form-group">
-															<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
-																<option value="male">Male</option>
-																<option value="female">Female</option>														
-															</select>
-														</div>
-													</div>
-												</div>
-												 -->
-
-										</div>									
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
-										<button type="submit" class="btn btn-success" [disabled]="!userModalFormGroup.valid">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</form>
-							</ng-template>
+							<!-- <button (click)="open(content, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New User</button> -->
+							<button (click)="navigate_to_registrationpage(null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New User</button>
 						</div>
 					</div>					
                 </div>
@@ -172,9 +18,16 @@
 					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
 						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
 					</div>
+					<div class="row">
+						<div class="col col-lg-2 col-md-2 col-sm-2"><span class="bold-font">Search User Id</span></div>
+						<div class="col col-lg-8 col-md-8 col-sm-8">
+							<input type="text" (keyup)='search($event.target.value)'>
+						</div>
+					</div>
                     <table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="4">
 					  <thead>
 					  <tr>
+						  <th style="width: 15%"></th>
 						  <th style="width: 15%">
 							  <mfDefaultSorter by="username">User Name</mfDefaultSorter>
 						  </th>
@@ -195,45 +48,34 @@
 						  </th>
 						  <th style="width: 20%">
 							  Action
-							  <input type="text" (keyup)='search($event.target.value)'>
 						  </th>
 					  </tr>
 					  </thead>
 					  <tbody>
 					  <tr *ngFor="let user of mf.data">
-						  <td><span class="bold-font">{{user.username}}</span></td>
-						  <td>{{user.usertype}}</td>
-						  <td>{{user.emailid}}</td>
-						  <td>{{user.gender}}</td>
-						  <td>{{user.contactnumber}}</td>
-						  <td>{{user.permanentaddress}}</td>
+						  <td>
+							  <span class="">
+							  	<img src="{{ (user.image == undefined || user.image == null || user.image == '') ? 'https://shared001.s3.us-east-2.amazonaws.com/default-user-profile-image.jpg' : user.image }}" class="profileimage" />
+							  </span>
+						  </td>
+						  <td><span class="bold-font">{{user.username | uppercase}}</span></td>
+						  <td><span class="normal-font">{{user.usertype | uppercase}}</span></td>
+						  <td><span class="normal-font">{{user.emailid}}</span></td>
+						  <td><span class="normal-font">{{user.gender | uppercase}}</span></td>
+						  <td><span class="normal-font">{{user.contactnumber}}</span></td>
+						  <td><span class="normal-font">{{user.permanentaddress | uppercase}}</span></td>
 						  <td>
 								<div class="row">
 									<div class="col col-xl-6 col-lg-6">
 										<!-- edit button datatable -->
-										<button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(content,user)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+										<!-- <button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(content,user)"><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
+										<button (click)="navigate_to_registrationpage(user)" class="btn btn-primary input-block-level form-control edit-button" type="button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
 									</div>
 									<div class="col col-xl-6 col-lg-6">
 										<!-- delete button datatable -->
-										<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="open(deletemodal)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+										<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="deleteFormSubmitAction(user._id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
 									</div>
 								</div>
-																					
-							<!-- Modal starts from here -->
-							<ng-template #deletemodal let-c="close" let-d="dismiss">
-								<form role="form" (ngSubmit)="deleteFormSubmitAction(user._id)">
-									<div class="modal-body">											
-										<div class="row">
-										<img src="assets/images/warning.png" class="warning-icon">											
-										<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records of {{ user.username}} !</span>									
-										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-										<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</form>
-							</ng-template>
 						  </td>
 					  </tr>
 					  </tbody>

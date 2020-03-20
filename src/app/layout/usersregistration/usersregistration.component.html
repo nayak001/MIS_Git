@@ -1,0 +1,192 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>PROFILE : {{ (modal_username == undefined || modal_username == null || modal_username == '') ? 'NEW USER' : (modal_username | uppercase) }}</h4>
+						</div>
+						<div class="col"></div>
+					</div>					
+                </div>
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div class="">
+						<table>
+							<tr>
+								<td>
+									<div class="image_container1">
+										<img [src]="imageToDisplay" alt="" class="image_container2">
+										<button (click)="open(profileimagemodal)" class="btn btn-primary">Edit</button>
+										<ng-template #profileimagemodal let-c="close" let-d="dismiss">
+											<div class="modalpadding">
+												<span class="modaltitlestyle">Change Profile Image</span>
+												<div class="modalimage_container1">
+													<ngx-croppie *ngIf="croppieImage" #ngxCroppie [croppieOptions]="croppieOptions" [imageUrl]="croppieImage" [points]="[0,0,400,400]" (result)="newImageResultFromCroppie($event)"></ngx-croppie>
+												</div>
+												<div>
+													<input type="file" id="fileupload" #imageUpload (change)="imageUploadEvent($event)" accept="image/gif, image/jpeg, image/png"/>
+													<button type="button" class="btn btn-primary" (click)="saveImageFromCroppie()">Save</button>
+													<!-- 
+													<button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelCroppieEdit()">Cancel</button>
+													<button type="button" class="btn btn-primary" (click)="getCropPoints()">Get crop points</button> 
+													-->
+												</div>
+											</div>
+											<button type="button" class="btn btn-danger" (click)="c('Close click')">X</button>
+										</ng-template>
+										
+										
+										
+										
+									</div>
+								</td>
+								<td>
+									<div class="">
+										<form role="form" [formGroup]="userModalFormGroup" (ngSubmit)="formSubmitAction(usersubmitaction)">
+											<div class="modal-body">									
+													<div class="form-content">
+														<div class="row">
+															<div class="col col-xl-3 col-lg-3"></div>
+															<div class="col col-xl-6 col-lg-6">
+																<div class="form-group">
+																	<input id="modal_id" value="{{ modal_id }}" formControlName="modal_id" [(ngModel)]="modal_id" type="hidden">
+																</div>
+															</div>
+														</div>
+														
+														<div class="row">
+															<div class="col col-xl-2 col-lg-2">
+																User Name
+															</div>
+															<div class="col col-xl-10 col-lg-10">
+																<div class="form-group">
+																	<input id="modal_username" [value]="modal_username" formControlName="modal_username" [(ngModel)]="modal_username" type="text" class="form-control input-underline input-lg" placeholder="Username">													
+																	<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_username.invalid">Username required</div> 
+																</div>
+															</div>
+														</div>
+														
+														<div class="row">
+															<div class="col col-xl-2 col-lg-2">
+																Email ID
+															</div>
+															<div class="col col-xl-4 col-lg-4">
+																<div class="form-group">
+																	<input id="modal_emailid" value="{{ modal_emailid }}" formControlName="modal_emailid" [(ngModel)]="modal_emailid" type="text" class="form-control input-underline input-lg" placeholder="Mail ID" > <!--[disabled]="disable_emailid"-->
+																	<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_emailid.invalid">Enter valid eMail ID</div> 
+																</div>
+															</div>
+															<div class="col col-xl-2 col-lg-2">
+																City
+															</div>
+															<div class="col col-xl-4 col-lg-4">
+																<div class="form-group">
+																	<input id="modal_permanentaddress" value="{{ modal_permanentaddress }}" formControlName="modal_permanentaddress" [(ngModel)]="modal_permanentaddress" type="text" class="form-control input-underline input-lg" placeholder="City">
+																	<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_permanentaddress.invalid">Enter valid City</div> 
+																</div>
+															</div>
+														</div>
+														
+														<div class="row">
+															<div class="col col-xl-2 col-lg-2">
+																Password
+															</div>
+															<div class="col col-xl-4 col-lg-4">
+																<div class="form-group">
+																	<input [type]="showpassword ? 'text' : 'password'" id="modal_password" value="{{ modal_password }}" formControlName="modal_password" [(ngModel)]="modal_password" class="form-control input-underline input-lg" placeholder="Password">
+																	<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_password.invalid">Enter valid Password</div> 
+																</div>
+															</div>
+															<div class="col col-xl-3 col-lg-3">
+																<button type="button" class="btn btn-warning float-right" (click)="showpass()">{{ showhide_button }}&nbsp;</button>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col col-xl-2 col-lg-2">
+																Type
+															</div>
+															<div class="col col-xl-4 col-lg-4">
+																<div class="form-group">
+																	<select id="modal_usertype" value="{{modal_usertype}}" (change)="onSelect_modal_usertype($event)" class="form-control">
+																		<ng-container *ngFor="let usrtype of all_usertypes_list;">
+																			<option *ngIf="usrtype.usertype != 'admin'" value="{{ usrtype.usertype }}">{{ usrtype.usertype | titlecase }}</option>
+																		</ng-container>
+																	</select>
+																</div>														
+															</div>
+															<div class="col col-xl-2 col-lg-2" [hidden]="hide_teacherprofile_dropdown">
+																Teacher
+															</div>
+															<div class="col col-xl-4 col-lg-4">
+																<div class="form-group">
+																	<ng-autocomplete #auto
+																		[data]="teacherprofile_data1"
+																		[searchKeyword]="keyword_teachername"
+																		[initialValue]="selected_teacherprofile"
+																		(selected)='onselect_teacherprofile($event)'
+																		(inputChanged)='onchange_teacherprofile($event)'
+																		(inputFocused)='onfocus_teacherprofile($event)'
+																		[itemTemplate]="itemTemplate"
+																		[notFoundTemplate]="notFoundTemplate"
+																		[hidden]="hide_teacherprofile_dropdown">                                 
+																	</ng-autocomplete>
+																						
+																	<ng-template #itemTemplate let-item>
+																		<a [innerHTML]="item.teachername"></a>
+																	</ng-template>
+																	
+																	<ng-template #notFoundTemplate let-notFound>
+																		<div [innerHTML]="notFound"></div>
+																	</ng-template>
+																</div>														
+															</div>
+														</div>
+				
+														<!-- commented by nrusingh on 09-03-2020 -->
+														<!-- 										
+														<div class="row">
+															<div class="col col-xl-2 col-lg-2">
+																Phone
+															</div>
+															<div class="col col-xl-4 col-lg-4">
+																<div class="form-group">
+																	<input id="modal_contactnumber" value="{{ modal_contactnumber }}" formControlName="modal_contactnumber" [(ngModel)]="modal_contactnumber" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number">
+																	<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_contactnumber.invalid">Enter valid Phone number</div> 
+																</div>
+															</div>
+															<div class="col col-xl-2 col-lg-2">
+																Gender
+															</div>
+															<div class="col col-xl-4 col-lg-4">
+																<div class="form-group">
+																	<select id="modal_gender" value="{{ modal_gender }}" (change)="onSelect_modal_gender($event)"  class="form-control">
+																		<option value="male">Male</option>
+																		<option value="female">Female</option>														
+																	</select>
+																</div>
+															</div>
+														</div>
+														 -->
+				
+												</div>									
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-light" (click)="back_to_users_page()">Back</button>
+												<button type="submit" class="btn btn-success" [disabled]="!userModalFormGroup.valid">&nbsp;&nbsp;&nbsp;{{ btn_text }}&nbsp;&nbsp;&nbsp;</button>
+											</div>
+										</form>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>

@@ -2,27 +2,11 @@
 @import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
 @import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
 */
-.table-striped{
-	font-size: 12px !important;	
+.bold-font{
+	font-size: 11px !important;	
+	font-weight: bold;
 	color: #2e2ef9;
 	font-family: 'Arial';
-}
-.table-striped th{
-	font-size: 17px !important;	
-	font-weight: bold;
-	color:#3e42c2;
-	font-family: 'Arial black';
-}
-.bold-font{
-	font-size: 15px !important;	
-	font-weight: bold;
-	color: #494949;
-	font-family: 'Arial Narrow';
-}
-.normal-font{
-	font-size: 14px !important;	
-	color: #494949;
-	font-family: 'Arial Narrow';
 }
 .loading_indicator{
     /*margin-left: 27%;
@@ -57,32 +41,29 @@
     font-weight: bold;
 }
 
-.delete-button{
-    background-color: #ffffff00;
-    color: red;
-    font-size: 20px;
-    padding: 0px;
-    border: none;
+.image_container1{
+    width: 250px;
+    height: 250px;
+    text-align: center;
 }
-
-.edit-button{
-    background-color: #ffffff00;
-    color: blue;
-    font-size: 20px;
-    padding: 0px;
-    border: none;
-}
-
-.profileimage{
-    width: 80px;
-    height: 80px;
-    border: 1px solid #797979;
+.image_container2{
+    width: 200px;
+    height: 200px;
+    border: 1px solid #e4e4e4;
     border-radius: 50%;
+    margin-bottom: 30px;
 }
-input{
+.modalimage_container1{
+    width: 450px;
+    height: 450px;
+    text-align: center;
+}
+.modalpadding{
+    padding: 20px;
+    text-align: center;
+}
+.modaltitlestyle{
     font-size: 20px;
     font-weight: bold;
-    font-family: 'Arial Black';
-    color: #5f5e5e;
 }
 

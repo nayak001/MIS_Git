@@ -13,6 +13,9 @@ import { UsersService } from  './users.service';
 
 import { NgxCroppieModule } from 'ngx-croppie';
 
+
+
+
 @NgModule({
     imports: [
 		CommonModule, 
