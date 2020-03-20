@@ -19,6 +19,7 @@ export class CenterDetailsComponent implements OnInit {
 	distric: any = 'all'
 	block: any = 'all'
 	program_type: any = 'all'
+	is_program_type: any = 'all'
 	centerDetails: any;
 	check: boolean = true;
 	check1: boolean = false;
@@ -112,6 +113,8 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	viewData() {
+		debugger		
+		// this.program_type = this.is_program_type
 		this.isLoaded = false
 		this.isdata_table = false
 		this.getCenterDetails()
@@ -178,6 +181,8 @@ export class CenterDetailsComponent implements OnInit {
 
 
 	englishStudentsDetails(content, center){
+
+		
 		this.Details = center
 		debugger
 			this.modalReference = this.modalService.open(content, center);
@@ -190,8 +195,6 @@ export class CenterDetailsComponent implements OnInit {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
 				
 			});
-	
-
 	}
 
 

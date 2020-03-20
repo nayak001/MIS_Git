@@ -112,7 +112,7 @@
                                     <th>Female Students</th>
 
                                     <!-- <th *ngIf="program_type == 'ece'"> ECE - Level 1</th> -->
-                                    <th> ECE - Level 1</th>
+                                    <th>ECE - Level 1</th>
                                     <th>ECE - Level 2</th>
                                     <th>ECE - Level 3</th>
                                     <th>PG English Level 1</th>
@@ -195,17 +195,15 @@
                                     <td>{{user.average_attandance}}</td>
 
                                     <td>
-                                        <div class="tint" *ngIf="user && user." aria-hidden="true" (click)="englishStudentsDetails(edit,user)" >English Goals</div>
+                                        <div class="tint" aria-hidden="true" (click)="englishStudentsDetails(edit,user)" >English Goals </div>
                                     </td>
                                     <td>
-                                        <div class="tint" aria-hidden="true" (click)="odiaStudentsDetails(edito,user)" >Odia Goals</div>
-
+                                        <div class="tint" aria-hidden="true" (click)="odiaStudentsDetails(edito,user)">Odia Goals </td>
+                                    <td>
+                                        <div class="tint" aria-hidden="true" (click)="mathStudentsDetails(editm,user)">Maths Goal </div>
                                     </td>
                                     <td>
-                                        <div class="tint" aria-hidden="true" (click)="mathStudentsDetails(editm,user)" >Maths Goals</div>
-                                    </td>
-                                    <td>
-                                        <div class="tint" aria-hidden="true" (click)="quarterStudentsDetails(editq,user)" >Students acheiving atleast 70% </div>
+                                        <div class="tint" aria-hidden="true" (click)="quarterStudentsDetails(editq,user)">Students acheiving atleast 70% </div>
 
                                     </td>
                                     <!-- <td> {{user.percentage_of_student_monthly_gaol_eceProgram}}</td>
@@ -277,28 +275,28 @@
                         <table class="tb" >
                         <tr>
                             <th scope="row" class="tat">Assessment 1 :</th>
-                            <td>{{getRoundedValue(Details.scores.english.month1.value)}}</td>
-                            <td>{{Details.scores.english.month1.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.english.month1.value)}}</td>
+                            <td>{{Details.pgescores.english.month1.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 2 :</th>
-                            <td>{{getRoundedValue(Details.scores.english.month2.value)}}</td>
-                            <td>{{Details.scores.english.month2.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.english.month2.value)}}</td>
+                            <td>{{Details.pgescores.english.month2.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 3 :</th>
-                            <td>{{getRoundedValue(Details.scores.english.month3.value)}}</td>
-                            <td>{{Details.scores.english.month3.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.english.month3.value)}}</td>
+                            <td>{{Details.pgescores.english.month3.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 4 :</th>
-                            <td>{{getRoundedValue(Details.scores.english.month4.value)}}</td>
-                            <td>{{Details.scores.english.month4.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.english.month4.value)}}</td>
+                            <td>{{Details.pgescores.english.month4.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 5 :</th>
-                            <td>{{getRoundedValue(Details.scores.english.month5.value)}}</td>
-                            <td>{{Details.scores.english.month5.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.english.month5.value)}}</td>
+                            <td>{{Details.pgescores.english.month5.isgiven}}</td>
                         </tr>
                         </table>
                         
@@ -338,28 +336,28 @@
                         <table class="tb" >
                         <tr>
                             <th scope="row" class="tat">Assessment 1 :</th>
-                            <td>{{getRoundedValue(Details.scores.math.month1.value)}}</td>
-                            <td>{{Details.scores.math.month1.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.math.month1.value)}}</td>
+                            <td>{{Details.pgescores.math.month1.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 2 :</th>
-                            <td>{{getRoundedValue(Details.scores.math.month2.value)}}</td>
-                            <td>{{Details.scores.math.month2.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.math.month2.value)}}</td>
+                            <td>{{Details.pgescores.math.month2.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 3 :</th>
-                            <td>{{getRoundedValue(Details.scores.math.month3.value)}}</td>
-                            <td>{{Details.scores.math.month3.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.math.month3.value)}}</td>
+                            <td>{{Details.pgescores.math.month3.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 4 :</th>
-                            <td>{{getRoundedValue(Details.scores.math.month4.value)}}</td>
-                            <td>{{Details.scores.math.month4.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.math.month4.value)}}</td>
+                            <td>{{Details.pgescores.math.month4.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 5 :</th>
-                            <td>{{getRoundedValue(Details.scores.math.month5.value)}}</td>
-                            <td>{{Details.scores.math.month5.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.math.month5.value)}}</td>
+                            <td>{{Details.pgescores.math.month5.isgiven}}</td>
                         </tr>
                         </table>
                         
@@ -398,28 +396,28 @@
                         <table class="tb" >
                         <tr>
                             <th scope="row" class="tat">Assessment 1 :</th>
-                            <td>{{getRoundedValue(Details.scores.odia.month1.value)}}</td>
-                            <td>{{Details.scores.odia.month1.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.odia.month1.value)}}</td>
+                            <td>{{Details.pgescores.odia.month1.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 2 :</th>
-                            <td>{{getRoundedValue(Details.scores.odia.month2.value)}}</td>
-                            <td>{{Details.scores.odia.month2.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.odia.month2.value)}}</td>
+                            <td>{{Details.pgescores.odia.month2.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 3 :</th>
-                            <td>{{getRoundedValue(Details.scores.odia.month3.value)}}</td>
-                            <td>{{Details.scores.odia.month3.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.odia.month3.value)}}</td>
+                            <td>{{Details.pgescores.odia.month3.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 4 :</th>
-                            <td>{{getRoundedValue(Details.scores.odia.month4.value)}}</td>
-                            <td>{{Details.scores.odia.month4.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.odia.month4.value)}}</td>
+                            <td>{{Details.pgescores.odia.month4.isgiven}}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 5 :</th>
-                            <td>{{getRoundedValue(Details.scores.odia.month5.value)}}</td>
-                            <td>{{Details.scores.odia.month5.isgiven}}</td>
+                            <td>{{getRoundedValue(Details.pgescores.odia.month5.value)}}</td>
+                            <td>{{Details.pgescores.odia.month5.isgiven}}</td>
                         </tr>
                         </table>
                         
@@ -457,22 +455,22 @@
                         <table class="tb" >
                         <tr>
                             <th scope="row" class="tat">Assessment 1 :</th>
-                            <td>{{getRoundedValue(Details.scores.quarter1.value)}}</td>
+                            <td>{{getRoundedValue(Details.ecescore.quarter1.value)}}</td>
                             
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 2 :</th>
-                            <td>{{getRoundedValue(Details.scores.quarter2.value)}}</td>
+                            <td>{{getRoundedValue(Details.ecescore.quarter2.value)}}</td>
                             <td></td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 3 :</th>
-                            <td>{{getRoundedValue(Details.scores.quarter3.value)}}</td>
+                            <td>{{getRoundedValue(Details.ecescore.quarter3.value)}}</td>
                             <td></td>
                         </tr>
                         <tr>
                             <th scope="row" class="tat">Assessment 4 :</th>
-                            <td>{{getRoundedValue(Details.scores.quarter4.value)}}</td>
+                            <td>{{getRoundedValue(Details.ecescore.quarter4.value)}}</td>
                             <td></td>
                         </tr>
                        
