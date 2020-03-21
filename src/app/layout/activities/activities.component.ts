@@ -177,6 +177,7 @@ export class ActivitiesComponent implements OnInit {
 
     // get list of skills which will be placed in place of weeks in case of pge. 
     if (this.selected_program == 'pge') {
+      this.week_select_option_list = [];
       this.hideLoading_indicator = false;
       let selected_stage = 'month'+this.selected_month;
       this.activitiesService.gettchassessment(this.selected_preflanguage, this.selected_program, this.selected_level, selected_stage, this.selected_subject).subscribe(data => {
