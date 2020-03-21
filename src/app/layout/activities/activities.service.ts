@@ -19,6 +19,15 @@ export class ActivitiesService {
       });
   }
 
+  gettchassessment(preferedlanguage, program, level, stage, subject) {
+    let url = baseUrl + 'gettchassessment/' + preferedlanguage + '/' + program + '/' + level + '/' + stage + '/' + subject;
+    return this.http.get(url,
+      {
+        headers: new HttpHeaders().set('Content-Type', 'application/json')
+        //responseType: 'text'
+      });
+  }
+
   createmasteractivities(body) {
     return this.http.post(baseUrl + 'createmasteractivities',
       body, {

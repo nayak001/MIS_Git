@@ -41,6 +41,17 @@
 									</div>
 									<br />
 
+									<div>
+										<span class="bold-font">Level</span>
+										<span>
+											<select id="selected_level" value="{{selected_level}}"  (change)="level_select_onchange($event.target.value)" class="form-control">
+												<option value="">Select</option>
+												<option *ngFor="let opt of level_select_option_list;" value="{{ opt.value }}">{{ opt.text | titlecase }}</option>
+											</select>
+										</span>
+									</div>
+									<br />
+
 									<div [hidden]="hideSubject_select">
 										<span class="bold-font">Subject</span>
 										<span>
@@ -55,50 +66,22 @@
 									<br />
 
 									<div>
-										<span class="bold-font">Month</span>
+										<span class="bold-font">Skill Set</span>
 										<span>
 											<select id="selected_month" value="{{selected_month}}"  (change)="month_select_onchange($event.target.value)" class="form-control">
 												<option value="">Select</option>
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-												<option value="6">6</option>
-												<option value="7">7</option>
-												<option value="8">8</option>
-												<option value="9">9</option>
-												<option value="10">10</option>
+												<option *ngFor="let opt of month_select_option_list;" value="{{ opt.value }}">{{ opt.text | titlecase }}</option>
 											</select>
 										</span>
 									</div>
 									<br />
 
 									<div>
-										<span class="bold-font">Week</span>
+										<span class="bold-font">Skill</span>
 										<span>
 											<select id="selected_week" value="{{selected_week}}"  (change)="week_select_onchange($event.target.value)" class="form-control">
 												<option value="">Select</option>
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-											</select>
-										</span>
-									</div>
-									<br />
-
-									<div>
-										<span class="bold-font">Level</span>
-										<span>
-											<select id="selected_level" value="{{selected_level}}"  (change)="level_select_onchange($event.target.value)" class="form-control">
-												<option value="">Select</option>
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-												<option value="6">6</option>
+												<option *ngFor="let opt of week_select_option_list;" value="{{ opt.value }}">{{ opt.text | titlecase }}</option>
 											</select>
 										</span>
 									</div>
