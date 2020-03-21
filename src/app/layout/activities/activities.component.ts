@@ -175,6 +175,7 @@ export class ActivitiesComponent implements OnInit {
     console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_month = selectedOptionValue;
 
+    this.selected_week = '';
     // get list of skills which will be placed in place of weeks in case of pge. 
     if (this.selected_program == 'pge') {
       this.week_select_option_list = [];
