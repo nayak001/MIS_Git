@@ -13,7 +13,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AssessmentmasterComponent implements OnInit {
 	public data : any = [];
-	stage_list: any = [];
 	assessment_list: any = [];
 
 	record_id:string = '';
@@ -34,6 +33,9 @@ export class AssessmentmasterComponent implements OnInit {
 
 	modalReference: any;
 	closeResult: string;
+	
+	level_select_option_list: any = [];
+	stage_select_option_list: any = [];
 	
     constructor(
         public router: Router,
@@ -118,7 +120,8 @@ export class AssessmentmasterComponent implements OnInit {
 		if(this.selected_program == 'ece'){
 			this.selected_level = '0';
 			this.selected_subject = 'na';
-			this.stage_list = ["quarter1","quarter2","quarter3","quarter4"];
+			this.stage_select_option_list = [{value: 'quarter1', text: 'Quarter 1'},{value: 'quarter2', text: 'Quarter 2'},{value: 'quarter3', text: 'Quarter 3'},{value: 'quarter4', text: 'End Line'}];
+			this.level_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}];
 
 			this.hideClass_select = false;
 			this.hideSubject_select = true;
@@ -126,7 +129,8 @@ export class AssessmentmasterComponent implements OnInit {
 		}else{
 			this.selected_level = '';
 			this.selected_subject = '';
-			this.stage_list = ["month1","month2","month3","month4","month5","month6","month7","month8","month9","month10","month11","month12"];
+			this.stage_select_option_list = [{value: 'month1', text: 'Assessment 1'},{value: 'month2', text: 'Assessment 2'},{value: 'month3', text: 'Assessment 3'},{value: 'month4', text: 'Assessment 4'},{value: 'month5', text: 'Assessment 5'},{value: 'month6', text: 'End Line'}];
+			this.level_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}, {value: '4', text: 'Level 4'}, {value: '5', text: 'Level 5'}];
 			
 			this.hideClass_select = false;
 			this.hideSubject_select = false;

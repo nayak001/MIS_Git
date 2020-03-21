@@ -18,8 +18,8 @@
 								<th style="width: 15%">Prefered Language</th>
 								<th style="width: 15%">Program</th>
 								<th style="width: 15%" [hidden]="hideSubject_select">Subject</th>
-								<th style="width: 15%">Level</th>
 								<th style="width: 15%">Stage</th>
+								<th style="width: 15%">Level</th>
 								<th style="width: 15%"></th>	
 							</tr>
 							<tr>
@@ -47,22 +47,17 @@
 									</select>
 								</td>
 								<td>
-									<select id="selected_level" value="{{selected_level}}"  (change)="class_select_onchange($event.target.value)" class="form-control">
+									<select id="selected_stage" value="{{selected_stage}}"  (change)="stage_select_onchange($event.target.value)" class="form-control">
 										<option value="">Select</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
+										<option *ngFor="let opt of stage_select_option_list" value="{{opt.value}}">{{opt.text | titlecase}}</option>
 									</select>
 								</td>
 								<td>
-									<select id="selected_stage" value="{{selected_stage}}"  (change)="stage_select_onchange($event.target.value)" class="form-control">
+									<select id="selected_level" value="{{selected_level}}"  (change)="class_select_onchange($event.target.value)" class="form-control">
 										<option value="">Select</option>
-										<option *ngFor="let stg of stage_list" value="{{stg}}">{{stg | titlecase}}</option>
+										<option *ngFor="let opt of level_select_option_list" value="{{opt.value}}">{{opt.text | titlecase}}</option>
 									</select>
 								</td>
-								
 								<td>
 									<!-- <button (click)="go_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Go&nbsp;&nbsp;&nbsp;</button> -->
 								</td>					
