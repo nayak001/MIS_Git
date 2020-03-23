@@ -288,17 +288,18 @@ export class CenterDetailsComponent implements OnInit {
 	}
 	download() {
 		const rows = [
-			["Id", "Name", "Type", "Program Type", "Block", "District", "State", "Educator Name", "Students",
+			["Id", "Name", "Type", "Program Type", "Block", "District", "State", "Educator Name", "Students","Female Students",
 				"ECE - Level 1", "ECE - Level 2", "ECE - Level 3", "PG English Level 1", "PG English Level 2", "PG English Level 3",
 				"PG English Level 4", "PG English Level 5", "PG Odia Level 1", "PG Odia Level 2", "PG Odia Level 3",
 				"PG Odia Level 4", "PG Odia Level 5", "PG Math Level 1", "PG Math Level 2", "PG Math Level 3", "PG Math Level 4",
 				"PG Math Level 5", "Average Attendance", "Percentage of students achieving monthly goals in PG - English",
 				"Percentage of students achieving monthly goals in PG - Odia", "Percentage of students achieving monthly goals in PG - Maths	",
-				"Percentage of students achieving quarterly goals in ECE Program", "Percentage of students achieving age-appropriate skills in ECE Program2",
-				"Percentage of students who jumped 1 Level in PG - English", "Percentage of students who jumped 1 Level in PG - Odia	",
+				"Percentage of students achieving atleast 70% of age-appropriate skills in ECEProgram", 
+				"Percentage of students who jumped 1 Level in PG - English", "Percentage of students who jumped 1 Level in PG - Odia",
 				"Percentage of students who jumped 1 Level in PG - Maths", "Percentage of students who jumped 2 Levels in PG - English",
-				"Percentage of students who jumped 2 Levels in PG - Odia", "Percentage of students who jumped 2 Levels in PG - Maths	",
-				"Pre-Program Training Marks Secured	", "Online Training Module Details",]
+				"Percentage of students who jumped 2 Levels in PG - Odia", "Percentage of students who jumped 2 Levels in PG - Maths",
+				"No of Students who have graduated from ECE program	", "No of Students who have graduated from PG program","No of Students who have dropped out of the ECE program",
+			"No of Students who have dropped out of the PG program","Class/Grade of the Student"]
 
 		];
 		this.filterData.forEach(value => {
@@ -307,25 +308,26 @@ export class CenterDetailsComponent implements OnInit {
 				usertType = value.user.usertype
 			}
 			var array = [value.center.centerid, value.center.centername, usertType, value.center.centertype || "", value.center.block || "", value.center.district || "",
-			value.state, value.educator, value.no_of_students, value.educator
+			value.state, value.educator, value.no_of_students,value.no_female_students, 
 				, value.eceLevel1, value.eceLevel2, value.eceLevel3, value.pgEngl1, value.pgEngl2
 				, value.pgEngl3, , value.pgEngl4, value.pgEngl5, value.pgOdia1, value.pgOdia2
 				, value.pgOdia3, value.pgOdia4, value.pgOdia5, value.pgMath1, value.pgMath2,
 			value.pgMath3, value.pgMath4, value.pgMath5,
+			value.average_attandance,
+		
 			value.percentage_of_student_monthly_gaol_odia,
 			value.percentage_of_student_monthly_gaol_math,
-			value.percentage_of_student_monthly_gaol_eceProgram,
-			value.percentage_of_student_monthly_gaol_eceProgram2,
+			
 			value.percentage_of_students_jump1_level_pg_eng,
 			value.percentage_of_students_jump1_level_pg_odia,
 			value.percentage_of_students_jump1_level_pg_math,
 			value.percentage_of_students_jump2_level_pg_eng,
 			value.percentage_of_students_jump2_level_pg_odia,
 			value.percentage_of_students_jump2_level_pg_math,
-			value.preProgram_training_marks_Secured,
-			value.online_training_Module,
-			value.avrg_Attendance,
-			value.monthly_Attendance,
+			value.student_graduated_ece_program,
+			value.student_graduated_pg_program,
+			value.student_dropped_ece_program,
+			value.student_dropped_pg_program,value.grade_of_student
 			]
 			rows.push(array)
 		});

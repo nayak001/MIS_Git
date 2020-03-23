@@ -204,45 +204,53 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 	}
 	download() {
+
 		const rows = [
-			["Id", "Name", "Type", "Program Type", "Block", "District", "State", "Educator Name", "Students",
-				"ECE - Level 1", "ECE - Level 2", "ECE - Level 3", "PG English Level 1", "PG English Level 2", "PG English Level 3",
-				"PG English Level 4", "PG English Level 5", "PG Odia Level 1", "PG Odia Level 2", "PG Odia Level 3",
-				"PG Odia Level 4", "PG Odia Level 5", "PG Math Level 1", "PG Math Level 2", "PG Math Level 3", "PG Math Level 4",
-				"PG Math Level 5", "Average Attendance", "Percentage of students achieving monthly goals in PG - English",
-				"Percentage of students achieving monthly goals in PG - Odia", "Percentage of students achieving monthly goals in PG - Maths	",
-				"Percentage of students achieving quarterly goals in ECE Program", "Percentage of students achieving age-appropriate skills in ECE Program2",
-				"Percentage of students who jumped 1 Level in PG - English", "Percentage of students who jumped 1 Level in PG - Odia	",
-				"Percentage of students who jumped 1 Level in PG - Maths", "Percentage of students who jumped 2 Levels in PG - English",
-				"Percentage of students who jumped 2 Levels in PG - Odia", "Percentage of students who jumped 2 Levels in PG - Maths	",
-				"Pre-Program Training Marks Secured	", "Online Training Module Details",]
+			["Educator Name", "Status", "Center Name", "Center Type", "Center Id", "Block", "District", "State", "Qualification",
+				"Contact No", "Address", "Special Initiatives", "Aspirations", "Centre Start Date", "Pre-Program Training Marks Secured",
+				"Online Training Module Details",]
 
 		];
 		this.filterData.forEach(value => {
-			var usertType = ''
-			if (value && value.user && value.user.usertype) {
-				usertType = value.user.usertype
+			var teacherName = ''
+			var status =''
+			var cont =''
+			var add=""
+			var sp =""
+			var csd = ""
+			var ptm =""
+			var asp =""
+			var cn = ""
+			var ctype = ""
+			var cid =""
+			var d=""
+			var bl = ""
+			if(value && value.user && (value.user.teachernme || value.user.status ||
+				 value.user.contactno || value.user.address || value.user.special_initiatives
+				 || value.user.aspirations || value.user.center_start_date || value.user.preprogram_training_mark)
+				){
+				teacherName = value.user.teachernme;
+				status = value.user.status
+				cont = value.user.contactno
+				add = value.user.address
+				sp = value.user.special_initiatives
+				asp = value.user.aspirations
+				csd =  value.user.center_start_date
+				ptm = value.user.preprogram_training_mark
+
 			}
-			var array = [value.center.centerid, value.center.centername, usertType, value.center.centertype || "", value.center.block || "", value.center.district || "",
-			value.state, value.educator, value.no_of_students, value.educator
-				, value.eceLevel1, value.eceLevel2, value.eceLevel3, value.pgEngl1, value.pgEngl2
-				, value.pgEngl3, , value.pgEngl4, value.pgEngl5, value.pgOdia1, value.pgOdia2
-				, value.pgOdia3, value.pgOdia4, value.pgOdia5, value.pgMath1, value.pgMath2,
-			value.pgMath3, value.pgMath4, value.pgMath5,
-			value.percentage_of_student_monthly_gaol_odia,
-			value.percentage_of_student_monthly_gaol_math,
-			value.percentage_of_student_monthly_gaol_eceProgram,
-			value.percentage_of_student_monthly_gaol_eceProgram2,
-			value.percentage_of_students_jump1_level_pg_eng,
-			value.percentage_of_students_jump1_level_pg_odia,
-			value.percentage_of_students_jump1_level_pg_math,
-			value.percentage_of_students_jump2_level_pg_eng,
-			value.percentage_of_students_jump2_level_pg_odia,
-			value.percentage_of_students_jump2_level_pg_math,
-			value.preProgram_training_marks_Secured,
-			value.online_training_Module,
-			value.avrg_Attendance,
-			value.monthly_Attendance,
+			if(value && value.center && (value.center.centername||  value.center.centertype 
+				||  value.center.centerid || value.center.block ||value.center.district )){
+				cn = value.center.centername
+				ctype =   value.center.centertype
+				cid = value.center.centerid
+				d = value.center.district
+				bl = value.center.block 
+			}
+
+			
+			var array = [teacherName,status, cn , ctype,cid, , ,
+			value.state,cont,add,sp,value.asp, csd, , ptm, 
 			]
 			rows.push(array)
 		});
