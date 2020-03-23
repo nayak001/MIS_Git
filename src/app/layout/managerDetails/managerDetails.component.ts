@@ -151,6 +151,83 @@ export class ManagerDetailsComponent implements OnInit {
 	search(term: string) {
 	  }
 	
+
+
+
+	  
+
+	  dailyInfoT(content, center){
+		this.data = center
+		debugger
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
+
+
+	skilsss(content, center){
+		this.data = center
+	
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
+	monthlyDetails(content, center){
+		this.data = center
+	
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
+
+	
+	feedbackDetails(content, center){
+		this.data = center
+	
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
    getBlockDetails() {		
 	this.ManagerDetailsService.getBlocks().subscribe(data => {
 		// console.log('### data: '+JSON.stringify(data));
