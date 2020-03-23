@@ -159,7 +159,7 @@ export class ManagerDetailsComponent implements OnInit {
 	  dailyInfoT(content, center){
 		this.data = center
 		debugger
-			this.modalReference = this.modalService.open(content, center);
+			this.modalReference = this.modalService.open(content,{ size: 'lg' });
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
 				
@@ -178,7 +178,7 @@ export class ManagerDetailsComponent implements OnInit {
 	skilsss(content, center){
 		this.data = center
 	
-			this.modalReference = this.modalService.open(content, center);
+			this.modalReference = this.modalService.open(content,{ size: 'lg' });
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
 				
@@ -195,7 +195,7 @@ export class ManagerDetailsComponent implements OnInit {
 	monthlyDetails(content, center){
 		this.data = center
 	
-			this.modalReference = this.modalService.open(content, center);
+			this.modalReference = this.modalService.open(content,{ size: 'lg' });
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
 				
@@ -214,7 +214,7 @@ export class ManagerDetailsComponent implements OnInit {
 	feedbackDetails(content, center){
 		this.data = center
 	
-			this.modalReference = this.modalService.open(content, center);
+			this.modalReference = this.modalService.open(content,{ size: 'lg' });
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
 				
