@@ -1,5 +1,5 @@
 <div [@routerTransition]>    
-    <div class="row">
+    <div class="row" >
         <div class="col-xl-3 col-lg-6">
 			<a [routerLink]="['/users']">
             <app-stat [bgClass]="'primary'" [icon]="'fa-address-card-o'" [count]="2931" [label]="'Users'" ></app-stat>
@@ -16,7 +16,135 @@
             <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="101" [label]="'Centers'"></app-stat>
         </a>
         </div>
+       
+     
     </div>   
+    <div class="row" style="margin-top: 1%;"  *ngFor="let count of data">
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right">
+                            <div class="d-block">All Students</div>
+                            <div class="counter">{{count.allStudent}}</div>                
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+       
+            
+            <div class="col-xl-3 col-lg-6">
+                <div class="card text-white bg-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col col-xs-3">
+                                <i class="fa fa-support fa-5x"></i>
+                            </div>
+                            <div class="col col-xs-9 text-right">
+                                <div class="d-block">ECE Students</div>
+                                <div class="counter">{{count.allecestudents}}</div>                
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        
+       
+            
+            <div class="col-xl-3 col-lg-6">
+                <div class="card text-white bg-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col col-xs-3">
+                                <i class="fa fa-support fa-5x"></i>
+                            </div>
+                            <div class="col col-xs-9 text-right">
+                                <div class="d-block">PGE Students</div>
+                                <div class="counter">{{count.allpgestudents}}</div>                
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+             
+            <div class="col-xl-3 col-lg-6">
+                <div class="card text-white bg-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col col-xs-3">
+                                <i class="fa fa-support fa-5x"></i>
+                            </div>
+                            <div class="col col-xs-9 text-right">
+                                <div class="d-block">Total Girls</div>
+                                <div class="counter">{{count.girlCount}}</div>                
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+       
+    </div>
+    <div class="row" style="margin-top: 1%;" *ngFor="let count of data">
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right">
+                            <div class="d-block">Time Fellows</div>
+                            <div class="counter">{{count.allfellow}}</div>                
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right">
+                            <div class="d-block">Schools</div>
+                            <div class="counter">{{count.allschool}}</div>                
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right">
+                            <div class="d-block">Anganwadi</div>
+                            <div class="counter">{{count.allanganwadi}}</div>                
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+   
+
+    </div>
+    
 	<hr>
 	<div class="row">
         <div class="col-md-12">
