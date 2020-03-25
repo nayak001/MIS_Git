@@ -74,6 +74,7 @@
                 </div>
             </div>
              
+           
             <div class="col-xl-3 col-lg-6">
                 <div class="card text-white bg-primary">
                     <div class="card-header">
@@ -82,15 +83,14 @@
                                 <i class="fa fa-support fa-5x"></i>
                             </div>
                             <div class="col col-xs-9 text-right">
-                                <div class="d-block">Total Girls</div>
-                                <div class="counter">{{count.girlCount}}</div>                
+                                <div class="d-block">Time Fellows</div>
+                                <div class="counter">{{count.allfellow}}</div>                
                             </div>
                         </div>
                     </div>
                    
                 </div>
             </div>
-       
     </div>
     <div class="row" style="margin-top: 1%;" *ngFor="let count of data">
         <div class="col-xl-3 col-lg-6">
@@ -101,8 +101,8 @@
                             <i class="fa fa-support fa-5x"></i>
                         </div>
                         <div class="col col-xs-9 text-right">
-                            <div class="d-block">Time Fellows</div>
-                            <div class="counter">{{count.allfellow}}</div>                
+                            <div class="d-block">Total Girls</div>
+                            <div class="counter">{{count.girlCount}}</div>                
                         </div>
                     </div>
                 </div>
@@ -141,6 +141,7 @@
                
             </div>
         </div>
+        
         <div class="col-xl-3 col-lg-6">
             <div class="card text-white bg-primary">
                 <div class="card-header">
@@ -157,9 +158,59 @@
                
             </div>
         </div>
+    </div>
+    <div class="row" style="margin-top: 1%;"  *ngFor="let count of data" >
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right">
+                            <div class="d-block" style="font-size: 10px;"> students jumped 1 or more Level in Odia</div>
+                            <div class="counter">{{count.allodia}}</div>                
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
    
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right">
+                            <div class="d-block" style="font-size: 10px;">Students jumped 1 or more Level in Maths</div>
+                            <div class="counter">{{count.allmath}}</div>                
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
    
-
+        <div class="col-xl-3 col-lg-6">
+            <div class="card text-white bg-primary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xs-3">
+                            <i class="fa fa-support fa-5x"></i>
+                        </div>
+                        <div class="col col-xs-9 text-right">
+                            <div class="d-block" style="font-size: 10px;"> Students jumped 1 or more Level in English</div>
+                            <div class="counter">{{count.alleng}}</div>                
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+   
     </div>
     
 	<hr>
