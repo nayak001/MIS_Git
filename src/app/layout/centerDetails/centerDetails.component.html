@@ -218,7 +218,10 @@
                                     <td>{{user.student_graduated_pg_program}}</td>
                                     <td>{{user.student_dropped_ece_program}}</td>
                                     <td>{{user.student_dropped_pg_program}}</td>
-                                    <td>{{user.grade_of_student}}</td>
+                                    <td>
+                                        <div class="tint" aria-hidden="true" (click)="classFunction(editclass,user)">class/Grade</div>
+ 
+                                    </td>
 
 
 
@@ -258,6 +261,67 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<ng-template #editclass let-c="close" let-d="dismiss">
+    <form role="form" >
+    
+        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
+            <div class="accordion" id="accordionExample" >
+                <div class="card">
+                 
+              
+                  <div id="collapseOne"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
+                    <div class="card-body">
+
+                        <table class="tb" >
+                        <tr>
+                            <th scope="row" class="tat">Class 1 :</th>
+                            <td>{{Details.classcount1}}</td>
+                            
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Class 2:</th>
+                            <td>{{Details.classcount2}}</td>
+                           
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Class 3 :</th>
+                            <td>{{Details.classcount3}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Class 4 :</th>
+                            <td>{{Details.classcount4}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tat">Class 5 :</th>
+                            <td>{{Details.classcount5}}</td>
+                        </tr>
+                        </table>
+                        
+                       
+                        
+                    </div>
+                  </div>
+                </div>
+               
+                        
+                      </div>
+                    </div>
+                
+            
+	
+       
+        <div class="modal-footer" style="margin-right: 8%;">
+            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
+        </div>
+    </form>
+</ng-template>
+
+
 
 
 

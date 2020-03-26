@@ -121,6 +121,12 @@ export class CenterDetailsComponent implements OnInit {
 	}
 
 
+
+
+
+
+
+
 	getCenterDetails() {
 		// const data = {
 		// 	center_type:"all",
@@ -161,6 +167,31 @@ export class CenterDetailsComponent implements OnInit {
 	   }
 
 	   
+
+	   classFunction(content, center){
+		this.Details = center
+		debugger
+			this.modalReference = this.modalService.open(content, center);
+			this.modalReference.result.then((result) => {
+				this.closeResult = `Closed with: ${result}`;
+				
+			
+
+			}, (reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				
+			});
+	
+
+	}
+
+
+
+
+
+
+
+	   
 	   quarterStudentsDetails(content, center){
 		this.Details = center
 		debugger
@@ -179,6 +210,7 @@ export class CenterDetailsComponent implements OnInit {
 	}
 
 
+	
 
 	englishStudentsDetails(content, center){
 
