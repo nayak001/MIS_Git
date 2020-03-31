@@ -105,6 +105,19 @@
 														</div>
 													</div>
 												</div>
+
+												<div class="row">
+													<div class="col col-xl-4 col-lg-4">
+														State
+													</div>
+													<div class="col col-xl-8 col-lg-8">
+														<div class="form-group">
+															<select value="{{ selected_state }}" (change)="state_on_change($event)" class="form-control" placeholder="State">
+																<option *ngFor="let stat of all_states;" value="{{ stat }}">{{ stat | titlecase }}</option>
+															</select>
+														</div>
+													</div>
+												</div>
 											</div>									
 									</div>
 									<div class="modal-footer">

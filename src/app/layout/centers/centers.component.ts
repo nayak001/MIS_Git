@@ -23,6 +23,9 @@ export class CentersComponent implements OnInit {
 	all_blocks: any = [];
 	selected_block: any = '';
 
+	all_states: any = ['odisha'];
+	selected_state: any = 'odisha';
+
 	block_name = '';
 	districtid: any;
 
@@ -184,6 +187,7 @@ export class CentersComponent implements OnInit {
 			this.selected_district = center.district;
 			this.get_blocks_of_district(this.selected_district);
 			this.selected_block = center.block;
+			this.selected_state = 'odisha';
 			this.modal_centeraddress  = center.centeraddress;
 		} else {
 			this.centersubmitaction = 'Create';
@@ -221,6 +225,7 @@ export class CentersComponent implements OnInit {
 		const frm_centerpin = '0';
 
 		this.selected_block = (this.selected_block.length > 0)? this.selected_block: this.all_blocks[0];
+		this.selected_state = (this.selected_state.length > 0)? this.selected_state: this.all_states[0];
 		const center = {
 			// userid: frm_userid,
 			centername: frm_centername,
@@ -228,7 +233,8 @@ export class CentersComponent implements OnInit {
 			userid: this.selected_userid,
 			username: this.selected_username,
 		    district : this.selected_district,
-		    block : this.selected_block,
+			block : this.selected_block,
+			state: this.selected_state,
 		    status : 'active',
 		};
 		console.log('###111' + centersubmitaction + ' frm_id: ' + frm_id + ' center: ' + JSON.stringify(center));
@@ -336,5 +342,15 @@ export class CentersComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
 		this.selected_block = selectedOptionValue;
+	}
+	
+	
+	state_on_change(event: Event) {
+    	const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
+		this.selected_state = selectedOptionValue;
     }
 }

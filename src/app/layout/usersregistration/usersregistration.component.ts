@@ -14,8 +14,6 @@ import swal from 'sweetalert2';
 import { CroppieOptions } from 'croppie';
 import { NgxCroppieComponent } from './../modules/ngx-croppie/ngx-croppie.component';
 
-
-
 @Component({
     selector: 'app-usersregistration',
     templateUrl: './usersregistration.component.html',
@@ -25,17 +23,12 @@ import { NgxCroppieComponent } from './../modules/ngx-croppie/ngx-croppie.compon
 
 export class UsersregistrationComponent implements OnInit {
 	@ViewChild('ngxCroppie') ngxCroppie: NgxCroppieComponent;
-  
 	widthPx = '400';
 	heightPx = '400';
 	imageUrl = '';
 	currentImage: string;
 	croppieImage: string;
 	editedImage:string;
-
-
-
-
 
 	@ViewChild('auto') auto;
 	myform: FormGroup = null;
@@ -104,8 +97,10 @@ export class UsersregistrationComponent implements OnInit {
 			this.qp_action= params['action'];
 			this.qp_userid = params['userid'];
 		});
-		console.log('###qp_userid: '+this.qp_userid);
-		this.edit_or_new();
+		console.log('###qp_userid: '+this.qp_userid+'    qp_action: '+this.qp_action);
+
+		this.getallactiveteacherprofiles();
+		this.getAllUsertypes();
 		  
 		this.userModalFormGroup = this.formBuilder.group({
 			modal_id: ['', []],
@@ -127,9 +122,8 @@ export class UsersregistrationComponent implements OnInit {
 		this.currentImage = this.imageUrl;
 		this.croppieImage = this.imageUrl;
 
-		this.getallactiveteacherprofiles();
-		this.getAllUsertypes();
-		this.getallUsers();
+		this.edit_or_new();
+		//this.getallUsers();
 	}
 
 	edit_or_new(){
@@ -178,7 +172,6 @@ export class UsersregistrationComponent implements OnInit {
 					this.hide_teacherprofile_dropdown = (user.usertype == 'manager') ? true : false;
 					this.currentImage = user.image;
 				}
-
 				this.hideLoading_indicator = true;
 			},
 			error => {},
