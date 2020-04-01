@@ -18,6 +18,7 @@ const routes: Routes = [
       { path: 'centers-allocation', loadChildren: './centers-allocation/centers-allocation.module#CentersAllocationModule' },
       { path: 'baselinetest', loadChildren: './baselinetest/baselinetest.module#BaselinetestModule' },
       { path: 'issues', loadChildren: './issues/issues.module#IssuesModule' },
+      { path: 'managersfeedbackform', loadChildren: './managersfeedbackform/managersfeedbackform.module#ManagersfeedbackformModule' },
       { path: 'centerfeedback', loadChildren: './centerfeedback/centerfeedback.module#CenterfeedbackModule' },
       { path: 'paymentinfo', loadChildren: './paymentinfo/paymentinfo.module#PaymentinfoModule' },
       { path: 'assessmentmaster', loadChildren: './assessmentmaster/assessmentmaster.module#AssessmentmasterModule' },
