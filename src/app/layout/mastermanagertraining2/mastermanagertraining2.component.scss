@@ -1,0 +1,162 @@
+/*
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+*/
+.table-striped{
+	font-size: 12px !important;	
+	color: #2e2ef9;
+	font-family: 'Arial';
+}
+.table-striped th{
+	font-size: 11px !important;	
+	font-weight: bold;
+	color: #636161;
+	font-family: 'Arial black';
+}
+.bold-font{
+	font-weight: bold;
+	color: #2e2ef9;
+	font-family: 'Arial';
+}
+.loading_indicator{
+    /*margin-left: 27%;
+    width: 210px;
+    border: 1px solid grey;
+    padding: 30px;
+    position: absolute;
+    background-color: white;
+    box-shadow: -2px 3px 20px 0px;
+    margin-top: 7%;
+	*/
+}
+.modal-footer{
+    border-top: 1px solid #848484;
+    background-color: #c3c3c3;
+}
+.btn{
+    border: 1px solid #b6b6b6;
+	border-radius: 1.25rem;
+}
+.modal-text{
+	font-size: 22px;
+    color: #505050;
+}
+.warning-icon{
+	width: 40px;
+	height: 40px;
+	margin-left: 40px;
+}
+.validation-error-message{
+	color: red;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.delete-button{
+    background-color: #ffffff00;
+    color: red;
+    font-size: 20px;
+    padding: 0px;
+    border: none;
+}
+
+.edit-button{
+    background-color: #ffffff00;
+    color: blue;
+    font-size: 20px;
+    padding: 0px;
+    border: none;
+}
+.area-width{
+    width: 100%;
+    height: 250px;
+}
+
+.pad25{
+    padding: 25px;
+}
+
+.xbtn{
+    float: right;
+    font-weight: bold;
+    color: white;
+    background: red;
+    padding: 1px 8px;
+    border: 1px solid #a5a4a4;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.margintop30{
+    margin-top: 30px;
+}
+
+.addbtn{
+    color: #5bae5a;
+    font-size: 20px;
+    padding: 5px;
+}
+.delbtn{
+    color: #d97c6c;
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
+}
+
+.table50{
+    width: 50%;
+}
+
+.image_preview_container{
+    width: 500px;
+    height: 220px;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.image_preview{
+    height: 170px;
+    width: 140px;
+    padding: 10px;
+    border: 1px solid #bab3b3;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    white-space: normal;
+    box-shadow: 0px 0px 1px 1px grey;
+}
+.image{
+    height: 150px;
+    width: 120px;
+}
+
+.tbl_tr{
+    border: 10px solid #ededed;
+}
+.tbl_td{
+    vertical-align: top;
+    padding: 10px 25px;
+    float: right;
+}
+
+.q_container{
+    padding: 5px 25px;
+}
+.q_div{
+    font-weight: bold;
+    font-size: 20px;
+}
+.ans_div{
+    font-style: italic;
+}
+.padd15{
+    padding: 10px 15px;
+}
+.marginb10{
+    margin-bottom: 10px;
+}
+.bttm{
+    bottom: -8px;
+    font-weight: bold;
+}
+
