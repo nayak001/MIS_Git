@@ -13,17 +13,7 @@
 
                 <div class="row" style="padding: 25px; font-size: 15px;color: black;">
 
-                    <div class="col-2">
-                        <label>Info Type</label>
-                        <select class="form-control select2" [(ngModel)]="info_type" (onChange)="gotoTable(info_type)"
-                            style="font-size: 14px; height: 30px;">
-                            <option value="dailyinfo" selected>Daily Info Table</option>
-                            <option value="skillstought">Skills Tought Table</option>
-                            <option value="Monthlyinfo">Monthly Info Table</option>
-                            <option value="feedbackissues">Feedback & Issues Table</option>
-
-                        </select>
-                    </div>
+                   
                     <div class="col-2">
                         <label>Center Type</label>
                         <select class="form-control select2" [(ngModel)]="center_type"
@@ -47,7 +37,7 @@
                     </div>
                     <div class="col-2">
                         <label>Year</label>
-                        <select class="form-control select2" style="font-size: 14px; height: 30px;">
+                        <select class="form-control select2" [(ngModel)]="createdon" style="font-size: 14px; height: 30px;">
                             <option value="all">All</option>
                             <option value="2019">2019</option>
                         </select>
@@ -93,36 +83,24 @@
                             [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
                             <thead>
                                 <tr>
-
-                                    <th> Name</th>
-                                    <th>Center </th>
-                                    <th>Date of Visit</th>
-                                    <th>Educator Present</th>
-                                    <th>Activity Plan Followed</th>
-                                    <th>Kids able to participate in activities</th>
-                                    <th>Class Segregated Level-Wise</th>
-                                    <th>TLM's used</th>
+                                    <th>Name</th>
+                                    <th *ngFor="let col_name of dyCols"> {{col_name}} </th>
 
 
 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let user of mf.data">
-                                    <td *ngIf="user && user.manager && user.manager.username"
+                                <!-- *ngIf="user && user.manager && user.manager.username"
                                         (click)="dailyInfoT(editmodal,user)"
-                                        style="cursor: pointer; color:#007bff !important;">{{user.manager.username}}
+                                        style="cursor: pointer; color:#007bff !important;" -->
+                                <tr *ngFor="let user of mf.data">
+                                    <td>mname</td>
+                                    <td *ngFor="let col_name of dyCols">
+                                        {{ user[col_name] }}
+
+
                                     </td>
-
-                                    <td>{{user.manager.centername}}</td>
-                                    <td>{{user.manager.date}}</td>
-                                    <td>{{user.educator_present}}</td>
-                                    <td>{{user.activity_plan_followed}}</td>
-                                    <td>{{user.kids_able_participate}}</td>
-                                    <td>{{user.class_segregated_levelWise}}</td>
-                                    <td>{{user.Tlm}}</td>
-
-
                                 </tr>
 
                             </tbody>

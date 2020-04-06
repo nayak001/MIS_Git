@@ -61,6 +61,7 @@ export class ManagerDetailsComponent implements OnInit {
 	all_Data: any = [];
 	userDetails:any;
 	all_managers_data:any;
+	createdon : any = 'all'
 
 	constructor(
 		private modalService: NgbModal,
@@ -81,20 +82,25 @@ export class ManagerDetailsComponent implements OnInit {
 
 	async ngOnInit() {
 		this.getManagersDetails();
+		this.getallmanagersfeedbacks()
+		// this.getallissuesmgr();
 	}
 
+	dyCols = [];
 	getManagersDetails(){
 		const data = {
-			center_type:this.center_type,
-			info_type:this.info_type,
-			
+			center_type : this.center_type,
+			createdon : this.createdon,
 		} 
-		this.ManagerDetailsService.getAllManagersDetails(data).subscribe(data => {
+		debugger
+		this.ManagerDetailsService.getAllManagersDetails(data).subscribe((data: any)=> {
 			this.gotoTable(this.info_type);
-			
-			this.data = data;
+			debugger
 			console.log(data);
-			this.all_managers_data = data;
+			this.data = data.records;
+			this.dyCols = data.dyCols;
+			console.log(data);
+			this.all_managers_data = data.records;
 			this.isLoaded = true
 			if(this.all_managers_data.length == 0){
 				this.isdata_table = true;
@@ -107,6 +113,29 @@ export class ManagerDetailsComponent implements OnInit {
 				() => {}
 			);
 		  }
+
+
+		  getallmanagersfeedbacks(){
+			this.ManagerDetailsService.getallmanagersfeedbacks().subscribe(data => {
+				this.data = data
+				console.log(data)
+			},
+			error => {},
+			() => {}
+		);
+	  }
+
+	//   getallissuesmgr(){
+	// 	this.ManagerDetailsService.getallissuesmgr().subscribe(data => {
+	// 		debugger
+	// 		this.data = data
+	// 		console.log(data)
+	// 	},
+	// 	error => {},
+	// 	() => {}
+	// );
+	//   }
+			  
 		  viewData(){
 			this.isLoaded = false
 			this.getManagersDetails()
@@ -151,9 +180,7 @@ export class ManagerDetailsComponent implements OnInit {
 	search(term: string) {
 	  }
 	
-
-
-
+	
 	  
 
 	  dailyInfoT(content, center){
