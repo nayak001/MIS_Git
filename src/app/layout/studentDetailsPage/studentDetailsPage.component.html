@@ -84,6 +84,10 @@
 
                                     <th>Name</th>
                                     <th>Date of Enrollment</th>
+                                    <th>Sex</th>
+                                    <th>Center Name</th>
+                                    <th>Centerid</th>
+                                    <th>Center Type</th>
                                     <th>Name of the Type</th>
                                     <th>Program Type</th>
                                     <th>Block</th>
@@ -116,6 +120,10 @@
                                     <td class="sname" aria-hidden="true" (click)="openStudentDetails(editmodal,user)">
                                         {{user.student.studentname}}</td>
                                     <td>{{getDate(user)}}</td>
+                                    <td>{{user.user.gender}}</td>
+                                    <td>{{user.center.centername}}</td>
+                                    <td>{{user.center.centerid}}</td>
+                                    <td>{{user.center.centertype}}</td>
                                     <td style=" text-transform: capitalize;">{{user.user.usertype}}</td>
                                     <td style=" text-transform :uppercase">{{user.student.program}}</td>
                                     <td style=" text-transform: capitalize;">{{user.center.district}}</td>
