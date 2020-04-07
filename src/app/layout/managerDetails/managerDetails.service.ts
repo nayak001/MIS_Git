@@ -22,11 +22,27 @@ export class ManagerDetailsService {
 
 	}
 	getAllManagersDetails(data){
-		return this.http.get(baseUrl+'getAllDetailsManagers',
+		return this.http.get(baseUrl+'getAllDetailsManagers?center_type=' + data.center_type +"&createdon=" + data.createdon,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});	
+	}
+
+
+	getallmanagersfeedbacks(){
+		return this.http.get(baseUrl+'getallmanagersfeedbacks',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});	
+	}
+	getallissuesmgr(){
+		return this.http.get(baseUrl + 'getallissuesmgr',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+
+		});
 	}
 	// getallDetailsStudents(data){
 	// 	return this.http.get(baseUrl + 'getallDetailsStudents?userType=' + data.userType + '&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type,
