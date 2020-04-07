@@ -30,6 +30,10 @@
       <i class="fa fa-fw fa-address-card-o"></i>&nbsp;
       <span>{{ 'Blocks & Districts' | translate }}</span>
     </a>
+    <a [routerLink]="['/sendSMS']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-envelope-o"></i>&nbsp;
+      <span>{{ 'Send SMS' | translate }}</span>
+    </a>
     <a [routerLink]="['/pushnotification']" [routerLinkActive]="['router-link-active']" class="list-group-item">
       <i class="fa fa-fw fa-commenting"></i>&nbsp;
       <span>{{ 'Push Notification' | translate }}</span>

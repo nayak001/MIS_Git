@@ -498,6 +498,9 @@ SEE LICENSE IN license
 @syncfusion/ej2-base
 SEE LICENSE IN license
 
+ng-multiselect-dropdown
+MIT
+
 tslib
 Apache-2.0
 Apache License
@@ -627,7 +630,4 @@ THE SOFTWARE.
 
 
 ngx-croppie
-MIT
-
-ng-multiselect-dropdown
 MIT

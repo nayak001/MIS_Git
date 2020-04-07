@@ -32,6 +32,7 @@ const routes: Routes = [
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'pushnotification', loadChildren: './pushnotification/pushnotification.module#PushnotificationModule' },
+      { path: 'sendSMS', loadChildren: './sendSMS/sendSMS.module#SendSMSModule' },
       { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule' },
       { path: 'dailyinfo', loadChildren: './dailyinfo/dailyinfo.module#DailyinfoModule' },
       { path: 'studentdetails', loadChildren: './studentdetails/studentdetails.module#StudentdetailsModule' },
