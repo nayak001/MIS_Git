@@ -12,6 +12,9 @@ import { UsersService } from './users.service';
 
 export class UsersComponent implements OnInit {
 	public data : any;
+	page: any = 1;
+	totalPage: any;
+	page_no: any = 1;
 	public filterData : any;
 	hideLoading_indicator: boolean;
 	modalReference: any;
@@ -20,6 +23,7 @@ export class UsersComponent implements OnInit {
     constructor(public router: Router, private usersService: UsersService) {
 		this.hideLoading_indicator = true;
 		this.getallUsers();
+		this.getalluserCount()
 	}
 	
 	ngOnInit() {}
@@ -44,11 +48,23 @@ export class UsersComponent implements OnInit {
 		}
         this.router.navigate(["/usersregistration"], navigationExtras);
 	}
+	getPageNo(event) {
+		const page = event.target.text.match(/\d+/)[0]
+		this.page_no = page
+		this.getallUsers()
+	}
+
+	getalluserCount() {
+		this.usersService.getalluserCount().subscribe(data => {
+			this.totalPage = data || 0
+		})
+	}
 
 	// get all users
 	getallUsers() {
 		this.hideLoading_indicator = false;
-		this.usersService.getalluser().subscribe(data => {
+		let limit = 10
+		this.usersService.getalluser(this.page_no, limit).subscribe(data => {
 				console.log('### data: '+JSON.stringify(data));
 				this.data = data;
 				this.filterData = data;

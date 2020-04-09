@@ -26,9 +26,16 @@ export class UsersService {
 			//responseType: 'text' 
 		});			
 	}
+	getalluserCount() {
+		return this.http.get(baseUrl+'getalluserCount',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});	
+	}
 
-	getalluser(){				
-		return this.http.get(baseUrl+'getalluser',
+	getalluser(page, limit){				
+		return this.http.get(baseUrl+'getalluser?page_no=' + page + '&limit=' + limit,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

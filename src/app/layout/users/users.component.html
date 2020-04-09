@@ -4,92 +4,93 @@
         <div class="col col-xl-12 col-lg-12">
             <div class="card mb-3">
                 <div class="card-header">
-					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
-							<h4>USER DETAILS</h4>
-						</div>
-						<div class="col">
-							<!-- <button (click)="open(content, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New User</button> -->
-							<button (click)="navigate_to_registrationpage(null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New User</button>
-						</div>
-					</div>					
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4">
+                            <h4>USER DETAILS</h4>
+                        </div>
+                        <div class="col">
+                            <!-- <button (click)="open(content, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New User</button> -->
+                            <button (click)="navigate_to_registrationpage(null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New User</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body table-responsive">
-					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-					</div>
-					<div class="row">
-						<div class="col col-lg-2 col-md-2 col-sm-2"><span class="bold-font">Search User Id</span></div>
-						<div class="col col-lg-8 col-md-8 col-sm-8">
-							<input type="text" (keyup)='search($event.target.value)'>
-						</div>
-					</div>
-                    <table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="4">
-					  <thead>
-					  <tr>
-						  <th style="width: 15%"></th>
-						  <th style="width: 15%">
-							  <mfDefaultSorter by="username">User Name</mfDefaultSorter>
-						  </th>
-						  <th style="width: 5%">
-							  <mfDefaultSorter by="usertype">User Type</mfDefaultSorter>
-						  </th>
-						  <th style="width: 30%">
-							  <mfDefaultSorter by="emailid">User Email</mfDefaultSorter>
-						  </th>
-						  <th style="width: 5%">
-							  <mfDefaultSorter by="gender">Gender</mfDefaultSorter>
-						  </th>
-						  <th style="width: 5%">
-							  <mfDefaultSorter by="contactnumber">Mobile</mfDefaultSorter>
-						  </th>
-						  <th style="width: 15%">
-							  <mfDefaultSorter by="permanentaddress">City</mfDefaultSorter>
-						  </th>
-						  <th style="width: 20%">
-							  Action
-						  </th>
-					  </tr>
-					  </thead>
-					  <tbody>
-					  <tr *ngFor="let user of mf.data">
-						  <td>
-							  <span class="">
+                    <div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator">
+                        <span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg-2 col-md-2 col-sm-2"><span class="bold-font">Search User Id</span></div>
+                        <div class="col col-lg-8 col-md-8 col-sm-8">
+                            <input type="text" (keyup)='search($event.target.value)'>
+                        </div>
+                    </div>
+                    <table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="10">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%"></th>
+                                <th style="width: 15%">
+                                    <mfDefaultSorter by="username">User Name</mfDefaultSorter>
+                                </th>
+                                <th style="width: 5%">
+                                    <mfDefaultSorter by="usertype">User Type</mfDefaultSorter>
+                                </th>
+                                <th style="width: 30%">
+                                    <mfDefaultSorter by="emailid">User Email</mfDefaultSorter>
+                                </th>
+                                <th style="width: 5%">
+                                    <mfDefaultSorter by="gender">Gender</mfDefaultSorter>
+                                </th>
+                                <th style="width: 5%">
+                                    <mfDefaultSorter by="contactnumber">Mobile</mfDefaultSorter>
+                                </th>
+                                <th style="width: 15%">
+                                    <mfDefaultSorter by="permanentaddress">City</mfDefaultSorter>
+                                </th>
+                                <th style="width: 20%">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of mf.data">
+                                <td>
+                                    <span class="">
 							  	<img src="{{ (user.image == undefined || user.image == null || user.image == '') ? 'https://shared001.s3.us-east-2.amazonaws.com/default-user-profile-image.jpg' : user.image }}" class="profileimage" />
 							  </span>
-						  </td>
-						  <td><span class="bold-font">{{user.username | uppercase}}</span></td>
-						  <td><span class="normal-font">{{user.usertype | uppercase}}</span></td>
-						  <td><span class="normal-font">{{user.emailid}}</span></td>
-						  <td><span class="normal-font">{{user.gender | uppercase}}</span></td>
-						  <td><span class="normal-font">{{user.contactnumber}}</span></td>
-						  <td><span class="normal-font">{{user.permanentaddress | uppercase}}</span></td>
-						  <td>
-								<div class="row">
-									<div class="col col-xl-6 col-lg-6">
-										<!-- edit button datatable -->
-										<!-- <button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(content,user)"><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
-										<button (click)="navigate_to_registrationpage(user)" class="btn btn-primary input-block-level form-control edit-button" type="button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-									</div>
-									<div class="col col-xl-6 col-lg-6">
-										<!-- delete button datatable -->
-										<button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="deleteFormSubmitAction(user._id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
-									</div>
-								</div>
-						  </td>
-					  </tr>
-					  </tbody>
-					  <tfoot>
-					  <tr>
-						  <td colspan="4">
-							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
-							  <mfBootstrapPaginator></mfBootstrapPaginator> 
-						  </td>
-					  </tr>
-					  </tfoot>
-					</table>
+                                </td>
+                                <td><span class="bold-font">{{user.username | uppercase}}</span></td>
+                                <td><span class="normal-font">{{user.usertype | uppercase}}</span></td>
+                                <td><span class="normal-font">{{user.emailid}}</span></td>
+                                <td><span class="normal-font">{{user.gender | uppercase}}</span></td>
+                                <td><span class="normal-font">{{user.contactnumber}}</span></td>
+                                <td><span class="normal-font">{{user.permanentaddress | uppercase}}</span></td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col col-xl-6 col-lg-6">
+                                            <!-- edit button datatable -->
+                                            <!-- <button type="button" class="btn btn-primary input-block-level form-control edit-button" (click)="open(content,user)"><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
+                                            <button (click)="navigate_to_registrationpage(user)" class="btn btn-primary input-block-level form-control edit-button" type="button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                        </div>
+                                        <div class="col col-xl-6 col-lg-6">
+                                            <!-- delete button datatable -->
+                                            <button type="button" class="btn btn-danger input-block-level form-control delete-button" (click)="deleteFormSubmitAction(user._id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <ngb-pagination (click)="getPageNo($event)" [collectionSize]="totalPage.count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                                    <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+                                    <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
-            </div>                       
-        </div>        
+            </div>
+        </div>
     </div>
 </div>
