@@ -81,7 +81,7 @@
                 <div id="table-scroll" class="table-scroll table1" *ngIf="isLoaded">
                     <div class="table-wrap" style="overflow-x:auto;">
                         <table class="table table-striped main-table" *ngIf="check &&  !isdata_table"
-                            [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            [mfData]="all_managers_data" #mf="mfDataTable" [mfRowsOnPage]="25">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -111,7 +111,7 @@
                                 <tr>
                                     <td colspan="40">
                                         <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
-                                        <ngb-pagination (click)="getPageNo($event)" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                                        <ngb-pagination (click)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
 
                                         <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
                                     </td>

@@ -92,13 +92,21 @@ export class ManagerDetailsComponent implements OnInit {
 		// this.getallissuesmgr();
 	}
 
+
+	getPageNo(event) {
+		const page = event.target.text.match(/\d+/)[0]
+		this.page_no = page
+		// this.isLoaded = false
+		this.getManagersDetails()
+
+	}
 	dyCols = [];
 	getManagersDetails(){
 		const data = {
 			center_type : this.center_type,
 			createdon : this.createdon,
 			page_no :this.page_no,
-			limit:10,
+			limit:25,
 		} 
 		debugger
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe((data: any)=> {

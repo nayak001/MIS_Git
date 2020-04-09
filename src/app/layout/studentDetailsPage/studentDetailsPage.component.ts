@@ -30,7 +30,7 @@ export class StudentDetailsPageComponent implements OnInit {
 
 	page: any = 1;
 	totalPage: any;
-	page_no: any = 1;
+	page_no:any = 1;
 
 	
 	userType:any = 'all'
@@ -44,7 +44,7 @@ count : any;
 	sex: any = 'all';
 	baseline : any = 'all';
 	seventyece :any = 'all';
-	mfRowsOnPage : any = 10;
+	mfRowsOnPage : any = 25;
 	mfActivePage :any ;
     enrolldate:Date ;
 	usersubmitaction: string;
@@ -258,7 +258,7 @@ count : any;
 			seventyece:this.seventyece,
 			avg_attendance : this.avg_attendance,
 			page_no :this.page_no,
-			limit:10,
+			limit:25,
 		}
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));

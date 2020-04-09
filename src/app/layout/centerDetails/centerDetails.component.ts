@@ -130,7 +130,7 @@ export class CenterDetailsComponent implements OnInit {
 	getPageNo(event) {
 		const page = event.target.text.match(/\d+/)[0]
 		this.page_no = page
-		// this.isLoaded = false
+		 this.isLoaded = false
 		this.getCenterDetails()
 
 	}
@@ -151,7 +151,7 @@ export class CenterDetailsComponent implements OnInit {
 			block: this.block,
 			program_type: this.program_type,
 			page_no :this.page_no,
-			limit:10,
+			limit:25,
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));

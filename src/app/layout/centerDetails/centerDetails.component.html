@@ -98,7 +98,7 @@
                 <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
                     <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
                         <table class="table table-striped main-table" [mfData]="filterData" #mf="mfDataTable"
-                            [mfRowsOnPage]="10">
+                            [mfRowsOnPage]="25">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -238,7 +238,7 @@
                                 <tr>
                                     <td colspan="20">
                                        
-                                        <ngb-pagination (click)="getPageNo($event)" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                                        <ngb-pagination (click)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
                                         <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
                                         <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
                                     </td>
