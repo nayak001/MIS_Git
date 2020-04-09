@@ -22,7 +22,9 @@ export class ManagerDetailsService {
 
 	}
 	getAllManagersDetails(data){
-		return this.http.get(baseUrl+'getAllDetailsManagers?center_type=' + data.center_type +"&createdon=" + data.createdon,
+		return this.http.get(baseUrl+'getAllDetailsManagers?center_type=' + data.center_type 
+		+"&createdon=" + data.createdon+ "&page_no=" + data.page_no +
+		"&limit=" + data.limit, 
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

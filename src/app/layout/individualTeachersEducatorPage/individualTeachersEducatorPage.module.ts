@@ -6,7 +6,7 @@ import { IndividualTeachersEducatorPageRoutingModule } from './individualTeacher
 import { IndividualTeachersEducatorPageComponent } from './individualTeachersEducatorPage.component';
 import { PageHeaderModule } from '../../shared';
 import { DataTableModule } from "angular-6-datatable";
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IndividualTeachersEducatorPageService } from  './individualTeachersEducatorPage.service';
 
 @NgModule({
@@ -16,6 +16,7 @@ import { IndividualTeachersEducatorPageService } from  './individualTeachersEduc
 		PageHeaderModule, 
 		DataTableModule,
 		FormsModule,
+		NgbModule,
 		ReactiveFormsModule
 	],
     declarations: [IndividualTeachersEducatorPageComponent],

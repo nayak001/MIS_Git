@@ -55,8 +55,16 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	modal_contactnumber: string;
 	modal_permanentaddress: string;
 	all_Data: any = [];
-	// isdata_table: boolean = false;
+	isdata_table: boolean = false;
 	userDetails:any;
+
+
+	page: any = 1;
+	totalPage: any;
+	page_no:any = 1;
+	count : any;
+
+
 
 	emailid_exists: boolean = false;
 	disable_emailid: boolean = false;
@@ -126,18 +134,31 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		
 
 	}
+
+
+	getPageNo(event) {
+		const page = event.target.text.match(/\d+/)[0]
+		this.page_no = page
+		// this.isLoaded = false
+		this.individualTeacherEducatorDetail()
+
+	}
+
     individualTeacherEducatorDetail(){
 		const data = {
 			center_type:this.center_type,
 			distric:this.distric,
 			block:this.block,
-			program_type:this.program_type
+			program_type:this.program_type,
+			page_no :this.page_no,
+			limit:10,
 		}
 	this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
 		debugger
 		// console.log('### data: '+JSON.stringify(data));
 		//console.log(data)
 				this.filterData = data
+				this.count = this.filterData.usercount
 		 this.isLoaded = true
 		console.log(this.filterData)
 		// this.all_blocks=data;

@@ -59,6 +59,11 @@ export class CenterDetailsComponent implements OnInit {
 	disable_emailid: boolean = false;
 	Details:any;
 
+	page: any = 1;
+	totalPage: any;
+	page_no:any = 1;
+	count : any;
+
 	constructor(
 		private modalService: NgbModal,
 		private formBuilder: FormBuilder,
@@ -122,7 +127,13 @@ export class CenterDetailsComponent implements OnInit {
 
 
 
+	getPageNo(event) {
+		const page = event.target.text.match(/\d+/)[0]
+		this.page_no = page
+		// this.isLoaded = false
+		this.getCenterDetails()
 
+	}
 
 
 
@@ -138,15 +149,19 @@ export class CenterDetailsComponent implements OnInit {
 			center_type: this.center_type,
 			distric: this.distric,
 			block: this.block,
-			program_type: this.program_type
+			program_type: this.program_type,
+			page_no :this.page_no,
+			limit:10,
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));
 			console.log(data)
 			this.filterData = data;
-
+debugger
 			//this.filterData = [];
 			this.isLoaded = true;
+			this.count = this.filterData[0].centercount
+
 			if (this.filterData.length == 0) {
 				this.isdata_table = true;
 			}

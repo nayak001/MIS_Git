@@ -22,7 +22,9 @@ export class IndividualTeachersEducatorPageService {
 
 	}
 	TeacherEducatorDetail(data){
-		return this.http.get(baseUrl+'getteacherprofilelist?center_type=' + data.center_type + '&distric=' + data.distric + '&block=' + data.block,
+		return this.http.get(baseUrl+'getteacherprofilelist?center_type=' + data.center_type + 
+		'&distric=' + data.distric + '&block=' + data.block + "&page_no=" + data.page_no +
+		"&limit=" + data.limit, 
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

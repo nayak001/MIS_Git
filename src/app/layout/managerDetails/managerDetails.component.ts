@@ -63,6 +63,12 @@ export class ManagerDetailsComponent implements OnInit {
 	all_managers_data:any;
 	createdon : any = 'all'
 
+	page: any = 1;
+	totalPage: any;
+	page_no:any = 1;
+	count : any;
+
+
 	constructor(
 		private modalService: NgbModal,
 		private formBuilder: FormBuilder,
@@ -91,6 +97,8 @@ export class ManagerDetailsComponent implements OnInit {
 		const data = {
 			center_type : this.center_type,
 			createdon : this.createdon,
+			page_no :this.page_no,
+			limit:10,
 		} 
 		debugger
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe((data: any)=> {

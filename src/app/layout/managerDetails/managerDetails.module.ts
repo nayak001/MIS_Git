@@ -6,6 +6,7 @@ import { ManagerDetailsRoutingModule } from './managerDetails-routing.module';
 import { ManagerDetailsComponent } from './managerDetails.component';
 import { PageHeaderModule } from '../../shared';
 import { DataTableModule } from "angular-6-datatable";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ManagerDetailsService } from  './managerDetails.service';
 
@@ -16,6 +17,7 @@ import { ManagerDetailsService } from  './managerDetails.service';
 		PageHeaderModule, 
 		DataTableModule,
 		FormsModule,
+		NgbModule,
 		ReactiveFormsModule
 	],
     declarations: [ManagerDetailsComponent],
