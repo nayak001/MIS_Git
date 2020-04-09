@@ -6,7 +6,7 @@ import { StudentDetailsPageRoutingModule } from './studentDetailsPage-routing.mo
 import { StudentDetailsPageComponent } from './studentDetailsPage.component';
 import { PageHeaderModule } from '../../shared';
 import { DataTableModule } from "angular-6-datatable";
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentDetailsPageService } from  './studentDetailsPage.service';
 
 @NgModule({
@@ -14,6 +14,7 @@ import { StudentDetailsPageService } from  './studentDetailsPage.service';
 		CommonModule, 
 		StudentDetailsPageRoutingModule, 
 		PageHeaderModule, 
+		NgbModule,
 		DataTableModule,
 		FormsModule,
 		ReactiveFormsModule

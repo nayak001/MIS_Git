@@ -21,14 +21,15 @@ export class StudentDetailsPageService {
 		});	
 
 	}
+
+
 	getallDetailsStudents(data){
 		debugger
 		return this.http.get(baseUrl + 'getallDetailsStudents?page_no=1&userType=' + data.userType + 
 		'&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type +
 		 "&baseline=" + data.baseline + "&sex=" + data.sex  + "&avg_attendance=" + data.avg_attendance
-		 +"&seventyece=" + data.seventyece + "&enrolldate=" + data.enrolldate ,
-		//  "&pageno=" + data.pageno + 
-		//  "&size=" + data.size, 
+		 +"&seventyece=" + data.seventyece + "&enrolldate=" + data.enrolldate +"&page_no=" + data.page_no + 
+		 "&limit=" + data.limit, 
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

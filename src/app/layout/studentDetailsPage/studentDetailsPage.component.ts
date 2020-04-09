@@ -26,11 +26,19 @@ export class StudentDetailsPageComponent implements OnInit {
 	check1:boolean = false;
 	check2:boolean = false;
 	check3:boolean = false;
+
+
+	page: any = 1;
+	totalPage: any;
+	page_no: any = 1;
+
 	
 	userType:any = 'all'
 	distric: any =  'all'
 	block: any =  'all'
 	program_type: any =  'all'
+
+count : any;
 
 	avg_attendance : any = 'all';
 	sex: any = 'all';
@@ -229,6 +237,15 @@ export class StudentDetailsPageComponent implements OnInit {
 		this.isdata_table = false
 		this.getallDetailsStudents()
 	}
+
+
+	getPageNo(event) {
+		const page = event.target.text.match(/\d+/)[0]
+		this.page_no = page
+		this.getallDetailsStudents()
+	}
+
+
 	getallDetailsStudents(){
 		const data = {
 			userType:this.userType,
@@ -240,12 +257,16 @@ export class StudentDetailsPageComponent implements OnInit {
 			enrolldate:this.enrolldate,
 			seventyece:this.seventyece,
 			avg_attendance : this.avg_attendance,
+			page_no :this.page_no,
+			limit:10,
 		}
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));
+			debugger
 			console.log(data)
 			this.getallStudents = data
 			this.isLoaded = true
+			this.count = this.getallStudents[0].StudentCount
 			if(this.getallStudents.length == 0){
 				this.isdata_table = true;
 				}
