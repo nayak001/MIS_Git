@@ -12,6 +12,52 @@
                 </div>
                 <div class="row" style="padding: 25px; font-size: 15px;color: black;">
                     <div class="col-2">
+                        <label>Baseline Completed</label>
+                        <select class="form-control select2" [(ngModel)]="baseline" style="font-size: 14px; height: 30px;">
+							<option value="all">All</option>
+							<option value="yes">Yes</option>
+							<option value="no">No</option>
+						</select>
+
+                    </div>
+                     <div class="col-2">
+                        <label>70% in ECE</label>
+                        <select class="form-control select2" [(ngModel)]="seventyece" style="font-size: 14px; height: 30px;">
+                            <option value="all">All</option>
+                            <option value="yes">Yes</option>
+							<option value="no">No</option>  
+						
+                        </select>
+                     </div>
+                        <div class="col-2">
+                            <label>Gender</label>
+                            <select class="form-control select2" [(ngModel)]="sex" style=" height: 30px;">
+                                <option value="all">All</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <label>Average Attendance</label>
+                            <select class="form-control select2" [(ngModel)]="avg_attendance" style=" height: 30px;">
+                                <option value="all">All</option>
+                                <option value="lessfifety"> < = 50% </option>
+                                <option value="lessseventyfive"> > 50%  -  < = 75% </option>
+                                <option value="moreseventyfive"> > 75% </option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            
+                            <label>Enrollment Date</label>
+                            <input type="month" id="month" name="input" ng-model="enrolldate"
+                           />
+                        </div>
+                    
+                   
+                </div>
+                <div class="row" style="padding: 25px; font-size: 15px;color: black;">
+                    <div class="col-2">
                         <label>User Type</label>
                         <select class="form-control select2" [(ngModel)]="userType" style="font-size: 14px; height: 30px;">
 							<option value="all">All</option>
@@ -46,6 +92,7 @@
 							
 						</select>
                     </div>
+                
                     <div class="col-2">
                         <button type="button" (click)="viewData()" class="btn btn-info" style="margin-top:29px;">Filter</button>
                     </div>

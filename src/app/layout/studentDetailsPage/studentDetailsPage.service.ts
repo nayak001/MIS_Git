@@ -22,13 +22,18 @@ export class StudentDetailsPageService {
 
 	}
 	getallDetailsStudents(data){
-		return this.http.get(baseUrl + 'getallDetailsStudents?userType=' + data.userType + '&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type,
+		debugger
+		return this.http.get(baseUrl + 'getallDetailsStudents?userType=' + data.userType + 
+		'&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type +
+		 "&baseline=" + data.baseline + "&sex=" + data.sex  + "&avg_attendance=" + data.avg_attendance
+		 +"&seventyece=" + data.seventyece + "&enrolldate=" + data.enrolldate ,
+		//  "&pageno=" + data.pageno + 
+		//  "&size=" + data.size, 
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});	
 	}
-
 	getBlocks(){
 		return this.http.get(baseUrl+'disticBlockDetails',
 		{

@@ -32,7 +32,13 @@ export class StudentDetailsPageComponent implements OnInit {
 	block: any =  'all'
 	program_type: any =  'all'
 
-
+	avg_attendance : any = 'all';
+	sex: any = 'all';
+	baseline : any = 'all';
+	seventyece :any = 'all';
+	mfRowsOnPage : any = 10;
+	mfActivePage :any ;
+    enrolldate:Date ;
 	usersubmitaction: string;
 	all_blocks: any = [];
 	getallStudents:any = [];
@@ -228,7 +234,12 @@ export class StudentDetailsPageComponent implements OnInit {
 			userType:this.userType,
 			distric:this.distric,
 			block:this.block,
-			program_type:this.program_type
+			program_type:this.program_type,
+			baseline:this.baseline,
+			sex:this.sex,
+			enrolldate:this.enrolldate,
+			seventyece:this.seventyece,
+			avg_attendance : this.avg_attendance,
 		}
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));
