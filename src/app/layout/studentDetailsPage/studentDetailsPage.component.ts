@@ -186,7 +186,7 @@ count : any;
 	openStudentDetails(content, center){
 		this.userDetails = center
 		debugger
-			this.modalReference = this.modalService.open(content, center);
+			this.modalReference = this.modalService.open(content,{ size: 'lg' });
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
 				this.check = true;

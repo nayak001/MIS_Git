@@ -513,7 +513,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6 sideheading">Gender&nbsp;:</div>
-                            <div class="col-6"></div>
+                            <div class="col-6">{{userDetails.user.gender}}</div>
                         </div>
                         <div class="row">
                             <div class="col-6 sideheading">Name of the type&nbsp;:</div>
@@ -521,27 +521,27 @@
                         </div>
                         <div class="row">
                             <div class="col-6 sideheading">Center Name</div>
-                            <div class="col-6" style="text-transform:uppercase;"></div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center.centername}}</div>
                         </div>
                         <div class="row">
                             <div class="col-6 sideheading">Center Id</div>
-                            <div class="col-6" style="text-transform:uppercase;"></div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center.centerid}}</div>
                         </div>
                         <div class="row">
                             <div class="col-6 sideheading">Center Type</div>
-                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.student.program}}</div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center.centertype}}</div>
                         </div>
                         <div class="row">
                             <div class="col-6 sideheading">Block</div>
-                            <div class="col-6" style="text-transform:capitalize;">block</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.center.block}}</div>
                         </div>
                         <div class="row">
                             <div class="col-6 sideheading">District</div>
-                            <div class="col-6" style="text-transform:capitalize;">district</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.center.district}}</div>
                         </div>
                         <div class="row">
                             <div class="col-6 sideheading">State</div>
-                            <div class="col-6" style="text-transform:capitalize;">state</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.state}}</div>
                         </div>
               
                         
@@ -602,33 +602,71 @@
                     <div id="collapsefour" *ngIf="check3" class="collapse show"  aria-labelledby="headingfour" data-parent="#accordionExample">
                       <div class="card-body">
                         <div class="row">
-                            <div class="col-8 sideheading">Avg Monthly Assessment Score</div>
-                            <div class="col-4">{{userDetails.averages.AvgMonthlyAssestmentScore}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Quarterly Assessment Score</div>
-                            <div class="col-4">{{userDetails.averages.QuarterlyAssestmentScore}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Monthly English Assessment Score</div>
-                            <div class="col-4">{{userDetails.averages.MonthlyEnglishAssestmentScore}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8 sideheading">Avg Quarterly Assessment Score</div>
+                            <div class="col-8 sideheading">Maths Assessment Score</div>
                             <div class="col-4"></div>
                         </div>
                         <div class="row">
-                            <div class="col-8 sideheading">Level Jumped</div>
-                            <div class="col-4">{{userDetails.averages.LevelJumped}}</div>
+                            <div class="col-8 sideheading">English Assessment Score</div>
+                            <div class="col-4"></div>
                         </div>
                         <div class="row">
-                            <div class="col-8 sideheading">Age-appropriate Learning Outcomes Achieved</div>
+                            <div class="col-8 sideheading">Odia Assessment Score</div>
+                            <div class="col-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 sideheading">Quarterly ECE Assessment Score</div>
                             <div class="col-4"></div>
                         </div>
                         <div class="row">
                             <div class="col-8 sideheading">Average Attendance</div>
-                            <div class="col-4">{{userDetails.averages.AverageAttendance}}</div>
+                            <div class="col-4">{{userDetails.avg_attendancce}}</div>
                         </div>
+                        <div class="row">
+                            <div class="col-8 sideheading">No of Endline Assessment Completed in PG</div>
+                            <div class="col-4"><span *ngIf="user && user.student && user.student.program == 'pge'">
+                                   
+                                <div class="chip" >Eng &nbsp;: &nbsp;{{user.engbaseline}}
+                                </div>
+                                <div class="chipp">odia &nbsp;: &nbsp;{{user.odiabaseline}}
+                                </div>
+                                <div class="chiip">math &nbsp;: &nbsp;{{user.mathbaseline}}
+                                </div>
+                        
+                           </span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 sideheading">No of Level Jumped in maths</div>
+                            <div class="col-4">{{userDetails.level_jump.math}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 sideheading">No of Level Jumped in odia</div>
+                            <div class="col-4">{{userDetails.level_jump.odia}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 sideheading">No of Level Jumped in English</div>
+                            <div class="col-4">{{userDetails.level_jump.english}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 sideheading"> Number of Quarter 4 Assessment Completed in ECE</div>
+                            <div class="col-4">{{userDetails.quarter4ece}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 sideheading"> 70% age-appropriate learning outcomes in ECE
+                            </div>
+                            <div class="col-4">{{userDetails.ispass}}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8 sideheading">Baseline Test Completed</div>
+                            <div class="col-4">{{userDetails.isparticipated}}</div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-8 sideheading">Class/Grade</div>
+                            <div class="col-4">{{userDetails.student.class}}</div>
+                        </div>
+                       
+                        
                         
                       </div>
                     </div>
