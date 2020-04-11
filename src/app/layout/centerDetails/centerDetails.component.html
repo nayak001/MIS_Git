@@ -90,6 +90,9 @@
 
 
                 </div>
+               
+
+                </div>
                 <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
                     <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
                             alt="Loading. Please wait..."></span>
@@ -223,35 +226,38 @@
  
                                     </td>
 
-
-
-
-
-
-                                    
+                      
                                 </tr>
-
                             </tbody>
 
+                           
 
                             <tfoot>
                                 <tr>
+                                    
+
                                     <td colspan="20">
-                                       
-                                        <ngb-pagination (click)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                                        <ngb-pagination (click)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" 
+                                        [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
                                         <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
                                         <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
+                                        <div class="loader" *ngIf ="loader" style="margin-left:410px;margin-top: -50px;"></div>
+
                                     </td>
+                                   
                                 </tr>
+                               
                             </tfoot>
 
 
                         </table>
 
+                       
 
-
+                        
                     </div>
-                </div>
+              
+               
 
                 <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
                     <h1>Oops!!</h1>
@@ -630,20 +636,33 @@
                                 <div class="col-8 sideheading">Type</div>
                                 <div class="col-4" style="text-transform:capitalize;">{{user.center.centertype}}</div>
                             </div>
+                         
                             <div class="row">
                                 <div class="col-8 sideheading">Block</div>
-                                <div class="col-4" style="text-transform:capitalize;">block</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.center.block}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">District</div>
-                                <div class="col-4" style="text-transform:capitalize;">district</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.center.district}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">State</div>
-                                <div class="col-4" style="text-transform:capitalize;">state</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.state}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Educator name</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.educator}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">No. of Students</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.no_of_students}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Female Students</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.no_female_students}}</div>
                             </div>
 
-
+                            
                         </div>
                     </div>
                 </div>
@@ -748,6 +767,10 @@
                                 <div class="col-6 sideheading">PG Maths Level 5 :</div>
                                 <div class="col-6">{{user.pgMath5}}</div>
                             </div>
+                            <div class="row">
+                                <div class="col-8 sideheading">Average Attendance</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.avg_att}}</div>
+                            </div>
 
 
 
@@ -767,11 +790,6 @@
                     <div id="collapsefour" *ngIf="check3" class="collapse show" aria-labelledby="headingfour"
                         data-parent="#accordionExample">
                         <div class="card-body">
-                            <!--                     
-                        <div class="row">
-                            <div class="col-8 sideheading">Average Attendance</div>
-                            <div class="col-4"></div>
-                        </div> -->
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved
                                     in PG - English</div>
@@ -867,7 +885,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Class/Grade of the Student</div>
-                                <div class="col-4">{{user.grade_of_student}}</div>
+                                <div class="col-4"></div>
                             </div>
 
 

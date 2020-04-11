@@ -27,6 +27,7 @@ export class CenterDetailsComponent implements OnInit {
 	check3: boolean = false;
 	check4:boolean = false;
 	user : any ;
+	loader : Boolean = false
 	usersubmitaction: string;
 	all_blocks: any = [];
 	allDistics: any = [];
@@ -128,9 +129,11 @@ export class CenterDetailsComponent implements OnInit {
 
 
 	getPageNo(event) {
+		this.loader = true
 		const page = event.target.text.match(/\d+/)[0]
 		this.page_no = page
-		 this.isLoaded = false
+		
+		//  this.isLoaded = false
 		this.getCenterDetails()
 
 	}
@@ -157,9 +160,11 @@ export class CenterDetailsComponent implements OnInit {
 			// console.log('### data: '+JSON.stringify(data));
 			console.log(data)
 			this.filterData = data;
+			
+
 debugger
 			//this.filterData = [];
-			this.isLoaded = true;
+			 this.isLoaded = true;
 			this.count = this.filterData[0].centercount
 
 			if (this.filterData.length == 0) {
@@ -169,6 +174,7 @@ debugger
 				this.isdata_table = false;
 
 			}
+			this.loader = false
 		},
 			error => { },
 			() => { }
