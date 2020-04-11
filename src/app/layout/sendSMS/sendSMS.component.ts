@@ -7,14 +7,6 @@ import { SendSMSService } from './sendSMS.service';
 
 //import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import swal from 'sweetalert2';
-
-import { environment } from './../../../environments/environment.prod';
-const sms_userid = environment.sms_userid;
-const sms_password = environment.sms_password;
-const sms_senderid1 = environment.sms_senderid1;  
-const sms_senderid2 = environment.sms_senderid2;
-const sms_send_url = environment.sms_send_url;
-
 @Component({
     selector: 'app-sendSMS',
     templateUrl: './sendSMS.component.html',
@@ -118,6 +110,7 @@ export class SendSMSComponent implements OnInit {
 					}else{
 						this.sendSMSService.createnewcontact({contactname: this.modal_contact_name, contactnumber: this.modal_contact_number}).subscribe(data2 => {
 								console.log('### res data2: ' + JSON.stringify(data2));
+								this.getallcontacts();
 								swal.fire('Success', 'Contact saved successfully', 'success');
 								this.modal_contact_number = '';
 								this.modal_contact_name = '';
@@ -167,8 +160,6 @@ export class SendSMSComponent implements OnInit {
 	}
 
 	async sendSMS(sms_to_numbers, sms_message){
-		this.sms_api_url_full = sms_send_url+'?usr='+sms_userid+'&pwd='+sms_password+'&sndr='+sms_senderid1+'&ph='+sms_to_numbers+'&message='+sms_message;
-
 		this.hideLoading_indicator = false;
 		await this.sendSMSService.sendSMS(sms_to_numbers, sms_message).subscribe(data => {
 				console.log('### send SMS reponse: '+JSON.stringify(data));
@@ -188,6 +179,7 @@ export class SendSMSComponent implements OnInit {
 		this.hideLoading_indicator = false;
 		await this.sendSMSService.saveSMS(sms_obj).subscribe(data => {
 				console.log('### save SMS reponse: '+JSON.stringify(data));
+				this.getallsms();
 				this.hideLoading_indicator = true;
 				//swal.fire('Success', 'Message sent successfully', 'success');
 				this.modalReference.close();
@@ -205,8 +197,8 @@ export class SendSMSComponent implements OnInit {
 		this.hideLoading_indicator = false;
 		await this.sendSMSService.deletecontactbyid(contact_obj._id).subscribe(data => {
 				console.log('### delete contactbyid reponse: '+JSON.stringify(data));
-				this.hideLoading_indicator = true;
 				this.getallcontacts();
+				this.hideLoading_indicator = true;
 				swal.fire('Success', 'Contact deleted successfully', 'success');
 				this.modalReference.close();
 			},

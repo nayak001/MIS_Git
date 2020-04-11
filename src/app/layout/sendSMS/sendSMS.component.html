@@ -95,7 +95,9 @@
 								<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
 							</div>
 							<div class="row">
-								<div class="col col-lg-7 col-md-7 col-sm-7">SMS List</div>
+								<div class="col col-lg-7 col-md-7 col-sm-7">SMS List
+									<span class="float-right"><a href="http://text-sms.techmet.in" target="_blank">View details</a></span>
+								</div>
 								<div class="col col-lg-5 col-md-5 col-sm-5">Contacts List</div>
 							</div>
 							<div class="row">
@@ -120,7 +122,7 @@
 											<td>
 												<div class="row">
 													<div *ngFor="let contact of sms.tonumbers" class="cont">
-														<span>{{contact.contactname}}</span><br>
+														<span>{{contact.contactname | titlecase}}</span><br>
 														<span>{{contact.contactnumber}}</span>
 													</div>
 												</div>

@@ -1,13 +1,16 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpResponse, HttpEventType } from '@angular/common/http';
 import { Mastermanagertraining2Service } from './mastermanagertraining2.service';
+import { ManagersboxService } from  './../managersbox/managersbox.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 import { environment } from './../../../environments/environment.prod';
 const URL = environment.uploadURL;
+import swal from 'sweetalert2';
 
 
 // ng2-file-uploader components
@@ -21,6 +24,17 @@ import { FileUploader } from 'ng2-file-upload';
     animations: [routerTransition()]
 })
 export class Mastermanagertraining2Component implements OnInit {
+	// File Upload
+	fileInputVariable: ElementRef;
+	selectedFiles: FileList;
+	currentFileUpload: File;
+	progress: { percentage: number } = { percentage: 0 };
+	
+	displayname: string = '';
+	s3name: string = '';
+	filetype: string = '';
+	s3path: string = '';
+	hideProgressbar: boolean = true;
 	// video
 	video_file_name:string ='';
 
@@ -28,10 +42,6 @@ export class Mastermanagertraining2Component implements OnInit {
 	worksheet_file_name:string ='';
 
 	// image
-	//imageURL = 'http://18.191.206.88:1234/thinkzone/getimage/';
-	imageURL = environment.ImageURL;
-	uploaded_image_name: string = '';
-	uploaded_image_name_arr: any = [];
 
 	// quiz - add
 	add_q_index: string = '';
@@ -85,37 +95,12 @@ export class Mastermanagertraining2Component implements OnInit {
 
 	public Editor = ClassicEditor;
 
-	
-	public uploader: FileUploader = new FileUploader({
-		url: URL,
-		itemAlias: 'image',
-		maxFileSize: 2*1024*1024 // 2 MB
-	});
-
-	initImageUpload(){
-		this.uploader.onAfterAddingFile = (file) => {
-			//--------------------renaming the file-------------------------
-			let filename = file.file.name;
-			let ext = filename.substr(filename.lastIndexOf('.') + 1);
-			let newfilename = Date.now()+'.'+ext;
-			file.file.name = newfilename;
-			this.uploaded_image_name = newfilename;
-			//--------------------------------------------------------------
-			file.withCredentials = false;
-		};
-		this.uploader.onCompleteItem = (item: any, status: any) => {
-			this.flashcard_value.push(this.uploaded_image_name);
-			console.log('@@@ flashcard_value:', JSON.stringify(this.flashcard_value));
-			//console.log('Uploaded File Details:', item);
-			alert('File successfully uploaded!');
-		};
-	}
-
     constructor(
 		private modalService: NgbModal,
 		public router: Router,
 		public route: ActivatedRoute,
 		private mastermanagertraining2Service: Mastermanagertraining2Service,
+		private managersboxService: ManagersboxService,
 		private elementRef: ElementRef
 	) {
 		// query params
@@ -136,19 +121,57 @@ export class Mastermanagertraining2Component implements OnInit {
 
 		this.hideLoading_indicator = true;
 		this.hideContent_div = true;
+		
+		this.reset_content_tab();
+		this.reset_quiz_tab();
+		this.reset_image_tab();
+		this.reset_video_tab();
 	}
 	
-	ngOnInit() {
-		this.reset_contents();
-		this.initImageUpload();
-	}
+	ngOnInit() {}
+	
+	// load record
+	async load_record(){
+		if(	 
+			this.selected_moduleid != undefined && this.selected_moduleid != null && this.selected_moduleid != '' &&
+		    this.selected_submoduleid != undefined && this.selected_submoduleid != null && this.selected_submoduleid != ''
+		){
+			this.hideLoading_indicator = false;
+			this.hideContent_div = true;
+			this.mastermanagertraining2Service.getallmanagertrainingcontents(this.selected_moduleid, this.selected_submoduleid).subscribe(data => {
+					console.log('### data: '+JSON.stringify(data));
+					if(Object.keys(data).length > 0){
+						this.save_operation = 'update';
+						this.record_id = data[0]['_id'];
 
-	reset_contents(){
-		this.content_value = '';
-		this.video_value = [];
-		this.worksheet_value = [];
-		this.flashcard_value = [];
-		this.quiz_value = [];
+						this.content_value = data[0]['content'];
+						this.quiz_value = data[0]['quiz'];
+						this.flashcard_value = data[0]['flashcard'];
+						this.video_value = data[0]['video'];
+					}else{
+						this.save_operation = 'save';
+						this.record_id = '';
+
+						this.content_value = '';
+						this.quiz_value = [];
+						this.flashcard_value = [];
+						this.video_value = [];
+					}
+					this.data = data;
+					this.hideLoading_indicator = true;
+					this.hideContent_div = false;
+				},
+				error => {},
+				() => {}
+			);
+		} else {
+			this.content_value = '';
+			this.quiz_value = [];
+			this.flashcard_value = [];
+			this.video_value = [];
+			this.hideLoading_indicator = true;
+			this.hideContent_div = true;
+		}
 	}
 
 	onselect_editq_select(value){
@@ -173,55 +196,49 @@ export class Mastermanagertraining2Component implements OnInit {
 		this.selected_qans_text_add = selectElementText;
 	}
 
-	go_btn_click(){
-		this.load_record();
-	}
-
-	back_btn_click(){
-		this.router.navigate(['mastermanagertraining1']);
-	}
-
-	async load_record(){
-		if(	 this.selected_moduleid != undefined && this.selected_moduleid != null && this.selected_moduleid != ''
-		  && this.selected_submoduleid != undefined && this.selected_submoduleid != null && this.selected_submoduleid != ''){
-
-			this.hideLoading_indicator = false;
-			this.hideContent_div = true;
-			this.mastermanagertraining2Service.getallmanagertrainingcontents(this.selected_moduleid, this.selected_submoduleid).subscribe(data => {
-					console.log('### data: '+JSON.stringify(data));
-					if(Object.keys(data).length > 0){
-						this.save_operation = 'update';
-						this.record_id = data[0]['_id'];
-						this.content_value = data[0]['content'];
-						this.worksheet_value = data[0]['worksheet'];
-						this.video_value = data[0]['video'];
-						this.flashcard_value = data[0]['flashcard'];
-						this.quiz_value = data[0]['quiz'];
-					}else{
-						this.save_operation = 'save';
-						this.record_id = '';
-						this.content_value = '';
-						this.worksheet_value = [];
-						this.video_value = [];
-						this.flashcard_value = [];
-						this.quiz_value = [];
-					}
-					this.data = data;
-					this.hideLoading_indicator = true;
-					this.hideContent_div = false;
-				},
-				error => {},
-				() => {}
-			);
-		} else {
-			this.content_value = '';
-			this.video_value = [];
-			this.worksheet_value = [];
-			this.hideLoading_indicator = true;
-			this.hideContent_div = true;
+	// quiz
+	addquiz(){
+		let obj = {
+			"qid": new Date().getTime(),
+			"question": this.add_q_question,
+			"A": this.add_q_optionA,
+			"B": this.add_q_optionB,
+			"C": this.add_q_optionC,
+			"D": this.add_q_optionD,
+			"answer": this.selected_qans_val_add
 		}
+		this.quiz_value.push(obj);
+		this.modalReference.close();
 	}
 
+	updatequiz(){
+		let obj = {
+			"qid":this.edit_q_qid,
+			"question": this.edit_q_question,
+			"A": this.edit_q_optionA,
+			"B": this.edit_q_optionB,
+			"C": this.edit_q_optionC,
+			"D": this.edit_q_optionD,
+			"answer": this.selected_qans_val_edit
+		}
+		this.quiz_value.splice(this.edit_q_index, 1, obj);
+		this.modalReference.close();
+	}
+
+	delquiz(){
+		this.quiz_value.splice(this.delete_q_index, 1);
+		this.modalReference.close();
+	}
+
+	// images
+	addflashcard(){}
+	delflashcard(i){
+		console.log('-->Index Value= '+i);
+		if(confirm('Are you sure to remove this item?'))
+			this.flashcard_value.splice(i,1);
+	}
+
+	// video
 	addvideo(){
 		if(this.video_file_name == undefined || this.video_file_name == null || this.video_file_name.trim() == ''){
 			alert('Invalid filename');
@@ -244,110 +261,136 @@ export class Mastermanagertraining2Component implements OnInit {
 		}
 	}
 
-	addsheet(){
-		if(this.worksheet_file_name == undefined || this.worksheet_file_name == null || this.worksheet_file_name.trim() == ''){
-			alert('Invalid filename');
-		} else {
-			let filename = this.worksheet_file_name+'.pdf';
-			let newfilename = '/THINKZONE/TRAINING/WORKSHEET/'+filename;
-			this.worksheet_value.push(newfilename);
-			this.modalReference.close();
-		}
-		/*let module_name = this.selected_modulename.replace(/\s/g,'');
-		let submodule_name = this.selected_submodulename.replace(/\s/g,'');
-		if(confirm('Do you want to add worksheet to this record?')){
-			let filename = module_name+'_'+submodule_name+'_'+(this.worksheet_value.length+1)+'.pdf';
-			let newfilename = '/THINKZONE/TRAINING/WORKSHEET/'+filename;
-			this.worksheet_value.push(newfilename);
-		}*/
+	// back button
+	back_btn_click(){
+		this.router.navigate(['mastermanagertraining1']);
 	}
 
-	delsheet(index){
-		if(this.worksheet_value.length > 0) {
-			if(confirm('Do you want to delete worksheet from this record?')){
-				this.worksheet_value.splice(index, 1);
+	// save
+	async save_btn_click(segment){
+		console.log('@@@ Segment: '+segment);
+		if(segment == 'text'){
+			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
+				swal.fire('Info', '[1]Please add some content.', 'warning');
+			} else {
+				const body = {
+					moduleid : this.selected_moduleid,
+					modulename : this.selected_modulename,
+					submoduleid : this.selected_submoduleid,
+					submodulename : this.selected_submodulename,
+					content: this.content_value,
+					flashcard: this.flashcard_value,
+					worksheet: this.worksheet_value,
+					video: this.video_value,
+					quiz: this.quiz_value
+				}
+				console.log('### segment= text, save_operation: '+this.save_operation);
+				if(this.save_operation == 'update'){
+					if(confirm('Do you want to update the existing record?'))
+						this.update_record(this.record_id, body);
+				}else{
+					if(confirm('Do you want to save this record?'))
+						this.save_record(body);
+				}
 			}
-		} else {
-			alert('Nothing to delete !!!');
-		}
-	}
-
-	addflashcard(){}
-	delflashcard(i){
-		console.log('-->Index Value= '+i);
-		if(confirm('Are you sure to remove this item?'))
-			this.flashcard_value.splice(i,1);
-	}
-	addquiz(){
-		let obj = {
-			"qid": new Date().getTime(),
-			"question": this.add_q_question,
-			"A": this.add_q_optionA,
-			"B": this.add_q_optionB,
-			"C": this.add_q_optionC,
-			"D": this.add_q_optionD,
-			"answer": this.selected_qans_val_add
-		}
-		this.quiz_value.push(obj);
-		this.modalReference.close();
-	}
-	updatequiz(){
-		let obj = {
-			"qid":this.edit_q_qid,
-			"question": this.edit_q_question,
-			"A": this.edit_q_optionA,
-			"B": this.edit_q_optionB,
-			"C": this.edit_q_optionC,
-			"D": this.edit_q_optionD,
-			"answer": this.selected_qans_val_edit
-		}
-		this.quiz_value.splice(this.edit_q_index, 1, obj);
-		this.modalReference.close();
-	}
-
-	delquiz(){
-		this.quiz_value.splice(this.delete_q_index, 1);
-		this.modalReference.close();
-	}
-
-
-	async save_btn_click(){
-		if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
-			alert('Please add some content !!!');
-		} else if(this.video_value.length <= 0){
-			alert('Please add some video !!!');
-		} else if(this.worksheet_value.length <= 0){
-			alert('Please add some worksheet !!!');
-		} else if(this.quiz_value.length <= 0){
-			alert('Please add some quiz !!!');
-		} else {
+		}else if(segment == 'quiz'){
 			const body = {
-				moduleid : this.selected_moduleid,
-				modulename : this.selected_modulename,
-				submoduleid : this.selected_submoduleid,
-				submodulename : this.selected_submodulename,
-				content: this.content_value,
-				flashcard: this.flashcard_value,
-				worksheet: this.worksheet_value,
-				video: this.video_value,
 				quiz: this.quiz_value
 			}
-			console.log('### this.save_operation: '+this.save_operation);
+			console.log('### segment= quiz, save_operation: '+this.save_operation);
 			if(this.save_operation == 'update'){
-				if(confirm('Do you want to update the existing record?'))
+				if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
+					swal.fire('Info', '[2]Please add some content.', 'warning');
+				}else{
 					this.update_record(this.record_id, body);
+				}
 			}else{
-				if(confirm('Do you want to save this record?'))
-					this.save_record(body);
+				swal.fire('Info', '[3]Please add some content.', 'warning');
+			}
+		}else if(segment == 'image'){		
+			if(this.save_operation == 'update'){
+				if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
+					swal.fire('Info', '[4]Please add some content.', 'warning');
+				}else{
+					this.hideProgressbar = false;
+					this.progress.percentage = 0;
+		
+					this.currentFileUpload = this.selectedFiles.item(0);
+					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+						console.log('$$$event: '+JSON.stringify(event));
+						if (event.type === HttpEventType.UploadProgress) {
+							this.progress.percentage = Math.round(100 * event.loaded / event.total);
+						} else if (event instanceof HttpResponse) {
+							this.s3path = event.body['s3path'];
+							console.log('File is completely uploaded!->'+this.s3path);
+							this.hideProgressbar = true;
+		
+							let obj = {
+								displayname: this.displayname,
+								s3name: this.s3name,
+								filetype: this.filetype,
+								s3path: this.s3path
+							}
+							this.flashcard_value.push(obj);
+		
+							const body = {
+								flashcard: this.flashcard_value
+							}
+							this.update_record(this.record_id, body);
+							this.reset_image_tab();
+						}
+					});
+				}
+			}else{
+				swal.fire('Info', '[5]Please add some content.', 'warning');
+			}
+		}else if(segment == 'video'){
+			if(this.save_operation == 'update'){
+				if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
+					swal.fire('Info', '[6]Please add some content.', 'warning');
+				}else{
+					this.hideProgressbar = false;
+					this.progress.percentage = 0;
+		
+					this.currentFileUpload = this.selectedFiles.item(0);
+					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+						console.log('$$$event: '+JSON.stringify(event));
+						if (event.type === HttpEventType.UploadProgress) {
+							this.progress.percentage = Math.round(100 * event.loaded / event.total);
+						} else if (event instanceof HttpResponse) {
+							this.s3path = event.body['s3path'];
+							console.log('File is completely uploaded!->'+this.s3path);
+							this.hideProgressbar = true;
+		
+							let obj = {
+								displayname: this.displayname,
+								s3name: this.s3name,
+								filetype: this.filetype,
+								s3path: this.s3path
+							}
+							this.video_value.push(obj);
+		
+							const body = {
+								video: this.video_value
+							}
+							this.update_record(this.record_id, body);
+							this.reset_image_tab();
+						}
+					});
+				}
+			}else{
+				swal.fire('Info', '[7]Please add some content.', 'warning');
 			}
 		}
 	}
 
-
+	// save record
 	async save_record(body){
 		this.mastermanagertraining2Service.createnewmanagertrainingcontents(body).subscribe(data => {
 				console.log('###1 save data: '+JSON.stringify(data));
-				alert('Record save status: '+data['status']);
+				swal.fire('Success', 'Record save status: '+data['status'], 'success');
 				location.reload();
 			},
 			error => {},
@@ -355,17 +398,81 @@ export class Mastermanagertraining2Component implements OnInit {
 		);
 	}
 
+	// update record
 	async update_record(id, body){
+		console.log('###1 update body: '+JSON.stringify(body));
 		this.mastermanagertraining2Service.updatemanagertrainingcontentsbyid(id, body).subscribe(data => {
 				console.log('###1 update data: '+JSON.stringify(data));
-				alert('Record update status: '+data['status']);
-				location.reload();
+				swal.fire('Success', 'Record update status: '+data['status'], 'success');
+				this.load_record();
 			},
 			error => {},
 			() => {}
 		);
 	}
 
+	// delete from s3
+	delete_button_click(segmenttype, filedata, indx){
+		console.log('### filedata : '+JSON.stringify(filedata));
+		swal.fire({
+		  title: 'Are you sure?',
+		  text: "Do you want to delete this file?",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes'
+		}).then((result) => {
+		  if (result.value) {
+			this.deletes3file(segmenttype, filedata, indx);
+		  }
+		});
+	}
+
+	deletes3file(segmenttype, filedata, indx){
+		this.hideLoading_indicator = false;
+		this.managersboxService.deleteFromStorage(filedata.s3name).subscribe(data1 => {
+				console.log('@@@s3 data delete: '+JSON.stringify(data1));
+				if(segmenttype == 'image'){
+					this.flashcard_value.splice(indx, 1);
+					const body = {
+						flashcard: this.flashcard_value
+					}
+					this.update_record(this.record_id, body);
+				}else if(segmenttype == 'video'){
+					this.video_value.splice(indx, 1);
+					const body = {
+						video: this.video_value
+					}
+					this.update_record(this.record_id, body);
+				}
+			},
+			error => {},
+			() => {}
+		);
+	}
+
+	// reset
+	reset_content_tab(){
+		this.content_value = '';
+	}
+
+	reset_quiz_tab(){
+		this.quiz_value = [];
+	}
+
+	reset_image_tab(){
+		this.hideProgressbar = true;
+		this.progress.percentage = 0;
+		this.selectedFiles = null;
+		//this.fileInputVariable.nativeElement.value = "";
+	}
+
+	reset_video_tab(){
+		this.video_value = [];
+	}
+
+	// Open Modal
 	open(content,obj,index,flag) {
 		console.log('#### Object: '+ JSON.stringify(obj));
 		console.log('#### flag: '+ flag);
@@ -411,5 +518,63 @@ export class Mastermanagertraining2Component implements OnInit {
         } else {
             return  `with: ${reason}`;
         }
-    }
+	}
+	
+	//==========================================================
+	
+	// upload button
+	filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedFiles = event.target.files;
+			this.displayname = event.target.files[0].name;
+			this.filetype = this.displayname.split('.').pop();
+			this.s3name = (new Date()).getTime()+'.'+this.filetype;
+			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
+		}else{
+			this.displayname = '';
+			this.selectedFiles = null;
+		}
+	}
+	/*
+	uploadfile_button_click() {
+		this.hideProgressbar = false;
+		this.progress.percentage = 0;
+
+		this.currentFileUpload = this.selectedFiles.item(0);
+		console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+		this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+			console.log('$$$event: '+JSON.stringify(event));
+			if (event.type === HttpEventType.UploadProgress) {
+				this.progress.percentage = Math.round(100 * event.loaded / event.total);
+			} else if (event instanceof HttpResponse) {
+				this.s3path = event.body['s3path'];
+				console.log('File is completely uploaded!->'+this.s3path);
+				this.hideProgressbar = true;
+				this.savetodb();
+			}
+		});
+		//this.selectedFiles = undefined;
+	}
+
+	savetodb(){
+		this.hideLoading_indicator = false;
+		let body = {
+			displayname: this.displayname,
+			s3name: this.s3name,
+			filetype: this.filetype,
+			s3path: this.s3path
+		}
+		this.managersboxService.uploadToManagersBox(body).subscribe(data => {
+				console.log('@@@data saved to db: '+JSON.stringify(data));
+				//this.getAllFromManagersBox();
+				this.hideLoading_indicator = true;
+				swal.fire('Save', 'Level added '+data['status'], 'success');
+				this.reset_image_tab();
+			},
+			error => {},
+			() => {}
+		);
+	}
+	*/
+	//==========================================================
 }

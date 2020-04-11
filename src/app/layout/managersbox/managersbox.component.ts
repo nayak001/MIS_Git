@@ -15,15 +15,10 @@ import swal from 'sweetalert2';
 })
 
 export class ManagersboxComponent implements OnInit {
-	
-@ViewChild('fileInput')
-fileInputVariable: ElementRef;
+	@ViewChild('fileInput')
+	fileInputVariable: ElementRef;
 	baseUrl = environment.baseUrl+'s3api/download/';
 
-	displayname: string = '';
-	s3name: string = '';
-	filetype: string = '';
-	s3path: string = '';
 	
 	data: any = [];
 	total_file_count_str: string = '';
@@ -33,6 +28,11 @@ fileInputVariable: ElementRef;
 	selectedFiles: FileList;
 	currentFileUpload: File;
 	progress: { percentage: number } = { percentage: 0 };
+	
+	displayname: string = '';
+	s3name: string = '';
+	filetype: string = '';
+	s3path: string = '';
 
 	constructor(private managersboxService: ManagersboxService) {
 		this.hideProgressbar = true;
@@ -44,14 +44,14 @@ fileInputVariable: ElementRef;
 
 	getAllFromManagersBox(){
 		this.managersboxService.getAllFromManagersBox().subscribe(data => {
-			console.log('@@@data saved to db: '+JSON.stringify(data));
-			this.data = data;
-			this.total_file_count_str = "Total Files: "+this.data.length;
-			this.hideLoading_indicator = true;
-		},
-		error => {},
-		() => {}
-	);
+				console.log('@@@data saved to db: '+JSON.stringify(data));
+				this.data = data;
+				this.total_file_count_str = "Total Files: "+this.data.length;
+				this.hideLoading_indicator = true;
+			},
+			error => {},
+			() => {}
+		);
 	}
 
 	filechooser_onchange(event) {
@@ -99,11 +99,7 @@ fileInputVariable: ElementRef;
 				console.log('@@@data saved to db: '+JSON.stringify(data));
 				this.getAllFromManagersBox();
 				this.hideLoading_indicator = true;
-				swal.fire(
-					'Save',
-					'Level added '+data['status'],
-					'success'
-				);
+				swal.fire('Save', 'Level added '+data['status'], 'success');
 				this.resetall();
 			},
 			error => {},
