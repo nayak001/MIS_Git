@@ -168,14 +168,14 @@
                                     <td class="sname" aria-hidden="true" (click)="openStudentDetails(editmodal,user)">
                                         {{user.student.studentname}}</td>
                                     <td>{{getDate(user)}}</td>
-                                    <td>{{user.user.gender}}</td>
-                                    <td>{{user.center.centername}}</td>
-                                    <td>{{user.center.centerid}}</td>
-                                    <td>{{user.center.centertype}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.user.usertype}}</td>
+                                    <td>{{user.student.gender}}</td>
+                                    <td>{{user.student.center.centername}}</td>
+                                    <td>{{user.student.center.centerid}}</td>
+                                    <td>{{user.student.center.centertype}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.user.usertype}}</td>
                                     <td style=" text-transform :uppercase">{{user.student.program}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.center.district}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.center.block}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.center.district}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.center.block}}</td>
                                     <td style=" text-transform: capitalize;">{{user.state}}</td>
                                     <td>{{user.student.ec_level}}</td>
                                     <td>{{user.student.math_level}}</td>

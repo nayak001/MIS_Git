@@ -120,10 +120,12 @@ export class ManagerDetailsComponent implements OnInit {
 			this.isLoaded = true
 			if(this.all_managers_data.length == 0){
 				this.isdata_table = true;
+				// this.isLoaded = false;
 				}
 				else{
 					this.isdata_table = false;
 				}
+				// this.loader = false
 				},
 				error => {},
 				() => {}
@@ -153,7 +155,7 @@ export class ManagerDetailsComponent implements OnInit {
 	//   }
 			  
 		  viewData(){
-			this.isLoaded = false
+			this.isLoaded = true
 			this.getManagersDetails()
 		}
 

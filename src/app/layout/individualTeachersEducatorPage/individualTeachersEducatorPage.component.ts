@@ -158,7 +158,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		// console.log('### data: '+JSON.stringify(data));
 		//console.log(data)
 				this.filterData = data
-				this.count = this.filterData.usercount
+				this.count = this.filterData[0].count
 		 this.isLoaded = true
 		console.log(this.filterData)
 		// this.all_blocks=data;

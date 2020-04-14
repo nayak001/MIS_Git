@@ -49,7 +49,7 @@
                             <option value="pge">PGE</option>
                         </select>
                     </div>
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <label>Stages</label>
                         <select class="form-control select2" style=" height: 30px;">
 
@@ -71,7 +71,7 @@
                             <option *ngIf="program_type == 'pge'" value="">Month 11</option>
                             <option *ngIf="program_type == 'pge'" value="">Month 12</option>
                         </select>
-                    </div>
+                    </div> -->
                     <!-- <div class="col-1">
                        
                         <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
@@ -241,7 +241,7 @@
                                         [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
                                         <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
                                         <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
-                                        <div class="loader" *ngIf ="loader" style="margin-left:410px;margin-top: -50px;"></div>
+                                       
 
                                     </td>
                                    
@@ -252,7 +252,9 @@
 
                         </table>
 
-                       
+                        <div class="loader" *ngIf ="loader" style="top: 50%;
+                        position: fixed;
+                        left: 50%;"></div>
 
                         
                     </div>
