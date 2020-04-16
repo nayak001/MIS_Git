@@ -13,7 +13,7 @@ import { UsersService } from './users.service';
 export class UsersComponent implements OnInit {
 	public data : any;
 	page: any = 1;
-	totalPage: any;
+	totalPage: any= 0;
 	page_no: any = 1;
 	public filterData : any;
 	hideLoading_indicator: boolean;
@@ -23,10 +23,51 @@ export class UsersComponent implements OnInit {
     constructor(public router: Router, private usersService: UsersService) {
 		this.hideLoading_indicator = true;
 		this.getallUsers();
-		this.getalluserCount()
+		//this.getalluserCount()
 	}
 	
 	ngOnInit() {}
+
+	// get all users
+	getallUsers() {
+		this.hideLoading_indicator = false;
+		let limit = 10
+		
+		this.usersService.gettotalusers().subscribe(data => {
+		//this.usersService.getalluser(this.page_no, limit).subscribe(data => {
+				console.log('### data: '+JSON.stringify(data));
+				this.data = data;
+				this.filterData = data;
+				this.hideLoading_indicator = true;
+			},
+			error => {},
+			() => {}
+		);
+	}
+
+	getalluserCount() {
+		this.usersService.getalluserCount().subscribe(data => {
+			console.log('@@@totalPage= '+JSON.stringify(data));
+			this.totalPage = data || 0
+		})
+	}
+	
+	getPageNo(event) {
+		const page = event.target.text.match(/\d+/)[0]
+		this.page_no = page
+		this.getallUsers()
+	}
+
+	search(term: string) {
+		term = (term == undefined || term == null) ? '' : term;
+		if(!term) {
+		  this.filterData = this.data;
+		} else {
+		  this.filterData = this.data.filter(element => 
+			element.emailid.toLowerCase().includes(term.trim().toLowerCase())
+		  );
+		}
+	}
 
 	// naviagte to registration page
 	navigate_to_registrationpage(users_object){
@@ -47,43 +88,6 @@ export class UsersComponent implements OnInit {
 			};
 		}
         this.router.navigate(["/usersregistration"], navigationExtras);
-	}
-	getPageNo(event) {
-		const page = event.target.text.match(/\d+/)[0]
-		this.page_no = page
-		this.getallUsers()
-	}
-
-	getalluserCount() {
-		this.usersService.getalluserCount().subscribe(data => {
-			this.totalPage = data || 0
-		})
-	}
-
-	// get all users
-	getallUsers() {
-		this.hideLoading_indicator = false;
-		let limit = 10
-		this.usersService.getalluser(this.page_no, limit).subscribe(data => {
-				console.log('### data: '+JSON.stringify(data));
-				this.data = data;
-				this.filterData = data;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
-		);
-	}
-
-	search(term: string) {
-		term = (term == undefined || term == null) ? '' : term;
-		if(!term) {
-		  this.filterData = this.data;
-		} else {
-		  this.filterData = this.data.filter(element => 
-			element.emailid.toLowerCase().includes(term.trim().toLowerCase())
-		  );
-		}
 	}
 
 	// delete user

@@ -55,7 +55,7 @@
                             <tr *ngFor="let user of mf.data">
                                 <td>
                                     <span class="">
-							  	<img src="{{ (user.image == undefined || user.image == null || user.image == '') ? 'https://shared001.s3.us-east-2.amazonaws.com/default-user-profile-image.jpg' : user.image }}" class="profileimage" />
+							  	<img src="{{ (user.image == undefined || user.image == null || user.image == '') ? './../../../../assets/images/default-user-profile-image.jpg' : user.image }}" class="profileimage" />
 							  </span>
                                 </td>
                                 <td><span class="bold-font">{{user.username | uppercase}}</span></td>
@@ -82,9 +82,9 @@
                         <tfoot>
                             <tr>
                                 <td colspan="4">
-                                    <ngb-pagination (click)="getPageNo($event)" [collectionSize]="totalPage.count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                                    <!-- <ngb-pagination (click)="getPageNo($event)" [collectionSize]="totalPage.count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination> -->
                                     <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
-                                    <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
+                                    <mfBootstrapPaginator></mfBootstrapPaginator> 
                                 </td>
                             </tr>
                         </tfoot>

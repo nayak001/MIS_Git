@@ -34,6 +34,14 @@ export class UsersService {
 		});	
 	}
 
+	gettotalusers(){				
+		return this.http.get(baseUrl+'gettotalusers',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+
 	getalluser(page, limit){				
 		return this.http.get(baseUrl+'getalluser?page_no=' + page + '&limit=' + limit,
 		{

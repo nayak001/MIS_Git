@@ -57,6 +57,7 @@ const routes: Routes = [
       { path: 'tzworkshoplevel', loadChildren: './tzworkshoplevel/tzworkshoplevel.module#TzworkshoplevelModule' },
       { path: 'tzworkshopcontent', loadChildren: './tzworkshopcontent/tzworkshopcontent.module#TzworkshopcontentModule' },
       { path: 'managersbox', loadChildren: './managersbox/managersbox.module#ManagersboxModule' },
+      { path: 'skillchartfileupload', loadChildren: './skillchartfileupload/skillchartfileupload.module#SkillchartfileuploadModule' },
       { path: 'centerDetails', loadChildren: './centerDetails/centerDetails.module#CenterDetailsModule' },
       { path: 'studentDetailsPage', loadChildren: './studentDetailsPage/studentDetailsPage.module#StudentDetailsPageModule' },
       { path: 'usertype', loadChildren: './usertype/usertype.module#UsertypeModule' },
