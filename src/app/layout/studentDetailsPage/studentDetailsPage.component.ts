@@ -26,7 +26,7 @@ export class StudentDetailsPageComponent implements OnInit {
 	check1:boolean = false;
 	check2:boolean = false;
 	check3:boolean = false;
-
+	loader : Boolean = false
 
 	page: any = 1;
 	totalPage: any;
@@ -240,6 +240,7 @@ count : any;
 
 
 	getPageNo(event) {
+		this.loader = true;
 		const page = event.target.text.match(/\d+/)[0]
 		this.page_no = page
 		this.getallDetailsStudents()
@@ -266,7 +267,7 @@ count : any;
 			console.log(data)
 			this.getallStudents = data
 			this.isLoaded = true
-			this.count = this.getallStudents[0].StudentCount
+			this.count = this.getallStudents[0].Count
 			if(this.getallStudents.length == 0){
 				this.isdata_table = true;
 				}
@@ -274,6 +275,7 @@ count : any;
 					this.isdata_table = false;
 	
 				}
+				this.loader = false
 
 	})
    };
