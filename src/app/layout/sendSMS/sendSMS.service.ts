@@ -80,4 +80,12 @@ export class SendSMSService {
 		});
 	}
 
+	importContacts(body){
+		return this.http.post(baseUrl+'insertbulkcontact',
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
 }

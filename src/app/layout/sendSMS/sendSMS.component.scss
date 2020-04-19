@@ -95,3 +95,15 @@
     border: 1px solid gray;
     border-radius: 5px;
 }
+
+.import_contacts_list_div{
+    height: 380px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.import_contacts_list_tr{
+    argin-left: 2px;
+    line-height: 3;
+    border: 1px solid gray;
+    padding: 10px;
+}

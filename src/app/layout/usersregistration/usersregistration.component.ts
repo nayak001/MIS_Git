@@ -196,7 +196,8 @@ export class UsersregistrationComponent implements OnInit {
 	getAllUsertypes() {
 		this.hideLoading_indicator = false;
 		this.usersregistrationService.getallactiveusertypes().subscribe(data => {
-        this.data = data;
+				console.log('### usertype list: '+JSON.stringify(data));
+        		this.data = data;
 				this.all_usertypes_list = data;
 				this.hideLoading_indicator = true;
 			},

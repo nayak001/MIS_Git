@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -227,5 +227,93 @@ export class SendSMSComponent implements OnInit {
         } else {
             return  `with: ${reason}`;
         }
+	}
+
+
+
+	// Import contacts from csv file part ---------------------------------------------
+	@ViewChild('csvReader') csvReader: any; 
+	public records: any[] = [];
+	no_of_records: number= 0;  
+
+	uploadListener($event: any): void { 
+		let files = $event.srcElement.files;  
+
+		if (this.isValidCSVFile(files[0])) {  
+		  let input = $event.target;  
+		  let reader = new FileReader();  
+		  reader.readAsText(input.files[0]); 
+
+		  reader.onload = () => {  
+			let csvData = reader.result;  
+			let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);  
+			let headersRow = this.getHeaderArray(csvRecordsArray);  
+			this.no_of_records = csvRecordsArray.length;
+			console.log('@@@ headersRow= '+JSON.stringify(headersRow)); 
+			this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length); 
+			console.log('@@@ records= '+JSON.stringify(this.records)); 
+		  };  
+		  reader.onerror = function () {  
+			console.log('error is occured while reading file!');  
+		  };  
+		} else {  
+		  alert("Please import valid .csv file.");  
+		  this.fileReset();  
+		}  
+	  }    
+  
+	  getDataRecordsArrayFromCSVFile(csvRecordsArray: any, headerLength: any) {  
+		let conactsArr = [];  
+		for (let i = 1; i < csvRecordsArray.length; i++) { 
+			let contobj = {}; 
+		  let curruntRecord = (<string>csvRecordsArray[i]).split(','); 
+		  contobj = {
+			  contactname: curruntRecord[0],
+			  contactnumber: curruntRecord[1]
+		  }; 
+		  conactsArr.push(contobj);
+		}  
+		return conactsArr;  
+	  }  
+	  
+	  isValidCSVFile(file: any) {  
+		return file.name.endsWith(".csv");  
+	  }  
+	  
+	  getHeaderArray(csvRecordsArr: any) {  
+		let headers = (<string>csvRecordsArr[0]).split(',');  
+		let headerArray = [];  
+		for (let j = 0; j < headers.length; j++) {  
+		  headerArray.push(headers[j]);  
+		}  
+		return headerArray;  
+	  }  
+	  
+	  fileReset() {  
+		this.csvReader.nativeElement.value = "";  
+		this.records = [];  
+	  } 
+
+	async import_contact_button_click(){
+		if(this.records.length <= 0){
+			swal.fire('Info', 'No contacts found', 'warning')
+		}else{
+		this.hideLoading_indicator = false;
+		await this.sendSMSService.importContacts(this.records).subscribe(data => {
+				console.log('### save SMS reponse: '+JSON.stringify(data));
+				this.getallcontacts;
+				this.hideLoading_indicator = true;
+				swal.fire('Success', 'Contacts imported successfully', 'success');
+				this.modalReference.close();
+				//this.fileReset();
+			},
+			error => {},
+			() => {
+				swal.fire('Error', 'Error importing contacts', 'warning');
+				this.modalReference.close();
+				//this.fileReset();
+			}
+		);
+		}
 	}
 }

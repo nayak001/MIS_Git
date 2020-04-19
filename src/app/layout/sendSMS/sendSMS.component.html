@@ -5,15 +5,83 @@
             <div class="card mb-3">
                 <div class="card-header">
 					<div class="row">
-						<div class="col col-xl-9 col-lg-9">
+						<div class="col col-xl-7 col-lg-7">
 							<h4>SMS SERVICE</h4>
 						</div>
 						<div class="col">
-							<button (click)="open(contact)" class="btn btn-sm btn-light" type="button"><i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;ADD CONTACT</button>
-							<button (click)="open(content)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;SEND SMS</button>
+							<button (click)="open(importmodal)" class="btn btn-sm btn-light" type="button"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;IMPORT</button>
+							<button (click)="open(addcontactmodal)" class="btn btn-sm btn-light" type="button"><i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;ADD CONTACT</button>
+							<button (click)="open(sendsmsmodal)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;SEND SMS</button>
 							
-							<!-- Modal starts from here -->
-							<ng-template #content let-c="close" let-d="dismiss">
+							<!-- Import Contacts Modal starts from here -->
+							<ng-template #importmodal let-c="close" let-d="dismiss">
+								<div class="card-body">
+									<div class="form-content">
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3">
+												Contacts File(.csv)
+											</div>
+											<div class="col col-xl-9 col-lg-9">
+												<div class="form-group">
+													<input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" />													
+												</div>
+											</div>
+										</div>
+										
+										<div class="row" style="padding: 10px; font-weight: bold;;">{{ no_of_records }} Contact(s) found</div>
+										
+										<div class="row import_contacts_list_div">
+											<table style="width: 100%;">
+												<tr *ngFor="let contact of records; let i=index;" class="import_contacts_list_tr">
+													<td>{{ i+1 }}.</td>
+													<td>{{ contact.contactname }}</td>
+													<td>{{ contact.contactnumber }}</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" (click)="c('Close click')">Close</button>
+									<button type="submit" class="btn btn-primary" (click)="import_contact_button_click()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</ng-template>
+
+							<!-- Add Contacts Modal starts from here -->
+							<ng-template #addcontactmodal let-c="close" let-d="dismiss">
+								<div class="card-body">
+									<div class="form-content">
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3">
+												Name
+											</div>
+											<div class="col col-xl-9 col-lg-9">
+												<div class="form-group">
+													<input type="text" [(ngModel)]="modal_contact_name" class="form-control input-underline input-lg" placeholder="Name">													
+												</div>
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="col col-xl-3 col-lg-3">
+												Number
+											</div>
+											<div class="col col-xl-9 col-lg-9">
+												<div class="form-group">
+													<input type="text" [(ngModel)]="modal_contact_number" class="form-control input-underline input-lg" placeholder="Number">													
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" (click)="c('Close click')">Close</button>
+									<button type="submit" class="btn btn-primary" (click)="save_contact_button_click()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</ng-template>
+
+							<!-- Send SMS Modal starts from here -->
+							<ng-template #sendsmsmodal let-c="close" let-d="dismiss">
 								<div class="card-body">
 									<div class="form-content">
 										<div class="row">
@@ -52,39 +120,6 @@
 									<button type="submit" class="btn btn-primary" (click)="send_button_click()">&nbsp;&nbsp;&nbsp;Send&nbsp;&nbsp;&nbsp;</button>
 								</div>
 							</ng-template>
-
-							<!-- Contacts Modal -->
-							<ng-template #contact let-c="close" let-d="dismiss">
-								<div class="card-body">
-									<div class="form-content">
-										<div class="row">
-											<div class="col col-xl-3 col-lg-3">
-												Name
-											</div>
-											<div class="col col-xl-9 col-lg-9">
-												<div class="form-group">
-													<input type="text" [(ngModel)]="modal_contact_name" class="form-control input-underline input-lg" placeholder="Name">													
-												</div>
-											</div>
-										</div>
-										
-										<div class="row">
-											<div class="col col-xl-3 col-lg-3">
-												Number
-											</div>
-											<div class="col col-xl-9 col-lg-9">
-												<div class="form-group">
-													<input type="text" [(ngModel)]="modal_contact_number" class="form-control input-underline input-lg" placeholder="Number">													
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" (click)="c('Close click')">Close</button>
-									<button type="submit" class="btn btn-primary" (click)="save_contact_button_click()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-								</div>
-							</ng-template>
 						</div>
 					</div>					
 				</div>
@@ -96,7 +131,7 @@
 							</div>
 							<div class="row">
 								<div class="col col-lg-7 col-md-7 col-sm-7">SMS List
-									<span class="float-right"><a href="http://text-sms.techmet.in" target="_blank">View details</a></span>
+									<span class="float-right"><a href="http://text-sms.techmet.in" target="_blank">View details >></a></span>
 								</div>
 								<div class="col col-lg-5 col-md-5 col-sm-5">Contacts List</div>
 							</div>
