@@ -301,7 +301,7 @@ export class SendSMSComponent implements OnInit {
 		this.hideLoading_indicator = false;
 		await this.sendSMSService.importContacts(this.records).subscribe(data => {
 				console.log('### save SMS reponse: '+JSON.stringify(data));
-				this.getallcontacts;
+				this.getallcontacts();
 				this.hideLoading_indicator = true;
 				swal.fire('Success', 'Contacts imported successfully', 'success');
 				this.modalReference.close();

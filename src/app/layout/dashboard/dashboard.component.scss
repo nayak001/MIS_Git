@@ -6,3 +6,32 @@
 .counter{
     font-size: 30px;
 }
+
+.card_maindiv{
+    border: 1px solid #d9d9d9;
+    margin: 5px;
+    padding: 15px;
+    box-shadow: -1px 1px 3px 0px #959191;
+}
+.card_left_innerdiv{
+    font-size: 15px;
+    font-weight: bold;
+    color: #b8b8b8;
+    height: 65px;
+}
+.card_right_innerdiv{
+    text-align: right;
+    font-weight: bold;
+    font-size: 25px;
+    color: #a7a7a7;
+    width: 100%;
+}
+.card_right_innerspan{
+    border: 1px solid #cac9c9;
+    padding: 15px 5px;
+    border-radius: 10px;
+    background-color: #c2c2c2;
+    color: white;
+    width: 80px;
+    display: block;
+}

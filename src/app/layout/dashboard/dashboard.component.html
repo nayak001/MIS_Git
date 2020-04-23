@@ -1,4 +1,114 @@
-<div [@routerTransition]>    
+<div [@routerTransition]> 
+    <!-- ======================== ROW 1 ============================  -->
+    <div class="row">
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Users</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">2931</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Managers</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">9</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Field staffs</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">9</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Centers</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">101</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ======================== ROW 2 ============================  -->
+    <div class="row"  *ngFor="let count of data">
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">All Students</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allStudent}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">ECE Students</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allecestudents}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">PGE Students</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allpgestudents}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">TIME Fellows</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allfellow}}</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ======================== ROW 3 ============================  -->
+    <div class="row"  *ngFor="let count of data">
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Total Girls</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.girlCount}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Anganwadis</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allanganwadi}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Schools</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allschool}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class=""></div>
+        </div>
+    </div>
+    
+    <!-- ======================== ROW 4 ============================  -->
+    <div class="row"  *ngFor="let count of data">
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">ECE 70% Learning Outcomes</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.passcount || '0'}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Level jump Odia</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allodia}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Level Jump Math</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allmath}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Level Jump English</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.alleng}}</span></div>
+            </div>
+        </div>
+    </div>
+<!--    
+    
     <div class="row" >
         <div class="col-xl-3 col-lg-6">
 			<a [routerLink]="['/users']">
@@ -16,9 +126,7 @@
             <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="101" [label]="'Centers'"></app-stat>
         </a>
         </div>
-       
-     
-    </div>   
+    </div> 
     <div class="row" style="margin-top: 1%;"  *ngFor="let count of data">
         <div class="col-xl-3 col-lg-6">
             <div class="card text-white bg-primary">
@@ -33,7 +141,6 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
        
@@ -51,7 +158,6 @@
                             </div>
                         </div>
                     </div>
-                   
                 </div>
             </div>
         
@@ -70,7 +176,6 @@
                             </div>
                         </div>
                     </div>
-                   
                 </div>
             </div>
              
@@ -88,10 +193,11 @@
                             </div>
                         </div>
                     </div>
-                   
                 </div>
             </div>
     </div>
+
+
     <div class="row" style="margin-top: 1%;" *ngFor="let count of data">
         <div class="col-xl-3 col-lg-6">
             <div class="card text-white bg-primary">
@@ -106,7 +212,6 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
         <div class="col-xl-3 col-lg-6">
@@ -122,7 +227,6 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
         <div class="col-xl-3 col-lg-6">
@@ -138,7 +242,6 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
         
@@ -155,10 +258,11 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
     </div>
+
+
     <div class="row" style="margin-top: 1%;"  *ngFor="let count of data" >
         <div class="col-xl-3 col-lg-6">
             <div class="card text-white bg-primary">
@@ -173,7 +277,6 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
    
@@ -190,7 +293,6 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
    
@@ -207,12 +309,10 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
-   
     </div>
-    
+
 	<hr>
 	<div class="row">
         <div class="col-md-12">
@@ -226,5 +326,6 @@
                 </ng-template>
             </ngb-carousel>
         </div>
-    </div>      
+    </div>       
+-->
 </div>
