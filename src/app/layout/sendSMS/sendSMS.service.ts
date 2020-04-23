@@ -64,6 +64,14 @@ export class SendSMSService {
 		});			
 	}
 
+	postSMS(body){
+		return this.http.post(baseUrl+'postsms',
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
 	getallsms(){		
 		return this.http.get(baseUrl+'getallsmsdetails',
 		{

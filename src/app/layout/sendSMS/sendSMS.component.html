@@ -152,10 +152,12 @@
 										<tbody>
 										<tr *ngFor="let sms of mf1.data">
 											<td>
-												<span class="bold-font">{{sms.sms}}</span>
+												<div class="divheigth200">
+													<span class="bold-font">{{sms.sms}}</span>
+												</div>
 											</td>
 											<td>
-												<div class="row">
+												<div class="row divheigth200">
 													<div *ngFor="let contact of sms.tonumbers" class="cont">
 														<span>{{contact.contactname | titlecase}}</span><br>
 														<span>{{contact.contactnumber}}</span>

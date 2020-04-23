@@ -94,6 +94,7 @@
     background-color: #5050f1;
     border: 1px solid gray;
     border-radius: 5px;
+    height: 45px;
 }
 
 .import_contacts_list_div{
@@ -106,4 +107,8 @@
     line-height: 3;
     border: 1px solid gray;
     padding: 10px;
+}
+.divheigth200{
+    height: 200px;
+    overflow: auto;
 }

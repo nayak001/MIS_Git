@@ -4,217 +4,239 @@
       <i class="fa fa-fw fa-dashboard"></i>&nbsp;
       <span>{{ 'Dashboard' | translate }}</span>
     </a>
-    <span class=menu_heading>Masters</span>
+    <ngb-accordion [closeOthers]="true"> <!-- activeIds="master_accordion"> -->
+      <ngb-panel id="master_accordion">
+        <ng-template ngbPanelTitle>
+          <span><b>Masters</b></span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <a [routerLink]="['/usertype']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-users"></i>&nbsp;
+            <span>{{ 'User Types' | translate }}</span>
+          </a>
+          <a [routerLink]="['/versionmanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-vine"></i>&nbsp;
+            <span>{{ 'Version Manager' | translate }}</span>
+          </a>
+          <a [routerLink]="['/teacherprofile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-address-book"></i>&nbsp;
+            <span>{{ 'Teachers Profile' | translate }}</span>
+          </a>
+          <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-male"></i>&nbsp;
+            <span>{{ 'Users' | translate }}</span>
+          </a>
+          <a [routerLink]="['/managersfeedbackform']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-question-circle-o"></i>&nbsp;
+            <span>{{ 'Feedback Form' | translate }}</span>
+          </a>
+          <a [routerLink]="['/blockdistrict']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-address-card-o"></i>&nbsp;
+            <span>{{ 'Blocks & Districts' | translate }}</span>
+          </a>
+          <a [routerLink]="['/sendSMS']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-envelope-o"></i>&nbsp;
+            <span>{{ 'Send SMS' | translate }}</span>
+          </a>
+          <a [routerLink]="['/pushnotification']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-commenting"></i>&nbsp;
+            <span>{{ 'Push Notification' | translate }}</span>
+          </a>
+          <a [routerLink]="['/centers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
+            <span>{{ 'Centers' | translate }}</span>
+          </a>
+          <a [routerLink]="['/centerfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-comments"></i>&nbsp;
+            <span>{{ 'Center Feedback' | translate }}</span>
+          </a>
+          <a [routerLink]="['/paymentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-money"></i>&nbsp;
+            <span>{{ 'Payment Info' | translate }}</span>
+          </a>
+          <a [routerLink]="['/assessmentmaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-wpexplorer"></i>&nbsp;
+            <span>{{ 'Assessment Master' | translate }}</span>
+          </a>
+          <a [routerLink]="['/assessmentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-calendar"></i>&nbsp;
+            <span>{{ 'Assessment Info' | translate }}</span>
+          </a>
+          <a [routerLink]="['/communityvisit']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-ticket"></i>&nbsp;
+            <span>{{ 'Community Visit' | translate }}</span>
+          </a>
+          <a [routerLink]="['/issues']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-question-circle-o"></i>&nbsp;
+            <span>{{ 'Issues' | translate }}</span>
+          </a>
+          <a [routerLink]="['/message']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-commenting-o"></i>&nbsp;
+            <span>{{ 'Message' | translate }}</span>
+          </a>
+          <a [routerLink]="['/activities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-child"></i>&nbsp;
+            <span>{{ 'Activities' | translate }}</span>
+          </a>
+          <a [routerLink]="['/centers-allocation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-check-square-o"></i>&nbsp;
+            <span>{{ 'Center allocation' | translate }}</span>
+          </a>
+          <a [routerLink]="['/baselinetest']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-file-code-o"></i>&nbsp;
+            <span>{{ 'Baseline test' | translate }}</span>
+          </a>
+          <a [routerLink]="['/mastermanagertraining1']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-ticket"></i>&nbsp;
+            <span>{{ 'Managers Training' | translate }}</span>
+          </a>
+          <a [routerLink]="['/masterteachertraining1']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-eercast"></i>&nbsp;
+            <span>{{ 'Training Module' | translate }}</span>
+          </a>
+          <a [routerLink]="['/masterteachertraining2']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-grav"></i>&nbsp;
+            <span>{{ 'Training Sub-module' | translate }}</span>
+          </a>
+          <a [routerLink]="['/userfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-comments"></i>&nbsp;
+            <span>{{ 'User Feedback' | translate }}</span>
+          </a>
+          <a [routerLink]="['/usersession']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-history"></i>&nbsp;
+            <span>{{ 'User Session' | translate }}</span>
+          </a>
+          <a [routerLink]="['/skillchartfileupload']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-ticket"></i>&nbsp;
+            <span>{{ 'Skillchart Files' | translate }}</span>
+          </a>
+          <a [routerLink]="['/managersbox']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-archive"></i>&nbsp;
+            <span>{{ 'Managers Box' | translate }}</span>
+          </a>
+          <a [routerLink]="['/tzworkshoplevel']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-braille"></i>&nbsp;
+            <span>{{ 'WS Level Manager' | translate }}</span>
+          </a>
+          <a [routerLink]="['/tzworkshopcontent']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-calendar-o"></i>&nbsp;
+            <span>{{ 'WS Content Manager' | translate }}</span>
+          </a>
+        </ng-template>
+      </ngb-panel>
 
-    <a [routerLink]="['/usertype']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-users"></i>&nbsp;
-      <span>{{ 'User Types' | translate }}</span>
-    </a>
-    <a [routerLink]="['/versionmanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-vine"></i>&nbsp;
-      <span>{{ 'Version Manager' | translate }}</span>
-    </a>
-    <a [routerLink]="['/teacherprofile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-address-book"></i>&nbsp;
-      <span>{{ 'Teachers Profile' | translate }}</span>
-    </a>
-    <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-male"></i>&nbsp;
-      <span>{{ 'Users' | translate }}</span>
-    </a>
-    <a [routerLink]="['/managersfeedbackform']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-question-circle-o"></i>&nbsp;
-      <span>{{ 'Feedback Form' | translate }}</span>
-    </a>
-    <a [routerLink]="['/blockdistrict']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-address-card-o"></i>&nbsp;
-      <span>{{ 'Blocks & Districts' | translate }}</span>
-    </a>
-    <a [routerLink]="['/sendSMS']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-envelope-o"></i>&nbsp;
-      <span>{{ 'Send SMS' | translate }}</span>
-    </a>
-    <a [routerLink]="['/pushnotification']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-commenting"></i>&nbsp;
-      <span>{{ 'Push Notification' | translate }}</span>
-    </a>
-    <a [routerLink]="['/centers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
-      <span>{{ 'Centers' | translate }}</span>
-    </a>
-    <a [routerLink]="['/centerfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-comments"></i>&nbsp;
-      <span>{{ 'Center Feedback' | translate }}</span>
-    </a>
-    <a [routerLink]="['/paymentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-money"></i>&nbsp;
-      <span>{{ 'Payment Info' | translate }}</span>
-    </a>
-    <a [routerLink]="['/assessmentmaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-wpexplorer"></i>&nbsp;
-      <span>{{ 'Assessment Master' | translate }}</span>
-    </a>
-    <a [routerLink]="['/assessmentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-calendar"></i>&nbsp;
-      <span>{{ 'Assessment Info' | translate }}</span>
-    </a>
-    <a [routerLink]="['/communityvisit']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-ticket"></i>&nbsp;
-      <span>{{ 'Community Visit' | translate }}</span>
-    </a>
-    <a [routerLink]="['/issues']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-question-circle-o"></i>&nbsp;
-      <span>{{ 'Issues' | translate }}</span>
-    </a>
-    <a [routerLink]="['/message']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-commenting-o"></i>&nbsp;
-      <span>{{ 'Message' | translate }}</span>
-    </a>
-    <a [routerLink]="['/activities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-child"></i>&nbsp;
-      <span>{{ 'Activities' | translate }}</span>
-    </a>
-    <a [routerLink]="['/centers-allocation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-check-square-o"></i>&nbsp;
-      <span>{{ 'Center allocation' | translate }}</span>
-    </a>
-    <a [routerLink]="['/baselinetest']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-file-code-o"></i>&nbsp;
-      <span>{{ 'Baseline test' | translate }}</span>
-    </a>
-    <a [routerLink]="['/mastermanagertraining1']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-ticket"></i>&nbsp;
-      <span>{{ 'Managers Training' | translate }}</span>
-    </a>
-    <a [routerLink]="['/masterteachertraining1']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-eercast"></i>&nbsp;
-      <span>{{ 'Training Module' | translate }}</span>
-    </a>
-    <a [routerLink]="['/masterteachertraining2']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-grav"></i>&nbsp;
-      <span>{{ 'Training Sub-module' | translate }}</span>
-    </a>
-    <a [routerLink]="['/userfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-comments"></i>&nbsp;
-      <span>{{ 'User Feedback' | translate }}</span>
-    </a>
-    <a [routerLink]="['/usersession']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-history"></i>&nbsp;
-      <span>{{ 'User Session' | translate }}</span>
-    </a>
-    <a [routerLink]="['/skillchartfileupload']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-ticket"></i>&nbsp;
-      <span>{{ 'Skillchart Files' | translate }}</span>
-    </a>
-    <a [routerLink]="['/managersbox']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-archive"></i>&nbsp;
-      <span>{{ 'Managers Box' | translate }}</span>
-    </a>
-    <a [routerLink]="['/tzworkshoplevel']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-braille"></i>&nbsp;
-      <span>{{ 'WS Level Manager' | translate }}</span>
-    </a>
-    <a [routerLink]="['/tzworkshopcontent']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-calendar-o"></i>&nbsp;
-      <span>{{ 'WS Content Manager' | translate }}</span>
-    </a>
+      <ngb-panel id="managers_accordion">
+        <ng-template ngbPanelTitle>
+          <span><b>Managers</b></span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <a [routerLink]="['/dailyinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-id-badge"></i>&nbsp;
+            <span>{{ 'Daily Info' | translate }}</span>
+          </a>
+          <a [routerLink]="['/mgroperations']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-cubes"></i>&nbsp;
+            <span>{{ 'Operations' | translate }}</span>
+          </a>
+          <!--
+          <a [routerLink]="['/centerimage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+              <i class="fa fa-fw fa-photo"></i>&nbsp;
+              <span>{{ 'Center Image' | translate }}</span>
+          </a>
+          <a [routerLink]="['/centerlocation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+              <i class="fa fa-fw fa-telegram"></i>&nbsp;
+              <span>{{ 'Center Location' | translate }}</span>
+          </a>
+          -->
+        </ng-template>
+      </ngb-panel>
 
+      <ngb-panel id="teachers_accordion">
+        <ng-template ngbPanelTitle>
+          <span><b>Teachers</b></span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <a [routerLink]="['/studentdetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-podcast"></i>&nbsp;
+            <span>{{ 'Student Details' | translate }}</span>
+          </a>
+          <a [routerLink]="['/attendance']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-book"></i>&nbsp;
+            <span>{{ 'Attendance' | translate }}</span>
+          </a>
+          <a [routerLink]="['/tchactivity']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-universal-access"></i>&nbsp;
+            <span>{{ 'Activities' | translate }}</span>
+          </a>
+          <a [routerLink]="['/tchbaseline']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-superpowers"></i>&nbsp;
+            <span>{{ 'Baseline Detail' | translate }}</span>
+          </a>
+          <a [routerLink]="['/tchassessment']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-building"></i>&nbsp;
+            <span>{{ 'Assessments Detail' | translate }}</span>
+          </a>
+        </ng-template>
+      </ngb-panel>
 
-    <span class=menu_heading>Managers</span>
+      <ngb-panel id="workshop_accordion">
+        <ng-template ngbPanelTitle>
+          <span><b>Workshop</b></span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <a [routerLink]="['/leapgeneralinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-podcast"></i>&nbsp;
+            <span>{{ 'LEAP General Info' | translate }}</span>
+          </a>
+          <a [routerLink]="['/leapgrouptask']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-podcast"></i>&nbsp;
+            <span>{{ 'LEAP Group Task' | translate }}</span>
+          </a>
+          <a [routerLink]="['/leapindpractice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-podcast"></i>&nbsp;
+            <span>{{ 'LEAP Individual Practice' | translate }}</span>
+          </a>
+          <a [routerLink]="['/schoolgenifo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-podcast"></i>&nbsp;
+            <span>{{ 'School General Info' | translate }}</span>
+          </a>
+          <a [routerLink]="['/schoolgrouptask']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-podcast"></i>&nbsp;
+            <span>{{ 'School Group Task' | translate }}</span>
+          </a>
+          <a [routerLink]="['/schoolindpractice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-podcast"></i>&nbsp;
+            <span>{{ 'School Individual Practice ' | translate }}</span>
+          </a>
+        </ng-template>
+      </ngb-panel>
 
-    <a [routerLink]="['/dailyinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-id-badge"></i>&nbsp;
-      <span>{{ 'Daily Info' | translate }}</span>
-    </a>
-    <a [routerLink]="['/mgroperations']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-cubes"></i>&nbsp;
-      <span>{{ 'Operations' | translate }}</span>
-    </a>
+      <ngb-panel id="reports_accordion">
+        <ng-template ngbPanelTitle>
+          <span><b>Reports</b></span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <a [routerLink]="['/centerDetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'Center Details ' | translate }}</span>
+          </a>
+          <a [routerLink]="['/studentDetailsPage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'Student Details' | translate }}</span>
+          </a>
+          <a [routerLink]="['/managerDetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'Manager Details' | translate }}</span>
+          </a>
+          <a [routerLink]="['/individualTeachersEducatorPage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'Teachers Details' | translate }}</span>
+          </a>
+        </ng-template>
+      </ngb-panel>
 
-    <!--
-        <a [routerLink]="['/centerimage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-photo"></i>&nbsp;
-            <span>{{ 'Center Image' | translate }}</span>
-        </a>
-        <a [routerLink]="['/centerlocation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-telegram"></i>&nbsp;
-            <span>{{ 'Center Location' | translate }}</span>
-        </a>
-        -->
-
-    <span class=menu_heading>Teachers</span>
-
-    <a [routerLink]="['/studentdetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-podcast"></i>&nbsp;
-      <span>{{ 'Student Details' | translate }}</span>
-    </a>
-    <a [routerLink]="['/attendance']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-book"></i>&nbsp;
-      <span>{{ 'Attendance' | translate }}</span>
-    </a>
-    <a [routerLink]="['/tchactivity']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-universal-access"></i>&nbsp;
-      <span>{{ 'Activities' | translate }}</span>
-    </a>
-    <a [routerLink]="['/tchbaseline']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-superpowers"></i>&nbsp;
-      <span>{{ 'Baseline Detail' | translate }}</span>
-    </a>
-    <a [routerLink]="['/tchassessment']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-building"></i>&nbsp;
-      <span>{{ 'Assessments Detail' | translate }}</span>
-    </a>
-
-    <!-- Thinkzone Workshop -->
-    <span class=menu_heading>Thinkzone Workshop</span>
-    <a [routerLink]="['/leapgeneralinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-podcast"></i>&nbsp;
-      <span>{{ 'LEAP General Info' | translate }}</span>
-    </a>
-    <a [routerLink]="['/leapgrouptask']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-podcast"></i>&nbsp;
-      <span>{{ 'LEAP Group Task' | translate }}</span>
-    </a>
-    <a [routerLink]="['/leapindpractice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-podcast"></i>&nbsp;
-      <span>{{ 'LEAP Individual Practice' | translate }}</span>
-    </a>
-    <a [routerLink]="['/schoolgenifo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-podcast"></i>&nbsp;
-      <span>{{ 'School General Info' | translate }}</span>
-    </a>
-    <a [routerLink]="['/schoolgrouptask']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-podcast"></i>&nbsp;
-      <span>{{ 'School Group Task' | translate }}</span>
-    </a>
-    <a [routerLink]="['/schoolindpractice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-fw fa-podcast"></i>&nbsp;
-      <span>{{ 'School Individual Practice ' | translate }}</span>
-    </a>
-
- 
-     <span class=menu_heading>Reports</span> 
-     <a [routerLink]="['/centerDetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-      <span>{{ 'Center Details ' | translate }}</span>
-    </a>
-    <a [routerLink]="['/studentDetailsPage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-      <span>{{ 'Student Details' | translate }}</span>
-    </a>
-    <a [routerLink]="['/managerDetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-      <span>{{ 'Manager Details' | translate }}</span>
-    </a>
-    <a [routerLink]="['/individualTeachersEducatorPage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-      <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-      <span>{{ 'Teachers Details' | translate }}</span>
-    </a>
-   
-   
-   
+    </ngb-accordion>
     
-
     <!-- <a [routerLink]="['/leap']" [routerLinkActive]="['router-link-active']" class="list-group-item">
       <i class="fa fa-fw fa-podcast"></i>&nbsp;
       <span>{{ 'LEAP' | translate }}</span>

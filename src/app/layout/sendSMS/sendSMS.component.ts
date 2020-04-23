@@ -128,7 +128,7 @@ export class SendSMSComponent implements OnInit {
 	}
 	
 	send_button_click() {
-		console.log('### multiselect_selectedcontactlist: '+JSON.stringify(this.multiselect_selectedcontactlist));
+		//console.log('### multiselect_selectedcontactlist: '+JSON.stringify(this.multiselect_selectedcontactlist));
 		if(this.multiselect_selectedcontactlist.length > 0){
 			let count = 0;
 			this.multiselect_selectedcontactlist.forEach(contact => {
@@ -137,15 +137,16 @@ export class SendSMSComponent implements OnInit {
 				count++;
 			});
 			
-			let sms_obj = {
-				sms: this.modal_sms_message,
-				tonumbers: this.multiselect_selectedcontactlist
-			}
-			
 			if(this.modal_sms_message == undefined || this.modal_sms_message == null || this.modal_sms_message == ''){
 				swal.fire('Info', 'Invalid message', 'warning');
 			}else{
-	
+				//this.modal_sms_message = this.modal_sms_message.replace(/\+/g, '%20');
+				console.log('### this.modal_sms_message: '+(this.modal_sms_message));
+			
+				let sms_obj = {
+					sms: this.modal_sms_message,
+					tonumbers: this.multiselect_selectedcontactlist
+				}
 				this.sendSMS(this.sms_to_numbers, this.modal_sms_message);
 				this.saveSMS(sms_obj);
 				this.multiselect_selectedcontactlist = [];
@@ -161,7 +162,14 @@ export class SendSMSComponent implements OnInit {
 
 	async sendSMS(sms_to_numbers, sms_message){
 		this.hideLoading_indicator = false;
-		await this.sendSMSService.sendSMS(sms_to_numbers, sms_message).subscribe(data => {
+		//----------------
+		let body = {
+			smstonumbers: sms_to_numbers,
+			smsmessage: sms_message
+		}
+		//----------------
+		await this.sendSMSService.postSMS(body).subscribe(data => {
+		//await this.sendSMSService.sendSMS(sms_to_numbers, sms_message).subscribe(data => {
 				console.log('### send SMS reponse: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 				swal.fire('Success', 'Message sent successfully', 'success');
@@ -267,11 +275,17 @@ export class SendSMSComponent implements OnInit {
 		for (let i = 1; i < csvRecordsArray.length; i++) { 
 			let contobj = {}; 
 		  let curruntRecord = (<string>csvRecordsArray[i]).split(','); 
-		  contobj = {
-			  contactname: curruntRecord[0],
-			  contactnumber: curruntRecord[1]
-		  }; 
-		  conactsArr.push(contobj);
+		  if(curruntRecord.length > 1){
+			  if(curruntRecord[1] == undefined || curruntRecord[1] == null || curruntRecord[1].trim() == ''){
+				  // do nothing
+			  }else{
+				contobj = {
+					contactname: curruntRecord[0],
+					contactnumber: curruntRecord[1]
+				}; 
+				conactsArr.push(contobj);
+			  }
+		  }
 		}  
 		return conactsArr;  
 	  }  
@@ -309,7 +323,7 @@ export class SendSMSComponent implements OnInit {
 			},
 			error => {},
 			() => {
-				swal.fire('Error', 'Error importing contacts', 'warning');
+				swal.fire('Success', 'Contacts imported successfully', 'success');
 				this.modalReference.close();
 				//this.fileReset();
 			}
