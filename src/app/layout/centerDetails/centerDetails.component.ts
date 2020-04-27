@@ -64,6 +64,8 @@ export class CenterDetailsComponent implements OnInit {
 	totalPage: any;
 	page_no:any = 1;
 	count : any;
+	currentrow : any;
+	// selectrow : any;
 
 	constructor(
 		private modalService: NgbModal,
@@ -84,6 +86,7 @@ export class CenterDetailsComponent implements OnInit {
 
 		await this.getCenterDetails()
 	}
+
 
 	getBlockDetails() {
 		this.centerDetailsService.getBlocks().subscribe(data => {
@@ -130,16 +133,37 @@ export class CenterDetailsComponent implements OnInit {
 
 	getPageNo(event) {
 		this.loader = true
-		const page = event.target.text.match(/\d+/)[0]
-		this.page_no = page
-		
+		try{
+			const page = event.target.text.match(/\d+/)[0]
+			this.page_no = page
+		} catch(e){
+			this.page_no =  1;
+		}
 		//  this.isLoaded = false
 		this.getCenterDetails()
 
 	}
 
 
+	selectedRowIndex: number = 1;
 
+	highlight(index:String){
+
+		document.querySelectorAll('.record-row').forEach(function(ele) {
+			console.log(ele.getAttribute("id"));
+			if(ele.getAttribute("id") == "user_"+ index) {
+				ele.classList.add('highlight');
+			} else {
+				ele.classList.remove('highlight');
+			}
+			// Now do something with my button
+		});
+
+		//his.selectedRowIndex = user.center.centername;
+		// document.getElementsByClassName("record-row").forEach(element => {
+			
+		// });
+	}
 
 	getCenterDetails() {
 		// const data = {
@@ -160,9 +184,6 @@ export class CenterDetailsComponent implements OnInit {
 			// console.log('### data: '+JSON.stringify(data));
 			console.log(data)
 			this.filterData = data;
-			
-
-debugger
 			//this.filterData = [];
 			 this.isLoaded = true;
 			this.count = this.filterData[0].centercount
@@ -174,6 +195,7 @@ debugger
 				this.isdata_table = false;
 
 			}
+			
 			this.loader = false
 		},
 			error => { },

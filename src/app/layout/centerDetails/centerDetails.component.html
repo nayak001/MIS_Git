@@ -163,7 +163,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let user of mf.data">
+                                <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
 
                                     <td class="sname" aria-hidden="true" (click)="opencenterDetails(editmodal,user)"
                                         style="color: blue;cursor: pointer;">{{user.center.centerid}}</td>
@@ -176,26 +176,26 @@
                                     <td>{{user.no_of_students}}</td>
                                     <td>{{user.no_female_students}}</td>
 
-                                    <td>{{user.ecelevel1}}</td>
-                                    <td>{{user.ecelevel2}}</td>
-                                    <td>{{user.ecelevel3}}</td>
+                                    <td><p *ngIf = "user.ecelevel1">{{user.ecelevel1}}</p><p *ngIf = "!user.ecelevel1">NA</p></td>
+                                    <td><p *ngIf = "user.ecelevel2">{{user.ecelevel2}}</p><p *ngIf = "!user.ecelevel2">NA</p></td>
+                                    <td><p *ngIf = "user.ecelevel3">{{user.ecelevel3}}</p><p *ngIf = "!user.ecelevel3">NA</p></td>
 
-                                    <td>{{user.pgEngl1}}</td>
-                                    <td>{{user.pgEngl2}}</td>
-                                    <td>{{user.pgEngl3}}</td>
-                                    <td>{{user.pgEngl4}}</td>
-                                    <td>{{user.pgEngl5}}</td>
-                                    <td>{{user.pgOdia1}} </td>
-                                    <td>{{user.pgOdia2}} </td>
-                                    <td>{{user.pgOdia3}}</td>
-                                    <td>{{user.pgOdia4}}</td>
-                                    <td>{{user.pgOdia5}} </td>
-                                    <td>{{user.pgMath1}}</td>
-                                    <td>{{user.pgMath2}}</td>
-                                    <td>{{user.pgMath3}}</td>
-                                    <td>{{user.pgMath4}}</td>
-                                    <td>{{user.pgMath5}}</td>
-                                    <td>{{user.avg_att}}%</td>
+                                    <td><p *ngIf = "user.pgEngl1">{{user.pgEngl1}}</p><p *ngIf = "!user.pgEngl1">NA</p></td>
+                                    <td><p *ngIf = "user.pgEngl2">{{user.pgEngl2}}</p><p *ngIf = "!user.pgEngl2">NA</p></td>
+                                    <td><p *ngIf = "user.pgEngl3">{{user.pgEngl3}}</p><p *ngIf = "!user.pgEngl3">NA</p></td>
+                                    <td><p *ngIf = "user.pgEngl4">{{user.pgEngl4}}</p><p *ngIf = "!user.pgEngl4">NA</p></td>
+                                    <td><p *ngIf = "user.pgEngl5">{{user.pgEngl5}}</p><p *ngIf = "!user.pgEngl5">NA</p></td>
+                                    <td><p *ngIf = "user.pgOdia1">{{user.pgOdia1}}</p><p *ngIf = "!user.pgOdia1">NA</p></td>
+                                    <td><p *ngIf = "user.pgOdia2">{{user.pgOdia2}}</p><p *ngIf = "!user.pgOdia2">NA</p></td>
+                                    <td><p *ngIf = "user.pgOdia3">{{user.pgOdia3}}</p><p *ngIf = "!user.pgOdia3">NA</p></td>
+                                    <td><p *ngIf = "user.pgOdia4">{{user.pgOdia4}}</p><p *ngIf = "!user.pgOdia4">NA</p></td>
+                                    <td><p *ngIf = "user.pgOdia5">{{user.pgOdia5}}</p><p *ngIf = "!user.pgOdia5">NA</p></td>
+                                    <td><p *ngIf = "user.pgMath1">{{user.pgMath1}}</p><p *ngIf = "!user.pgMath1">NA</p></td>
+                                    <td><p *ngIf = "user.pgMath2">{{user.pgMath2}}</p><p *ngIf = "!user.pgMath2">NA</p></td>
+                                    <td><p *ngIf = "user.pgMath3">{{user.pgMath3}}</p><p *ngIf = "!user.pgMath3">NA</p></td>
+                                    <td><p *ngIf = "user.pgMath4">{{user.pgMath4}}</p><p *ngIf = "!user.pgMath4">NA</p></td>
+                                    <td><p *ngIf = "user.pgMath5">{{user.pgMath5}}</p><p *ngIf = "!user.pgMath5">NA</p></td>
+                                    <td><p *ngIf = "user.avg_att">{{user.avg_att}}%</p><p *ngIf = "!user.avg_att">NA</p></td>
 
                                     <td>
                                         <div class="tint" aria-hidden="true" (click)="englishStudentsDetails(edit,user)" >English Goals </div>

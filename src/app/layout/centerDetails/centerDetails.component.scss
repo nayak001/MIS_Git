@@ -58,7 +58,7 @@
 
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: white !important;
+  background-color: white;
 }
 
 .select2 {
@@ -121,5 +121,9 @@
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+  .highlight{
+    background-color:yellowgreen !important;
+    color: white !important;
   }
 
