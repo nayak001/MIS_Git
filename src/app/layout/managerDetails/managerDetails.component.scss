@@ -60,7 +60,7 @@
 
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: white !important;
+  background-color: white ;
 }
 
 .select2 {
@@ -109,4 +109,10 @@
 .sideheading{
   color: black;
 }
-
+.highlight{
+  background-color: #59677e !important;
+ 
+ td {
+  color: white !important;
+ }
+}

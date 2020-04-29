@@ -95,7 +95,7 @@
                                 <!-- *ngIf="user && user.manager && user.manager.username"
                                         (click)="dailyInfoT(editmodal,user)"
                                         style="cursor: pointer; color:#007bff !important;" -->
-                                <tr *ngFor="let user of mf.data">
+                                        <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
                                     <td>mname</td>
                                     <td *ngFor="let col_name of dyCols">
                                         {{ user[col_name] }}

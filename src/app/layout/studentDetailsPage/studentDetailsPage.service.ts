@@ -23,13 +23,24 @@ export class StudentDetailsPageService {
 	}
 
 
-	getallDetailsStudents(data){
+	getalStudents(data){
 		debugger
+		return this.http.get(baseUrl + 'getalStudents?userType=' + data.userType + 
+		'&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type +
+		 "&baseline=" + data.baseline + "&sex=" + data.sex  + "&avg_attendance=" + data.avg_attendance
+		 +"&seventyece=" + data.seventyece + "&enrolldate=" + data.enrolldate,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});	
+	}
+
+	getallDetailsStudents(data){
 		return this.http.get(baseUrl + 'getallDetailsStudents?userType=' + data.userType + 
 		'&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type +
 		 "&baseline=" + data.baseline + "&sex=" + data.sex  + "&avg_attendance=" + data.avg_attendance
 		 +"&seventyece=" + data.seventyece + "&enrolldate=" + data.enrolldate +"&page_no=" + data.page_no + 
-		 "&limit=" + data.limit, 
+		 "&limit=" + data.limit + "&downloadclick=" + data.downloadclick,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

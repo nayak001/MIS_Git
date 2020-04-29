@@ -16,7 +16,7 @@ export class CenterDetailsService {
 	getCenterDetails(data){
 		return this.http.get(baseUrl+'centerDetails?center_type=' + data.center_type + '&distric=' +
 		 data.distric + '&block=' + data.block + '&program_type=' + data.program_type + "&page_no=" + data.page_no +
-		 "&limit=" + data.limit, 
+		 "&limit=" + data.limit + "&downloadclick=" + data.downloadclick,
 
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
@@ -24,7 +24,15 @@ export class CenterDetailsService {
 		});	
 
 	}
+	getallCenterDetails(data){
+		return this.http.get(baseUrl+'allcenterDetails?center_type=' + data.center_type + '&distric=' +
+		 data.distric + '&block=' + data.block + '&program_type=' + data.program_type,
 
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});	
+	}
 	getBlocks(){
 		return this.http.get(baseUrl+'disticBlockDetails',
 		{

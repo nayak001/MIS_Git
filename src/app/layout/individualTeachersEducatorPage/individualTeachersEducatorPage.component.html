@@ -100,7 +100,7 @@
                             </thead>
                             <tbody>
                                 
-                                   <tr *ngFor="let detail of  mf.data" >
+                                 <tr *ngFor="let detail of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
                                         <td class="sname" aria-hidden="true" (click)="openTeacherDetails(editmodal,detail)">
                                             {{detail.user?.teachername}}</td>
                                   <td>{{detail.user?.status}}</td>

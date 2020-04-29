@@ -26,6 +26,7 @@ export class CenterDetailsComponent implements OnInit {
 	check2: boolean = false;
 	check3: boolean = false;
 	check4:boolean = false;
+	alldata : any ;
 	user : any ;
 	loader : Boolean = false
 	usersubmitaction: string;
@@ -55,7 +56,7 @@ export class CenterDetailsComponent implements OnInit {
 	modal_permanentaddress: string;
 	all_Data: any = [];
 	isdata_table: boolean = false;
-
+	downloadclick : boolean = false;
 	emailid_exists: boolean = false;
 	disable_emailid: boolean = false;
 	Details:any;
@@ -65,6 +66,7 @@ export class CenterDetailsComponent implements OnInit {
 	page_no:any = 1;
 	count : any;
 	currentrow : any;
+	fixedHeader : boolean = false;
 	// selectrow : any;
 
 	constructor(
@@ -86,6 +88,10 @@ export class CenterDetailsComponent implements OnInit {
 
 		await this.getCenterDetails()
 	}
+
+
+
+
 
 
 	getBlockDetails() {
@@ -125,6 +131,7 @@ export class CenterDetailsComponent implements OnInit {
 		debugger		
 		// this.program_type = this.is_program_type
 		this.isLoaded = false
+		this.page_no = 1
 		this.isdata_table = false
 		this.getCenterDetails()
 	}
@@ -179,6 +186,7 @@ export class CenterDetailsComponent implements OnInit {
 			program_type: this.program_type,
 			page_no :this.page_no,
 			limit:25,
+			downloadclick:this.downloadclick
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));
@@ -362,6 +370,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	download() {
+		this.downloadclick = true;
 		const rows = [
 			["Id", "Name", "Type", "Program Type", "Block", "District", "State", "Educator Name", "Students","Female Students",
 				"ECE - Level 1", "ECE - Level 2", "ECE - Level 3", "PG English Level 1", "PG English Level 2", "PG English Level 3",
@@ -377,21 +386,108 @@ export class CenterDetailsComponent implements OnInit {
 			"No of Students who have dropped out of the PG program","Class/Grade of the Student"]
 
 		];
-		this.filterData.forEach(value => {
+		const data = {
+			center_type: this.center_type,
+			distric: this.distric,
+			block: this.block,
+			program_type: this.program_type,
+			downloadclick:this.downloadclick
+			
+		}
+
+		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
+			// console.log('### data: '+JSON.stringify(data));
+			debugger
+			console.log(data)
+			this.alldata = data;
+			//this.filterData = [];
+			 this.isLoaded = true;
+
+			// if (this.alldata.length == 0) {
+			// 	this.isdata_table = true;
+			// }
+			// else {
+			// 	this.isdata_table = false;
+
+			// }
+			
+			this.loader = false
+		
+
+		
+		this.alldata.forEach(value => {
 			var usertType = ''
 			if (value && value.user && value.user.usertype) {
 				usertType = value.user.usertype
 			}
+
+
+
+			const getAssestmentString  = (score) => {
+
+ 
+				//var math_score = {month1: { value : 0, isgiven :'yes' } , month2 : { value:10, isgiven: 'no'}};
+		
+		
+				var m_display = '';
+				for(var month in score){
+					var month_score = score[month];
+					var month_number = month.replace("month","");
+					m_display += "Assestment "+ month_number +" - " + month_score.value +  "/"+ month_score.check + "  |  "
+				}
+		return m_display;
+			}
+		
+			const geteceAssestmentString  = (score) => {
+		
+		 
+				//var math_score = {month1: { value : 0, isgiven :'yes' } , month2 : { value:10, isgiven: 'no'}};
+		
+		
+				var m_display = '';
+				for(var quarter in score){
+					var quarter_score = score[quarter];
+					var quarter_number = quarter.replace("quarter","");
+					m_display += "Assessment "+ quarter_number +" - " + quarter_score.value +  "/"+ quarter_score.check + "  |  "
+				}
+		return m_display;
+			}
+		
+			
+		
+				const math_score = value.pgescores.math;
+				const eng_score = value.pgescores.english;
+				const odia_score = value.pgescores.odia;
+		
+				var math_String = getAssestmentString(math_score);
+				var eng_String = getAssestmentString(eng_score);
+				var odia_String = getAssestmentString(odia_score);
+				
+					const ece_score = value.ecescore
+					var ece_string = geteceAssestmentString(ece_score)
+				
+
+
+
+
+
+
+
+
+
+
+
 			var array = [value.center.centerid, value.center.centername, usertType, value.center.centertype || "", value.center.block || "", value.center.district || "",
-			value.state, value.educator, value.no_of_students,value.no_female_students, 
+			value.state, value.educator, value.no_of_students,value.no_female_students
 				, value.eceLevel1, value.eceLevel2, value.eceLevel3, value.pgEngl1, value.pgEngl2
-				, value.pgEngl3, , value.pgEngl4, value.pgEngl5, value.pgOdia1, value.pgOdia2
+				, value.pgEngl3, value.pgEngl4, value.pgEngl5, value.pgOdia1, value.pgOdia2
 				, value.pgOdia3, value.pgOdia4, value.pgOdia5, value.pgMath1, value.pgMath2,
 			value.pgMath3, value.pgMath4, value.pgMath5,
 			value.average_attandance,
-		
-			value.percentage_of_student_monthly_gaol_odia,
-			value.percentage_of_student_monthly_gaol_math,
+			eng_String,
+			odia_String,
+			math_String,
+			ece_string,
 			
 			value.percentage_of_students_jump1_level_pg_eng,
 			value.percentage_of_students_jump1_level_pg_odia,
@@ -416,6 +512,7 @@ export class CenterDetailsComponent implements OnInit {
 		document.body.appendChild(link); // Required for FF
 
 		link.click()
+	});
 	}
 	show(value) {
 

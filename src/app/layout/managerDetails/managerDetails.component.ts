@@ -153,8 +153,26 @@ export class ManagerDetailsComponent implements OnInit {
 	// 	() => {}
 	// );
 	//   }
+
+
+
+	highlight(index:String){
+
+		document.querySelectorAll('.record-row').forEach(function(ele) {
+			console.log(ele.getAttribute("id"));
+			if(ele.getAttribute("id") == "user_"+ index) {
+				ele.classList.add('highlight');
+			} else {
+				ele.classList.remove('highlight');
+			}
+			// Now do something with my button
+		});}
+
+
+
 			  
 		  viewData(){
+			  this.page_no = 1
 			this.isLoaded = true
 			this.getManagersDetails()
 		}
@@ -388,6 +406,7 @@ selectBlock(distic) {
 }
 
 gotoViewDetails(data){
+	
 	const mangerId = data.manager._id
 	this.router.navigate(['individualUserPage/' + mangerId]);
 }

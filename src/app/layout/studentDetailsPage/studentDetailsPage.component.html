@@ -164,7 +164,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let user of mf.data">
+                                <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
                                     <td class="sname" aria-hidden="true" (click)="openStudentDetails(editmodal,user)">
                                         {{user.student.studentname}}</td>
                                     <td>{{getDate(user)}}</td>

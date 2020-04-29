@@ -100,8 +100,8 @@
 
                 <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
                     <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
-                        <table class="table table-striped main-table" [mfData]="filterData" #mf="mfDataTable"
-                            [mfRowsOnPage]="25">
+                        <table class="table table-striped main-table" [mfData]="filterData"  #mf="mfDataTable"
+                            [mfRowsOnPage]="25" fixed-header offset-from-element=".the-class-on-above-fixed-element">
                             <thead>
                                 <tr>
                                     <th>Id</th>

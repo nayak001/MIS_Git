@@ -20,6 +20,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	block: any = 'all'
 	program_type: any = 'all'
 	centerDetails: any;
+	teacherdata:any;
 	check: boolean = true;
 	check1: boolean = false;
 	check2: boolean = false;
@@ -63,6 +64,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	totalPage: any;
 	page_no:any = 1;
 	count : any;
+	download_click : any = false
 
 
 
@@ -152,22 +154,41 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			program_type:this.program_type,
 			page_no :this.page_no,
 			limit:25,
+			download_click:this.download_click
 		}
-	this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
-		debugger
-		// console.log('### data: '+JSON.stringify(data));
-		//console.log(data)
-				this.filterData = data
-				this.count = this.filterData[0].count
-		 this.isLoaded = true
-		console.log(this.filterData)
-		// this.all_blocks=data;
-	},
-		error => { },
-		() => { }
-	);
+		this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
+			debugger
+			// console.log('### data: '+JSON.stringify(data));
+			//console.log(data)
+					this.filterData = data
+					this.count = this.filterData[0].count
+			 this.isLoaded = true
+			console.log(this.filterData)
+			// this.all_blocks=data;
+		},
+			error => { },
+			() => { }
+		);
  }
+
+
+
+ highlight(index:String){
+
+	document.querySelectorAll('.record-row').forEach(function(ele) {
+		console.log(ele.getAttribute("id"));
+		if(ele.getAttribute("id") == "user_"+ index) {
+			ele.classList.add('highlight');
+		} else {
+			ele.classList.remove('highlight');
+		}
+		// Now do something with my button
+	});}
+
+
+
 	viewData() {
+		this.page_no = 1
 		this.isLoaded = false
 		// this.isdata_table = false
 		 this.individualTeacherEducatorDetail()
@@ -225,14 +246,35 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 	}
 	download() {
-
+		this.download_click = true
 		const rows = [
 			["Educator Name", "Status", "Center Name", "Center Type", "Center Id", "Block", "District", "State", "Qualification",
 				"Contact No", "Address", "Special Initiatives", "Aspirations", "Centre Start Date", "Pre-Program Training Marks Secured",
 				"Online Training Module Details",]
 
 		];
-		this.filterData.forEach(value => {
+
+		const data = {
+			center_type:this.center_type,
+			distric:this.distric,
+			block:this.block,
+			program_type:this.program_type,
+			download_click:this.download_click
+		}
+
+
+		this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
+			debugger
+			// console.log('### data: '+JSON.stringify(data));
+			//console.log(data)
+					this.teacherdata = data
+					// this.count = this.teacherdata[0].count
+			 this.isLoaded = true
+			console.log(this.teacherdata)
+			// this.all_blocks=data;
+	
+
+		this.teacherdata.forEach(value => {
 			var teacherName = ''
 			var status =''
 			var cont =''
@@ -285,6 +327,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		document.body.appendChild(link); // Required for FF
 
 		link.click()
+	})
 	}
 	// show(value) {
 

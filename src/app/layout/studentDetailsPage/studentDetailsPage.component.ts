@@ -27,7 +27,7 @@ export class StudentDetailsPageComponent implements OnInit {
 	check2:boolean = false;
 	check3:boolean = false;
 	loader : Boolean = false
-
+	getallStu:any;
 	page: any = 1;
 	totalPage: any;
 	page_no:any = 1;
@@ -75,6 +75,7 @@ count : any;
 	isdata_table: boolean = false;
 	userDetails:any;
 	assessDetails:any;
+	downloadclick : boolean = false;
 
 	constructor(
 		private modalService: NgbModal,
@@ -104,6 +105,20 @@ count : any;
 	}
 
 	
+
+	highlight(index:String){
+
+		document.querySelectorAll('.record-row').forEach(function(ele) {
+			console.log(ele.getAttribute("id"));
+			if(ele.getAttribute("id") == "user_"+ index) {
+				ele.classList.add('highlight');
+			} else {
+				ele.classList.remove('highlight');
+			}
+			// Now do something with my button
+		});}
+
+
 
 	openmathAssessDetails(content, center){
 		this.assessDetails = center
@@ -233,6 +248,7 @@ count : any;
 		
 	  }
 	viewData(){
+		this.page_no = 1
 		this.isLoaded = false
 		this.isdata_table = false
 		this.getallDetailsStudents()
@@ -260,6 +276,7 @@ count : any;
 			avg_attendance : this.avg_attendance,
 			page_no :this.page_no,
 			limit:25,
+			downloadclick:this.downloadclick,
 		}
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
 			// console.log('### data: '+JSON.stringify(data));
@@ -314,23 +331,112 @@ count : any;
 
 }
 
+
+
+
 download(){
+	this.downloadclick = true;
 	const rows = [
-	["Name", "Date of Enrollment", "Name of the Type", "Program Type", "Block","District","State",
-	"ECE Level", "PG Maths Level", "PG English Level", "PG Odia Level","Avg Monthly Assessment Score",
-	"Quarterly Assessment Score","AvgQuarterly Assessment Score", "Monthly English Assessment Score", "Avg Attendance","Age Appropriate Learning Outcomes Achieved",
-	"LevelJumped"]
+	["Name", "Date of Enrollment","Sex","Center Name","Centerid","Center Type","Name of the Type", "Program Type", "Block","District","State",
+	"ECE Level", "PG Maths Level", "PG English Level", "PG Odia Level","Maths Assessment Score","English Assessment Score","Odia Assessment Score","Quarterly ECE Assessment Score",
+	"Avg Attendance	","No of Endline Assessment Completed in PG	", "No of Levels jumped in Maths", "No of Levels jumped in Odia","No of Levels jumped in English",
+	"Total Number of Quarter 4 Assessment Completed in ECE","Acheived atleast 70% age-appropriate learning outcomes in ECE",
+	"Baseline Test Participated","Class/Grade of the Student"]
 	];
-	this.getallStudents.forEach(value => {
-	var usertType =''
-	if (value && value.user && value.user.usertype){
-	usertType = value.user.usertype
+
+
+	const data = {
+		userType:this.userType,
+		distric:this.distric,
+		block:this.block,
+		program_type:this.program_type,
+		baseline:this.baseline,
+		sex:this.sex,
+		enrolldate:this.enrolldate,
+		seventyece:this.seventyece,
+		avg_attendance : this.avg_attendance,
+		downloadclick:this.downloadclick,
+
 	}
-	var array = [value.student.studentname , value.student.registration_date , usertType , value.student.program , value.center.block , value.center.district,value.center.state,
-	value.student.ec_level , value.student.math_level , value.student.eng_level , value.student.odia_level ,
-	value.averages.AvgMonthlyAssestmentScore , value.averages.QuarterlyAssestmentScore , value.averages.AvgQuarterlyAssestmentScore,value.averages.MonthlyEnglishAssestmentScore , value.averages.AverageAttendance,
-	value.averages.AgeAppropriateLearningOutcomesAchieved , value.averages.LevelJumped]
-	rows.push(array)
+	this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
+		// console.log('### data: '+JSON.stringify(data));
+		debugger
+		console.log(data)
+		this.getallStu = data
+		this.isLoaded = true
+	
+		
+
+
+
+
+
+	this.getallStu.forEach(value => {
+	var usertType =''
+		var block = ''
+		if (value && value.student && value.student.user && value.student.user.usertype) {
+		usertType = value.student.user.usertype
+		
+		};
+
+	
+
+ 		const getAssestmentString  = (score) => {
+
+ 
+		//var math_score = {month1: { value : 0, isgiven :'yes' } , month2 : { value:10, isgiven: 'no'}};
+
+
+		var m_display = '';
+		for(var month in score){
+			var month_score = score[month];
+			var month_number = month.replace("month","");
+			m_display += "Assestment "+ month_number +"- " + month_score.value +  "/"+ month_score.isgiven + "  |  "
+		}
+return m_display;
+	}
+
+	const geteceAssestmentString  = (score) => {
+
+ 
+		//var math_score = {month1: { value : 0, isgiven :'yes' } , month2 : { value:10, isgiven: 'no'}};
+
+
+		var m_display = '';
+		for(var quarter in score){
+			var quarter_score = score[quarter];
+			var quarter_number = quarter.replace("quarter","");
+			m_display += "Quarter "+ quarter_number +"- " + quarter_score.value +  "/"+ quarter_score.isgiven + "  |  "
+		}
+return m_display;
+	}
+
+	if(value.student.program == "pge"){
+
+		const math_score = value.scores.math;
+		const eng_score = value.scores.english;
+		const odia_score = value.scores.odia;
+
+		var math_String = getAssestmentString(math_score);
+		var eng_String = getAssestmentString(eng_score);
+		var odia_String = getAssestmentString(odia_score);
+		}else{
+			const ece_score = value.scores
+			var ece_string = geteceAssestmentString(ece_score)
+		}
+
+
+ 	  
+
+		var array = [value.student.studentname , value.student.registration_date ,value.student.gender,value.student.center.centername,value.student.center.centerid,value.student.center.centertype,
+		usertType , value.student.program , value.student.center.block, value.student.center.district || "",value.state,
+		value.student.ec_level , value.student.math_level , value.student.eng_level , value.student.odia_level ,
+		math_String , eng_String || "", odia_String || "" , ece_string || "", value.avg_attendance || "",
+		value.baseline || "",value.level_jump.math,value.level_jump.odia,value.level_jump.english,
+		value.quarter4ece,value.ispass,value.isparticipated,value.student.class]
+
+
+		rows.push(array)
 	});
 	
 	let csvContent = "data:text/csv;charset=utf-8,"
@@ -342,6 +448,8 @@ download(){
 	document.body.appendChild(link); // Required for FF
 	
 	link.click()
+})
+
 	}
 selectBlock(distic) {
 	//this.selectedBlock = 'all'

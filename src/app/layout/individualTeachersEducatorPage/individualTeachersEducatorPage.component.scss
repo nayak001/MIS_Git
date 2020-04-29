@@ -58,7 +58,7 @@
 
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: white !important;
+  background-color: white ;
 }
 
 .select2 {
@@ -110,5 +110,12 @@
     margin-top: -2%;
     margin-left: 4%;
     width: 186%;
+  }
+  .highlight{
+    background-color: #59677e !important;
+   
+   td {
+    color: white !important;
+   }
   }
 
