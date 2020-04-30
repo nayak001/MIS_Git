@@ -74,7 +74,7 @@ export class SendSMSComponent implements OnInit {
 	async getallcontacts(){
 		this.hideLoading_indicator = false;
 		this.sendSMSService.getallcontacts().subscribe(data => {
-				console.log('### getallcontacts: '+JSON.stringify(data));
+				//console.log('### getallcontacts: '+JSON.stringify(data));
 				this.allcontactlist = data;
 				this.multiselect_contactlist = this.allcontactlist;
 				this.hideLoading_indicator = true;
@@ -87,7 +87,7 @@ export class SendSMSComponent implements OnInit {
 	async getallsms(){
 		this.hideLoading_indicator = false;
 		this.sendSMSService.getallsms().subscribe(data => {
-				console.log('### getallsms: '+JSON.stringify(data));
+				//console.log('### getallsms: '+JSON.stringify(data));
 				this.allsmslist = data;
 				this.hideLoading_indicator = true;
 			},
@@ -129,25 +129,37 @@ export class SendSMSComponent implements OnInit {
 	
 	send_button_click() {
 		//console.log('### multiselect_selectedcontactlist: '+JSON.stringify(this.multiselect_selectedcontactlist));
+		let sms_data_arr = [];
 		if(this.multiselect_selectedcontactlist.length > 0){
 			let count = 0;
 			this.multiselect_selectedcontactlist.forEach(contact => {
+				//----------------------
+				let ob = {};
+				ob = {
+					mobile: contact.contactnumber,
+					message: this.modal_sms_message
+				}
+				sms_data_arr.push(ob);
+				//----------------------
+				/*
 				if(count == this.multiselect_selectedcontactlist.length-1) this.sms_to_numbers += contact.contactnumber;
-				else this.sms_to_numbers += contact.contactnumber+',';
+				else{
+					this.sms_to_numbers += contact.contactnumber+',';
+				} 
 				count++;
+				*/
 			});
 			
 			if(this.modal_sms_message == undefined || this.modal_sms_message == null || this.modal_sms_message == ''){
 				swal.fire('Info', 'Invalid message', 'warning');
 			}else{
-				//this.modal_sms_message = this.modal_sms_message.replace(/\+/g, '%20');
-				console.log('### this.modal_sms_message: '+(this.modal_sms_message));
-			
 				let sms_obj = {
 					sms: this.modal_sms_message,
 					tonumbers: this.multiselect_selectedcontactlist
 				}
-				this.sendSMS(this.sms_to_numbers, this.modal_sms_message);
+				//this.sendSMS(this.sms_to_numbers, this.modal_sms_message);
+				console.log('### sms_data_arr: '+JSON.stringify(sms_data_arr));
+				this.sendSMS(sms_data_arr);
 				this.saveSMS(sms_obj);
 				this.multiselect_selectedcontactlist = [];
 				this.sms_to_numbers = '';
@@ -160,14 +172,9 @@ export class SendSMSComponent implements OnInit {
 		}
 	}
 
-	async sendSMS(sms_to_numbers, sms_message){
+	//async sendSMS(sms_to_numbers, sms_message){
+	async sendSMS(body){
 		this.hideLoading_indicator = false;
-		//----------------
-		let body = {
-			smstonumbers: sms_to_numbers,
-			smsmessage: sms_message
-		}
-		//----------------
 		await this.sendSMSService.postSMS(body).subscribe(data => {
 		//await this.sendSMSService.sendSMS(sms_to_numbers, sms_message).subscribe(data => {
 				console.log('### send SMS reponse: '+JSON.stringify(data));
