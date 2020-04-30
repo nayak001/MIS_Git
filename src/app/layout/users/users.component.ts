@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router, NavigationExtras } from '@angular/router';
+import swal from 'sweetalert2';
 import { UsersService } from './users.service';
 
 @Component({
@@ -54,8 +55,8 @@ export class UsersComponent implements OnInit {
 	
 	getPageNo(event) {
 		const page = event.target.text.match(/\d+/)[0]
-		this.page_no = page
-		this.getallUsers()
+		this.page_no = page;
+		this.getallUsers();
 	}
 
 	search(term: string) {
@@ -93,13 +94,24 @@ export class UsersComponent implements OnInit {
 	// delete user
 	deleteFormSubmitAction(id) {
 		console.log('### id: ' + id);
-		this.usersService.deleteuser(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
-				this.modalReference.close();
-				location.reload();
-			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
-			() => {}
-		);
+		swal.fire({
+			title: 'Are you sure?',
+			text: "Do you want to remove this record?",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes'
+		  }).then((result) => {
+			if (result.value) {
+				this.usersService.deleteuser(id).subscribe(data => {
+						console.log('### res data: ' + JSON.stringify(data));
+						this.getallUsers();
+					},
+					error => {console.log('###2 error: ' + JSON.stringify(error)); },
+					() => {}
+				);
+			}
+		  });
 	}
 }
