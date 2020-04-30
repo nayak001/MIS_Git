@@ -89,8 +89,15 @@ export class CenterDetailsComponent implements OnInit {
 		await this.getCenterDetails()
 	}
 
-
-
+	// var table = $('#myTable').DataTable(
+	// 	{
+	// 		fixedHeader: true
+	// 	}
+	// );
+ 
+	// new $.fn.dataTable.FixedHeader( table, {
+	// 	// options
+	// } );
 
 
 
@@ -140,16 +147,11 @@ export class CenterDetailsComponent implements OnInit {
 
 	getPageNo(event) {
 		this.loader = true
-		try{
-			const page = event.target.text.match(/\d+/)[0]
-			this.page_no = page
-		} catch(e){
-			this.page_no =  1;
-		}
-		//  this.isLoaded = false
+		this.page_no = event
 		this.getCenterDetails()
 
 	}
+
 
 
 	selectedRowIndex: number = 1;

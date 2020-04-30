@@ -256,9 +256,14 @@ count : any;
 
 
 	getPageNo(event) {
+		debugger
 		this.loader = true;
-		const page = event.target.text.match(/\d+/)[0]
-		this.page_no = page
+		try{
+		// const page = event.target.text.match(/\d+/)[0]
+		this.page_no = event
+		}catch(error){
+console.log(error)
+		}
 		this.getallDetailsStudents()
 	}
 

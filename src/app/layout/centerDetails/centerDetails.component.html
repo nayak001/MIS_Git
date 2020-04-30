@@ -237,7 +237,7 @@
                                     
 
                                     <td colspan="20">
-                                        <ngb-pagination (click)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" 
+                                        <ngb-pagination (pageChange)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" 
                                         [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
                                         <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
                                         <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->

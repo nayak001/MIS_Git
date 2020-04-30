@@ -94,8 +94,8 @@ export class ManagerDetailsComponent implements OnInit {
 
 
 	getPageNo(event) {
-		const page = event.target.text.match(/\d+/)[0]
-		this.page_no = page
+		
+		this.page_no = event
 		// this.isLoaded = false
 		this.getManagersDetails()
 

@@ -111,7 +111,7 @@
                                 <tr>
                                     <td colspan="40">
                                         <!-- <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> -->
-                                        <ngb-pagination (click)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                                        <ngb-pagination (pageChange)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
 
                                         <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
                                     </td>
