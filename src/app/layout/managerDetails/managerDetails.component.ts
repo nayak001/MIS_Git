@@ -135,6 +135,7 @@ export class ManagerDetailsComponent implements OnInit {
 
 		  getallmanagersfeedbacks(){
 			this.ManagerDetailsService.getallmanagersfeedbacks().subscribe(data => {
+				debugger
 				this.data = data
 				console.log(data)
 			},
@@ -205,8 +206,8 @@ export class ManagerDetailsComponent implements OnInit {
         }
     }
 	getDate(data){
-		if(data && data.student && data.student.registration_date){
-			var date = moment(data.student.registration_date).format('DD MMM, YYYY')
+		if(data && data.Details && data.Details.createdon){
+			var date = moment(data.Details.createdon).format('DD MMM, YYYY')
 			return date
 			
 		}

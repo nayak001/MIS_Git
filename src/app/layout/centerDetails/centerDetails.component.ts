@@ -67,6 +67,7 @@ export class CenterDetailsComponent implements OnInit {
 	count : any;
 	currentrow : any;
 	fixedHeader : boolean = false;
+	scrollEvent : boolean=false
 	// selectrow : any;
 
 	constructor(
@@ -87,17 +88,27 @@ export class CenterDetailsComponent implements OnInit {
 		await this.getBlockDetails()
 
 		await this.getCenterDetails()
+		window.addEventListener('scroll', this.myFunction, true);
 	}
 
-	// var table = $('#myTable').DataTable(
-	// 	{
-	// 		fixedHeader: true
-	// 	}
-	// );
- 
-	// new $.fn.dataTable.FixedHeader( table, {
-	// 	// options
-	// } );
+
+
+
+	myFunction() {
+
+	
+
+			var header = document.getElementById("headerid");
+			var sticky = header.offsetTop;
+			
+	if (window.pageYOffset > sticky) {
+		header.classList.add("sticky");
+	} else {
+		header.classList.remove("sticky");
+		 }
+
+
+	}
 
 
 
@@ -207,14 +218,25 @@ export class CenterDetailsComponent implements OnInit {
 			}
 			
 			this.loader = false
+
+			
+		
+			
+
+			//   $('#testtable').DataTable({
+			// 	fixedHeader: {
+			// 		header: true,
+			// 		headerOffset: 45,
+			// 		},
+			// 	scrollX: true
+			// });
 		},
 			error => { },
 			() => { }
 		);
 	}
 
-
-
+	
 	getRoundedValue(value){
 		return	Math.round(value);
 	   }

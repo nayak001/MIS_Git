@@ -1,3 +1,25 @@
+<style>
+    .headerid {
+  padding: 10px 16px;
+  background: #555;
+  color: #f1f1f1;
+}
+
+.contentid {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 50px;
+  width: 100%;
+}
+
+.sticky + .contentid {
+  padding-top: 102px;
+}
+</style>
+
 <div [@routerTransition]>
     <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
     <div class="row">
@@ -100,9 +122,9 @@
 
                 <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
                     <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
-                        <table class="table table-striped main-table" [mfData]="filterData"  #mf="mfDataTable"
-                            [mfRowsOnPage]="25" fixed-header offset-from-element=".the-class-on-above-fixed-element">
-                            <thead>
+                        <table class="table table-striped main-table" [mfData]="filterData"  #mf="mfDataTable" id="testtable"
+                            [mfRowsOnPage]="25" (scroll)="myFunction($event)" [ngClass]="{'level-trans': scroll}">
+                            <thead id="headerid" class="headerid">
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
@@ -162,7 +184,7 @@
 
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="contentid">
                                 <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
 
                                     <td class="sname" aria-hidden="true" (click)="opencenterDetails(editmodal,user)"
