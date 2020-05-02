@@ -152,7 +152,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			block:this.block,
 			program_type:this.program_type,
 			page_no :this.page_no,
-			limit:25,
+			limit:10,
 			download_click:this.download_click
 		}
 		this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {

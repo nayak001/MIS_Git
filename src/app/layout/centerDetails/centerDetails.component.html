@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
     .headerid {
   padding: 10px 16px;
   background: #555;
@@ -11,14 +11,14 @@
 
 .sticky {
   position: fixed;
-  top: 50px;
+  top: 0px;
   width: 100%;
 }
 
 .sticky + .contentid {
   padding-top: 102px;
 }
-</style>
+</style> -->
 
 <div [@routerTransition]>
     <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
@@ -123,7 +123,7 @@
                 <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
                     <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
                         <table class="table table-striped main-table" [mfData]="filterData"  #mf="mfDataTable" id="testtable"
-                            [mfRowsOnPage]="25" (scroll)="myFunction($event)" [ngClass]="{'level-trans': scroll}">
+                            [mfRowsOnPage]="10">
                             <thead id="headerid" class="headerid">
                                 <tr>
                                     <th>Id</th>
@@ -259,7 +259,7 @@
                                     
 
                                     <td colspan="20">
-                                        <ngb-pagination (pageChange)="getPageNo($event)" [pageSize]="25" [collectionSize]="count" 
+                                        <ngb-pagination (pageChange)="getPageNo($event)" [pageSize]="10" [collectionSize]="count" 
                                         [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
                                         <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
                                         <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->

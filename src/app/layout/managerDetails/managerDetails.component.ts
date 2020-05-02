@@ -106,7 +106,7 @@ export class ManagerDetailsComponent implements OnInit {
 			center_type : this.center_type,
 			createdon : this.createdon,
 			page_no :this.page_no,
-			limit:25,
+			limit:10,
 		} 
 		debugger
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe((data: any)=> {

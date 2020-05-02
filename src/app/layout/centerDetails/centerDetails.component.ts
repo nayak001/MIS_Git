@@ -88,27 +88,27 @@ export class CenterDetailsComponent implements OnInit {
 		await this.getBlockDetails()
 
 		await this.getCenterDetails()
-		window.addEventListener('scroll', this.myFunction, true);
+		// window.addEventListener('scroll', this.myFunction, true);
 	}
 
 
 
 
-	myFunction() {
+	// myFunction() {
 
 	
 
-			var header = document.getElementById("headerid");
-			var sticky = header.offsetTop;
+	// 		var header = document.getElementById("headerid");
+	// 		var sticky = header.offsetTop;
 			
-	if (window.pageYOffset > sticky) {
-		header.classList.add("sticky");
-	} else {
-		header.classList.remove("sticky");
-		 }
+	// if (window.pageYOffset > sticky) {
+	// 	header.classList.add("sticky");
+	// } else {
+	// 	header.classList.remove("sticky");
+	// 	 }
 
 
-	}
+	// }
 
 
 
@@ -198,10 +198,11 @@ export class CenterDetailsComponent implements OnInit {
 			block: this.block,
 			program_type: this.program_type,
 			page_no :this.page_no,
-			limit:25,
+			limit:10,
 			downloadclick:this.downloadclick
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
+			debugger
 			// console.log('### data: '+JSON.stringify(data));
 			console.log(data)
 			this.filterData = data;

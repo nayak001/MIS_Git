@@ -280,7 +280,7 @@ console.log(error)
 			seventyece:this.seventyece,
 			avg_attendance : this.avg_attendance,
 			page_no :this.page_no,
-			limit:25,
+			limit:10,
 			downloadclick:this.downloadclick,
 		}
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
