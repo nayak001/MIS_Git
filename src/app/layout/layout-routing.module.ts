@@ -65,6 +65,7 @@ const routes: Routes = [
       { path: 'managerDetails', loadChildren: './managerDetails/managerDetails.module#ManagerDetailsModule' },
       { path: 'learningOutcomes', loadChildren: './learningOutcomes/learningOutcomes.module#LearningOutcomesModule' },
       { path: 'individualTeachersEducatorPage', loadChildren: './individualTeachersEducatorPage/individualTeachersEducatorPage.module#IndividualTeachersEducatorPageModule' },
+      { path: 'manager_todo', loadChildren: './manager_todo/manager_todo.module#Manager_todoModule' },
 
 
     ]

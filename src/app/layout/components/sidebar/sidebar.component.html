@@ -130,6 +130,10 @@
           <span><b>Managers</b></span>
         </ng-template>
         <ng-template ngbPanelContent>
+          <a [routerLink]="['/manager_todo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-microchip"></i>&nbsp;
+            <span>{{ 'To Do Listings' | translate }}</span>
+          </a>
           <a [routerLink]="['/dailyinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-id-badge"></i>&nbsp;
             <span>{{ 'Daily Info' | translate }}</span>

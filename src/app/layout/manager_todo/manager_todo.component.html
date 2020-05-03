@@ -1,0 +1,133 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>MANAGER TO DO LIST</h4>
+						</div>
+					</div>
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<div class="">
+						<div class="row">
+							<div class="col col-lg-3 col-md-3 col-sm-3"></div>
+							<div class="col col-lg-3 col-md-3 col-sm-3">
+								Manager
+								
+								<div class="form-group">
+									<ng-autocomplete #auto
+										[data]="managers"
+										[searchKeyword]="keyword_managername"
+										[initialValue]="selected_managername"
+										(selected)='onselect_manager($event)'
+										(inputChanged)='onchange_manager($event)'
+										(inputFocused)='onfocus_manager($event)'
+										[itemTemplate]="itemTemplate"
+										[notFoundTemplate]="notFoundTemplate">                                 
+									</ng-autocomplete>
+														
+									<ng-template #itemTemplate let-item>
+										<a [innerHTML]="item.username"></a>
+									</ng-template>
+									
+									<ng-template #notFoundTemplate let-notFound>
+										<div [innerHTML]="notFound"></div>
+									</ng-template>
+								</div>					
+							</div>
+							<div class="col col-lg-2 col-md-2 col-sm-2">
+								Month
+
+								<div class="form-group">
+									<select value="{{ selected_month }}" (change)="month_on_change($event)" placeholder="Month">
+										<option value=""></option>
+										<option value="0">January</option>
+										<option value="1">February</option>
+										<option value="2">March</option>
+										<option value="3">April</option>
+										<option value="4">May</option>
+										<option value="5">June</option>
+										<option value="6">July</option>
+										<option value="7">August</option>
+										<option value="8">September</option>
+										<option value="9">October</option>
+										<option value="10">November</option>
+										<option value="11">December</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col col-lg-1 col-md-1 col-sm-1">
+								Year
+
+								<div class="form-group">
+									<select value="{{ selected_year }}" (change)="year_on_change($event)" placeholder="Year">
+										<option value=""></option>
+										<option value="2017">2017</option>
+										<option value="2018">2018</option>
+										<option value="2019">2019</option>
+										<option value="2019">2019</option>
+										<option value="2020">2020</option>
+										<option value="2021">2021</option>
+									</select>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+
+					<div class="f20b">{{ taskdata.length }} Task(s) found.</div>
+
+                    <table class="table table-striped" [mfData]="taskdata" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						<th style="width: 5%">Sl.</th>
+						<th style="width: 15%"><mfDefaultSorter by="task">Task</mfDefaultSorter></th>
+						<th style="width: 30%"><mfDefaultSorter by="Description">Description</mfDefaultSorter></th>
+						<th style="width: 10%"><mfDefaultSorter by="status">Status</mfDefaultSorter></th>
+						<th style="width: 10%"><mfDefaultSorter by="task_date">Task Date</mfDefaultSorter></th>
+						<th style="width: 10%"><mfDefaultSorter by="created_Date">Created On</mfDefaultSorter></th>
+						<th style="width: 20%">Action</th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr *ngFor="let task of mf.data; let i = index">
+						<td><span class="bold-font">{{ i+1 }}</span></td>
+						<td><span class="bold-font">{{ task.task | titlecase }}</span></td>
+						<td><span class="bold-font">{{ task.description | titlecase }}</span></td>
+						<td><span class="bold-font">{{ task.status | titlecase }}</span></td>
+						<td><span class="bold-font">{{ task.task_date | date: 'medium' }}</span></td>
+						<td><span class="bold-font">{{ task.created_Date | date: 'medium' }}</span></td>
+						<td><span class="bold-font">
+							<div class="row">
+								<div class="col col-xl-4 col-lg-4">
+									<!-- delete button datatable -->
+									<button type="button" class="btn btn-danger input-block-level form-control" (click)="delete_task_button_click(task)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+								</div>
+							</div>
+						</span></td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
