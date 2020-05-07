@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Masterteachertraining2RoutingModule } from './masterteachertraining2-routing.module';
 import { Masterteachertraining2Component } from './masterteachertraining2.component';
@@ -20,7 +21,8 @@ import { Masterteachertraining2Service } from  './masterteachertraining2.service
 		FormsModule,
 		ReactiveFormsModule,
 		CKEditorModule,
-		FileUploadModule
+		FileUploadModule,
+		NgbModule
 	],
     declarations: [Masterteachertraining2Component],
 	providers: [Masterteachertraining2Service]

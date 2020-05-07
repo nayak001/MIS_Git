@@ -12,17 +12,13 @@ import { environment } from './../../../environments/environment.prod';
 const URL = environment.uploadURL;
 import swal from 'sweetalert2';
 
-
-// ng2-file-uploader components
-import { FileUploader } from 'ng2-file-upload';
-//const URL = 'http://18.191.206.88:1234/thinkzone/trainingcontentsuploads';
-
 @Component({
     selector: 'app-mastermanagertraining2',
     templateUrl: './mastermanagertraining2.component.html',
     styleUrls: ['./mastermanagertraining2.component.scss'],
     animations: [routerTransition()]
 })
+
 export class Mastermanagertraining2Component implements OnInit {
 	// File Upload
 	fileInputVariable: ElementRef;
@@ -100,8 +96,7 @@ export class Mastermanagertraining2Component implements OnInit {
 		public router: Router,
 		public route: ActivatedRoute,
 		private mastermanagertraining2Service: Mastermanagertraining2Service,
-		private managersboxService: ManagersboxService,
-		private elementRef: ElementRef
+		private managersboxService: ManagersboxService
 	) {
 		// query params
 		this.route.queryParams.subscribe(params => {
@@ -228,37 +223,6 @@ export class Mastermanagertraining2Component implements OnInit {
 	delquiz(){
 		this.quiz_value.splice(this.delete_q_index, 1);
 		this.modalReference.close();
-	}
-
-	// images
-	addflashcard(){}
-	delflashcard(i){
-		console.log('-->Index Value= '+i);
-		if(confirm('Are you sure to remove this item?'))
-			this.flashcard_value.splice(i,1);
-	}
-
-	// video
-	addvideo(){
-		if(this.video_file_name == undefined || this.video_file_name == null || this.video_file_name.trim() == ''){
-			alert('Invalid filename');
-		} else {
-			let filename = this.video_file_name+'.mp4';
-			let newfilename = '/THINKZONE/TRAINING/VIDEO/'+filename;
-			this.video_value.push(newfilename);
-			this.modalReference.close();
-		}
-	}
-
-	delvideo(index){
-		if(this.video_value.length > 0) {
-			if(confirm('Do you want to delete video from this record?')){
-				//this.video_value.splice(this.video_value.length-1, 1);
-				this.video_value.splice(index, 1);
-			}
-		} else {
-			alert('Nothing to delete !!!');
-		}
 	}
 
 	// back button

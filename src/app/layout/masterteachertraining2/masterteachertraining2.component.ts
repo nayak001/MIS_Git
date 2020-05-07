@@ -1,19 +1,15 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
+import { HttpResponse, HttpEventType } from '@angular/common/http';
 import { Masterteachertraining2Service } from './masterteachertraining2.service';
+import { ManagersboxService } from  './../managersbox/managersbox.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
+import swal from 'sweetalert2';
 
 import { environment } from './../../../environments/environment.prod';
 const URL = environment.uploadURL;
-
-
-// ng2-file-uploader components
-import { FileUploader } from 'ng2-file-upload';
-//const URL = 'http://18.191.206.88:1234/thinkzone/trainingcontentsuploads';
 
 @Component({
     selector: 'app-masterteachertraining2',
@@ -21,6 +17,7 @@ import { FileUploader } from 'ng2-file-upload';
     styleUrls: ['./masterteachertraining2.component.scss'],
     animations: [routerTransition()]
 })
+
 export class Masterteachertraining2Component implements OnInit {
 	// video
 	video_file_name:string ='';
@@ -29,7 +26,6 @@ export class Masterteachertraining2Component implements OnInit {
 	worksheet_file_name:string ='';
 
 	// image
-	//imageURL = 'http://18.191.206.88:1234/thinkzone/getimage/';
 	imageURL = environment.ImageURL;
 	uploaded_image_name: string = '';
 	uploaded_image_name_arr: any = [];
@@ -86,37 +82,11 @@ export class Masterteachertraining2Component implements OnInit {
 
 	public Editor = ClassicEditor;
 
-	
-	public uploader: FileUploader = new FileUploader({
-		url: URL,
-		itemAlias: 'image',
-		maxFileSize: 2*1024*1024 // 2 MB
-	});
-
-	initImageUpload(){
-		this.uploader.onAfterAddingFile = (file) => {
-			//--------------------renaming the file-------------------------
-			let filename = file.file.name;
-			let ext = filename.substr(filename.lastIndexOf('.') + 1);
-			let newfilename = Date.now()+'.'+ext;
-			file.file.name = newfilename;
-			this.uploaded_image_name = newfilename;
-			//--------------------------------------------------------------
-			file.withCredentials = false;
-		};
-		this.uploader.onCompleteItem = (item: any, status: any) => {
-			this.flashcard_value.push(this.uploaded_image_name);
-			console.log('@@@ flashcard_value:', JSON.stringify(this.flashcard_value));
-			//console.log('Uploaded File Details:', item);
-			alert('File successfully uploaded!');
-		};
-	}
-
     constructor(
 		private modalService: NgbModal,
         public router: Router,
 		private masterteachertraining2Service: Masterteachertraining2Service,
-		private elementRef: ElementRef
+		private managersboxService: ManagersboxService
 	) {
 		this.hideLoading_indicator = true;
 		this.hideContent_div = true;
@@ -125,7 +95,6 @@ export class Masterteachertraining2Component implements OnInit {
 	ngOnInit() {
 		this.reset_contents();
 		this.load_allmodules_list();
-		this.initImageUpload();
 	}
 
 	reset_contents(){
@@ -174,6 +143,7 @@ export class Masterteachertraining2Component implements OnInit {
 		this.selected_modulename = selectElementText;
 		
 		this.load_allsubmodules_list(this.selected_moduleid);
+		this.load_record();
 	}
 
 	onselect_submodules_select(value){
@@ -185,6 +155,7 @@ export class Masterteachertraining2Component implements OnInit {
 
 		this.selected_submoduleid = selectedOptionValue;
 		this.selected_submodulename = selectElementText;
+		this.load_record();
 		
 		this.reset_contents();
 	}
@@ -213,6 +184,10 @@ export class Masterteachertraining2Component implements OnInit {
 
 	go_btn_click(){
 		this.load_record();
+	}
+
+	modulesubmodule_btn_click(){
+		this.router.navigate(['/masterteachertraining1']);
 	}
 
 	async load_record(){
@@ -278,34 +253,6 @@ export class Masterteachertraining2Component implements OnInit {
 		}
 	}
 
-	addsheet(){
-		if(this.worksheet_file_name == undefined || this.worksheet_file_name == null || this.worksheet_file_name.trim() == ''){
-			alert('Invalid filename');
-		} else {
-			let filename = this.worksheet_file_name+'.pdf';
-			let newfilename = '/THINKZONE/TRAINING/WORKSHEET/'+filename;
-			this.worksheet_value.push(newfilename);
-			this.modalReference.close();
-		}
-		/*let module_name = this.selected_modulename.replace(/\s/g,'');
-		let submodule_name = this.selected_submodulename.replace(/\s/g,'');
-		if(confirm('Do you want to add worksheet to this record?')){
-			let filename = module_name+'_'+submodule_name+'_'+(this.worksheet_value.length+1)+'.pdf';
-			let newfilename = '/THINKZONE/TRAINING/WORKSHEET/'+filename;
-			this.worksheet_value.push(newfilename);
-		}*/
-	}
-
-	delsheet(index){
-		if(this.worksheet_value.length > 0) {
-			if(confirm('Do you want to delete worksheet from this record?')){
-				this.worksheet_value.splice(index, 1);
-			}
-		} else {
-			alert('Nothing to delete !!!');
-		}
-	}
-
 	addflashcard(){}
 	delflashcard(i){
 		console.log('-->Index Value= '+i);
@@ -345,34 +292,115 @@ export class Masterteachertraining2Component implements OnInit {
 	}
 
 
-	async save_btn_click(){
-		if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
-			alert('Please add some content !!!');
-		} else if(this.video_value.length <= 0){
-			alert('Please add some video !!!');
-		} else if(this.worksheet_value.length <= 0){
-			alert('Please add some worksheet !!!');
-		} else if(this.quiz_value.length <= 0){
-			alert('Please add some quiz !!!');
-		} else {
+	currentFileUpload: File;
+	hideProgressbar: boolean = true;
+	progress: { percentage: number } = { percentage: 0 };
+	s3path: string = '';
+	async save_btn_click(selected_tab){
+		console.log('### selected_tab: '+selected_tab);
+		if(selected_tab == 'content_tab') {
+			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
+				swal.fire('info', 'Please add some content !!!', 'warning');
+			} else{
+				const body = {
+					moduleid : this.selected_moduleid,
+					modulename : this.selected_modulename,
+					submoduleid : this.selected_submoduleid,
+					submodulename : this.selected_submodulename,
+					content: this.content_value,
+					flashcard: this.flashcard_value,
+					worksheet: this.worksheet_value,
+					video: this.video_value,
+					quiz: this.quiz_value
+				}
+				if(this.save_operation == 'save'){
+					this.save_record(body);
+				}else if(this.save_operation == 'update'){
+					this.update_record(this.record_id, body);
+				}
+			}
+		}else if(selected_tab == 'quiz_tab') {
 			const body = {
-				moduleid : this.selected_moduleid,
-				modulename : this.selected_modulename,
-				submoduleid : this.selected_submoduleid,
-				submodulename : this.selected_submodulename,
-				content: this.content_value,
-				flashcard: this.flashcard_value,
-				worksheet: this.worksheet_value,
-				video: this.video_value,
 				quiz: this.quiz_value
 			}
-			console.log('### this.save_operation: '+this.save_operation);
-			if(this.save_operation == 'update'){
-				if(confirm('Do you want to update the existing record?'))
-					this.update_record(this.record_id, body);
-			}else{
-				if(confirm('Do you want to save this record?'))
-					this.save_record(body);
+			if(this.save_operation == 'save'){
+				swal.fire('info', 'Please add some content !!!', 'warning');
+			}else if(this.save_operation == 'update'){
+				this.update_record(this.record_id, body);
+			}
+		}else if(selected_tab == 'image_tab') {
+			if(this.save_operation == 'save'){
+				swal.fire('info', 'Please add some content !!!', 'warning');
+			}else if(this.save_operation == 'update'){
+				if(this.selectedFiles == undefined || this.selectedFiles == null){
+					swal.fire('info', 'Please select image file', 'warning');
+				}else{this.hideProgressbar = false;
+					this.progress.percentage = 0;
+		
+					this.currentFileUpload = this.selectedFiles.item(0);
+					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+						console.log('$$$event: '+JSON.stringify(event));
+						if (event.type === HttpEventType.UploadProgress) {
+							this.progress.percentage = Math.round(100 * event.loaded / event.total);
+						} else if (event instanceof HttpResponse) {
+							this.s3path = event.body['s3path'];
+							console.log('File is completely uploaded!->'+this.s3path);
+							this.hideProgressbar = true;
+		
+							let obj = {
+								displayname: this.displayname,
+								s3name: this.s3name,
+								filetype: this.filetype,
+								s3path: this.s3path
+							}
+							this.flashcard_value.push(obj);
+		
+							const body = {
+								flashcard: this.flashcard_value
+							}
+							this.update_record(this.record_id, body);
+							//this.load_record();
+						}
+					});
+				}
+			}
+		}else if(selected_tab == 'video_tab') {
+			if(this.save_operation == 'save'){
+				swal.fire('info', 'Please add some content !!!', 'warning');
+			}else if(this.save_operation == 'update'){
+				if(this.selectedFiles == undefined || this.selectedFiles == null){
+					swal.fire('info', 'Please select video file', 'warning');
+				}else{this.hideProgressbar = false;
+					this.progress.percentage = 0;
+		
+					this.currentFileUpload = this.selectedFiles.item(0);
+					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+						console.log('$$$event: '+JSON.stringify(event));
+						if (event.type === HttpEventType.UploadProgress) {
+							this.progress.percentage = Math.round(100 * event.loaded / event.total);
+						} else if (event instanceof HttpResponse) {
+							this.s3path = event.body['s3path'];
+							console.log('File is completely uploaded!->'+this.s3path);
+							this.hideProgressbar = true;
+		
+							let obj = {
+								displayname: this.displayname,
+								s3name: this.s3name,
+								filetype: this.filetype,
+								s3path: this.s3path
+							}
+							this.video_value.push(obj);
+		
+							const body = {
+								video: this.video_value
+							}
+							this.update_record(this.record_id, body);
+							//this.load_record();
+						}
+					});
+				}
 			}
 		}
 	}
@@ -381,8 +409,8 @@ export class Masterteachertraining2Component implements OnInit {
 	async save_record(body){
 		this.masterteachertraining2Service.createnewtrainingcontents(body).subscribe(data => {
 				console.log('###1 save data: '+JSON.stringify(data));
-				alert('Record save status: '+data['status']);
-				location.reload();
+				swal.fire('Success', 'Record saved successfully', 'success');
+				this.load_record();
 			},
 			error => {},
 			() => {}
@@ -392,12 +420,30 @@ export class Masterteachertraining2Component implements OnInit {
 	async update_record(id, body){
 		this.masterteachertraining2Service.updatetrainingcontentsbyid(id, body).subscribe(data => {
 				console.log('###1 update data: '+JSON.stringify(data));
-				alert('Record update status: '+data['status']);
-				location.reload();
+				swal.fire('Success', 'Record updated successfully', 'success');
+				this.load_record();
 			},
 			error => {},
 			() => {}
 		);
+	}
+
+	// upload button
+	selectedFiles: FileList;
+	displayname: string;
+	filetype: string;
+	s3name: string;
+	filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedFiles = event.target.files;
+			this.displayname = event.target.files[0].name;
+			this.filetype = this.displayname.split('.').pop();
+			this.s3name = (new Date()).getTime()+'.'+this.filetype;
+			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
+		}else{
+			this.displayname = '';
+			this.selectedFiles = null;
+		}
 	}
 
 	open(content,obj,index,flag) {

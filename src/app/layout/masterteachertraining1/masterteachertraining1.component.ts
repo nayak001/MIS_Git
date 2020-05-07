@@ -280,6 +280,10 @@ export class Masterteachertraining1Component implements OnInit {
 		);
 	}
 
+	back_btn_click(){
+		this.router.navigate(['/masterteachertraining2']);
+	}
+
 	// ----------------------------------------------
 	open(content,module, flag) {
 		console.log('#### '+flag+'>>    module: '+ JSON.stringify(module));

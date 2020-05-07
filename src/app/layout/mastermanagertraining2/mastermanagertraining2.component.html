@@ -113,8 +113,6 @@
 											<tr>
 												<td>
 													<span class="bold-font">Upload image:</span>
-													<!-- <span class="addbtn" (click)="addflashcard()"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
-													<span class="delbtn" (click)="delflashcard()"><i class="fa fa-minus-square" aria-hidden="true"></i></span> -->
 													<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
 															<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
 															attr.aria-valuenow="{{progress.percentage}}"
@@ -209,69 +207,6 @@
 									</div>
 								</ng-template>
 							</ngb-tab>
-
-							<!--<ngb-tab>
-								<ng-template ngbTabTitle><b>VIDEOS</b></ng-template>
-								<ng-template ngbTabContent>
-									<div class="tab_content_height">
-										<table class="table50">
-											<tr>
-												<td>
-													<span class="spanbtn" (click)="open(addvideomodal,null,null,'addvideo')"><i class="fa fa-plus-square" aria-hidden="true"></i>ADD VIDEO</span>
-												</td>
-												<td></td>
-											</tr>
-											<tr *ngFor="let video of video_value; let i = index;">
-												<td>
-													<div>
-														<span>{{ i+1 }}.{{ video }}</span>
-													</div>
-												</td>
-												<td>
-													<div>
-														<span class="delbtn" (click)="delvideo(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-													</div>
-												</td>
-											</tr>
-										</table>
-									</div>
-									<div>
-										<button (click)="save_btn_click('video')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</ng-template>
-							</ngb-tab>
-							 
-							<ngb-tab>
-								<ng-template ngbTabTitle><b>WORKSHEETS</b></ng-template>
-								<ng-template ngbTabContent>
-									<div class="tab_content_height">
-										<table class="table50">
-											<tr>
-												<td>
-													<span class="bold-font">Worksheets:</span>
-													<span class="addbtn" (click)="open(addworksheetmodal, null, null, 'addworksheet')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
-												</td>
-											</tr>
-											<tr *ngFor="let sheet of worksheet_value; let i = index;">
-												<td>
-													<div>
-														<span>{{ i+1 }}.{{ sheet }}</span>
-													</div>
-												</td>
-												<td>
-													<div>
-														<span class="delbtn" (click)="delsheet(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-													</div>
-												</td>
-											</tr>
-										</table>
-									</div>
-									<div>
-										<button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</ng-template>
-							</ngb-tab>
-							-->
 						</ngb-tabset>
 					</div>
 				</div>
@@ -384,37 +319,6 @@
 							<button type="button" class="btn btn-danger" (click)="delquiz()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</ng-template>
-	
-					<!-- add file video -->
-					<ng-template #addvideomodal let-c="close" let-d="dismiss">
-						<div class="modal-body">
-							<div class="row padd15">
-								Please enter only filename. <br><b>Extension like .mp4, .pdf etc are NOT required.</b><br><br>
-								<input [(ngModel)]="video_file_name" type="text" class="form-control input-underline input-lg" placeholder="File name">
-							</div>								
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="addvideo()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-
-					<!-- add file worksheet -->
-					<ng-template #addworksheetmodal let-c="close" let-d="dismiss">
-						<div class="modal-body">
-							<div class="row padd15">
-								Please enter only filename. <br><b>Extension like .mp4, .pdf etc are NOT required.</b><br><br>
-								<input [(ngModel)]="worksheet_file_name" type="text" class="form-control input-underline input-lg" placeholder="File name">
-							</div>								
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="addsheet()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					<!-- <div>
-						<button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-					</div> -->
 				</div>
             </div>                       
         </div>        
