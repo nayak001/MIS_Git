@@ -289,16 +289,14 @@ console.log(error)
 			console.log(data)
 			this.getallStudents = data
 			this.isLoaded = true
-			this.count = this.getallStudents[0].Count
 			if(this.getallStudents.length == 0){
 				this.isdata_table = true;
 				}
 				else{
-					this.isdata_table = false;
-	
+					this.isdata_table = false 
+			this.count = this.getallStudents[0].Count		
 				}
-				this.loader = false
-
+		this.loader = false
 	})
    };
    getBlockDetails() {		
