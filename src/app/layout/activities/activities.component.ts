@@ -4,16 +4,14 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 import { ActivitiesService } from './activities.service';
+import { ManagersboxService } from  './../managersbox/managersbox.service';
+import { HttpResponse, HttpEventType } from '@angular/common/http';
 import swal from 'sweetalert2';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
 
 import { environment } from './../../../environments/environment.prod';
 const URL = environment.uploadURL;
 
-// ng2-file-uploader components
-import { FileUploader } from 'ng2-file-upload';
-//const URL = 'http://18.191.206.88:1234/thinkzone/trainingcontentsuploads';
 
 @Component({
   selector: 'app-activities',
@@ -61,40 +59,12 @@ export class ActivitiesComponent implements OnInit {
   month_select_option_list: any = [];
   week_select_option_list: any = [];
 
-  public uploader: FileUploader = new FileUploader({
-    url: URL,
-    itemAlias: 'image',
-    maxFileSize: 2 * 1024 * 1024 // 2 MB
-  });
-
-  initImageUpload() {
-    this.uploader.onAfterAddingFile = (file) => {
-      //--------------------renaming the file-------------------------
-      let filename = file.file.name;
-      let ext = filename.substr(filename.lastIndexOf('.') + 1);
-      let newfilename = Date.now() + '.' + ext;
-      file.file.name = newfilename;
-      this.uploaded_image_name = newfilename;
-      //--------------------------------------------------------------
-      file.withCredentials = false;
-    };
-    this.uploader.onCompleteItem = (item: any, status: any) => {
-      this.flashcard_value.push(this.uploaded_image_name);
-      console.log('@@@ flashcard_value:', JSON.stringify(this.flashcard_value));
-      //console.log('Uploaded File Details:', item);
-      //alert('File successfully uploaded!');
-      this.save_btn_click();
-    };
-  }
-
-
   constructor(
     private modalService: NgbModal,
     public router: Router,
-    private activitiesService: ActivitiesService
+    private activitiesService: ActivitiesService,
+    private managersboxService: ManagersboxService
   ) {
-    this.initImageUpload();
-
     this.selected_program = '';
     this.selected_subject = '';
     this.selected_month = '';
@@ -245,14 +215,6 @@ export class ActivitiesComponent implements OnInit {
         this.update_record(this.record_id, body);
       }
     });
-		/*if(this.video_value.length > 0) {
-			if(confirm('Do you want to delete video from this record?')){
-				this.video_value.splice(this.video_value.length-1, 1);
-			}
-		} else {
-			alert('Nothing to delete !!!');
-		}
-		*/
   }
 
   addsheet() {
@@ -289,15 +251,6 @@ export class ActivitiesComponent implements OnInit {
         this.update_record(this.record_id, body);
       }
     });
-		/*
-		if(this.worksheet_value.length > 0) {
-			if(confirm('Do you want to delete worksheet from this record?')){
-				this.worksheet_value.splice(this.worksheet_value.length-1, 1);
-			}
-		} else {
-			alert('Nothing to delete !!!');
-		}
-		*/
   }
 
   async load_record(preflanguage, program, subject, month, week, level) {
@@ -351,58 +304,197 @@ export class ActivitiesComponent implements OnInit {
     }
   }
 
-  async save_btn_click() {
-    if (this.content_value == undefined || this.content_value == null || this.content_value == '') {
-      //alert('Please add some content !!!');
-      swal.fire(
-        'Data insufficient',
-        'Please add some text contents.',
-        'warning'
-      );
-    } else {
-      swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want to save changes?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
-      }).then((result) => {
-        if (result.value) {
-          const body = {
-            preferedlanguage: this.selected_preflanguage,
-            program: this.selected_program,
-            subject: this.selected_subject,
-            month: this.selected_month,
-            week: this.selected_week,
-            level: this.selected_level,
-            content: this.content_value,
-            image: this.flashcard_value,
-            worksheet: this.worksheet_value,
-            video: this.video_value,
-          }
-          console.log('### this.save_operation: ' + this.save_operation);
-          if (this.save_operation == 'update') {
-            this.update_record(this.record_id, body);
-          } else {
-            this.save_record(body);
-          }
+  currentFileUpload: File;
+	hideProgressbar: boolean = true;
+	progress: { percentage: number } = { percentage: 0 };
+  s3path: string = '';
+  
+  async save_btn_click(selected_tab) {
+		console.log('### selected_tab: '+selected_tab);
+    if(selected_tab == 'content_tab'){
+			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
+				swal.fire('info', 'Please add some content !!!', 'warning');
+			} else{
+        const body = {
+          preferedlanguage: this.selected_preflanguage,
+          program: this.selected_program,
+          subject: this.selected_subject,
+          month: this.selected_month,
+          week: this.selected_week,
+          level: this.selected_level,
+          content: this.content_value,
+          image: this.flashcard_value,
+          worksheet: this.worksheet_value,
+          video: this.video_value,
         }
-      });
+        console.log('### this.save_operation: ' + this.save_operation);
+        if (this.save_operation == 'update') {
+          this.update_record(this.record_id, body);
+        } else {
+          this.save_record(body);
+        }
+      }
+    }else if(selected_tab == 'worksheet_tab'){
+			if(this.save_operation == 'save'){
+				swal.fire('info', 'Please add some content !!!', 'warning');
+			}else if(this.save_operation == 'update'){
+				if(this.selectedFiles == undefined || this.selectedFiles == null){
+					swal.fire('info', 'Please select worksheet file', 'warning');
+				}else{this.hideProgressbar = false;
+					this.progress.percentage = 0;
+		
+					this.currentFileUpload = this.selectedFiles.item(0);
+					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+						console.log('$$$event: '+JSON.stringify(event));
+						if (event.type === HttpEventType.UploadProgress) {
+							this.progress.percentage = Math.round(100 * event.loaded / event.total);
+						} else if (event instanceof HttpResponse) {
+							this.s3path = event.body['s3path'];
+							console.log('File is completely uploaded!->'+this.s3path);
+							this.hideProgressbar = true;
+		
+							let obj = {
+								displayname: this.displayname,
+								s3name: this.s3name,
+								filetype: this.filetype,
+								s3path: this.s3path
+							}
+							this.worksheet_value.push(obj);
+		
+							const body = {
+								worksheet: this.worksheet_value
+							}
+							this.update_record(this.record_id, body);
+							//this.load_record();
+						}
+					});
+				}
+			}
+    }else if(selected_tab == 'image_tab'){
+			if(this.save_operation == 'save'){
+				swal.fire('info', 'Please add some content !!!', 'warning');
+			}else if(this.save_operation == 'update'){
+				if(this.selectedFiles == undefined || this.selectedFiles == null){
+					swal.fire('info', 'Please select image file', 'warning');
+				}else{this.hideProgressbar = false;
+					this.progress.percentage = 0;
+		
+					this.currentFileUpload = this.selectedFiles.item(0);
+					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+						console.log('$$$event: '+JSON.stringify(event));
+						if (event.type === HttpEventType.UploadProgress) {
+							this.progress.percentage = Math.round(100 * event.loaded / event.total);
+						} else if (event instanceof HttpResponse) {
+							this.s3path = event.body['s3path'];
+							console.log('File is completely uploaded!->'+this.s3path);
+							this.hideProgressbar = true;
+		
+							let obj = {
+								displayname: this.displayname,
+								s3name: this.s3name,
+								filetype: this.filetype,
+								s3path: this.s3path
+							}
+							this.flashcard_value.push(obj);
+		
+							const body = {
+								image: this.flashcard_value
+							}
+							this.update_record(this.record_id, body);
+							//this.load_record();
+						}
+					});
+				}
+			}
+    }else if(selected_tab == 'video_tab'){
+			if(this.save_operation == 'save'){
+				swal.fire('info', 'Please add some content !!!', 'warning');
+			}else if(this.save_operation == 'update'){
+				if(this.selectedFiles == undefined || this.selectedFiles == null){
+					swal.fire('info', 'Please select video file', 'warning');
+				}else{this.hideProgressbar = false;
+					this.progress.percentage = 0;
+		
+					this.currentFileUpload = this.selectedFiles.item(0);
+					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+						console.log('$$$event: '+JSON.stringify(event));
+						if (event.type === HttpEventType.UploadProgress) {
+							this.progress.percentage = Math.round(100 * event.loaded / event.total);
+						} else if (event instanceof HttpResponse) {
+							this.s3path = event.body['s3path'];
+							console.log('File is completely uploaded!->'+this.s3path);
+							this.hideProgressbar = true;
+		
+							let obj = {
+								displayname: this.displayname,
+								s3name: this.s3name,
+								filetype: this.filetype,
+								s3path: this.s3path
+							}
+							this.video_value.push(obj);
+		
+							const body = {
+								video: this.video_value
+							}
+							this.update_record(this.record_id, body);
+							//this.load_record();
+						}
+					});
+				}
+			}
     }
+
+
+
+
+
+
+
+    // if (this.content_value == undefined || this.content_value == null || this.content_value == '') {
+    //   //alert('Please add some content !!!');
+    //   swal.fire('Data insufficient', 'Please add some text contents.', 'warning');
+    // } else {
+    //   swal.fire({
+    //     title: 'Are you sure?',
+    //     text: "Do you want to save changes?",
+    //     type: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#3085d6',
+    //     cancelButtonColor: '#d33',
+    //     confirmButtonText: 'Yes'
+    //   }).then((result) => {
+    //     if (result.value) {
+    //       const body = {
+    //         preferedlanguage: this.selected_preflanguage,
+    //         program: this.selected_program,
+    //         subject: this.selected_subject,
+    //         month: this.selected_month,
+    //         week: this.selected_week,
+    //         level: this.selected_level,
+    //         content: this.content_value,
+    //         image: this.flashcard_value,
+    //         worksheet: this.worksheet_value,
+    //         video: this.video_value,
+    //       }
+    //       console.log('### this.save_operation: ' + this.save_operation);
+    //       if (this.save_operation == 'update') {
+    //         this.update_record(this.record_id, body);
+    //       } else {
+    //         this.save_record(body);
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   async save_record(body) {
     this.activitiesService.createmasteractivities(body).subscribe(data => {
       console.log('###1 save data: ' + JSON.stringify(data));
       //alert('Record save status: '+JSON.stringify(data));
-      swal.fire(
-        'Successful',
-        'Data saved successfully',
-        'success'
-      );
-
+      swal.fire('Successful', 'Data saved successfully', 'success');
       this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
     },
       error => { },
@@ -414,13 +506,8 @@ export class ActivitiesComponent implements OnInit {
     this.activitiesService.updatemasteractivities(id, body).subscribe(data => {
       console.log('###1 update data: ' + JSON.stringify(data));
       //alert('Record update status: '+JSON.stringify(data));
-      this.modalReference.close();
-      swal.fire(
-        'Successful',
-        'Data updated successfully',
-        'success'
-      );
-
+      //this.modalReference.close();
+      swal.fire('Successful', 'Data updated successfully', 'success');
       this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
     },
       error => { },
@@ -455,6 +542,24 @@ export class ActivitiesComponent implements OnInit {
     if (this.flag == 'addworksheet') this.addsheet();
     else if (this.flag == 'addvideo') this.addvideo();
   }
+
+	// upload button
+	selectedFiles: FileList;
+	displayname: string;
+	filetype: string;
+	s3name: string;
+	filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedFiles = event.target.files;
+			this.displayname = event.target.files[0].name;
+			this.filetype = this.displayname.split('.').pop();
+			this.s3name = (new Date()).getTime()+'.'+this.filetype;
+			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
+		}else{
+			this.displayname = '';
+			this.selectedFiles = null;
+		}
+	}
 
   open(content, param, flag) {
     console.log('###> flag: ' + flag);

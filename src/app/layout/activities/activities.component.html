@@ -108,7 +108,52 @@
 													</div>
 													<br />
 													<div>
-														<button (click)="save_btn_click()" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button>
+														<button (click)="save_btn_click('content_tab')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button>
+													</div>
+												</div>
+											</ng-template>
+										</ngb-tab>
+				
+										<ngb-tab title="Worksheets">
+											<ng-template ngbTabContent>
+												<div class="tab_content" >
+													<div class="row">
+														<div class="image_preview_container">
+															<div class="image_preview" *ngFor="let sheet of worksheet_value; let i = index;">
+																<div style="text-align: center;">
+																	<span><img class="lazy" src="assets/images/pdf.png" alt="doc" style="width: 50%;"></span><br>
+																	<span class="">{{ sheet.displayname }}</span>
+																</div>
+																<div class="delbtn" (click)="delsheet(i)">
+																	<i class="fa fa-times-circle" aria-hidden="true"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="margintop30">
+														<div class="row">
+															<div class="col">
+																<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+																		<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+																		attr.aria-valuenow="{{progress.percentage}}"
+																		aria-valuemin="0" aria-valuemax="100" 
+																		[ngStyle]="{width:progress.percentage+'%'}">
+																		{{progress.percentage}}%
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col col-lg-10 col-md-10 col-sm-10">
+																<div class="file-upload">
+																	<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="application/pdf,application/vnd.ms-excel" />
+																</div>
+															</div>
+															<div class="col col-lg-2 col-md-2 col-sm-2">
+																<button (click)="save_btn_click('worksheet_tab')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Upload Video&nbsp;&nbsp;&nbsp;</button>
+															</div>
+														</div>
 													</div>
 												</div>
 											</ng-template>
@@ -122,7 +167,7 @@
 														<div class="image_preview_container">
 															<div class="image_preview" *ngFor="let flash of flashcard_value; let i = index;">
 																<div>
-																	<img src="{{imageURL}}{{flash}}" class="image" (click)="open(viewmodal,flash,'view')" />
+																	<img src="{{  flash.s3path  }}" class="image" (click)="open(viewmodal,flash,'view')" />
 																</div>
 																<div class="delbtn" (click)="delflashcard(i)">
 																	<i class="fa fa-times-circle" aria-hidden="true"></i>
@@ -133,17 +178,29 @@
 
 													<div class="margintop30">
 														<div class="row">
+															<div class="col">
+																<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+																		<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+																		attr.aria-valuenow="{{progress.percentage}}"
+																		aria-valuemin="0" aria-valuemax="100" 
+																		[ngStyle]="{width:progress.percentage+'%'}">
+																		{{progress.percentage}}%
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="row">
 															<div class="col col-lg-10 col-md-10 col-sm-10">
 																<div class="file-upload">
-																	<input type="file" name="image" ng2FileSelect [uploader]="uploader" accept="image/x-png,image/gif,image/jpeg" />
+																	<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
 																</div>
 															</div>
 															<div class="col col-lg-2 col-md-2 col-sm-2">
-																<button (click)="uploader.uploadAll()" class="btn btn-primary float-right" type="button" [disabled]="!uploader.getNotUploadedItems().length">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button>
+																<button (click)="save_btn_click('image_tab')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Upload Image&nbsp;&nbsp;&nbsp;</button>
 															</div>
 														</div>
 													</div>
-													<!-- Flashcards -->
+													
 													<div class="margintop30">
 														<!-- image preview modal   -->
 														<ng-template #viewmodal let-c="close" let-d="dismiss">
@@ -168,88 +225,47 @@
 											</ng-template>
 										</ngb-tab>
 				
-										<ngb-tab title="Worksheets">
-											<ng-template ngbTabContent>
-												<div class="tab_content" >
-													<!-- Worksheets  -->
-													<div class="margintop30">
-														<table class="table50">
-															<tr>
-																<td>
-																	<span class="bold-font">Worksheets:</span>
-																	<span class="addbtn" (click)="open(urlmodal, null, 'addworksheet')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
-																	<!-- <span class="delbtn" (click)="delsheet()"><i class="fa fa-minus-square" aria-hidden="true"></i></span> -->
-																</td>
-															</tr>
-															<tr>
-																<td>
-																	<div class="image_preview_container">
-																		<div class="row" *ngFor="let sheet of worksheet_value; let i = index;">
-																			<div class="col col-lg-11 col-md-11 col-sm-11">
-																				<span>{{ i+1 }}.{{ sheet }}</span>
-																			</div>
-																			<div class="col col-lg-1 col-md-1 col-sm-1">
-																				<!-- <span class="editbtn" (click)="open(urlmodal, sheet, 'editworksheet')"><i class="fa fa-pencil-square" aria-hidden="true"></i></span> -->
-																				<span class="delbtn" (click)="delsheet(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-																			</div>
-																		</div>
-																	</div>
-																</td>
-																<td></td>
-															</tr>
-															<tr>
-																<td></td>
-																<td>
-																	<div>
-																		<button (click)="save_btn_click()" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button>
-																	</div>
-																</td>
-															</tr>
-														</table>
-													</div>
-												</div>
-											</ng-template>
-										</ngb-tab>
-				
 										<ngb-tab title="Videos">
 											<ng-template ngbTabContent>
 												<div class="tab_content" >
-													<!-- Videos  -->
+
+													<div class="row">
+														<div class="image_preview_container">
+															<div class="image_preview" *ngFor="let video of video_value; let i = index;">
+																<div style="text-align: center;">
+																	<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 50%;"></span><br>
+																	<span class="">{{ video.displayname }}</span>
+																</div>
+																<div class="delbtn" (click)="delvideo(i)">
+																	<i class="fa fa-times-circle" aria-hidden="true"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
 													<div class="margintop30">
-														<table class="table50">
-															<tr>
-																<td>
-																	<span class="bold-font">Videos:</span>
-																	<span class="addbtn" (click)="open(urlmodal, null, 'addvideo')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
-																	<!-- <span class="delbtn" (click)="delvideo()"><i class="fa fa-minus-square" aria-hidden="true"></i></span> -->
-																</td>
-																<td></td>
-															</tr>
-															<tr>
-																<td>
-																	<div class="image_preview_container">
-																		<div class="row" *ngFor="let video of video_value; let i = index;">
-																			<div class="col col-lg-11 col-md-11 col-sm-11">
-																				<span>{{ i+1 }}.{{ video }}</span>
-																			</div>
-																			<div class="col col-lg-1 col-md-1 col-sm-1">
-																				<!-- <span class="editbtn" (click)="open(urlmodal, sheet, 'editworksheet')"><i class="fa fa-pencil-square" aria-hidden="true"></i></span> -->
-																				<span class="delbtn" (click)="delvideo(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-																			</div>
-																		</div>
+														<div class="row">
+															<div class="col">
+																<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+																		<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+																		attr.aria-valuenow="{{progress.percentage}}"
+																		aria-valuemin="0" aria-valuemax="100" 
+																		[ngStyle]="{width:progress.percentage+'%'}">
+																		{{progress.percentage}}%
 																	</div>
-																</td>
-																<td></td>
-															</tr>
-															<tr>
-																<td></td>
-																<td>
-																	<div>
-																		<button (click)="save_btn_click()" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button>
-																	</div>
-																</td>
-															</tr>
-														</table>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col col-lg-10 col-md-10 col-sm-10">
+																<div class="file-upload">
+																	<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
+																</div>
+															</div>
+															<div class="col col-lg-2 col-md-2 col-sm-2">
+																<button (click)="save_btn_click('video_tab')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Upload Video&nbsp;&nbsp;&nbsp;</button>
+															</div>
+														</div>
 													</div>
 												</div>
 											</ng-template>
