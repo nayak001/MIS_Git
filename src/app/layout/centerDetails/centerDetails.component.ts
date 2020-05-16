@@ -20,6 +20,7 @@ export class CenterDetailsComponent implements OnInit {
 	block: any = 'all'
 	program_type: any = 'all'
 	is_program_type: any = 'all'
+	noda : any = false;
 	centerDetails: any;
 	check: boolean = true;
 	check1: boolean = false;
@@ -186,12 +187,6 @@ export class CenterDetailsComponent implements OnInit {
 	}
 
 	getCenterDetails() {
-		// const data = {
-		// 	center_type:"all",
-		// 	distric:"all",
-		// 	block:"all",
-		// 	program_type:"all"
-		// }
 		const data = {
 			center_type: this.center_type,
 			distric: this.distric,
@@ -207,34 +202,18 @@ export class CenterDetailsComponent implements OnInit {
 			console.log(data)
 			this.filterData = data;
 			//this.filterData = [];
-			 this.isLoaded = true;
-			this.count = this.filterData[0].centercount
-
+			 this.isLoaded = true;	
 			if (this.filterData.length == 0) {
 				this.isdata_table = true;
+				
 			}
 			else {
 				this.isdata_table = false;
-
+				this.count = this.filterData[0].centercount
 			}
 			
-			this.loader = false
-
-			
-		
-			
-
-			//   $('#testtable').DataTable({
-			// 	fixedHeader: {
-			// 		header: true,
-			// 		headerOffset: 45,
-			// 		},
-			// 	scrollX: true
-			// });
-		},
-			error => { },
-			() => { }
-		);
+			this.loader = false;
+		});	
 	}
 
 	

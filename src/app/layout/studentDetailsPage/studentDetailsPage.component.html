@@ -50,8 +50,7 @@
                         <div class="col-2">
                             
                             <label>Enrollment Date</label>
-                            <input type="month" id="month" name="input" ng-model="enrolldate"
-                           />
+                            <input type="month" id="month" name="input" ng-model="enrolldate"/>
                         </div>
                     
                    
@@ -130,6 +129,7 @@
                             <thead>
                                 <tr>
 
+
                                     <th>Name</th>
                                     <th>Date of Enrollment</th>
                                     <th>Sex</th>
@@ -141,20 +141,23 @@
                                     <th>Block</th>
                                     <th>District</th>
                                     <th>State</th>
+                                    <th>PhoneNo</th>
                                     <th>ECE Level</th>
-                                    <th>PG Maths Level</th>
-                                    <th>PG English Level</th>
-                                    <th>PG Odia Level</th>
-                                    <th>Maths Assessment Score</th>
-                                    <th>English Assessment Score</th>
-                                    <th>Odia Assessment Score</th>
+                                    <th *ngIf="canDisplay('pge')">PG Maths Level</th>
+                                    <!-- <th>PG Maths Level</th> -->
+
+                                    <th *ngIf="canDisplay('pge')">PG English Level</th>
+                                    <th *ngIf="canDisplay('pge')">PG Odia Level</th>
+                                    <th *ngIf="canDisplay('pge')">Maths Assessment Score</th>
+                                    <th *ngIf="canDisplay('pge')">English Assessment Score</th>
+                                    <th *ngIf="canDisplay('pge')">Odia Assessment Score</th>
                                     <th>Quarterly ECE Assessment Score</th>
                                     <!-- <th>Avg Quarterly Assessment Score</th> -->
                                     <th>Avg Attendance</th>
-                                    <th>No of Endline Assessment Completed in PG</th>
-                                    <th>No of Levels jumped in Maths</th>
-                                    <th>No of Levels jumped in Odia</th>
-                                    <th>No of Levels jumped in English</th>
+                                    <th *ngIf="canDisplay('pge')">No of Endline Assessment Completed in PG</th>
+                                    <th *ngIf="canDisplay('pge')">No of Levels jumped in Maths</th>
+                                    <th *ngIf="canDisplay('pge')">No of Levels jumped in Odia</th>
+                                    <th *ngIf="canDisplay('pge')">No of Levels jumped in English</th>
                                     <th>Total Number of Quarter 4 Assessment Completed in ECE</th>
                                     <th>Acheived atleast 70% age-appropriate learning outcomes in ECE</th>
                                     <th>Baseline Test Participated</th>
@@ -177,21 +180,22 @@
                                     <td style=" text-transform: capitalize;">{{user.student.center.district}}</td>
                                     <td style=" text-transform: capitalize;">{{user.student.center.block}}</td>
                                     <td style=" text-transform: capitalize;">{{user.state}}</td>
+                                    <td>{{user.student.phone}}</td>
                                     <td>{{user.student.ec_level}}</td>
-                                    <td>{{user.student.math_level}}</td>
-                                    <td>{{user.student.eng_level}}</td>
-                                    <td>{{user.student.odia_level}}</td>
-                                    <td>
+                                    <td *ngIf="canDisplay('pge')">{{user.student.math_level}}</td>
+                                    <td *ngIf="canDisplay('pge')">{{user.student.eng_level}}</td>
+                                    <td  *ngIf="canDisplay('pge')">{{user.student.odia_level}}</td>
+                                    <td  *ngIf="canDisplay('pge')">
                                                     
                               <div class="tint"aria-hidden="true" *ngIf="user && user.student && user.student.program == 'pge'" (click)="openmathAssessDetails(edit,user)" >Maths Assessments</div>
                         
                                     </td>
-                                    <td>
+                                    <td  *ngIf="canDisplay('pge')">
                                         <div class="tint"  *ngIf="user && user.student && user.student.program == 'pge'" aria-hidden="true" (click)="openenglishAssessDetails(editm,user)">English Assessments</div>
                                     </td>
                                     <!-- {{getRoundedValue(user.scores.odia.value)}}%
                                 {{getRoundedValue(user.scores.english.value)}}% -->
-                                    <td>
+                                    <td  *ngIf="canDisplay('pge')">
                                         <div class="tint"  *ngIf="user && user.student && user.student.program == 'pge'" aria-hidden="true" (click)="openodiaAssessDetails(edito,user)">Odia Assessments</div>
 
                                     </td>
@@ -200,9 +204,9 @@
                                     </td>
                                     <td>{{user.avg_attendancce}}%</td>
 
-                                    <td><span *ngIf="user && user.student && user.student.program == 'pge'">
+                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">
                                    
-                                            <div class="chip" >Eng &nbsp;: &nbsp;{{user.engbaseline}}
+                                            <div class="chip"  >Eng &nbsp;: &nbsp;{{user.engbaseline}}
                                             </div>
                                             <div class="chipp">odia &nbsp;: &nbsp;{{user.odiabaseline}}
                                             </div>
@@ -211,9 +215,9 @@
                                     
                                        </span>
                                     </td>
-                                    <td><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.math}}</span></td>
-                                    <td><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.odia}}</span></td>
-                                    <td><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.english}}</span></td>
+                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.math}}</span></td>
+                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.odia}}</span></td>
+                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.english}}</span></td>
                                     <td><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.quarter4ece}}</span></td>
                                     <td><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.ispass}}</span></td>
                                     <td><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.isparticipated}}</span></td>

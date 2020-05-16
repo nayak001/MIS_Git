@@ -88,7 +88,7 @@ export class ManagerDetailsComponent implements OnInit {
 
 	async ngOnInit() {
 		this.getManagersDetails();
-		this.getallmanagersfeedbacks()
+		// this.getallmanagersfeedbacks()
 		// this.getallissuesmgr();
 	}
 
@@ -133,16 +133,16 @@ export class ManagerDetailsComponent implements OnInit {
 		  }
 
 
-		  getallmanagersfeedbacks(){
-			this.ManagerDetailsService.getallmanagersfeedbacks().subscribe(data => {
-				debugger
-				this.data = data
-				console.log(data)
-			},
-			error => {},
-			() => {}
-		);
-	  }
+	// 	  getallmanagersfeedbacks(){
+	// 		this.ManagerDetailsService.getallmanagersfeedbacks().subscribe(data => {
+	// 			debugger
+	// 			this.data = data
+	// 			console.log(data)
+	// 		},
+	// 		error => {},
+	// 		() => {}
+	// 	);
+	//   }
 
 	//   getallissuesmgr(){
 	// 	this.ManagerDetailsService.getallissuesmgr().subscribe(data => {
@@ -328,69 +328,45 @@ export class ManagerDetailsComponent implements OnInit {
 }
 
 download(){
-	var rows = []
-	if (this.info_type == 'dailyinfo'){
-		rows = [
-			["Name", "Center", "Date of Visit", "Educator Present", "Activity Plan Followed", "Kids able to participate in activities", "Class Segregated Level-Wise",
-				"TLM's used"]
-		];
-		this.all_managers_data.forEach(value => {						
-			var array = [value.manager.username,value.center.centername, value.date_of_visit, value.educator_present, value.activity_plan_followed, value.kids_able_participate,
-				 value.class_segregated_levelWise, value.Tlm]
-			rows.push(array)
-		});
+debugger
+
+	var cols = this.dyCols;
+
+	var rows =[];
+	for(var i =0 ; i < this.all_managers_data.length;i++){
+		var row = []
+		var data_row =this.all_managers_data[i];
+		row['name'] = data_row.name;
+		for(var c=0;c<this.dyCols.length;c++){
+			var col_name = this.dyCols[c];
+			row[col_name] = data_row[col_name];
+		}
+		rows.push(row);
 	}
-	else if (this.info_type == 'skillstought'){
-		rows = [
-			["Name", "Center", "Date of Visit", "Name of the PGE skills of Level 1", "Name of the PGE skills of Level 2", "Name of the PGE skills of Level 3", "Name of the PGE skills of Level 4",
-				"Name of the PGE skills of Level 5", "Name of the ECE skills of Level 1", "Name of the ECE skills of Level 2", "Name of the ECE skills of Level 3"]
-		];
-		this.all_managers_data.forEach(value => {			
-			var array = [value.manager.username,value.center.centertype, value.date_of_visit, value.name_of_pge_skills_level1, value.name_of_pge_skills_level2, value.name_of_pge_skills_level3,
-				value.name_of_pge_skills_level4, value.name_of_pge_skills_level5,
-				value.name_of_ece_skills_level1, value.name_of_ece_skills_level2, value.name_of_ece_skills_level3]
-			rows.push(array)
-		});
-	}
-	else if (this.info_type == 'Monthlyinfo') {
-		rows = [
-			["Name", "Center", "Month", "No.of days managers visit", "No.of days educators present", "No. of days activity plan is followed", "No of days worksheets are done",
-				"Activities done", "Kids performance", "Doing Training Module", "Educators performance", "Test Being Done Regularly",
-				"PTM being conducted"]
-		];
-		this.all_managers_data.forEach(value => {
-			var usertType = ''
-			if (value && value.user && value.user.usertype) {
-				usertType = value.user.usertype
-			}
-			var array = [value.manager.username,value.center.centername, value.month, value.no_of_days_managers_visit, value.no_of_days_educators_visit, value.no_of_days_activity_plan, value.no_of_days_workSheet_done, value.activities_done,
-				value.kids_performance, value.doing_training_module, value.educator_performance, value.test_being_done_regularly,
-				value.ptm_being_conducted]
-			rows.push(array)
-		});
-	}
-	else if (this.info_type == 'feedbackissues') {
-		rows = [
-			["Name", "Center", "Date of Visit", "Extra Activity", "Supervisor's Feedback", "Headmaster's Feedback", "Parent's Feedback",
-				"Specific Issues from the center"]
-		];
-		this.all_managers_data.forEach(value => {
-			var usertType = ''
-			if (value && value.user && value.user.usertype) {
-				usertType = value.user.usertype
-			}
-			var array = [value.manager.username,value.center.centertype, value.date_of_visit, value.extra_activites, value.superVisor_feedback, value.headMaster_feedback, value.parents_feedback, value.specific_issues_from_center]
-			rows.push(array)
-		});
-	}	
-	let csvContent = "data:text/csv;charset=utf-8,"
-	+ rows.map(e => e.join(",")).join("\n");
-	var encodedUri = encodeURI(csvContent);
-	var link = document.createElement("a");
-	link.setAttribute("href", encodedUri);
-	link.setAttribute("download", "ManagerDetails.csv");
-	document.body.appendChild(link); // Required for FF	
-	link.click()
+
+	
+	
+	// 	rows = [
+	// 		["Name", "Center", "Date of Visit", "Extra Activity", "Supervisor's Feedback", "Headmaster's Feedback", "Parent's Feedback",
+	// 			"Specific Issues from the center"]
+	// 	];
+	// 	this.all_managers_data.forEach(value => {
+	// 		var usertType = ''
+	// 		if (value && value.user && value.user.usertype) {
+	// 			usertType = value.user.usertype
+	// 		}
+	// 		var array = [value.manager.username,value.center.centertype, value.date_of_visit, value.extra_activites, value.superVisor_feedback, value.headMaster_feedback, value.parents_feedback, value.specific_issues_from_center]
+	// 		rows.push(array)
+	// 	});
+		
+	// let csvContent = "data:text/csv;charset=utf-8,"
+	// + rows.map(e => e.join(",")).join("\n");
+	// var encodedUri = encodeURI(csvContent);
+	// var link = document.createElement("a");
+	// link.setAttribute("href", encodedUri);
+	// link.setAttribute("download", "ManagerDetails.csv");
+	// document.body.appendChild(link); // Required for FF	
+	// link.click()
 	}
 selectBlock(distic) {
 	this.all_blocks = []

@@ -36,6 +36,7 @@ export class StudentDetailsPageService {
 	}
 
 	getallDetailsStudents(data){
+		debugger
 		return this.http.get(baseUrl + 'getallDetailsStudents?userType=' + data.userType + 
 		'&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type +
 		 "&baseline=" + data.baseline + "&sex=" + data.sex  + "&avg_attendance=" + data.avg_attendance

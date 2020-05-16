@@ -284,6 +284,11 @@ console.log(error)
 			downloadclick:this.downloadclick,
 		}
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
+
+
+
+
+
 			// console.log('### data: '+JSON.stringify(data));
 			debugger
 			console.log(data)
@@ -335,6 +340,11 @@ console.log(error)
 }
 
 
+ headCols =[];
+//applyProgramFilter = 
+canDisplay(type){
+	return this.program_type == "all" || this.program_type == type; 
+}
 
 
 download(){

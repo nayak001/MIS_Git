@@ -33,17 +33,11 @@
 
                         </select>
                     </div>
-                    <div class="col-2">
+                    <div class="col-2" >
                         <label>Month</label>
-                        <select class="form-control select2" [(ngModel)]="program_type" style=" height: 30px;">
-
-                            <option value="all">All</option>
-                            <option value="jan">JAN</option>
-                            <option value="feb">FEB</option>
-
-                        </select>
+                        <input type="month" name = month>
                     </div>
-                    <div class="col-2">
+                    <div class="col-2" style="margin-left: 5%;">
                         <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
                     </div>
                     <div class="col-2">
