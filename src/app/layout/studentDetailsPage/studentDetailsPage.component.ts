@@ -349,6 +349,7 @@ canDisplay(type){
 
 download(){
 	this.downloadclick = true;
+	this.loader = true;
 	const rows = [
 	["Name", "Date of Enrollment","Sex","Center Name","Centerid","Center Type","Name of the Type", "Program Type", "Block","District","State",
 	"ECE Level", "PG Maths Level", "PG English Level", "PG Odia Level","Maths Assessment Score","English Assessment Score","Odia Assessment Score","Quarterly ECE Assessment Score",
@@ -374,6 +375,7 @@ download(){
 	this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
 		// console.log('### data: '+JSON.stringify(data));
 		debugger
+		this.loader = false;
 		console.log(data)
 		this.getallStu = data
 		this.isLoaded = true
