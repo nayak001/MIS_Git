@@ -24,7 +24,7 @@ export class ManagerDetailsService {
 	getAllManagersDetails(data){
 		return this.http.get(baseUrl+'getAllDetailsManagers?center_type=' + data.center_type 
 		+"&createdon=" + data.createdon+ "&page_no=" + data.page_no +
-		"&limit=" + data.limit, 
+		"&limit=" + data.limit + "&month=" + data.month, 
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
@@ -32,13 +32,13 @@ export class ManagerDetailsService {
 	}
 
 
-	getallmanagersfeedbacks(){
-		return this.http.get(baseUrl+'getallmanagersfeedbacks',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});	
-	}
+	// getallmanagersfeedbacks(){
+	// 	return this.http.get(baseUrl+'getallmanagersfeedbacks',
+	// 	{
+	// 		headers: new HttpHeaders().set('Content-Type', 'application/json')
+	// 		//responseType: 'text' 
+	// 	});	
+	// }
 	getallissuesmgr(){
 		return this.http.get(baseUrl + 'getallissuesmgr',
 		{

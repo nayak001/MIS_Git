@@ -24,7 +24,7 @@
                             <option value="fellow">Fellow</option>
                         </select>
                     </div>
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <label>Year</label>
                         <select class="form-control select2" [(ngModel)]="createdon" style="font-size: 14px; height: 30px;">
                             <option value="all">All</option>
@@ -32,10 +32,10 @@
                             <option value="2019">2019</option>
 
                         </select>
-                    </div>
+                    </div> -->
                     <div class="col-2" >
                         <label>Month</label>
-                        <input type="month" name = month>
+                        <input type="month" name = month  id="month1" [(ngModel)]="createdon">
                     </div>
                     <div class="col-2" style="margin-left: 5%;">
                         <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>

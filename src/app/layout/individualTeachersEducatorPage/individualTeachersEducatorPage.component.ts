@@ -322,7 +322,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		var encodedUri = encodeURI(csvContent);
 		var link = document.createElement("a");
 		link.setAttribute("href", encodedUri);
-		link.setAttribute("download", "CenterDetails.csv");
+		link.setAttribute("download", "TeachersDetails.csv");
 		document.body.appendChild(link); // Required for FF
 
 		link.click()

@@ -33,7 +33,7 @@ export class ManagerDetailsComponent implements OnInit {
 	info_type: any =  'dailyinfo'
 	program_type: any =  'all'
 
-
+month : any;
 	usersubmitaction: string;
 	all_blocks: any = [];
 	getallStudents:any = [];
@@ -92,6 +92,11 @@ export class ManagerDetailsComponent implements OnInit {
 		// this.getallissuesmgr();
 	}
 
+	// mont(value){
+	// 	debugger
+	// 	this.month = value
+	// }
+
 
 	getPageNo(event) {
 		
@@ -102,10 +107,16 @@ export class ManagerDetailsComponent implements OnInit {
 	}
 	dyCols = [];
 	getManagersDetails(){
+		
+		// var mon = document.getElementById("month1")
+
+		// console.log(mon)	
+
 		const data = {
 			center_type : this.center_type,
 			createdon : this.createdon,
 			page_no :this.page_no,
+			month : this.month,
 			limit:10,
 		} 
 		debugger
@@ -220,78 +231,6 @@ export class ManagerDetailsComponent implements OnInit {
 	
 	  
 
-	  dailyInfoT(content, center){
-		this.data = center
-		debugger
-			this.modalReference = this.modalService.open(content,{ size: 'lg' });
-			this.modalReference.result.then((result) => {
-				this.closeResult = `Closed with: ${result}`;
-				
-			
-
-			}, (reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
-			});
-	
-
-	}
-
-
-
-	skilsss(content, center){
-		this.data = center
-	
-			this.modalReference = this.modalService.open(content,{ size: 'lg' });
-			this.modalReference.result.then((result) => {
-				this.closeResult = `Closed with: ${result}`;
-				
-			
-
-			}, (reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
-			});
-	
-
-	}
-
-	monthlyDetails(content, center){
-		this.data = center
-	
-			this.modalReference = this.modalService.open(content,{ size: 'lg' });
-			this.modalReference.result.then((result) => {
-				this.closeResult = `Closed with: ${result}`;
-				
-			
-
-			}, (reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
-			});
-	
-
-	}
-
-
-	
-	feedbackDetails(content, center){
-		this.data = center
-	
-			this.modalReference = this.modalService.open(content,{ size: 'lg' });
-			this.modalReference.result.then((result) => {
-				this.closeResult = `Closed with: ${result}`;
-				
-			
-
-			}, (reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
-			});
-	
-
-	}
-
    getBlockDetails() {		
 	this.ManagerDetailsService.getBlocks().subscribe(data => {
 		// console.log('### data: '+JSON.stringify(data));
@@ -327,46 +266,45 @@ export class ManagerDetailsComponent implements OnInit {
 
 }
 
+
 download(){
 debugger
 
-	var cols = this.dyCols;
-
+	// var cols = ["name","feedback date"]
+    var cols =  this.dyCols;
+	cols.splice(0,0,"feedbackdate")
+	cols.splice(0,0,"Name");
+	
+	// cols.splice(0,0, "Age")
 	var rows =[];
-	for(var i =0 ; i < this.all_managers_data.length;i++){
+	
+	rows.push(cols)
+	for(var i = 0 ; i < this.all_managers_data.length;i++){
 		var row = []
 		var data_row =this.all_managers_data[i];
-		row['name'] = data_row.name;
+		row.push(data_row.Details.username)
+		row.push(data_row.Details.createdon)
+		// row['name'] = data_row.name;
 		for(var c=0;c<this.dyCols.length;c++){
 			var col_name = this.dyCols[c];
-			row[col_name] = data_row[col_name];
-		}
+			// row[col_name] = data_row[col_name];
+			let data = data_row[col_name]
+			if(data){
+			row.push(data[0])
+			}	}
 		rows.push(row);
 	}
 
-	
-	
-	// 	rows = [
-	// 		["Name", "Center", "Date of Visit", "Extra Activity", "Supervisor's Feedback", "Headmaster's Feedback", "Parent's Feedback",
-	// 			"Specific Issues from the center"]
-	// 	];
-	// 	this.all_managers_data.forEach(value => {
-	// 		var usertType = ''
-	// 		if (value && value.user && value.user.usertype) {
-	// 			usertType = value.user.usertype
-	// 		}
-	// 		var array = [value.manager.username,value.center.centertype, value.date_of_visit, value.extra_activites, value.superVisor_feedback, value.headMaster_feedback, value.parents_feedback, value.specific_issues_from_center]
-	// 		rows.push(array)
-	// 	});
+
 		
-	// let csvContent = "data:text/csv;charset=utf-8,"
-	// + rows.map(e => e.join(",")).join("\n");
-	// var encodedUri = encodeURI(csvContent);
-	// var link = document.createElement("a");
-	// link.setAttribute("href", encodedUri);
-	// link.setAttribute("download", "ManagerDetails.csv");
-	// document.body.appendChild(link); // Required for FF	
-	// link.click()
+	let csvContent = "data:text/csv;charset=utf-8,"
+	+ rows.map(e => e.join(",")).join("\n");
+	var encodedUri = encodeURI(csvContent);
+	var link = document.createElement("a");
+	link.setAttribute("href", encodedUri);
+	link.setAttribute("download", "ManagerDetails.csv");
+	document.body.appendChild(link); // Required for FF	
+	link.click()
 	}
 selectBlock(distic) {
 	this.all_blocks = []
