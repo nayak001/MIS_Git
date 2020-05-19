@@ -215,9 +215,9 @@
                                     
                                        </span>
                                     </td>
-                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.math}}</span></td>
-                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.odia}}</span></td>
-                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.level_jump.english}}</span></td>
+                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.jumpmath}}</span></td>
+                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.jumpodia}}</span></td>
+                                    <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.jumpeng}}</span></td>
                                     <td><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.quarter4ece}}</span></td>
                                     <td><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.ispass}}</span></td>
                                     <td><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.isparticipated}}</span></td>
