@@ -447,7 +447,7 @@ return m_display;
 		usertType , value.student.program , value.student.center.block, value.student.center.district || "",value.state,
 		value.student.ec_level , value.student.math_level , value.student.eng_level , value.student.odia_level ,
 		math_String , eng_String || "", odia_String || "" , ece_string || "", value.avg_attendance || "",
-		value.baseline || "",value.level_jump.math,value.level_jump.odia,value.level_jump.english,
+		value.baseline || "",value.jumpmath,value.jumpodia,value.jumpeng,
 		value.quarter4ece,value.ispass,value.isparticipated,value.student.class]
 
 
