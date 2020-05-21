@@ -446,48 +446,6 @@ export class ActivitiesComponent implements OnInit {
 				}
 			}
     }
-
-
-
-
-
-
-
-    // if (this.content_value == undefined || this.content_value == null || this.content_value == '') {
-    //   //alert('Please add some content !!!');
-    //   swal.fire('Data insufficient', 'Please add some text contents.', 'warning');
-    // } else {
-    //   swal.fire({
-    //     title: 'Are you sure?',
-    //     text: "Do you want to save changes?",
-    //     type: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Yes'
-    //   }).then((result) => {
-    //     if (result.value) {
-    //       const body = {
-    //         preferedlanguage: this.selected_preflanguage,
-    //         program: this.selected_program,
-    //         subject: this.selected_subject,
-    //         month: this.selected_month,
-    //         week: this.selected_week,
-    //         level: this.selected_level,
-    //         content: this.content_value,
-    //         image: this.flashcard_value,
-    //         worksheet: this.worksheet_value,
-    //         video: this.video_value,
-    //       }
-    //       console.log('### this.save_operation: ' + this.save_operation);
-    //       if (this.save_operation == 'update') {
-    //         this.update_record(this.record_id, body);
-    //       } else {
-    //         this.save_record(body);
-    //       }
-    //     }
-    //   });
-    // }
   }
 
   async save_record(body) {

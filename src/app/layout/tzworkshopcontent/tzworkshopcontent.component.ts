@@ -4,6 +4,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { Router } from '@angular/router';
 import { TzworkshopcontentService } from  './tzworkshopcontent.service';
+import { ManagersboxService } from  './../managersbox/managersbox.service';
+import { HttpResponse, HttpEventType } from '@angular/common/http';
 import swal from 'sweetalert2';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -41,7 +43,8 @@ export class TzworkshopcontentComponent implements OnInit {
   constructor(
 		private modalService: NgbModal,
     public router: Router,
-		private tzworkshopcontentService: TzworkshopcontentService
+    private tzworkshopcontentService: TzworkshopcontentService,
+    private managersboxService: ManagersboxService
 	) {
     this.hideLoading_indicator = true;
     this.hide_subject_dropdown = true;
@@ -201,6 +204,8 @@ export class TzworkshopcontentComponent implements OnInit {
     this.show_data();
   }
 
+  save_operation: string= '';
+  worksheet_value: any= [];
   show_data(){
     if(
       this.selected_preferredlanguage == undefined || this.selected_preferredlanguage == null || this.selected_preferredlanguage == '' ||
@@ -214,18 +219,22 @@ export class TzworkshopcontentComponent implements OnInit {
     }else{
       this.hideLoading_indicator = false;
       this.tzworkshopcontentService.getwscontent(this.selected_preferredlanguage, this.selected_workshoptype, this.selected_subject, this.selected_action, this.selected_level, this.selected_workshopday).subscribe(data => {
-          console.log('@@@Get ws Contents: '+JSON.stringify(data[0]));
+          console.log('@@@Get ws data: '+JSON.stringify(data));
           if(Object.keys(data).length > 0){
+            this.save_operation = 'update';
             this.contents = [];
             this.contents.push(data[0]);
             console.log('@@@1: '+JSON.stringify(this.contents));
             this.record_id = data[0]['_id'];
             console.log('@@@2: '+JSON.stringify(this.record_id));
             this.selected_content = data[0]['content'];
+            this.worksheet_value = data[0]['worksheet'];
           }else{
+            this.save_operation = 'save';
             this.contents = [];
             this.record_id = '';
             this.selected_content = '';
+            this.worksheet_value = [];
           }
           console.log('@@@Record_id: '+this.record_id+'    Contents: '+JSON.stringify(this.contents));
           this.hideLoading_indicator = true;
@@ -379,4 +388,99 @@ export class TzworkshopcontentComponent implements OnInit {
       () => {}
     );
   }
+
+  // worksheet pdf file events
+  //----------------------------------------------------------------------------------------------------
+	selectedFiles: FileList;
+	displayname: string;
+	filetype: string;
+	s3name: string;
+	filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedFiles = event.target.files;
+			this.displayname = event.target.files[0].name;
+			this.filetype = this.displayname.split('.').pop();
+			this.s3name = (new Date()).getTime()+'.'+this.filetype;
+			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
+		}else{
+			this.displayname = '';
+			this.selectedFiles = null;
+		}
+  }
+  
+  currentFileUpload: File;
+	hideProgressbar: boolean = true;
+	progress: { percentage: number } = { percentage: 0 };
+  s3path: string = '';
+  uploadworksheet_btn_click(){
+    if(this.save_operation == 'save'){
+      swal.fire('info', 'Please add some content !!!', 'warning');
+    }else if(this.save_operation == 'update'){
+      if(this.selectedFiles == undefined || this.selectedFiles == null){
+        swal.fire('info', 'Please select worksheet file', 'warning');
+      }else{this.hideProgressbar = false;
+        this.progress.percentage = 0;
+  
+        this.currentFileUpload = this.selectedFiles.item(0);
+        console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+        this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+          console.log('$$$event: '+JSON.stringify(event));
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress.percentage = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.s3path = event.body['s3path'];
+            console.log('File is completely uploaded!->'+this.s3path);
+            this.hideProgressbar = true;
+  
+            let obj = {
+              displayname: this.displayname,
+              s3name: this.s3name,
+              filetype: this.filetype,
+              s3path: this.s3path
+            }
+            this.worksheet_value.push(obj);
+  
+            const body = {
+              worksheet: this.worksheet_value
+            }
+            this.update_record(this.record_id, body);
+            //this.load_record();
+          }
+        });
+      }
+    }
+  }
+
+  async update_record(id, body) {
+    this.tzworkshopcontentService.updatewscontent(id, body).subscribe(data => {
+      console.log('###1 update data: ' + JSON.stringify(data));
+      swal.fire('Successful', 'Data updated successfully', 'success');
+      this.show_data();
+    },
+      error => { },
+      () => { }
+    );
+  }
+
+  delsheet(i) {
+    swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to remove this record?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.worksheet_value.splice(i, 1);
+
+        const body = {
+          worksheet: this.worksheet_value
+        }
+        this.update_record(this.record_id, body);
+      }
+    });
+  }
+
 }

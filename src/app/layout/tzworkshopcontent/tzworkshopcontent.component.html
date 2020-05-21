@@ -6,7 +6,7 @@
                 <div class="card-header">
 					<div class="row">
 						<div class="col col-xl-4 col-lg-4">
-							<h4>WORKSHOP CONTENT MANAGER</h4>
+							<h4>WORKSHOP CONTENT</h4>
 						</div>
 					</div>
                 </div>
@@ -112,7 +112,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr *ngFor="let content of contents; let i = index;">
+							<tr *ngFor="let content of contents; let i = index;" style="border-bottom: 1px solid #e6e6e6;">
 								<td style="width: 90%">
 									<div class="div_content">
 										<div class="" [innerHTML]="content.content"></div>
@@ -125,6 +125,50 @@
 									</div>
 								</td>
 							</tr>
+							<!-- worksheet -->
+							<tr style="background: #f1f1f1;;">
+								<td>Worksheet</td>
+								<td>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 90%">
+									<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+											<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+											attr.aria-valuenow="{{progress.percentage}}"
+											aria-valuemin="0" aria-valuemax="100" 
+											[ngStyle]="{width:progress.percentage+'%'}">
+											{{progress.percentage}}%
+										</div>
+									</div><br>
+
+									<div class="file-upload">
+										<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="application/pdf,application/vnd.ms-excel" />
+									</div>
+								</td>
+								<td>
+									<button (click)="uploadworksheet_btn_click()" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Upload Video&nbsp;&nbsp;&nbsp;</button>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 90%">
+									<div class="row">
+										<div class="image_preview_container">
+											<div class="image_preview" *ngFor="let sheet of worksheet_value; let i = index;">
+												<div style="text-align: center;">
+													<span><img class="lazy" src="assets/images/pdf.png" alt="doc" style="width: 50%;"></span><br>
+													<span class="">{{ sheet.displayname }}</span>
+												</div>
+												<div class="delbtn" (click)="delsheet(i)">
+													<i class="fa fa-times-circle" aria-hidden="true"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+								<td></td>
+							</tr>
+							<!-- Worksheet end -->
 						</table>
 
 						<!-- Add or Edit Modal starts from here -->
