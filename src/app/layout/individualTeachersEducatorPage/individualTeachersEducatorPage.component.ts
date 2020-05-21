@@ -27,6 +27,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	check3: boolean = false;
 	check4:boolean = false;
 	user : any ;
+	loader : any = false
 	
 
 
@@ -58,7 +59,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	all_Data: any = [];
 	isdata_table: boolean = false;
 	userDetails:any;
-
+	
 
 	page: any = 1;
 	totalPage: any;
@@ -146,6 +147,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	}
 
     individualTeacherEducatorDetail(){
+
 		const data = {
 			center_type:this.center_type,
 			distric:this.distric,
@@ -160,8 +162,16 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			// console.log('### data: '+JSON.stringify(data));
 			//console.log(data)
 					this.filterData = data
-					this.count = this.filterData[0].count
-			 this.isLoaded = true
+					this.isLoaded = true
+					if (this.filterData.length == 0) {
+						this.isdata_table = true;
+					}
+					else {
+						this.isdata_table = false;
+						this.count = this.filterData[0].count
+					}
+					
+				
 			console.log(this.filterData)
 			// this.all_blocks=data;
 		},
@@ -245,6 +255,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 	}
 	download() {
+		this.loader = true
 		this.download_click = true
 		const rows = [
 			["Educator Name", "Status", "Center Name", "Center Type", "Center Id", "Block", "District", "State", "Qualification",
@@ -271,7 +282,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			 this.isLoaded = true
 			console.log(this.teacherdata)
 			// this.all_blocks=data;
-	
+			this.loader = false
 
 		this.teacherdata.forEach(value => {
 			var teacherName = ''
@@ -311,7 +322,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			}
 
 			
-			var array = [teacherName,status, cn , ctype,cid, , ,
+			var array = [teacherName,status, cn , ctype,cid,d,bl,
 			value.state,cont,add,sp,value.asp, csd, , ptm, 
 			]
 			rows.push(array)

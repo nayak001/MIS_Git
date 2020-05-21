@@ -31,6 +31,7 @@ export class StudentDetailsPageComponent implements OnInit {
 	page: any = 1;
 	totalPage: any;
 	page_no:any = 1;
+	center_type : any ='all'
 
 	
 	userType:any = 'all'
@@ -269,11 +270,17 @@ console.log(error)
 
 
 	getallDetailsStudents(){
+
+		
+		const selectControl:any = document.getElementById("program_type");
+
+		const program_type = selectControl ? selectControl.value : "all";
+
 		const data = {
-			userType:this.userType,
+			centertype:this.center_type,
 			distric:this.distric,
 			block:this.block,
-			program_type:this.program_type,
+			program_type:program_type,
 			baseline:this.baseline,
 			sex:this.sex,
 			enrolldate:this.enrolldate,
@@ -283,16 +290,16 @@ console.log(error)
 			limit:10,
 			downloadclick:this.downloadclick,
 		}
-		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
+		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(res => {
 
-
+			this.program_type = program_type;
 
 
 
 			// console.log('### data: '+JSON.stringify(data));
 			debugger
-			console.log(data)
-			this.getallStudents = data
+			console.log(res)
+			this.getallStudents = res
 			this.isLoaded = true
 			if(this.getallStudents.length == 0){
 				this.isdata_table = true;
@@ -360,7 +367,7 @@ download(){
 
 
 	const data = {
-		userType:this.userType,
+		centertype:this.center_type,
 		distric:this.distric,
 		block:this.block,
 		program_type:this.program_type,
@@ -372,12 +379,12 @@ download(){
 		downloadclick:this.downloadclick,
 
 	}
-	this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(data => {
+	this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(res => {
 		// console.log('### data: '+JSON.stringify(data));
 		debugger
 		this.loader = false;
-		console.log(data)
-		this.getallStu = data
+		console.log(res)
+		this.getallStu = res
 		this.isLoaded = true
 	
 		

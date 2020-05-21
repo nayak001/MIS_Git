@@ -57,12 +57,12 @@
                 </div>
                 <div class="row" style="padding: 25px; font-size: 15px;color: black;">
                     <div class="col-2">
-                        <label>User Type</label>
-                        <select class="form-control select2" [(ngModel)]="userType" style="font-size: 14px; height: 30px;">
+                        <label>Center Type</label>
+                        <select class="form-control select2" [(ngModel)]="center_type" style="font-size: 14px; height: 30px;">
 							<option value="all">All</option>
-							<option value="manager">Manager</option>
-							<option value="teacher">Teacher</option>
-							<option value="fieldstaff">Field Staff</option>
+							<option value="anganwadi">Aganwadi</option>
+							<option value="school">School</option>
+							<option value="fellow">Fellow</option>
 						</select>
 
                     </div>
@@ -83,9 +83,9 @@
                     </div>
                     <div class="col-2">
                         <label>Program Type</label>
-                        <select class="form-control select2" [(ngModel)]="program_type" style=" height: 30px;">
+                        <select class="form-control select2" id="program_type" style=" height: 30px;">
 							
-							<option value="all">All</option>
+							<option value="all" selected>All</option>
 							<option value="ece">ECE</option>
 							<option value="pge">PGE</option>
 							
@@ -142,7 +142,7 @@
                                     <th>District</th>
                                     <th>State</th>
                                     <th>PhoneNo</th>
-                                    <th>ECE Level</th>
+                                    <th *ngIf="canDisplay('ece')">ECE Level</th>
                                     <th *ngIf="canDisplay('pge')">PG Maths Level</th>
                                     <!-- <th>PG Maths Level</th> -->
 
@@ -151,17 +151,17 @@
                                     <th *ngIf="canDisplay('pge')">Maths Assessment Score</th>
                                     <th *ngIf="canDisplay('pge')">English Assessment Score</th>
                                     <th *ngIf="canDisplay('pge')">Odia Assessment Score</th>
-                                    <th>Quarterly ECE Assessment Score</th>
+                                    <th *ngIf="canDisplay('ece')">Quarterly ECE Assessment Score</th>
                                     <!-- <th>Avg Quarterly Assessment Score</th> -->
                                     <th>Avg Attendance</th>
                                     <th *ngIf="canDisplay('pge')">No of Endline Assessment Completed in PG</th>
                                     <th *ngIf="canDisplay('pge')">No of Levels jumped in Maths</th>
                                     <th *ngIf="canDisplay('pge')">No of Levels jumped in Odia</th>
                                     <th *ngIf="canDisplay('pge')">No of Levels jumped in English</th>
-                                    <th>Total Number of Quarter 4 Assessment Completed in ECE</th>
-                                    <th>Acheived atleast 70% age-appropriate learning outcomes in ECE</th>
+                                    <th *ngIf="canDisplay('ece')">Total Number of Quarter 4 Assessment Completed in ECE</th>
+                                    <th *ngIf="canDisplay('ece')">Acheived atleast 70% age-appropriate learning outcomes in ECE</th>
                                     <th>Baseline Test Participated</th>
-                                    <th>Class/Grade of the Student</th>
+                                    <th *ngIf="canDisplay('pge')">Class/Grade of the Student</th>
 
 
                                 </tr>

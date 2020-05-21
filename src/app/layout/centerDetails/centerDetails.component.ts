@@ -374,6 +374,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	download() {
+		this.loader = true
 		this.downloadclick = true;
 		const rows = [
 			["Id", "Name", "Type", "Program Type", "Block", "District", "State", "Educator Name", "Students","Female Students",

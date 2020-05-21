@@ -74,7 +74,7 @@
                             alt="Loading. Please wait..."></span>
                 </div>
 
-                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
+                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
                     <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
                         <table class="table table-striped main-table" [mfData]="filterData" #mf="mfDataTable"
                             [mfRowsOnPage]="25">
@@ -136,6 +136,9 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        <div class="loader" *ngIf ="loader" style="top: 50%;
+                        position: fixed;
+                        left: 50%;"></div>
                     </div>
                 </div>
             <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">

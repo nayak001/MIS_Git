@@ -32,6 +32,7 @@ export class ManagerDetailsComponent implements OnInit {
 	center_type: any =  'all'
 	info_type: any =  'dailyinfo'
 	program_type: any =  'all'
+	loader : any = false
 
 month : any;
 	usersubmitaction: string;
@@ -269,7 +270,7 @@ month : any;
 
 download(){
 debugger
-
+this.loader = true
 	// var cols = ["name","feedback date"]
     var cols =  this.dyCols;
 	cols.splice(0,0,"feedbackdate")
@@ -294,7 +295,7 @@ debugger
 			}	}
 		rows.push(row);
 	}
-
+	this.loader = false
 
 		
 	let csvContent = "data:text/csv;charset=utf-8,"
