@@ -59,6 +59,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	all_Data: any = [];
 	isdata_table: boolean = false;
 	userDetails:any;
+	api_hit:any= true
 	
 
 	page: any = 1;
@@ -158,7 +159,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			download_click:this.download_click
 		}
 		this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
-			debugger
+		
 			// console.log('### data: '+JSON.stringify(data));
 			//console.log(data)
 					this.filterData = data
@@ -171,7 +172,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 						this.count = this.filterData[0].count
 					}
 					
-				
+				this.api_hit = true
 			console.log(this.filterData)
 			// this.all_blocks=data;
 		},
@@ -197,6 +198,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 
 	viewData() {
+		this.api_hit = false
 		this.page_no = 1
 		this.isLoaded = false
 		// this.isdata_table = false
@@ -255,6 +257,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 	}
 	download() {
+		this.api_hit = false
 		this.loader = true
 		this.download_click = true
 		const rows = [
@@ -335,7 +338,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		link.setAttribute("href", encodedUri);
 		link.setAttribute("download", "TeachersDetails.csv");
 		document.body.appendChild(link); // Required for FF
-
+		this.api_hit = true
 		link.click()
 	})
 	}

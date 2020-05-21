@@ -10,7 +10,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="padding: 25px; font-size: 15px;color: black;">
+                <div class="row" style="padding: 25px; font-size: 15px;color: black;" *ngIf = "api_hit"> 
                     <div class="col-2">
                         <label>Center Type</label>
                         <select class="form-control select2" [(ngModel)]="center_type"

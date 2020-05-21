@@ -23,6 +23,7 @@ export class CenterDetailsComponent implements OnInit {
 	noda : any = false;
 	centerDetails: any;
 	check: boolean = true;
+	api_hit : any = true 
 	check1: boolean = false;
 	check2: boolean = false;
 	check3: boolean = false;
@@ -147,7 +148,8 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	viewData() {
-		debugger		
+		debugger	
+		this.api_hit = false 	
 		// this.program_type = this.is_program_type
 		this.isLoaded = false
 		this.page_no = 1
@@ -213,6 +215,7 @@ export class CenterDetailsComponent implements OnInit {
 			}
 			
 			this.loader = false;
+			this.api_hit = true
 		});	
 	}
 
@@ -374,6 +377,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	download() {
+		this.api_hit = false
 		this.loader = true
 		this.downloadclick = true;
 		const rows = [
@@ -515,7 +519,7 @@ export class CenterDetailsComponent implements OnInit {
 		link.setAttribute("href", encodedUri);
 		link.setAttribute("download", "CenterDetails.csv");
 		document.body.appendChild(link); // Required for FF
-
+		this.api_hit = true
 		link.click()
 	});
 	}

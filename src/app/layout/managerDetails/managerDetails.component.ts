@@ -27,6 +27,7 @@ export class ManagerDetailsComponent implements OnInit {
 	check2:boolean = false;
 	check3:boolean = false;
 	isdata_table: boolean = false;
+	api_hit : any = true
 	
 	userType:any = 'all'
 	center_type: any =  'all'
@@ -137,6 +138,8 @@ month : any;
 				else{
 					this.isdata_table = false;
 				}
+
+				this.api_hit = true
 				// this.loader = false
 				},
 				error => {},
@@ -185,6 +188,7 @@ month : any;
 
 			  
 		  viewData(){
+			  this.api_hit = false
 			  this.page_no = 1
 			this.isLoaded = true
 			this.getManagersDetails()
@@ -269,7 +273,7 @@ month : any;
 
 
 download(){
-debugger
+	this.api_hit = false
 this.loader = true
 	// var cols = ["name","feedback date"]
     var cols =  this.dyCols;
@@ -297,7 +301,7 @@ this.loader = true
 	}
 	this.loader = false
 
-		
+	this.api_hit = true
 	let csvContent = "data:text/csv;charset=utf-8,"
 	+ rows.map(e => e.join(",")).join("\n");
 	var encodedUri = encodeURI(csvContent);

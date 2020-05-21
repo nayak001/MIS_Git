@@ -32,7 +32,7 @@ export class StudentDetailsPageComponent implements OnInit {
 	totalPage: any;
 	page_no:any = 1;
 	center_type : any ='all'
-
+	api_hit:any = true
 	
 	userType:any = 'all'
 	distric: any =  'all'
@@ -249,6 +249,7 @@ count : any;
 		
 	  }
 	viewData(){
+		this.api_hit = false
 		this.page_no = 1
 		this.isLoaded = false
 		this.isdata_table = false
@@ -309,6 +310,7 @@ console.log(error)
 			this.count = this.getallStudents[0].Count		
 				}
 		this.loader = false
+		this.api_hit = true
 	})
    };
    getBlockDetails() {		
@@ -355,6 +357,7 @@ canDisplay(type){
 
 
 download(){
+	this.api_hit = false
 	this.downloadclick = true;
 	this.loader = true;
 	const rows = [
@@ -468,7 +471,7 @@ return m_display;
 	link.setAttribute("href", encodedUri);
 	link.setAttribute("download", "StudentDetails.csv");
 	document.body.appendChild(link); // Required for FF
-	
+	this.api_hit = true
 	link.click()
 })
 
