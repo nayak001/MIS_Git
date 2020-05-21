@@ -181,7 +181,7 @@
                                     <td style=" text-transform: capitalize;">{{user.student.center.block}}</td>
                                     <td style=" text-transform: capitalize;">{{user.state}}</td>
                                     <td>{{user.student.phone}}</td>
-                                    <td>{{user.student.ec_level}}</td>
+                                    <td *ngIf="canDisplay('ece')">{{user.student.ec_level}}</td>
                                     <td *ngIf="canDisplay('pge')">{{user.student.math_level}}</td>
                                     <td *ngIf="canDisplay('pge')">{{user.student.eng_level}}</td>
                                     <td  *ngIf="canDisplay('pge')">{{user.student.odia_level}}</td>
@@ -199,7 +199,7 @@
                                         <div class="tint"  *ngIf="user && user.student && user.student.program == 'pge'" aria-hidden="true" (click)="openodiaAssessDetails(edito,user)">Odia Assessments</div>
 
                                     </td>
-                                    <td >
+                                    <td  *ngIf="canDisplay('ece')">
                                         <div class="tint" *ngIf="user && user.student && user.student.program != 'pge'" aria-hidden="true" (click)="openQuaterlyAssessDetails(editq,user)">ECE Assessments</div>
                                     </td>
                                     <td>{{user.avg_attendancce}}%</td>
@@ -218,10 +218,10 @@
                                     <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.jumpmath}}</span></td>
                                     <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.jumpodia}}</span></td>
                                     <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.jumpeng}}</span></td>
-                                    <td><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.quarter4ece}}</span></td>
-                                    <td><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.ispass}}</span></td>
+                                    <td *ngIf="canDisplay('ece')"><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.quarter4ece}}</span></td>
+                                    <td *ngIf="canDisplay('ece')"><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.ispass}}</span></td>
                                     <td><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.isparticipated}}</span></td>
-                                    <td>{{user.student.class}}</td>
+                                    <td *ngIf="canDisplay('pge')">{{user.student.class}}</td>
                                     
                                 
                                     
