@@ -37,7 +37,7 @@ export class StudentDetailsPageComponent implements OnInit {
 	userType:any = 'all'
 	distric: any =  'all'
 	block: any =  'all'
-	program_type: any =  'all'
+	program_type: any 
 
 count : any;
 
@@ -270,12 +270,20 @@ console.log(error)
 	}
 
 
+	// setTimeout(getallDetailsStudents(),300)
+
+
 	getallDetailsStudents(){
 
-		
+		debugger
+
 		const selectControl:any = document.getElementById("program_type");
 
 		const program_type = selectControl ? selectControl.value : "all";
+
+		setTimeout(() => {
+			this.program_type = program_type
+		},300);
 
 		const data = {
 			centertype:this.center_type,
@@ -293,12 +301,10 @@ console.log(error)
 		}
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(res => {
 
-			this.program_type = program_type;
-
-
-
 			// console.log('### data: '+JSON.stringify(data));
 			debugger
+			this.program_type = program_type
+			
 			console.log(res)
 			this.getallStudents = res
 			this.isLoaded = true
@@ -310,7 +316,10 @@ console.log(error)
 			this.count = this.getallStudents[0].Count		
 				}
 		this.loader = false
+		
+
 		this.api_hit = true
+
 	})
    };
    getBlockDetails() {		
@@ -357,6 +366,7 @@ canDisplay(type){
 
 
 download(){
+	
 	this.api_hit = false
 	this.downloadclick = true;
 	this.loader = true;
@@ -451,13 +461,28 @@ return m_display;
 		}
 
 
+		const mathbaseline = value.mathbaseline
+		const engbaseline = value.engbaseline
+		const odiabaseline = value.odiabaseline
+
+		const getendline = (mathbaseline,engbaseline,odiabaseline) =>{
+			var endl = ''
+			endl += "math -" + mathbaseline + "   " + "eng -" + engbaseline + "    " + "odia -"+ odiabaseline
+
+			return endl
+		}
+
+		var endline = getendline(mathbaseline,engbaseline,odiabaseline)
+
+		debugger
+
  	  
 
 		var array = [value.student.studentname , value.student.registration_date ,value.student.gender,value.student.center.centername,value.student.center.centerid,value.student.center.centertype,
 		usertType , value.student.program , value.student.center.block, value.student.center.district || "",value.state,
 		value.student.ec_level , value.student.math_level , value.student.eng_level , value.student.odia_level ,
 		math_String , eng_String || "", odia_String || "" , ece_string || "", value.avg_attendance || "",
-		value.baseline || "",value.jumpmath,value.jumpodia,value.jumpeng,
+		endline || "",value.jumpmath,value.jumpodia,value.jumpeng,
 		value.quarter4ece,value.ispass,value.isparticipated,value.student.class]
 
 
