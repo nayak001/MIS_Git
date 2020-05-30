@@ -274,9 +274,7 @@ console.log(error)
 
 
 	getallDetailsStudents(){
-
-		debugger
-
+		this.api_hit = false
 		const selectControl:any = document.getElementById("program_type");
 
 		const program_type = selectControl ? selectControl.value : "all";
@@ -366,8 +364,6 @@ canDisplay(type){
 
 
 download(){
-	
-	this.api_hit = false
 	this.downloadclick = true;
 	this.loader = true;
 	const rows = [

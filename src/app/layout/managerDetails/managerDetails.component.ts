@@ -109,7 +109,7 @@ month : any;
 	}
 	dyCols = [];
 	getManagersDetails(){
-		
+		this.api_hit = false
 		// var mon = document.getElementById("month1")
 
 		// console.log(mon)	
@@ -273,7 +273,7 @@ month : any;
 
 
 download(){
-	this.api_hit = false
+	
 this.loader = true
 	// var cols = ["name","feedback date"]
     var cols =  this.dyCols;

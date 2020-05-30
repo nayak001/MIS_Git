@@ -10,7 +10,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="padding: 25px; font-size: 15px;color: black;">
+                <div class="row" style="padding: 25px; font-size: 13px;color: black;" *ngIf = "api_hit">
                     <div class="col-2">
                         <label>Baseline Completed</label>
                         <select class="form-control select2" [(ngModel)]="baseline" style="font-size: 14px; height: 30px;">
@@ -47,7 +47,7 @@
                                 
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             
                             <label>Enrollment Date</label>
                             <input type="month" id="month" name="input" ng-model="enrolldate"/>
@@ -55,7 +55,7 @@
                     
                    
                 </div>
-                <div class="row" style="padding: 25px; font-size: 15px;color: black;" >
+                <div class="row" style="padding: 25px; font-size: 13px;color: black;"  *ngIf = "api_hit">
                     <div class="col-2">
                         <label>Center Type</label>
                         <select class="form-control select2" [(ngModel)]="center_type" style="font-size: 14px; height: 30px;">
@@ -92,11 +92,11 @@
 						</select>
                     </div>
                 
-                    <div class="col-2" *ngIf = "api_hit">
+                    <div class="col-2">
                         <button type="button" (click)="viewData()" class="btn btn-info" style="margin-top:29px;">Filter</button>
                     </div>
                     <div class="col-2">
-                        <div class="row" style="float: right;" *ngIf = "api_hit">
+                        <div class="row" style="float: right;">
 
                             <i class="fa fa-download" (click)="download()" title="Download" style="cursor: pointer;"></i>
                         </div>

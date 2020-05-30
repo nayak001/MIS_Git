@@ -148,7 +148,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	viewData() {
-		debugger	
+			
 		this.api_hit = false 	
 		// this.program_type = this.is_program_type
 		this.isLoaded = false
@@ -189,6 +189,7 @@ export class CenterDetailsComponent implements OnInit {
 	}
 
 	getCenterDetails() {
+		this.api_hit = false
 		const data = {
 			center_type: this.center_type,
 			distric: this.distric,
@@ -377,7 +378,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	download() {
-		this.api_hit = false
+		
 		this.loader = true
 		this.downloadclick = true;
 		const rows = [

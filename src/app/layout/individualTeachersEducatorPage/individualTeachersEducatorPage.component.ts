@@ -148,7 +148,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	}
 
     individualTeacherEducatorDetail(){
-
+		this.api_hit = false
 		const data = {
 			center_type:this.center_type,
 			distric:this.distric,
@@ -257,7 +257,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 	}
 	download() {
-		this.api_hit = false
+		
 		this.loader = true
 		this.download_click = true
 		const rows = [
