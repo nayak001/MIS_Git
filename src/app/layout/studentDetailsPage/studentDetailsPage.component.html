@@ -136,7 +136,6 @@
                                     <th>Center Name</th>
                                     <th>Centerid</th>
                                     <th>Center Type</th>
-                                    <th>Name of the Type</th>
                                     <th>Program Type</th>
                                     <th>Block</th>
                                     <th>District</th>
@@ -145,7 +144,6 @@
                                     <th *ngIf="canDisplay('ece')">ECE Level</th>
                                     <th *ngIf="canDisplay('pge')">PG Maths Level</th>
                                     <!-- <th>PG Maths Level</th> -->
-
                                     <th *ngIf="canDisplay('pge')">PG English Level</th>
                                     <th *ngIf="canDisplay('pge')">PG Odia Level</th>
                                     <th *ngIf="canDisplay('pge')">Maths Assessment Score</th>
@@ -175,10 +173,9 @@
                                     <td>{{user.student.center.centername}}</td>
                                     <td>{{user.student.center.centerid}}</td>
                                     <td>{{user.student.center.centertype}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.student.user.usertype}}</td>
                                     <td style=" text-transform :uppercase">{{user.student.program}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.student.center.district}}</td>
                                     <td style=" text-transform: capitalize;">{{user.student.center.block}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.center.district}}</td>
                                     <td style=" text-transform: capitalize;">{{user.state}}</td>
                                     <td>{{user.student.phone}}</td>
                                     <td *ngIf="canDisplay('ece')">{{user.student.ec_level}}</td>

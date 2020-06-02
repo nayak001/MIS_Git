@@ -305,7 +305,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 				 value.user.contactno || value.user.address || value.user.special_initiatives
 				 || value.user.aspirations || value.user.center_start_date || value.user.preprogram_training_mark)
 				){
-				teacherName = value.user.teachernme;
+				teacherName = value.user.teachername;
 				status = value.user.status
 				cont = value.user.contactno
 				add = value.user.address
