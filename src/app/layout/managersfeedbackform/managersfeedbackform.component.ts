@@ -67,6 +67,7 @@ export class ManagersfeedbackformComponent implements OnInit {
   }
   
 	getallmanagersfeedbacks(filter_usertype){
+    console.log('@@@data: '+filter_usertype);
 		this.hideLoading_indicator = false;
 		this.managersfeedbackformService.getallmanagersfeedbacks(filter_usertype).subscribe(data => {
 				console.log('@@@data: '+JSON.stringify(data));

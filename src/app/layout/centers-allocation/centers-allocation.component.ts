@@ -62,9 +62,12 @@ export class CentersAllocationComponent implements OnInit {
 	}
 	
 	ngOnInit() {
-		let table_data = [];
 		this.hideLoading_indicator = false;
+		this.pageLoadProcess();
+	}
 
+	pageLoadProcess(){
+		let table_data = [];
 		this.centersAllocationService.getallmanagers().subscribe(data => {
 				this.allmanagerslist = data;
 			}, error => {}, () => {}
@@ -262,17 +265,16 @@ export class CentersAllocationComponent implements OnInit {
 					console.log('### 1 res data: '+JSON.stringify(data));	
 					this.centersAllocationService.updatecenterstatus_available(this.delete_allocation_centers_arr).subscribe(data => {
 							console.log('### 2 res data: '+JSON.stringify(data));	
-							//this.modalReference.close();
-							//location.reload();
 						}, 
 						error => {console.log('### 2 error: '+JSON.stringify(error));}, 
 						() => {}
 					);
 					this.modalReference.close();
-					location.reload();
 				}, 
 				error => {console.log('### 1 error: '+JSON.stringify(error));}, 
-				() => {}
+				() => {
+					this.pageLoadProcess();
+				}
 			);
 		}else{
 			alert('Insufficient center limit !!!');
