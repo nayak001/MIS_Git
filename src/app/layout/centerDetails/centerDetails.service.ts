@@ -16,7 +16,7 @@ export class CenterDetailsService {
 	getCenterDetails(data){
 		return this.http.get(baseUrl+'centerDetails?center_type=' + data.center_type + '&distric=' +
 		 data.distric + '&block=' + data.block + '&program_type=' + data.program_type + "&page_no=" + data.page_no +
-		 "&limit=" + data.limit + "&downloadclick=" + data.downloadclick,
+		 "&limit=" + data.limit + "&downloadclick=" + data.downloadclick + "&class="+ data.class,
 
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')

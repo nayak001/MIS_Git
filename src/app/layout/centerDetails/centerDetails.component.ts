@@ -19,6 +19,7 @@ export class CenterDetailsComponent implements OnInit {
 	distric: any = 'all'
 	block: any = 'all'
 	program_type: any = 'all'
+	class_type: any = ''
 	is_program_type: any = 'all'
 	noda : any = false;
 	centerDetails: any;
@@ -28,6 +29,7 @@ export class CenterDetailsComponent implements OnInit {
 	check2: boolean = false;
 	check3: boolean = false;
 	check4:boolean = false;
+	isClass:boolean = false;
 	alldata : any ;
 	user : any ;
 	loader : Boolean = false
@@ -197,10 +199,10 @@ export class CenterDetailsComponent implements OnInit {
 			program_type: this.program_type,
 			page_no :this.page_no,
 			limit:10,
-			downloadclick:this.downloadclick
+			downloadclick:this.downloadclick,
+			class: this.class_type
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
-			debugger
 			// console.log('### data: '+JSON.stringify(data));
 			console.log(data)
 			this.filterData = data;
@@ -360,6 +362,17 @@ export class CenterDetailsComponent implements OnInit {
 		} else {
 			return `with: ${reason}`;
 		}
+	}
+
+	selectProgramType(programType){
+		if(programType == 'ece'){
+			this.isClass = true
+		}
+		else{
+			this.isClass = false
+			this.class_type = ''
+		}
+
 	}
 
 	selectBlock(distic) {
