@@ -19,15 +19,17 @@ export class CenterDetailsComponent implements OnInit {
 	distric: any = 'all'
 	block: any = 'all'
 	program_type: any = 'all'
+	class_type: any = ''
 	is_program_type: any = 'all'
 	noda : any = false;
 	centerDetails: any;
 	check: boolean = true;
-	api_hit : any = true 
+	api_hit : any = true
 	check1: boolean = false;
 	check2: boolean = false;
 	check3: boolean = false;
 	check4:boolean = false;
+	isClass:boolean = false;
 	alldata : any ;
 	user : any ;
 	loader : Boolean = false
@@ -98,11 +100,11 @@ export class CenterDetailsComponent implements OnInit {
 
 	// myFunction() {
 
-	
+
 
 	// 		var header = document.getElementById("headerid");
 	// 		var sticky = header.offsetTop;
-			
+
 	// if (window.pageYOffset > sticky) {
 	// 	header.classList.add("sticky");
 	// } else {
@@ -148,8 +150,8 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	viewData() {
-			
-		this.api_hit = false 	
+
+		this.api_hit = false
 		// this.program_type = this.is_program_type
 		this.isLoaded = false
 		this.page_no = 1
@@ -184,7 +186,7 @@ export class CenterDetailsComponent implements OnInit {
 
 		//his.selectedRowIndex = user.center.centername;
 		// document.getElementsByClassName("record-row").forEach(element => {
-			
+
 		// });
 	}
 
@@ -197,35 +199,35 @@ export class CenterDetailsComponent implements OnInit {
 			program_type: this.program_type,
 			page_no :this.page_no,
 			limit:10,
-			downloadclick:this.downloadclick
+			downloadclick:this.downloadclick,
+			class: this.class_type
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
-			debugger
 			// console.log('### data: '+JSON.stringify(data));
 			console.log(data)
 			this.filterData = data;
 			//this.filterData = [];
-			 this.isLoaded = true;	
+			 this.isLoaded = true;
 			if (this.filterData.length == 0) {
 				this.isdata_table = true;
-				
+
 			}
 			else {
 				this.isdata_table = false;
 				this.count = this.filterData[0].centercount
 			}
-			
+
 			this.loader = false;
 			this.api_hit = true
-		});	
+		});
 	}
 
-	
+
 	getRoundedValue(value){
 		return	Math.round(value);
 	   }
 
-	   
+
 
 	   classFunction(content, center){
 		this.Details = center
@@ -233,14 +235,14 @@ export class CenterDetailsComponent implements OnInit {
 			this.modalReference = this.modalService.open(content, center);
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
-				
-			
+
+
 
 			}, (reason) => {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
+
 			});
-	
+
 
 	}
 
@@ -250,41 +252,41 @@ export class CenterDetailsComponent implements OnInit {
 
 
 
-	   
+
 	   quarterStudentsDetails(content, center){
 		this.Details = center
 		debugger
 			this.modalReference = this.modalService.open(content, center);
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
-				
-			
+
+
 
 			}, (reason) => {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
+
 			});
-	
+
 
 	}
 
 
-	
+
 
 	englishStudentsDetails(content, center){
 
-		
+
 		this.Details = center
 		debugger
 			this.modalReference = this.modalService.open(content, center);
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
-				
-			
+
+
 
 			}, (reason) => {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
+
 			});
 	}
 
@@ -296,14 +298,14 @@ export class CenterDetailsComponent implements OnInit {
 			this.modalReference = this.modalService.open(content, center);
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
-				
-			
+
+
 
 			}, (reason) => {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
+
 			});
-	
+
 
 	}
 
@@ -315,14 +317,14 @@ export class CenterDetailsComponent implements OnInit {
 			this.modalReference = this.modalService.open(content, center);
 			this.modalReference.result.then((result) => {
 				this.closeResult = `Closed with: ${result}`;
-				
-			
+
+
 
 			}, (reason) => {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-				
+
 			});
-	
+
 
 	}
 
@@ -362,6 +364,17 @@ export class CenterDetailsComponent implements OnInit {
 		}
 	}
 
+	selectProgramType(programType){
+		if(programType == 'pge'){
+			this.isClass = true
+		}
+		else{
+			this.isClass = false
+			this.class_type = ''
+		}
+
+	}
+
 	selectBlock(distic) {
 		this.selectedBlock = 'all'
 		this.all_blocks = []
@@ -378,7 +391,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	download() {
-		
+
 		this.loader = true
 		this.downloadclick = true;
 		const rows = [
@@ -388,7 +401,7 @@ export class CenterDetailsComponent implements OnInit {
 				"PG Odia Level 4", "PG Odia Level 5", "PG Math Level 1", "PG Math Level 2", "PG Math Level 3", "PG Math Level 4",
 				"PG Math Level 5", "Average Attendance", "Percentage of students achieving monthly goals in PG - English",
 				"Percentage of students achieving monthly goals in PG - Odia", "Percentage of students achieving monthly goals in PG - Maths	",
-				"Percentage of students achieving atleast 70% of age-appropriate skills in ECEProgram", 
+				"Percentage of students achieving atleast 70% of age-appropriate skills in ECEProgram",
 				"Percentage of students who jumped 1 Level in PG - English", "Percentage of students who jumped 1 Level in PG - Odia",
 				"Percentage of students who jumped 1 Level in PG - Maths", "Percentage of students who jumped 2 Levels in PG - English",
 				"Percentage of students who jumped 2 Levels in PG - Odia", "Percentage of students who jumped 2 Levels in PG - Maths",
@@ -402,7 +415,7 @@ export class CenterDetailsComponent implements OnInit {
 			block: this.block,
 			program_type: this.program_type,
 			downloadclick:this.downloadclick
-			
+
 		}
 
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
@@ -420,11 +433,11 @@ export class CenterDetailsComponent implements OnInit {
 			// 	this.isdata_table = false;
 
 			// }
-			
-			this.loader = false
-		
 
-		
+			this.loader = false
+
+
+
 		this.alldata.forEach(value => {
 			var usertType = ''
 			if (value && value.user && value.user.usertype) {
@@ -435,10 +448,10 @@ export class CenterDetailsComponent implements OnInit {
 
 			const getAssestmentString  = (score) => {
 
- 
+
 				//var math_score = {month1: { value : 0, isgiven :'yes' } , month2 : { value:10, isgiven: 'no'}};
-		
-		
+
+
 				var m_display = '';
 				for(var month in score){
 					var month_score = score[month];
@@ -447,13 +460,13 @@ export class CenterDetailsComponent implements OnInit {
 				}
 		return m_display;
 			}
-		
+
 			const geteceAssestmentString  = (score) => {
-		
-		 
+
+
 				//var math_score = {month1: { value : 0, isgiven :'yes' } , month2 : { value:10, isgiven: 'no'}};
-		
-		
+
+
 				var m_display = '';
 				for(var quarter in score){
 					var quarter_score = score[quarter];
@@ -462,20 +475,20 @@ export class CenterDetailsComponent implements OnInit {
 				}
 		return m_display;
 			}
-		
-			
-		
+
+
+
 				const math_score = value.pgescores.math;
 				const eng_score = value.pgescores.english;
 				const odia_score = value.pgescores.odia;
-		
+
 				var math_String = getAssestmentString(math_score);
 				var eng_String = getAssestmentString(eng_score);
 				var odia_String = getAssestmentString(odia_score);
-				
+
 					const ece_score = value.ecescore
 					var ece_string = geteceAssestmentString(ece_score)
-				
+
 
 
 
@@ -498,7 +511,7 @@ export class CenterDetailsComponent implements OnInit {
 			odia_String,
 			math_String,
 			ece_string,
-			
+
 			value.percentage_of_students_jump1_level_pg_eng,
 			value.percentage_of_students_jump1_level_pg_odia,
 			value.percentage_of_students_jump1_level_pg_math,
