@@ -10,6 +10,13 @@ const baseUrl = environment.baseUrl;
 })
 export class BlockdistrictService {
 	constructor(private http: HttpClient) { }
+	getallblocksanddistrictsbystatecode(statecode) {
+		return this.http.get(baseUrl+'getallblocksanddistrictsbystatecode/'+statecode,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			// responseType: 'text'
+		});
+	}
 
 	getallblocksanddistricts() {
 		return this.http.get(baseUrl+'getallblocksanddistricts',
@@ -29,6 +36,14 @@ export class BlockdistrictService {
 
 	getalldistrict() {
 		return this.http.get(baseUrl+'getalldistrict',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			// responseType: 'text'
+		});
+	}
+
+	getallstateanddistricts() {
+		return this.http.get(baseUrl+'getallstateanddistricts',
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			// responseType: 'text'
