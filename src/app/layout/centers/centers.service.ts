@@ -19,9 +19,17 @@ export class CentersService {
 			//responseType: 'text' 
 		});			
 	}
+
+	getallstates() {
+		return this.http.get(baseUrl+'getallstates',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			// responseType: 'text'
+		});
+	}
 	
-	getalldistrict() {
-		return this.http.get(baseUrl+'getalldistrict',
+	getalldistrict(statecode) {
+		return this.http.get(baseUrl+'getalldistrict/'+statecode,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			// responseType: 'text'

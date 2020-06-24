@@ -15,110 +15,102 @@
 							<ng-template #content let-c="close" let-d="dismiss">
 								<form role="form" [formGroup]="centerModalFormGroup" (ngSubmit)="formSubmitAction(centersubmitaction)">
 									<div class="modal-body">									
-											<div class="form-content">
-												<div class="row">
-													<div class="col col-xl-3 col-lg-3"></div>
-													<div class="col col-xl-6 col-lg-6">
-														<div class="form-group">
-															<input id="modal_id" value="{{ modal_id }}" formControlName="modal_id" [(ngModel)]="modal_id" type="hidden">
-														</div>
+										<div class="form-content">
+											<div class="row">
+												<div class="col col-xl-3 col-lg-3"></div>
+												<div class="col col-xl-6 col-lg-6">
+													<div class="form-group">
+														<input id="modal_id" value="{{ modal_id }}" formControlName="modal_id" [(ngModel)]="modal_id" type="hidden">
 													</div>
 												</div>
-												
-												<div class="row">
-													<div class="col col-xl-4 col-lg-4">
-														Center Name
-													</div>
-													<div class="col col-xl-8 col-lg-8">
-														<div class="form-group">
-															<input id="modal_centername" [value]="modal_centername" formControlName="modal_centername" [(ngModel)]="modal_centername" type="text" class="form-control input-underline input-lg" placeholder="Center name">													
-															<div class="validation-error-message"  *ngIf="centerModalFormGroup.controls.modal_centername.invalid">Center name required</div> 
-														</div>
-													</div>
-												</div>	
-
-												<div class="row">
-													<div class="col col-xl-4 col-lg-4">
-														Center Type
-													</div>
-													<div class="col col-xl-8 col-lg-8">
-														<div class="form-group">
-															<select id="modal_centertype" value="{{modal_centertype}}" (change)="onSelect_modal_centertype($event)" class="form-control">
-																<ng-container *ngFor="let usrtype of all_usertypes;">
-																	<option *ngIf="usrtype.usertype != 'admin'" value="{{ usrtype.usertype }}">{{ usrtype.usertype | titlecase }}</option>
-																</ng-container>
-															</select>
-														</div>
-													</div>
-												</div>	
-
-												<div class="row">
-													<div class="col col-xl-4 col-lg-4">
-														Teacher id
-													</div>
-													<div class="col col-xl-8 col-lg-8">
-														<div class="form-group">
-															<ng-autocomplete #auto
-																[data]="data_teachers"
-																[searchKeyword]="keyword_teachers"
-																[initialValue]="selected_userid"
-																(selected)='onselect_teachers_select($event)'
-																(inputChanged)='onchange_teachers_select($event)'
-																(inputFocused)='onfocus_teachers_select($event)'
-																[itemTemplate]="itemTemplate"
-																[notFoundTemplate]="notFoundTemplate">                                 
-															</ng-autocomplete>
-																				
-															<ng-template #itemTemplate let-item>
-																<a [innerHTML]="item.userid"></a>
-															</ng-template>
-															
-															<ng-template #notFoundTemplate let-notFound>
-																<div [innerHTML]="notFound"></div>
-															</ng-template>
-														</div>
-													</div>
-												</div>												
-												
-												<div class="row">
-													<div class="col col-xl-4 col-lg-4">
-														District
-													</div>
-													<div class="col col-xl-8 col-lg-8">
-														<div class="form-group">
-															<select value="{{ selected_district }}" (change)="district_on_change($event)" class="form-control" placeholder="District">
-																<option *ngFor="let dist of all_districts;" value="{{ dist }}">{{ dist }}</option>
-															</select>
-														</div>
+											</div>
+											
+											<div class="row">
+												<div class="col col-xl-4 col-lg-4">Center Name</div>
+												<div class="col col-xl-8 col-lg-8">
+													<div class="form-group">
+														<input id="modal_centername" [value]="modal_centername" formControlName="modal_centername" [(ngModel)]="modal_centername" type="text" class="form-control input-underline input-lg" placeholder="Center name">													
+														<div class="validation-error-message"  *ngIf="centerModalFormGroup.controls.modal_centername.invalid">Center name required</div> 
 													</div>
 												</div>
+											</div>	
 
-												<div class="row">
-													<div class="col col-xl-4 col-lg-4">
-														Block
-													</div>
-													<div class="col col-xl-8 col-lg-8">
-														<div class="form-group">
-															<select value="{{ selected_block }}" (change)="block_on_change($event)" class="form-control" placeholder="District">
-																<option *ngFor="let block of all_blocks;" value="{{ block }}">{{ block }}</option>
-															</select>
-														</div>
+											<div class="row">
+												<div class="col col-xl-4 col-lg-4">Center Type</div>
+												<div class="col col-xl-8 col-lg-8">
+													<div class="form-group">
+														<select id="modal_centertype" value="{{modal_centertype}}" (change)="onSelect_modal_centertype($event)" class="form-control">
+															<ng-container *ngFor="let usrtype of all_usertypes;">
+																<option *ngIf="usrtype.usertype != 'admin'" value="{{ usrtype.usertype }}">{{ usrtype.usertype | titlecase }}</option>
+															</ng-container>
+														</select>
 													</div>
 												</div>
+											</div>	
 
-												<div class="row">
-													<div class="col col-xl-4 col-lg-4">
-														State
-													</div>
-													<div class="col col-xl-8 col-lg-8">
-														<div class="form-group">
-															<select value="{{ selected_state }}" (change)="state_on_change($event)" class="form-control" placeholder="State">
-																<option *ngFor="let stat of all_states;" value="{{ stat }}">{{ stat | titlecase }}</option>
-															</select>
-														</div>
+											<div class="row">
+												<div class="col col-xl-4 col-lg-4">Teacher id</div>
+												<div class="col col-xl-8 col-lg-8">
+													<div class="form-group">
+														<ng-autocomplete #auto
+															[data]="data_teachers"
+															[searchKeyword]="keyword_teachers"
+															[initialValue]="selected_userid"
+															(selected)='onselect_teachers_select($event)'
+															(inputChanged)='onchange_teachers_select($event)'
+															(inputFocused)='onfocus_teachers_select($event)'
+															[itemTemplate]="itemTemplate"
+															[notFoundTemplate]="notFoundTemplate">                                 
+														</ng-autocomplete>
+																			
+														<ng-template #itemTemplate let-item>
+															<a [innerHTML]="item.userid"></a>
+														</ng-template>
+														
+														<ng-template #notFoundTemplate let-notFound>
+															<div [innerHTML]="notFound"></div>
+														</ng-template>
 													</div>
 												</div>
-											</div>									
+											</div>
+
+											<div class="row">
+												<div class="col col-xl-4 col-lg-4">State</div>
+												<div class="col col-xl-8 col-lg-8">
+													<div class="form-group">
+														<select (change)="state_on_change($event)" class="form-control" placeholder="State">
+															<option value=""></option>
+															<option *ngFor="let stat of all_states;" value="{{ stat }}">{{ stat | titlecase }}</option>
+														</select>
+													</div>
+												</div>
+											</div>												
+											
+											<div class="row">
+												<div class="col col-xl-4 col-lg-4">District</div>
+												<div class="col col-xl-8 col-lg-8">
+													<div class="form-group">
+														<select (change)="district_on_change($event)" class="form-control" placeholder="District">
+															<option value=""></option>
+															<option *ngFor="let dist of all_districts;" value="{{ dist.obj[0].districtvalue }}" id="{{ dist._id }}">{{ dist.obj[0].districtvalue }}</option>
+														</select>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col col-xl-4 col-lg-4">Block</div>
+												<div class="col col-xl-8 col-lg-8">
+													<div class="form-group">
+														<select (change)="block_on_change($event)" class="form-control" placeholder="District">
+															<option value=""></option>
+															<option *ngFor="let block of all_blocks;" value="{{ block.block }}">{{ block.block }}</option>
+														</select>
+													</div>
+												</div>
+											</div>
+
+										</div>									
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>

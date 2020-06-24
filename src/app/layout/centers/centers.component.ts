@@ -17,14 +17,16 @@ export class CentersComponent implements OnInit {
 	@ViewChild('auto') auto;
 	all_usertypes: any = [];
 	
+	all_states: any = ['odisha'];
+	selected_statecode: string = 'OR';
+	selected_statevalue: string = 'Odisha';
+
 	all_districts: any = [];
-	selected_district: any = '';
+	selected_districtid: string = '';
+	selected_districtvalue: string = '';
 
 	all_blocks: any = [];
 	selected_block: any = '';
-
-	all_states: any = ['odisha'];
-	selected_state: any = 'odisha';
 
 	block_name = '';
 	districtid: any;
@@ -70,31 +72,28 @@ export class CentersComponent implements OnInit {
 			modal_id: ['', []],
 			modal_centername: ['', [Validators.required]]
 		});
+		this.pageload_data();
 		this.hideLoading_indicator = true;
 	}
 
-	ngOnInit() {
+	ngOnInit() {}
+
+	pageload_data(){
 		this.hideLoading_indicator = false;
+
 		// get all active user types
-		this.hideLoading_indicator = false;
 		this.centersService.getallactiveusertypes().subscribe(data => {
-        this.data = data;
+				this.data = data;
 				this.all_usertypes = data;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
+			}, error => {}, () => {}
 		);
   
-		// get all districts
-		this.centersService.getalldistrict().subscribe(data => {
-				console.log('### getalldistrict data: ' + JSON.stringify(data));
-				this.all_districts = data;
-				this.selected_district = data[0] ;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
+		// get all states
+		this.centersService.getallstates().subscribe(data => {
+				console.log('### getallstates data: ' + JSON.stringify(data));
+				this.all_states = data;
+				//this.selected_state = data[0] ;
+			}, error => {}, () => {}
 		);
 
 		// get all teachers
@@ -102,10 +101,7 @@ export class CentersComponent implements OnInit {
 				console.log('### All Teachers('+Object.keys(data).length+'): ' + JSON.stringify(data));
 				this.data_teachers = data;
 				this.teachers = data;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
+			}, error => {}, () => {}
 		);
 
 		// get all centers
@@ -114,9 +110,7 @@ export class CentersComponent implements OnInit {
 				this.data = data;
 				this.centers = data;
 				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
+			}, error => {}, () => {}
 		);
 	}
 	
@@ -175,46 +169,6 @@ export class CentersComponent implements OnInit {
         });
     }*/
 
-	open(content, center) {
-		if (Object.keys(center).length > 0) {
-			console.log('### center: '+JSON.stringify(center));
-			this.centersubmitaction = 'Update';
-			this.modal_id = center._id;
-			this.modal_centername = center.centername;
-			this.modal_centertype= center.centertype;
-			this.selected_userid = center.userid;
-			this.selected_username = center.username;
-			this.selected_district = center.district;
-			this.get_blocks_of_district(this.selected_district);
-			this.selected_block = center.block;
-			this.selected_state = 'odisha';
-			this.modal_centeraddress  = center.centeraddress;
-		} else {
-			this.centersubmitaction = 'Create';
-			this.modal_id = '';
-			this.modal_centername = '';
-			this.modal_centeraddress  = '';
-		}
-		console.log('#### centersubmitaction: '+this.centersubmitaction+'    center: ' + JSON.stringify(center));
-		//this.modal_centername = ('undefined')?'':this.modal_centername;
-		this.modalReference = this.modalService.open(content, center);
-        this.modalReference.result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-    }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-        } else {
-            return  `with: ${reason}`;
-        }
-    }
-
 	formSubmitAction(centersubmitaction) {
 		const frm_id = this.modal_id;
 		const frm_centername = this.modal_centername;
@@ -225,16 +179,16 @@ export class CentersComponent implements OnInit {
 		const frm_centerpin = '0';
 
 		this.selected_block = (this.selected_block.length > 0)? this.selected_block: this.all_blocks[0];
-		this.selected_state = (this.selected_state.length > 0)? this.selected_state: this.all_states[0];
+		this.selected_statevalue = (this.selected_statevalue.length > 0)? this.selected_statevalue: this.all_states[0];
 		const center = {
 			// userid: frm_userid,
 			centername: frm_centername,
 			centertype: this.modal_centertype,
 			userid: this.selected_userid,
 			username: this.selected_username,
-		    district : this.selected_district,
+		    district : this.selected_districtvalue,
 			block : this.selected_block,
-			state: this.selected_state,
+			state: this.selected_statevalue,
 		    status : 'active',
 		};
 		console.log('###111' + centersubmitaction + ' frm_id: ' + frm_id + ' center: ' + JSON.stringify(center));
@@ -306,33 +260,47 @@ export class CentersComponent implements OnInit {
 		);
 	}
 
+	state_on_change(event: Event) {
+    	const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectedElementText = selectedOptions[selectedIndex].text;
+		//const c = selectedOptions[selectedIndex].class;
+		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectedElementText+'    c: '+JSON.stringify(selectedOptions[selectedIndex]));
+		this.selected_statevalue = selectedOptionValue;
+
+		// reset districts and blocks
+		this.all_districts = [];
+		this.all_blocks = [];
+
+		// get all districts
+		this.centersService.getalldistrict(selectedOptionValue).subscribe(data => {
+				console.log('### getalldistrict data: ' + JSON.stringify(data));
+				this.all_districts = data;
+				//this.selected_district = data[0] ;
+			}, error => {}, () => {}
+		);
+	}
+	
 	district_on_change(event: Event) {
     	const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
-		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
-		this.selected_district = selectedOptionValue;
-		this.get_blocks_of_district(this.selected_district);
-	}
+		const selectedElementText = selectedOptions[selectedIndex].text;
+		const selectedElementId = selectedOptions[selectedIndex].id;
+		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectedElementText+'    selectedElementId: '+selectedElementId);
+		this.selected_districtid = selectedElementId;
+		this.selected_districtvalue = selectedOptionValue;
 
-	get_blocks_of_district(district: string){
-		this.centersService.getallblocksbydistrict(district).subscribe(data => {
-				console.log('### data: ' + JSON.stringify(data));
-				const newdata = [];
-				Object.keys(data).forEach(i => {
-					const element = data[i];
-					console.log('-->element= ' + JSON.stringify(element));
-					if (element.length > 0) {
-						newdata.push(element);
-					}
-				});
-				this.all_blocks = newdata;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
-		);
+		// reset blocks
+		this.all_blocks = [];
+		
+		this.all_blocks = this.all_districts.filter(obj => {
+			return obj._id === selectedElementId
+		});
+		if(this.all_blocks.length > 0)
+			this.all_blocks = this.all_blocks[0].obj;
+		console.log('-->all_blocks= ' +JSON.stringify(this.all_blocks));
 	}
 
 	block_on_change(event: Event) {
@@ -344,13 +312,43 @@ export class CentersComponent implements OnInit {
 		this.selected_block = selectedOptionValue;
 	}
 	
-	
-	state_on_change(event: Event) {
-    	const selectedOptions = event.target['options'];
-		const selectedIndex = selectedOptions.selectedIndex;
-		const selectedOptionValue = selectedOptions[selectedIndex].value;
-		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
-		this.selected_state = selectedOptionValue;
+	open(content, center) {
+		console.log('#### Open modal-    center: ' + JSON.stringify(center));
+		if (Object.keys(center).length > 0) {
+			this.centersubmitaction = 'Update';
+			this.modal_id = center._id;
+			this.modal_centername = center.centername;
+			this.modal_centertype= center.centertype;
+			this.selected_userid = center.userid;
+			this.selected_username = center.username;
+			this.selected_districtvalue = center.district;
+			//this.get_blocks_of_district(this.selected_districtvalue);
+			this.selected_block = center.block;
+			this.selected_statevalue = 'odisha';
+			this.modal_centeraddress  = center.centeraddress;
+		} else {
+			this.centersubmitaction = 'Create';
+			this.modal_id = '';
+			this.modal_centername = '';
+			this.modal_centeraddress  = '';
+		}
+		console.log('#### centersubmitaction: '+this.centersubmitaction);
+		//this.modal_centername = ('undefined')?'':this.modal_centername;
+		this.modalReference = this.modalService.open(content, center);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return  `with: ${reason}`;
+        }
     }
 }
