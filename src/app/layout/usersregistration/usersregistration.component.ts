@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
 
 import { Router, ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { UsersregistrationService, ValidationService } from './usersregistration.service';
+import { UsersregistrationService } from './usersregistration.service';
 
 import { ManagersboxService } from  './../managersbox/managersbox.service';
 import swal from 'sweetalert2';
 
 import { CroppieOptions } from 'croppie';
 import { NgxCroppieComponent } from './../modules/ngx-croppie/ngx-croppie.component';
+
+import {TeacherprofilecreateComponent} from './../teacherprofilecreate/teacherprofilecreate.component';
+
 
 @Component({
     selector: 'app-usersregistration',
@@ -31,8 +32,6 @@ export class UsersregistrationComponent implements OnInit {
 	editedImage:string;
 
 	@ViewChild('auto') auto;
-	myform: FormGroup = null;
-	userModalFormGroup: FormGroup;
 	
 	all_usertypes_list: any = [];
 
@@ -50,6 +49,7 @@ export class UsersregistrationComponent implements OnInit {
 	modal_id: string;
 	modal_userid: string;
 	modal_username: string;
+	modal_contactno: string;
 	modal_emailid: string;
 	modal_password: string;
 	modal_usertype: string;
@@ -63,6 +63,7 @@ export class UsersregistrationComponent implements OnInit {
 	teacherprofile_data1: any = [];
 	teacherprofile_data2: any = [];
 	selected_teacherprofile_data: any = [];
+	selected_teacherprofile_data_bkp: any = [];
 	selected_teacherprofile: string = '';
 
 	// teacher profile auto-complete 
@@ -84,13 +85,11 @@ export class UsersregistrationComponent implements OnInit {
 
     constructor(
 		private modalService: NgbModal,
-		private formBuilder: FormBuilder,
-		private translate: TranslateService,
         public route: ActivatedRoute,
         public router: Router,
 		private usersregistrationService: UsersregistrationService,
 		private managersboxService: ManagersboxService,
-		private fb: FormBuilder
+		private changeDetectorRef: ChangeDetectorRef
 	) {
 		// get values from the query params
 		this.route.queryParams.subscribe(params => {
@@ -98,19 +97,10 @@ export class UsersregistrationComponent implements OnInit {
 			this.qp_userid = params['userid'];
 		});
 		console.log('###qp_userid: '+this.qp_userid+'    qp_action: '+this.qp_action);
-
+		  
 		this.getallactiveteacherprofiles();
 		this.getAllUsertypes();
-		  
-		this.userModalFormGroup = this.formBuilder.group({
-			modal_id: ['', []],
-			modal_userid: ['', []],
-			modal_username: ['', [Validators.required]],
-			modal_emailid: ['', [Validators.required, ValidationService.emailValidator]],
-			modal_password: ['', [Validators.required, ValidationService.passwordValidator]],
-			// modal_contactnumber: ['', [Validators.required]],
-			modal_permanentaddress: ['', [Validators.required]]
-		});
+		
 		this.modal_contactnumber = '';		// set default
 		this.hideLoading_indicator = true;
 		this.hide_teacherprofile_dropdown = true;
@@ -144,6 +134,7 @@ export class UsersregistrationComponent implements OnInit {
 			this.modal_permanentaddress = '';
 			this.selected_teacherprofile = '';
 			this.selected_teacherprofile_data = [];
+			this.selected_teacherprofile_data_bkp = [];
 			this.hide_teacherprofile_dropdown = true;
 			this.currentImage = this.profileimage;
 			//this.userModalFormGroup.controls['modal_emailid'].enable();
@@ -165,10 +156,11 @@ export class UsersregistrationComponent implements OnInit {
 					this.modal_password = user.password;
 					this.modal_usertype = user.usertype;
 					this.modal_gender = user.gender;
-					this.modal_contactnumber = user.contactnumber;
+					this.modal_contactno = user.contactnumber;
 					this.modal_permanentaddress = user.permanentaddress;
 					this.selected_teacherprofile = (user.teacherprofile == undefined || user.teacherprofile == null) ? '' : user.teacherprofile.teachername;
 					this.selected_teacherprofile_data = user.teacherprofile;
+					this.selected_teacherprofile_data_bkp = user.teacherprofile;
 					this.hide_teacherprofile_dropdown = (user.usertype == 'manager') ? true : false;
 					this.currentImage = user.image;
 				}
@@ -220,40 +212,32 @@ export class UsersregistrationComponent implements OnInit {
 		);
 	}
 
-	search(term: string) {
-		term = (term == undefined || term == null) ? '' : term;
-		if(!term) {
-		  this.filterData = this.data;
-		} else {
-		  this.filterData = this.data.filter(element => 
-			element.emailid.toLowerCase().includes(term.trim().toLowerCase())
-		  );
-		}
-	  }
-	
 	// teacher profile auto complete
 	onchange_teacherprofile(val: string) {
-		console.log('--> teachers auto-complete change event'+JSON.stringify(val));
+		console.log('--> teachers auto-complete change event: '+JSON.stringify(val));
 	}
 	onfocus_teacherprofile(e){
-		console.log('--> teachers auto-complete focus event'+JSON.stringify(e));
-		this.teacherprofile_data2 = this.teacherprofile_data1;
+		console.log('--> teachers auto-complete focus event: '+JSON.stringify(e));
+		console.log('--> teachers auto-complete this.teacherprofile_data1: '+JSON.stringify(this.teacherprofile_data1));
+		//this.teacherprofile_data2 = this.teacherprofile_data1;
 	}
 	onselect_teacherprofile(item){
-		console.log('--> teachers auto-complete select event'+JSON.stringify(item));
+		console.log('--> teachers auto-complete select event: '+JSON.stringify(item));
 		this.selected_teacherprofile_data = [];
 		this.selected_teacherprofile_data = item;
-		this.selected_teacherprofile = (item.teachername == undefined) ? '' : item.teachername;
-		console.log('--> selected_teacherprofile: '+this.selected_teacherprofile);
+		//this.selected_teacherprofile = (item.teachername == undefined) ? '' : item.teachername;
+		//console.log('--> selected_teacherprofile: '+this.selected_teacherprofile);
 	}
 
-    /*open(content) {
-        this.modalService.open(content).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-    }*/
+	teacherprofile_select_btn_click(){
+		this.selected_teacherprofile = (this.selected_teacherprofile_data.teachername == undefined) ? '' : this.selected_teacherprofile_data.teachername;
+		console.log('--> selected_teacherprofile: '+this.selected_teacherprofile);
+		this.modalReference.close();
+	}
+	teacherprofile_cancel_btn_click(){
+		this.selected_teacherprofile_data = this.selected_teacherprofile_data_bkp;
+		this.modalReference.close();
+	}
 
 	// selecting user type
 	onSelect_modal_usertype(event: Event) {
@@ -275,105 +259,112 @@ export class UsersregistrationComponent implements OnInit {
 		}
 	}
 
-	// selecting gender
-	onSelect_modal_gender(event: Event) {
-		const selectedOptions = event.target['options'];
-		const selectedIndex = selectedOptions.selectedIndex;
-		const selectedOptionValue = selectedOptions[selectedIndex].value;
-		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' +selectedOptionValue+'   Text= '+selectElementText);
-		this.modal_gender = selectedOptionValue;
-	}
-
 	// save user
 	formSubmitAction(usersubmitaction) {
 		const frm_id = this.modal_id;
+		this.profileimage = (this.image_s3url == undefined || this.image_s3url == null || this.image_s3url == '') ? this.profileimage : this.image_s3url ;
 		const frm_userid = this.modal_userid;
 		const frm_username = this.modal_username;
 		const frm_usertype = this.modal_usertype;
 		const frm_emailid = this.modal_emailid;
 		const frm_password = this.modal_password;
 		const frm_status = 'active';
-		const frm_gender = this.modal_gender;
+		const frm_contactnumber = this.modal_contactno;
+		const frm_gender = 'Male'; //this.modal_gender;
 		const frm_dob = '1990-12-30T18:30:00.000+0000';
-		const frm_contactnumber = this.modal_contactnumber;
 		const frm_permanentaddress = this.modal_permanentaddress;
-		this.profileimage = (this.image_s3url == undefined || this.image_s3url == null || this.image_s3url == '') ? this.profileimage : this.image_s3url ;
+		
+		// Validation starts from here 
+		if(this.modal_username == undefined || this.modal_username == null || this.modal_username == ''){
+			swal.fire('Info','Invalid username.','warning');
+		}else if(this.modal_contactno == undefined || this.modal_contactno == null || this.modal_contactno == ''){
+			swal.fire('Info','Invalid mobile number.','warning');
+		}else  if(this.modal_emailid == undefined || this.modal_emailid == null || this.modal_emailid == ''){
+			swal.fire('Info','Invalid email id.','warning');
+		}else if (!(this.modal_emailid.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/))) {
+			swal.fire('Info','Not a valid email id.','warning');
+		}else  if(this.modal_password == undefined || this.modal_password == null || this.modal_password == ''){
+			swal.fire('Info','Invalid password.','warning');
+		}else  if(this.modal_usertype != 'manager' && (this.selected_teacherprofile_data == undefined || this.selected_teacherprofile_data == null || this.selected_teacherprofile_data.length <= 0)){
+			swal.fire('Info','Invalid teacher profile.','warning');
+		}else{
+			const user = {
+				userid: frm_emailid,
+				username: frm_username,
+				usertype: frm_usertype,
+				teacherprofile: this.selected_teacherprofile_data,
+				emailid: frm_emailid,
+				password: frm_password,
+				status: frm_status,
+				gender: frm_gender,
+				dob: frm_dob,
+				contactnumber: frm_contactnumber,
+				permanentaddress: frm_permanentaddress,
+				image: this.profileimage
+			};
+			console.log('###111'+usersubmitaction+' frm_id: '+frm_id+' user: ' + JSON.stringify(user));
 
-		const user = {
-			// userid: frm_userid,
-			username: frm_username,
-			usertype: frm_usertype,
-			teacherprofile: this.selected_teacherprofile_data,
-			emailid: frm_emailid,
-			password: frm_password,
-			status: frm_status,
-			gender: frm_gender,
-			dob: frm_dob,
-			contactnumber: frm_contactnumber,
-			permanentaddress: frm_permanentaddress,
-			image: this.profileimage
-		};
-		console.log('###111'+usersubmitaction+' frm_id: '+frm_id+' user: ' + JSON.stringify(user));
+			// Create New User
+			if(usersubmitaction === 'Create' && frm_id === '') {
+				console.log('### inside if: save new user');
 
-		// Create New User
-		if(usersubmitaction === 'Create' && frm_id === '') {
-			console.log('### inside if');
-
-			// check the emailid is already exist or not
-			this.isMailIdExists(frm_emailid);
-			if(this.emailid_exists){
-				alert('Email id already taken !!!');
-			}else{
-				user['userid'] = frm_emailid;
-				this.usersregistrationService.createnewuser(user).subscribe(data => {
+				// check the emailid is already exist or not
+				//this.isMailIdExists(frm_emailid);
+				if(!this.checkemailavailability(frm_emailid)){
+					swal.fire('Info','Email id already taken.','warning');
+					//alert('Email id already taken !!!');
+				}else{
+					// user['userid'] = frm_emailid;
+					this.usersregistrationService.createnewuser(user).subscribe(data => {
+							console.log('### res data: ' + JSON.stringify(data));
+							swal.fire('Success','User profile registered successfully.','success');
+							this.router.navigate(['/users']);
+						},
+						error => {console.log('###2 error: ' + JSON.stringify(error)); },
+						() => {}
+					);
+				}
+			// Update Existing User
+			} else if (usersubmitaction === 'Update' && frm_id !== '') {
+				console.log('### inside elseif: update user');
+				this.usersregistrationService.updateuser(frm_id, user).subscribe(data => {
 						console.log('### res data: ' + JSON.stringify(data));
-						swal.fire('Success','User profile registered successfully.','success');
+						swal.fire('Success','User profile updated successfully.','success');
 						this.router.navigate(['/users']);
 					},
-					error => {console.log('###2 error: ' + JSON.stringify(error)); },
+					error => {},
 					() => {}
 				);
+			} else {
+				console.log('### inside else');
+				swal.fire('Info','Data can not be saved.','warning');
 			}
-			
-		// Update Existing User
-		} else if (usersubmitaction === 'Update' && frm_id !== '') {
-			console.log('### inside elseif');
-			this.usersregistrationService.updateuser(frm_id, user).subscribe(data => {
-					console.log('### res data: ' + JSON.stringify(data));
-					swal.fire('Success','User profile updated successfully.','success');
-					this.router.navigate(['/users']);
-				},
-				error => {},
-				() => {}
-			);
-		} else {
-			console.log('### inside else');
-			swal.fire('Info','Data can not be saved.','warning');
 		}
 	}
 
 	// check mail id is existing or not
-	isMailIdExists(frm_emailid){
+	async checkemailavailability(frm_emailid){
+		await this.usersregistrationService.checkemailavailability(frm_emailid).subscribe(data => {
+				console.log('### checkemailavailability: ' + JSON.stringify(data));
+				if(Object.keys(data).length > 0){
+					if(data['status'] == true)
+						return true;
+					else
+						return false;
+				}else{
+					return false;
+				}
+			},
+			error => {},
+			() => {}
+		);
+
 		this.data.forEach(element => {
 			if(element.emailid == frm_emailid){
 				this.emailid_exists = true;
 				return;
 			}
 		});
-	}
-
-	// delete user
-	deleteFormSubmitAction(id) {
-		console.log('### id: ' + id);
-		this.usersregistrationService.deleteuser(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
-				this.modalReference.close();
-				location.reload();
-			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
-			() => {}
-		);
 	}
 
 	// show/ hide password
@@ -387,25 +378,6 @@ export class UsersregistrationComponent implements OnInit {
 		}
 	}
 	
-	open(content) {
-		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
-        this.modalReference.result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-    }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-        } else {
-            return  `with: ${reason}`;
-        }
-	}
-
 	back_to_users_page(){
 		this.router.navigate(['/users']);
 	}
@@ -524,5 +496,69 @@ export class UsersregistrationComponent implements OnInit {
 			error => {},
 			() => {}
 		);
+	}
+	
+	open(content) {
+		this.changeDetectorRef.detectChanges();
+		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return  `with: ${reason}`;
+        }
+	}
+	
+	open_createnewteacherprofile_modal(){
+		this.modalReference = this.modalService.open(TeacherprofilecreateComponent);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
+
+	// --------------------------------------------------------
+	search(term: string) {
+		term = (term == undefined || term == null) ? '' : term;
+		if(!term) {
+			this.filterData = this.data;
+		} else {
+			this.filterData = this.data.filter(element => 
+			element.emailid.toLowerCase().includes(term.trim().toLowerCase())
+			);
+		}
+	}
+
+	// delete user
+	deleteFormSubmitAction(id) {
+		console.log('### id: ' + id);
+		this.usersregistrationService.deleteuser(id).subscribe(data => {
+				console.log('### res data: ' + JSON.stringify(data));
+				this.modalReference.close();
+				location.reload();
+			},
+			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			() => {}
+		);
+	}
+
+	// selecting gender
+	onSelect_modal_gender(event: Event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		console.log('-->Selected Opt Value= ' +selectedOptionValue+'   Text= '+selectElementText);
+		this.modal_gender = selectedOptionValue;
 	}
 }

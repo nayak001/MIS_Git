@@ -43,6 +43,14 @@ export class UsersregistrationService {
 		});			
 	}
 
+	checkemailavailability(emailid){				
+		return this.http.get(baseUrl+'checkemailavailability/'+emailid,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+
 	getallactiveteacherprofiles(){				
 		return this.http.get(baseUrl+'getallactiveteacherprofiles',
 		{

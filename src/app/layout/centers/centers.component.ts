@@ -6,7 +6,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CentersService, ValidationService } from  './centers.service';
-
 @Component({
     selector: 'app-centers',
     templateUrl: './centers.component.html',
@@ -61,6 +60,8 @@ export class CentersComponent implements OnInit {
 	selected_userid: string = '';
 	selected_username: string = '';
 
+	
+
     constructor(
 		private modalService: NgbModal,
 		private formBuilder: FormBuilder,
@@ -74,6 +75,7 @@ export class CentersComponent implements OnInit {
 		});
 		this.pageload_data();
 		this.hideLoading_indicator = true;
+
 	}
 
 	ngOnInit() {}

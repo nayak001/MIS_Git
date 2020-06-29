@@ -1,0 +1,100 @@
+<div class="modal-body largewidth">									
+  <div class="form-content">
+    <div class="row">
+      <div class="col col-xl-3 col-lg-3"></div>
+      <div class="col col-xl-6 col-lg-6">
+        <div class="form-group">
+          <input value="{{ modal_id }}" [(ngModel)]="modal_id" type="hidden">
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col col-xl-2 col-lg-2">
+        Name
+      </div>
+      <div class="col col-xl-4 col-lg-4">
+        <div class="form-group">
+          <input value="{{ modal_teachername }}" [(ngModel)]="modal_teachername" type="text" class="form-control input-underline input-lg" placeholder="Teacher name">
+        </div>
+      </div>
+      <div class="col col-xl-2 col-lg-2">
+        Contact number
+      </div>
+      <div class="col col-xl-4 col-lg-4">
+        <div class="form-group">
+          <input value="{{ modal_contactno }}" [(ngModel)]="modal_contactno" type="text" class="form-control input-underline input-lg" placeholder="Contact Number" >
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-xl-2 col-lg-2">
+        Qualification
+      </div>
+      <div class="col col-xl-4 col-lg-4">
+        <div class="form-group">
+          <select value="{{ modal_qualification }}" (change)="onSelect_modal_qualification($event)" class="form-control">
+            <option value="matric">Matric</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="graduate">Graduate</option>
+            <option value="masters">Masters</option>
+            <option value="doctorate">Doctorate</option>
+            <option value="other">Others</option>
+          </select>
+        </div>														
+      </div>
+      <div class="col col-xl-2 col-lg-2">
+        Address
+      </div>
+      <div class="col col-xl-4 col-lg-4">
+        <div class="form-group">
+          <input value="{{ modal_address }}" [(ngModel)]="modal_address" type="text" class="form-control input-underline input-lg" placeholder="Teacher Address" >
+        </div>														
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col col-xl-2 col-lg-2">
+        Special initiatives
+      </div>
+      <div class="col col-xl-4 col-lg-4">
+        <div class="form-group">
+          <input value="{{ modal_specialinitiatives }}" [(ngModel)]="modal_specialinitiatives" type="text" class="form-control input-underline input-lg" placeholder="Special Initiatives">
+        </div>
+      </div>
+      <div class="col col-xl-2 col-lg-2">
+        Aspirations
+      </div>
+      <div class="col col-xl-4 col-lg-4">
+        <div class="form-group">
+          <input value="{{ modal_aspirations }}" [(ngModel)]="modal_aspirations" type="text" class="form-control input-underline input-lg" placeholder="Aspirations">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-xl-2 col-lg-2">
+        Centre start date
+      </div>
+      <div class="col col-xl-4 col-lg-4">
+        <div class="form-group">
+          <ejs-datepicker format="dd-MM-yyyy" strictMode='true' id='datepicker' placeholder='Select a date'
+            [value]='dateValue' [min]='minDate' [max]='maxDate' (change)="datepicker_onchange($event)"
+            [(ngModel)]="modal_startdate"></ejs-datepicker>
+        </div>
+      </div>
+      <div class="col col-xl-2 col-lg-2">
+        Pre-program training marks secured
+      </div>
+      <div class="col col-xl-4 col-lg-4">
+        <div class="form-group">
+          <input value="{{ modal_pretrainingmark }}" [(ngModel)]="modal_pretrainingmark" type="text" class="form-control input-underline input-lg" placeholder="Pre-program Training Mark">
+        </div>
+      </div>
+    </div>
+  </div>									
+</div>
+<div class="modal-footer largewidth">
+  <!-- <button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button> -->
+  <button type="button" (click)="save_button_click()" class="btn btn-success">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+</div>

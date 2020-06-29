@@ -5,7 +5,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { TeacherprofileService } from './teacherprofile.service';
-
 @Component({
     selector: 'app-teacherprofile',
     templateUrl: './teacherprofile.component.html',

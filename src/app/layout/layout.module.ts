@@ -9,6 +9,8 @@ import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TeacherprofilecreateComponent } from './teacherprofilecreate/teacherprofilecreate.component';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 
 @NgModule({
@@ -19,8 +21,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgbDropdownModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DatePickerModule
   ],
-  declarations: [LayoutComponent, SidebarComponent, HeaderComponent]
+  declarations: [LayoutComponent, SidebarComponent, HeaderComponent, TeacherprofilecreateComponent],
+  entryComponents:[TeacherprofilecreateComponent]
 })
 export class LayoutModule { }

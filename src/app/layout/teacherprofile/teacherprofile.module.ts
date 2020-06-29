@@ -9,7 +9,6 @@ import { DataTableModule } from "angular-6-datatable";
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 import { TeacherprofileService } from  './teacherprofile.service';
-
 @NgModule({
     imports: [
 		CommonModule, 

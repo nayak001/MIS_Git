@@ -23,7 +23,7 @@ export class TeacherprofileService {
 		return this.http.post(baseUrl+'createnewteacherprofile',
 		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			//,responseType: 'text' 
 		});
 	}
 	
