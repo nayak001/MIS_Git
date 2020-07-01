@@ -118,30 +118,26 @@ export class CenterDetailsComponent implements OnInit {
 
 	getBlockDetails() {
 		this.centerDetailsService.getBlocks().subscribe(data => {
-			// console.log('### data: '+JSON.stringify(data));
 			//console.log(data)
 			this.allDisticBlocks = data
+			console.log('### allDisticBlocks: '+JSON.stringify(this.allDisticBlocks));
 			for (var i = 0; i < this.allDisticBlocks.length; i++) {
 				if (this.allDistics.length > 0) {
 					let isDistic = false
 					for (var j = 0; j < this.allDistics.length; j++) {
-						if (this.allDistics[j].district == this.allDisticBlocks[i].district) {
-							isDistic = true
-
+						if (this.allDistics[j].districtvalue == this.allDisticBlocks[i].districtvalue) {
+							isDistic = true;
 						}
 					}
 					if (!isDistic) {
 						this.allDistics.push(this.allDisticBlocks[i])
 					}
-
 				}
 				else {
 					this.allDistics.push(this.allDisticBlocks[i])
 				}
-
 			}
-
-			console.log(this.allDistics)
+			console.log('@@@ allDistics: '+JSON.stringify(this.allDistics));
 			// this.all_blocks=data;
 		},
 			error => { },
@@ -376,19 +372,17 @@ export class CenterDetailsComponent implements OnInit {
 	}
 
 	selectBlock(distic) {
-		this.selectedBlock = 'all'
+		console.log('@@@ selected distic: '+distic);
+		this.selectedBlock = 'all';
 		this.all_blocks = []
 		for (let i = 0; i < this.allDisticBlocks.length; i++) {
-			if (this.allDisticBlocks[i] && this.allDisticBlocks[i].district) {
-				if (this.allDisticBlocks[i].district == distic) {
+			if (this.allDisticBlocks[i] && this.allDisticBlocks[i].districtvalue) {
+				if (this.allDisticBlocks[i].districtvalue == distic) {
 					this.all_blocks.push(this.allDisticBlocks[i])
 				}
 			}
-
 		}
-		console.log(this.all_blocks)
-
-
+		console.log(this.all_blocks);
 	}
 	download() {
 

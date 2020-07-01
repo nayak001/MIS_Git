@@ -103,22 +103,18 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 				if (this.allDistics.length > 0) {
 					let isDistic = false
 					for (var j = 0; j < this.allDistics.length; j++) {
-						if (this.allDistics[j].district == this.allDisticBlocks[i].district) {
-							isDistic = true
-
+						if (this.allDistics[j].districtvalue == this.allDisticBlocks[i].districtvalue) {
+							isDistic = true;
 						}
 					}
 					if (!isDistic) {
 						this.allDistics.push(this.allDisticBlocks[i])
 					}
-
 				}
 				else {
 					this.allDistics.push(this.allDisticBlocks[i])
 				}
-
 			}
-
 			console.log(this.allDistics)
 			// this.all_blocks=data;
 		},
@@ -245,8 +241,8 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 		this.selectedBlock = 'all'
 		this.all_blocks = []
 		for (let i = 0; i < this.allDisticBlocks.length; i++) {
-			if (this.allDisticBlocks[i] && this.allDisticBlocks[i].district) {
-				if (this.allDisticBlocks[i].district == distic) {
+			if (this.allDisticBlocks[i] && this.allDisticBlocks[i].districtvalue) {
+				if (this.allDisticBlocks[i].districtvalue == distic) {
 					this.all_blocks.push(this.allDisticBlocks[i])
 				}
 			}
