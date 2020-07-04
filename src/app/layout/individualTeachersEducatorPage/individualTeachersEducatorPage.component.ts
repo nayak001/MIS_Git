@@ -154,6 +154,7 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			limit:10,
 			download_click:this.download_click
 		}
+		console.log('### Filter button click data: '+JSON.stringify(data))
 		this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
 		
 			// console.log('### data: '+JSON.stringify(data));

@@ -1,0 +1,165 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>SURVEY</h4>
+						</div>
+						<div class="col">
+							<button (click)="open(modal_addedit, 'save', null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Add Survey</button>
+
+							<!-- Modal starts from here -->
+							<ng-template #modal_addedit let-c="close" let-d="dismiss">
+								<div class="modal-body">
+									<div class="row">
+										<div class="col col-xl-4 col-lg-4">Survey</div>
+										<div class="col col-xl-8 col-lg-8 row-fluid">
+											<input value="{{ survey }}" [(ngModel)]="survey" type="text" placeholder="Description" class="modal_textbox">
+										</div>
+									</div><br>
+
+									<div class="row">
+										<div class="col col-xl-4 col-lg-4">Type</div>
+										<div class="col col-xl-8 col-lg-8 row-fluid">
+											<select value="{{input_type}}" (change)="inputtype_onchange($event)" class="" placeholder="Type">
+											<option value="select">select</option>
+											<option value="calendar">calendar</option>
+											<option value="input">input</option>
+											</select>
+										</div>
+									</div><br>
+
+									<div class="row" *ngIf="isSelectType">
+										<div class="col col-xl-4 col-lg-4">Mode</div>
+										<div class="col col-xl-8 col-lg-8 row-fluid">
+											<div class="row">
+											<div class="col col-xl-6 col-lg-6">
+												<input type="radio" name="mode" value="single" (change)="selectmode_on_change($event.target.value)" checked /> Single
+											</div>
+											<div class="col col-xl-6 col-lg-6">
+												<input type="radio" name="mode" value="multiple" (change)="selectmode_on_change($event.target.value)" /> Multiple
+											</div>
+											</div>
+										</div>
+									</div><br>
+
+									<div class="row" *ngIf="isSelectType">
+										<div class="col col-xl-4 col-lg-4">Options</div>
+										<div class="col col-xl-8 col-lg-8 row-fluid">
+											<input value="{{ txt_optionval }}" (input)="txt_add_options_change($event.target.value)" type="text" placeholder="Options" class="modal_textbox">
+											<button type="button" (click)="add_option_btn_click()" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+										</div>
+									</div><br>
+				
+									<div *ngIf="isSelectType">
+										<div class="row" *ngFor="let opt of options; let i = index;">
+											<div class="col col-xl-2 col-lg-2">{{i+1}}</div>
+											<div class="col col-xl-7 col-lg-7">{{opt}}</div>
+											<div class="col col-xl-3 col-lg-3"><button type="button" (click)="delete_option_clicked(i)" class="btn btn-danger btn-sm"><i class="fa fa-times" aria-hidden="true"></i></button></div>
+										</div>
+									</div>
+									
+								</div>
+								<div class="modal-footer">
+									<button type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
+									<button type="button" (click)="add_survey_btn_click()" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Add Survey&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</ng-template>
+						</div>
+					</div>
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div>
+						<div class="row table_header">
+							<div class="col col-xl-1 col-lg-1 col-md-1 col-sm-1 table_header_col">Slno.</div>
+							<div class="col col-xl-7 col-lg-7 col-md-7 col-sm-7 table_header_col">Survey</div>
+							<div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4 table_header_col">Action</div>
+						</div>
+						<div class="table_content_main">
+							<div class="row table_content_row" *ngFor="let surveyObj of allMasterSurveys; let i=index;">
+								<div class="col col-xl-1 col-lg-1 col-md-1 col-sm-1 bold_font">{{ (i+1) }}.</div>
+								<div class="col col-xl-7 col-lg-7 col-md-7 col-sm-7">
+									<div class="bold_font">Description:</div>
+									<div class="">{{ surveyObj.survey }}</div>
+									<br>
+									<div class="row">
+										<div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4"><div class="bold_font">Type</div></div>
+										<div class="col"><div class="">{{ surveyObj.type }}</div></div>
+									</div>
+									<div *ngIf="surveyObj.type=='select'" class="row">
+										<div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4"><div class="bold_font">Selection Mode:</div></div>
+										<div class="col"><div class="">{{ surveyObj.selection_mode }}</div></div>
+									</div>
+									<br>
+									<div *ngIf="surveyObj.type=='select'" class="bold_font">Options:</div>
+									<div *ngIf="surveyObj.type=='select'" class="">{{ surveyObj.options }}</div>
+									<br>
+								</div>
+								<div class="col col-xl-4 col-lg-4 col-md-4 col-sm-4">
+									<div class="row">
+										<div class="col col-xl-6 col-lg-6 col-md-6 col-sm-6">
+											<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(modal_addedit,'update', surveyObj)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+										</div>
+										<div class="col col-xl-6 col-lg-6 col-md-6 col-sm-6">
+											<button type="button" class="btn btn-danger input-block-level form-control" (click)="delete_survey_btn_click(surveyObj)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Add or Edit Modal starts from here -->
+						<ng-template #addeditmodal let-c="close" let-d="dismiss">
+							<div class="modal-body">
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4">App Name</div>
+									<div class="col col-xl-8 col-lg-8 row-fluid">
+										<input type="text" placeholder="App Name" class="modal_textbox">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4">Package</div>
+									<div class="col col-xl-8 col-lg-8 row-fluid">
+										<input type="text" placeholder="Package" class="modal_textbox">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4">Version</div>
+									<div class="col col-xl-8 col-lg-8 row-fluid">
+										<input type="text" placeholder="Version" class="modal_textbox">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+								<button type="button" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+							</div>
+						</ng-template>
+
+						<!-- Delete Modal starts from here -->
+						<ng-template #deletemodal let-c="close" let-d="dismiss">
+							<div class="modal-body">
+								<div class="row">
+								<img src="assets/images/warning.png" class="warning-icon">
+								<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records  !</span>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+								<button type="button" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+							</div>
+						</ng-template>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

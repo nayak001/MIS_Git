@@ -1,0 +1,88 @@
+/*
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+*/
+.table_header{
+    font-weight: bold;
+    padding: 15px 0px;
+    color: #2323dd;
+    border: 1px solid #bab5b5;
+}
+
+.table_header_col{
+    //border-right: 1px solid #bab5b5;
+}
+
+.table_content_main{
+    height: 300px;
+    overflow: auto;
+}
+
+.table_content_row{
+    width: 95%;
+    padding: 20px 0px;
+    border-bottom: 1px solid #e5e2e2;
+}
+
+.bold_font{
+    font-weight: bold;
+}
+
+.bold-font{
+	font-size: 1rem !important;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    font-family: "AlegreyaSansSC-Light", "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    word-break: break-word;
+}
+
+.modal-footer{
+    border-top: 1px solid #848484;
+    background-color: #c3c3c3;
+}
+.btn{
+	border-radius: 0rem;
+}
+.modal-text{
+	font-size: 22px;
+    color: #505050;
+}
+.warning-icon{
+	width: 40px;
+	height: 40px;
+	margin-left: 40px;
+}
+.validation-error-message{
+	color: red;
+    font-size: 10px;
+    font-weight: bold;
+}
+.modal_textbox{
+	width: 80%;
+    border: none;
+    border-bottom: 1px solid #b7b7b7;
+    margin-bottom: 30px;
+    font-family: arial;
+    font-size: 12px;
+
+}
+.modal_textbox:focus {
+    outline-width: 0;
+}
+select{
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    background-position: right 50%;
+    background-repeat: no-repeat;
+    padding: .5em;
+    padding-right: 1.5em;
+    font-family: arial;
+    font-size: 12px;
+    border: none;
+    border-bottom: 1px solid #bfbcbc;
+}
+select:focus {
+    outline-width: 0 !important;
+    outline: none !important;
+}
