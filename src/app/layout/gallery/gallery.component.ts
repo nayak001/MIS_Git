@@ -47,7 +47,7 @@ export class GalleryComponent implements OnInit {
 	// Resources
 	filelist: any = [];
 	resources: any = [];
-	resources_inside_directory: any = [];
+	filelist_inside_directory: any = [];
 
 	// Modal
 	closeResult: string;
@@ -96,7 +96,12 @@ export class GalleryComponent implements OnInit {
 			this.selected_directory = '';
 			this.directoryname = '';
 		}
+		this.hide_content1 = false;
+		this.hide_content2 = true;
+		this.filelist = [];
+		this.filelist_inside_directory = [];
 		this.getdirectorieslist();
+		this.getallfilelist();
 	}
 
 	getdirectorieslist(){
@@ -109,18 +114,18 @@ export class GalleryComponent implements OnInit {
 			() => {}
 		);
 	}
-
+	//--------------------
 	getallfilelist(){
 		this.hideLoading_indicator = false;
 		this.galleryService.getallfilelistbyapptype(this.apptype).subscribe(async data => {
 				console.log('---> resources: '+JSON.stringify(data));
 				//this.resources = data;
 				
-				this.filelist = data;
-				if(this.filelist.length == 0) this.set_resource(this.filelist);
+				this.resources = data;
+				if(this.resources.length == 0) this.set_resource(this.resources);
 				let arr: any = [];
 				let counter: number = 0;
-				await this.filelist.forEach(ele => {
+				await this.resources.forEach(ele => {
 					counter++;
 					console.log(counter+' --> ele: '+JSON.stringify(ele));
 					if((ele.s3directory == undefined || ele.s3directory == null || ele.s3directory == '') && (ele.type == 'file')){
@@ -128,7 +133,7 @@ export class GalleryComponent implements OnInit {
 					}else if(ele.type == 'directory'){
 						arr.push(ele);
 					}
-					if(counter == this.filelist.length){
+					if(counter == this.resources.length){
 						this.set_resource(arr);
 					}
 				});
@@ -143,8 +148,8 @@ export class GalleryComponent implements OnInit {
 	getallfilelist_inside_directory(directoryname){
 		this.hideLoading_indicator = false;
 		this.galleryService.getallfilelistinsidedirectorybyapptype(this.apptype, directoryname).subscribe(async data => {
-				console.log('---> resources: '+JSON.stringify(data));
-				this.resources_inside_directory = data;
+				console.log('---> filelist_inside_directory: '+JSON.stringify(data));
+				this.filelist_inside_directory = data;
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -153,7 +158,7 @@ export class GalleryComponent implements OnInit {
 	}
 
 	set_resource(arr){
-		this.resources = arr;
+		this.filelist = arr;
 	}
 
 	directory_select_onchange(event: Event){
@@ -286,7 +291,7 @@ export class GalleryComponent implements OnInit {
 	}
 
 	back_button_click(){
-		this.resources_inside_directory = [];
+		this.filelist_inside_directory = [];
 		this.getallfilelist();
 		this.hide_content1 = false;
 		this.hide_content2 = true;
@@ -367,48 +372,4 @@ export class GalleryComponent implements OnInit {
 			}
 		);
 	}
-
-	open(content, param) {
-		this.apptype = param;
-		this.modalReference = this.modalService.open(content, param);
-		this.modalReference.result.then((result) => {
-		  this.closeResult = `Closed with: ${result}`;
-		}, (reason) => {
-		  this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-		});
-	}
-	private getDismissReason(reason: any): string {
-		if (reason === ModalDismissReasons.ESC) {
-		  return 'by pressing ESC';
-		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-		  return 'by clicking on a backdrop';
-		} else {
-		  return `with: ${reason}`;
-		}
-	} 
-
-	/*
-	gets3directorieslist(selected_tab){
-		this.galleryService.gets3directorieslist().subscribe(data => {
-				console.log('@@@s3directories_list: '+JSON.stringify(data));
-				this.s3directories_list = data;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
-		);
-	}
-
-	getAllFromManagersBox(){
-		this.galleryService.getAllFromManagersBox().subscribe(data => {
-				//console.log('@@@data saved to db: '+JSON.stringify(data));
-				this.data = data;
-				this.total_file_count_str = "Total Files: "+this.data.length;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
-		);
-	}
-	*/
 }
