@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-2">
                         <label>Program Type</label>
-                        <select class="form-control select2" [(ngModel)]="program_type" (change)="selectProgramType(program_type)" style=" height: 30px;">
+                        <select class="form-control select2" [(ngModel)]="program_type" name="program_type" (change)="selectProgramType(program_type)" style=" height: 30px;">
 
                             <option value="all">All</option>
                             <option value="ece">ECE</option>
@@ -124,51 +124,46 @@
                                     <th>Female Students</th>
 
                                     <!-- <th *ngIf="program_type == 'ece'"> ECE - Level 1</th> -->
-                                    <th>ECE - Level 1</th>
-                                    <th>ECE - Level 2</th>
-                                    <th>ECE - Level 3</th>
-                                    <th>PG English Level 1</th>
-                                    <th>PG English Level 2</th>
-                                    <th>PG English Level 3</th>
-                                    <th>PG English Level 4</th>
-                                    <th>PG English Level 5</th>
-                                    <th>PG Odia Level 1</th>
-                                    <th>PG Odia Level 2</th>
-                                    <th>PG Odia Level 3</th>
-                                    <th>PG Odia Level 4</th>
-                                    <th>PG Odia Level 5</th>
-                                    <th>PG Math Level 1</th>
-                                    <th>PG Math Level 2</th>
-                                    <th>PG Math Level 3</th>
-                                    <th>PG Math Level 4</th>
-                                    <th>PG Math Level 5</th>
-
-
+                                    <th  *ngIf="p_type === 'ece' || p_type === 'all'">ECE - Level 1</th>
+                                    <th  *ngIf="p_type === 'ece' || p_type === 'all'">ECE - Level 2</th>
+                                    <th  *ngIf="p_type === 'ece' || p_type === 'all'">ECE - Level 3</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG English Level 1</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG English Level 2</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG English Level 3</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG English Level 4</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG English Level 5</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Odia Level 1</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Odia Level 2</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Odia Level 3</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Odia Level 4</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Odia Level 5</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Math Level 1</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Math Level 2</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Math Level 3</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Math Level 4</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">PG Math Level 5</th>
 
                                     <th>Average Attendance</th>
-                                    <th> Percentage of students achieving monthly goals in PG - English</th>
-                                    <th>Percentage of students achieving monthly goals in PG - Odia</th>
-                                    <th>Percentage of students achieving monthly goals in PG - Maths</th>
-                                    <th>Percentage of students achieving atleast 70% of age-appropriate skills in ECE
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'" > Percentage of students achieving monthly goals in PG - English</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">Percentage of students achieving monthly goals in PG - Odia</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">Percentage of students achieving monthly goals in PG - Maths</th>
+                                    <th  *ngIf="p_type === 'ece' || p_type === 'all'">Percentage of students achieving atleast 70% of age-appropriate skills in ECE
                                         Program</th>
                                     <!-- <th>Percentage of students achieving quarterly goals in ECE Program</th>
                                     <th>Percentage of students achieving age-appropriate skills in ECE Program2</th> -->
-                                    <th>Percentage of students who jumped 1 Level in PG - English</th>
-                                    <th>Percentage of students who jumped 1 Level in PG - Odia</th>
-                                    <th>Percentage of students who jumped 1 Level in PG - Maths</th>
-                                    <th>Percentage of students who jumped 2 or more Levels in PG - English</th>
-                                    <th>Percentage of students who jumped 2 or more Levels in PG - Odia</th>
-                                    <th>Percentage of students who jumped 2 or more Levels in PG - Maths</th>
-                                    <th>No of Students who have graduated from ECE program</th>
-                                    <th>No of Students who have graduated from PG program</th>
-                                    <th>No of Students who have dropped out of the ECE program</th>
-                                    <th>No of Students who have dropped out of the PG program</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'" >Percentage of students who jumped 1 Level in PG - English</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'" >Percentage of students who jumped 1 Level in PG - Odia</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">Percentage of students who jumped 1 Level in PG - Maths</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'" >Percentage of students who jumped 2 or more Levels in PG - English</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">Percentage of students who jumped 2 or more Levels in PG - Odia</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">Percentage of students who jumped 2 or more Levels in PG - Maths</th>
+                                    <th  *ngIf="p_type === 'ece' || p_type === 'all'">No of Students who have graduated from ECE program</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">No of Students who have graduated from PG program</th>
+                                    <th  *ngIf="p_type === 'ece' || p_type === 'all'">No of Students who have dropped out of the ECE program</th>
+                                    <th  *ngIf="p_type === 'pge' || p_type === 'all'">No of Students who have dropped out of the PG program</th>
                                     <th>Class/Grade of the Student</th>
                                     <!-- <th>Pre-Program Training Marks Secured</th>
                                     <th>Online Training Module Details</th> -->
-
-
-
                                 </tr>
                             </thead>
                             <tbody class="contentid">
@@ -186,66 +181,60 @@
                                     <td>{{user.no_of_students}}</td>
                                     <td>{{user.no_female_students}}</td>
 
-                                    <td><p *ngIf = "user.ecelevel1">{{user.ecelevel1}}</p><p *ngIf = "!user.ecelevel1">NA</p></td>
-                                    <td><p *ngIf = "user.ecelevel2">{{user.ecelevel2}}</p><p *ngIf = "!user.ecelevel2">NA</p></td>
-                                    <td><p *ngIf = "user.ecelevel3">{{user.ecelevel3}}</p><p *ngIf = "!user.ecelevel3">NA</p></td>
+                                    <td  *ngIf="p_type === 'ece' || p_type === 'all'"><p *ngIf = "user.ecelevel1">{{user.ecelevel1}}</p><p *ngIf = "!user.ecelevel1">NA</p></td>
+                                    <td  *ngIf="p_type === 'ece' || p_type === 'all'"><p *ngIf = "user.ecelevel2">{{user.ecelevel2}}</p><p *ngIf = "!user.ecelevel2">NA</p></td>
+                                    <td  *ngIf="p_type === 'ece' || p_type === 'all'"><p *ngIf = "user.ecelevel3">{{user.ecelevel3}}</p><p *ngIf = "!user.ecelevel3">NA</p></td>
 
-                                    <td><p *ngIf = "user.pgEngl1">{{user.pgEngl1}}</p><p *ngIf = "!user.pgEngl1">NA</p></td>
-                                    <td><p *ngIf = "user.pgEngl2">{{user.pgEngl2}}</p><p *ngIf = "!user.pgEngl2">NA</p></td>
-                                    <td><p *ngIf = "user.pgEngl3">{{user.pgEngl3}}</p><p *ngIf = "!user.pgEngl3">NA</p></td>
-                                    <td><p *ngIf = "user.pgEngl4">{{user.pgEngl4}}</p><p *ngIf = "!user.pgEngl4">NA</p></td>
-                                    <td><p *ngIf = "user.pgEngl5">{{user.pgEngl5}}</p><p *ngIf = "!user.pgEngl5">NA</p></td>
-                                    <td><p *ngIf = "user.pgOdia1">{{user.pgOdia1}}</p><p *ngIf = "!user.pgOdia1">NA</p></td>
-                                    <td><p *ngIf = "user.pgOdia2">{{user.pgOdia2}}</p><p *ngIf = "!user.pgOdia2">NA</p></td>
-                                    <td><p *ngIf = "user.pgOdia3">{{user.pgOdia3}}</p><p *ngIf = "!user.pgOdia3">NA</p></td>
-                                    <td><p *ngIf = "user.pgOdia4">{{user.pgOdia4}}</p><p *ngIf = "!user.pgOdia4">NA</p></td>
-                                    <td><p *ngIf = "user.pgOdia5">{{user.pgOdia5}}</p><p *ngIf = "!user.pgOdia5">NA</p></td>
-                                    <td><p *ngIf = "user.pgMath1">{{user.pgMath1}}</p><p *ngIf = "!user.pgMath1">NA</p></td>
-                                    <td><p *ngIf = "user.pgMath2">{{user.pgMath2}}</p><p *ngIf = "!user.pgMath2">NA</p></td>
-                                    <td><p *ngIf = "user.pgMath3">{{user.pgMath3}}</p><p *ngIf = "!user.pgMath3">NA</p></td>
-                                    <td><p *ngIf = "user.pgMath4">{{user.pgMath4}}</p><p *ngIf = "!user.pgMath4">NA</p></td>
-                                    <td><p *ngIf = "user.pgMath5">{{user.pgMath5}}</p><p *ngIf = "!user.pgMath5">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgEngl1">{{user.pgEngl1}}</p><p *ngIf = "!user.pgEngl1">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgEngl2">{{user.pgEngl2}}</p><p *ngIf = "!user.pgEngl2">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgEngl3">{{user.pgEngl3}}</p><p *ngIf = "!user.pgEngl3">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgEngl4">{{user.pgEngl4}}</p><p *ngIf = "!user.pgEngl4">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgEngl5">{{user.pgEngl5}}</p><p *ngIf = "!user.pgEngl5">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgOdia1">{{user.pgOdia1}}</p><p *ngIf = "!user.pgOdia1">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgOdia2">{{user.pgOdia2}}</p><p *ngIf = "!user.pgOdia2">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgOdia3">{{user.pgOdia3}}</p><p *ngIf = "!user.pgOdia3">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgOdia4">{{user.pgOdia4}}</p><p *ngIf = "!user.pgOdia4">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgOdia5">{{user.pgOdia5}}</p><p *ngIf = "!user.pgOdia5">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgMath1">{{user.pgMath1}}</p><p *ngIf = "!user.pgMath1">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgMath2">{{user.pgMath2}}</p><p *ngIf = "!user.pgMath2">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgMath3">{{user.pgMath3}}</p><p *ngIf = "!user.pgMath3">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgMath4">{{user.pgMath4}}</p><p *ngIf = "!user.pgMath4">NA</p></td>
+                                    <td   *ngIf="p_type === 'pge' || p_type === 'all'"><p *ngIf = "user.pgMath5">{{user.pgMath5}}</p><p *ngIf = "!user.pgMath5">NA</p></td>
                                     <td><p *ngIf = "user.avg_att">{{user.avg_att}}%</p><p *ngIf = "!user.avg_att">NA</p></td>
 
-                                    <td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'">
                                         <div class="tint" aria-hidden="true" (click)="englishStudentsDetails(edit,user)" >English Goals </div>
                                     </td>
-                                    <td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'">
                                         <div class="tint" aria-hidden="true" (click)="odiaStudentsDetails(edito,user)">Odia Goals </div>
-                                    <td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'">
                                         <div class="tint" aria-hidden="true" (click)="mathStudentsDetails(editm,user)">Maths Goal </div>
                                     </td>
-                                    <td>
+                                    <td *ngIf="p_type === 'ece' || p_type === 'all'">
                                         <div class="tint" aria-hidden="true" (click)="quarterStudentsDetails(editq,user)">Students acheiving atleast 70% </div>
 
                                     </td>
                                     <!-- <td> {{user.percentage_of_student_monthly_gaol_eceProgram}}</td>
                                     <td> {{user.percentage_of_student_monthly_gaol_eceProgram2}}</td> -->
-                                    <td> {{user.engtotal1}}%</td>
-                                    <td> {{user.odiatotal1}}%</td>
-                                    <td> {{user.mathtotal1}}%</td>
-                                    <td> {{user.engtotal2}}%</td>
-                                    <td> {{user.odiatotal2}}%</td>
-                                    <td> {{user.mathtotal2}}%</td>
-                                    <td>{{user.ecestudenteducate}}</td>
-                                    <td>{{user.pgestudenteducate}}</td>
-                                    <td>{{user.droppedece}}</td>
-                                    <td>{{user.droppedpge}}</td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'"> {{user.engtotal1}}%</td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'"> {{user.odiatotal1}}%</td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'"> {{user.mathtotal1}}%</td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'"> {{user.engtotal2}}%</td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'"> {{user.odiatotal2}}%</td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'"> {{user.mathtotal2}}%</td>
+                                    <td  *ngIf="p_type === 'ece' || p_type === 'all'">{{user.ecestudenteducate}}</td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'">{{user.pgestudenteducate}}</td>
+                                    <td  *ngIf="p_type === 'ece' || p_type === 'all'">{{user.droppedece}}</td>
+                                    <td  *ngIf="p_type === 'pge' || p_type === 'all'">{{user.droppedpge}}</td>
                                     <td>
                                         <div class="tint" aria-hidden="true" (click)="classFunction(editclass,user)">class/Grade</div>
  
                                     </td>
-
-                      
                                 </tr>
                             </tbody>
 
-                           
-
                             <tfoot>
                                 <tr>
-                                    
-
                                     <td colspan="20">
                                         <ngb-pagination (pageChange)="getPageNo($event)" [pageSize]="10" [collectionSize]="count" 
                                         [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
@@ -293,8 +282,6 @@
         <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
             <div class="accordion" id="accordionExample" >
                 <div class="card">
-                 
-              
                   <div id="collapseOne"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
                     <div class="card-body">
 
@@ -694,15 +681,15 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-4 sideheading">ECE Level 1 &nbsp;: </div>
-                                <div class="col-8">{{user.eceLevel1}}</div>
+                                <div class="col-8">{{user.ecelevel1}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-4 sideheading">ECE Level 2 &nbsp;: </div>
-                                <div class="col-8">{{user.eceLevel2}}</div>
+                                <div class="col-8">{{user.ecelevel2}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-4 sideheading">ECE Level 3 &nbsp;: </div>
-                                <div class="col-8">{{user.eceLevel3}}</div>
+                                <div class="col-8">{{user.ecelevel3}}</div>
                             </div>
                         </div>
                     </div>
@@ -806,57 +793,85 @@
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved
                                     in PG - English</div>
-                                <div class="col-4">{{user.percentage_of_student_monthly_gaol_eng}}</div>
+                                    <div class="col-4">
+                                    <div class="tint" aria-hidden="true" (click)="englishStudentsDetails(edit,user)" >View</div>
+                                <!-- {{user.percentage_of_student_monthly_gaol_eng}} -->
+                            </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved
                                     in PG - Odia</div>
-                                <div class="col-4">{{user.percentage_of_student_monthly_gaol_odia}}</div>
+                                    <div class="col-4">
+                                    <div class="tint" aria-hidden="true" (click)="odiaStudentsDetails(edito,user)" >View</div>    
+                                <!-- {{user.percentage_of_student_monthly_gaol_odia}}-->
+                            </div> 
                             </div>
 
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students achieving monthly goals achieved
                                     in PG - Maths</div>
-                                <div class="col-4">{{user.percentage_of_student_monthly_gaol_math}}</div>
-                            </div>
+                                    <div class="col-4">
+                                    <div class="tint" aria-hidden="true" (click)="mathStudentsDetails(editm,user)" >View</div>                             <!-- <div class="col-4">{{user.percentage_of_student_monthly_gaol_math}}</div> -->
+                                    <!-- {{user.percentage_of_student_monthly_gaol_math}}-->
+                                </div> 
+                                </div>
 
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students achieving atleast 70% of
                                     age-appropriate skills in ECE Program</div>
                                 <div class="col-4">
-                                    {{user.Percentage_of_students_achieving_atleast_of_age_appropriate_skills_in_ece_Program}}
+                                    <div class="tint" aria-hidden="true" (click)="quarterStudentsDetails(editq,user)" >View</div>
+                                    <!-- {{user.Percentage_of_students_achieving_atleast_of_age_appropriate_skills_in_ece_Program}} -->
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - English
                                 </div>
-                                <div class="col-4">{{user.percentage_of_students_jump1_level_pg_eng}}</div>
+                                <div class="col-4">
+                                    {{user.engtotal1}}%
+                                    <!-- {{user.percentage_of_students_jump1_level_pg_eng}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - Odia
                                 </div>
-                                <div class="col-4">{{user.percentage_of_students_jump1_level_pg_odia}}</div>
+                                <div class="col-4">
+                                    {{user.odiatotal1}}%
+                                    <!-- {{user.percentage_of_students_jump1_level_pg_odia}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students who jumped 1 Level in PG - Maths
                                 </div>
-                                <div class="col-4">{{user.percentage_of_students_jump1_level_pg_math}}</div>
+                                <div class="col-4">
+                                   {{user.mathtotal1}}%
+                                    <!-- {{user.percentage_of_students_jump1_level_pg_math}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG
                                     - Maths</div>
-                                <div class="col-4">{{user.percentage_of_students_jump2_level_pg_math}}</div>
+                                <div class="col-4">
+                                    {{user.engtotal2}}%
+                                    <!-- {{user.percentage_of_students_jump2_level_pg_math}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG
                                     - Odia</div>
-                                <div class="col-4">{{user.percentage_of_students_jump2_level_pg_odia}}</div>
+                                <div class="col-4">
+                                    {{user.odiatotal2}}%
+                                    <!-- {{user.percentage_of_students_jump2_level_pg_odia}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Percentage of students who jumped 2 or more Levels in PG
                                     - English</div>
-                                <div class="col-4">{{user.percentage_of_students_jump2_level_pg_eng}}</div>
+                                <div class="col-4">
+                                    {{user.engtotal2}}%
+                                    <!-- {{user.percentage_of_students_jump2_level_pg_eng}} -->
+                                </div>
                             </div>
 
 
@@ -880,25 +895,39 @@
 
                             <div class="row">
                                 <div class="col-8 sideheading">No of Students who have graduated from ECE program</div>
-                                <div class="col-4">{{user.student_graduated_ece_program}}</div>
+                                <div class="col-4">
+                                    {{user.ecestudenteducate}}
+                                    <!-- {{user.student_graduated_ece_program}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">No of Students who have graduated from PG program</div>
-                                <div class="col-4">{{user.student_graduated_pg_program}}</div>
+                                <div class="col-4">
+                                    {{user.pgestudenteducate}}
+                                    <!-- {{user.student_graduated_pg_program}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">No of Students who have dropped out of the ECE program
                                 </div>
-                                <div class="col-4">{{user.student_dropped_ece_program}}</div>
+                                <div class="col-4">
+                                    {{user.droppedece}}
+                                    <!-- {{user.student_dropped_ece_program}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">No of Students who have dropped out of the PG program
                                 </div>
-                                <div class="col-4">{{user.student_dropped_pg_program}}</div>
+                                <div class="col-4">
+                                    {{user.droppedpge}}
+                                    <!-- {{user.student_dropped_pg_program}} -->
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Class/Grade of the Student</div>
-                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <div class="tint" aria-hidden="true" (click)="classFunction(editclass,user)">View</div>
+                                </div>
                             </div>
 
 

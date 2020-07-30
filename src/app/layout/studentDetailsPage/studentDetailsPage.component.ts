@@ -37,7 +37,8 @@ export class StudentDetailsPageComponent implements OnInit {
 	userType:any = 'all'
 	distric: any =  'all'
 	block: any =  'all'
-	program_type: any 
+	program_type: any ;
+	p_type:any="all";
 
 count : any;
 
@@ -274,14 +275,15 @@ console.log(error)
 
 
 	getallDetailsStudents(){
+		debugger
 		this.api_hit = false
 		const selectControl:any = document.getElementById("program_type");
+    const program_type = this.p_type
+		// const program_type = selectControl ? selectControl.value : "all";
 
-		const program_type = selectControl ? selectControl.value : "all";
-
-		setTimeout(() => {
-			this.program_type = program_type
-		},300);
+		// setTimeout(() => {
+		// 	this.program_type = program_type
+		// },300);
 
 		const data = {
 			centertype:this.center_type,
@@ -300,7 +302,6 @@ console.log(error)
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(res => {
 
 			// console.log('### data: '+JSON.stringify(data));
-			debugger
 			this.program_type = program_type
 			
 			console.log(res)
