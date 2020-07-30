@@ -24,6 +24,7 @@
 									<div class="image_container1">
 										<img [src]="imageToDisplay" alt="" class="image_container2">
 										<button (click)="open(profileimagemodal)" class="btn btn-primary">Edit</button>
+										
 										<ng-template #profileimagemodal let-c="close" let-d="dismiss">
 											<div class="modalpadding">
 												<span class="modaltitlestyle">Change Profile Image</span>

@@ -70,7 +70,7 @@
 										</div>
 
 										<!-- Main Contents -->
-										<div class="row" [hidden]="hide_content1">
+										<div class="row" [hidden]="hide_content1" style="width: 100%;">
 											<div class="col-lg-3 col-md-3 col-sm-3 align_center" *ngFor="let dt of filelist">
 												<div class="" (click)="fileresource_on_click(dt)" style="cursor: pointer;">
 													<div class="">
@@ -122,7 +122,7 @@
 											<div class="row">
 												<button (click)="back_button_click()" class="btn btn-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back</button>
 											</div>
-											<div class="row">
+											<div class="row" style="width: 100%;">
 												<div *ngFor="let dt of filelist_inside_directory" class="col-lg-3 col-md-3 col-sm-3 align_center">
 													<div class="" (click)="fileresource_on_click(dt)" style="cursor: pointer;">
 														<div class="">
@@ -241,7 +241,7 @@
 										</div>
 
 										<!-- Main Contents -->
-										<div class="row" [hidden]="hide_content1">
+										<div class="row" [hidden]="hide_content1" style="width: 100%;">
 											<div class="col-lg-3 col-md-3 col-sm-3 align_center" *ngFor="let dt of filelist">
 												<div class="" (click)="fileresource_on_click(dt)" style="cursor: pointer;">
 													<div class="">
@@ -293,7 +293,7 @@
 											<div class="row">
 												<button (click)="back_button_click()" class="btn btn-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back</button>
 											</div>
-											<div class="row">
+											<div class="row" style="width: 100%;">
 												<div *ngFor="let dt of filelist_inside_directory" class="col-lg-3 col-md-3 col-sm-3 align_center">
 													<div class="" (click)="fileresource_on_click(dt)" style="cursor: pointer;">
 														<div class="">
@@ -348,24 +348,6 @@
 						</ngb-tab>
 						<!-- ===== Teacher App Tab End ======  -->
 					</ngb-tabset>
-
-					<!-- modal starts from here -->
-					<ng-template #createdirectorymodal let-c="close" let-d="dismiss">
-						<div class="modal-body">
-							<div class="row">
-								<div class="col col-xl-4 col-lg-4">Directory Name</div>
-								<div class="col col-xl-8 col-lg-8 row-fluid">
-									<input value="{{directoryname}}" [(ngModel)]="directoryname" type="text" placeholder="Directory Name" class="table50">
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="create_s3directory_button_click('managerapp')">&nbsp;&nbsp;&nbsp;Create&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					<!-- ===================================== -->
-
 
 
 

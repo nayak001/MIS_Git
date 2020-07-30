@@ -59,7 +59,7 @@
                             <tr *ngFor="let user of mf.data">
                                 <td>
                                     <span class="">
-							  	<img src="{{ (user.image == undefined || user.image == null || user.image == '') ? './../../../../assets/images/default-user-profile-image.jpg' : user.image }}" class="profileimage" />
+							  	<img src="{{ (user.image == undefined || user.image == null || user.image == '') ? './../../../../assets/images/default-user-profile-image.jpg' : user.image }}" onerror="this.onerror=null; this.src='./../../../../assets/images/default-user-profile-image.jpg'" class="profileimage" />
 							  </span>
                                 </td>
                                 <td><span class="bold-font">{{user.username | uppercase}}</span></td>
