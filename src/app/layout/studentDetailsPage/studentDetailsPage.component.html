@@ -216,14 +216,14 @@
                                     <td  *ngIf="canDisplay('pge')"><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.jumpeng}}</span></td>
                                     <td *ngIf="canDisplay('ece')"><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.quarter4ece}}</span></td>
                                     <td *ngIf="canDisplay('ece')"><span *ngIf="user && user.student && user.student.program == 'ece'">{{user.ispass}}</span></td>
-                                    <td><span *ngIf="user && user.student && user.student.program == 'pge'">{{user.isparticipated}}</span></td>
+                                    <td><span *ngIf="user && user.student && user.student.program">{{user.isparticipated}}</span></td>
                                     <td *ngIf="canDisplay('pge')">{{user.student.class}}</td>
+                                                                        
+
+
+
+
                                     
-                                
-                                    
-
-
-
                                 </tr>
 
                             </tbody>
