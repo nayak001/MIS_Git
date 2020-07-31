@@ -220,9 +220,6 @@
                                     <td *ngIf="canDisplay('pge')">{{user.student.class}}</td>
                                                                         
 
-
-
-
                                     
                                 </tr>
 
@@ -603,21 +600,29 @@
                     </div>
                     <div id="collapsefour" *ngIf="check3" class="collapse show"  aria-labelledby="headingfour" data-parent="#accordionExample">
                       <div class="card-body">
-                        <div class="row">
+                        <div class="row" *ngIf="userDetails && userDetails.student && userDetails.student.program == 'pge'">
                             <div class="col-8 sideheading">Maths Assessment Score</div>
-                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <div class="tint"aria-hidden="true" *ngIf="userDetails" (click)="openmathAssessDetails(edit,userDetails)" >View</div>
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="userDetails && userDetails.student && userDetails.student.program == 'pge'">
                             <div class="col-8 sideheading">English Assessment Score</div>
-                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <div class="tint"  *ngIf="userDetails" aria-hidden="true" (click)="openenglishAssessDetails(editm,userDetails)">View</div>
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="userDetails && userDetails.student && userDetails.student.program == 'pge'">
                             <div class="col-8 sideheading">Odia Assessment Score</div>
-                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <div class="tint"  *ngIf="userDetails " aria-hidden="true" (click)="openodiaAssessDetails(edito,userDetails)">View</div>
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="userDetails && userDetails.student && userDetails.student.program == 'ece'">
                             <div class="col-8 sideheading">Quarterly ECE Assessment Score</div>
-                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <div class="tint" *ngIf="userDetails" aria-hidden="true" (click)="openQuaterlyAssessDetails(editq,userDetails)">View</div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-8 sideheading">Average Attendance</div>
@@ -625,28 +630,28 @@
                         </div>
                         <div class="row">
                             <div class="col-8 sideheading">No of Endline Assessment Completed in PG</div>
-                            <div class="col-4"><span *ngIf="user && user.student && user.student.program == 'pge'">
+                            <div class="col-4"><span *ngIf="userDetails">
                                    
-                                <div class="chip" >Eng &nbsp;: &nbsp;{{user.engbaseline}}
+                                <div class="chip" >Eng &nbsp;: &nbsp;{{userDetails.engbaseline}}
                                 </div>
-                                <div class="chipp">odia &nbsp;: &nbsp;{{user.odiabaseline}}
+                                <div class="chipp">odia &nbsp;: &nbsp;{{userDetails.odiabaseline}}
                                 </div>
-                                <div class="chiip">math &nbsp;: &nbsp;{{user.mathbaseline}}
+                                <div class="chiip">math &nbsp;: &nbsp;{{userDetails.mathbaseline}}
                                 </div>
                         
                            </span></div>
                         </div>
                         <div class="row">
                             <div class="col-8 sideheading">No of Level Jumped in maths</div>
-                            <div class="col-4">{{userDetails.level_jump.math}}</div>
+                            <div class="col-4">{{userDetails.jumpmath}}</div>
                         </div>
                         <div class="row">
                             <div class="col-8 sideheading">No of Level Jumped in odia</div>
-                            <div class="col-4">{{userDetails.level_jump.odia}}</div>
+                            <div class="col-4">{{userDetails.jumpodia}}</div>
                         </div>
                         <div class="row">
                             <div class="col-8 sideheading">No of Level Jumped in English</div>
-                            <div class="col-4">{{userDetails.level_jump.english}}</div>
+                            <div class="col-4">{{userDetails.jumpeng}}</div>
                         </div>
                         <div class="row">
                             <div class="col-8 sideheading"> Number of Quarter 4 Assessment Completed in ECE</div>
