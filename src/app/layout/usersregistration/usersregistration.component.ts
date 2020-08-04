@@ -75,7 +75,7 @@ export class UsersregistrationComponent implements OnInit {
 	qp_action: string = '';
 	qp_userid:  string = '';
 	btn_text: string = '';
-	profileimage: string = 'https://shared001.s3.us-east-2.amazonaws.com/default-user-profile-image.jpg';
+	profileimage: string = './../../../../assets/images/default-user-profile-image.jpg';
 	
 	image_filename_original: string = '';
 	image_filename_cropped: string = '';

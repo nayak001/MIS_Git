@@ -68,7 +68,7 @@ const routes: Routes = [
       { path: 'learningOutcomes', loadChildren: './learningOutcomes/learningOutcomes.module#LearningOutcomesModule' },
       { path: 'individualTeachersEducatorPage', loadChildren: './individualTeachersEducatorPage/individualTeachersEducatorPage.module#IndividualTeachersEducatorPageModule' },
       { path: 'manager_todo', loadChildren: './manager_todo/manager_todo.module#Manager_todoModule' },
-
+      { path: 'passcodemanager', loadChildren: './passcodemanager/passcodemanager.module#PasscodemanagerModule' },
 
     ]
   }

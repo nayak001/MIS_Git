@@ -467,7 +467,7 @@ return m_display;
 
 		var endline = getendline(mathbaseline,engbaseline,odiabaseline)
 
-		debugger
+		
 
  	  
 
