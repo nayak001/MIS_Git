@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-   //baseUrl: 'http://192.168.2.100:1234/thinkzone/',
+  //  baseUrl: 'http://52.226.73.97:1234/thinkzone/',
    baseUrl: 'http://3.135.181.145:1234/thinkzone/',
   ImageURL: 'http://3.135.181.145:1234/thinkzone/getimage/',
   uploadURL: 'http://3.135.181.145:1234/thinkzone/trainingcontentsuploads',
