@@ -70,7 +70,7 @@ export class PasscodemanagerComponent implements OnInit {
   }
 
   validate(){
-    let nameregex = new RegExp("^[a-zA-Z]+$")
+    let nameregex = new RegExp("[a-zA-Z_]")
     let passcoderegx = new RegExp("^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$")
     if(this.org_name == null || this.org_name == undefined || this.org_name == '') {
       this.valid_submit = false;
@@ -80,9 +80,9 @@ export class PasscodemanagerComponent implements OnInit {
     }else if(this.passcode == null || this.passcode == undefined || this.passcode == '') {
       this.valid_submit = false;
       alert('Passcode is not valid !!!');
-    }else if(this.passcode.length<5){
+    }else if(this.passcode.length<5 || this.passcode.length>5){
       this.valid_submit = false;
-      alert('Passcode must have five charchters !!!');
+      alert('Passcode must have only five charchters !!!');
     }else if(!passcoderegx.test(this.passcode)){
       this.valid_submit = false;
       alert('Passcode should content letters and numeric !!!');
@@ -106,13 +106,13 @@ export class PasscodemanagerComponent implements OnInit {
 
   save_data(){
 		this.hideLoading_indicator = false;
-		this.passcodemanagerService.getpasscode(this.passcode).subscribe(data1 => {
+		this.passcodemanagerService.getpasscode(this.passcode.toUpperCase()).subscribe(data1 => {
 				if(data1['check']){
           alert('Passcode already exists !!!');
         }else{
           let body = {
             orgname: this.org_name,
-            passcode: this.passcode
+            passcode: this.passcode.toUpperCase()
           }
           this.passcodemanagerService.createnewpasscode(body).subscribe(data2 => {
                 this.modalReference.close();
@@ -134,11 +134,11 @@ export class PasscodemanagerComponent implements OnInit {
 
   update_data(){
     this.hideLoading_indicator = false;
-    this.passcodemanagerService.getpasscode(this.passcode).subscribe(data1 => {
+    this.passcodemanagerService.getpasscode(this.passcode.toUpperCase()).subscribe(data1 => {
       if(Object.keys(data1).length > 0){
         let body = {
           orgname: this.org_name,
-          passcode: this.passcode
+          passcode: this.passcode.toUpperCase()
         }
         this.passcodemanagerService.updatepasscode(this.passcode_id, body).subscribe(data2 => {
             this.modalReference.close();

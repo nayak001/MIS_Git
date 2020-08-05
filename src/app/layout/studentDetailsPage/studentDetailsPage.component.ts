@@ -17,7 +17,7 @@ import { shallowEqual } from '@angular/router/src/utils/collection';
 @Component({
 	selector: 'app-studentDetailsPage',
 	templateUrl: './studentDetailsPage.component.html',
-	styleUrls: ['./studentDetailsPage.component.scss'],
+	styleUrls: ['./studentDetailspage.component.scss'],
 	animations: [routerTransition()]
 })
 export class StudentDetailsPageComponent implements OnInit {

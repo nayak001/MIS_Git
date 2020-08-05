@@ -17,45 +17,6 @@
 						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
 					</div>
 					<div style="height: 450px;overflow-y: scroll;">
-						<!-- <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
-							<thead>
-							<tr>
-							  <th style="width: 30%"><mfDefaultSorter by="Name of Organisation">Name of Organisation</mfDefaultSorter></th>
-							  <th style="width: 10%"><mfDefaultSorter by="Passcode">Passcode</mfDefaultSorter></th>
-							  <th style="width: 20%">Action</th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr *ngFor="let row of mf.data; let i = index;">
-							  <td><span class="bold-font">{{ row.orgname }}</span></td>
-							  <td><span class="bold-font"> {{ row.passcode }}</span></td>
-							  <td><span class="bold-font">
-								  <div class="row">
-									<div class="row">
-										<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(addeditmodal,row,'edit')">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button>
-									</div>
-									<div class="row">
-										<button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal,row,'delete')">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
-									</div>
-								  </div>
-							  </span></td>
-							</tr>
-							</tbody>
-							<tfoot>
-							<tr>
-								<td colspan="4">
-								
-									<mfBootstrapPaginator></mfBootstrapPaginator>
-								</td>
-							</tr>
-							</tfoot>
-						  </table> -->
-						  <!-- <div class="row">
-							<div class="col col-lg-2 col-md-2 col-sm-2"><span class="bold-font">Search Passcode</span></div>
-							<div class="col col-lg-8 col-md-8 col-sm-8">
-								<input type="text" (keyup)='search($event.target.value)'>
-							</div>
-						</div> -->
 						<table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="5">
 							<tr style="background: #f1f1f1;;">
 								<td></td>
@@ -111,18 +72,10 @@
 										<input value="{{ org_name }}" [(ngModel)]="org_name" type="text" placeholder="Name of Organisation" class="modal_textbox">
 									</div>
 								</div>
-								<!-- <div class="row">
-									<div class="col col-xl-4 col-lg-4">Date of registration</div>
-									<div class="col col-xl-8 col-lg-8 row-fluid">
-										<ejs-datepicker format="dd-MM-yyyy" strictMode='true' id='datepicker' placeholder='Select a date'
-										[value]='dateValue' [min]='minDate' [max]='maxDate' (change)="datepicker_onchange($event)"
-										[(ngModel)]="selected_date"></ejs-datepicker>
-									</div>
-								</div> -->
 								<div class="row">
 									<div class="col col-xl-4 col-lg-4">code</div>
 									<div class="col col-xl-8 col-lg-8 row-fluid">
-										<input value="{{ passcode }}" [(ngModel)]="passcode" type="text" placeholder="Passcode" class="modal_textbox" ng-pattern-restrict="^[a-zA-Z0-9]+">
+										<input value="{{ passcode }}" [(ngModel)]="passcode" type="text" placeholder="Passcode" class="modal_textbox" ng-pattern-restrict="^[a-zA-Z0-9]+" style='text-transform:uppercase'>
 									</div>
 								</div>
 							</div>
