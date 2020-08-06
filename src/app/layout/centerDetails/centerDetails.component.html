@@ -74,7 +74,7 @@
 
                     <div class="col-2" *ngIf="isClass">
                         <label>Class</label>
-                        <select class="form-control select2" [(ngModel)]="class_type" style=" height: 30px;">
+                        <select class="form-control select2" [(ngModel)]="class_type" name="class_type" style=" height: 30px;">
 
                             <option value="class1">Class 1</option>
                             <option value="class2">Class 2</option>
@@ -286,25 +286,25 @@
                     <div class="card-body">
 
                         <table class="tb" >
-                        <tr>
+                        <tr *ngIf="type_class == 'class1' || type_class == ''">
                             <th scope="row" class="tat">Class 1 :</th>
                             <td>{{Details.classcount1}}</td>
                             
                         </tr>
-                        <tr>
+                        <tr *ngIf="type_class == 'class2' || type_class == ''">
                             <th scope="row" class="tat">Class 2:</th>
                             <td>{{Details.classcount2}}</td>
                            
                         </tr>
-                        <tr>
+                        <tr *ngIf="type_class == 'class3' || type_class == ''">
                             <th scope="row" class="tat">Class 3 :</th>
                             <td>{{Details.classcount3}}</td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="type_class == 'class4' || type_class == ''">
                             <th scope="row" class="tat">Class 4 :</th>
                             <td>{{Details.classcount4}}</td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="type_class == 'class5' || type_class == ''">
                             <th scope="row" class="tat">Class 5 :</th>
                             <td>{{Details.classcount5}}</td>
                         </tr>
