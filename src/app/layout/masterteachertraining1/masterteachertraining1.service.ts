@@ -38,13 +38,13 @@ export class Masterteachertraining1Service {
 			,responseType: 'text' 
 		});
 	}
-	// deletetrainingtopicbyid(id){
-	// 	return this.http.delete(baseUrl+'deletetrainingtopicbyid/'+id,
-	// 	{
-	// 		headers: new HttpHeaders().set('Content-Type', 'application/json')
-	// 		,responseType: 'text' 
-	// 	});
-	// }
+	deletetrainingtopicbyid(id){
+		return this.http.delete(baseUrl+'deletetrainingtopicbyid/'+id,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			,responseType: 'text' 
+		});
+	}
 	// modules part
 	getalltrainingmodules(){				
 		return this.http.get(baseUrl+'getalltrainingmodules/',

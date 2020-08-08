@@ -18,9 +18,9 @@
 					<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
 						<thead>
 							<tr>
-								<th style="width: 15%">Module</th>
-								<th style="width: 15%">Sub-module</th>
-								<th style="width: 15%"></th>
+								<th style="width: 30%">Module</th>
+								<th style="width: 30%">Sub-module</th>
+								<th style="width: 30%">Topic</th>
 							</tr>
 							<tr>
 								<td>
@@ -33,6 +33,12 @@
 									<select value="" (change)="onselect_submodules_select($event)" class="form-control">
 										<option value="">Select sub-module</option>
 										<option *ngFor="let submodule of allsubmodules_list;" value="{{ submodule.submoduleid }}">{{ submodule.submodulename }}</option>									
+									</select>
+								</td>
+								<td>
+									<select value="" (change)="onselect_topic_select($event)" class="form-control">
+										<option value="">Select Topic</option>
+										<option *ngFor="let topic of alltopic_list;" value="{{ topic.topicid }}">{{ topic.topicname }}</option>									
 									</select>
 								</td>
 								<td>

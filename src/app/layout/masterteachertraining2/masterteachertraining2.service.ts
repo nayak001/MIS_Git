@@ -11,6 +11,13 @@ const baseUrl = environment.baseUrl;
 export class Masterteachertraining2Service {
 	constructor(private http: HttpClient) { }
 
+	getalltrainingtopics(submoduleid){
+		return this.http.get(baseUrl+'getalltrainingtopics/'+submoduleid,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			
+		});
+	}
+
 	getalltrainingmodules(){				
 		return this.http.get(baseUrl+'getalltrainingmodules/',
 		{
@@ -27,8 +34,8 @@ export class Masterteachertraining2Service {
 		});			
 	}
 
-	getalltrainingcontents(moduleid, submoduleid){				
-		return this.http.get(baseUrl+'getalltrainingcontents/'+moduleid+'/'+submoduleid,
+	getalltrainingcontents(moduleid, submoduleid,topicid){				
+		return this.http.get(baseUrl+'getalltrainingcontents/'+moduleid+'/'+submoduleid+'/'+topicid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

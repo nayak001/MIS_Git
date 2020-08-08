@@ -166,6 +166,7 @@ export class Masterteachertraining1Component implements OnInit {
 		let selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_submodule_moduleid = selectedOptionValue;
 		this.selected_submodule_modulename = selectElementText;
+		this.alltopic_list = [];
 		this.load_allsubmodules_list(this.selected_submodule_moduleid);
 	}
 	onselect_sub_modules_select(event: Event){
@@ -174,8 +175,8 @@ export class Masterteachertraining1Component implements OnInit {
 		let selectedoptionValue = selectedOption[selectedindex].value;
 		let selectElement = selectedOption[selectedindex].text;
 		this.selected_submodule_id = selectedoptionValue;
-		
 		this.load_alltopic_list(this.selected_submodule_id);
+		
 	}
 	load_alltopic_list(submoduleid){
 		if(submoduleid != undefined && submoduleid != null && submoduleid != ''){
@@ -196,7 +197,6 @@ export class Masterteachertraining1Component implements OnInit {
 			this.hideLoading_indicator2 = false;
 			this.masterteachertraining1Service.getalltrainingsubmodules(moduleid).subscribe(data => {
 					this.allsubmodules_list = data;
-					console.log("this.allsubmodules_list",this.allsubmodules_list)
 					this.hideLoading_indicator2 = true;
 				},
 				error => {},
@@ -296,7 +296,6 @@ export class Masterteachertraining1Component implements OnInit {
 			alert('Select submodule');
 		}else{
 			this.hideLoading_indicator2 = false;
-			console.log("this.subtopicname_tosave",this.subtopicname_tosave)
 			this.masterteachertraining1Service.findtrainingtopicbyname(this.selected_submodule_id, this.subtopicname_tosave).subscribe(data => {
 					this.hideLoading_indicator2 = true;
 					if(data['check'] == false){
@@ -310,8 +309,7 @@ export class Masterteachertraining1Component implements OnInit {
 						}
 						this.masterteachertraining1Service.createnewtrainingtopic(subtopicbody).subscribe(data => {
 								this.hideLoading_indicator3 = true;
-								// console.log("data",data)
-								// this.load_alltopic_list(this.selected_submodule_moduleid);
+								this.load_alltopic_list(this.selected_submodule_moduleid);
 								this.subtopicname_tosave ='';
 							},
 							error => {},
@@ -359,15 +357,15 @@ export class Masterteachertraining1Component implements OnInit {
 	}
 
 	deletetopic_btnclick(){
-		// this.masterteachertraining1Service.deletetrainingtopicbyid(this.submodule_topic_id).subscribe(data => {
-		// 		// this.modalReference.close();
-		// 		// this.hideLoading_indicator2 = true;
-		// 		// this.load_allsubmodules_list(this.selected_submodule_moduleid);
-		// 		// this.submodulename_todelete ='';
-		// 	},
-		// 	error => {},
-		// 	() => {}
-		// );
+		this.masterteachertraining1Service.deletetrainingtopicbyid(this.submodule_topic_id).subscribe(data => {
+				this.modalReference.close();
+				this.hideLoading_indicator3 = true;
+				this.load_alltopic_list(this.selected_submodule_moduleid);
+				this.topicname_todelete ='';
+			},
+			error => {},
+			() => {}
+		);
 	}
 	back_btn_click(){
 		this.router.navigate(['/masterteachertraining2']);
@@ -398,7 +396,7 @@ export class Masterteachertraining1Component implements OnInit {
 		}else if(flag == 'delete_topic'){
 			this.submodule_topic_id = module._id;
 			this.topic_id = module._id;
-			this.topicname_todelete = module.submodulename;
+			this.topicname_todelete = module.topicname;
 		}
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {

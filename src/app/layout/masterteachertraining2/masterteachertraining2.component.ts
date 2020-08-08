@@ -64,7 +64,9 @@ export class Masterteachertraining2Component implements OnInit {
 	selected_modulename: string = '';
 	selected_submoduleid: string = '';
 	selected_submodulename: string = '';
-
+	public alltopic_list: any;
+	selected_topicid:any;
+	selected_topicname:any;
 	public data : any;
 	modalReference: any;
 	closeResult: string;
@@ -116,6 +118,20 @@ export class Masterteachertraining2Component implements OnInit {
 		);
 	}
 
+	load_alltopic_list(submoduleid){
+		if(submoduleid != undefined && submoduleid != null && submoduleid != ''){
+			this.hideLoading_indicator = false;
+			this.masterteachertraining2Service.getalltrainingtopics(submoduleid).subscribe(data => {
+					this.alltopic_list = data;
+					this.hideLoading_indicator = true;
+				},
+				error => {},
+				() => {}
+			);
+		}else{
+			this.alltopic_list = [];
+		}
+	}
 	load_allsubmodules_list(moduleid){
 		if(moduleid != undefined && moduleid != null && moduleid != ''){
 			this.hideLoading_indicator = false;
@@ -151,11 +167,23 @@ export class Masterteachertraining2Component implements OnInit {
 
 		this.selected_submoduleid = selectedOptionValue;
 		this.selected_submodulename = selectElementText;
+		// this.load_record();
+		
+		this.reset_contents();
+		this.load_alltopic_list(this.selected_submoduleid);
+	}
+	onselect_topic_select(value){
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+
+		this.selected_topicid = selectedOptionValue;
+		this.selected_topicname = selectElementText;
 		this.load_record();
 		
 		this.reset_contents();
 	}
-
 	onselect_editq_select(value){
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
@@ -186,11 +214,11 @@ export class Masterteachertraining2Component implements OnInit {
 
 	async load_record(){
 		if(	 this.selected_moduleid != undefined && this.selected_moduleid != null && this.selected_moduleid != ''
-		  && this.selected_submoduleid != undefined && this.selected_submoduleid != null && this.selected_submoduleid != ''){
+		  && this.selected_submoduleid != undefined && this.selected_submoduleid != null && this.selected_submoduleid != '' && this.selected_topicid != undefined && this.selected_topicid != null && this.selected_topicid != '') {
 
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
-			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid).subscribe(data => {
+			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid).subscribe(data => {
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
@@ -298,6 +326,8 @@ export class Masterteachertraining2Component implements OnInit {
 					modulename : this.selected_modulename,
 					submoduleid : this.selected_submoduleid,
 					submodulename : this.selected_submodulename,
+					topicid : this.selected_topicid,
+					topicname : this.selected_topicname,
 					content: this.content_value,
 					flashcard: this.flashcard_value,
 					worksheet: this.worksheet_value,
