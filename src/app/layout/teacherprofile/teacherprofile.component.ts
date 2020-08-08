@@ -54,7 +54,6 @@ export class TeacherprofileComponent implements OnInit {
 	getallteacherprofiles() {
 		this.hideLoading_indicator = false;
 		this.teacherprofileService.getallteacherprofiles().subscribe(data => {
-				console.log('### allteacherprofile_data: '+JSON.stringify(data));
 				this.data = data;
 				this.allteacherprofile_data = data;
 				this.hideLoading_indicator = true;
@@ -81,13 +80,11 @@ export class TeacherprofileComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.modal_qualification = selectedOptionValue;
 	}
 
 	datepicker_onchange(event){
 		this.modal_startdate = new Date(event.value);
-		console.log('###selected_date: '+this.modal_startdate);
 	}
 
 	// save user
@@ -135,11 +132,10 @@ export class TeacherprofileComponent implements OnInit {
 
 	save(body) {
 		this.teacherprofileService.createnewteacherprofile(body).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				this.modalReference.close();
 				this.getallteacherprofiles();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => { },
 			() => {}
 		);
 		swal.fire(
@@ -150,9 +146,7 @@ export class TeacherprofileComponent implements OnInit {
 	}
 
 	update(body) {
-		console.log('### inside elseif');
 		this.teacherprofileService.updateteacherprofile(this.modal_id, body).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				this.modalReference.close();
 				this.getallteacherprofiles();
 			},
@@ -183,7 +177,6 @@ export class TeacherprofileComponent implements OnInit {
 			}
 			this.hideLoading_indicator = false;
 			this.teacherprofileService.updateteacherprofile(id, body).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				this.getallteacherprofiles();
 			},
 			error => {},

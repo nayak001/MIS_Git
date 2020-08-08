@@ -112,7 +112,6 @@ month : any;
 		this.api_hit = false
 		// var mon = document.getElementById("month1")
 
-		// console.log(mon)	
 
 		const data = {
 			center_type : this.center_type,
@@ -125,10 +124,8 @@ month : any;
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe((data: any)=> {
 			this.gotoTable(this.info_type);
 			debugger
-			console.log(data);
 			this.data = data.records;
 			this.dyCols = data.dyCols;
-			console.log(data);
 			this.all_managers_data = data.records;
 			this.isLoaded = true
 			if(this.all_managers_data.length == 0){
@@ -146,36 +143,9 @@ month : any;
 				() => {}
 			);
 		  }
-
-
-	// 	  getallmanagersfeedbacks(){
-	// 		this.ManagerDetailsService.getallmanagersfeedbacks().subscribe(data => {
-	// 			debugger
-	// 			this.data = data
-	// 			console.log(data)
-	// 		},
-	// 		error => {},
-	// 		() => {}
-	// 	);
-	//   }
-
-	//   getallissuesmgr(){
-	// 	this.ManagerDetailsService.getallissuesmgr().subscribe(data => {
-	// 		debugger
-	// 		this.data = data
-	// 		console.log(data)
-	// 	},
-	// 	error => {},
-	// 	() => {}
-	// );
-	//   }
-
-
-
 	highlight(index:String){
 
 		document.querySelectorAll('.record-row').forEach(function(ele) {
-			console.log(ele.getAttribute("id"));
 			if(ele.getAttribute("id") == "user_"+ index) {
 				ele.classList.add('highlight');
 			} else {
@@ -238,8 +208,6 @@ month : any;
 
    getBlockDetails() {		
 	this.ManagerDetailsService.getBlocks().subscribe(data => {
-		// console.log('### data: '+JSON.stringify(data));
-		//console.log(data)
 		
 		this.allDisticBlocks = data
 		for (var i = 0; i < this.allDisticBlocks.length; i++) {
@@ -262,8 +230,6 @@ month : any;
 
 		}
 
-		console.log(this.allDistics)
-		// this.all_blocks=data;
 	},
 		error => { },
 		() => { }
@@ -320,8 +286,6 @@ selectBlock(distic) {
 			}
 		}
 	}
-	console.log(this.all_blocks)
-
 
 }
 

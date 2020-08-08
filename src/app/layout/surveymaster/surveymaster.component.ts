@@ -57,7 +57,6 @@ export class SurveymasterComponent implements OnInit {
   async getallmastersurveys(){
     this.hideLoading_indicator = false;
 		await this.surveymasterService.getallmastermanagersurveys().subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
 				this.allMasterSurveys = data;
 				this.hideLoading_indicator = true;
 			},error => {},() => {});
@@ -68,7 +67,6 @@ export class SurveymasterComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.input_type = selectedOptionValue;
 
     if(this.input_type == 'select') this.isSelectType = true;
@@ -120,7 +118,6 @@ export class SurveymasterComponent implements OnInit {
 
   save(obj){
     this.surveymasterService.savemastermanagersurvey(obj).subscribe(data => {
-        console.log('@@@data: '+JSON.stringify(data));
       },error => {},() => {
         this.hideLoading_indicator = true;
         this.modalReference.close();
@@ -132,7 +129,6 @@ export class SurveymasterComponent implements OnInit {
 
   update(_id, obj){
     this.surveymasterService.updatemastermanagersurvey(_id, obj).subscribe(data => {
-        console.log('@@@data: '+JSON.stringify(data));
       },error => {},() => {
         this.hideLoading_indicator = true;
         this.modalReference.close();
@@ -145,7 +141,6 @@ export class SurveymasterComponent implements OnInit {
   delete(_id){
     this.hideLoading_indicator = false;
     this.surveymasterService.deletemastermanagersurvey(_id).subscribe(data => {
-        console.log('@@@data: '+JSON.stringify(data));
       },error => {},() => {
         this.hideLoading_indicator = true;
         this.reset();
@@ -172,7 +167,6 @@ export class SurveymasterComponent implements OnInit {
   }
 
 	open(content,action, obj) {
-    console.log('#### obj: '+JSON.stringify(obj));
     this.reset();
 		if(action == 'save'){
       this.action = 'save';

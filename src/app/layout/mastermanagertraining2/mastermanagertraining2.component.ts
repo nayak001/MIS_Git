@@ -100,10 +100,8 @@ export class Mastermanagertraining2Component implements OnInit {
 	) {
 		// query params
 		this.route.queryParams.subscribe(params => {
-			// console.log('@@@params: ' + JSON.stringify(params));
 			if (params && params.paramiters) {
 			  let qryParams = JSON.parse(params.paramiters);
-			  console.log('@@@qryParams1: ' + JSON.stringify(qryParams));
 			  if(Object.keys(qryParams).length > 0){
 				  this.selected_moduleid = qryParams.moduleid;
 				  this.selected_modulename = qryParams.modulename;
@@ -134,7 +132,6 @@ export class Mastermanagertraining2Component implements OnInit {
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
 			this.mastermanagertraining2Service.getallmanagertrainingcontents(this.selected_moduleid, this.selected_submoduleid).subscribe(data => {
-					console.log('### data: '+JSON.stringify(data));
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
@@ -174,8 +171,6 @@ export class Mastermanagertraining2Component implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
-
 		this.selected_qans_val_edit = selectedOptionValue;
 		this.selected_qans_text_edit = selectElementText;
 	}
@@ -185,8 +180,6 @@ export class Mastermanagertraining2Component implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
-
 		this.selected_qans_val_add = selectedOptionValue;
 		this.selected_qans_text_add = selectElementText;
 	}
@@ -232,7 +225,6 @@ export class Mastermanagertraining2Component implements OnInit {
 
 	// save
 	async save_btn_click(segment){
-		console.log('@@@ Segment: '+segment);
 		if(segment == 'text'){
 			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
 				swal.fire('Info', '[1]Please add some content.', 'warning');
@@ -248,7 +240,6 @@ export class Mastermanagertraining2Component implements OnInit {
 					video: this.video_value,
 					quiz: this.quiz_value
 				}
-				console.log('### segment= text, save_operation: '+this.save_operation);
 				if(this.save_operation == 'update'){
 					if(confirm('Do you want to update the existing record?'))
 						this.update_record(this.record_id, body);
@@ -261,7 +252,6 @@ export class Mastermanagertraining2Component implements OnInit {
 			const body = {
 				quiz: this.quiz_value
 			}
-			console.log('### segment= quiz, save_operation: '+this.save_operation);
 			if(this.save_operation == 'update'){
 				if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
 					swal.fire('Info', '[2]Please add some content.', 'warning');
@@ -280,14 +270,11 @@ export class Mastermanagertraining2Component implements OnInit {
 					this.progress.percentage = 0;
 		
 					this.currentFileUpload = this.selectedFiles.item(0);
-					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
 					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						console.log('$$$event: '+JSON.stringify(event));
 						if (event.type === HttpEventType.UploadProgress) {
 							this.progress.percentage = Math.round(100 * event.loaded / event.total);
 						} else if (event instanceof HttpResponse) {
 							this.s3path = event.body['s3path'];
-							console.log('File is completely uploaded!->'+this.s3path);
 							this.hideProgressbar = true;
 		
 							let obj = {
@@ -318,14 +305,11 @@ export class Mastermanagertraining2Component implements OnInit {
 					this.progress.percentage = 0;
 		
 					this.currentFileUpload = this.selectedFiles.item(0);
-					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
 					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						console.log('$$$event: '+JSON.stringify(event));
 						if (event.type === HttpEventType.UploadProgress) {
 							this.progress.percentage = Math.round(100 * event.loaded / event.total);
 						} else if (event instanceof HttpResponse) {
 							this.s3path = event.body['s3path'];
-							console.log('File is completely uploaded!->'+this.s3path);
 							this.hideProgressbar = true;
 		
 							let obj = {
@@ -353,7 +337,6 @@ export class Mastermanagertraining2Component implements OnInit {
 	// save record
 	async save_record(body){
 		this.mastermanagertraining2Service.createnewmanagertrainingcontents(body).subscribe(data => {
-				console.log('###1 save data: '+JSON.stringify(data));
 				swal.fire('Success', 'Record save status: '+data['status'], 'success');
 				location.reload();
 			},
@@ -364,9 +347,7 @@ export class Mastermanagertraining2Component implements OnInit {
 
 	// update record
 	async update_record(id, body){
-		console.log('###1 update body: '+JSON.stringify(body));
 		this.mastermanagertraining2Service.updatemanagertrainingcontentsbyid(id, body).subscribe(data => {
-				console.log('###1 update data: '+JSON.stringify(data));
 				swal.fire('Success', 'Record update status: '+data['status'], 'success');
 				this.load_record();
 			},
@@ -377,7 +358,6 @@ export class Mastermanagertraining2Component implements OnInit {
 
 	// delete from s3
 	delete_button_click(segmenttype, filedata, indx){
-		console.log('### filedata : '+JSON.stringify(filedata));
 		swal.fire({
 		  title: 'Are you sure?',
 		  text: "Do you want to delete this file?",
@@ -396,7 +376,6 @@ export class Mastermanagertraining2Component implements OnInit {
 	deletes3file(segmenttype, filedata, indx){
 		this.hideLoading_indicator = false;
 		this.managersboxService.deleteFromStorage(filedata.s3name).subscribe(data1 => {
-				console.log('@@@s3 data delete: '+JSON.stringify(data1));
 				if(segmenttype == 'image'){
 					this.flashcard_value.splice(indx, 1);
 					const body = {
@@ -438,8 +417,6 @@ export class Mastermanagertraining2Component implements OnInit {
 
 	// Open Modal
 	open(content,obj,index,flag) {
-		console.log('#### Object: '+ JSON.stringify(obj));
-		console.log('#### flag: '+ flag);
 		// update
 		if(flag == 'add'){
 			this.add_q_qid = '';
@@ -465,7 +442,6 @@ export class Mastermanagertraining2Component implements OnInit {
 		} else if(flag == 'addworksheet'){
 			
 		} else {
-			console.log('#### other: ');
 		}
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {
@@ -493,52 +469,10 @@ export class Mastermanagertraining2Component implements OnInit {
 			this.displayname = event.target.files[0].name;
 			this.filetype = this.displayname.split('.').pop();
 			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
 		}else{
 			this.displayname = '';
 			this.selectedFiles = null;
 		}
 	}
-	/*
-	uploadfile_button_click() {
-		this.hideProgressbar = false;
-		this.progress.percentage = 0;
-
-		this.currentFileUpload = this.selectedFiles.item(0);
-		console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
-		this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-			console.log('$$$event: '+JSON.stringify(event));
-			if (event.type === HttpEventType.UploadProgress) {
-				this.progress.percentage = Math.round(100 * event.loaded / event.total);
-			} else if (event instanceof HttpResponse) {
-				this.s3path = event.body['s3path'];
-				console.log('File is completely uploaded!->'+this.s3path);
-				this.hideProgressbar = true;
-				this.savetodb();
-			}
-		});
-		//this.selectedFiles = undefined;
-	}
-
-	savetodb(){
-		this.hideLoading_indicator = false;
-		let body = {
-			displayname: this.displayname,
-			s3name: this.s3name,
-			filetype: this.filetype,
-			s3path: this.s3path
-		}
-		this.managersboxService.uploadToManagersBox(body).subscribe(data => {
-				console.log('@@@data saved to db: '+JSON.stringify(data));
-				//this.getAllFromManagersBox();
-				this.hideLoading_indicator = true;
-				swal.fire('Save', 'Level added '+data['status'], 'success');
-				this.reset_image_tab();
-			},
-			error => {},
-			() => {}
-		);
-	}
-	*/
-	//==========================================================
+	
 }

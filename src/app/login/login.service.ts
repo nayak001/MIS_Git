@@ -13,7 +13,6 @@ export class LoginService {
 	constructor(private http: HttpClient) { }
   
 	doLogin(data){		
-		console.log('$$$$ baseUrl: '+baseUrl);
 		return this.http.post(baseUrl+'authenticateuser',
 		data, {
 			headers: new HttpHeaders().set('Content-Type', 'application/json')

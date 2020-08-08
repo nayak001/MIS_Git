@@ -68,7 +68,6 @@ export class AssessmentinfoComponent implements OnInit {
 	}
 
 	open(content,param) {
-		console.log('#### param: '+JSON.stringify(param));
 		if(param != null || param != undefined){
 			this.editmodal_assessmentinfo_id = param.id;
 			this.editmodal_assessmentinfo_desc = param.assessment;
@@ -94,7 +93,6 @@ export class AssessmentinfoComponent implements OnInit {
 	getallassessment(){
 		this.hideLoading_indicator = false;
 		this.assessmentinfoService.getallassessment().subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
 				this.data = data;
 				this.hideLoading_indicator = true;
 			},
@@ -103,7 +101,6 @@ export class AssessmentinfoComponent implements OnInit {
 		);
 	}
 	add_globalFormSubmitAction(){
-		console.log('--> add_globalFormSubmitAction');
     let ass = this.add_globalmodal_assessmentinfo_desc;
     let typ = this.selected_type;
     let mod = this.select_mode;
@@ -122,7 +119,6 @@ export class AssessmentinfoComponent implements OnInit {
         "options" : opt
       };
       this.assessmentinfoService.createassessment(obj).subscribe(data => {
-          console.log('@@@data: '+JSON.stringify(data));
         },
         error => {},
         () => {
@@ -135,14 +131,12 @@ export class AssessmentinfoComponent implements OnInit {
     }
 	}
 	editFormSubmitAction(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.submitted = true;
 		let obj = {
 			//"id": this.editmodal_issue_id,
 			"assessment": this.editmodal_assessmentinfo_desc
 		};
 		this.assessmentinfoService.updateassessment(id, obj).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -153,9 +147,7 @@ export class AssessmentinfoComponent implements OnInit {
 		);
 	}
 	deleteFormSubmitAction(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.assessmentinfoService.deleteassessment(id).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -179,7 +171,6 @@ export class AssessmentinfoComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_type = selectedOptionValue;
 
     if(this.selected_type == 'select') this.isSelectType = true;
@@ -187,12 +178,10 @@ export class AssessmentinfoComponent implements OnInit {
   }
 
   selectmode_on_change(val){
-    //console.log('val: '+val)
     this.select_mode = val;
   }
 
   txt_add_options_change(val){
-    //console.log('val: '+val)
     this.optionval = val;
   }
 

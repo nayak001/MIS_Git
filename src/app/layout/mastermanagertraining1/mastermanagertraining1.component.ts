@@ -54,7 +54,6 @@ export class Mastermanagertraining1Component implements OnInit {
 	load_allmodules_list(){
 		this.hideLoading_indicator1 = false;
 		this.mastermanagertraining1Service.getallmanagertrainingmodules().subscribe(data => {
-				// console.log('### data: '+JSON.stringify(data));
 				this.allmodules_list = data;
 				this.hideLoading_indicator1 = true;
 			},
@@ -64,14 +63,12 @@ export class Mastermanagertraining1Component implements OnInit {
 	}
 
 	savemodule_btnclick(){
-		console.log('### modulename_tosave: '+this.modulename_tosave);
 		this.modulename_tosave = this.modulename_tosave.toUpperCase().toLowerCase();
 		if(this.modulename_tosave == undefined || this.modulename_tosave == null || this.modulename_tosave == ''){
 			alert('Module name can not be empty');
 		}else{
 			this.hideLoading_indicator1 = false;
 			this.mastermanagertraining1Service.findmanagertrainingmodulebyname(this.modulename_tosave).subscribe(data => {
-					console.log('###search data: '+JSON.stringify(data));
 					this.hideLoading_indicator1 = true;
 
 					if(Object.keys(data).length > 0){
@@ -83,7 +80,6 @@ export class Mastermanagertraining1Component implements OnInit {
 							modulename: this.modulename_tosave
 						}
 						this.mastermanagertraining1Service.createnewmanagertrainingmodule(modulebody).subscribe(data => {
-								console.log('###save data: '+JSON.stringify(data));
 								this.modalReference.close();
 								this.hideLoading_indicator1 = true;
 								this.load_allmodules_list();
@@ -101,14 +97,12 @@ export class Mastermanagertraining1Component implements OnInit {
 	}
 
 	updatemodule_btnclick(){
-		console.log('### modulename_toupdate: '+this.modulename_toupdate);
 		this.modulename_toupdate = this.modulename_toupdate.toUpperCase().toLowerCase();
 		if(this.modulename_toupdate == undefined || this.modulename_toupdate == null || this.modulename_toupdate == ''){
 			alert('Module name can not be empty');
 		}else{
 			this.hideLoading_indicator1 = false;
 			this.mastermanagertraining1Service.findmanagertrainingmodulebyname(this.modulename_toupdate).subscribe(data => {
-					console.log('###search data: '+JSON.stringify(data));
 					this.hideLoading_indicator1 = true;
 
 					if(Object.keys(data).length > 0){
@@ -119,7 +113,6 @@ export class Mastermanagertraining1Component implements OnInit {
 							modulename: this.modulename_toupdate
 						}
 						this.mastermanagertraining1Service.updatemanagertrainingmodulebyid(this.module_id, modulebody).subscribe(data => {
-								console.log('###update data: '+JSON.stringify(data));
 								this.modalReference.close();
 								this.hideLoading_indicator1 = true;
 								this.load_allmodules_list();
@@ -137,13 +130,9 @@ export class Mastermanagertraining1Component implements OnInit {
 	}
 
 	deletemodule_btnclick(){
-		console.log('### deletemodule_btnclick _id: '+this.module_id);
 		this.mastermanagertraining1Service.deletemanagertrainingmodulebyid(this.module_id).subscribe(data => {
-				console.log('###delete data: '+JSON.stringify(data));
-
 				// delete sub module records
 				this.mastermanagertraining1Service.deletemanagertrainingsubmodulebymoduleid(this.selected_submodule_moduleid).subscribe(data => {
-					console.log('###submodule delete data: '+JSON.stringify(data));
 				},error => {},() => {});
 
 				this.modalReference.close();
@@ -163,7 +152,6 @@ export class Mastermanagertraining1Component implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_submodule_moduleid = selectedOptionValue;
 		this.selected_submodule_modulename = selectElementText;
 		this.load_allsubmodules_list(this.selected_submodule_moduleid);
@@ -173,7 +161,6 @@ export class Mastermanagertraining1Component implements OnInit {
 		if(moduleid != undefined && moduleid != null && moduleid != ''){
 			this.hideLoading_indicator2 = false;
 			this.mastermanagertraining1Service.getallmanagertrainingsubmodules(moduleid).subscribe(data => {
-					console.log('### allsubmodules_list: '+JSON.stringify(this.allsubmodules_list));
 					this.allsubmodules_list = data;
 					this.hideLoading_indicator2 = true;
 				},
@@ -186,14 +173,12 @@ export class Mastermanagertraining1Component implements OnInit {
 	}
 
 	savesubmodule_btnclick(){
-		console.log('### submodulename_tosave: '+this.submodulename_tosave);
 		this.submodulename_tosave = this.submodulename_tosave.toUpperCase().toLowerCase();
 		if(this.submodulename_tosave == undefined || this.submodulename_tosave == null || this.submodulename_tosave == ''){
 			alert('Sub-module name can not be empty');
 		}else{
 			this.hideLoading_indicator2 = false;
 			this.mastermanagertraining1Service.findmanagertrainingsubmodulebyname(this.selected_submodule_moduleid, this.submodulename_tosave).subscribe(data => {
-					console.log('###search data: '+JSON.stringify(data));
 					this.hideLoading_indicator2 = true;
 
 					if(Object.keys(data).length > 0){
@@ -206,9 +191,7 @@ export class Mastermanagertraining1Component implements OnInit {
 							submoduleid: curr_date.getTime(),
 							submodulename: this.submodulename_tosave
 						}
-						console.log('###submodulebody: '+JSON.stringify(submodulebody));
 						this.mastermanagertraining1Service.createnewmanagertrainingsubmodule(submodulebody).subscribe(data => {
-								console.log('###save data: '+JSON.stringify(data));
 								this.modalReference.close();
 								this.hideLoading_indicator2 = true;
 								this.load_allsubmodules_list(this.selected_submodule_moduleid);
@@ -226,14 +209,12 @@ export class Mastermanagertraining1Component implements OnInit {
 	}
 
 	updatesubmodule_btnclick(){
-		console.log('### submodulename_toupdate: '+this.submodulename_toupdate);
 		this.submodulename_toupdate = this.submodulename_toupdate.toUpperCase().toLowerCase();
 		if(this.submodulename_toupdate == undefined || this.submodulename_toupdate == null || this.submodulename_toupdate == ''){
 			alert('Sub-module name can not be empty');
 		}else{
 			this.hideLoading_indicator2 = false;
 			this.mastermanagertraining1Service.findmanagertrainingsubmodulebyname(this.selected_submodule_moduleid, this.submodulename_toupdate).subscribe(data => {
-					console.log('###search data: '+JSON.stringify(data));
 					this.hideLoading_indicator2 = true;
 
 					if(Object.keys(data).length > 0){
@@ -246,7 +227,6 @@ export class Mastermanagertraining1Component implements OnInit {
 							submodulename: this.submodulename_toupdate
 						}
 						this.mastermanagertraining1Service.updatemanagertrainingsubmodulebyid(this.submodule_id, modulebody).subscribe(data => {
-								console.log('###update data: '+JSON.stringify(data));
 								this.modalReference.close();
 								this.hideLoading_indicator2 = true;
 								this.load_allsubmodules_list(this.selected_submodule_moduleid);
@@ -264,9 +244,7 @@ export class Mastermanagertraining1Component implements OnInit {
 	}
 
 	deletesubmodule_btnclick(){
-		console.log('### deletesubmodule_btnclick _id: '+this.submodule_id);
 		this.mastermanagertraining1Service.deletemanagertrainingsubmodulebyid(this.submodule_id).subscribe(data => {
-				console.log('###delete data: '+JSON.stringify(data));
 				this.modalReference.close();
 				this.hideLoading_indicator2 = true;
 				this.load_allsubmodules_list(this.selected_submodule_moduleid);
@@ -288,7 +266,6 @@ export class Mastermanagertraining1Component implements OnInit {
 
 	// ----------------------------------------------
 	open(content,module, flag) {
-		//console.log('#### '+flag+'>>    module: '+ JSON.stringify(module));
 		if(flag == 'add_module'){
 			this.module_id = '';
 			this.moduleid= '';

@@ -92,7 +92,6 @@ export class CentersComponent implements OnInit {
   
 		// get all states
 		this.centersService.getallstates().subscribe(data => {
-				console.log('### getallstates data: ' + JSON.stringify(data));
 				this.all_states = data;
 				//this.selected_state = data[0] ;
 			}, error => {}, () => {}
@@ -100,7 +99,6 @@ export class CentersComponent implements OnInit {
 
 		// get all teachers
 		this.centersService.getallteachers().subscribe(data => {
-				console.log('### All Teachers('+Object.keys(data).length+'): ' + JSON.stringify(data));
 				this.data_teachers = data;
 				this.teachers = data;
 			}, error => {}, () => {}
@@ -108,7 +106,6 @@ export class CentersComponent implements OnInit {
 
 		// get all centers
 		this.centersService.getallcreatedcenters().subscribe(data => {
-				console.log('### All Centers('+Object.keys(data).length+'): ' + JSON.stringify(data));
 				this.data = data;
 				this.centers = data;
 				this.hideLoading_indicator = true;
@@ -118,14 +115,11 @@ export class CentersComponent implements OnInit {
 	
 	// centers auto complete
 	onchange_centers_select(val: string) {
-		console.log('--> centers auto-complete change event'+JSON.stringify(val));
 	}
 	onfocus_centers_select(e){
-		console.log('--> centers auto-complete focus event'+JSON.stringify(e));
 		this.data = this.centers;
 	}
 	onselect_centers_select(item){
-		console.log('--> centers auto-complete select event'+JSON.stringify(item));
 		let arr = [];
 		arr.push(item);
 		this.data = arr;
@@ -134,17 +128,13 @@ export class CentersComponent implements OnInit {
 
 	// teachers auto complete
 	onchange_teachers_select(val: string) {
-		console.log('--> teachers auto-complete change event'+JSON.stringify(val));
 	}
 	onfocus_teachers_select(e){
-		console.log('--> teachers auto-complete focus event'+JSON.stringify(e));
 		this.data_teachers = this.teachers;
 	}
 	onselect_teachers_select(item){
-		console.log('--> teachers auto-complete select event'+JSON.stringify(item));
 		this.selected_userid = (item.userid == undefined) ? '' : item.userid;
 		this.selected_username = (item.username == undefined) ? '' : item.username;
-		console.log('--> selected_userid: '+this.selected_userid+'    selected_username: '+this.selected_username);
 	}
 
 
@@ -153,7 +143,6 @@ export class CentersComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.modal_centertype = selectedOptionValue;
 	}
 
@@ -175,7 +164,6 @@ export class CentersComponent implements OnInit {
 		const frm_id = this.modal_id;
 		const frm_centername = this.modal_centername;
 		const frm_centerid = (frm_centername.length > 3) ? ((frm_centername.substring(0, 3).toUpperCase()) + (new Date().getTime())) : (('CEN') + (new Date().getTime()));
-		console.log('@@@ this.selected_block: ' + this.selected_block);
 
 		const frm_centeraddress = this.modal_centeraddress;
 		const frm_centerpin = '0';
@@ -193,23 +181,18 @@ export class CentersComponent implements OnInit {
 			state: this.selected_statevalue,
 		    status : 'active',
 		};
-		console.log('###111' + centersubmitaction + ' frm_id: ' + frm_id + ' center: ' + JSON.stringify(center));
 		if (centersubmitaction === 'Create' && frm_id === '') {
-			console.log('### inside if');
 			center['centerid'] = frm_centerid;
 			this.centersService.createnewcenter(center).subscribe(data => {
-					console.log('### res data: ' + JSON.stringify(data));
 					this.modalReference.close();
 					location.reload();
 				},
-				error => {console.log('###2 error: ' + JSON.stringify(error)); },
+				error => { },
 				() => {}
 			);
 			// alert('Data saved successfully !!!');
 		} else if (centersubmitaction === 'Update' && frm_id !== '') {
-			console.log('### inside elseif frm_id= ' + frm_id);
 			this.centersService.updatecenter(frm_id, center).subscribe(data => {
-					console.log('### res data: ' + JSON.stringify(data));
 					this.modalReference.close();
 					location.reload();
 				},
@@ -218,26 +201,22 @@ export class CentersComponent implements OnInit {
 			);
 			// alert('Data updated successfully !!!');
 		} else {
-			console.log('### inside else');
 			alert('Data can not be saved !!!');
 		}
 	}
 
 	deleteFormSubmitAction(id) {
-		console.log('### id: ' + id);
 		this.centersService.deletecenter(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				this.modalReference.close();
 				location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => { },
 			() => {}
 		);
 	}
 
 	pincode_entered(pin: string) {
 		if (pin.length === 6) {
-			console.log('###2 pin: ' + pin);
 			this.postal_index = pin;
 			this.find_address_bypincode(pin);
 		}
@@ -249,10 +228,8 @@ export class CentersComponent implements OnInit {
 
 	find_address_bypincode(pincode) {
 		this.centersService.getaddress(pincode).subscribe(data => {
-				console.log('### data: ' + JSON.stringify(data));
 				const keys = Object.keys(data);
 				const len = keys.length;
-				console.log('### len: ' + len);
 				if (len > 0) {
 					this.modal_centeraddress = data[0]['taluk'] + ', ' + data[0]['district'] + ', ' + data[0]['state'];
 				} else {
@@ -268,7 +245,6 @@ export class CentersComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectedElementText = selectedOptions[selectedIndex].text;
 		//const c = selectedOptions[selectedIndex].class;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectedElementText+'    c: '+JSON.stringify(selectedOptions[selectedIndex]));
 		this.selected_statevalue = selectedOptionValue;
 
 		// reset districts and blocks
@@ -277,7 +253,6 @@ export class CentersComponent implements OnInit {
 
 		// get all districts
 		this.centersService.getalldistrict(selectedOptionValue).subscribe(data => {
-				console.log('### getalldistrict data: ' + JSON.stringify(data));
 				this.all_districts = data;
 				//this.selected_district = data[0] ;
 			}, error => {}, () => {}
@@ -290,7 +265,6 @@ export class CentersComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectedElementText = selectedOptions[selectedIndex].text;
 		const selectedElementId = selectedOptions[selectedIndex].id;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectedElementText+'    selectedElementId: '+selectedElementId);
 		this.selected_districtid = selectedElementId;
 		this.selected_districtvalue = selectedOptionValue;
 
@@ -302,7 +276,6 @@ export class CentersComponent implements OnInit {
 		});
 		if(this.all_blocks.length > 0)
 			this.all_blocks = this.all_blocks[0].obj;
-		console.log('-->all_blocks= ' +JSON.stringify(this.all_blocks));
 	}
 
 	block_on_change(event: Event) {
@@ -310,12 +283,10 @@ export class CentersComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
 		this.selected_block = selectedOptionValue;
 	}
 	
 	open(content, center) {
-		console.log('#### Open modal-    center: ' + JSON.stringify(center));
 		if (Object.keys(center).length > 0) {
 			this.centersubmitaction = 'Update';
 			this.modal_id = center._id;
@@ -334,7 +305,6 @@ export class CentersComponent implements OnInit {
 			this.modal_centername = '';
 			this.modal_centeraddress  = '';
 		}
-		console.log('#### centersubmitaction: '+this.centersubmitaction);
 		//this.modal_centername = ('undefined')?'':this.modal_centername;
 		this.modalReference = this.modalService.open(content, center);
         this.modalReference.result.then((result) => {

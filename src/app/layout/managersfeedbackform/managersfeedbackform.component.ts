@@ -67,10 +67,8 @@ export class ManagersfeedbackformComponent implements OnInit {
   }
   
 	getallmanagersfeedbacks(filter_usertype){
-    console.log('@@@data: '+filter_usertype);
 		this.hideLoading_indicator = false;
 		this.managersfeedbackformService.getallmanagersfeedbacks(filter_usertype).subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
 				this.data = data;
 				this.hideLoading_indicator = true;
 			},
@@ -80,7 +78,6 @@ export class ManagersfeedbackformComponent implements OnInit {
 	}
 
 	add_FormSubmit(){
-    console.log('--> add_FormSubmit');
     let usr = this.selected_usertype;
     let fed = this.add_globalmodal_issue_desc;
     let typ = this.selected_type;
@@ -100,7 +97,6 @@ export class ManagersfeedbackformComponent implements OnInit {
         "options" : opt
       };
       this.managersfeedbackformService.createmanagersfeedbacks(obj).subscribe(data => {
-          console.log('@@@data: '+JSON.stringify(data));
         },
         error => {},
         () => {
@@ -114,13 +110,11 @@ export class ManagersfeedbackformComponent implements OnInit {
   }
   
 	edit_FormSubmit(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.submitted = true;
 		let obj = {
 			"feedback": this.editmodal_issue_desc
 		};
 		this.managersfeedbackformService.updatemanagersfeedbacks(id, obj).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -132,9 +126,7 @@ export class ManagersfeedbackformComponent implements OnInit {
   }
   
 	delete_FormSubmit(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.managersfeedbackformService.deletemanagersfeedbacks(id).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -150,7 +142,6 @@ export class ManagersfeedbackformComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_type = selectedOptionValue;
 
     if(this.selected_type == 'select') this.isSelectType = true;
@@ -162,7 +153,6 @@ export class ManagersfeedbackformComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_usertype = selectedOptionValue;
   }
 
@@ -171,7 +161,6 @@ export class ManagersfeedbackformComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_filter_usertype = selectedOptionValue;
 
     this.getallmanagersfeedbacks(this.selected_filter_usertype);
@@ -196,7 +185,6 @@ export class ManagersfeedbackformComponent implements OnInit {
   }
 
 	open(content,param) {
-		console.log('#### param: '+JSON.stringify(param));
 		if(param != null || param != undefined){
 			this.editmodal_issue_id = param.id;
 			this.editmodal_issue_desc = param.feedback;

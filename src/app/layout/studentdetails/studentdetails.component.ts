@@ -71,7 +71,6 @@ export class StudentdetailsComponent implements OnInit {
 	ngOnInit() {
 		this.hideLoading_indicator = false;
 		this.studentdetailsService.getallteachers().subscribe(data => {
-				// console.log('### data: '+JSON.stringify(data));
 				this.teachers = data;
 				this.teachers.unshift({});
 				this.hideLoading_indicator = true;
@@ -88,13 +87,11 @@ export class StudentdetailsComponent implements OnInit {
 		let selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_userid = selectedOptionValue;
 		this.selected_username = selectElementText;
-		console.log('-->Selected userid= '+this.selected_userid+'   username= '+this.selected_username);
 	}
 
 	getstudentdetailsbyuserid(){
 		this.hideLoading_indicator = false;	
 		this.studentdetailsService.getallstudentsbyteacher(this.selected_userid).subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
 				this.data = data;	
 				this.hideLoading_indicator = true;					
 			}, 
@@ -104,10 +101,8 @@ export class StudentdetailsComponent implements OnInit {
 	}
 
 	getpaymentinfo(studentid){
-		console.log('@@@studentid: '+JSON.stringify(studentid));
 		this.hideLoading_indicator = false;	
 		this.studentdetailsService.getalltchpaymentdetailsbystudentid(studentid).subscribe(data => {
-				console.log('@@@paymentinfo data: '+JSON.stringify(data));
 				this.paymentinfolist = data;	
 				this.hideLoading_indicator = true;					
 			}, 
@@ -125,19 +120,15 @@ export class StudentdetailsComponent implements OnInit {
     }*/
 
 	open(content,student) {
-		//console.log('#### content: '+ JSON.stringify(content));
 		// update
 		if(student != undefined || student != null){
-			console.log('#### info modal');
 			this.paymentinfolist = [];
 			const studentid = student.studentid;
 			this.getpaymentinfo(studentid);
 		} 
 		// create new
 		else {
-			console.log('#### delete modal');
 		}
-		console.log('#### this.disable_emailid: '+ this.disable_emailid);
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -162,7 +153,6 @@ export class StudentdetailsComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.modal_usertype = selectedOptionValue;
 	}
 
@@ -172,7 +162,6 @@ export class StudentdetailsComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' +selectedOptionValue+'   Text= '+selectElementText);
 		this.modal_gender = selectedOptionValue;
 	}
 
@@ -203,10 +192,7 @@ export class StudentdetailsComponent implements OnInit {
 			contactnumber: frm_contactnumber,
 			permanentaddress: frm_permanentaddress
 		};
-		console.log('###111'+usersubmitaction+' frm_id: '+frm_id+' user: ' + JSON.stringify(user));
 		if(usersubmitaction === 'Create' && frm_id === '') {
-			console.log('### inside if');
-
 			// check the emailid is already exist or not
 			this.isMailIdExists(frm_emailid);
 			if(this.emailid_exists){
@@ -214,20 +200,17 @@ export class StudentdetailsComponent implements OnInit {
 			}else{
 				user['userid'] = frm_emailid;
 				this.studentdetailsService.createnewuser(user).subscribe(data => {
-						console.log('### res data: ' + JSON.stringify(data));
 						this.modalReference.close();
 						location.reload();
 					},
-					error => {console.log('###2 error: ' + JSON.stringify(error)); },
+					error => { },
 					() => {}
 				);
 			}
 			
 			// alert('Data saved successfully !!!');
 		} else if (usersubmitaction === 'Update' && frm_id !== '') {
-			console.log('### inside elseif');
 			this.studentdetailsService.updateuser(frm_id, user).subscribe(data => {
-					console.log('### res data: ' + JSON.stringify(data));
 					this.modalReference.close();
 					location.reload();
 				},
@@ -236,7 +219,6 @@ export class StudentdetailsComponent implements OnInit {
 			);
 			// alert('Data updated successfully !!!');
 		} else {
-			console.log('### inside else');
 			alert('Data can not be saved !!!');
 		}
 	}
@@ -253,15 +235,12 @@ export class StudentdetailsComponent implements OnInit {
 
 	// delete user
 	deleteFormSubmitAction(id) {
-		console.log('### id: ' + id);
 		this.studentdetailsService.deletestudentbyid(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
-				
 				this.modalReference.close();
 				alert('Delete user '+data);
 				location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => {},
 			() => {}
 		);
 	}

@@ -108,7 +108,6 @@ export class Masterteachertraining2Component implements OnInit {
 	load_allmodules_list(){
 		this.hideLoading_indicator = false;
 		this.masterteachertraining2Service.getalltrainingmodules().subscribe(data => {
-				// console.log('### data: '+JSON.stringify(data));
 				this.allmodules_list = data;
 				this.hideLoading_indicator = true;
 			},
@@ -121,7 +120,6 @@ export class Masterteachertraining2Component implements OnInit {
 		if(moduleid != undefined && moduleid != null && moduleid != ''){
 			this.hideLoading_indicator = false;
 			this.masterteachertraining2Service.getalltrainingsubmodules(moduleid).subscribe(data => {
-					console.log('### allsubmodules_list: '+JSON.stringify(this.allsubmodules_list));
 					this.allsubmodules_list = data;
 					this.hideLoading_indicator = true;
 				},
@@ -138,7 +136,6 @@ export class Masterteachertraining2Component implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_moduleid = selectedOptionValue;
 		this.selected_modulename = selectElementText;
 		
@@ -151,7 +148,6 @@ export class Masterteachertraining2Component implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 
 		this.selected_submoduleid = selectedOptionValue;
 		this.selected_submodulename = selectElementText;
@@ -165,7 +161,6 @@ export class Masterteachertraining2Component implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 
 		this.selected_qans_val_edit = selectedOptionValue;
 		this.selected_qans_text_edit = selectElementText;
@@ -176,7 +171,6 @@ export class Masterteachertraining2Component implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 
 		this.selected_qans_val_add = selectedOptionValue;
 		this.selected_qans_text_add = selectElementText;
@@ -197,7 +191,6 @@ export class Masterteachertraining2Component implements OnInit {
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
 			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid).subscribe(data => {
-					console.log('### data: '+JSON.stringify(data));
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
@@ -255,7 +248,6 @@ export class Masterteachertraining2Component implements OnInit {
 
 	addflashcard(){}
 	delflashcard(i){
-		console.log('-->Index Value= '+i);
 		if(confirm('Are you sure to remove this item?'))
 			this.flashcard_value.splice(i,1);
 	}
@@ -297,7 +289,6 @@ export class Masterteachertraining2Component implements OnInit {
 	progress: { percentage: number } = { percentage: 0 };
 	s3path: string = '';
 	async save_btn_click(selected_tab){
-		console.log('### selected_tab: '+selected_tab);
 		if(selected_tab == 'content_tab') {
 			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
 				swal.fire('info', 'Please add some content !!!', 'warning');
@@ -338,14 +329,11 @@ export class Masterteachertraining2Component implements OnInit {
 					this.progress.percentage = 0;
 		
 					this.currentFileUpload = this.selectedFiles.item(0);
-					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
 					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						console.log('$$$event: '+JSON.stringify(event));
 						if (event.type === HttpEventType.UploadProgress) {
 							this.progress.percentage = Math.round(100 * event.loaded / event.total);
 						} else if (event instanceof HttpResponse) {
 							this.s3path = event.body['s3path'];
-							console.log('File is completely uploaded!->'+this.s3path);
 							this.hideProgressbar = true;
 		
 							let obj = {
@@ -375,14 +363,11 @@ export class Masterteachertraining2Component implements OnInit {
 					this.progress.percentage = 0;
 		
 					this.currentFileUpload = this.selectedFiles.item(0);
-					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
 					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						console.log('$$$event: '+JSON.stringify(event));
 						if (event.type === HttpEventType.UploadProgress) {
 							this.progress.percentage = Math.round(100 * event.loaded / event.total);
 						} else if (event instanceof HttpResponse) {
 							this.s3path = event.body['s3path'];
-							console.log('File is completely uploaded!->'+this.s3path);
 							this.hideProgressbar = true;
 		
 							let obj = {
@@ -408,7 +393,6 @@ export class Masterteachertraining2Component implements OnInit {
 
 	async save_record(body){
 		this.masterteachertraining2Service.createnewtrainingcontents(body).subscribe(data => {
-				console.log('###1 save data: '+JSON.stringify(data));
 				swal.fire('Success', 'Record saved successfully', 'success');
 				this.load_record();
 			},
@@ -419,7 +403,6 @@ export class Masterteachertraining2Component implements OnInit {
 
 	async update_record(id, body){
 		this.masterteachertraining2Service.updatetrainingcontentsbyid(id, body).subscribe(data => {
-				console.log('###1 update data: '+JSON.stringify(data));
 				swal.fire('Success', 'Record updated successfully', 'success');
 				this.load_record();
 			},
@@ -439,7 +422,6 @@ export class Masterteachertraining2Component implements OnInit {
 			this.displayname = event.target.files[0].name;
 			this.filetype = this.displayname.split('.').pop();
 			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
 		}else{
 			this.displayname = '';
 			this.selectedFiles = null;
@@ -447,8 +429,6 @@ export class Masterteachertraining2Component implements OnInit {
 	}
 
 	open(content,obj,index,flag) {
-		console.log('#### Object: '+ JSON.stringify(obj));
-		console.log('#### flag: '+ flag);
 		// update
 		if(flag == 'add'){
 			this.add_q_qid = '';
@@ -474,7 +454,6 @@ export class Masterteachertraining2Component implements OnInit {
 		} else if(flag == 'addworksheet'){
 			
 		} else {
-			console.log('#### other: ');
 		}
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {

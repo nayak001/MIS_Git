@@ -80,7 +80,6 @@ export class TchactivityComponent implements OnInit {
 	ngOnInit() {
 		this.hideLoading_indicator = false;
 		this.tchactivityService.getallteachers().subscribe(data => {
-				// console.log('### data: '+JSON.stringify(data));
 				this.teachers = data;
 				//this.teachers.unshift({});
 				this.hideLoading_indicator = true;
@@ -97,7 +96,6 @@ export class TchactivityComponent implements OnInit {
 		let selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_userid = selectedOptionValue;
 		this.selected_username = selectElementText;
-		console.log('-->Selected userid= '+this.selected_userid+'   username= '+this.selected_username);
 		this.gettchactivitybyuserid();
 	}
 	onselect_program(event: Event){
@@ -105,7 +103,6 @@ export class TchactivityComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_program = selectedOptionValue;
 
 		if(this.selected_program == 'pge'){
@@ -123,7 +120,6 @@ export class TchactivityComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_subject = selectedOptionValue;
 		this.gettchactivitybyuserid();
     }
@@ -133,7 +129,6 @@ export class TchactivityComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_month = selectedOptionValue;
 		this.gettchactivitybyuserid();
     }
@@ -143,7 +138,6 @@ export class TchactivityComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_week = selectedOptionValue;
 		this.gettchactivitybyuserid();
 	}
@@ -165,7 +159,6 @@ export class TchactivityComponent implements OnInit {
 
 			this.hideLoading_indicator = false;	
 			this.tchactivityService.gettchactivitybyuser(this.selected_userid, this.selected_program, this.selected_subject, this.selected_month, this.selected_week).subscribe(data => {
-					console.log('@@@data: '+JSON.stringify(data));
 					this.data = data;	
 					this.hideLoading_indicator = true;					
 				}, 
@@ -182,7 +175,6 @@ export class TchactivityComponent implements OnInit {
 			this.activity_details = [];
 			this.hideLoading_indicator = false;	
 			this.tchactivityService.gettchactivitiydetails(this.selected_userid, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, activity).subscribe(data => {
-					console.log('@@@data: '+JSON.stringify(data));
 					this.activity_details = data;	
 					this.hideLoading_indicator = true;					
 				}, 
@@ -193,10 +185,8 @@ export class TchactivityComponent implements OnInit {
 	}
 
 	getpaymentinfo(studentid){
-		console.log('@@@studentid: '+JSON.stringify(studentid));
 		this.hideLoading_indicator = false;	
 		this.tchactivityService.getalltchpaymentdetailsbystudentid(studentid).subscribe(data => {
-				console.log('@@@paymentinfo data: '+JSON.stringify(data));
 				this.paymentinfolist = data;	
 				this.hideLoading_indicator = true;					
 			}, 
@@ -214,19 +204,15 @@ export class TchactivityComponent implements OnInit {
     }*/
 
 	open(content,student) {
-		//console.log('#### content: '+ JSON.stringify(content));
 		// update
 		if(student != undefined || student != null){
-			console.log('#### info modal');
 			this.paymentinfolist = [];
 			const studentid = student.studentid;
 			this.getpaymentinfo(studentid);
 		} 
 		// create new
 		else {
-			console.log('#### delete modal');
 		}
-		console.log('#### this.disable_emailid: '+ this.disable_emailid);
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -251,7 +237,6 @@ export class TchactivityComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.modal_usertype = selectedOptionValue;
 	}
 
@@ -261,7 +246,6 @@ export class TchactivityComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' +selectedOptionValue+'   Text= '+selectElementText);
 		this.modal_gender = selectedOptionValue;
 	}
 
@@ -292,9 +276,7 @@ export class TchactivityComponent implements OnInit {
 			contactnumber: frm_contactnumber,
 			permanentaddress: frm_permanentaddress
 		};
-		console.log('###111'+usersubmitaction+' frm_id: '+frm_id+' user: ' + JSON.stringify(user));
 		if(usersubmitaction === 'Create' && frm_id === '') {
-			console.log('### inside if');
 
 			// check the emailid is already exist or not
 			this.isMailIdExists(frm_emailid);
@@ -303,20 +285,17 @@ export class TchactivityComponent implements OnInit {
 			}else{
 				user['userid'] = frm_emailid;
 				this.tchactivityService.createnewuser(user).subscribe(data => {
-						console.log('### res data: ' + JSON.stringify(data));
 						this.modalReference.close();
 						location.reload();
 					},
-					error => {console.log('###2 error: ' + JSON.stringify(error)); },
+					error => { },
 					() => {}
 				);
 			}
 			
 			// alert('Data saved successfully !!!');
 		} else if (usersubmitaction === 'Update' && frm_id !== '') {
-			console.log('### inside elseif');
 			this.tchactivityService.updateuser(frm_id, user).subscribe(data => {
-					console.log('### res data: ' + JSON.stringify(data));
 					this.modalReference.close();
 					location.reload();
 				},
@@ -325,7 +304,6 @@ export class TchactivityComponent implements OnInit {
 			);
 			// alert('Data updated successfully !!!');
 		} else {
-			console.log('### inside else');
 			alert('Data can not be saved !!!');
 		}
 	}
@@ -342,15 +320,13 @@ export class TchactivityComponent implements OnInit {
 
 	// delete user
 	deleteFormSubmitAction(id) {
-		console.log('### id: ' + id);
 		this.tchactivityService.deletestudentbyid(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				
 				this.modalReference.close();
 				alert('Delete user '+data);
 				location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => {},
 			() => {}
 		);
 	}

@@ -120,9 +120,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	getBlockDetails() {
 		this.centerDetailsService.getBlocks().subscribe(data => {
-			//console.log(data)
 			this.allDisticBlocks = data
-			console.log('### allDisticBlocks: ' + JSON.stringify(this.allDisticBlocks));
 			for (var i = 0; i < this.allDisticBlocks.length; i++) {
 				if (this.allDistics.length > 0) {
 					let isDistic = false
@@ -139,7 +137,6 @@ export class CenterDetailsComponent implements OnInit {
 					this.allDistics.push(this.allDisticBlocks[i])
 				}
 			}
-			console.log('@@@ allDistics: ' + JSON.stringify(this.allDistics));
 			// this.all_blocks=data;
 		},
 			error => { },
@@ -174,7 +171,6 @@ export class CenterDetailsComponent implements OnInit {
 	highlight(index: String) {
 
 		document.querySelectorAll('.record-row').forEach(function (ele) {
-			console.log(ele.getAttribute("id"));
 			if (ele.getAttribute("id") == "user_" + index) {
 				ele.classList.add('highlight');
 			} else {
@@ -202,8 +198,6 @@ export class CenterDetailsComponent implements OnInit {
 			class: this.class_type
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
-			// console.log('### data: '+JSON.stringify(data));
-			console.log(data)
 			this.filterData = data;
 			//this.filterData = [];
 			this.isLoaded = true;
@@ -344,7 +338,6 @@ export class CenterDetailsComponent implements OnInit {
 	}
 
 	selectBlock(distic) {
-		console.log('@@@ selected distic: ' + distic);
 		this.selectedBlock = 'all';
 		this.all_blocks = []
 		for (let i = 0; i < this.allDisticBlocks.length; i++) {
@@ -354,7 +347,6 @@ export class CenterDetailsComponent implements OnInit {
 				}
 			}
 		}
-		console.log(this.all_blocks);
 	}
 	download() {
 
@@ -385,9 +377,7 @@ export class CenterDetailsComponent implements OnInit {
 		}
 
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
-			// console.log('### data: '+JSON.stringify(data));
 			debugger
-			console.log(data)
 			this.alldata = data;
 			//this.filterData = [];
 			this.isLoaded = true;
@@ -513,38 +503,5 @@ export class CenterDetailsComponent implements OnInit {
 			this.check4 = !this.check4;
 		}
 	}
-
-	// viewData() {
-	// 	this.filterData = []
-	// 	this.isdata_table = false;
-
-
-	// 	if(this.selectedDistic || this.selectedBlock){
-	// 		for(var i = 0; i < this.all_Data.length; i++){
-	// 		  if(this.selectedDistic && this.selectedBlock){
-	// 			if (this.all_Data[i].district == this.selectedDistic && this.all_Data[i].block == this.selectedBlock) {
-	// 				this.filterData.push(this.all_Data[i])
-	// 			}
-	// 			else if(this.all_Data[i].district == this.selectedDistic){
-	// 				this.filterData.push(this.all_Data[i])
-	// 			}
-	//            console.log(this.filterData)
-	// 		  }
-
-	// 		}
-	// 		this.isdata_table=true;
-	// 	}
-
-	// 	else{
-	// 		this.filterData = this.all_Data
-	// 	}
-
-
-	// }
-	// downloadCSV(){
-	// 	//this.dtHolidays : JSONDATA , HolidayList : CSV file Name, this.csvOptions : file options
-	// 	new  AngularCsv(this.all_Data, "HolidayList", this.csvOptions);
-	//   }
-
 }
 

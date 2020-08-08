@@ -69,7 +69,6 @@ export class CenterfeedbackComponent implements OnInit {
 	}
 
 	open(content,param) {
-		console.log('#### param: '+JSON.stringify(param));
 		if(param != null || param != undefined){
 			this.editmodal_centerfeedback_id = param.id;
 			this.editmodal_centerfeedback_desc = param.feedback;
@@ -95,7 +94,6 @@ export class CenterfeedbackComponent implements OnInit {
 	getallcenterfeedback(){
 		this.hideLoading_indicator = false;
 		this.centerfeedbackService.getallcenterfeedback().subscribe(data => {
-				//console.log('@@@data: '+JSON.stringify(data));
 				this.data = data;
 				this.hideLoading_indicator = true;
 			},
@@ -104,7 +102,6 @@ export class CenterfeedbackComponent implements OnInit {
 		);
 	}
 	add_globalFormSubmitAction(){
-		console.log('--> add_globalFormSubmitAction');
 		let fed = this.add_globalmodal_centerfeedback_desc;
 		let typ = this.selected_type;
 		let mod = this.select_mode;
@@ -123,7 +120,6 @@ export class CenterfeedbackComponent implements OnInit {
 				"options" : opt
 			};
 			this.centerfeedbackService.createcenterfeedback(obj).subscribe(data => {
-					console.log('@@@data: '+JSON.stringify(data));
 				},
 				error => {},
 				() => {
@@ -137,14 +133,12 @@ export class CenterfeedbackComponent implements OnInit {
 	}
 
 	editFormSubmitAction(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.submitted = true;
 		let obj = {
 			//"id": this.editmodal_issue_id,
 			"feedback": this.editmodal_centerfeedback_desc
 		};
 		this.centerfeedbackService.updatecenterfeedback(id, obj).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -155,9 +149,7 @@ export class CenterfeedbackComponent implements OnInit {
 		);
 	}
 	deleteFormSubmitAction(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.centerfeedbackService.deletecenterfeedback(id).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -180,7 +172,6 @@ export class CenterfeedbackComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
 		this.selected_type = selectedOptionValue;
 
 		if(this.selected_type == 'select') this.isSelectType = true;
@@ -188,12 +179,10 @@ export class CenterfeedbackComponent implements OnInit {
 	}
 
 	selectmode_on_change(val){
-		//console.log('val: '+val)
 		this.select_mode = val;
 	}
 
 	txt_add_options_change(val){
-		//console.log('val: '+val)
 		this.optionval = val;
 	}
 

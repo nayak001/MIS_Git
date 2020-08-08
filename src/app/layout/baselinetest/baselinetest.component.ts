@@ -73,7 +73,6 @@ export class BaselinetestComponent implements OnInit {
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
 			this.baselinetestService.getbaselinetestquestionset(obj).subscribe(data => {
-					console.log('### data: '+JSON.stringify(data));
 					this.baseline_list = data;
 
 					if(Object.keys(data).length > 0){
@@ -104,7 +103,6 @@ export class BaselinetestComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_preflanguage = selectedOptionValue;
 
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject,  this.selected_level);
@@ -115,7 +113,6 @@ export class BaselinetestComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_program = selectedOptionValue;
 
 		if(this.selected_program == 'ece'){
@@ -142,7 +139,6 @@ export class BaselinetestComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_class = selectedOptionValue;
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject,  this.selected_level);
 	}
@@ -152,7 +148,6 @@ export class BaselinetestComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_subject = selectedOptionValue;
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject,  this.selected_level);
 	}
@@ -162,7 +157,6 @@ export class BaselinetestComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_level = selectedOptionValue;
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject,  this.selected_level);
 	}
@@ -180,7 +174,6 @@ export class BaselinetestComponent implements OnInit {
 				'warning'
 			);
 		} else {
-			console.log('### this.save_operation: '+this.save_operation);
 			swal.fire({
 				title: 'Are you sure?',
 				text: "Do you want to save changes?",
@@ -210,9 +203,7 @@ export class BaselinetestComponent implements OnInit {
 			level : this.selected_level,
 			questionset : this.questionset,
 		};
-		console.log('###data to save: '+JSON.stringify(body));
 		this.baselinetestService.createnewbaselinetest(body).subscribe(data => {
-				console.log('###1 save data: '+JSON.stringify(data));
 				this.modalReference.close();
 				swal.fire(
 					'Successful',
@@ -235,9 +226,7 @@ export class BaselinetestComponent implements OnInit {
 			subject: this.selected_subject,
 			questionset : this.questionset,
 		};
-		console.log('###data to save: '+JSON.stringify(body));
 		this.baselinetestService.updatebaselinetestquestionset(record_id, body).subscribe(data => {
-				console.log('###1 update data: '+JSON.stringify(data));
 				this.modalReference.close();
 				//alert('Record save status: '+JSON.stringify(data));
 				swal.fire(
@@ -265,7 +254,6 @@ export class BaselinetestComponent implements OnInit {
 				id : new Date().getTime(),
 				question : this.question
 			}
-			console.log('###Question obj: '+JSON.stringify(obj)+'    Question set: '+JSON.stringify(this.questionset));
 			this.questionset.push(obj);
 			this.modalReference.close();
 		}

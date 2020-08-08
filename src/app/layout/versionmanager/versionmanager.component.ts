@@ -41,7 +41,6 @@ export class VersionmanagerComponent implements OnInit {
 	getallappversionlist(){
 		this.hideLoading_indicator = false;
 		this.versionmanagerService.getallappversion().subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
 				this.data = data;
 				this.hideLoading_indicator = true;
 			},
@@ -94,7 +93,6 @@ export class VersionmanagerComponent implements OnInit {
   save_data(){
 		this.hideLoading_indicator = false;
 		this.versionmanagerService.getappversion(this.txt_app_package).subscribe(data1 => {
-				console.log('@@@checking for package: '+JSON.stringify(data1));
 				if(Object.keys(data1).length > 0){
           alert('Package name already exists !!!');
         }else{
@@ -104,7 +102,6 @@ export class VersionmanagerComponent implements OnInit {
             version: this.txt_app_version
           }
           this.versionmanagerService.createnewappversion(body).subscribe(data2 => {
-                console.log('@@@saving new app version: '+JSON.stringify(data2));
                 this.modalReference.close();
                 alert('App saved '+data2['status']);
                 this.getallappversionlist();
@@ -125,7 +122,6 @@ export class VersionmanagerComponent implements OnInit {
   update_data(){
     this.hideLoading_indicator = false;
     this.versionmanagerService.getappversion(this.txt_app_package).subscribe(data1 => {
-      console.log('@@@checking for package: '+JSON.stringify(data1));
       if(Object.keys(data1).length > 0){
         let body = {
           appname: this.txt_app_name,
@@ -133,7 +129,6 @@ export class VersionmanagerComponent implements OnInit {
           version: this.txt_app_version
         }
         this.versionmanagerService.updateappversion(this.record_id, body).subscribe(data2 => {
-            console.log('@@@data: '+JSON.stringify(data2));
             this.modalReference.close();
             alert('App updated '+data2['status']);
             this.getallappversionlist();
@@ -153,7 +148,6 @@ export class VersionmanagerComponent implements OnInit {
   delete_data(){
     this.hideLoading_indicator = false;
 		this.versionmanagerService.deleteappversion(this.record_id).subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
         this.modalReference.close();
         alert('App removed '+data['status']);
         this.getallappversionlist();
@@ -166,7 +160,6 @@ export class VersionmanagerComponent implements OnInit {
   }
 
 	open(content, param, flag) {
-		console.log("#### flag: "+flag+"    param: "+JSON.stringify(param));
     this.flag = flag;
 
 		if(flag == 'add') {

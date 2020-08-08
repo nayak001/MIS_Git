@@ -111,7 +111,6 @@ count : any;
 	highlight(index:String){
 
 		document.querySelectorAll('.record-row').forEach(function(ele) {
-			console.log(ele.getAttribute("id"));
 			if(ele.getAttribute("id") == "user_"+ index) {
 				ele.classList.add('highlight');
 			} else {
@@ -265,7 +264,6 @@ count : any;
 		// const page = event.target.text.match(/\d+/)[0]
 		this.page_no = event
 		}catch(error){
-console.log(error)
 		}
 		this.getallDetailsStudents()
 	}
@@ -301,10 +299,7 @@ console.log(error)
 		}
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(res => {
 
-			// console.log('### data: '+JSON.stringify(data));
 			this.program_type = program_type
-			
-			console.log(res)
 			this.getallStudents = res
 			this.isLoaded = true
 			if(this.getallStudents.length == 0){
@@ -323,9 +318,6 @@ console.log(error)
    };
    getBlockDetails() {		
 	this.StudentDetailsPageService.getBlocks().subscribe(data => {
-		// console.log('### data: '+JSON.stringify(data));
-		//console.log(data)
-		
 		this.allDisticBlocks = data
 		for (var i = 0; i < this.allDisticBlocks.length; i++) {
 			if (this.allDistics.length > 0) {
@@ -343,8 +335,6 @@ console.log(error)
 				this.allDistics.push(this.allDisticBlocks[i])
 			}
 		}
-		console.log(this.allDistics)
-		// this.all_blocks=data;
 	},
 		error => { },
 		() => { }
@@ -386,29 +376,17 @@ download(){
 
 	}
 	this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(res => {
-		// console.log('### data: '+JSON.stringify(data));
 		debugger
 		this.loader = false;
-		console.log(res)
 		this.getallStu = res
 		this.isLoaded = true
-	
-		
-
-
-
-
-
-	this.getallStu.forEach(value => {
-	var usertType =''
-		var block = ''
-		if (value && value.student && value.student.user && value.student.user.usertype) {
-		usertType = value.student.user.usertype
-		
-		};
-
-	
-
+		this.getallStu.forEach(value => {
+		var usertType =''
+			var block = ''
+			if (value && value.student && value.student.user && value.student.user.usertype) {
+			usertType = value.student.user.usertype
+			
+			};
  		const getAssestmentString  = (score) => {
 
  
@@ -505,7 +483,6 @@ selectBlock(distic) {
 		}
 
 	}
-	console.log(this.all_blocks);
 }
 show(value){
 

@@ -63,12 +63,10 @@ export class CenterimageComponent implements OnInit {
 
 		this.getallmanager();
 		//if(this.selected_userid == null || this.selected_userid == undefined) this.selected_userid = '';
-		//console.log('@@@pageload userid: '+this.selected_userid);
 		//this.getcenterimagebyuserid(this.selected_userid);
 	}
 
 	open(content,param,flag) {
-		console.log('#### flag: '+flag);
 		if(flag == 'view'){
 			this.createslider(param);
 		}
@@ -96,13 +94,11 @@ export class CenterimageComponent implements OnInit {
 		let selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_userid = selectedOptionValue;
 		this.selected_username = selectElementText;
-		console.log('-->Selected userid= '+this.selected_userid+'   username= '+this.selected_username);
 	}
 
 	getallmanager(){
 		this.hideLoading_indicator = false;
 		this.centerimageService.getallmanager().subscribe(data => {
-				//console.log('@@@data: '+JSON.stringify(data));
 				var _blank_obj = {
 					userid:'',
 					username: ''
@@ -119,7 +115,6 @@ export class CenterimageComponent implements OnInit {
 	getcenterimagebyuserid(userid){
 		this.hideLoading_indicator = false;	
 		this.centerimageService.getcenterimagebyuserid(userid).subscribe(data => {
-				//console.log('@@@data: '+JSON.stringify(data));
 				let newdata: any =[];
 				if(Object.keys(data).length > 0){
 					//------------------------------------------------------------
@@ -141,7 +136,6 @@ export class CenterimageComponent implements OnInit {
 							createdon : data[i].createdon
 						}
 						newdata.push(newobj);
-						// console.log('@@@newobj: '+JSON.stringify(newobj));
 					});
 					data = newdata;
 					//------------------------------------------------------------
@@ -165,10 +159,8 @@ export class CenterimageComponent implements OnInit {
 	}
 
 	downloadimage(image){
-		console.log('@@@ image object: '+JSON.stringify(image));
 		let filename = image.imageurl;
 		filename = (filename != null || filename != undefined || filename != '')? filename.replace('assets/images/uploads/',''):'';
-		console.log('@@@ image to be download: '+filename);
 		this.centerimageService.downloadcenterimage(filename).subscribe(data => {
 				saveAs(data, filename);
 			}, 
@@ -178,10 +170,8 @@ export class CenterimageComponent implements OnInit {
 	}
 
 	deleteimage(image){
-		console.log('@@@ image object: '+JSON.stringify(image));
 		let id = image._id;
 		let userid = image.userid;
-		console.log('@@@ image to be deleted: '+id);
 		this.centerimageService.deletecenterimage(id).subscribe(data => {
 				//saveAs(data, filename);
 				this.getcenterimagebyuserid(userid);
@@ -194,7 +184,6 @@ export class CenterimageComponent implements OnInit {
 
 	createslider(images){
 		images.forEach(v => {
-			console.log('@@@v : '+JSON.stringify(v));
 			this.sliders.push({imagePath: v['imageurl'], label: '', text: ''});
 		});
 	}

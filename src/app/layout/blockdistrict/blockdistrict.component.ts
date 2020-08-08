@@ -58,36 +58,6 @@ export class BlockdistrictComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		/*
-		this.hideLoading_indicator = false;
-		this.blockdistrictService.getallblocksanddistricts().subscribe(data => {
-				console.log('### data: ' + JSON.stringify(data));
-				const newdata = [];
-				Object.keys(data).forEach(i => {
-					let element = data[i];
-					console.log('@@@element: ' + JSON.stringify(element));
-					if (element['block'].length > 0) {
-						newdata.push(element);
-					}
-				});
-				this.data = newdata;
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
-		);
-
-		this.blockdistrictService.getalldistrict().subscribe(data => {
-				console.log('### data: ' + JSON.stringify(data));
-				this.all_districts = data;
-				this.selected_district = data[0];
-				this.hideLoading_indicator = true;
-			},
-			error => {},
-			() => {}
-		);
-		*/
-		
 		this.selected_statecode_filter = 'OR';
 		this.selected_statevalue_filter='Odisha'
 		this.getallblocksanddistrictsbystatecode(this.selected_statecode_filter); 	// <-- for showing details in the table
@@ -97,11 +67,9 @@ export class BlockdistrictComponent implements OnInit {
 	getallblocksanddistrictsbystatecode(statecode){
 		this.hideLoading_indicator = false;
 		this.blockdistrictService.getallblocksanddistrictsbystatecode(statecode).subscribe(data => {
-				console.log('### data: ' + JSON.stringify(data));
 				const newdata = [];
 				Object.keys(data).forEach(i => {
 					let element = data[i];
-					console.log('@@@element: ' + JSON.stringify(element));
 					if (element['block'].length > 0) {
 						newdata.push(element);
 					}
@@ -116,7 +84,6 @@ export class BlockdistrictComponent implements OnInit {
 
 	getallstateanddistricts(){
 		this.blockdistrictService.getallstateanddistricts().subscribe(data => {
-				//console.log('### data: ' + JSON.stringify(data));
 				this.allstate_districts = data;
 				this.hideLoading_indicator = true;
 			},
@@ -130,7 +97,6 @@ export class BlockdistrictComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectedElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectedElementText);
 		this.selected_statecode = selectedOptionValue;
 		this.selected_statevalue = selectedElementText;
 		
@@ -139,7 +105,6 @@ export class BlockdistrictComponent implements OnInit {
 		});
 		if(this.all_districts.length > 0)
 			this.all_districts = this.all_districts[0].districts;
-		//console.log('###all-districts: '+JSON.stringify(this.all_districts));
     }
 
 	statefilter_on_change(event: Event) {
@@ -147,7 +112,6 @@ export class BlockdistrictComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectedElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectedElementText);
 		this.selected_statecode_filter = selectedOptionValue;
 		this.selected_statevalue_filter = selectedElementText;
 		this.getallblocksanddistrictsbystatecode(this.selected_statecode_filter);
@@ -158,7 +122,6 @@ export class BlockdistrictComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectedElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectedElementText);
 		this.selected_districtid = selectedOptionValue;
 		this.selected_districtvalue = selectedElementText;
     }
@@ -183,31 +146,26 @@ export class BlockdistrictComponent implements OnInit {
 			districtvalue : this.selected_districtvalue,
 			block : this.block_name
 		};
-		console.log('$$$distobj: ' + JSON.stringify(distobj));
 		this.blockdistrictService.createnewblockdistrict(distobj).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				this.modalReference.close();
 				location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => { },
 			() => {}
 		);
 	}
 
 	deleteFormSubmitAction(id) {
-		console.log('### id: ' + id);
 		this.blockdistrictService.deleteblockdistrictbyid(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				this.modalReference.close();
 				location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => { },
 			() => {}
 		);
 	}
 
 	open(content, center) {
-		console.log('#### center: ' + JSON.stringify(center));
 		if (center !== undefined || center != null) {
 			this.centersubmitaction = 'Update';
 			this.modal_id = center._id;

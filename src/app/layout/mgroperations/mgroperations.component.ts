@@ -72,10 +72,7 @@ export class MgroperationsComponent implements OnInit {
 	getallmanager(){
 		this.hideLoading_indicator = false;
 		this.mgroperationsService.getallmanager().subscribe(data => {
-				//console.log('@@@data: '+JSON.stringify(data));
 				this.managers = data;
-				//var _blank_obj = { userid:'', username: '-- Select User --' }
-				//this.managers.splice(0,0,_blank_obj);
 				this.hideLoading_indicator = true;				
 			}, 
 			error => {}, 
@@ -101,7 +98,6 @@ export class MgroperationsComponent implements OnInit {
 	}
 
 	showmap(lat, lng){
-		console.log('showmap() invoked');
 		this.hide_gmap_div = false;	
 		var myLatLng = {lat: lat, lng: lng}; //{lat: 18.5793, lng: 73.8143}; //{lat: -25.363, lng: 131.044};
 		var mapProp = {
@@ -125,7 +121,6 @@ export class MgroperationsComponent implements OnInit {
 	}
 
 	locate(_lat,_lng){
-		console.log('@@@_lat: '+_lat+'    @@@_lng: '+_lng);
 		let newlat = 18.5793;
 		let newlng = 73.8143;
 		newlat = (_lat != null && _lat != undefined && _lat != '')?parseFloat(_lat):18.5793;
@@ -136,7 +131,6 @@ export class MgroperationsComponent implements OnInit {
 	}
 
 	open(content,param,flag) {
-		console.log('#### flag: '+flag);
 		if(flag == 'view'){
 			this.sliders = [];
 			this.sliders.push({imagePath: param, label: '', text: ''});
@@ -167,7 +161,6 @@ export class MgroperationsComponent implements OnInit {
 		let selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_userid = selectedOptionValue;
 		this.selected_username = selectElementText;
-		console.log('-->Selected userid= '+this.selected_userid+'   username= '+this.selected_username);
 	}
 
 	onselect_operation_select(event){
@@ -175,13 +168,11 @@ export class MgroperationsComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		this.selected_operation = selectedOptionValue;
-		console.log('-->Selected operation= '+this.selected_operation);
 	}
 
 	getoperationbyuserid(userid, operation){
 		this.hideLoading_indicator = false;	
 		this.mgroperationsService.getoperationbyuserid(userid, operation).subscribe(data => {
-				//console.log('@@@data: '+JSON.stringify(data));
 				this.operation_list = data;		
 				this.hideLoading_indicator = true;					
 			}, 
@@ -201,10 +192,8 @@ export class MgroperationsComponent implements OnInit {
 	}
 
 	downloadimage(image){
-		console.log('@@@ image object: '+JSON.stringify(image));
 		let filename = image.imageurl;
 		filename = (filename != null || filename != undefined || filename != '')? filename.replace('assets/images/uploads/',''):'';
-		console.log('@@@ image to be download: '+filename);
 		this.mgroperationsService.downloadcenterimage(filename).subscribe(data => {
 				saveAs(data, filename);
 			}, 
@@ -214,10 +203,8 @@ export class MgroperationsComponent implements OnInit {
 	}
 
 	deleteimage(image){
-		console.log('@@@ image object: '+JSON.stringify(image));
 		let id = image._id;
 		let userid = image.userid;
-		console.log('@@@ image to be deleted: '+id);
 		this.mgroperationsService.deletecenterimage(id).subscribe(data => {
 				//saveAs(data, filename);
 				this.getoperationbyuserid(userid, this.selected_operation);
@@ -230,7 +217,6 @@ export class MgroperationsComponent implements OnInit {
 
 	createslider(images){
 		images.forEach(v => {
-			console.log('@@@v : '+JSON.stringify(v));
 			this.sliders.push({imagePath: v['imageurl'], label: '', text: ''});
 		});
 	}

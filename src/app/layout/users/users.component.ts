@@ -36,7 +36,6 @@ export class UsersComponent implements OnInit {
 		
 		this.usersService.gettotalusers().subscribe(data => {
 		//this.usersService.getalluser(this.page_no, limit).subscribe(data => {
-				console.log('### data: '+JSON.stringify(data));
 				this.data = data;
 				this.filterData = data;
 				this.hideLoading_indicator = true;
@@ -48,7 +47,6 @@ export class UsersComponent implements OnInit {
 
 	getalluserCount() {
 		this.usersService.getalluserCount().subscribe(data => {
-			console.log('@@@totalPage= '+JSON.stringify(data));
 			this.totalPage = data || 0
 		})
 	}
@@ -93,7 +91,6 @@ export class UsersComponent implements OnInit {
 
 	// delete user
 	deleteFormSubmitAction(id) {
-		console.log('### id: ' + id);
 		swal.fire({
 			title: 'Are you sure?',
 			text: "Do you want to remove this record?",
@@ -105,10 +102,9 @@ export class UsersComponent implements OnInit {
 		  }).then((result) => {
 			if (result.value) {
 				this.usersService.deleteuser(id).subscribe(data => {
-						console.log('### res data: ' + JSON.stringify(data));
 						this.getallUsers();
 					},
-					error => {console.log('###2 error: ' + JSON.stringify(error)); },
+					error => { },
 					() => {}
 				);
 			}

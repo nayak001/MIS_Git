@@ -71,7 +71,6 @@ export class DailyinfoComponent implements OnInit {
 	getallmanager(){
 		this.hideLoading_indicator = false;
 		this.dailyinfoService.getallmanager().subscribe(data => {
-				//console.log('@@@data: '+JSON.stringify(data));
 				var _blank_obj = {
 					userid:'',
 					username: ''
@@ -103,7 +102,6 @@ export class DailyinfoComponent implements OnInit {
 	}
 
 	showmap(lat, lng){
-		console.log('showmap() invoked');
 		this.hide_gmap_div = false;	
 		var myLatLng = {lat: lat, lng: lng}; //{lat: 18.5793, lng: 73.8143}; //{lat: -25.363, lng: 131.044};
 		var mapProp = {
@@ -127,7 +125,6 @@ export class DailyinfoComponent implements OnInit {
 	}
 
 	locate(_lat,_lng){
-		console.log('@@@_lat: '+_lat+'    @@@_lng: '+_lng);
 		let newlat = 18.5793;
 		let newlng = 73.8143;
 		newlat = (_lat != null && _lat != undefined && _lat != '')?parseFloat(_lat):18.5793;
@@ -138,7 +135,6 @@ export class DailyinfoComponent implements OnInit {
 	}
 
 	open(content,param,flag) {
-		console.log('#### flag: '+flag);
 		if(flag == 'view'){
 			this.sliders = [];
 			this.sliders.push({imagePath: param, label: '', text: ''});
@@ -169,13 +165,11 @@ export class DailyinfoComponent implements OnInit {
 		let selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_userid = selectedOptionValue;
 		this.selected_username = selectElementText;
-		console.log('-->Selected userid= '+this.selected_userid+'   username= '+this.selected_username);
 	}
 
 	getcenterimagebyuserid(userid){
 		this.hideLoading_indicator = false;	
 		this.dailyinfoService.getcenterimagebyuserid(userid).subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
 				let newdata: any =[];
 				if(Object.keys(data).length > 0){
 					//------------------------------------------------------------
@@ -200,7 +194,6 @@ export class DailyinfoComponent implements OnInit {
 							createdon : data[i].createdon
 						}
 						newdata.push(newobj);
-						// console.log('@@@newobj: '+JSON.stringify(newobj));
 					});
 					data = newdata;
 					//------------------------------------------------------------
@@ -224,10 +217,8 @@ export class DailyinfoComponent implements OnInit {
 	}
 
 	downloadimage(image){
-		console.log('@@@ image object: '+JSON.stringify(image));
 		let filename = image.imageurl;
 		filename = (filename != null || filename != undefined || filename != '')? filename.replace('assets/images/uploads/',''):'';
-		console.log('@@@ image to be download: '+filename);
 		this.dailyinfoService.downloadcenterimage(filename).subscribe(data => {
 				saveAs(data, filename);
 			}, 
@@ -237,10 +228,8 @@ export class DailyinfoComponent implements OnInit {
 	}
 
 	deleteimage(image){
-		console.log('@@@ image object: '+JSON.stringify(image));
 		let id = image._id;
 		let userid = image.userid;
-		console.log('@@@ image to be deleted: '+id);
 		this.dailyinfoService.deletecenterimage(id).subscribe(data => {
 				//saveAs(data, filename);
 				this.getcenterimagebyuserid(userid);
@@ -253,7 +242,6 @@ export class DailyinfoComponent implements OnInit {
 
 	createslider(images){
 		images.forEach(v => {
-			console.log('@@@v : '+JSON.stringify(v));
 			this.sliders.push({imagePath: v['imageurl'], label: '', text: ''});
 		});
 	}
