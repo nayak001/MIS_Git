@@ -21,7 +21,7 @@ const URL = environment.uploadURL;
 export class Masterteachertraining2Component implements OnInit {
 	// video
 	video_file_name:string ='';
-
+	divs: number[] = [0,1,2];
 	// worksheet
 	worksheet_file_name:string ='';
 
@@ -83,7 +83,7 @@ export class Masterteachertraining2Component implements OnInit {
 	quiz_value:any = [];
 
 	public Editor = ClassicEditor;
-
+    
     constructor(
 		private modalService: NgbModal,
         public router: Router,
@@ -219,6 +219,7 @@ export class Masterteachertraining2Component implements OnInit {
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
 			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid).subscribe(data => {
+				console.log("data",data);
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
@@ -273,7 +274,14 @@ export class Masterteachertraining2Component implements OnInit {
 			alert('Nothing to delete !!!');
 		}
 	}
+	
 
+	createDiv(){
+		// this.divs.length= 1;
+		this.divs.push(this.divs.length);
+		console.log("hii",this.divs)
+	}
+	
 	addflashcard(){}
 	delflashcard(i){
 		if(confirm('Are you sure to remove this item?'))

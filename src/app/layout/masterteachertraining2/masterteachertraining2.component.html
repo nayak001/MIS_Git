@@ -59,15 +59,104 @@
 						<ngb-tab>
 							<ng-template ngbTabTitle><b>CONTENTS</b></ng-template>
 							<ng-template ngbTabContent>
+							  <div *ngFor="let div of divs" id="div{{div}}">
 								<div class="tab_content_height">
 									<!-- text content -->
 									<div>
 										<ckeditor [editor]="Editor"  [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
 									</div>
 								</div>
-								<div>
+								<!-- <div>
 									<button (click)="save_btn_click('content_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
+								</div> -->
+								<div class="tab_content_height margintop30">
+									<table class="table50">
+										<tr>
+											<td>
+												<span class="bold-font">Upload image:</span>
+												<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+														<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+														attr.aria-valuenow="{{progress.percentage}}"
+														aria-valuemin="0" aria-valuemax="100" 
+														[ngStyle]="{width:progress.percentage+'%'}">
+														{{progress.percentage}}%
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="file-upload">
+													<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
+												</div>
+											</td>
+											<td>
+												<button (click)="save_btn_click('image_tab')" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp; Upload &nbsp;&nbsp;&nbsp;</button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="image_preview_container">
+													<div class="image_preview" *ngFor="let flash of flashcard_value; let i = index;">
+														<div>
+															<img src="{{ flash.s3path }}" class="image" />
+														</div>
+														<div class="delbtn" (click)="delflashcard(i)">
+															<i class="fa fa-times-circle" aria-hidden="true"></i>
+														</div>
+													</div>
+												</div>
+											</td>
+											<td></td>
+										</tr>
+									</table>
 								</div>
+								<div class="tab_content_height margintop30">
+									<table class="table50">
+										<tr>
+											<td>
+												<span class="bold-font">Upload video:</span>
+												<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+														<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+														attr.aria-valuenow="{{progress.percentage}}"
+														aria-valuemin="0" aria-valuemax="100" 
+														[ngStyle]="{width:progress.percentage+'%'}">
+														{{progress.percentage}}%
+													</div>
+												</div>
+											</td>
+											<td></td>
+										</tr>
+										<tr style="border: 1px solid gray; background-color: #d9d8d8;">
+											<td>
+												<div class="file-upload">
+													<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
+												</div>
+											</td>
+											<td>
+												<button (click)="save_btn_click('video_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="image_preview_container">
+													<div class="image_preview" *ngFor="let video of video_value; let i = index;">
+														<div style="text-align: center;">
+															<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 50%;"></span><br>
+															<span class="">{{ video.displayname }}</span>
+														</div>
+														<div class="delbtn">
+															<i class="fa fa-times-circle" aria-hidden="true"></i>
+														</div>
+													</div>
+												</div>
+											</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							  </div>
+							
 							</ng-template>
 						</ngb-tab>
 						
