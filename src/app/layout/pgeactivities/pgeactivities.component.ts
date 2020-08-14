@@ -1,29 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
-import { PgeactivitiesService } from './pgeactivities.service';
-import { ManagersboxService } from  './../managersbox/managersbox.service';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
 import swal from 'sweetalert2';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-import { environment } from './../../../environments/environment.prod';
-const URL = environment.uploadURL;
+import { PgeactivitiesService } from './pgeactivities.service';
+import { GalleryService } from  './../gallery/gallery.service';
 
 
 @Component({
   selector: 'app-pgeactivities',
   templateUrl: './pgeactivities.component.html',
   styleUrls: ['./pgeactivities.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [routerTransition()]
 })
 export class PgeactivitiesComponent implements OnInit {
-  public Editor = ClassicEditor;
+  @ViewChild('updatetextcontentsmodal') updatetextcontentsmodal: any;
+  @ViewChild('updateimagecontentsmodal') updateimagecontentsmodal: any;
+  @ViewChild('updatevideocontentsmodal') updatevideocontentsmodal: any;
+  
+	// File chooser variables
+	selectedFiles: FileList;
+	displayname: string;
+	filetype: string;
+  s3name: string;
+  
+  public Editor1 = ClassicEditor;
+  public Editor2 = ClassicEditor;
 
   save_operation: string = '';
   record_id: string = '';
-  public data: any;
   selected_preflanguage = '';
   selected_program: string = '';
   selected_subject: string = '';
@@ -37,6 +46,7 @@ export class PgeactivitiesComponent implements OnInit {
 
   segments_list: any = [];
   selected_segment_index: number = -1;
+  selected_segment: any = {};
   selected_segment_type: string = '';
   selected_segment_displayname: string = '';
   selected_segment_s3name: string = '';
@@ -46,15 +56,12 @@ export class PgeactivitiesComponent implements OnInit {
   selected_segment_value: string = '';
   current_segment_details: string = '';
 
-  hideLoading_indicator: boolean;
+  hide_Loading_indicator: boolean;
   hide_createnewsegment_button: boolean = false;
 
   closeResult: string;
   modalReference: any;
 
-  // xxxxxxxxxxxxxxxxxx image
-  flag: string = '';
-  txt_modal_url: string = '';
   content_value: string = '';
   image_value: any = [];
   video_value: any = [];
@@ -66,7 +73,7 @@ export class PgeactivitiesComponent implements OnInit {
     private modalService: NgbModal,
     public router: Router,
     private pgeactivitiesService: PgeactivitiesService,
-    private managersboxService: ManagersboxService
+    private galleryService: GalleryService
   ) {
     this.selected_program = '';
     this.selected_subject = '';
@@ -79,11 +86,24 @@ export class PgeactivitiesComponent implements OnInit {
     this.level_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}, {value: '4', text: 'Level 4'}, {value: '5', text: 'Level 5'}];
     this.month_select_option_list = [{value: '1', text: 'Skill 1-4'}, {value: '2', text: 'Skill 5-8'}, {value: '3', text: 'Skill 9-12'}, {value: '4', text: 'Skill 13-16'}, {value: '5', text: 'Skill 17-20'}];
     
-    this.hideLoading_indicator = true;
+    this.hide_Loading_indicator = true;
     this.hide_createnewsegment_button = true;
   }
 
   ngOnInit() {}
+
+	filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedFiles = event.target.files;
+			this.displayname = event.target.files[0].name;
+			this.filetype = this.displayname.split('.').pop();
+			this.s3name = (new Date()).getTime()+'.'+this.filetype;
+			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
+		}else{
+			this.displayname = '';
+			this.selectedFiles = null;
+		}
+	}
 
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target['options'];
@@ -146,7 +166,7 @@ export class PgeactivitiesComponent implements OnInit {
     // get list of skills which will be placed in place of weeks in case of pge. 
     if (this.selected_program == 'pge') {
       this.week_select_option_list = [];
-      this.hideLoading_indicator = false;
+      this.hide_Loading_indicator = false;
       let selected_stage = 'month'+this.selected_month;
       this.pgeactivitiesService.gettchassessment(this.selected_preflanguage, this.selected_program, this.selected_level, selected_stage, this.selected_subject).subscribe(data => {
         console.log('### data: ' + JSON.stringify(data));
@@ -158,8 +178,8 @@ export class PgeactivitiesComponent implements OnInit {
           }
           this.week_select_option_list.push(obj);
         });
-        this.hideLoading_indicator = true;
-      },error => { this.hideLoading_indicator = true; },() =>{});
+        this.hide_Loading_indicator = true;
+      },error => { this.hide_Loading_indicator = true; },() =>{});
     }
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
@@ -174,6 +194,8 @@ export class PgeactivitiesComponent implements OnInit {
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
+  // ====================================== Segment related codes started from here =================================
+
   segment_select_onchange(value) {
     const selectedOptions = event.target['options'];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -181,42 +203,135 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_segment_index = selectedOptionValue;
-    //this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
     this.load_segment(this.selected_segment_index)
   }
 
+  reset_segment(){
+    this.selected_segment             = {};
+    this.selected_segment_type        = '';
+    this.selected_segment_displayname = '';
+    this.selected_segment_s3name      = '';
+    this.selected_segment_filetype    = '';
+    this.selected_segment_s3_url      = '';
+    this.selected_segment_preview_url = '';
+    this.selected_segment_value       = '';
+    this.current_segment_details      = '';
+    this.hide_Loading_indicator       = true;
+  }
+
   async load_segment(idx){
-    let selected_segment = this.segments_list[idx];
-    if(Object.keys(selected_segment).length > 0){
-      this.selected_segment_type        = selected_segment.type;
-      this.selected_segment_displayname = selected_segment.displayname;
-      this.selected_segment_s3name      = selected_segment.s3name;
-      this.selected_segment_filetype    = selected_segment.filetype;
-      this.selected_segment_s3_url      = selected_segment.s3_url;
-      this.selected_segment_preview_url = selected_segment.preview_url;
-      this.selected_segment_value       = selected_segment.value;
+    this.reset_segment();
+    this.hide_Loading_indicator       = false;
+
+    this.selected_segment = this.segments_list[idx];
+    console.log('--> selected_segment: '+JSON.stringify(this.selected_segment));
+    if(this.selected_segment == undefined || this.selected_segment == null || Object.keys(this.selected_segment).length <= 0){
+      this.reset_segment();
+    }else{
+      this.selected_segment_type        = this.selected_segment.type;
+      this.selected_segment_displayname = this.selected_segment.displayname;
+      this.selected_segment_s3name      = this.selected_segment.s3name;
+      this.selected_segment_filetype    = this.selected_segment.filetype;
+      this.selected_segment_s3_url      = this.selected_segment.s3_url;
+      this.selected_segment_preview_url = this.selected_segment.preview_url;
+      this.selected_segment_value       = this.selected_segment.value;
+
       if(this.selected_segment_type == 'text_content'){
         this.current_segment_details = this.selected_segment_value;
+        this.hide_Loading_indicator = true;
       }else if(this.selected_segment_type == 'image_content'){
-        this.current_segment_details = '<div><img src='+this.selected_segment_s3_url+' style="width: 80%"></div>';
+        this.current_segment_details = '<div class="imgcenter"><img src='+this.selected_segment_s3_url+' class="imgpreview" /></div>';
+        this.hide_Loading_indicator = true;
+      }else if(this.selected_segment_type == 'video_content'){
+        this.current_segment_details = '<div class="imgcenter"><img src="assets/images/video_preview.jpg" class="imgpreview" /></div>';
+        this.hide_Loading_indicator = true;
       }
-    }else{
-      this.selected_segment_type        = '';
-      this.selected_segment_displayname = '';
-      this.selected_segment_s3name      = '';
-      this.selected_segment_filetype    = '';
-      this.selected_segment_s3_url      = '';
-      this.selected_segment_preview_url = '';
-      this.selected_segment_value       = '';
-      this.current_segment_details      = '';
     }
   }
+
+  delete_segment_btn_click(){
+    swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to remove this segement?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.delete_segment();
+      }
+    });
+  }
+
+  delete_segment(){
+    console.log('-->delete_segment()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
+    let segment_to_delete = this.segments_list[this.selected_segment_index];
+    console.log('-->segment_to_delete: '+JSON.stringify(segment_to_delete));
+    let file_to_delete = segment_to_delete.s3name;
+    this.segments_list.splice(this.selected_segment_index, 1);
+    const body = {
+      segment: this.segments_list
+    }
+
+    if(this.selected_segment_type == 'image_content' || this.selected_segment_type == 'video_content'){
+      this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(data1 => {
+          console.log('@@@s3 data delete: '+JSON.stringify(data1));
+          this.update_record(this.record_id, body);
+          this.go_btn_click();
+        }, error => {}, () => {}
+      );
+    }else{
+      this.update_record(this.record_id, body);
+      this.go_btn_click();
+    }
+  }
+
+  update_segment_btn_click(){
+    console.log('-->update_segment_btn_click()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
+    let segment_to_update = this.segments_list[this.selected_segment_index];
+    console.log('-->segment_to_update: '+JSON.stringify(segment_to_update));
+    if(this.selected_segment_type == 'text_content'){
+      this.openupdatetextcontentsmodal(this.updatetextcontentsmodal);
+    } else if(this.selected_segment_type == 'image_content'){
+      this.openupdateimagecontentsmodal(this.updateimagecontentsmodal);
+    } else if(this.selected_segment_type == 'video_content'){
+      this.openupdatevideocontentsmodal(this.updatevideocontentsmodal);
+    }
+  }
+
+  update_segment(modalwindow){
+    console.log('-->update_segment()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
+    if(modalwindow == 'textcontentsmodal'){
+      let newobj = {
+        type: 'text_content',
+        displayname: null,
+        s3name: null,
+        filetype: null,
+        s3_url: null,
+        preview_url: null,
+        value: this.content_value
+      }
+      this.segments_list.splice(this.selected_segment_index,1,newobj);
+      let body = {
+        segment: this.segments_list
+      }
+      this.update_record(this.record_id, body);
+      this.modalReference.close();
+    }else if(modalwindow == 'imagecontentsmodal'){
+    }else if(modalwindow == 'videocontentsmodal'){
+    }
+  }
+  // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
   async load_record(preflanguage, program, subject, month, week, level) {
+    this.selected_segment_index = -1;
+    this.reset_segment();
     if (
       preflanguage != undefined && preflanguage != null && preflanguage != ''
       && program != undefined && program != null && program != ''
@@ -227,7 +342,7 @@ export class PgeactivitiesComponent implements OnInit {
     ) {
       this.content_value = '';
       this.video_value = [];
-      this.hideLoading_indicator = false;
+      this.hide_Loading_indicator = false;
       
       this.hide_createnewsegment_button = false;
 
@@ -238,30 +353,18 @@ export class PgeactivitiesComponent implements OnInit {
           this.save_operation = 'update';
           this.record_id = data[0]['_id'];
           this.segments_list = data[0]['segment'];
-
-          this.content_value = data[0]['content'];
-          this.image_value = data[0]['image'];
-          this.video_value = data[0]['video'];
         } else {
           this.save_operation = 'save';
           this.record_id = '';
           this.segments_list = [];
-
-          this.content_value = '';
-          this.image_value = [];
-          this.video_value = [];
         }
-        this.image_value = (this.image_value == undefined || this.image_value == null) ? [] : this.image_value;
-        this.data = data;
-        this.hideLoading_indicator = true;
+        this.hide_Loading_indicator = true;
       },
         error => { },
         () => { }
       );
     } else {
-      this.content_value = '';
-      this.video_value = [];
-      this.hideLoading_indicator = true;
+      this.hide_Loading_indicator = true;
       this.hide_createnewsegment_button = true;
     }
   }
@@ -299,6 +402,7 @@ export class PgeactivitiesComponent implements OnInit {
             extraresources: []
           }
           this.save_record(body);
+          this.modalReference.close();
         }else{
           let newobj = {
             type: 'text_content',
@@ -314,6 +418,7 @@ export class PgeactivitiesComponent implements OnInit {
             segment: this.segments_list
           }
           this.update_record(this.record_id, body);
+          this.modalReference.close();
         }
       }
     }else if(selected_tab == 'image_tab'){
@@ -325,7 +430,7 @@ export class PgeactivitiesComponent implements OnInit {
   
         this.currentFileUpload = this.selectedFiles.item(0);
         console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
-        this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
           console.log('$$$event: '+JSON.stringify(event));
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
@@ -355,6 +460,7 @@ export class PgeactivitiesComponent implements OnInit {
                 extraresources: []
               }
               this.save_record(body);
+              this.modalReference.close();
             } else {
               let newobj = {
                 type: 'image_content',
@@ -370,6 +476,7 @@ export class PgeactivitiesComponent implements OnInit {
                 segment: this.segments_list
               }
               this.update_record(this.record_id, body);
+              this.modalReference.close();
             }
           }
         });
@@ -382,7 +489,7 @@ export class PgeactivitiesComponent implements OnInit {
   
         this.currentFileUpload = this.selectedFiles.item(0);
         console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
-        this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
           console.log('$$$event: '+JSON.stringify(event));
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
@@ -412,6 +519,7 @@ export class PgeactivitiesComponent implements OnInit {
                 extraresources: []
               }
               this.save_record(body);
+              this.modalReference.close();
             } else {
               let newobj = {
                 type: 'video_content',
@@ -427,6 +535,7 @@ export class PgeactivitiesComponent implements OnInit {
                 segment: this.segments_list
               }
               this.update_record(this.record_id, body);
+              this.modalReference.close();
             }
           }
         });
@@ -438,7 +547,6 @@ export class PgeactivitiesComponent implements OnInit {
     this.pgeactivitiesService.createmasteractivities(body).subscribe(data => {
       console.log('###1 save data: ' + JSON.stringify(data));
       swal.fire('Successful', 'Data saved successfully', 'success');
-      this.modalReference.close();
       this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
     }, error => {}, () => {});
   }
@@ -447,11 +555,66 @@ export class PgeactivitiesComponent implements OnInit {
     this.pgeactivitiesService.updatemasteractivities(id, body).subscribe(data => {
       console.log('###1 update data: ' + JSON.stringify(data));
       swal.fire('Successful', 'Data updated successfully', 'success');
-      this.modalReference.close();
       this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
     }, error => {}, () => {}
     );
   }
+
+  opencontentsmodal(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.content_value = '';
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  openupdatetextcontentsmodal(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.content_value = this.selected_segment.value;
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  openupdateimagecontentsmodal(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.image_value = this.selected_segment.s3_url;
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  openupdatevideocontentsmodal(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.video_value = this.selected_segment.s3_url;
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   delflashcard(i) {
     console.log('-->Index Value= ' + i);
@@ -473,66 +636,5 @@ export class PgeactivitiesComponent implements OnInit {
         this.update_record(this.record_id, body);
       }
     });
-  }
-
-	// upload button
-	selectedFiles: FileList;
-	displayname: string;
-	filetype: string;
-	s3name: string;
-	filechooser_onchange(event) {
-		if(event.target.files.length > 0){
-			this.selectedFiles = event.target.files;
-			this.displayname = event.target.files[0].name;
-			this.filetype = this.displayname.split('.').pop();
-			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
-		}else{
-			this.displayname = '';
-			this.selectedFiles = null;
-		}
-	}
-
-  open(content, param, flag) {
-    console.log('###> flag: ' + flag);
-    this.flag = flag;
-    if (flag == 'view') {
-    } else if (flag == 'addworksheet') {
-      this.txt_modal_url = '';
-    } else if (flag == 'editworksheet') {
-      this.txt_modal_url = param;
-    } else if (flag == 'addvideo') {
-      this.txt_modal_url = '';
-    } else if (flag == 'editvideo') {
-      this.txt_modal_url = param;
-    }
-
-    this.modalReference = this.modalService.open(content, param);
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  opencontentsmodal(content) {
-    console.log('---> save_operation: ' + this.save_operation);
-
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 }
