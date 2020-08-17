@@ -21,7 +21,8 @@ const URL = environment.uploadURL;
 export class Masterteachertraining2Component implements OnInit {
 	// video
 	video_file_name:string ='';
-	divs: number[] = [0,1,2];
+	divs: number[] = [];
+	allcontent:any = [];
 	// worksheet
 	worksheet_file_name:string ='';
 
@@ -81,7 +82,19 @@ export class Masterteachertraining2Component implements OnInit {
 	video_value:any = [];
 	flashcard_value:any = [];
 	quiz_value:any = [];
-
+	contents:any = [];
+	selectedvedioFiles:any;
+	displayvedioname:any;
+	vediofiletype:any;
+	s3vedioname:any;
+	edit_selectedFiles:any;
+	edit_displayname:any;
+	edit_filetype:any;
+	edit_s3name:any;
+	edit_selectedvedioFiles:any;
+	edit_displayvedioname:any;
+	edit_vediofiletype:any;
+	edit_s3vedioname:any;
 	public Editor = ClassicEditor;
     
     constructor(
@@ -211,7 +224,7 @@ export class Masterteachertraining2Component implements OnInit {
 	modulesubmodule_btn_click(){
 		this.router.navigate(['/masterteachertraining1']);
 	}
-
+	
 	async load_record(){
 		if(	 this.selected_moduleid != undefined && this.selected_moduleid != null && this.selected_moduleid != ''
 		  && this.selected_submoduleid != undefined && this.selected_submoduleid != null && this.selected_submoduleid != '' && this.selected_topicid != undefined && this.selected_topicid != null && this.selected_topicid != '') {
@@ -223,7 +236,9 @@ export class Masterteachertraining2Component implements OnInit {
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
-						this.content_value = data[0]['content'];
+						// this.content_value = data[0]['content'];
+						this.allcontent =  data[0]['content'];
+						console.log("this.allcontent",this.allcontent)
 						this.worksheet_value = data[0]['worksheet'];
 						this.video_value = data[0]['video'];
 						this.flashcard_value = data[0]['flashcard'];
@@ -236,6 +251,7 @@ export class Masterteachertraining2Component implements OnInit {
 						this.video_value = [];
 						this.flashcard_value = [];
 						this.quiz_value = [];
+						this.allcontent = [];
 					}
 					this.data = data;
 					this.hideLoading_indicator = true;
@@ -318,8 +334,75 @@ export class Masterteachertraining2Component implements OnInit {
 		this.quiz_value.splice(this.delete_q_index, 1);
 		this.modalReference.close();
 	}
+	currentVedioUpload :any;
+	s3vediopath:any;
+	obj:any;
+	addcontent(){
+		const body = {
+			moduleid : this.selected_moduleid,
+			modulename : this.selected_modulename,
+			submoduleid : this.selected_submoduleid,
+			submodulename : this.selected_submodulename,
+			topicid : this.selected_topicid,
+			topicname : this.selected_topicname,
+			content: this.contents,
+			flashcard: this.flashcard_value,
+			worksheet: this.worksheet_value,
+			video: this.video_value,
+			quiz: this.quiz_value
+		}
+		console.log("body",body)
+		this.save_record(body);
+	}
+	addnextcontent(){
+		
+		// if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
+		// 	swal.fire('info', 'Please add some content !!!', 'warning');
+		// }else if(this.content_value.length > 500){
+		// 	swal.fire('info', 'content should not be more than 500 words', 'warning');
+		// }else{
 
-
+		// }
+			// console.log("this.selectedvedioFiles",this.selectedvedioFiles)
+			
+			// console.log("this.selectedFiles",this.selectedFiles)
+			// if(this.selectedFiles != undefined || this.selectedFiles != null){
+				this.currentFileUpload = this.selectedFiles.item(0);
+				this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+					if (event.type === HttpEventType.UploadProgress) {
+						this.progress.percentage = Math.round(100 * event.loaded / event.total);
+					} else if (event instanceof HttpResponse) {
+						this.s3path = event.body['s3path'];
+						this.callsecond(this.s3path);
+						// console.log("this.s3path",this.s3path)
+						this.hideProgressbar = true;
+						
+					}
+				});	
+	}
+	callsecond(imagepath){
+		this.currentVedioUpload = this.selectedvedioFiles.item(0);
+				this.managersboxService.pushFileToStorage(this.currentVedioUpload, this.s3vedioname).subscribe(event => {
+					if (event.type === HttpEventType.UploadProgress) {
+						this.progress.percentage = Math.round(100 * event.loaded / event.total);
+					} else if (event instanceof HttpResponse) {
+						this.s3vediopath = event.body['s3path'];
+						console.log("this.s3vediopath",this.s3vediopath)
+						this.hideProgressbar = true;
+						let obj = {
+							"contentid" : new Date().getTime(),
+							"content":this.content_value,
+							"image":imagepath,
+							"vedio":this.s3vediopath,
+							"vedio_name":this.s3vedioname
+						}
+						this.contents.push(obj)
+						this.content_value = '';
+						// this.
+						
+					}	
+				});
+	}
 	currentFileUpload: File;
 	hideProgressbar: boolean = true;
 	progress: { percentage: number } = { percentage: 0 };
@@ -455,6 +538,7 @@ export class Masterteachertraining2Component implements OnInit {
 	filetype: string;
 	s3name: string;
 	filechooser_onchange(event) {
+		console.log("event",event)
 		if(event.target.files.length > 0){
 			this.selectedFiles = event.target.files;
 			this.displayname = event.target.files[0].name;
@@ -465,7 +549,72 @@ export class Masterteachertraining2Component implements OnInit {
 			this.selectedFiles = null;
 		}
 	}
-
+	videochooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedvedioFiles = event.target.files;
+			this.displayvedioname = event.target.files[0].name;
+			this.vediofiletype = this.displayvedioname.split('.').pop();
+			this.s3vedioname = (new Date()).getTime()+'.'+this.vediofiletype;
+		}else{
+			this.displayvedioname = '';
+			this.selectedvedioFiles = null;
+		}
+	}
+	
+	edit_filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.edit_selectedFiles = event.target.files;
+			this.edit_displayname = event.target.files[0].name;
+			this.edit_filetype = this.edit_displayname.split('.').pop();
+			this.edit_s3name = (new Date()).getTime()+'.'+this.edit_filetype;
+		}else{
+			this.edit_displayname = '';
+			this.edit_selectedFiles = null;
+		}
+	}
+	
+	edit_videochooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.edit_selectedvedioFiles = event.target.files;
+			this.edit_displayvedioname = event.target.files[0].name;
+			this.edit_vediofiletype = this.edit_displayvedioname.split('.').pop();
+			this.edit_s3vedioname = (new Date()).getTime()+'.'+this.edit_vediofiletype;
+		}else{
+			this.edit_displayvedioname = '';
+			this.edit_selectedvedioFiles = null;
+		}
+	}
+	edit_content_index:any;
+	edit_content_id:any;
+	edit_vedio_value:any;
+	edit_img_value:any;
+	edit_content_value:any;
+	opencontent(content,obj,index,flag) {
+		console.log("obj",content,obj,index,flag)
+		if(flag == 'addcontentmodal'){
+			this.content_value = '';
+			this.add_q_question = '';
+			this.add_q_optionA = '';
+		} else if(flag == 'editcontentmodal'){
+			this.edit_content_index = index;
+			this.edit_content_value = obj.content;
+			this.edit_content_id = obj.contentid;
+			this.edit_img_value = obj.image;
+			this.edit_vedio_value = obj.vedio
+			// this.edit_q_question = obj.question;
+			// this.edit_q_optionA = obj.A;
+			// this.edit_q_optionB = obj.B;
+			// this.edit_q_optionC = obj.C;
+			// this.edit_q_optionD = obj.D;
+			// this.edit_q_ans = obj.answer;
+		}
+		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
 	open(content,obj,index,flag) {
 		// update
 		if(flag == 'add'){
