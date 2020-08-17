@@ -21,6 +21,9 @@ export class PgeactivitiesComponent implements OnInit {
   @ViewChild('updatetextcontentsmodal') updatetextcontentsmodal: any;
   @ViewChild('updateimagecontentsmodal') updateimagecontentsmodal: any;
   @ViewChild('updatevideocontentsmodal') updatevideocontentsmodal: any;
+  @ViewChild('textpreviewmodal') textpreviewmodal: any;
+  @ViewChild('imagepreviewmodal') imagepreviewmodal: any;
+  @ViewChild('videopreviewmodal') videopreviewmodal: any;
   
 	// File chooser variables
 	selectedFiles: FileList;
@@ -66,8 +69,9 @@ export class PgeactivitiesComponent implements OnInit {
   image_value: any = [];
   video_value: any = [];
 
-
-
+  text_to_preview: string = '';
+  image_to_preview: string = '';
+  video_to_play: string = '';
 
   constructor(
     private modalService: NgbModal,
@@ -303,6 +307,7 @@ export class PgeactivitiesComponent implements OnInit {
 
   update_segment(modalwindow){
     console.log('-->update_segment()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
+
     if(modalwindow == 'textcontentsmodal'){
       let newobj = {
         type: 'text_content',
@@ -320,7 +325,86 @@ export class PgeactivitiesComponent implements OnInit {
       this.update_record(this.record_id, body);
       this.modalReference.close();
     }else if(modalwindow == 'imagecontentsmodal'){
+      let oldfilename = this.segments_list[this.selected_segment_index].s3name;
+      this.hideProgressbar = false;
+      this.progress.percentage = 0;
+      this.currentFileUpload = this.selectedFiles.item(0);
+      console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+      this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
+        console.log('$$$event: '+JSON.stringify(event));
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.hideProgressbar = true;
+          this.s3path = event.body['s3path'];
+          console.log('File is completely uploaded!->'+this.s3path);
+          let newobj = {
+            type: 'image_content',
+            displayname: this.displayname,
+            s3name: this.s3name,
+            filetype: this.filetype,
+            s3_url: this.s3path,
+            preview_url: this.s3path,
+            value: this.s3path
+          }
+          this.segments_list.splice(this.selected_segment_index,1,newobj);
+          let body = {
+            segment: this.segments_list
+          }
+          this.update_record(this.record_id, body);
+          this.galleryService.deleteFromStorage(null, oldfilename).subscribe(data1 => {
+              console.log('@@@s3 data delete: '+JSON.stringify(data1));
+            }, error => {}, () => {}
+          );
+          this.modalReference.close();
+        }
+      });
     }else if(modalwindow == 'videocontentsmodal'){
+      let oldfilename = this.segments_list[this.selected_segment_index].s3name;
+      this.hideProgressbar = false;
+      this.progress.percentage = 0;
+      this.currentFileUpload = this.selectedFiles.item(0);
+      console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+      this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
+        console.log('$$$event: '+JSON.stringify(event));
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.hideProgressbar = true;
+          this.s3path = event.body['s3path'];
+          console.log('File is completely uploaded!->'+this.s3path);
+          let newobj = {
+            type: 'video_content',
+            displayname: this.displayname,
+            s3name: this.s3name,
+            filetype: this.filetype,
+            s3_url: this.s3path,
+            preview_url: this.s3path,
+            value: this.s3path
+          }
+          this.segments_list.splice(this.selected_segment_index,1,newobj);
+          let body = {
+            segment: this.segments_list
+          }
+          this.update_record(this.record_id, body);
+          this.galleryService.deleteFromStorage(null, oldfilename).subscribe(data1 => {
+              console.log('@@@s3 data delete: '+JSON.stringify(data1));
+            }, error => {}, () => {}
+          );
+          this.modalReference.close();
+        }
+      });
+    }
+  }
+
+  preview_segment_btn_click(){
+    console.log('-->update_segment()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
+    if(this.selected_segment_type == 'text_content'){
+      this.opentextpreviewmodal(this.textpreviewmodal);
+    }else if(this.selected_segment_type == 'image_content'){
+      this.openimagepreviewmodal(this.imagepreviewmodal);
+    }else if(this.selected_segment_type == 'video_content'){
+      this.openvideopreviewmodal(this.videopreviewmodal);
     }
   }
   // ====================================== Segment related codes ends here =================================
@@ -596,6 +680,39 @@ export class PgeactivitiesComponent implements OnInit {
   openupdatevideocontentsmodal(content) {
     console.log('---> save_operation: ' + this.save_operation);
     this.video_value = this.selected_segment.s3_url;
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  opentextpreviewmodal(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.text_to_preview = this.selected_segment.value;
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  openimagepreviewmodal(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.image_to_preview = this.selected_segment.s3_url;
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  openvideopreviewmodal(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.video_to_play = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

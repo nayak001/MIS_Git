@@ -245,14 +245,19 @@
 									</div>
 									<br>
 									<div class="row" *ngIf="selected_segment_index != -1">
-										<div class="col col-lg-6 col-md-6 col-sm-6">
+										<div class="col col-lg-4 col-md-4 col-sm-4">
 											<div>
-												<button (click)="update_segment_btn_click()" class="btn btn-primary" type="button">Update</button>
+												<button (click)="update_segment_btn_click()" class="btn btn-primary" type="button" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
 											</div>
 										</div>
-										<div class="col col-lg-6 col-md-6 col-sm-6">
+										<div class="col col-lg-4 col-md-4 col-sm-4" style="text-align: center;">
 											<div>
-												<button (click)="delete_segment_btn_click()" class="btn btn-danger float-right" type="button">Delete</button>
+												<button (click)="preview_segment_btn_click()" class="btn btn-primary" type="button" title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></button>
+											</div>
+										</div>
+										<div class="col col-lg-4 col-md-4 col-sm-4">
+											<div>
+												<button (click)="delete_segment_btn_click()" class="btn btn-danger float-right" type="button" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 											</div>
 										</div>
 									</div>
@@ -267,7 +272,6 @@
         </div>        
     </div>
 </div>
-
 
 <!-- update modals starts from here -->
 <ng-template #updatetextcontentsmodal let-c="close" let-d="dismiss">
@@ -360,6 +364,72 @@
 					<br />
 					<div class="bottomanchor_div2">
 						<button (click)="update_segment('videocontentsmodal')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save Content&nbsp;&nbsp;&nbsp;</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #textpreviewmodal let-c="close" let-d="dismiss">
+	<!-- Close Button -->
+	<div style="width: 100%; padding: 10px;">
+		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+	</div>
+
+	<div class="modal-body">
+		<div class="row">
+			<div style="width: 100%; vertical-align: top;">
+				<div id="content_div" class="pad25">
+					<!-- Text Contents  -->
+					<div>
+						<ckeditor #editor [editor]="Editor2" data="{{text_to_preview}}"></ckeditor>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #imagepreviewmodal let-c="close" let-d="dismiss">
+	<!-- Close Button -->
+	<div style="width: 100%; padding: 10px;">
+		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+	</div>
+
+	<div class="modal-body">
+		<div class="row">
+			<div style="width: 100%; vertical-align: top;">
+				<div id="content_div" class="pad25">
+					<!-- Text Contents  -->
+					<div style="text-align: center;">
+						<div class="image_preview_container">
+							<div style="text-align: center;">
+								<img src="{{  image_to_preview  }}" class="image2" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #videopreviewmodal let-c="close" let-d="dismiss">
+	<!-- Close Button -->
+	<div style="width: 100%; padding: 10px;">
+		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+	</div>
+
+	<div class="modal-body">
+		<div class="row">
+			<div style="width: 100%; vertical-align: top;">
+				<div id="content_div" class="pad25">
+					<!-- Text Contents  -->
+					<div style="text-align: center;">
+						<video width="50%" height="50%" controls>
+							<source src="{{video_to_play}}" type="video/mp4">
+						</video>
 					</div>
 				</div>
 			</div>

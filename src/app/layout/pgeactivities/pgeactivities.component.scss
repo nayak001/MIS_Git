@@ -22,11 +22,12 @@ select{
     max-height: 150px !important;
 }
 */
+
 /* Tab set style */
-:host ::ng-deep .tabset1 a.nav-link {
+.nav-tabs a.nav-link {
     color: green;
 }
-:host ::ng-deep .tabset1 a.nav-link.active {
+.nav-tabs a.nav-link.active {
     color: white;
     background-color: #8a8aa9;
 }
@@ -211,8 +212,8 @@ select{
 }
 .bottomanchor_div2{
     position: absolute; 
-    width: 100%; 
-    height: 39px; 
+    width: 50%; 
+    height: 45px; 
     bottom: 0; 
-    margin-left: -100px;
+    margin-left: 330px;
 }

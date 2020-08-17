@@ -12,6 +12,7 @@ import { PgeactivitiesService } from './pgeactivities.service';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FileUploadModule } from 'ng2-file-upload';
 
+
 @NgModule({
   imports: [
     CommonModule,
