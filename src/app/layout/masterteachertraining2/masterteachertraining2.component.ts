@@ -42,7 +42,13 @@ export class Masterteachertraining2Component implements OnInit {
 	add_q_ans: string = '';
 	selected_qans_val_add: string = '';
 	selected_qans_text_add: string ='';
-
+	currentFileUpload: File;
+	hideProgressbar: boolean = true;
+	progress: { percentage: number } = { percentage: 0 };
+	s3path: string = '';
+	currentvedioFileUpload: File;
+	hidevedioProgressbar: boolean = true;
+	vedioprogress: { percentage: number } = { percentage: 0 };
 	// quiz - edit
 	edit_q_index: string = '';
 	edit_q_qid: string = '';
@@ -338,6 +344,78 @@ export class Masterteachertraining2Component implements OnInit {
 	s3vediopath:any;
 	obj:any;
 	addcontent(){
+		const obj = {
+			"contentid" : new Date().getTime(),
+			"content":this.content_value,
+			"type":"content"
+		}
+		this.contents.push(obj)
+	}
+	addimage(){
+		this.hideProgressbar = false;
+		this.progress.percentage = 0;
+
+		this.currentFileUpload = this.selectedFiles.item(0);
+		this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+			if (event.type === HttpEventType.UploadProgress) {
+				this.progress.percentage = Math.round(100 * event.loaded / event.total);
+			} else if (event instanceof HttpResponse) {
+				this.s3path = event.body['s3path'];
+				this.hideProgressbar = true;
+
+				// let obj = {
+				// 	displayname: this.displayname,
+				// 	s3name: this.s3name,
+				// 	filetype: this.filetype,
+				// 	s3path: this.s3path
+				// }
+				// this.flashcard_value.push(obj);
+
+				const obj = {
+					"contentid" : new Date().getTime(),
+					"content":this.s3path,
+					"type":"image"
+				}
+				this.contents.push(obj)
+				
+				//this.load_record();
+			}
+		});
+	}
+	addvedio(){
+		console.log("this.s3vedioname",this.s3vedioname)
+	    this.hidevedioProgressbar = false;
+		this.vedioprogress.percentage = 0;
+		this.currentvedioFileUpload = this.selectedvedioFiles.item(0);
+	    this.managersboxService.pushFileToStorage(this.currentvedioFileUpload, this.s3vedioname).subscribe(event => {
+		if (event.type === HttpEventType.UploadProgress) {
+			this.vedioprogress.percentage  = Math.round(100 * event.loaded / event.total);
+		} else if (event instanceof HttpResponse) {
+			this.s3vediopath = event.body['s3path'];
+			this.hidevedioProgressbar = true;
+			const obj = {
+				"contentid" : new Date().getTime(),
+				"content":this.s3vediopath,
+				"vedio_name":this.s3vedioname,
+				"type":"vedio"
+			}
+			this.contents.push(obj)
+			// let obj = {
+			// 	"contentid" : new Date().getTime(),
+			// 	"content":this.content_value,
+			// 	"image":imagepath,
+			// 	"vedio":this.s3vediopath,
+			// 	"vedio_name":this.s3vedioname
+			// }
+			// this.contents.push(obj)
+			// this.content_value = '';
+			// this.
+			
+		}	
+	});
+	}
+	savecontent(){
+		console.log("this.contents",this.contents)
 		const body = {
 			moduleid : this.selected_moduleid,
 			modulename : this.selected_modulename,
@@ -351,62 +429,90 @@ export class Masterteachertraining2Component implements OnInit {
 			video: this.video_value,
 			quiz: this.quiz_value
 		}
-		console.log("body",body)
 		this.save_record(body);
 	}
-	addnextcontent(){
-		
-		// if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
-		// 	swal.fire('info', 'Please add some content !!!', 'warning');
-		// }else if(this.content_value.length > 500){
-		// 	swal.fire('info', 'content should not be more than 500 words', 'warning');
-		// }else{
+	updatecontent() {
+		const body = {
+			contentid:this.edit_content_id,
+			content:this.edit_content_value,
+			type:"content"
+		}
+		this.allcontent.splice(this.edit_q_index, 1, body);
+		this.update_record(this.record_id,this.allcontent);
+	}
+	edit_filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.edit_selectedFiles = event.target.files;
+			this.edit_displayname = event.target.files[0].name;
+			this.edit_filetype = this.edit_displayname.split('.').pop();
+			this.edit_s3name = (new Date()).getTime()+'.'+this.edit_filetype;
+		}else{
+			this.edit_displayname = '';
+			this.edit_selectedFiles = null;
+		}
+	}
+	edit_s3_path:any;
+	updateimage() {
+		this.hideProgressbar = false;
+		this.progress.percentage = 0;
 
-		// }
-			// console.log("this.selectedvedioFiles",this.selectedvedioFiles)
+		this.currentFileUpload = this.edit_selectedFiles.item(0);
+		this.managersboxService.pushFileToStorage(this.currentFileUpload, this.edit_s3name).subscribe(event => {
+			if (event.type === HttpEventType.UploadProgress) {
+				this.progress.percentage = Math.round(100 * event.loaded / event.total);
+			} else if (event instanceof HttpResponse) {
+				this.edit_s3_path = event.body['s3path'];
+				this.hideProgressbar = true;
+				const body = {
+					contentid:this.edit_image_id,
+					content:this.edit_s3_path,
+					type:"image"
+				}
+				this.allcontent.splice(this.edit_image_index, 1, body);
+				this.update_record(this.record_id,this.allcontent);
+			}
+		});
+		
+	}
+	edit_videochooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.edit_selectedvedioFiles = event.target.files;
+			this.edit_displayvedioname = event.target.files[0].name;
+			this.edit_vediofiletype = this.edit_displayvedioname.split('.').pop();
+			this.edit_s3vedioname = (new Date()).getTime()+'.'+this.edit_vediofiletype;
+			console.log("this.edit_s3vedioname",this.edit_s3vedioname)
+		}else{
+			this.edit_displayvedioname = '';
+			this.edit_selectedvedioFiles = null;
+		}
+	}
+	updatevedio() {
+		// this.edit_vedio_index = index;
+		// 	this.edit_s3_vedio_path = obj.content;
+		// 	this.edit_vedio_id = obj.contentid;
+		// 	this.edit_vedio_name = obj.vedio_name;
+		this.hidevedioProgressbar = false;
+		this.vedioprogress.percentage = 0;
+		console.log("11", this.edit_s3vedioname)
+		this.currentvedioFileUpload = this.selectedvedioFiles.item(0);
+	    this.managersboxService.pushFileToStorage(this.currentvedioFileUpload, this.edit_s3vedioname).subscribe(event => {
+		if (event.type === HttpEventType.UploadProgress) {
+			this.vedioprogress.percentage  = Math.round(100 * event.loaded / event.total);
+		} else if (event instanceof HttpResponse) {
+			this.edit_s3_vedio_path = event.body['s3path'];
+			this.hidevedioProgressbar = true;
+			const body = {
+				contentid:this.edit_vedio_id,
+				content:this.edit_s3_vedio_path,
+				type:"vedio"
+			}
+			this.allcontent.splice(this.edit_vedio_index, 1, body);
+			this.update_record(this.record_id,this.allcontent);
 			
-			// console.log("this.selectedFiles",this.selectedFiles)
-			// if(this.selectedFiles != undefined || this.selectedFiles != null){
-				this.currentFileUpload = this.selectedFiles.item(0);
-				this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-					if (event.type === HttpEventType.UploadProgress) {
-						this.progress.percentage = Math.round(100 * event.loaded / event.total);
-					} else if (event instanceof HttpResponse) {
-						this.s3path = event.body['s3path'];
-						this.callsecond(this.s3path);
-						// console.log("this.s3path",this.s3path)
-						this.hideProgressbar = true;
-						
-					}
-				});	
+		}	
+	});
+		
 	}
-	callsecond(imagepath){
-		this.currentVedioUpload = this.selectedvedioFiles.item(0);
-				this.managersboxService.pushFileToStorage(this.currentVedioUpload, this.s3vedioname).subscribe(event => {
-					if (event.type === HttpEventType.UploadProgress) {
-						this.progress.percentage = Math.round(100 * event.loaded / event.total);
-					} else if (event instanceof HttpResponse) {
-						this.s3vediopath = event.body['s3path'];
-						console.log("this.s3vediopath",this.s3vediopath)
-						this.hideProgressbar = true;
-						let obj = {
-							"contentid" : new Date().getTime(),
-							"content":this.content_value,
-							"image":imagepath,
-							"vedio":this.s3vediopath,
-							"vedio_name":this.s3vedioname
-						}
-						this.contents.push(obj)
-						this.content_value = '';
-						// this.
-						
-					}	
-				});
-	}
-	currentFileUpload: File;
-	hideProgressbar: boolean = true;
-	progress: { percentage: number } = { percentage: 0 };
-	s3path: string = '';
 	async save_btn_click(selected_tab){
 		if(selected_tab == 'content_tab') {
 			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
@@ -438,6 +544,7 @@ export class Masterteachertraining2Component implements OnInit {
 			if(this.save_operation == 'save'){
 				swal.fire('info', 'Please add some content !!!', 'warning');
 			}else if(this.save_operation == 'update'){
+				console.log('111',this.edit_q_question)
 				this.update_record(this.record_id, body);
 			}
 		}else if(selected_tab == 'image_tab') {
@@ -446,7 +553,8 @@ export class Masterteachertraining2Component implements OnInit {
 			}else if(this.save_operation == 'update'){
 				if(this.selectedFiles == undefined || this.selectedFiles == null){
 					swal.fire('info', 'Please select image file', 'warning');
-				}else{this.hideProgressbar = false;
+				}else{
+					this.hideProgressbar = false;
 					this.progress.percentage = 0;
 		
 					this.currentFileUpload = this.selectedFiles.item(0);
@@ -549,6 +657,7 @@ export class Masterteachertraining2Component implements OnInit {
 			this.selectedFiles = null;
 		}
 	}
+	
 	videochooser_onchange(event) {
 		if(event.target.files.length > 0){
 			this.selectedvedioFiles = event.target.files;
@@ -561,34 +670,21 @@ export class Masterteachertraining2Component implements OnInit {
 		}
 	}
 	
-	edit_filechooser_onchange(event) {
-		if(event.target.files.length > 0){
-			this.edit_selectedFiles = event.target.files;
-			this.edit_displayname = event.target.files[0].name;
-			this.edit_filetype = this.edit_displayname.split('.').pop();
-			this.edit_s3name = (new Date()).getTime()+'.'+this.edit_filetype;
-		}else{
-			this.edit_displayname = '';
-			this.edit_selectedFiles = null;
-		}
-	}
 	
-	edit_videochooser_onchange(event) {
-		if(event.target.files.length > 0){
-			this.edit_selectedvedioFiles = event.target.files;
-			this.edit_displayvedioname = event.target.files[0].name;
-			this.edit_vediofiletype = this.edit_displayvedioname.split('.').pop();
-			this.edit_s3vedioname = (new Date()).getTime()+'.'+this.edit_vediofiletype;
-		}else{
-			this.edit_displayvedioname = '';
-			this.edit_selectedvedioFiles = null;
-		}
-	}
+	
+	
 	edit_content_index:any;
 	edit_content_id:any;
 	edit_vedio_value:any;
 	edit_img_value:any;
-	edit_content_value:any;
+	edit_content_value: string ='';
+	edit_image_index:any;
+	edit_image_path:any;
+	edit_image_id:any;
+	edit_vedio_index:any;
+	edit_s3_vedio_path:any;
+	edit_vedio_id:any;
+	edit_vedio_name:any;
 	opencontent(content,obj,index,flag) {
 		console.log("obj",content,obj,index,flag)
 		if(flag == 'addcontentmodal'){
@@ -599,14 +695,15 @@ export class Masterteachertraining2Component implements OnInit {
 			this.edit_content_index = index;
 			this.edit_content_value = obj.content;
 			this.edit_content_id = obj.contentid;
-			this.edit_img_value = obj.image;
-			this.edit_vedio_value = obj.vedio
-			// this.edit_q_question = obj.question;
-			// this.edit_q_optionA = obj.A;
-			// this.edit_q_optionB = obj.B;
-			// this.edit_q_optionC = obj.C;
-			// this.edit_q_optionD = obj.D;
-			// this.edit_q_ans = obj.answer;
+		} else if(flag == 'editimagemodal'){
+			this.edit_image_index = index;
+			this.edit_s3_path = obj.content;
+			this.edit_image_id = obj.contentid;
+		} else if(flag == 'editvediomodal'){
+			this.edit_vedio_index = index;
+			this.edit_s3_vedio_path = obj.content;
+			this.edit_vedio_id = obj.contentid;
+			this.edit_vedio_name = obj.vedio_name;
 		}
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {
@@ -629,6 +726,7 @@ export class Masterteachertraining2Component implements OnInit {
 			this.edit_q_index = index;
 			this.edit_q_qid = obj.qid;
 			this.edit_q_question = obj.question;
+			console.log("this.edit_q_question",this.edit_q_question)
 			this.edit_q_optionA = obj.A;
 			this.edit_q_optionB = obj.B;
 			this.edit_q_optionC = obj.C;

@@ -67,48 +67,44 @@
 												<span class="addbtn" (click)="opencontent(addcontentmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
 											</div>
 										</div>
-										<div  class="tbl_tr" *ngFor="let data of allcontent; let i = index;">
+										<div  class="tbl_tr" >
 											<div>
 												<div class="">
-													<div>
-														<span class="addbtn" (click)="opencontent(editcontentmodal,data,i,'editcontentmodal')"><i class="fa fa-pencil-square-o" aria-hidden="true" style="    margin-left: 900px;"></i></span>
-														<span class="delbtn" (click)="opencontent(deletecontentmodal,data,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-													</div>
-													<div class="row">
-														<div class="col col-xl-12 col-lg-12">
-															<ckeditor [editor]="Editor"  [(ngModel)]="data.content" data="{{data.content}}"></ckeditor>
-														</div>
-													</div>
-													<div class="row tbl_tr">
-														<div class="col col-xl-6 col-lg-6">
-															<div>
-																<img src="{{ data.image }}" class="image" />
+													
+													
+													<div class="row" >
+														<div class="col col-xl-4 col-lg-4 tbl_tr" *ngFor="let data of allcontent; let i = index;">
+															<div  *ngIf="data.type == 'content'">
+																<div>
+																	<span class="addbtn" (click)="opencontent(editcontentmodal,data,i,'editcontentmodal')" style="margin-left: 228px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+																	<span class="delbtn" (click)="opencontent(deletecontentmodal,data,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+																</div>
+																<ckeditor [editor]="Editor"  [(ngModel)]="data.content" data="{{data.content}}"></ckeditor>
 															</div>
-														</div>
-													 <div class="col col-xl-6 col-lg-6">
-															<div style="text-align: center;">
+															<div *ngIf="data.type == 'image'">
+																<div>
+																	<span class="addbtn" (click)="opencontent(editimagemodal,data,i,'editimagemodal')" style="margin-left: 228px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+																	<span class="delbtn" (click)="opencontent(deletecontentmodal,data,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+																</div>
+																<img src="{{ data.content }}" class="image" />
+															</div>
+															<div  *ngIf="data.type == 'vedio'">
+																<div>
+																	<span class="addbtn" (click)="opencontent(editvediomodal,data,i,'editvediomodal')" style="margin-left: 228px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+																	<span class="delbtn" (click)="opencontent(deletecontentmodal,data,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+																</div>
 																<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 20%;"></span><br>
-																<span class="">{{ data.vedio }}</span>
+																<span class="">{{ data.content }}</span>
 															</div>
 														</div>
 													</div>
+													
 													
 												</div>
 											</div>
 										</div>
 									</div>
 								  </div>
-							  <!-- <div>
-								<div class="tab_content_height">
-									<div>
-										<ckeditor [editor]="Editor"  [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
-									</div>
-								</div>
-								<div>
-									<button (click)="save_btn_click('content_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-								</div>
-							  </div> -->
-							
 							</ng-template>
 						</ngb-tab>
 						
@@ -405,6 +401,7 @@
 								<div class="tab_content_height margintop30">
 									<ckeditor [editor]="Editor"  [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
 								</div>
+								<button type="button" class="btn btn-primary" (click)="addcontent()">Add</button>
 								Image
 								<div>
 									<div class="tab_content_height margintop30" style="  margin-right: 100px;
@@ -430,115 +427,7 @@
 														</div>
 													</td>
 													<td>
-														<button (click)="save_btn_click('image_tab')" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp; Upload &nbsp;&nbsp;&nbsp;</button>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<div class="image_preview_container">
-															<div class="image_preview" *ngFor="let flash of flashcard_value; let i = index;">
-																<div>
-																	<img src="{{ flash.s3path }}" class="image" />
-																</div>
-																<div class="delbtn" (click)="delflashcard(i)">
-																	<i class="fa fa-times-circle" aria-hidden="true"></i>
-																</div>
-															</div>
-														</div>
-													</td>
-													<td></td>
-												</tr>
-											</table>
-										</div>
-								</div>
-								video
-								<div>
-									<div class="tab_content_height margintop30" style="width: 465px;margin-left: 2px;">
-										<table class="table50">
-											<tr>
-												<td>
-													<span class="bold-font">Upload video:</span>
-													<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-															<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-															attr.aria-valuenow="{{progress.percentage}}"
-															aria-valuemin="0" aria-valuemax="100" 
-															[ngStyle]="{width:progress.percentage+'%'}">
-															{{progress.percentage}}%
-														</div>
-													</div>
-												</td>
-												<td></td>
-											</tr>
-											<tr style="border: 1px solid gray; background-color: #d9d8d8;">
-												<td>
-													<div class="file-upload">
-														<input type="file" #fileInput (change)="videochooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
-													</div>
-												</td>
-												<td>
-													<button (click)="save_btn_click('video_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="image_preview_container">
-														<div class="image_preview" *ngFor="let video of video_value; let i = index;">
-															<div style="text-align: center;">
-																<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 50%;"></span><br>
-																<span class="">{{ video.displayname }}</span>
-															</div>
-															<div class="delbtn">
-																<i class="fa fa-times-circle" aria-hidden="true"></i>
-															</div>
-														</div>
-													</div>
-												</td>
-												<td></td>
-											</tr>
-										</table>
-									</div>
-								</div>
-							</div>								
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')" style="margin-right: 200px;">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="addnextcontent()">Addmore</button>
-							<button type="button" class="btn btn-primary" (click)="addcontent()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					<ng-template #editcontentmodal let-c="close" let-d="dismiss">
-						<div class="modal-body" >
-							<div class="row padd15">
-								Content
-								<div class="tab_content_height margintop30">
-									<ckeditor [editor]="Editor"  [(ngModel)]="edit_content_value" data="{{edit_content_value}}"></ckeditor>
-								</div>
-								Image
-								<div>
-									<div class="tab_content_height margintop30" style="  margin-right: 100px;
-										width: 462px;">
-											<table class="table50">
-												<tr>
-													<td>
-														<span class="bold-font">Upload image:</span>
-														<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-																<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-																attr.aria-valuenow="{{progress.percentage}}"
-																aria-valuemin="0" aria-valuemax="100" 
-																[ngStyle]="{width:progress.percentage+'%'}">
-																{{progress.percentage}}%
-															</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<div class="file-upload">
-															<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
-														</div>
-													</td>
-													<td>
-														<button (click)="save_btn_click('image_tab')" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp; Upload &nbsp;&nbsp;&nbsp;</button>
+													
 													</td>
 												</tr>
 												<tr>
@@ -546,7 +435,7 @@
 														<div class="image_preview_container">
 															<div class="image_preview">
 																<div>
-																	<img src="{{edit_img_value }}" class="image" />
+																	<img src="{{s3path}}" class="image" />
 																</div>
 																<div class="delbtn" (click)="delflashcard(i)">
 																	<i class="fa fa-times-circle" aria-hidden="true"></i>
@@ -558,9 +447,7 @@
 												</tr>
 											</table>
 										</div>
-										<!-- <div>
-											<button (click)="save_btn_click('image_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-										</div> -->
+										<button type="button" class="btn btn-primary" (click)="addimage()">Add</button>
 								</div>
 								video
 								<div>
@@ -569,12 +456,12 @@
 											<tr>
 												<td>
 													<span class="bold-font">Upload video:</span>
-													<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-															<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-															attr.aria-valuenow="{{progress.percentage}}"
+													<div *ngIf="currentvedioFileUpload" class="progress" [hidden]="hidevedioProgressbar">
+															<div class="progress-bar progress-bar-info progress-bar-striped" role="vedioprogress" 
+															attr.aria-valuenow="{{vedioprogress.percentage}}"
 															aria-valuemin="0" aria-valuemax="100" 
-															[ngStyle]="{width:progress.percentage+'%'}">
-															{{progress.percentage}}%
+															[ngStyle]="{width:vedioprogress.percentage+'%'}">
+															{{vedioprogress.percentage}}%
 														</div>
 													</div>
 												</td>
@@ -596,7 +483,7 @@
 														<div class="image_preview">
 															<div style="text-align: center;">
 																<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 50%;"></span><br>
-																<span class="">{{edit_vedio_value}}</span>
+																<span class="">{{s3vedioname  }}</span>
 															</div>
 															<div class="delbtn">
 																<i class="fa fa-times-circle" aria-hidden="true"></i>
@@ -608,12 +495,131 @@
 											</tr>
 										</table>
 									</div>
+									<button type="button" class="btn btn-primary" (click)="addvedio()">Add</button>
+								</div>
+							</div>								
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')" style="margin-right: 200px;">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="savecontent()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #editcontentmodal let-c="close" let-d="dismiss">
+						<div class="modal-body" >
+							<div class="row padd15">
+								Content
+								<div class="tab_content_height margintop30">
+									<ckeditor [editor]="Editor"  [(ngModel)]="edit_content_value" data="{{edit_content_value}}"></ckeditor>
 								</div>
 							</div>								
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="updatequiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+							<button type="button" class="btn btn-primary" (click)="updatecontent()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #editimagemodal let-c="close" let-d="dismiss">
+						<div class="modal-body" >
+							<div class="row padd15">
+								Image
+								<table class="table50">
+									<tr>
+										<td>
+											<span class="bold-font">Upload image:</span>
+											<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+													<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+													attr.aria-valuenow="{{progress.percentage}}"
+													aria-valuemin="0" aria-valuemax="100" 
+													[ngStyle]="{width:progress.percentage+'%'}">
+													{{progress.percentage}}%
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="file-upload">
+												<input type="file" #fileInput (change)="edit_filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
+											</div>
+										</td>
+										<td>
+										
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div class="image_preview_container">
+												<div class="image_preview">
+													<div>
+														<img src="{{edit_s3_path}}" class="image" />
+													</div>
+													<!-- <div class="delbtn" (click)="delflashcard(i)">
+														<i class="fa fa-times-circle" aria-hidden="true"></i>
+													</div> -->
+												</div>
+											</div>
+										</td>
+										<td></td>
+									</tr>
+								</table>
+								
+							</div>								
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="updateimage()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #editvediomodal let-c="close" let-d="dismiss">
+						<div class="modal-body" >
+							<div class="row padd15">
+								Vedio
+								<div class="tab_content_height margintop30">
+									<table class="table50">
+										<tr>
+											<td>
+												<span class="bold-font">Upload video:</span>
+												<div *ngIf="currentvedioFileUpload" class="progress" [hidden]="hidevedioProgressbar">
+														<div class="progress-bar progress-bar-info progress-bar-striped" role="vedioprogress" 
+														attr.aria-valuenow="{{vedioprogress.percentage}}"
+														aria-valuemin="0" aria-valuemax="100" 
+														[ngStyle]="{width:vedioprogress.percentage+'%'}">
+														{{vedioprogress.percentage}}%
+													</div>
+												</div>
+											</td>
+											<td></td>
+										</tr>
+										<tr style="border: 1px solid gray; background-color: #d9d8d8;">
+											<td>
+												<div class="file-upload">
+													<input type="file" #fileInput (change)="edit_videochooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="image_preview_container">
+													<div class="image_preview">
+														<div style="text-align: center;">
+															<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 50%;"></span><br>
+															<span class="">{{edit_s3vedioname}}</span>
+														</div>
+														<div class="delbtn">
+															<i class="fa fa-times-circle" aria-hidden="true"></i>
+														</div>
+													</div>
+												</div>
+											</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div>								
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="updatevedio()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</ng-template>
 					<div>
