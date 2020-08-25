@@ -64,6 +64,20 @@ export class Masterteachertraining2Service {
 			//,responseType: 'text' 
 		});
 	}
+	updatetrainingcontents(id,body){
+		return this.http.put(baseUrl+'updatetrainingcontentsbyid/'+id,
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	deletecontent(id,body){
+		return this.http.put(baseUrl+'deletetrainingcontentsbyid/'+id,body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	
 
 
 

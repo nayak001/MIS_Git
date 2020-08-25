@@ -65,7 +65,7 @@ export class CenterDetailsComponent implements OnInit {
 	emailid_exists: boolean = false;
 	disable_emailid: boolean = false;
 	Details: any;
-
+    type_class:any=''
 	page: any = 1;
 	totalPage: any;
 	page_no: any = 1;
@@ -145,7 +145,7 @@ export class CenterDetailsComponent implements OnInit {
 
 	}
 	viewData() {
-
+        this.type_class =this.class_type 
 		this.api_hit = false
 		// this.program_type = this.is_program_type
 		this.p_type = this.program_type;

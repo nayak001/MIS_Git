@@ -84,7 +84,11 @@
           </a>
           <a [routerLink]="['/activities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-child"></i>&nbsp;
-            <span>{{ 'Activities' | translate }}</span>
+            <span>{{ 'ECE Activities' | translate }}</span>
+          </a>
+          <a [routerLink]="['/pgeactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-child"></i>&nbsp;
+            <span>{{ 'PGE Activities' | translate }}</span>
           </a>
           <a [routerLink]="['/centers-allocation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-check-square-o"></i>&nbsp;
@@ -122,10 +126,10 @@
             <i class="fa fa-fw fa-archive"></i>&nbsp;
             <span>{{ 'Gallery' | translate }}</span>
           </a>
-          <a [routerLink]="['/managersbox']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <!-- <a [routerLink]="['/managersbox']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-archive"></i>&nbsp;
             <span>{{ 'Managers Box' | translate }}</span>
-          </a>
+          </a> -->
           <a [routerLink]="['/tzworkshoplevel']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-braille"></i>&nbsp;
             <span>{{ 'WS Level' | translate }}</span>

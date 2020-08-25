@@ -238,13 +238,11 @@ export class Masterteachertraining2Component implements OnInit {
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
 			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid).subscribe(data => {
-				console.log("data",data);
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
 						// this.content_value = data[0]['content'];
 						this.allcontent =  data[0]['content'];
-						console.log("this.allcontent",this.allcontent)
 						this.worksheet_value = data[0]['worksheet'];
 						this.video_value = data[0]['video'];
 						this.flashcard_value = data[0]['flashcard'];
@@ -296,14 +294,7 @@ export class Masterteachertraining2Component implements OnInit {
 			alert('Nothing to delete !!!');
 		}
 	}
-	
-
-	createDiv(){
-		// this.divs.length= 1;
-		this.divs.push(this.divs.length);
-		console.log("hii",this.divs)
-	}
-	
+		
 	addflashcard(){}
 	delflashcard(i){
 		if(confirm('Are you sure to remove this item?'))
@@ -340,19 +331,114 @@ export class Masterteachertraining2Component implements OnInit {
 		this.quiz_value.splice(this.delete_q_index, 1);
 		this.modalReference.close();
 	}
+	async deletecontent(){
+		var contentdata
+		var record_id;
+		var indexdelete = this.delete_content_index
+		var del_content_id = this.del_content_id;
+		this.data.forEach(function(value,key){
+			if(value.content!=undefined){
+				value.content.forEach(function(item,key){
+					if(item.contentid == del_content_id){
+						record_id = value._id;
+						value.content.splice(key, 1);
+						contentdata = value.content;
+					}
+				})
+			}	
+		})
+		this.masterteachertraining2Service.deletecontent(record_id,contentdata).subscribe(data => {
+			swal.fire('Success', 'Record updated successfully', 'success');
+			this.load_record();
+		},
+		error => {},
+		() => {}
+	);	
+	}
+
+	delelteimage(){
+		// this.deleteallcontent(this.record_id,this.del_image_id)
+		var contentdata
+		var record_id;
+		var indexdelete = this.delete_content_index
+		var del_image_id = this.del_image_id;
+		this.data.forEach(function(value,key){
+			if(value.content!=undefined){
+				value.content.forEach(function(item,key){
+					if(item.contentid == del_image_id){
+						record_id = value._id;
+						value.content.splice(key, 1);
+						contentdata = value.content;
+					}
+				})
+			}	
+		})
+		this.masterteachertraining2Service.deletecontent(record_id,contentdata).subscribe(data => {
+			swal.fire('Success', 'Record updated successfully', 'success');
+			this.load_record();
+		},
+		error => {},
+		() => {}
+	);	
+	}
+	vediodelete(){
+		var contentdata
+		var record_id;
+		var indexdelete = this.delete_content_index
+		var del_vedio_id = this.del_vedio_id;
+		this.data.forEach(function(value,key){
+			if(value.content!=undefined){
+				value.content.forEach(function(item,key){
+					if(item.contentid == del_vedio_id){
+						record_id = value._id;
+						value.content.splice(key, 1);
+						contentdata = value.content;
+					}
+				})
+			}	
+		})
+		this.masterteachertraining2Service.deletecontent(record_id,contentdata).subscribe(data => {
+			swal.fire('Success', 'Record updated successfully', 'success');
+			this.load_record();
+		},
+		error => {},
+		() => {}
+	);	
+	}
+	deleteallcontent(recordid,contentid){
+		this.masterteachertraining2Service.deletecontent(recordid,contentid).subscribe(data => {
+			swal.fire('Success', 'Record updated successfully', 'success');
+			this.load_record();
+		},
+		error => {},
+		() => {}
+	);
+	}
 	currentVedioUpload :any;
 	s3vediopath:any;
 	obj:any;
 	addcontent(){
-		const obj = {
-			"contentid" : new Date().getTime(),
-			"content":this.content_value,
-			"type":"content"
+		if(this.content_value == '' || this.content_value == undefined || this.content_value ==  null){
+			swal.fire('info', 'Please add some content !!!', 'warning');
+		}else 
+		if(this.content_value.length > 500){
+			swal.fire('info', 'you can add only 500 words', 'warning');
+		}else{
+			const obj = {
+				"contentid" : new Date().getTime(),
+				"content":this.content_value,
+				"type":"content"
+			}
+			this.contents.push(obj)
+			swal.fire('content added successfully!')
+			
 		}
-		this.contents.push(obj)
 	}
 	addimage(){
-		this.hideProgressbar = false;
+		if(this.selectedFiles == undefined || this.selectedFiles == null){
+			swal.fire('info', 'Please select image file', 'warning');
+		}else{
+			this.hideProgressbar = false;
 		this.progress.percentage = 0;
 
 		this.currentFileUpload = this.selectedFiles.item(0);
@@ -362,60 +448,42 @@ export class Masterteachertraining2Component implements OnInit {
 			} else if (event instanceof HttpResponse) {
 				this.s3path = event.body['s3path'];
 				this.hideProgressbar = true;
-
-				// let obj = {
-				// 	displayname: this.displayname,
-				// 	s3name: this.s3name,
-				// 	filetype: this.filetype,
-				// 	s3path: this.s3path
-				// }
-				// this.flashcard_value.push(obj);
-
 				const obj = {
 					"contentid" : new Date().getTime(),
 					"content":this.s3path,
 					"type":"image"
 				}
 				this.contents.push(obj)
-				
-				//this.load_record();
+				// this.load_record();
 			}
 		});
+	  }
 	}
 	addvedio(){
-		console.log("this.s3vedioname",this.s3vedioname)
-	    this.hidevedioProgressbar = false;
-		this.vedioprogress.percentage = 0;
-		this.currentvedioFileUpload = this.selectedvedioFiles.item(0);
-	    this.managersboxService.pushFileToStorage(this.currentvedioFileUpload, this.s3vedioname).subscribe(event => {
-		if (event.type === HttpEventType.UploadProgress) {
-			this.vedioprogress.percentage  = Math.round(100 * event.loaded / event.total);
-		} else if (event instanceof HttpResponse) {
-			this.s3vediopath = event.body['s3path'];
-			this.hidevedioProgressbar = true;
-			const obj = {
-				"contentid" : new Date().getTime(),
-				"content":this.s3vediopath,
-				"vedio_name":this.s3vedioname,
-				"type":"vedio"
-			}
-			this.contents.push(obj)
-			// let obj = {
-			// 	"contentid" : new Date().getTime(),
-			// 	"content":this.content_value,
-			// 	"image":imagepath,
-			// 	"vedio":this.s3vediopath,
-			// 	"vedio_name":this.s3vedioname
-			// }
-			// this.contents.push(obj)
-			// this.content_value = '';
-			// this.
-			
-		}	
-	});
+		if(this.selectedvedioFiles == undefined || this.selectedvedioFiles == null){
+			swal.fire('info', 'Please select vedio file', 'warning');
+		}else{
+			this.hidevedioProgressbar = false;
+			this.vedioprogress.percentage = 0;
+			this.currentvedioFileUpload = this.selectedvedioFiles.item(0);
+			this.managersboxService.pushFileToStorage(this.currentvedioFileUpload, this.s3vedioname).subscribe(event => {
+			if (event.type === HttpEventType.UploadProgress) {
+				this.vedioprogress.percentage  = Math.round(100 * event.loaded / event.total);
+			} else if (event instanceof HttpResponse) {
+				this.s3vediopath = event.body['s3path'];
+				this.hidevedioProgressbar = true;
+				const obj = {
+					"contentid" : new Date().getTime(),
+					"content":this.s3vedioname,
+					"vedio_path":this.s3vediopath,
+					"type":"vedio"
+				}
+				this.contents.push(obj)
+			}	
+		});
+	  }
 	}
 	savecontent(){
-		console.log("this.contents",this.contents)
 		const body = {
 			moduleid : this.selected_moduleid,
 			modulename : this.selected_modulename,
@@ -429,7 +497,19 @@ export class Masterteachertraining2Component implements OnInit {
 			video: this.video_value,
 			quiz: this.quiz_value
 		}
-		this.save_record(body);
+		if(this.contents.length>0  &&this.save_operation == 'save'){
+			this.save_record(body);
+			this.s3vedioname = '';
+			this.s3vediopath = '';
+			this.s3path = '';
+			this.s3name = '';
+		}else if(this.save_operation == 'update' && this.contents.length>0){
+			this.update_record(this.record_id,body);
+		}else{
+			swal.fire('info', 'Please select some content', 'warning');
+			this.modalReference.close()
+		}
+		
 	}
 	updatecontent() {
 		const body = {
@@ -437,8 +517,28 @@ export class Masterteachertraining2Component implements OnInit {
 			content:this.edit_content_value,
 			type:"content"
 		}
-		this.allcontent.splice(this.edit_q_index, 1, body);
-		this.update_record(this.record_id,this.allcontent);
+		var contentdata
+		var record_id;
+		var edit_content_id =this.edit_content_id;
+		this.data.forEach(function(value,key){
+			if(value.content!=undefined){
+				value.content.forEach(function(item,key){
+					if(item.contentid == edit_content_id){
+						record_id = value._id;
+						value.content.splice(key, 1, body);
+						contentdata = value.content;
+					}
+				})
+			}	
+		})
+		this.masterteachertraining2Service.deletecontent(record_id,contentdata).subscribe(data => {
+			swal.fire('Success', 'Record updated successfully', 'success');
+			this.load_record();
+			this.modalReference.close()
+		},
+		error => {},
+		() => {}
+	);	
 	}
 	edit_filechooser_onchange(event) {
 		if(event.target.files.length > 0){
@@ -455,7 +555,6 @@ export class Masterteachertraining2Component implements OnInit {
 	updateimage() {
 		this.hideProgressbar = false;
 		this.progress.percentage = 0;
-
 		this.currentFileUpload = this.edit_selectedFiles.item(0);
 		this.managersboxService.pushFileToStorage(this.currentFileUpload, this.edit_s3name).subscribe(event => {
 			if (event.type === HttpEventType.UploadProgress) {
@@ -468,8 +567,29 @@ export class Masterteachertraining2Component implements OnInit {
 					content:this.edit_s3_path,
 					type:"image"
 				}
-				this.allcontent.splice(this.edit_image_index, 1, body);
-				this.update_record(this.record_id,this.allcontent);
+				var contentdata
+				var record_id;
+				var edit_image_id =this.edit_image_id;
+				this.data.forEach(function(value,key){
+					if(value.content!=undefined){
+						value.content.forEach(function(item,key){
+							if(item.contentid == edit_image_id){
+								record_id = value._id;
+								value.content.splice(key, 1, body);
+								contentdata = value.content;
+							}
+						})
+					}	
+				})
+				this.masterteachertraining2Service.deletecontent(record_id,contentdata).subscribe(data => {
+					swal.fire('Success', 'Record updated successfully', 'success');
+					this.load_record();
+					this.modalReference.close()
+				},
+				error => {},
+				() => {}
+			    );
+				this.modalReference.close()
 			}
 		});
 		
@@ -480,21 +600,15 @@ export class Masterteachertraining2Component implements OnInit {
 			this.edit_displayvedioname = event.target.files[0].name;
 			this.edit_vediofiletype = this.edit_displayvedioname.split('.').pop();
 			this.edit_s3vedioname = (new Date()).getTime()+'.'+this.edit_vediofiletype;
-			console.log("this.edit_s3vedioname",this.edit_s3vedioname)
 		}else{
 			this.edit_displayvedioname = '';
 			this.edit_selectedvedioFiles = null;
 		}
 	}
-	updatevedio() {
-		// this.edit_vedio_index = index;
-		// 	this.edit_s3_vedio_path = obj.content;
-		// 	this.edit_vedio_id = obj.contentid;
-		// 	this.edit_vedio_name = obj.vedio_name;
+	vedioupdate() {
 		this.hidevedioProgressbar = false;
 		this.vedioprogress.percentage = 0;
-		console.log("11", this.edit_s3vedioname)
-		this.currentvedioFileUpload = this.selectedvedioFiles.item(0);
+		this.currentvedioFileUpload = this.edit_selectedvedioFiles.item(0);
 	    this.managersboxService.pushFileToStorage(this.currentvedioFileUpload, this.edit_s3vedioname).subscribe(event => {
 		if (event.type === HttpEventType.UploadProgress) {
 			this.vedioprogress.percentage  = Math.round(100 * event.loaded / event.total);
@@ -503,133 +617,80 @@ export class Masterteachertraining2Component implements OnInit {
 			this.hidevedioProgressbar = true;
 			const body = {
 				contentid:this.edit_vedio_id,
-				content:this.edit_s3_vedio_path,
+				vedio_path:this.edit_s3_vedio_path,
+				content:this.edit_s3vedioname,
 				type:"vedio"
 			}
-			this.allcontent.splice(this.edit_vedio_index, 1, body);
-			this.update_record(this.record_id,this.allcontent);
+			var contentdata
+				var record_id;
+				var edit_vedio_id =this.edit_vedio_id;
+				this.data.forEach(function(value,key){
+					if(value.content!=undefined){
+						value.content.forEach(function(item,key){
+							if(item.contentid == edit_vedio_id){
+								record_id = value._id;
+								value.content.splice(key, 1, body);
+								contentdata = value.content;
+							}
+						})
+					}	
+				})
+				this.masterteachertraining2Service.deletecontent(record_id,contentdata).subscribe(data => {
+					swal.fire('Success', 'Record updated successfully', 'success');
+					this.load_record();
+					this.modalReference.close()
+				},
+				error => {},
+				() => {}
+			    );
+			// this.allcontent.splice(this.edit_vedio_index, 1, body);
+			// this.update_content_record(this.record_id,this.allcontent);
+			this.modalReference.close()
 			
 		}	
 	});
-		
 	}
 	async save_btn_click(selected_tab){
-		if(selected_tab == 'content_tab') {
-			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
-				swal.fire('info', 'Please add some content !!!', 'warning');
-			} else{
-				const body = {
-					moduleid : this.selected_moduleid,
-					modulename : this.selected_modulename,
-					submoduleid : this.selected_submoduleid,
-					submodulename : this.selected_submodulename,
-					topicid : this.selected_topicid,
-					topicname : this.selected_topicname,
-					content: this.content_value,
-					flashcard: this.flashcard_value,
-					worksheet: this.worksheet_value,
-					video: this.video_value,
-					quiz: this.quiz_value
-				}
-				if(this.save_operation == 'save'){
-					this.save_record(body);
-				}else if(this.save_operation == 'update'){
-					this.update_record(this.record_id, body);
-				}
-			}
-		}else if(selected_tab == 'quiz_tab') {
-			const body = {
-				quiz: this.quiz_value
-			}
-			if(this.save_operation == 'save'){
-				swal.fire('info', 'Please add some content !!!', 'warning');
-			}else if(this.save_operation == 'update'){
-				console.log('111',this.edit_q_question)
-				this.update_record(this.record_id, body);
-			}
-		}else if(selected_tab == 'image_tab') {
-			if(this.save_operation == 'save'){
-				swal.fire('info', 'Please add some content !!!', 'warning');
-			}else if(this.save_operation == 'update'){
-				if(this.selectedFiles == undefined || this.selectedFiles == null){
-					swal.fire('info', 'Please select image file', 'warning');
-				}else{
-					this.hideProgressbar = false;
-					this.progress.percentage = 0;
-		
-					this.currentFileUpload = this.selectedFiles.item(0);
-					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						if (event.type === HttpEventType.UploadProgress) {
-							this.progress.percentage = Math.round(100 * event.loaded / event.total);
-						} else if (event instanceof HttpResponse) {
-							this.s3path = event.body['s3path'];
-							this.hideProgressbar = true;
-		
-							let obj = {
-								displayname: this.displayname,
-								s3name: this.s3name,
-								filetype: this.filetype,
-								s3path: this.s3path
-							}
-							this.flashcard_value.push(obj);
-		
-							const body = {
-								flashcard: this.flashcard_value
-							}
-							this.update_record(this.record_id, body);
-							//this.load_record();
-						}
-					});
-				}
-			}
-		}else if(selected_tab == 'video_tab') {
-			if(this.save_operation == 'save'){
-				swal.fire('info', 'Please add some content !!!', 'warning');
-			}else if(this.save_operation == 'update'){
-				if(this.selectedFiles == undefined || this.selectedFiles == null){
-					swal.fire('info', 'Please select video file', 'warning');
-				}else{this.hideProgressbar = false;
-					this.progress.percentage = 0;
-		
-					this.currentFileUpload = this.selectedFiles.item(0);
-					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						if (event.type === HttpEventType.UploadProgress) {
-							this.progress.percentage = Math.round(100 * event.loaded / event.total);
-						} else if (event instanceof HttpResponse) {
-							this.s3path = event.body['s3path'];
-							this.hideProgressbar = true;
-		
-							let obj = {
-								displayname: this.displayname,
-								s3name: this.s3name,
-								filetype: this.filetype,
-								s3path: this.s3path
-							}
-							this.video_value.push(obj);
-		
-							const body = {
-								video: this.video_value
-							}
-							this.update_record(this.record_id, body);
-							//this.load_record();
-						}
-					});
-				}
-			}
+		const body = {
+			moduleid : this.selected_moduleid,
+			modulename : this.selected_modulename,
+			submoduleid : this.selected_submoduleid,
+			submodulename : this.selected_submodulename,
+			topicid : this.selected_topicid,
+			topicname : this.selected_topicname,
+			content: this.allcontent,
+			flashcard: this.flashcard_value,
+			worksheet: this.worksheet_value,
+			video: this.video_value,
+			quiz: this.quiz_value
+		}
+		if(this.save_operation == 'save'){
+			this.save_record(body);
+		}else if(this.save_operation == 'update'){
+			this.update_record(this.record_id,body)
 		}
 	}
-
-
 	async save_record(body){
 		this.masterteachertraining2Service.createnewtrainingcontents(body).subscribe(data => {
 				swal.fire('Success', 'Record saved successfully', 'success');
 				this.load_record();
+				this.content_value = '';
+			    this.contents = [];
 			},
 			error => {},
 			() => {}
 		);
 	}
 
+	async update_content_record(id, body){
+		this.masterteachertraining2Service.updatetrainingcontents(id, body).subscribe(data => {
+				swal.fire('Success', 'Record updated successfully', 'success');
+				this.load_record();
+			},
+			error => {},
+			() => {}
+		);
+	}
 	async update_record(id, body){
 		this.masterteachertraining2Service.updatetrainingcontentsbyid(id, body).subscribe(data => {
 				swal.fire('Success', 'Record updated successfully', 'success');
@@ -646,7 +707,6 @@ export class Masterteachertraining2Component implements OnInit {
 	filetype: string;
 	s3name: string;
 	filechooser_onchange(event) {
-		console.log("event",event)
 		if(event.target.files.length > 0){
 			this.selectedFiles = event.target.files;
 			this.displayname = event.target.files[0].name;
@@ -685,8 +745,16 @@ export class Masterteachertraining2Component implements OnInit {
 	edit_s3_vedio_path:any;
 	edit_vedio_id:any;
 	edit_vedio_name:any;
+	delete_content_index:any;
+	del_content_id:any;
+	delete_image_index:any;
+	del_image_id:any;
+	delete_vedio_index:any;
+	del_vedio_id:any;
+	text_to_preview:any;
+	image_to_preview:any;
+	vedio_to_preview:any;
 	opencontent(content,obj,index,flag) {
-		console.log("obj",content,obj,index,flag)
 		if(flag == 'addcontentmodal'){
 			this.content_value = '';
 			this.add_q_question = '';
@@ -701,9 +769,24 @@ export class Masterteachertraining2Component implements OnInit {
 			this.edit_image_id = obj.contentid;
 		} else if(flag == 'editvediomodal'){
 			this.edit_vedio_index = index;
-			this.edit_s3_vedio_path = obj.content;
+			this.edit_s3_vedio_path = obj.vedio_path;
 			this.edit_vedio_id = obj.contentid;
-			this.edit_vedio_name = obj.vedio_name;
+			this.edit_s3vedioname = obj.content;
+		}else if(flag == 'deletecontentmodal'){
+			this.delete_content_index = index;
+			this.del_content_id = obj.contentid;
+		}else if(flag == 'deleteimagemodal'){
+			this.delete_image_index = index;
+			this.del_image_id = obj.contentid;
+		}else if(flag == 'deletevediomodal'){
+			this.delete_vedio_index = index;
+			this.del_vedio_id = obj.contentid;
+		}else if(flag == 'previewimagemodal'){
+			this.image_to_preview = obj.content;
+		}else if(flag == 'previewcontentmodal'){
+			this.text_to_preview = obj.content;
+		}else if(flag == 'previewvediomodal'){
+			this.vedio_to_preview = obj.vedio_path;
 		}
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {
@@ -726,7 +809,6 @@ export class Masterteachertraining2Component implements OnInit {
 			this.edit_q_index = index;
 			this.edit_q_qid = obj.qid;
 			this.edit_q_question = obj.question;
-			console.log("this.edit_q_question",this.edit_q_question)
 			this.edit_q_optionA = obj.A;
 			this.edit_q_optionB = obj.B;
 			this.edit_q_optionC = obj.C;
