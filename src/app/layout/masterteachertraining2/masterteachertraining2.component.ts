@@ -20,6 +20,7 @@ const URL = environment.uploadURL;
 
 export class Masterteachertraining2Component implements OnInit {
 	// video
+	disable_button:boolean;
 	video_file_name:string ='';
 	divs: number[] = [];
 	allcontent:any = [];
@@ -111,6 +112,7 @@ export class Masterteachertraining2Component implements OnInit {
 	) {
 		this.hideLoading_indicator = true;
 		this.hideContent_div = true;
+		
 	}
 	
 	ngOnInit() {
@@ -238,15 +240,18 @@ export class Masterteachertraining2Component implements OnInit {
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
 			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid).subscribe(data => {
+				console.log("data",data)
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
 						// this.content_value = data[0]['content'];
 						this.allcontent =  data[0]['content'];
+						console.log("this.allcontent",this.allcontent)
 						this.worksheet_value = data[0]['worksheet'];
 						this.video_value = data[0]['video'];
 						this.flashcard_value = data[0]['flashcard'];
 						this.quiz_value = data[0]['quiz'];
+						this.disable_button = false;
 					}else{
 						this.save_operation = 'save';
 						this.record_id = '';
@@ -256,6 +261,7 @@ export class Masterteachertraining2Component implements OnInit {
 						this.flashcard_value = [];
 						this.quiz_value = [];
 						this.allcontent = [];
+						this.disable_button = true;
 					}
 					this.data = data;
 					this.hideLoading_indicator = true;
@@ -429,7 +435,12 @@ export class Masterteachertraining2Component implements OnInit {
 				"content":this.content_value,
 				"type":"content"
 			}
-			this.contents.push(obj)
+			if(this.save_operation == 'save'){
+				this.contents.push(obj)
+			}else{
+				this.allcontent.push(obj)
+			}
+			
 			swal.fire('content added successfully!')
 			
 		}
@@ -453,8 +464,11 @@ export class Masterteachertraining2Component implements OnInit {
 					"content":this.s3path,
 					"type":"image"
 				}
-				this.contents.push(obj)
-				// this.load_record();
+				if(this.save_operation == 'save'){
+					this.contents.push(obj)
+				}else{
+					this.allcontent.push(obj)
+				}
 			}
 		});
 	  }
@@ -474,38 +488,61 @@ export class Masterteachertraining2Component implements OnInit {
 				this.hidevedioProgressbar = true;
 				const obj = {
 					"contentid" : new Date().getTime(),
-					"content":this.s3vedioname,
+					"content":this.s3vediopath,
 					"vedio_path":this.s3vediopath,
 					"type":"vedio"
 				}
-				this.contents.push(obj)
+				if(this.save_operation == 'save'){
+					this.contents.push(obj)
+				}else{
+					this.allcontent.push(obj)
+				}
 			}	
 		});
 	  }
 	}
 	savecontent(){
-		const body = {
-			moduleid : this.selected_moduleid,
-			modulename : this.selected_modulename,
-			submoduleid : this.selected_submoduleid,
-			submodulename : this.selected_submodulename,
-			topicid : this.selected_topicid,
-			topicname : this.selected_topicname,
-			content: this.contents,
-			flashcard: this.flashcard_value,
-			worksheet: this.worksheet_value,
-			video: this.video_value,
-			quiz: this.quiz_value
-		}
-		if(this.contents.length>0  &&this.save_operation == 'save'){
+		console.log("this.contents",this.contents,"hrer",this.allcontent)
+		
+		if(this.save_operation == 'save' && this.contents.length>0){
+			const body = {
+				moduleid : this.selected_moduleid,
+				modulename : this.selected_modulename,
+				submoduleid : this.selected_submoduleid,
+				submodulename : this.selected_submodulename,
+				topicid : this.selected_topicid,
+				topicname : this.selected_topicname,
+				content: this.contents,
+				flashcard: this.flashcard_value,
+				worksheet: this.worksheet_value,
+				video: this.video_value,
+				quiz: this.quiz_value
+			}
 			this.save_record(body);
 			this.s3vedioname = '';
 			this.s3vediopath = '';
 			this.s3path = '';
 			this.s3name = '';
-		}else if(this.save_operation == 'update' && this.contents.length>0){
+			this.disable_button = false;
+		}
+		else if(this.save_operation == 'update' && this.allcontent.length>0){
+			const body = {
+				moduleid : this.selected_moduleid,
+				modulename : this.selected_modulename,
+				submoduleid : this.selected_submoduleid,
+				submodulename : this.selected_submodulename,
+				topicid : this.selected_topicid,
+				topicname : this.selected_topicname,
+				content: this.allcontent,
+				flashcard: this.flashcard_value,
+				worksheet: this.worksheet_value,
+				video: this.video_value,
+				quiz: this.quiz_value
+			}
+			// this.allcontent.push({"key":"value"})
 			this.update_record(this.record_id,body);
-		}else{
+		}
+		else{
 			swal.fire('info', 'Please select some content', 'warning');
 			this.modalReference.close()
 		}
@@ -617,8 +654,8 @@ export class Masterteachertraining2Component implements OnInit {
 			this.hidevedioProgressbar = true;
 			const body = {
 				contentid:this.edit_vedio_id,
-				vedio_path:this.edit_s3_vedio_path,
-				content:this.edit_s3vedioname,
+				vedio_path:this.edit_s3vedioname,
+				content:this.edit_s3_vedio_path,
 				type:"vedio"
 			}
 			var contentdata
@@ -664,10 +701,10 @@ export class Masterteachertraining2Component implements OnInit {
 			video: this.video_value,
 			quiz: this.quiz_value
 		}
-		if(this.save_operation == 'save'){
-			this.save_record(body);
-		}else if(this.save_operation == 'update'){
+		if(this.quiz_value.length>0 && this.save_operation == 'update'){
 			this.update_record(this.record_id,body)
+		}else{
+			swal.fire('info', 'Please add some content !!!', 'warning');
 		}
 	}
 	async save_record(body){
@@ -769,9 +806,9 @@ export class Masterteachertraining2Component implements OnInit {
 			this.edit_image_id = obj.contentid;
 		} else if(flag == 'editvediomodal'){
 			this.edit_vedio_index = index;
-			this.edit_s3_vedio_path = obj.vedio_path;
+			this.edit_s3_vedio_path =obj.content ;
 			this.edit_vedio_id = obj.contentid;
-			this.edit_s3vedioname = obj.content;
+			this.edit_s3vedioname = obj.vedio_path;
 		}else if(flag == 'deletecontentmodal'){
 			this.delete_content_index = index;
 			this.del_content_id = obj.contentid;
@@ -786,7 +823,7 @@ export class Masterteachertraining2Component implements OnInit {
 		}else if(flag == 'previewcontentmodal'){
 			this.text_to_preview = obj.content;
 		}else if(flag == 'previewvediomodal'){
-			this.vedio_to_preview = obj.vedio_path;
+			this.vedio_to_preview = obj.content;
 		}
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {
