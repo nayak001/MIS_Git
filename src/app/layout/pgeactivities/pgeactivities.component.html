@@ -6,7 +6,7 @@
                 <div class="card-header">
 					        <div class="row">
 						        <div class="col col-xl-4 col-lg-4">
-						        	<h4>PGE ACTIVITIES DASHBOARD</h4>
+						        	<h4>ACTIVITIES DASHBOARD</h4>
 						        </div>
 								<div class="col">
 									<button (click)="opencontentsmodal(addcontentsmodal)" [hidden]="hide_createnewsegment_button" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp;</button>
@@ -168,6 +168,7 @@
 										<span>
 											<select id="select_program" value="{{selected_program}}"  (change)="program_select_onchange($event)" class="form-control">
 												<option value="">Select</option>
+												<option value="ece">ECE</option>
 												<option value="pge">PGE</option>
 											</select>
 										</span>
@@ -185,7 +186,7 @@
 									</div>
 									<br />
 
-									<div>
+									<div [hidden]="hideSubject_select">
 										<span class="bold-font">Subject</span>
 										<span>
 											<select id="select_subject" value="{{selected_subject}}"  (change)="subject_select_onchange($event)" class="form-control">
@@ -199,7 +200,7 @@
 									<br />
 
 									<div>
-										<span class="bold-font">Skill Set</span>
+										<span class="bold-font">{{ skillset_label }}</span>
 										<span>
 											<select id="selected_month" value="{{selected_month}}"  (change)="month_select_onchange($event.target.value)" class="form-control">
 												<option value="">Select</option>

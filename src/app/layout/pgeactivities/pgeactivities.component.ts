@@ -43,6 +43,7 @@ export class PgeactivitiesComponent implements OnInit {
   selected_week: string = '';
   selected_level: string = '';
 
+  skillset_label: string = 'Skill Set';
   level_select_option_list: any = [];
   month_select_option_list: any = [];
   week_select_option_list: any = [];
@@ -61,6 +62,7 @@ export class PgeactivitiesComponent implements OnInit {
 
   hide_Loading_indicator: boolean;
   hide_createnewsegment_button: boolean = false;
+  hideSubject_select: boolean = false;
 
   closeResult: string;
   modalReference: any;
@@ -87,11 +89,13 @@ export class PgeactivitiesComponent implements OnInit {
     this.content_value = '';
     this.video_value = [];
 
+    this.skillset_label = 'Skill Set';
     this.level_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}, {value: '4', text: 'Level 4'}, {value: '5', text: 'Level 5'}];
     this.month_select_option_list = [{value: '1', text: 'Skill 1-4'}, {value: '2', text: 'Skill 5-8'}, {value: '3', text: 'Skill 9-12'}, {value: '4', text: 'Skill 13-16'}, {value: '5', text: 'Skill 17-20'}];
     
     this.hide_Loading_indicator = true;
     this.hide_createnewsegment_button = true;
+    this.hideSubject_select = false;
   }
 
   ngOnInit() {}
@@ -128,12 +132,25 @@ export class PgeactivitiesComponent implements OnInit {
     console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_program = selectedOptionValue;
     
-    this.selected_subject = '';
+    if (this.selected_program == 'ece') {
+      this.skillset_label = 'Themes';
+      this.selected_subject = 'na';
+      this.hideSubject_select = true;
+      this.month_select_option_list = [{value: '1', text: 'Body Parts'}, {value: '2', text: 'Animals, Birds & their Sounds'}, {value: '3', text: 'Flowers, Fruits & Vegetables'}, {value: '4', text: 'House & Accessories'}, {value: '5', text: 'Transportation'}, {value: '6', text: 'Occupation'}, {value: '7', text: 'Service Providing Center'}, {value: '8', text: 'Insects'}, {value: '9', text: 'Environment'}, {value: '10', text: 'Seasons'}];
+      this.week_select_option_list = [{value: '1', text: 'Physical'}, {value: '2', text: 'Memory'}, {value: '3', text: 'Social & Emotional'}, {value: '4', text: 'Language'}];
+      this.level_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}];
+    } else {
+      this.skillset_label = 'Skill Set';
+      this.selected_subject = '';
+      this.hideSubject_select = false;
+      this.month_select_option_list = [{value: '1', text: 'Skill 1-4'}, {value: '2', text: 'Skill 5-8'}, {value: '3', text: 'Skill 9-12'}, {value: '4', text: 'Skill 13-16'}, {value: '5', text: 'Skill 17-20'}];
+      this.week_select_option_list = [];
+      this.level_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}, {value: '4', text: 'Level 4'}, {value: '5', text: 'Level 5'}];
+    }
+
     this.selected_month = '';
     this.selected_week = '';
     this.selected_level = '';
-    
-    this.week_select_option_list = [];
     
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
