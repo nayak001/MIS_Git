@@ -48,6 +48,7 @@ export class PgeactivitiesComponent implements OnInit {
   month_select_option_list: any = [];
   week_select_option_list: any = [];
 
+  extraresources_list: any = [];
   segments_list: any = [];
   selected_segment_index: number = -1;
   selected_segment: any = {};
@@ -424,6 +425,11 @@ export class PgeactivitiesComponent implements OnInit {
       this.openvideopreviewmodal(this.videopreviewmodal);
     }
   }
+
+  // Resources
+  add_resources_btn_click(){
+    
+  }
   // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
@@ -453,10 +459,12 @@ export class PgeactivitiesComponent implements OnInit {
         if (Object.keys(data).length > 0) {
           this.save_operation = 'update';
           this.record_id = data[0]['_id'];
+          this.extraresources_list = data[0]['extraresources'];
           this.segments_list = data[0]['segment'];
         } else {
           this.save_operation = 'save';
           this.record_id = '';
+          this.extraresources_list = [];
           this.segments_list = [];
         }
         this.hide_Loading_indicator = true;
