@@ -424,7 +424,72 @@ export class PgeactivitiesComponent implements OnInit {
 
   // Resources
   add_resources_btn_click(){
-    
+    if(this.save_operation == 'save'){
+			swal.fire('info', 'Please add atleast one segment first', 'warning');
+      this.modalReference.close();
+    }else{
+      this.hideProgressbar = false;
+      this.progress.percentage = 0;
+      this.currentFileUpload = this.selectedFiles.item(0);
+      console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+      this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
+        console.log('$$$event: '+JSON.stringify(event));
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.hideProgressbar = true;
+          this.s3path = event.body['s3path'];
+          console.log('File is completely uploaded!->'+this.s3path);
+          let newobj = {
+            type: 'resources',
+            displayname: this.displayname,
+            s3name: this.s3name,
+            filetype: this.filetype,
+            s3_url: this.s3path,
+            preview_url: this.s3path,
+            value: this.s3path
+          }
+          this.extraresources_list.push(newobj);
+          let body = {
+            extraresources: this.extraresources_list
+          }
+          this.update_record(this.record_id, body);
+          this.modalReference.close();
+        }
+      });
+    }
+  }
+  
+  delete_resource_btn_click(index_position){
+    swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to remove this Resource file?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.delete_resource_file(index_position);
+      }
+    });
+  }
+
+  delete_resource_file(index_position){
+    let resource_to_delete = this.extraresources_list[index_position];
+    console.log('-->resource_to_delete: '+JSON.stringify(resource_to_delete));
+    let file_to_delete = resource_to_delete.s3name;
+    this.extraresources_list.splice(index_position, 1);
+    const body = {
+      extraresources: this.extraresources_list
+    }
+    this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(data1 => {
+        console.log('@@@s3 data delete: '+JSON.stringify(data1));
+        this.update_record(this.record_id, body);
+        this.go_btn_click();
+      }, error => {}, () => {}
+    );
   }
   // ====================================== Segment related codes ends here =================================
 
