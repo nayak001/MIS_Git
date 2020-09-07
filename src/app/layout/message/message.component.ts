@@ -89,9 +89,6 @@ export class MessageComponent implements OnInit {
   }
 
   user_on_select(event, user){
-    //console.log('###@@@ event.currentTarget.checked: '+event.currentTarget.checked);
-    //console.log('###@@@ event.target.checked: '+event.target.checked);
-    //console.log('###@@@ event.target.defaultValue: '+event.target.defaultValue);
     if(event.currentTarget.checked) {
       let i = -1;
       this.selected_user_list.forEach(element => {
@@ -147,7 +144,6 @@ export class MessageComponent implements OnInit {
   }
 
 	formSubmitAction() {
-    console.log('###  ');
     let id = ''+ (new Date().getTime());
     let userid_list = this.selected_user_list;
     let title = this.txt_title;
@@ -166,7 +162,7 @@ export class MessageComponent implements OnInit {
         this.modalReference.close();
         location.reload();
       },
-      error => {console.log('###2 error: ' + JSON.stringify(error)); },
+      error => { },
       () => {}
     );
 	}
@@ -176,7 +172,7 @@ export class MessageComponent implements OnInit {
 				this.modalReference.close();
 				location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => { },
 			() => {}
 		);
 	}

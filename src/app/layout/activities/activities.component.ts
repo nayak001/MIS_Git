@@ -85,7 +85,6 @@ export class ActivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_preflanguage = selectedOptionValue;
 
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
@@ -96,7 +95,6 @@ export class ActivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_program = selectedOptionValue;
     if (this.selected_program == 'ece') {
       this.selected_subject = 'na';
@@ -122,7 +120,6 @@ export class ActivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_level = selectedOptionValue;
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
@@ -132,7 +129,6 @@ export class ActivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_subject = selectedOptionValue;
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
@@ -142,7 +138,6 @@ export class ActivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_month = selectedOptionValue;
 
     this.selected_week = '';
@@ -152,7 +147,6 @@ export class ActivitiesComponent implements OnInit {
       this.hideLoading_indicator = false;
       let selected_stage = 'month'+this.selected_month;
       this.activitiesService.gettchassessment(this.selected_preflanguage, this.selected_program, this.selected_level, selected_stage, this.selected_subject).subscribe(data => {
-        console.log('### data: ' + JSON.stringify(data));
         Object.keys(data).forEach(ind => {
           let obj = {};
           obj = {
@@ -172,7 +166,6 @@ export class ActivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_week = selectedOptionValue;
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
@@ -182,7 +175,6 @@ export class ActivitiesComponent implements OnInit {
   }
 
   addvideo() {
-    console.log('@@@ addvideo()    url: ' + this.txt_modal_url);
     let reg = /(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,63}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?/;
     if (reg.test(this.txt_modal_url)) {
       this.video_value.push(this.txt_modal_url);
@@ -218,7 +210,6 @@ export class ActivitiesComponent implements OnInit {
   }
 
   addsheet() {
-    console.log('@@@ addsheet()');
     let reg = /(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,63}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?/;
     if (reg.test(this.txt_modal_url)) {
       this.worksheet_value.push(this.txt_modal_url);
@@ -271,7 +262,6 @@ export class ActivitiesComponent implements OnInit {
 
       let preferedlanguage = preflanguage;
       this.activitiesService.getmasteractivitiydetails(preferedlanguage, program, subject, month, week, level).subscribe(data => {
-        console.log('### data: ' + JSON.stringify(data));
         if (Object.keys(data).length > 0) {
           this.save_operation = 'update';
           this.record_id = data[0]['_id'];
@@ -310,7 +300,6 @@ export class ActivitiesComponent implements OnInit {
   s3path: string = '';
   
   async save_btn_click(selected_tab) {
-		console.log('### selected_tab: '+selected_tab);
     if(selected_tab == 'content_tab'){
 			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
 				swal.fire('info', 'Please add some content !!!', 'warning');
@@ -327,7 +316,6 @@ export class ActivitiesComponent implements OnInit {
           worksheet: this.worksheet_value,
           video: this.video_value,
         }
-        console.log('### this.save_operation: ' + this.save_operation);
         if (this.save_operation == 'update') {
           this.update_record(this.record_id, body);
         } else {
@@ -344,14 +332,11 @@ export class ActivitiesComponent implements OnInit {
 					this.progress.percentage = 0;
 		
 					this.currentFileUpload = this.selectedFiles.item(0);
-					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
 					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						console.log('$$$event: '+JSON.stringify(event));
 						if (event.type === HttpEventType.UploadProgress) {
 							this.progress.percentage = Math.round(100 * event.loaded / event.total);
 						} else if (event instanceof HttpResponse) {
 							this.s3path = event.body['s3path'];
-							console.log('File is completely uploaded!->'+this.s3path);
 							this.hideProgressbar = true;
 		
 							let obj = {
@@ -381,14 +366,11 @@ export class ActivitiesComponent implements OnInit {
 					this.progress.percentage = 0;
 		
 					this.currentFileUpload = this.selectedFiles.item(0);
-					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
 					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						console.log('$$$event: '+JSON.stringify(event));
 						if (event.type === HttpEventType.UploadProgress) {
 							this.progress.percentage = Math.round(100 * event.loaded / event.total);
 						} else if (event instanceof HttpResponse) {
 							this.s3path = event.body['s3path'];
-							console.log('File is completely uploaded!->'+this.s3path);
 							this.hideProgressbar = true;
 		
 							let obj = {
@@ -418,14 +400,11 @@ export class ActivitiesComponent implements OnInit {
 					this.progress.percentage = 0;
 		
 					this.currentFileUpload = this.selectedFiles.item(0);
-					console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
 					this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-						console.log('$$$event: '+JSON.stringify(event));
 						if (event.type === HttpEventType.UploadProgress) {
 							this.progress.percentage = Math.round(100 * event.loaded / event.total);
 						} else if (event instanceof HttpResponse) {
 							this.s3path = event.body['s3path'];
-							console.log('File is completely uploaded!->'+this.s3path);
 							this.hideProgressbar = true;
 		
 							let obj = {
@@ -450,7 +429,6 @@ export class ActivitiesComponent implements OnInit {
 
   async save_record(body) {
     this.activitiesService.createmasteractivities(body).subscribe(data => {
-      console.log('###1 save data: ' + JSON.stringify(data));
       //alert('Record save status: '+JSON.stringify(data));
       swal.fire('Successful', 'Data saved successfully', 'success');
       this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
@@ -462,7 +440,6 @@ export class ActivitiesComponent implements OnInit {
 
   async update_record(id, body) {
     this.activitiesService.updatemasteractivities(id, body).subscribe(data => {
-      console.log('###1 update data: ' + JSON.stringify(data));
       //alert('Record update status: '+JSON.stringify(data));
       //this.modalReference.close();
       swal.fire('Successful', 'Data updated successfully', 'success');
@@ -474,7 +451,6 @@ export class ActivitiesComponent implements OnInit {
   }
 
   delflashcard(i) {
-    console.log('-->Index Value= ' + i);
     swal.fire({
       title: 'Are you sure?',
       text: "Do you want to remove this record?",
@@ -496,7 +472,6 @@ export class ActivitiesComponent implements OnInit {
   }
 
   modal_submit() {
-    console.log('### flag: ' + this.flag + '    url: ' + this.txt_modal_url);
     if (this.flag == 'addworksheet') this.addsheet();
     else if (this.flag == 'addvideo') this.addvideo();
   }
@@ -512,7 +487,6 @@ export class ActivitiesComponent implements OnInit {
 			this.displayname = event.target.files[0].name;
 			this.filetype = this.displayname.split('.').pop();
 			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
 		}else{
 			this.displayname = '';
 			this.selectedFiles = null;
@@ -520,7 +494,6 @@ export class ActivitiesComponent implements OnInit {
 	}
 
   open(content, param, flag) {
-    console.log('###> flag: ' + flag);
     this.flag = flag;
     if (flag == 'view') {
       this.sliders = [];

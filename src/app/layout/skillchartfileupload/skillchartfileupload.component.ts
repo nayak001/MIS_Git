@@ -93,7 +93,6 @@ export class SkillchartfileuploadComponent implements OnInit {
 
 	geteceskillchartfileuploaddetails(){
 		this.skillchartfileuploadService.geteceskillchartfileuploaddetails().subscribe(data => {
-				console.log('@@@ece file data: '+JSON.stringify(data));
 				this.data_ece = data;
 				if(Object.keys(data).length > 0){
 					this.saveaction_ece = 'update';
@@ -119,7 +118,6 @@ export class SkillchartfileuploadComponent implements OnInit {
 
 	getpgemathskillchartfileuploaddetails(){
 		this.skillchartfileuploadService.getpgemathskillchartfileuploaddetails().subscribe(data => {
-				console.log('@@@pgemath file data: '+JSON.stringify(data));
 				this.data_pgemath = data;
 				if(Object.keys(data).length > 0){
 					this.saveaction_pgemath = 'update';
@@ -145,7 +143,6 @@ export class SkillchartfileuploadComponent implements OnInit {
 	
 	getpgeengskillchartfileuploaddetails(){
 		this.skillchartfileuploadService.getpgeengskillchartfileuploaddetails().subscribe(data => {
-				console.log('@@@geeng file data: '+JSON.stringify(data));
 				this.data_ece = data;
 				if(Object.keys(data).length > 0){
 					this.saveaction_pgeeng = 'update';
@@ -171,7 +168,6 @@ export class SkillchartfileuploadComponent implements OnInit {
 	
 	getpgeodiaskillchartfileuploaddetails(){
 		this.skillchartfileuploadService.getpgeodiaskillchartfileuploaddetails().subscribe(data => {
-				console.log('@@@geodia file data: '+JSON.stringify(data));
 				this.data_pgeodia = data;
 				if(Object.keys(data).length > 0){
 					this.saveaction_pgeodia = 'update';
@@ -234,12 +230,10 @@ export class SkillchartfileuploadComponent implements OnInit {
 		this.hideProgressbar = false;
 		this.progress.percentage = 0;
 		this.skillchartfileuploadService.savetos3(skillchartfile, filename).subscribe(event => {
-			console.log('$$$event: '+JSON.stringify(event));
 			if (event.type === HttpEventType.UploadProgress) {
 				this.progress.percentage = Math.round(100 * event.loaded / event.total);
 			} else if (event instanceof HttpResponse) {
 				this.s3path = event.body['s3path'];
-				console.log('File is completely uploaded!->'+this.s3path);
 				this.hideProgressbar = true;
 				this.saveupdatetodb(filecategory, this.s3path, this.displayname);
 			}
@@ -263,7 +257,6 @@ export class SkillchartfileuploadComponent implements OnInit {
 	}
 
 	savetodb(filecategory, fileurl, displayname){
-		console.log('@@@save action');
 		this.getdateuploaded();
 		this.hideLoading_indicator = false;
 		let body = {
@@ -273,7 +266,6 @@ export class SkillchartfileuploadComponent implements OnInit {
 			dateuploaded : this.dateuploaded
 		}
 		this.skillchartfileuploadService.saveskillchartfileuploaddetails(body).subscribe(data => {
-				console.log('@@@data saved to db: '+JSON.stringify(data));
 				this.load_data();
 				this.hideLoading_indicator = true;
 				swal.fire('Save', 'File uploaded successfully', 'success');
@@ -285,7 +277,6 @@ export class SkillchartfileuploadComponent implements OnInit {
 	}
 
 	updatetodb(documentid, filecategory, fileurl, displayname){
-		console.log('@@@update action');
 		this.getdateuploaded();
 		this.hideLoading_indicator = false;
 		let body = {
@@ -295,10 +286,8 @@ export class SkillchartfileuploadComponent implements OnInit {
 			dateuploaded : this.dateuploaded
 		}
 		this.skillchartfileuploadService.updateskillchartfileuploaddetails(documentid, body).subscribe(data => {
-				console.log('@@@data updated to db: '+JSON.stringify(data));
 				this.load_data();
 				this.hideLoading_indicator = true;
-				swal.fire('Update', 'File uploaded successfully', 'success');
 				this.resetall();
 			},
 			error => {},
@@ -307,7 +296,6 @@ export class SkillchartfileuploadComponent implements OnInit {
 	}
 
 	delete_button_click(filecategory){
-		console.log('### filecategory : '+JSON.stringify(filecategory));
 		swal.fire({
 		  title: 'Are you sure?',
 		  text: "Do you want to delete this file?",
@@ -341,9 +329,7 @@ export class SkillchartfileuploadComponent implements OnInit {
 			documentid = this.documentid_pgeodia;
 		}
 		this.skillchartfileuploadService.deletefroms3(s3filename).subscribe(data1 => {
-				console.log('@@@s3 data delete: '+JSON.stringify(data1));
 				this.skillchartfileuploadService.deleteskillchartfileuploaddetails(documentid).subscribe(data2 => {
-						console.log('@@@db data delete: '+JSON.stringify(data2));
 						this.load_data();
 						this.hideLoading_indicator = true;
 						swal.fire('Delete','File deleted successfully','success');

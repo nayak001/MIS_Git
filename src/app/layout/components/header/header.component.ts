@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
     private modalService: NgbModal,
     private usersService: UsersService
   ) {
-    //console.log('@@@ Local Storage: '+JSON.stringify(localStorage));
     this.currentuser_userid = localStorage.getItem('_currentuser_userid');
     this.currentuser_password = localStorage.getItem('_currentuser_password');
     this.currentuser_username = localStorage.getItem('_currentuser_username');
@@ -78,7 +77,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onLoggedout() {
-    console.log('logged out.');
     localStorage.clear();
     this.router.navigate(['login']);
   }
@@ -89,7 +87,6 @@ export class HeaderComponent implements OnInit {
 
   getuserdbid() {
     this.usersService.getuserbyuserid(this.currentuser_userid).subscribe(data => {
-      //console.log('###DB id res data: ' + JSON.stringify(data));
       this.dbid = data[0]['_id'];
     },
       error => { },
@@ -106,9 +103,7 @@ export class HeaderComponent implements OnInit {
       username: this.currentuser_username,
       password: this.currentuser_password
     }
-    console.log('### obj: ' + JSON.stringify(obj));
     this.usersService.updateuser(this.dbid, obj).subscribe(data => {
-      console.log('### res data: ' + JSON.stringify(data));
       this.modalReference.close();
       alert('Profile save ' + data);
       //location.reload();

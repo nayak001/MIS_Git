@@ -67,9 +67,7 @@ export class AssessmentmasterComponent implements OnInit {
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
 			// /gettchassessment/:preferedlanguage/:program/:level/:stage/:subject
-			// console.log('@@@ preflanguage: '+preflanguage, '    program: '+program, '    level: '+level, '    stage: '+stage, '    subject: '+subject);
 			this.assessmentmasterService.getmasterassessmentdetails(preflanguage, program, level, stage, subject).subscribe(data => {
-					console.log('### data: '+JSON.stringify(data));
 					this.assessment_list = data;
 
 					if(Object.keys(data).length > 0){
@@ -103,7 +101,6 @@ export class AssessmentmasterComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_preflanguage = selectedOptionValue;
 		
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_level, this.selected_subject,  this.selected_stage);
@@ -114,7 +111,6 @@ export class AssessmentmasterComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_program = selectedOptionValue;
 
 		if(this.selected_program == 'ece'){
@@ -146,7 +142,6 @@ export class AssessmentmasterComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_level = selectedOptionValue;
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_level, this.selected_subject,  this.selected_stage);
 	}
@@ -156,7 +151,6 @@ export class AssessmentmasterComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_subject = selectedOptionValue;
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_level, this.selected_subject,  this.selected_stage);
 	}
@@ -166,7 +160,6 @@ export class AssessmentmasterComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_stage = selectedOptionValue;
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_level, this.selected_subject,  this.selected_stage);
 	}
@@ -175,21 +168,7 @@ export class AssessmentmasterComponent implements OnInit {
 		this.load_record(this.selected_preflanguage, this.selected_program, this.selected_level, this.selected_subject,  this.selected_stage);
 	}
 
-	/*async save_btn_click(){
-		if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
-			alert('Please add some content !!!');
-		} else {
-			console.log('### this.save_operation: '+this.save_operation);
-			if(this.save_operation == 'update'){
-				if(confirm('Do you want to update the existing record?'))
-					this.update_record(this.record_id);
-			}else{
-				if(confirm('Do you want to save this record?'))
-					this.save_record();
-			}
-		}
-	}
-	*/
+	
 
 	async save_record(){
 		if(this.content_value == undefined || this.content_value == null || this.content_value.trim() == ''){
@@ -205,7 +184,6 @@ export class AssessmentmasterComponent implements OnInit {
 				question : this.content_value,
 			}
 			this.assessmentmasterService.createmasterassessmentmaster(body).subscribe(data => {
-					console.log('###1 save data: '+JSON.stringify(data));
 					this.modalReference.close();
 					//alert('Record save status: '+JSON.stringify(data));
 					this.load_record(this.selected_preflanguage, this.selected_program, this.selected_level, this.selected_subject, this.selected_stage);
@@ -230,7 +208,6 @@ export class AssessmentmasterComponent implements OnInit {
 				question : this.content_value,
 			}
 			this.assessmentmasterService.updatemasterassessmentmaster(this.record_id, body).subscribe(data => {
-					console.log('###1 update data: '+JSON.stringify(data));
 					this.modalReference.close();
 					//alert('Record update status: '+JSON.stringify(data));
 					this.load_record(this.selected_preflanguage, this.selected_program, this.selected_level, this.selected_subject, this.selected_stage);
@@ -243,7 +220,6 @@ export class AssessmentmasterComponent implements OnInit {
 
 	async delete_record(){
 		this.assessmentmasterService.deletetchassessment(this.record_id).subscribe(data => {
-				console.log('###1 update data: '+JSON.stringify(data));
 				this.modalReference.close();
 				//alert('Record update status: '+JSON.stringify(data));
 				this.load_record(this.selected_preflanguage, this.selected_program, this.selected_level, this.selected_subject, this.selected_stage);

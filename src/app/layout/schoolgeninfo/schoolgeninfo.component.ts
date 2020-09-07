@@ -53,7 +53,6 @@ export class SchoolgeninfoComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_prefLanguage = selectedOptionValue;
 
     this.load_record();
@@ -65,7 +64,6 @@ export class SchoolgeninfoComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_language = selectedOptionValue;
 
   }
@@ -74,7 +72,6 @@ export class SchoolgeninfoComponent implements OnInit {
 
     this.schoolgeneralinfoService.getworkshopdetails(this.selected_prefLanguage, 'null')
       .subscribe(data => {
-        console.log('### data: ' + JSON.stringify(data));
         // this.dataLength = Object.keys(data).length;
         this.workshopDetails = data;
         if (Object.entries(data).length !== 0) {
@@ -121,7 +118,6 @@ export class SchoolgeninfoComponent implements OnInit {
             // image: this.flashcard_value,
 
           }
-          console.log('### this.save_operation: ' + this.save_operation);
           if (this.save_operation == 'update') {
             this.update_record(body);
           } else {
@@ -134,7 +130,6 @@ export class SchoolgeninfoComponent implements OnInit {
 
   async save_record(body) {
     this.schoolgeneralinfoService.createworkshopdetails(body).subscribe(data => {
-      console.log('###1 save data: ' + JSON.stringify(data));
       //alert('Record save status: '+JSON.stringify(data));
       swal.fire(
         'Successful',
@@ -152,7 +147,6 @@ export class SchoolgeninfoComponent implements OnInit {
 
   async update_record(body) {
     this.schoolgeneralinfoService.updateworkshopdetails(this.record_id, body).subscribe(data => {
-      console.log('###1 update data: ' + JSON.stringify(data));
       //alert('Record update status: '+JSON.stringify(data));
       // this.modalReference.close();
       swal.fire(

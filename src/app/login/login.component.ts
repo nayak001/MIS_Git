@@ -69,7 +69,6 @@ export class LoginComponent implements OnInit {
     this.loginService.doLogin(param).subscribe(
       data => {
         // Data which is returned by call
-        console.log("### res data: " + JSON.stringify(data));
         if (data["success"] == "success") {
           //if(1){
           localStorage.setItem("_currentuser_userid", data["userid"]);

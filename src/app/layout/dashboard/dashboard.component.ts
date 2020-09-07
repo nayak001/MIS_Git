@@ -50,7 +50,6 @@ export class DashboardComponent implements OnInit {
    getallStudents(){
         this.dashboardService.getallstudents().subscribe(data => {
        
-            console.log(data)
             this.data = data
         })
     }

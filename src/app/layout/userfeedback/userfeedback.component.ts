@@ -77,7 +77,7 @@ export class UserfeedbackComponent implements OnInit {
 				this.modalReference.close();
 				location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => {},
 			() => {}
 		);
 	}

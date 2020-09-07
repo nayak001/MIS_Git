@@ -68,7 +68,6 @@ export class PaymentinfoComponent implements OnInit {
 	}
 
 	open(content,param) {
-		console.log('#### param: '+JSON.stringify(param));
 		if(param != null || param != undefined){
 			this.editmodal_paymentinfo_id = param.id;
 			this.editmodal_paymentinfo_desc = param.payment;
@@ -94,7 +93,6 @@ export class PaymentinfoComponent implements OnInit {
 	getallpaymentinfo(){
 		this.hideLoading_indicator = false;
 		this.paymentinfoService.getallpaymentinfo().subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
 				this.data = data;
 				this.hideLoading_indicator = true;
 			},
@@ -104,14 +102,12 @@ export class PaymentinfoComponent implements OnInit {
 	}
 
 	editFormSubmitAction(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.submitted = true;
 		let obj = {
 			//"id": this.editmodal_issue_id,
 			"payment": this.editmodal_paymentinfo_desc
 		};
 		this.paymentinfoService.updatepaymentinfo(id, obj).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -122,9 +118,7 @@ export class PaymentinfoComponent implements OnInit {
 		);
 	}
 	deleteFormSubmitAction(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.paymentinfoService.deletepaymentinfo(id).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -136,7 +130,6 @@ export class PaymentinfoComponent implements OnInit {
 	}
 
   add_globalFormSubmitAction(){
-    console.log('--> add_globalFormSubmitAction');
     let pay = this.add_globalmodal_paymentinfo_desc;
     let typ = this.selected_type;
     let mod = this.select_mode;
@@ -155,7 +148,6 @@ export class PaymentinfoComponent implements OnInit {
         "options" : opt
       };
       this.paymentinfoService.createpaymentinfo(obj).subscribe(data => {
-          console.log('@@@data: '+JSON.stringify(data));
         },
         error => {},
         () => {
@@ -181,7 +173,6 @@ export class PaymentinfoComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_type = selectedOptionValue;
 
     if(this.selected_type == 'select') this.isSelectType = true;
@@ -189,12 +180,10 @@ export class PaymentinfoComponent implements OnInit {
   }
 
   selectmode_on_change(val){
-    //console.log('val: '+val)
     this.select_mode = val;
   }
 
   txt_add_options_change(val){
-    //console.log('val: '+val)
     this.optionval = val;
   }
 

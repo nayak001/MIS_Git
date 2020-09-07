@@ -62,7 +62,6 @@ export class PushnotificationComponent implements OnInit {
 	async getallmanagerslist(){
 		this.hideLoading_indicator = false;
 		this.pushnotificationService.getallmanager().subscribe(data => {
-				console.log('### userlist: '+JSON.stringify(data));
 				this.alluserlist = data;
 				this.multiselect_userlist = this.alluserlist;
 				this.hideLoading_indicator = true;
@@ -75,7 +74,6 @@ export class PushnotificationComponent implements OnInit {
 	async getallfcmtokenmessages(){
 		this.hideLoading_indicator = false;
 		this.pushnotificationService.getallfcmtokenmessages().subscribe(data => {
-				console.log('### data: '+JSON.stringify(data));
 				this.allnotifications = data;
 				this.hideLoading_indicator = true;
 			},
@@ -109,7 +107,6 @@ export class PushnotificationComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_apptype = selectedOptionValue;
 	}
 
@@ -160,7 +157,6 @@ export class PushnotificationComponent implements OnInit {
 		this.hideLoading_indicator = false;
 		
 		await this.pushnotificationService.getallavailabledevices().subscribe(data => {
-				console.log('### all available devices: '+JSON.stringify(data));
 				this.availabledevices = data;
 
 				this.availabledevices.forEach(async item => {
@@ -189,7 +185,6 @@ export class PushnotificationComponent implements OnInit {
 			body: this.modal_push_message
 		}	
 		await this.pushnotificationService.addusernotification(body).subscribe(data => {
-				console.log('### managerbapp send msg response: '+JSON.stringify(data));
 				swal.fire('Success','Notification sent successfully','success');
 
 				// clear all fields and close modal
@@ -243,7 +238,6 @@ export class PushnotificationComponent implements OnInit {
 		}
 			
 		await this.pushnotificationService.sendpushnotification(body, header).subscribe(data => {
-				console.log('### send msg response: '+JSON.stringify(data));
 				this.save_notification_data_to_db(data_tobe_save);
 			},
 			error => {},
@@ -253,7 +247,6 @@ export class PushnotificationComponent implements OnInit {
 
 	async save_notification_data_to_db(item: any) {
 		await this.pushnotificationService.createnewfcmtokenmessage(item).subscribe(data => {
-				console.log('### saving msg to db response: '+JSON.stringify(data));
 			},
 			error => {},
 			() => {}
@@ -266,16 +259,13 @@ export class PushnotificationComponent implements OnInit {
 
 		if(this.allnotifications.includes(element)){
 			let ind = this.allnotifications.indexOf(element);
-			console.log('$$$ index: '+ind);
 			this.allnotifications.splice(ind,1);
 		}
-		console.log('### id: ' + id);
 		this.pushnotificationService.deletefcmtokenmessage(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				this.modalReference.close();
 				//location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => {},
 			() => {}
 		);
 	}

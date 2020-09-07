@@ -76,7 +76,6 @@ export class CentersAllocationComponent implements OnInit {
 		this.centersAllocationService.getallavailablemanagers().subscribe(data => {
 				this.availablemanagerslist = data;
 				this.availability_status = (this.availablemanagerslist.length)+' manager(s) available';
-				//console.log('###availability_status: '+this.availability_status);
 			}, error => {}, () => {}
 		);
 
@@ -104,7 +103,6 @@ export class CentersAllocationComponent implements OnInit {
 					obj['centers'] = centers;
 					table_data.push(obj);
 				});
-				console.log('$$$: '+JSON.stringify(table_data));
 				this.data = table_data;
 				this.hideLoading_indicator = true;	
 			}, 
@@ -124,7 +122,6 @@ export class CentersAllocationComponent implements OnInit {
 	  }
 
 	open(content,centerallot) {
-		console.log('#### centerallot: '+JSON.stringify(centerallot));
 		if(centerallot != undefined || centerallot != null){
 			this.centersubmitaction = 'Update';
 			this.modal_id = centerallot._id;
@@ -174,7 +171,6 @@ export class CentersAllocationComponent implements OnInit {
 			username: frm_username,
 			centers: frm_centers	
 		}
-		console.log('###111'+centersubmitaction+' frm_id: '+frm_id+' centerallot: '+JSON.stringify(centerallot));
 
 		// save operation
 		if(centersubmitaction=='Create' && frm_id == ''){
@@ -185,29 +181,25 @@ export class CentersAllocationComponent implements OnInit {
 				alert('Select centers for allocation.');
 			}else{
 				this.centersAllocationService.createnewcenterallocation(centerallot).subscribe(data => {
-						console.log('### res data1: '+JSON.stringify(data));	
 						
 						this.centersAllocationService.updatecenterstatus_allloted(frm_centers).subscribe(data => {
-								console.log('### res data2: '+JSON.stringify(data));	
 								this.modalReference.close();
 								location.reload();					
 							}, 
-							error => {console.log('### error2: '+JSON.stringify(error));}, 
+							error => {}, 
 							() => {}
 						);
 						this.modalReference.close();
 						location.reload();					
 					}, 
-					error => {console.log('### error1: '+JSON.stringify(error));}, 
+					error => {}, 
 					() => {}
 				);
 			}
 		}
 		// update operation
 		else if(centersubmitaction=='Update' && frm_id != ''){
-			console.log('### inside elseif frm_id= '+frm_id);
 			this.centersAllocationService.updateallocatedcenter(frm_id,centerallot).subscribe(data => {
-					console.log('### res data: '+JSON.stringify(data));	
 					this.modalReference.close();
 					location.reload();
 				}, 
@@ -216,35 +208,28 @@ export class CentersAllocationComponent implements OnInit {
 			);
 			//alert('Data updated successfully !!!');
 		}else{
-			console.log('### inside else');
 			alert('Data can not be saved !!!');
 		}		
 	}
 	
 	deleteAllocationFormSubmitAction(id){
-		console.log('### id: '+id);	
 		this.centersAllocationService.deleteallocatedcenter(id).subscribe(data => {
-			console.log('### 1 res data: '+JSON.stringify(data));
-			console.log('### 1 res data: '+JSON.stringify(this.remaining_centers_arr));
 				this.centersAllocationService.updatecenterstatus_available(this.remaining_centers_arr).subscribe(data => {
-						console.log('### 2 res data: '+JSON.stringify(data));	
 						//this.modalReference.close();
 						//location.reload();
 					}, 
-					error => {console.log('### 2 error: '+JSON.stringify(error));}, 
+					error => {}, 
 					() => {}
 				);	
 				this.modalReference.close();
 				location.reload();
 			}, 
-			error => {console.log('### 1 error: '+JSON.stringify(error));}, 
+			error => {}, 
 			() => {}
 		);
 	}
 
 	deleteCenterFormSubmitAction(_id, uid, uname){
-		console.log('#### _id: '+_id+'    userid: '+uid+'    username: '+uname);
-		//console.log('####remaining_centers_arr: '+JSON.stringify(this.remaining_centers_arr));
 		let arr: any = [];
 		if(this.delete_allocation_centers_arr.length > 0){
 			this.remaining_centers_arr.forEach(element => {
@@ -254,7 +239,6 @@ export class CentersAllocationComponent implements OnInit {
 					arr.push(element);
 				}
 			});
-			//console.log('####arr: '+JSON.stringify(arr));
 
 			const body = {
 				userid: uid,
@@ -262,16 +246,14 @@ export class CentersAllocationComponent implements OnInit {
 				centers: arr
 			}
 			this.centersAllocationService.updateallocatedcenter(_id, body).subscribe(data => {
-					console.log('### 1 res data: '+JSON.stringify(data));	
 					this.centersAllocationService.updatecenterstatus_available(this.delete_allocation_centers_arr).subscribe(data => {
-							console.log('### 2 res data: '+JSON.stringify(data));	
 						}, 
-						error => {console.log('### 2 error: '+JSON.stringify(error));}, 
+						error => {}, 
 						() => {}
 					);
 					this.modalReference.close();
 				}, 
-				error => {console.log('### 1 error: '+JSON.stringify(error));}, 
+				error => {}, 
 				() => {
 					this.pageLoadProcess();
 				}
@@ -282,37 +264,29 @@ export class CentersAllocationComponent implements OnInit {
 	}
 
 	addCenterFormSubmitAction(allocobj){
-		console.log('==>Allocated Object: '+JSON.stringify(allocobj));
-		console.log('==>Existing centers: '+JSON.stringify(allocobj.centers));
-		console.log('==>Centers to be added: '+JSON.stringify(this.add_allocation_centers_arr));
 		let new_centers_arr = allocobj.centers.concat(this.add_allocation_centers_arr);
-		console.log('==>New Centers list: '+JSON.stringify(new_centers_arr));
-
 		const body = {
 			userid: allocobj.uid,
 			username: allocobj.uname,
 			centers: new_centers_arr
 		}
 		this.centersAllocationService.updateallocatedcenter(allocobj.id, body).subscribe(data => {
-				console.log('### 1 res data: '+JSON.stringify(data));	
 				this.centersAllocationService.updatecenterstatus_allloted(this.add_allocation_centers_arr).subscribe(data => {
-						console.log('### $$$ data: '+JSON.stringify(data));	
 						//this.modalReference.close();
 						//location.reload();
 					}, 
-					error => {console.log('### $$$ error: '+JSON.stringify(error));}, 
+					error => {}, 
 					() => {}
 				);
 				this.modalReference.close();
 				location.reload();
 			}, 
-			error => {console.log('### 1 error: '+JSON.stringify(error));}, 
+			error => {}, 
 			() => {}
 		);
 	}
 
 	select_center(centerObj){
-		console.log('#### select_center(centerObj) #### ');
 		let cid = centerObj['_id'];
 
 		// add to selected centers array 
@@ -325,7 +299,6 @@ export class CentersAllocationComponent implements OnInit {
 				index1 = k;
 		});
 		this.filterData.splice(index1,1);
-		console.log('#### selected_centers_arr: '+JSON.stringify(this.selected_centers_arr));
 		
 		// add to data array
 		let index2 = -1;
@@ -337,7 +310,6 @@ export class CentersAllocationComponent implements OnInit {
 	}
 
 	deselect_center(centerObj){
-		console.log('#### deselect_center(centerObj) #### ');
 		let cid = centerObj['_id'];
 
 		// add to filterdata array
@@ -350,7 +322,6 @@ export class CentersAllocationComponent implements OnInit {
 				index1 = k;
 		});
 		this.selected_centers_arr.splice(index1,1);
-		console.log('#### selected_centers_arr: '+JSON.stringify(this.selected_centers_arr));
 		
 		// remove from data array 
 		let index2 = -1;
@@ -364,7 +335,6 @@ export class CentersAllocationComponent implements OnInit {
 	/*checkboxChanged(e, centerObj){
 		this.isChecked= e.target.checked;
 
-		console.log('###checkbox checked: '+this.isChecked);
 		if(this.isChecked){
 			this.selected_centers_arr.push(centerObj);
 		}else{
@@ -376,12 +346,10 @@ export class CentersAllocationComponent implements OnInit {
 			});
 			this.selected_centers_arr.splice(index,1);
 		}
-		console.log('#### selected_centers_arr: '+JSON.stringify(this.selected_centers_arr));
 	}
 	*/
 	addCheckboxChanged(e, centerObj){
 		this.isChecked= e.target.checked;
-		console.log('###checkbox checked: '+this.isChecked);
 		if(this.isChecked){
 			this.add_allocation_centers_arr.push(centerObj);
 		}else{
@@ -393,13 +361,11 @@ export class CentersAllocationComponent implements OnInit {
 			});
 			this.add_allocation_centers_arr.splice(index,1);
 		}
-		console.log('#### add_allocation_centers_arr: '+JSON.stringify(this.add_allocation_centers_arr));
 	}
 
 	deleteCheckboxChanged(e, centerObj){
 		this.isChecked= e.target.checked;
 
-		console.log('###checkbox checked: '+this.isChecked);
 		if(this.isChecked){
 			this.delete_allocation_centers_arr.push(centerObj);
 		}else{
@@ -411,7 +377,6 @@ export class CentersAllocationComponent implements OnInit {
 			});
 			this.delete_allocation_centers_arr.splice(index,1);
 		}
-		console.log('#### delete_allocation_centers_arr: '+JSON.stringify(this.delete_allocation_centers_arr));
 	}
 
 	onSelect_modal_manager(event){
@@ -419,10 +384,8 @@ export class CentersAllocationComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		//console.log('-->Selected Opt Value= '+JSON.stringify(selectedOptionValue)+'   Text= '+selectElementText);
 		this.modal_manager = selectedOptionValue['username'];
 		this.modal_userid = selectedOptionValue;
 		this.modal_username = selectElementText;
-		console.log('-->Selected userid= '+this.modal_userid+'   username= '+this.modal_username);
 	}
 }

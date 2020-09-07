@@ -86,7 +86,6 @@ export class GalleryComponent implements OnInit {
 
 	tab_on_change(tabname){
 		this.selected_tab = tabname;
-		console.log('---> selected_tab: '+JSON.stringify(this.selected_tab));
 		if(this.selected_tab == 'managerapp_tab'){
 			this.apptype = 'managerapp';
 			this.selected_directory = '';
@@ -106,7 +105,6 @@ export class GalleryComponent implements OnInit {
 
 	getdirectorieslist(){
 		this.galleryService.getdistinctdirectorylistbyapptype(this.apptype).subscribe(data => {
-				console.log('---> directories_list: '+JSON.stringify(data));
 				this.directories_list = data;
 				this.hideLoading_indicator = true;
 			},
@@ -118,16 +116,12 @@ export class GalleryComponent implements OnInit {
 	getallfilelist(){
 		this.hideLoading_indicator = false;
 		this.galleryService.getallfilelistbyapptype(this.apptype).subscribe(async data => {
-				console.log('---> resources: '+JSON.stringify(data));
-				//this.resources = data;
-				
 				this.resources = data;
 				if(this.resources.length == 0) this.set_resource(this.resources);
 				let arr: any = [];
 				let counter: number = 0;
 				await this.resources.forEach(ele => {
 					counter++;
-					console.log(counter+' --> ele: '+JSON.stringify(ele));
 					if((ele.s3directory == undefined || ele.s3directory == null || ele.s3directory == '') && (ele.type == 'file')){
 						arr.push(ele);
 					}else if(ele.type == 'directory'){
@@ -148,7 +142,6 @@ export class GalleryComponent implements OnInit {
 	getallfilelist_inside_directory(directoryname){
 		this.hideLoading_indicator = false;
 		this.galleryService.getallfilelistinsidedirectorybyapptype(this.apptype, directoryname).subscribe(async data => {
-				console.log('---> filelist_inside_directory: '+JSON.stringify(data));
 				this.filelist_inside_directory = data;
 				this.hideLoading_indicator = true;
 			},
@@ -166,7 +159,6 @@ export class GalleryComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
 		this.selected_directory = selectedOptionValue;
 	}
 
@@ -179,11 +171,9 @@ export class GalleryComponent implements OnInit {
 			showCancelButton: true        
 		}).then((result) => {
 			if (result.value) {
-				console.log("Result: " + result.value);
 				this.directoryname = result.value;
 				
 				this.galleryService.finddirectorybyname(this.apptype, this.directoryname).subscribe(async data => {
-						console.log('---> resources: '+JSON.stringify(data));
 						if(Object.keys(data).length > 0){
 							swal.fire('Info','Directory having this name already exists.', 'warning');
 						}else{
@@ -203,7 +193,6 @@ export class GalleryComponent implements OnInit {
 	create_s3directory(apptype, directoryname){
 		this.hideProgressbar = false;
 		this.galleryService.creates3directory(directoryname).subscribe(data => {
-			console.log('$$$data: '+JSON.stringify(data));
 		});
 				
 		let body = {
@@ -225,7 +214,6 @@ export class GalleryComponent implements OnInit {
 			this.displayname = event.target.files[0].name;
 			this.filetype = this.displayname.split('.').pop();
 			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
 		}else{
 			this.displayname = '';
 			this.selectedFiles = null;
@@ -241,12 +229,10 @@ export class GalleryComponent implements OnInit {
 		this.selected_directory = (this.selected_directory == undefined || this.selected_directory == null || this.selected_directory == '') ? '' : this.selected_directory ; 
 
 		this.galleryService.pushFileToStorage(this.currentFileUpload, this.selected_directory, this.s3name).subscribe(event => {
-			console.log('$$$event: '+JSON.stringify(event));
 			if (event.type === HttpEventType.UploadProgress) {
 				this.progress.percentage = Math.round(100 * event.loaded / event.total);
 			} else if (event instanceof HttpResponse) {
 				this.s3path = event.body['s3path'];
-				console.log('File is completely uploaded!->'+this.s3path);
 				let body = {
 					displayname: this.displayname,
 					s3name: this.s3name,
@@ -267,7 +253,6 @@ export class GalleryComponent implements OnInit {
 	savetodb(body){
 		this.hideLoading_indicator = false;
 		this.galleryService.uploadToManagersBox(body).subscribe(data => {
-				console.log('@@@data saved to db: '+JSON.stringify(data));
 				this.getallfilelist();
 				this.hideLoading_indicator = true;
 				swal.fire('Save', 'Level added '+data['status'], 'success');
@@ -280,7 +265,6 @@ export class GalleryComponent implements OnInit {
 	}
 
 	fileresource_on_click(dt){
-		console.log('### fileresource_on_click : '+JSON.stringify(dt));
 		if(dt.type == 'file'){
 
 		}else if(dt.type == 'directory'){
@@ -298,7 +282,6 @@ export class GalleryComponent implements OnInit {
 	}
 
 	delete_button_click(filedata){
-		console.log('### filedata : '+JSON.stringify(filedata));
 		swal.fire({
 		  title: 'Are you sure?',
 		  text: "Do you want to delete this?",
@@ -324,7 +307,6 @@ export class GalleryComponent implements OnInit {
 		this.hideLoading_indicator = false;
 
 		this.galleryService.deleteFromStorage(filedirectory, filename).subscribe(data1 => {
-				console.log('@@@s3 data delete: '+JSON.stringify(data1));
 			},
 			error => {},
 			() => {}
@@ -334,7 +316,6 @@ export class GalleryComponent implements OnInit {
 
 	deletefile_from_db(filedata){
 		this.galleryService.deleteFromManagersBox(filedata._id).subscribe(data2 => {
-				console.log('@@@db data delete: '+JSON.stringify(data2));
 				this.getallfilelist();
 				this.hideLoading_indicator = true;
 				swal.fire('Save','File deletion '+data2['status'],'success');
@@ -348,9 +329,7 @@ export class GalleryComponent implements OnInit {
 	deletes3directory(filedata){
 		let filedirectory = filedata.s3directory;
 		this.hideLoading_indicator = false;
-		console.log('@@@filedirectory to delete: '+filedirectory);
 		this.galleryService.deleteDirectoryFromStorage(filedirectory).subscribe(data1 => {
-				console.log('@@@s3 folder delete: '+JSON.stringify(data1));
 			},
 			error => {},
 			() => {}
@@ -360,7 +339,6 @@ export class GalleryComponent implements OnInit {
 
 	deletedirectory_from_db(filedata){
 		this.galleryService.deleteDirectoryFromManagersBox(filedata.s3directory).subscribe(data2 => {
-				console.log('@@@db data delete: '+JSON.stringify(data2));
 				this.resetall();
 				this.hideLoading_indicator = true;
 				swal.fire('Save','File deletion '+data2['status'],'success');
