@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
+import { HttpResponse, HttpEventType } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TrainingmiscService } from  './trainingmisc.service';
-
+import swal from 'sweetalert2';
 @Component({
     selector: 'app-trainingmisc',
     templateUrl: './trainingmisc.component.html',
@@ -33,173 +33,174 @@ export class TrainingMiscComponent implements OnInit {
 
 	ngOnInit() {
     // this.hideLoading_indicator = false;
-    // this.getallPasscode();
+    this.getallfiles();
+  }
+  currentFileUpload: File;
+	hideProgressbar: boolean = true;
+	progress: { percentage: number } = { percentage: 0 };
+	s3path: string = '';
+	currentvedioFileUpload: File;
+  addfile(){
+		if(this.selectedFiles == undefined || this.selectedFiles == null){
+			swal.fire('info', 'Please select image file', 'warning');
+		}else{
+		this.hideProgressbar = false;
+		this.progress.percentage = 0;
+
+		this.currentFileUpload = this.selectedFiles.item(0);
+		this.TrainingmiscService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+			if (event.type === HttpEventType.UploadProgress) {
+				this.progress.percentage = Math.round(100 * event.loaded / event.total);
+			} else if (event instanceof HttpResponse) {
+				this.s3path = event.body['s3path'];
+        this.hideProgressbar = true;
+        const body ={
+          "filename":this.s3name,
+          "filepath":this.s3path,
+          "filetype": this.filetype,
+          "type":'file'
+        }
+        this.save_record(body);
+			}
+		});
+	  }
+  }
+  selectedFiles:any;
+  displayname:any;
+  filetype:any;
+  s3name:any;
+  filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedFiles = event.target.files;
+			this.displayname = event.target.files[0].name;
+			this.filetype = this.displayname.split('.').pop();
+			this.s3name = (new Date()).getTime()+'.'+this.filetype;
+		}else{
+			this.displayname = '';
+			this.selectedFiles = null;
+		}
+  }
+  async save_record(body){
+		this.TrainingmiscService.savefiles(body).subscribe(data => {
+				swal.fire('Success', 'Record save status: '+data['status'], 'success');
+				location.reload();
+			},
+			error => {},
+			() => {}
+		);
+  }
+  async update_record(id, body){
+		this.TrainingmiscService.updatefile(id, body).subscribe(data => {
+				swal.fire('Success', 'Record updated successfully', 'success');
+				this.getallfiles();
+			},
+			error => {},
+			() => {}
+		);
+	}
+  edit_selectedFiles:any;
+  edit_displayname:any;
+  edit_filetype:any;
+  edit_s3name:any;
+  edit_filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.edit_selectedFiles = event.target.files;
+			this.edit_displayname = event.target.files[0].name;
+			this.edit_filetype = this.edit_displayname.split('.').pop();
+			this.edit_s3name = (new Date()).getTime()+'.'+this.edit_filetype;
+		}else{
+			this.edit_displayname = '';
+			this.edit_selectedFiles = null;
+		}
+	}
+	edit_s3_path:any;
+	updatefile() {
+		this.hideProgressbar = false;
+		this.progress.percentage = 0;
+		this.currentFileUpload = this.edit_selectedFiles.item(0);
+		this.TrainingmiscService.pushFileToStorage(this.currentFileUpload, this.edit_s3name).subscribe(event => {
+			if (event.type === HttpEventType.UploadProgress) {
+				this.progress.percentage = Math.round(100 * event.loaded / event.total);
+			} else if (event instanceof HttpResponse) {
+        this.edit_s3_path = event.body['s3path'];
+        this.hideProgressbar = true;
+        const body ={
+          "filename": this.edit_s3name,
+          "filepath":	this.edit_s3_path,
+          "filetype": this.edit_filetype,
+          "type":'file',
+        }
+        this.update_record(this.file_id,body);
+			}
+		});
+		
+	}
+	getallfiles(){
+		this.hideLoading_indicator = false;
+		this.TrainingmiscService.getallfiles().subscribe(data => {
+        this.data = data;
+        this.filterData = data;
+				this.hideLoading_indicator = true;
+			},
+			error => {},
+			() => {}
+		);
+	}
+ 
+  clear(){
+    this.file_id = '';
   }
 
-	// getallPasscode(){
-	// 	this.hideLoading_indicator = false;
-	// 	this.TrainingmiscService.getallpasscode().subscribe(data => {
-  //       this.data = data;
-  //       this.filterData = data;
-	// 			this.hideLoading_indicator = true;
-	// 		},
-	// 		error => {},
-	// 		() => {}
-	// 	);
-	// }
-  // search(term: string) {
-	// 	term = (term == undefined || term == null) ? '' : term;
-	// 	if(!term) {
-	// 	  this.filterData = this.data;
-	// 	} else {
-  //     this.filterData = this.data.filter(element => 
-	// 		element.orgname.toLowerCase().includes(term.trim().toLowerCase())
-	// 	  );
-	// 	}
-	// }
-  // clear(){
-  //   this.passcode_id = '';
-  //   this.org_name = '';
-  //   this.passcode = '';
-  // }
+  reset(){
+    this.flag = '';
+    this.valid_submit = false;
+    this.clear();
+  }
+  delete_data(){
+    this.hideLoading_indicator = false;
+		this.TrainingmiscService.deletefiles(this.file_id).subscribe(data => {
+        this.modalReference.close();
+        alert('file removed successfully');
+        this.getallfiles();
+				this.hideLoading_indicator = true;
+        this.reset();
+			},
+			error => {},
+			() => {}
+    );
+  }
+  file_id:any;
+  filename:any;
+  filepath:any;
+	open(content, param, flag) {
+    this.flag = flag;
 
-  // reset(){
-  //   this.flag = '';
-  //   this.valid_submit = false;
-  //   this.clear();
-  // }
+		if(flag == 'add') {
+      this.clear();
+    } else if(flag == 'edit') {
+      this.file_id = param._id;
+      this.filename = param.filename;
+      this.filepath = param.filepath;
+    } else if(flag == 'delete') {
+      this.file_id = param._id;
+    } else {
+      this.reset();
+    }
+		this.modalReference = this.modalService.open(content,param);
+    this.modalReference.result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
 
-  // validate(){
-  //   let nameregex = new RegExp("[a-zA-Z_]")
-  //   let passcoderegx = new RegExp("^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$")
-  //   if(this.org_name == null || this.org_name == undefined || this.org_name == '') {
-  //     this.valid_submit = false;
-  //     alert('Organisation name is not valid !!!');
-  //   }else if(!nameregex.test(this.org_name)){
-  //     alert('Organisation name should be valid !!!');
-  //   }else if(this.passcode == null || this.passcode == undefined || this.passcode == '') {
-  //     this.valid_submit = false;
-  //     alert('Passcode is not valid !!!');
-  //   }else if(this.passcode.length<5 || this.passcode.length>5){
-  //     this.valid_submit = false;
-  //     alert('Passcode must have only five charchters !!!');
-  //   }else if(!passcoderegx.test(this.passcode)){
-  //     this.valid_submit = false;
-  //     alert('Passcode should content letters and numeric !!!');
-  //   }else{
-  //     this.valid_submit = true;
-  //   }
-  // }
-  
-  // submit_data(){
-  //   this.validate();
-  //   if(this.valid_submit){
-  //     if(this.flag == 'add') {
-  //       this.save_data();
-  //     } else if(this.flag == 'edit') {
-  //       this.update_data();
-  //     } else if(this.flag == 'delete') {
-  //       this.delete_data();
-  //     }
-  //   }
-  // }
-
-  // // save_data(){
-	// // 	this.hideLoading_indicator = false;
-	// // 	this.passcodemanagerService.getpasscode(this.passcode.toUpperCase()).subscribe(data1 => {
-	// // 			if(data1['check']){
-  // //         alert('Passcode already exists !!!');
-  // //       }else{
-  // //         let body = {
-  // //           orgname: this.org_name,
-  // //           passcode: this.passcode.toUpperCase()
-  // //         }
-  // //         this.passcodemanagerService.createnewpasscode(body).subscribe(data2 => {
-  // //               this.modalReference.close();
-  // //               alert('Passcode saved '+data2['status']);
-  // //               this.getallPasscode();
-  // //               this.hideLoading_indicator = true;
-  // //               this.reset();
-  // //             },
-  // //             error => {},
-  // //             () => {}
-  // //           );
-  // //       }
-	// // 			this.hideLoading_indicator = true;
-	// // 		},
-	// // 		error => {},
-	// // 		() => {}
-	// // 	);
-  // // }
-
-  // update_data(){
-  //   this.hideLoading_indicator = false;
-  //   this.passcodemanagerService.getpasscode(this.passcode.toUpperCase()).subscribe(data1 => {
-  //     if(Object.keys(data1).length > 0){
-  //       let body = {
-  //         orgname: this.org_name,
-  //         passcode: this.passcode.toUpperCase()
-  //       }
-  //       this.passcodemanagerService.updatepasscode(this.passcode_id, body).subscribe(data2 => {
-  //           this.modalReference.close();
-  //           alert('Passcode updated '+data2['status']);
-  //           this.getallPasscode();
-  //           this.hideLoading_indicator = true;
-  //           this.reset();
-  //         },
-  //         error => {},
-  //         () => {}
-  //       );
-  //     }else{
-  //       this.hideLoading_indicator = true;
-  //       alert('Passcode not found !!!');
-  //     }
-  //   });
-  // }
-
-  // delete_data(){
-  //   this.hideLoading_indicator = false;
-	// 	this.passcodemanagerService.deletepasscode(this.passcode_id).subscribe(data => {
-  //       this.modalReference.close();
-  //       alert('passcode removed '+data['status']);
-  //       this.getallPasscode();
-	// 			this.hideLoading_indicator = true;
-  //       this.reset();
-	// 		},
-	// 		error => {},
-	// 		() => {}
-  //   );
-  // }
-
-	// open(content, param, flag) {
-  //   this.flag = flag;
-
-	// 	if(flag == 'add') {
-  //     this.clear();
-  //   } else if(flag == 'edit') {
-  //     this.passcode_id = param._id;
-  //     this.org_name = param.orgname;
-  //     this.passcode = param.passcode;
-  //   } else if(flag == 'delete') {
-  //     this.passcode_id = param._id;
-  //   } else {
-  //     this.reset();
-  //   }
-	// 	this.modalReference = this.modalService.open(content,param);
-  //   this.modalReference.result.then((result) => {
-  //       this.closeResult = `Closed with: ${result}`;
-  //   }, (reason) => {
-  //       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  //   });
-  // }
-
-  // private getDismissReason(reason: any): string {
-  //   if (reason === ModalDismissReasons.ESC) {
-  //       return 'by pressing ESC';
-  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-  //       return 'by clicking on a backdrop';
-  //   } else {
-  //       return  `with: ${reason}`;
-  //   }
-  // }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+    } else {
+        return  `with: ${reason}`;
+    }
+  }
 }

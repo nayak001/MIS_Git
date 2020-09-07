@@ -19,36 +19,54 @@
 					<div style="height: 450px;overflow-y: scroll;">
 						<table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="5">
 							<tr style="background: #f1f1f1;;">
-								<!-- <tr> -->
-									<td>
-										<span class="bold-font">Upload image:</span>
-										<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+								<td></td>
+								<td>
+									<div class="row">
+										<!-- <div class="col col-lg-2 col-md-2 col-sm-2"> -->
+											<span class="bold-font">Upload files:</span>
+											
+										<!-- </div> -->
+								
+										<div class="col col-lg-8 col-md-8 col-sm-8">
+											<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
 												<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
 												attr.aria-valuenow="{{progress.percentage}}"
 												aria-valuemin="0" aria-valuemax="100" 
 												[ngStyle]="{width:progress.percentage+'%'}">
 												{{progress.percentage}}%
+											   </div>
+										   </div>
+											<div class="file-upload">
+												<input type="file" #fileInput (change)="filechooser_onchange($event)"  style="margin-top: 47px;"/>
 											</div>
+											<!-- <div *ngIf = "s3path" class="image_preview_container">
+												<div class="image_preview">
+													<div>
+														<img src="{{s3path}}" class="image" />
+													</div>
+												</div>
+											</div> -->
 										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="file-upload">
-											<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
-										</div>
-									</td>
-									<td>
+										<button type="button" class="btn btn-primary" (click)="addfile()" style = "margin-top: -32px;
+										margin-left: 395px;">Upload File</button>
+									</div>
+								</td>
+								<td>
 									
-									</td>
-								<!-- </tr> -->
+								</td>
+								<td> 
+									<!-- <div class="row"> -->
+										
+									<!-- </div> -->
+									
+								</td>
+								
 							</tr>
 							<tr *ngFor="let row of mf.data; let i = index;">
 								<td style="width: 10%">{{ i+1 }}</td>
 								<td style="width: 80%">
-									<div class="row"><mfDefaultSorter by="Name of organisation">Name of organisation</mfDefaultSorter>&nbsp;&nbsp;&nbsp;: {{ row.orgname }}</div>
+									<div class="row"><mfDefaultSorter by="Name of organisation">File name</mfDefaultSorter>&nbsp;&nbsp;&nbsp;: {{ row.filename }}</div>
 									<div class="row"><mfDefaultSorter by="Name of organisation">Date of registration</mfDefaultSorter>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{row.createdon  | date:'yyyy-MM-dd'}}</div>
-									<div class="row">Code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ row.passcode }}</div>
 								</td>
 								<td style="width: 5%">
 									<div class="row">
@@ -68,23 +86,55 @@
 
 						<!-- Add or Edit Modal starts from here -->
 						<ng-template #addeditmodal let-c="close" let-d="dismiss">
-							<div class="modal-body">
-								<div class="row">
-									<div class="col col-xl-4 col-lg-4">Name of Organisation</div>
-									<div class="col col-xl-8 col-lg-8 row-fluid">
-										<input value="{{ org_name }}" [(ngModel)]="org_name" type="text" placeholder="Name of Organisation" class="modal_textbox">
+							<div style="width: 100%; padding: 10px;">
+								<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+							</div>
+							<div class="modal-body" >
+								<div class="row padd15">
+									<div class="tab_content_height margintop30" style="width: 462px;">
+										<table class="table50">
+											<tr>
+												<td>
+													<span class="bold-font">Upload File:</span>
+													<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+															<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+															attr.aria-valuenow="{{progress.percentage}}"
+															aria-valuemin="0" aria-valuemax="100" 
+															[ngStyle]="{width:progress.percentage+'%'}">
+															{{progress.percentage}}%
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<div class="file-upload">
+														<input type="file" #fileInput (change)="edit_filechooser_onchange($event)"  />
+													</div>
+												</td>
+												<td>
+												
+												</td>
+											</tr>
+											<tr>
+												<!-- <td>
+													<div class="image_preview_container">
+														<div class="image_preview">
+															<div>
+																<img src="{{edit_s3_path}}" class="image" />
+															</div>
+														</div>
+													</div>
+												</td> -->
+												<td></td>
+											</tr>
+										</table>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col col-xl-4 col-lg-4">code</div>
-									<div class="col col-xl-8 col-lg-8 row-fluid">
-										<input value="{{ passcode }}" [(ngModel)]="passcode" type="text" placeholder="Passcode" class="modal_textbox" ng-pattern-restrict="^[a-zA-Z0-9]+" style='text-transform:uppercase'>
-									</div>
-								</div>
+								</div>								
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-								<button type="button" class="btn btn-primary" (click)="submit_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+								<button type="button" class="btn btn-primary" (click)="updatefile()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
 							</div>
 						</ng-template>
 

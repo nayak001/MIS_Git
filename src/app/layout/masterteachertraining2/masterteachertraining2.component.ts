@@ -240,13 +240,11 @@ export class Masterteachertraining2Component implements OnInit {
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
 			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid).subscribe(data => {
-				console.log("data",data)
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
 						// this.content_value = data[0]['content'];
 						this.allcontent =  data[0]['content'];
-						console.log("this.allcontent",this.allcontent)
 						this.worksheet_value = data[0]['worksheet'];
 						this.video_value = data[0]['video'];
 						this.flashcard_value = data[0]['flashcard'];
@@ -502,8 +500,6 @@ export class Masterteachertraining2Component implements OnInit {
 	  }
 	}
 	savecontent(){
-		console.log("this.contents",this.contents,"hrer",this.allcontent)
-		
 		if(this.save_operation == 'save' && this.contents.length>0){
 			const body = {
 				moduleid : this.selected_moduleid,

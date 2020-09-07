@@ -102,7 +102,6 @@ export class PgeactivitiesComponent implements OnInit {
 			this.displayname = event.target.files[0].name;
 			this.filetype = this.displayname.split('.').pop();
 			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
 		}else{
 			this.displayname = '';
 			this.selectedFiles = null;
@@ -114,7 +113,6 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_preflanguage = selectedOptionValue;
 
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
@@ -125,9 +123,7 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_program = selectedOptionValue;
-    
     this.selected_subject = '';
     this.selected_month = '';
     this.selected_week = '';
@@ -143,7 +139,6 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_level = selectedOptionValue;
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
@@ -153,7 +148,6 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_subject = selectedOptionValue;
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
