@@ -52,7 +52,6 @@ export class UsersessionComponent implements OnInit {
 	getAllUsers() {
 		this.hideLoading_indicator = false;
 		this.usersessionService.getallusers().subscribe(data => {
-				// console.log('### data: '+JSON.stringify(data));
 				this.all_users = data;
 				// this.teachers.unshift({});
 				this.hideLoading_indicator = true;
@@ -68,16 +67,13 @@ export class UsersessionComponent implements OnInit {
 		let selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_userid = selectedOptionValue;
 		this.selected_username = selectElementText;
-		console.log('-->Selected userid= '+this.selected_userid+'   username= '+this.selected_username);
   }
 
   datepicker_onchange(event){
     this.selected_date = new Date(event.value);
-		console.log('###selected_date: '+this.selected_date);
   }
 
   checkbox_onchange(value){
-    console.log('###Checkbox checked: '+value);
     this.hide_datefield = !value;
   }
 
@@ -135,9 +131,7 @@ export class UsersessionComponent implements OnInit {
   }
 
   getAllUserSessionsByUseridDate(){
-    // get all usersessions
     this.usersessionService.getusersessionbyuseriddate(this.selected_userid, this.selected_date).subscribe(data => {
-      //this.data = data;
       this.filterData(data);
       this.data = this.all_usersessions;
       this.hideLoading_indicator = true;
@@ -150,7 +144,6 @@ export class UsersessionComponent implements OnInit {
   filterData(data){
     this.all_usersessions = [];
     Object.keys(data).forEach(i => {
-      //console.log('element: '+JSON.stringify(data[i]));
       let userid = data[i]['userid'];
       let username = data[i]['username'];
       let checkintime = data[i]['checkintime'];
@@ -168,7 +161,6 @@ export class UsersessionComponent implements OnInit {
       }
       this.all_usersessions.push(newobj);
     });
-    console.log('all user session: '+JSON.stringify(this.all_usersessions));
   }
 
   calculateDuration(date1,date2){ 
@@ -184,10 +176,8 @@ export class UsersessionComponent implements OnInit {
     msec -= mm * 1000 * 60;
     let ss = Math.floor(msec / 1000);
     msec -= ss * 1000;
-    // diff = 28800000 => hh = 8, mm = 0, ss = 0, msec = 0
 
     let duration = hh+' Hour(s): '+mm+' Min(s): '+ss+' Sec(s)';
-    //console.log('###Duration: '+duration);
     return duration;
   }
 }

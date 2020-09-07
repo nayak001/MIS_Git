@@ -11,6 +11,40 @@ const baseUrl = environment.baseUrl;
 export class Masterteachertraining1Service {
 	constructor(private http: HttpClient) { }
 
+	getalltrainingtopics(submoduleid){
+		return this.http.get(baseUrl+'getalltrainingtopics/'+submoduleid,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			
+		});
+	}
+	findtrainingtopicbyname(submoduleid, subtopicname){
+		return this.http.get(baseUrl+'findtrainingtopicbyname/'+
+		submoduleid+'/'+subtopicname,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			,responseType: 'text' 
+		});
+	}
+	createnewtrainingtopic(modulebody){
+		return this.http.post(baseUrl+'createtrainingtopic',
+		modulebody,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			,responseType: 'text' 
+		});
+	}
+	updatetrainingtopicbyid(id,modulebody){
+		return this.http.put(baseUrl+'updatetrainingtopicbyid/'+id,
+		modulebody,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			,responseType: 'text' 
+		});
+	}
+	deletetrainingtopicbyid(id){
+		return this.http.delete(baseUrl+'deletetrainingtopicbyid/'+id,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			,responseType: 'text' 
+		});
+	}
 	// modules part
 	getalltrainingmodules(){				
 		return this.http.get(baseUrl+'getalltrainingmodules/',
@@ -129,4 +163,5 @@ export class ValidationService {
 			return null;
 		};
 	}
+	
 }

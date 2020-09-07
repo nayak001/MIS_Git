@@ -68,7 +68,6 @@ export class CommunityvisitComponent implements OnInit {
 	}
 
 	open(content,param) {
-		console.log('#### param: '+JSON.stringify(param));
 		if(param != null || param != undefined){
 			this.editmodal_communityvisit_id = param.id;
 			this.editmodal_communityvisit_desc = param.community;
@@ -94,7 +93,6 @@ export class CommunityvisitComponent implements OnInit {
 	getallcommunityvisit(){
 		this.hideLoading_indicator = false;
 		this.communityvisitService.getallcommunityvisit().subscribe(data => {
-				console.log('@@@data: '+JSON.stringify(data));
 				this.data = data;
 				this.hideLoading_indicator = true;
 			},
@@ -103,7 +101,6 @@ export class CommunityvisitComponent implements OnInit {
 		);
 	}
 	add_globalFormSubmitAction(){
-		console.log('--> add_globalFormSubmitAction');
     let com = this.add_globalmodal_communityvisit_desc;
     let typ = this.selected_type;
     let mod = this.select_mode;
@@ -122,7 +119,6 @@ export class CommunityvisitComponent implements OnInit {
         "options" : opt
       };
       this.communityvisitService.createcommunityvisit(obj).subscribe(data => {
-          console.log('@@@data: '+JSON.stringify(data));
         },
         error => {},
         () => {
@@ -134,14 +130,12 @@ export class CommunityvisitComponent implements OnInit {
     }
 	}
 	editFormSubmitAction(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.submitted = true;
 		let obj = {
 			//"id": this.editmodal_issue_id,
 			"community": this.editmodal_communityvisit_desc
 		};
 		this.communityvisitService.updatecommunityvisit(id, obj).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -153,9 +147,7 @@ export class CommunityvisitComponent implements OnInit {
 		);
 	}
 	deleteFormSubmitAction(id){
-		console.log('### id: '+JSON.stringify(id));
 		this.communityvisitService.deletecommunityvisit(id).subscribe(data => {
-				console.log('@@@update data: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -179,7 +171,6 @@ export class CommunityvisitComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_type = selectedOptionValue;
 
     if(this.selected_type == 'select') this.isSelectType = true;
@@ -187,12 +178,10 @@ export class CommunityvisitComponent implements OnInit {
   }
 
   selectmode_on_change(val){
-    //console.log('val: '+val)
     this.select_mode = val;
   }
 
   txt_add_options_change(val){
-    //console.log('val: '+val)
     this.optionval = val;
   }
 
@@ -202,7 +191,6 @@ export class CommunityvisitComponent implements OnInit {
   }
 
   delete_option_clicked(i){
-    console.log('### i: '+i+'    = '+JSON.stringify(this.all_options_arr));
     this.all_options_arr.splice(i,1);
   }
 }

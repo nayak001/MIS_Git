@@ -58,7 +58,6 @@ export class LeapgrouptaskComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_prefLanguage = selectedOptionValue;
 
     this.load_record();
@@ -69,7 +68,6 @@ export class LeapgrouptaskComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_prefSubject = selectedOptionValue;
 
     this.load_record();
@@ -81,7 +79,6 @@ export class LeapgrouptaskComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_language = selectedOptionValue;
 
   }
@@ -91,11 +88,9 @@ export class LeapgrouptaskComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_subject = selectedOptionValue;
 
     this.leapgrouptaskService.getworkshopdetails(this.selected_prefLanguage, this.selected_prefSubject).subscribe(data => {
-      // console.log('### data: ' + JSON.stringify(data));
       for (let i = 0; i < Object.keys(data).length; i++) {
         if (this.selected_subject == data[i]['subject'] && this.selected_language == data[i]['language']) {
           swal.fire({
@@ -123,7 +118,6 @@ export class LeapgrouptaskComponent implements OnInit {
 
     this.leapgrouptaskService.getworkshopdetails(this.selected_prefLanguage, this.selected_prefSubject)
       .subscribe(data => {
-        console.log('### data: ' + JSON.stringify(data));
         this.workshopDetails = data;
       },
         error => { },
@@ -160,7 +154,6 @@ export class LeapgrouptaskComponent implements OnInit {
             // image: this.flashcard_value,
 
           }
-          console.log('### this.save_operation: ' + this.save_operation);
           if (this.save_operation == 'update') {
             this.update_record(body);
           } else {
@@ -173,7 +166,6 @@ export class LeapgrouptaskComponent implements OnInit {
 
   async save_record(body) {
     this.leapgrouptaskService.createworkshopdetails(body).subscribe(data => {
-      console.log('###1 save data: ' + JSON.stringify(data));
       //alert('Record save status: '+JSON.stringify(data));
       swal.fire(
         'Successful',
@@ -192,17 +184,14 @@ export class LeapgrouptaskComponent implements OnInit {
   async update(detail) {
     this.hideContent_div = false;
     this.save_operation = "update";
-    console.log(detail);
     this.content_value = detail.content;
     this.updateId = detail._id;
     this.selected_subject = detail.subject;
     this.selected_language = detail.language;
-    // console.log('update   id ----  ', this.updateId);
   }
 
   async update_record(body) {
     this.leapgrouptaskService.updateworkshopdetails(this.updateId, body).subscribe(data => {
-      console.log('###1 update data: ' + JSON.stringify(data));
       //alert('Record update status: '+JSON.stringify(data));
       // this.modalReference.close();
       swal.fire(

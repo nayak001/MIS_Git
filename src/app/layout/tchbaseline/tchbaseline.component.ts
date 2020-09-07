@@ -63,13 +63,10 @@ export class TchbaselineComponent implements OnInit {
 
 	
 	onchange_teachers_select(val: string) {
-		//console.log('--> auto-complete change event'+JSON.stringify(val));
 	}
 	onfocus_teachers_select(e){
-		//console.log('--> auto-complete focus event'+JSON.stringify(e));
 	}
 	onselect_teachers_select(item){
-		console.log('--> teacher auto-complete select event'+JSON.stringify(item));
 		this.selected_userid = item.userid;
 		this.selected_username = item.username;
 		this.selected_program ='';
@@ -81,7 +78,6 @@ export class TchbaselineComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_program = selectedOptionValue;
 		this.get_student_list(this.selected_userid, this.selected_program);
 	}
@@ -92,7 +88,6 @@ export class TchbaselineComponent implements OnInit {
 		}else {
 			this.hideLoading_indicator = false;
 			this.tchbaselineService.getallstudentsbyteacher_program(selected_userid, selected_program).subscribe(data => {
-					//console.log('@@@get_student_list: '+JSON.stringify(data));
 					this.students = data;	
 					this.hideLoading_indicator = true;					
 				}, 
@@ -103,13 +98,10 @@ export class TchbaselineComponent implements OnInit {
 	}
 	
 	onchange_students_select(val: string) {
-		//console.log('--> auto-complete change event'+JSON.stringify(val));
 	}
 	onfocus_students_select(e){
-		//console.log('--> auto-complete focus event'+JSON.stringify(e));
 	}
 	onselect_students_select(item){
-		console.log('--> student auto-complete select event'+JSON.stringify(item));
 		this.detailsid = item._id;
 		this.selected_studentid = item.studentid;
 		this.selected_studentname = item.studentname;
@@ -123,7 +115,6 @@ export class TchbaselineComponent implements OnInit {
 		}else {
 			this.hideLoading_indicator = false;
 			this.tchbaselineService.getallleveldetailsbydetailsid(detailsid).subscribe(data => {
-				console.log('@@@get_student_level_list: '+JSON.stringify(data));
 				this.student_levels_list = data;	
 				this.hideLoading_indicator = true;					
 			}, 
@@ -168,7 +159,6 @@ export class TchbaselineComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.set_subject = selectedOptionValue;
 	}
 	
@@ -179,7 +169,6 @@ export class TchbaselineComponent implements OnInit {
 		}else {
 			this.hideLoading_indicator = false;
 			this.tchbaselineService.updatestudentlevelbyid(this.level_id, {subject: this.set_subject}).subscribe(data => {
-				console.log('@@@get_student_level_list: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;	
 				this.modalReference.close();	
 				this.get_student_level_list(this.selected_userid, this.selected_program, this.detailsid);

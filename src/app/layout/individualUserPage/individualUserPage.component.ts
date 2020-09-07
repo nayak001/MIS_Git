@@ -53,7 +53,6 @@ export class IndividualUserPageComponent implements OnInit {
 
 	getManagerDetails(){
 		this.IndividualUserPageService.getManagerDetails(this.managerId).subscribe(data => {
-			console.log(data)
 			this.userDetails = data;
 		})
 
@@ -79,7 +78,6 @@ export class IndividualUserPageComponent implements OnInit {
 	getmanagers(){
 		this.IndividualUserPageService.getManagers().subscribe(data => {
 			debugger
-			console.log(data)
 			this.managerDetails = data;
 	})
 	
@@ -87,14 +85,10 @@ export class IndividualUserPageComponent implements OnInit {
 	
 }
 onchange_teachers_select(val: string) {
-	console.log('--> auto-complete change event'+JSON.stringify(val));
 }
 onfocus_teachers_select(e){
-	console.log('--> auto-complete focus event'+JSON.stringify(e));
 }
 onselect_teachers_select(item){
-	console.log('--> auto-complete select event'+JSON.stringify(item));
-	
 	this.getManagerDetails();
 }
 

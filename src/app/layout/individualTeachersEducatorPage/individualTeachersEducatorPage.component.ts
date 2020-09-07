@@ -96,8 +96,6 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 	getBlockDetails() {
 		this.IndividualTeachersEducatorPageService.getBlocks().subscribe(data => {
-			// console.log('### data: '+JSON.stringify(data));
-			//console.log(data)
 			this.allDisticBlocks = data
 			for (var i = 0; i < this.allDisticBlocks.length; i++) {
 				if (this.allDistics.length > 0) {
@@ -115,8 +113,6 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 					this.allDistics.push(this.allDisticBlocks[i])
 				}
 			}
-			console.log(this.allDistics)
-			// this.all_blocks=data;
 		},
 			error => { },
 			() => { }
@@ -154,11 +150,8 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			limit:10,
 			download_click:this.download_click
 		}
-		console.log('### Filter button click data: '+JSON.stringify(data))
 		this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
 		
-			// console.log('### data: '+JSON.stringify(data));
-			//console.log(data)
 					this.filterData = data
 					this.isLoaded = true
 					if (this.filterData.length == 0) {
@@ -170,7 +163,6 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 					}
 					
 				this.api_hit = true
-			console.log(this.filterData)
 			// this.all_blocks=data;
 		},
 			error => { },
@@ -183,7 +175,6 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
  highlight(index:String){
 
 	document.querySelectorAll('.record-row').forEach(function(ele) {
-		console.log(ele.getAttribute("id"));
 		if(ele.getAttribute("id") == "user_"+ index) {
 			ele.classList.add('highlight');
 		} else {
@@ -249,9 +240,6 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 			}
 
 		}
-		console.log(this.all_blocks)
-
-
 	}
 	download() {
 		
@@ -275,12 +263,9 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 
 		this.IndividualTeachersEducatorPageService.TeacherEducatorDetail(data).subscribe(data => {
 			debugger
-			// console.log('### data: '+JSON.stringify(data));
-			//console.log(data)
-					this.teacherdata = data
+			this.teacherdata = data
 					// this.count = this.teacherdata[0].count
 			 this.isLoaded = true
-			console.log(this.teacherdata)
 			// this.all_blocks=data;
 			this.loader = false
 
@@ -374,7 +359,6 @@ export class IndividualTeachersEducatorPageComponent implements OnInit {
 	// 			else if(this.all_Data[i].district == this.selectedDistic){
 	// 				this.filterData.push(this.all_Data[i])
 	// 			}
-	//            console.log(this.filterData)
 	// 		  }
 
 	// 		}

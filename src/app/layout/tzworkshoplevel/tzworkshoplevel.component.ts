@@ -50,7 +50,6 @@ export class TzworkshoplevelComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
     this.selected_preferredlanguage = selectedOptionValue;
     this.show_data();
   }
@@ -60,7 +59,6 @@ export class TzworkshoplevelComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_workshopday = selectedOptionValue;
     this.show_data();
   }
@@ -70,7 +68,6 @@ export class TzworkshoplevelComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
     this.selected_workshoptype = selectedOptionValue;
     
     if(this.selected_workshoptype == 'sr'){
@@ -88,7 +85,6 @@ export class TzworkshoplevelComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_subject = selectedOptionValue;
     this.show_data();
   }
@@ -104,7 +100,6 @@ export class TzworkshoplevelComponent implements OnInit {
     }else{
       this.hideLoading_indicator = false;
       this.tzworkshoplevelService.getwslevel(this.selected_preferredlanguage, this.selected_workshoptype, this.selected_subject, this.selected_workshopday).subscribe(data => {
-          console.log('@@@data: '+JSON.stringify(data));
           if(Object.keys(data).length > 0){
             this.levels = data;
             this.record_id = this.levels[this.levels.length-1]['_id'];
@@ -118,7 +113,6 @@ export class TzworkshoplevelComponent implements OnInit {
           }
           this.next_level = ''+(parseInt(this.selected_level)+1)
           this.next_levelname = 'Level '+this.next_level;
-          console.log('@@@record_id: '+this.record_id+'    level: '+this.selected_level+'    levelname: '+this.selected_levelname+'    next level: '+this.next_level+'    next level name: '+this.next_levelname);
           this.hideLoading_indicator = true;
         },
         error => {},
@@ -154,7 +148,6 @@ export class TzworkshoplevelComponent implements OnInit {
     }
     this.hideLoading_indicator = false;
     this.tzworkshoplevelService.createwslevel(body).subscribe(data => {
-        console.log('@@@checking for package: '+JSON.stringify(data));
         swal.fire(
           'Save',
           'Level added '+data['status'],
@@ -195,7 +188,6 @@ export class TzworkshoplevelComponent implements OnInit {
   delete_last_level(){
     this.hideLoading_indicator = false;
     this.tzworkshoplevelService.deletewslevel(this.record_id).subscribe(data => {
-        console.log('@@@data: '+JSON.stringify(data));
         swal.fire(
           'Save',
           'Level deletion '+data['status'],

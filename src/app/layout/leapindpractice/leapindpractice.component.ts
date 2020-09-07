@@ -73,7 +73,6 @@ export class LeapindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_prefLanguage = selectedOptionValue;
 
     // this.listContent_div = false;
@@ -86,7 +85,6 @@ export class LeapindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_prefSubject = selectedOptionValue;
 
     // this.listContent_div = false;
@@ -99,7 +97,6 @@ export class LeapindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_prefLevel = selectedOptionValue;
 
     this.listContent_div = false;
@@ -113,7 +110,6 @@ export class LeapindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_language = selectedOptionValue;
 
   }
@@ -123,7 +119,6 @@ export class LeapindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_level = selectedOptionValue;
 
     // this.load_record(this.selected_level);
@@ -134,11 +129,9 @@ export class LeapindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_subject = selectedOptionValue;
 
     this.leapindpracticeService.getinvidualdetails(this.selected_prefLanguage, this.selected_prefSubject, this.selected_prefLevel).subscribe(data => {
-      // console.log('### data: ' + JSON.stringify(data));
       for (let i = 0; i < Object.keys(data).length; i++) {
         if (this.selected_subject == data[i]['subject'] && this.selected_level == data[i]['level'] && this.selected_language == data[i]['language']) {
           swal.fire({
@@ -167,7 +160,6 @@ export class LeapindpracticeComponent implements OnInit {
     this.hideContent_div = true;
 
     this.leapindpracticeService.getinvidualdetails(this.selected_prefLanguage, this.selected_prefSubject, this.selected_prefLevel).subscribe(data => {
-      console.log('### data: ' + JSON.stringify(data));
       this.workshopDetails = data;
     },
       error => { },
@@ -205,7 +197,6 @@ export class LeapindpracticeComponent implements OnInit {
             content: this.content_value,
             worksheet: this.worksheet_value,
           }
-          console.log('### this.save_operation: ' + this.save_operation);
           if (this.save_operation == 'update') {
             this.update_record(body);
           } else {
@@ -218,7 +209,6 @@ export class LeapindpracticeComponent implements OnInit {
 
   async save_record(body) {
     this.leapindpracticeService.createinvidualdetails(body).subscribe(data => {
-      console.log('###1 save data: ' + JSON.stringify(data));
       //alert('Record save status: '+JSON.stringify(data));
       swal.fire(
         'Successful',
@@ -241,19 +231,16 @@ export class LeapindpracticeComponent implements OnInit {
     this.addContent_div = true;
     this.backContent_div = false;
     this.save_operation = "update";
-    console.log(detail);
     this.content_value = detail.content;
     this.selected_level = detail.level;
     this.selected_subject = detail.subject;
     this.worksheet_value = detail.worksheet;
     this.selected_language = detail.language;
     this.updateId = detail._id;
-    // console.log('update   id ----  ', this.updateId);
   }
 
   async update_record(body) {
     this.leapindpracticeService.updateindividualdetails(this.updateId, body).subscribe(data => {
-      console.log('###1 update data: ' + JSON.stringify(data));
       //alert('Record update status: '+JSON.stringify(data));
       // this.modalReference.close();
       swal.fire(

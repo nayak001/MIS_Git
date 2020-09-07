@@ -65,7 +65,6 @@ export class CenterlocationComponent implements OnInit {
 
 		this.getallmanager();
 		//if(this.selected_userid == null || this.selected_userid == undefined) this.selected_userid = '';
-		//console.log('@@@pageload userid: '+this.selected_userid);
 		//this.getcenterimagebyuserid(this.selected_userid);
 		let lat = 18.5793;
 		let lng = 73.8143;
@@ -73,7 +72,6 @@ export class CenterlocationComponent implements OnInit {
 	}
 
 	open(content,param,flag) {
-		console.log('#### flag: '+flag+'    #### param: '+JSON.stringify(param));
 		if(flag == 'view'){
 			let lat = 18.5793;
 			let lng = 73.8143;
@@ -103,13 +101,11 @@ export class CenterlocationComponent implements OnInit {
 		let selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_userid = selectedOptionValue;
 		this.selected_username = selectElementText;
-		console.log('-->Selected userid= '+this.selected_userid+'   username= '+this.selected_username);
 	}
 
 	getallmanager(){
 		this.hideLoading_indicator = false;
 		this.centerlocationService.getallmanager().subscribe(data => {
-				//console.log('@@@data: '+JSON.stringify(data));
 				var _blank_obj = {
 					userid:'',
 					username: ''
@@ -129,7 +125,6 @@ export class CenterlocationComponent implements OnInit {
 				/*let arr: Array<any> = [];
 				if(Object.keys(data).length > 0){
 					Object.keys(data).forEach((v, k) => {
-						console.log('@@v: '+JSON.stringify(v)+'    @@k: '+JSON.stringify(k));
 						let obj = {};
 						obj['_id'] = v['_id'];
 						obj['userid'] = v['userid'];
@@ -174,7 +169,6 @@ export class CenterlocationComponent implements OnInit {
 	}
 
 	locate(_lat,_lng){
-		//console.log('@@@_lat: '+_lat+'    @@@_lng: '+_lng);
 		let newlat = 18.5793;
 		let newlng = 73.8143;
 		newlat = (_lat != null && _lat != undefined && _lat != '')?parseFloat(_lat):18.5793;

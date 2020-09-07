@@ -43,13 +43,11 @@ export class TeacherprofilecreateComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.modal_qualification = selectedOptionValue;
 	}
 
 	datepicker_onchange(event){
 		this.modal_startdate = new Date(event.value);
-		console.log('###selected_date: '+this.modal_startdate);
 	}
 
 	// save user
@@ -76,7 +74,6 @@ export class TeacherprofilecreateComponent implements OnInit {
 
 	save(body) {
 		this.teacherprofileService.createnewteacherprofile(body).subscribe(data => {
-        console.log('### res data: ' + JSON.stringify(data));
         if(data['status'] == 'success'){
           swal.fire('Success', 'Data saved successfully.', 'success');
 		  location.reload();
@@ -87,7 +84,7 @@ export class TeacherprofilecreateComponent implements OnInit {
 		  //this.activeModal.dismiss();
         }
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => {},
 			() => {}
 		);
 	}

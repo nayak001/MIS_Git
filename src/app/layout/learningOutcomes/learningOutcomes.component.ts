@@ -53,7 +53,6 @@ export class LearningOutcomesComponent implements OnInit {
 
 	getManagerDetails(){
 		this.LearningOutcomesService.getManagerDetails(this.managerId).subscribe(data => {
-			console.log(data)
 			this.userDetails = data;
 		})
 
@@ -83,7 +82,6 @@ export class LearningOutcomesComponent implements OnInit {
 	getmanagers(){
 		this.LearningOutcomesService.getManagers().subscribe(data => {
 			debugger
-			console.log(data)
 			this.managerDetails = data;
 	})
 	

@@ -44,7 +44,6 @@ export class ManagersboxComponent implements OnInit {
 
 	getAllFromManagersBox(){
 		this.managersboxService.getAllFromManagersBox().subscribe(data => {
-				console.log('@@@data saved to db: '+JSON.stringify(data));
 				this.data = data;
 				this.total_file_count_str = "Total Files: "+this.data.length;
 				this.hideLoading_indicator = true;
@@ -60,7 +59,6 @@ export class ManagersboxComponent implements OnInit {
 			this.displayname = event.target.files[0].name;
 			this.filetype = this.displayname.split('.').pop();
 			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
 		}else{
 			this.displayname = '';
 			this.selectedFiles = null;
@@ -72,14 +70,11 @@ export class ManagersboxComponent implements OnInit {
 		this.progress.percentage = 0;
 
 		this.currentFileUpload = this.selectedFiles.item(0);
-		console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
 		this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-			console.log('$$$event: '+JSON.stringify(event));
 			if (event.type === HttpEventType.UploadProgress) {
 				this.progress.percentage = Math.round(100 * event.loaded / event.total);
 			} else if (event instanceof HttpResponse) {
 				this.s3path = event.body['s3path'];
-				console.log('File is completely uploaded!->'+this.s3path);
 				this.hideProgressbar = true;
 				this.savetodb();
 			}
@@ -96,7 +91,6 @@ export class ManagersboxComponent implements OnInit {
 			s3path: this.s3path
 		}
 		this.managersboxService.uploadToManagersBox(body).subscribe(data => {
-				console.log('@@@data saved to db: '+JSON.stringify(data));
 				this.getAllFromManagersBox();
 				this.hideLoading_indicator = true;
 				swal.fire('Save', 'Level added '+data['status'], 'success');
@@ -108,7 +102,6 @@ export class ManagersboxComponent implements OnInit {
 	}
 
 	delete_button_click(filedata){
-		console.log('### filedata : '+JSON.stringify(filedata));
 		swal.fire({
 		  title: 'Are you sure?',
 		  text: "Do you want to delete this file?",
@@ -127,9 +120,7 @@ export class ManagersboxComponent implements OnInit {
 	deletes3file(filedata){
 		this.hideLoading_indicator = false;
 		this.managersboxService.deleteFromStorage(filedata.s3name).subscribe(data1 => {
-				console.log('@@@s3 data delete: '+JSON.stringify(data1));
 				this.managersboxService.deleteFromManagersBox(filedata._id).subscribe(data2 => {
-						console.log('@@@db data delete: '+JSON.stringify(data2));
 						this.getAllFromManagersBox();
 						this.hideLoading_indicator = true;
 						swal.fire(

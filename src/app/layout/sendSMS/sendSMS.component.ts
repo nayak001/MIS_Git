@@ -74,7 +74,6 @@ export class SendSMSComponent implements OnInit {
 	async getallcontacts(){
 		this.hideLoading_indicator = false;
 		this.sendSMSService.getallcontacts().subscribe(data => {
-				//console.log('### getallcontacts: '+JSON.stringify(data));
 				this.allcontactlist = data;
 				this.multiselect_contactlist = this.allcontactlist;
 				this.hideLoading_indicator = true;
@@ -87,7 +86,6 @@ export class SendSMSComponent implements OnInit {
 	async getallsms(){
 		this.hideLoading_indicator = false;
 		this.sendSMSService.getallsms().subscribe(data => {
-				//console.log('### getallsms: '+JSON.stringify(data));
 				this.allsmslist = data;
 				this.hideLoading_indicator = true;
 			},
@@ -104,31 +102,28 @@ export class SendSMSComponent implements OnInit {
 			swal.fire('Info', 'Invalid inputs', 'warning');
 		}else{
 			this.sendSMSService.findcontactbynmber(this.modal_contact_number).subscribe(data1 => {
-					console.log('### res data1: ' + JSON.stringify(data1));
 					if(Object.keys(data1).length > 0){
 						swal.fire('Info', 'Contact number already exists', 'warning');
 					}else{
 						this.sendSMSService.createnewcontact({contactname: this.modal_contact_name, contactnumber: this.modal_contact_number}).subscribe(data2 => {
-								console.log('### res data2: ' + JSON.stringify(data2));
 								this.getallcontacts();
 								swal.fire('Success', 'Contact saved successfully', 'success');
 								this.modal_contact_number = '';
 								this.modal_contact_name = '';
 								//this.modalReference.close();
 							},
-							error => {console.log('###2 error: ' + JSON.stringify(error)); },
+							error => { },
 							() => {}
 						);
 					}
 				},
-				error => {console.log('###2 error: ' + JSON.stringify(error)); },
+				error => { },
 				() => {}
 			);
 		}
 	}
 	
 	send_button_click() {
-		//console.log('### multiselect_selectedcontactlist: '+JSON.stringify(this.multiselect_selectedcontactlist));
 		let sms_data_arr = [];
 		if(this.multiselect_selectedcontactlist.length > 0){
 			let count = 0;
@@ -140,14 +135,6 @@ export class SendSMSComponent implements OnInit {
 					message: this.modal_sms_message
 				}
 				sms_data_arr.push(ob);
-				//----------------------
-				/*
-				if(count == this.multiselect_selectedcontactlist.length-1) this.sms_to_numbers += contact.contactnumber;
-				else{
-					this.sms_to_numbers += contact.contactnumber+',';
-				} 
-				count++;
-				*/
 			});
 			
 			if(this.modal_sms_message == undefined || this.modal_sms_message == null || this.modal_sms_message == ''){
@@ -157,8 +144,6 @@ export class SendSMSComponent implements OnInit {
 					sms: this.modal_sms_message,
 					tonumbers: this.multiselect_selectedcontactlist
 				}
-				//this.sendSMS(this.sms_to_numbers, this.modal_sms_message);
-				console.log('### sms_data_arr: '+JSON.stringify(sms_data_arr));
 				this.sendSMS(sms_data_arr);
 				this.saveSMS(sms_obj);
 				this.multiselect_selectedcontactlist = [];
@@ -176,8 +161,6 @@ export class SendSMSComponent implements OnInit {
 	async sendSMS(body){
 		this.hideLoading_indicator = false;
 		await this.sendSMSService.postSMS(body).subscribe(data => {
-		//await this.sendSMSService.sendSMS(sms_to_numbers, sms_message).subscribe(data => {
-				console.log('### send SMS reponse: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 				swal.fire('Success', 'Message sent successfully', 'success');
 				this.modalReference.close();
@@ -193,10 +176,8 @@ export class SendSMSComponent implements OnInit {
 	async saveSMS(sms_obj){
 		this.hideLoading_indicator = false;
 		await this.sendSMSService.saveSMS(sms_obj).subscribe(data => {
-				console.log('### save SMS reponse: '+JSON.stringify(data));
 				this.getallsms();
 				this.hideLoading_indicator = true;
-				//swal.fire('Success', 'Message sent successfully', 'success');
 				this.modalReference.close();
 			},
 			error => {},
@@ -208,10 +189,8 @@ export class SendSMSComponent implements OnInit {
 	}
 
 	async delete_contact_btn_click(contact_obj){
-		console.log('### delete contactbyid reponse: '+JSON.stringify(contact_obj));
 		this.hideLoading_indicator = false;
 		await this.sendSMSService.deletecontactbyid(contact_obj._id).subscribe(data => {
-				console.log('### delete contactbyid reponse: '+JSON.stringify(data));
 				this.getallcontacts();
 				this.hideLoading_indicator = true;
 				swal.fire('Success', 'Contact deleted successfully', 'success');
@@ -264,12 +243,9 @@ export class SendSMSComponent implements OnInit {
 			let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);  
 			let headersRow = this.getHeaderArray(csvRecordsArray);  
 			this.no_of_records = csvRecordsArray.length;
-			console.log('@@@ headersRow= '+JSON.stringify(headersRow)); 
 			this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length); 
-			console.log('@@@ records= '+JSON.stringify(this.records)); 
 		  };  
 		  reader.onerror = function () {  
-			console.log('error is occured while reading file!');  
 		  };  
 		} else {  
 		  alert("Please import valid .csv file.");  
@@ -321,18 +297,15 @@ export class SendSMSComponent implements OnInit {
 		}else{
 		this.hideLoading_indicator = false;
 		await this.sendSMSService.importContacts(this.records).subscribe(data => {
-				console.log('### save SMS reponse: '+JSON.stringify(data));
 				this.getallcontacts();
 				this.hideLoading_indicator = true;
 				swal.fire('Success', 'Contacts imported successfully', 'success');
 				this.modalReference.close();
-				//this.fileReset();
 			},
 			error => {},
 			() => {
 				swal.fire('Success', 'Contacts imported successfully', 'success');
 				this.modalReference.close();
-				//this.fileReset();
 			}
 		);
 		}

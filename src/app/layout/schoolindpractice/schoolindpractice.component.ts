@@ -70,7 +70,6 @@ export class SchoolindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_prefLanguage = selectedOptionValue;
 
     // this.listContent_div = false;
@@ -83,7 +82,6 @@ export class SchoolindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_prefLevel = selectedOptionValue;
 
     this.listContent_div = false;
@@ -97,7 +95,6 @@ export class SchoolindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_language = selectedOptionValue;
 
   }
@@ -107,13 +104,11 @@ export class SchoolindpracticeComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_level = selectedOptionValue;
     this.buttonValid = true;
 
 
     this.schoolindpracticeService.getinvidualdetails(this.selected_prefLanguage, 'null', this.selected_prefLevel).subscribe(data => {
-      // console.log('### data: ' + JSON.stringify(data));
       for (let i = 0; i < Object.keys(data).length; i++) {
         if (this.selected_level == data[i]['level'] && this.selected_language == data[i]['language']) {
           this.buttonValid = false;
@@ -143,7 +138,6 @@ export class SchoolindpracticeComponent implements OnInit {
     this.hideContent_div = true;
 
     this.schoolindpracticeService.getinvidualdetails(this.selected_prefLanguage, 'null', this.selected_prefLevel).subscribe(data => {
-      console.log('### data: ' + JSON.stringify(data));
       this.workshopDetails = data;
     },
       error => { },
@@ -181,7 +175,6 @@ export class SchoolindpracticeComponent implements OnInit {
             content: this.content_value,
             worksheet: this.worksheet_value
           }
-          console.log('### this.save_operation: ' + this.save_operation);
           if (this.save_operation == 'update') {
             this.update_record(body);
           } else {
@@ -194,7 +187,6 @@ export class SchoolindpracticeComponent implements OnInit {
 
   async save_record(body) {
     this.schoolindpracticeService.createinvidualdetails(body).subscribe(data => {
-      console.log('###1 save data: ' + JSON.stringify(data));
       //alert('Record save status: '+JSON.stringify(data));
       swal.fire(
         'Successful',
@@ -217,18 +209,15 @@ export class SchoolindpracticeComponent implements OnInit {
     this.addContent_div = true;
     this.backContent_div = false;
     this.save_operation = "update";
-    console.log(detail);
     this.content_value = detail.content;
     this.selected_level = detail.level;
     this.worksheet_value = detail.worksheet;
     this.selected_language = detail.language;
     this.updateId = detail._id;
-    // console.log('update   id ----  ', this.updateId);
   }
 
   async update_record(body) {
     this.schoolindpracticeService.updateindividualdetails(this.updateId, body).subscribe(data => {
-      console.log('###1 update data: ' + JSON.stringify(data));
       //alert('Record update status: '+JSON.stringify(data));
       // this.modalReference.close();
       swal.fire(

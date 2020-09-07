@@ -63,12 +63,9 @@ export class TzworkshopcontentComponent implements OnInit {
   ngOnInit() {}
 
   get_ws_levels(wspreflang, wstype, wssubject, wsday){
-    console.log('@@@wspreflang: '+wspreflang+'    wstype: '+wstype+'    wssubject: '+wssubject+'    wsday: '+wsday);
     this.hideLoading_indicator = false;
     this.tzworkshopcontentService.getwslevel(wspreflang, wstype, wssubject, wsday).subscribe(data => {
-        console.log('@@@data: '+JSON.stringify(data));
         this.levels = (Object.keys(data).length > 0) ? data : [];
-        console.log('@@@Level[]: '+JSON.stringify(this.levels));
         this.hideLoading_indicator = true;
       },
       error => {},
@@ -81,7 +78,6 @@ export class TzworkshopcontentComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
     this.selected_preferredlanguage = selectedOptionValue;
     
     if(this.selected_action == 'ip'){
@@ -103,7 +99,6 @@ export class TzworkshopcontentComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_workshopday = selectedOptionValue;
 
     if(this.selected_action == 'ip'){
@@ -125,7 +120,6 @@ export class TzworkshopcontentComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
     this.selected_workshoptype = selectedOptionValue;
     
     if(this.selected_workshoptype == 'sr'){
@@ -155,7 +149,6 @@ export class TzworkshopcontentComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.selected_subject = selectedOptionValue;
 
     if(this.selected_action == 'ip'){
@@ -177,7 +170,6 @@ export class TzworkshopcontentComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
     this.selected_action = selectedOptionValue;
 
     if(this.selected_action == 'ip'){
@@ -199,7 +191,6 @@ export class TzworkshopcontentComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
     this.selected_level = selectedOptionValue;
     this.show_data();
   }
@@ -219,14 +210,11 @@ export class TzworkshopcontentComponent implements OnInit {
     }else{
       this.hideLoading_indicator = false;
       this.tzworkshopcontentService.getwscontent(this.selected_preferredlanguage, this.selected_workshoptype, this.selected_subject, this.selected_action, this.selected_level, this.selected_workshopday).subscribe(data => {
-          console.log('@@@Get ws data: '+JSON.stringify(data));
           if(Object.keys(data).length > 0){
             this.save_operation = 'update';
             this.contents = [];
             this.contents.push(data[0]);
-            console.log('@@@1: '+JSON.stringify(this.contents));
             this.record_id = data[0]['_id'];
-            console.log('@@@2: '+JSON.stringify(this.record_id));
             this.selected_content = data[0]['content'];
             this.worksheet_value = data[0]['worksheet'];
           }else{
@@ -236,7 +224,6 @@ export class TzworkshopcontentComponent implements OnInit {
             this.selected_content = '';
             this.worksheet_value = [];
           }
-          console.log('@@@Record_id: '+this.record_id+'    Contents: '+JSON.stringify(this.contents));
           this.hideLoading_indicator = true;
         },
         error => {},
@@ -252,7 +239,6 @@ export class TzworkshopcontentComponent implements OnInit {
 		}else{
       this.modal_button_action = 'update';
     }
-    console.log('#### modal_button_action: '+ this.modal_button_action);
     
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
         this.modalReference.result.then((result) => {
@@ -305,7 +291,6 @@ export class TzworkshopcontentComponent implements OnInit {
     }
     this.hideLoading_indicator = false;
     this.tzworkshopcontentService.createwscontent(body).subscribe(data => {
-        console.log('@@@checking for package: '+JSON.stringify(data));
         swal.fire(
           'Save',
           'Content saved '+data['status'],
@@ -333,7 +318,6 @@ export class TzworkshopcontentComponent implements OnInit {
     }
     this.hideLoading_indicator = false;
     this.tzworkshopcontentService.updatewscontent(this.record_id, body).subscribe(data => {
-        console.log('@@@checking for package: '+JSON.stringify(data));
         swal.fire(
           'Save',
           'Content saved '+data['status'],
@@ -375,7 +359,6 @@ export class TzworkshopcontentComponent implements OnInit {
   delete_content(){
     this.hideLoading_indicator = false;
     this.tzworkshopcontentService.deletewscontent(this.record_id).subscribe(data => {
-        console.log('@@@data: '+JSON.stringify(data));
         swal.fire(
           'Save',
           'Content deletion '+data['status'],
@@ -401,7 +384,6 @@ export class TzworkshopcontentComponent implements OnInit {
 			this.displayname = event.target.files[0].name;
 			this.filetype = this.displayname.split('.').pop();
 			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-			console.log('@@@Filename: '+event.target.files[0].name+'    filetype: '+this.filetype);
 		}else{
 			this.displayname = '';
 			this.selectedFiles = null;
@@ -422,14 +404,11 @@ export class TzworkshopcontentComponent implements OnInit {
         this.progress.percentage = 0;
   
         this.currentFileUpload = this.selectedFiles.item(0);
-        console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
         this.managersboxService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
-          console.log('$$$event: '+JSON.stringify(event));
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             this.s3path = event.body['s3path'];
-            console.log('File is completely uploaded!->'+this.s3path);
             this.hideProgressbar = true;
   
             let obj = {
@@ -453,7 +432,6 @@ export class TzworkshopcontentComponent implements OnInit {
 
   async update_record(id, body) {
     this.tzworkshopcontentService.updatewscontent(id, body).subscribe(data => {
-      console.log('###1 update data: ' + JSON.stringify(data));
       swal.fire('Successful', 'Data updated successfully', 'success');
       this.show_data();
     },

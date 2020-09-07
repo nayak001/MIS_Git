@@ -36,18 +36,15 @@ export class Manager_todoComponent implements OnInit {
 
   // user on change <-- auto complete
 	onchange_manager(val: string) {
-		console.log('--> manager auto-complete change event'+JSON.stringify(val));
+	
 	}
 	onfocus_manager(e){
-		console.log('--> manager auto-complete focus event'+JSON.stringify(e));
+		
 	}
 	onselect_manager(item){
-    //console.log('--> manager auto-complete select event'+JSON.stringify(item));
     this.selected_managerobj = item;
 		this.selected_userid = (item.userid == undefined) ? '' : item.userid;
 		this.selected_username = (item.username == undefined) ? '' : item.username;
-    console.log('--> selected_username: '+this.selected_username);
-    
     this.getcalanderdata();
   }
   
@@ -57,7 +54,6 @@ export class Manager_todoComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_month = selectedOptionValue;
     
     this.getcalanderdata();
@@ -69,7 +65,6 @@ export class Manager_todoComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_year = selectedOptionValue;
     
     this.getcalanderdata();
@@ -99,12 +94,10 @@ export class Manager_todoComponent implements OnInit {
       let fromdate = new Date(parseInt(this.selected_year), parseInt(this.selected_month), 1);
       let todat = new Date(parseInt(this.selected_year), parseInt(this.selected_month)+1, 0);
       let todate = new Date(todat.setHours(23, 59, 59, 59));
-      console.log('###Params: userid:'+this.selected_userid+', fromdate: '+fromdate+', todate: '+todate);
 
       this.hideLoading_indicator = false;
       await this.manager_todoService.getManagerTask(this.selected_userid, fromdate, todate).subscribe(res => {
             this.taskdata = res;
-            console.log('###TaskData: '+JSON.stringify(this.taskdata));
             this.taskdata.sort((a, b) => {
               if( new Date(a.task_date) > new Date(b.task_date))
                 return 1 ;
@@ -114,7 +107,6 @@ export class Manager_todoComponent implements OnInit {
             });
             this.hideLoading_indicator = true;
           }, err => {
-            console.log(err);
             this.hideLoading_indicator = true;
           });
       }
@@ -133,10 +125,9 @@ export class Manager_todoComponent implements OnInit {
         }).then((result) => {
         if (result.value) {
           /*this.manager_todoService.deleteManagerTask(id).subscribe(data => {
-              console.log('### res data: ' + JSON.stringify(data));
               this.getcalanderdata();
             },
-            error => {console.log('###2 error: ' + JSON.stringify(error)); },
+            error => { },
             () => {}
           );*/
         }

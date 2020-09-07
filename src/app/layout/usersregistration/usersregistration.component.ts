@@ -96,7 +96,6 @@ export class UsersregistrationComponent implements OnInit {
 			this.qp_action= params['action'];
 			this.qp_userid = params['userid'];
 		});
-		console.log('###qp_userid: '+this.qp_userid+'    qp_action: '+this.qp_action);
 		  
 		this.getallactiveteacherprofiles();
 		this.getAllUsertypes();
@@ -145,7 +144,6 @@ export class UsersregistrationComponent implements OnInit {
 	getUserByUserid() {
 		this.hideLoading_indicator = false;
 		this.usersregistrationService.getuserbyuserid(this.qp_userid).subscribe(data => {
-				console.log('###UserByUserid data: '+JSON.stringify(data));
 				if(Object.keys(data).length > 0){
 					let user = data[0];
 					this.usersubmitaction = 'Update';
@@ -176,7 +174,6 @@ export class UsersregistrationComponent implements OnInit {
 		this.hideLoading_indicator = false;
 		this.usersregistrationService.getallactiveteacherprofiles().subscribe(data => {
 				this.teacherprofile_data1 = data;
-				console.log('### teacherprofile_data1: '+JSON.stringify(this.teacherprofile_data1));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -188,7 +185,6 @@ export class UsersregistrationComponent implements OnInit {
 	getAllUsertypes() {
 		this.hideLoading_indicator = false;
 		this.usersregistrationService.getallactiveusertypes().subscribe(data => {
-				console.log('### usertype list: '+JSON.stringify(data));
         		this.data = data;
 				this.all_usertypes_list = data;
 				this.hideLoading_indicator = true;
@@ -202,7 +198,6 @@ export class UsersregistrationComponent implements OnInit {
 	getallUsers() {
 		this.hideLoading_indicator = false;
 		this.usersregistrationService.getalluser().subscribe(data => {
-				console.log('### data: '+JSON.stringify(data));
 				this.data = data;
 				this.filterData = data;
 				this.hideLoading_indicator = true;
@@ -214,24 +209,18 @@ export class UsersregistrationComponent implements OnInit {
 
 	// teacher profile auto complete
 	onchange_teacherprofile(val: string) {
-		console.log('--> teachers auto-complete change event: '+JSON.stringify(val));
 	}
 	onfocus_teacherprofile(e){
-		console.log('--> teachers auto-complete focus event: '+JSON.stringify(e));
-		console.log('--> teachers auto-complete this.teacherprofile_data1: '+JSON.stringify(this.teacherprofile_data1));
 		//this.teacherprofile_data2 = this.teacherprofile_data1;
 	}
 	onselect_teacherprofile(item){
-		console.log('--> teachers auto-complete select event: '+JSON.stringify(item));
 		this.selected_teacherprofile_data = [];
 		this.selected_teacherprofile_data = item;
 		//this.selected_teacherprofile = (item.teachername == undefined) ? '' : item.teachername;
-		//console.log('--> selected_teacherprofile: '+this.selected_teacherprofile);
 	}
 
 	teacherprofile_select_btn_click(){
 		this.selected_teacherprofile = (this.selected_teacherprofile_data.teachername == undefined) ? '' : this.selected_teacherprofile_data.teachername;
-		console.log('--> selected_teacherprofile: '+this.selected_teacherprofile);
 		this.modalReference.close();
 	}
 	teacherprofile_cancel_btn_click(){
@@ -245,7 +234,6 @@ export class UsersregistrationComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue + '   Text= '+selectElementText);
 		this.modal_usertype = selectedOptionValue;
 
 		if(selectedOptionValue == 'anganwadi' || selectedOptionValue == 'school' || selectedOptionValue == 'fellow') {
@@ -302,12 +290,9 @@ export class UsersregistrationComponent implements OnInit {
 				permanentaddress: frm_permanentaddress,
 				image: this.profileimage
 			};
-			console.log('###111'+usersubmitaction+' frm_id: '+frm_id+' user: ' + JSON.stringify(user));
 
 			// Create New User
 			if(usersubmitaction === 'Create' && frm_id === '') {
-				console.log('### inside if: save new user');
-
 				// check the emailid is already exist or not
 				//this.isMailIdExists(frm_emailid);
 				if(!this.checkemailavailability(frm_emailid)){
@@ -316,19 +301,16 @@ export class UsersregistrationComponent implements OnInit {
 				}else{
 					// user['userid'] = frm_emailid;
 					this.usersregistrationService.createnewuser(user).subscribe(data => {
-							console.log('### res data: ' + JSON.stringify(data));
 							swal.fire('Success','User profile registered successfully.','success');
 							this.router.navigate(['/users']);
 						},
-						error => {console.log('###2 error: ' + JSON.stringify(error)); },
+						error => { },
 						() => {}
 					);
 				}
 			// Update Existing User
 			} else if (usersubmitaction === 'Update' && frm_id !== '') {
-				console.log('### inside elseif: update user');
 				this.usersregistrationService.updateuser(frm_id, user).subscribe(data => {
-						console.log('### res data: ' + JSON.stringify(data));
 						swal.fire('Success','User profile updated successfully.','success');
 						this.router.navigate(['/users']);
 					},
@@ -336,7 +318,6 @@ export class UsersregistrationComponent implements OnInit {
 					() => {}
 				);
 			} else {
-				console.log('### inside else');
 				swal.fire('Info','Data can not be saved.','warning');
 			}
 		}
@@ -345,7 +326,6 @@ export class UsersregistrationComponent implements OnInit {
 	// check mail id is existing or not
 	async checkemailavailability(frm_emailid){
 		await this.usersregistrationService.checkemailavailability(frm_emailid).subscribe(data => {
-				console.log('### checkemailavailability: ' + JSON.stringify(data));
 				if(Object.keys(data).length > 0){
 					if(data['status'] == true)
 						return true;
@@ -431,7 +411,6 @@ export class UsersregistrationComponent implements OnInit {
 		this.image_filename_original = file.name;
 		this.image_filetype = this.image_filename_original.split('.').pop();
 		this.image_filename_s3 = (new Date()).getTime()+'.'+this.image_filetype;
-    	console.log('### image_filename_original: '+this.image_filename_original+'    image_filetype: '+this.image_filetype+'    image_filename_s3: '+this.image_filename_s3);
 
 		if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif' && file.type !== 'image/jpg') { return; }
 		const fr = new FileReader();
@@ -453,13 +432,10 @@ export class UsersregistrationComponent implements OnInit {
 		const imageFile = new File([imageBlob], '_image', { type: 'image/png' });
 
 		this.managersboxService.pushFileToStorage(imageFile, this.image_filename_s3).subscribe(event => {
-			console.log('$$$event: '+JSON.stringify(event));
 			if (event.type === HttpEventType.UploadProgress) {
-        		console.log('HttpEventType.UploadProgress->'+HttpEventType.UploadProgress);
 				this.modalReference.close();
 			} else if (event instanceof HttpResponse) {
 				this.image_s3url = event.body['s3path'];
-				console.log('Image upload success !!!. S3 URL:- ->'+this.image_s3url);
 			}
 		});
   	}
@@ -490,7 +466,6 @@ export class UsersregistrationComponent implements OnInit {
 			s3path: this.image_s3url
 		}
 		this.managersboxService.uploadToManagersBox(body).subscribe(data => {
-				console.log('@@@data saved to db: '+JSON.stringify(data));
 				this.hideLoading_indicator = true;
 			},
 			error => {},
@@ -541,13 +516,11 @@ export class UsersregistrationComponent implements OnInit {
 
 	// delete user
 	deleteFormSubmitAction(id) {
-		console.log('### id: ' + id);
 		this.usersregistrationService.deleteuser(id).subscribe(data => {
-				console.log('### res data: ' + JSON.stringify(data));
 				this.modalReference.close();
 				location.reload();
 			},
-			error => {console.log('###2 error: ' + JSON.stringify(error)); },
+			error => { },
 			() => {}
 		);
 	}
@@ -558,7 +531,6 @@ export class UsersregistrationComponent implements OnInit {
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= ' +selectedOptionValue+'   Text= '+selectElementText);
 		this.modal_gender = selectedOptionValue;
 	}
 }

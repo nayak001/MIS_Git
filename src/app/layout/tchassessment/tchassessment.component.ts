@@ -49,7 +49,6 @@ export class TchassessmentComponent implements OnInit {
 	ngOnInit() {
 		this.hideLoading_indicator = false;
 		this.tchassessmentService.getallteachers().subscribe(data => {
-				// console.log('### data: '+JSON.stringify(data));
 				this.teachers = data;
 				//this.teachers.unshift({});
 				this.hideLoading_indicator = true;
@@ -61,13 +60,10 @@ export class TchassessmentComponent implements OnInit {
 
 	
 	onchange_teachers_select(val: string) {
-		console.log('--> auto-complete change event'+JSON.stringify(val));
 	}
 	onfocus_teachers_select(e){
-		console.log('--> auto-complete focus event'+JSON.stringify(e));
 	}
 	onselect_teachers_select(item){
-		console.log('--> auto-complete select event'+JSON.stringify(item));
 		this.selected_userid = item.userid;
 		this.selected_username = item.username;
 		this.gettchassessmentbyuserid();
@@ -78,7 +74,6 @@ export class TchassessmentComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_program = selectedOptionValue;
 
 		this.data = [];
@@ -104,7 +99,6 @@ export class TchassessmentComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_subject = selectedOptionValue;
 		this.gettchassessmentbyuserid();
     }
@@ -114,7 +108,6 @@ export class TchassessmentComponent implements OnInit {
 		let selectedIndex = selectedOptions.selectedIndex;
 		let selectedOptionValue = selectedOptions[selectedIndex].value;
 		let selectElementText = selectedOptions[selectedIndex].text;
-		console.log('-->Selected Opt Value= '+selectedOptionValue+'   Text= '+selectElementText);
 		this.selected_month = selectedOptionValue;
 		this.gettchassessmentbyuserid();
 	}
@@ -134,7 +127,6 @@ export class TchassessmentComponent implements OnInit {
 			this.hideLoading_indicator = false;	
 			this.hide_no_records = false;
 			this.tchassessmentService.gettchassessmentdetails_all(this.selected_userid, this.selected_program, this.selected_month, this.selected_subject).subscribe(data => {
-					console.log('@@@data: '+JSON.stringify(data));
 					this.data = data;	
 					this.hideLoading_indicator = true;					
 				}, 
