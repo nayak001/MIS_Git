@@ -5,7 +5,7 @@ import { HttpResponse, HttpEventType } from '@angular/common/http';
 import { Masterteachertraining2Service } from './masterteachertraining2.service';
 import { ManagersboxService } from  './../managersbox/managersbox.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {ClassicEditor} from '@ckeditor/ckeditor5-build-classic';
 import swal from 'sweetalert2';
 
 import { environment } from './../../../environments/environment.prod';
@@ -108,16 +108,56 @@ export class Masterteachertraining2Component implements OnInit {
 		private modalService: NgbModal,
         public router: Router,
 		private masterteachertraining2Service: Masterteachertraining2Service,
-		private managersboxService: ManagersboxService
+		private managersboxService: ManagersboxService,
+		
+		
 	) {
-		this.hideLoading_indicator = true;
-		this.hideContent_div = true;
 		
 	}
 	
 	ngOnInit() {
 		this.reset_contents();
 		this.load_allmodules_list();
+		// ClassicEditor
+		// .create( document.querySelector( '#editor' ), {
+		// 	removePlugins: [ 'Heading', 'Link' ],
+		// 	toolbar: [ 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote' ]
+		// } )
+		// .catch( error => {
+		// 	console.log( error );
+		// } );
+		// this.Editor.defaultConfig = {
+		// 	toolbar: {
+		// 	  items: [
+		// 		'heading',
+		// 		'|',
+		// 		'bold',
+		// 		'italic',
+		// 		'|',
+		// 		'bulletedList',
+		// 		'numberedList',
+		// 		'|',
+		// 		'insertTable',
+		// 		'|',
+		// 		'imageUpload',
+		// 		'|',
+		// 		'undo',
+		// 		'redo'
+		// 	  ]
+		// 	},
+		// 	image: {
+		// 	  toolbar: [
+		// 		'imageStyle:full',
+		// 		'imageStyle:side',
+		// 		'|',
+		// 		'imageTextAlternative'
+		// 	  ]
+		// 	},
+		// 	table: {
+		// 	  contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
+		// 	},
+		// 	language: 'en'
+		//   };
 	}
 
 	reset_contents(){
@@ -305,17 +345,21 @@ export class Masterteachertraining2Component implements OnInit {
 			this.flashcard_value.splice(i,1);
 	}
 	addquiz(){
-		let obj = {
-			"qid": new Date().getTime(),
-			"question": this.add_q_question,
-			"A": this.add_q_optionA,
-			"B": this.add_q_optionB,
-			"C": this.add_q_optionC,
-			"D": this.add_q_optionD,
-			"answer": this.selected_qans_val_add
+		if(this.add_q_question == '' || this.add_q_optionA == '' || this.add_q_optionB == '' ||this.add_q_optionC == '' || this.add_q_optionD == '' || this.selected_qans_val_add == ''){
+			swal.fire('info', 'Please fill all the fields !!!', 'warning');
+		}else{
+			let obj = {
+				"qid": new Date().getTime(),
+				"question": this.add_q_question,
+				"A": this.add_q_optionA,
+				"B": this.add_q_optionB,
+				"C": this.add_q_optionC,
+				"D": this.add_q_optionD,
+				"answer": this.selected_qans_val_add
+			}
+			this.quiz_value.push(obj);
+			this.modalReference.close();
 		}
-		this.quiz_value.push(obj);
-		this.modalReference.close();
 	}
 	updatequiz(){
 		let obj = {
