@@ -120,6 +120,12 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_preflanguage = selectedOptionValue;
 
+    // Reset other dropdown list
+    this.selected_program = '';
+    this.selected_level = '';
+    this.selected_subject = '';
+    this.selected_month = '';
+    this.selected_week = '';
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
@@ -129,7 +135,6 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_program = selectedOptionValue;
-    this.selected_subject = '';
     
     if (this.selected_program == 'ece') {
       this.skillset_label = 'Themes';
@@ -147,10 +152,10 @@ export class PgeactivitiesComponent implements OnInit {
       this.level_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}, {value: '4', text: 'Level 4'}, {value: '5', text: 'Level 5'}];
     }
 
+    this.selected_level = '';
+    this.selected_subject = '';
     this.selected_month = '';
     this.selected_week = '';
-    this.selected_level = '';
-    
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
@@ -160,6 +165,10 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_level = selectedOptionValue;
+    
+    this.selected_subject = '';
+    this.selected_month = '';
+    this.selected_week = '';
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
@@ -169,6 +178,9 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
+    
+    this.selected_month = '';
+    this.selected_week = '';
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 

@@ -3,19 +3,19 @@
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
             <div class="card mb-3">
-                <div class="card-header">
-					        <div class="row">
-						        <div class="col col-xl-4 col-lg-4">
-						        	<h4>ACTIVITIES DASHBOARD</h4>
-						        </div>
-								<div class="col">
-									<div [hidden]="hide_createnewsegment_button">
-										<button (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp; </button>
-										<button (click)="opencontentsmodal(addresourcesmodal)" class="btn btn-warning float-right" type="button" title="Add Resources"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Resource&nbsp;&nbsp;&nbsp;</button>
-									</div>
+				<div class="card-header">
+						<div class="row">
+							<div class="col col-xl-4 col-lg-4">
+								<h4>ACTIVITIES DASHBOARD</h4>
+							</div>
+							<div class="col">
+								<div [hidden]="hide_createnewsegment_button">
+									<button (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp; </button>
+									<button (click)="opencontentsmodal(addresourcesmodal)" class="btn btn-warning float-right" type="button" title="Add Resources"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Resource&nbsp;&nbsp;&nbsp;</button>
 								</div>
-			      	  	</div>					
-			      	  </div>
+							</div>
+					</div>					
+				</div>
 				
 				<div class="card-body table-responsive">
 					<table style="width: 100%;">
@@ -331,7 +331,7 @@
 		<div class="row">
 			<div style="width: 100%; vertical-align: top;">
 				<div id="content_div" class="pad25">
-					<!-- Text Contents  -->
+					<!-- Image Contents  -->
 					<div class="row">
 						<div class="image_preview_container">
 							<div style="text-align: center;">
@@ -380,11 +380,27 @@
 		<div class="row">
 			<div style="width: 100%; vertical-align: top;">
 				<div id="content_div" class="pad25">
-					<!-- Text Contents  -->
-					<div>
-						<ckeditor #editor [editor]="Editor2"  [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
+					<div class="margintop30">
+						<div class="row">
+							<div class="col">
+								<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+										attr.aria-valuenow="{{progress.percentage}}"
+										aria-valuemin="0" aria-valuemax="100" 
+										[ngStyle]="{width:progress.percentage+'%'}">
+										{{progress.percentage}}%
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col col-lg-10 col-md-10 col-sm-10">
+								<div class="file-upload">
+									<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
+								</div>
+							</div>
+						</div>
 					</div>
-					<br />
 					<div class="bottomanchor_div2">
 						<button (click)="update_segment('videocontentsmodal')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save Content&nbsp;&nbsp;&nbsp;</button>
 					</div>

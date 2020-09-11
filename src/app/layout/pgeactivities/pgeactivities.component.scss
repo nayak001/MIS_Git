@@ -217,3 +217,23 @@ select{
     bottom: 0; 
     margin-left: 330px;
 }
+
+.custom-btns .btn-radio:not(:disabled):not(.disabled).active,
+.custom-btns .btn-radio:not(:disabled):not(.disabled):active,.custom-btns .show>.btn-radio.dropdown-toggle {
+    color: #000;
+    background-color: yellow;
+    border-color: yellow;
+}
+.custom-btns .btn-radio {
+    color: #fff;
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+.custom-btns .btn-radio:hover {
+    color: #fff;
+    background-color: #3e9941;
+    border-color: #3e9941;
+}
+.custom-btns .btn-radio.focus, .btn-radio:focus {
+    box-shadow: 0 0 0 0.2rem #FFEB3B;
+}
