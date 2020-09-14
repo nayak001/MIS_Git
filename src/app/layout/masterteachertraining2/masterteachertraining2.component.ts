@@ -5,7 +5,7 @@ import { HttpResponse, HttpEventType } from '@angular/common/http';
 import { Masterteachertraining2Service } from './masterteachertraining2.service';
 import { ManagersboxService } from  './../managersbox/managersbox.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import {ClassicEditor} from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import swal from 'sweetalert2';
 
 import { environment } from './../../../environments/environment.prod';
@@ -108,56 +108,44 @@ export class Masterteachertraining2Component implements OnInit {
 		private modalService: NgbModal,
         public router: Router,
 		private masterteachertraining2Service: Masterteachertraining2Service,
-		private managersboxService: ManagersboxService,
-		
-		
+		private managersboxService: ManagersboxService
 	) {
+		this.hideLoading_indicator = true;
+		this.hideContent_div = true;
 		
 	}
 	
 	ngOnInit() {
 		this.reset_contents();
 		this.load_allmodules_list();
-		// ClassicEditor
-		// .create( document.querySelector( '#editor' ), {
-		// 	removePlugins: [ 'Heading', 'Link' ],
-		// 	toolbar: [ 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote' ]
-		// } )
-		// .catch( error => {
-		// 	console.log( error );
-		// } );
-		// this.Editor.defaultConfig = {
-		// 	toolbar: {
-		// 	  items: [
-		// 		'heading',
-		// 		'|',
-		// 		'bold',
-		// 		'italic',
-		// 		'|',
-		// 		'bulletedList',
-		// 		'numberedList',
-		// 		'|',
-		// 		'insertTable',
-		// 		'|',
-		// 		'imageUpload',
-		// 		'|',
-		// 		'undo',
-		// 		'redo'
-		// 	  ]
-		// 	},
-		// 	image: {
-		// 	  toolbar: [
-		// 		'imageStyle:full',
-		// 		'imageStyle:side',
-		// 		'|',
-		// 		'imageTextAlternative'
-		// 	  ]
-		// 	},
-		// 	table: {
-		// 	  contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
-		// 	},
-		// 	language: 'en'
-		//   };
+		this.Editor.defaultConfig = {
+			toolbar: {
+			  items: [
+				'heading',
+				'|',
+				'bold',
+				'italic',
+				'|',
+				'bulletedList',
+				'numberedList',
+				'|',
+				'undo',
+				'redo'
+			  ]
+			},
+			image: {
+			  toolbar: [
+				'imageStyle:full',
+				'imageStyle:side',
+				'|',
+				'imageTextAlternative'
+			  ]
+			},
+			table: {
+			  contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
+			},
+			language: 'en'
+		  };
 	}
 
 	reset_contents(){
