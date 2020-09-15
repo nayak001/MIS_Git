@@ -153,7 +153,7 @@ export class PgeactivitiesComponent implements OnInit {
     }
 
     this.selected_level = '';
-    this.selected_subject = '';
+    //this.selected_subject = '';
     this.selected_month = '';
     this.selected_week = '';
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
@@ -166,7 +166,7 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_level = selectedOptionValue;
     
-    this.selected_subject = '';
+    this.selected_subject = (this.selected_program == 'ece') ? 'na' : '';
     this.selected_month = '';
     this.selected_week = '';
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
@@ -819,6 +819,17 @@ export class PgeactivitiesComponent implements OnInit {
     });
   }
 
+  openreordersegments(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.video_to_play = this.selected_segment.s3_url;
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -829,6 +840,33 @@ export class PgeactivitiesComponent implements OnInit {
     }
   }
 
+  reordered_segments_list: any = [];
+  listStyle: any = {
+    width:'400px',          //default 300,
+    height: '250px',        //default 250,
+    dropZoneHeight: '50px'  //default 50
+  }
+
+  listOrderChanged(event){
+    this.reordered_segments_list = event;
+  }
+
+  save_reorder_btn_click(){
+    this.reordered_segments_list = (this.reordered_segments_list == undefined || this.reordered_segments_list == null) ? [] : this.reordered_segments_list;
+    if(this.reordered_segments_list.length <= 0){
+      swal.fire('Info', 'Error generating reordered list', "warning");
+    } else if(this.record_id == undefined || this.record_id == null || this.record_id == ''){
+      swal.fire('Info', 'Error fetching record id', "warning");
+    } else{
+      const body = {
+        segment: this.reordered_segments_list
+      }
+      this.update_record(this.record_id, body);
+      this.go_btn_click();
+      this.reordered_segments_list = [];
+      this.modalReference.close();
+    }
+  }
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   delflashcard(i) {

@@ -11,6 +11,7 @@ import { NgbCarouselModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { PgeactivitiesService } from './pgeactivities.service';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FileUploadModule } from 'ng2-file-upload';
+import { NgxSortableModule } from 'ngx-sortable';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     DataTableModule,
     NgbCarouselModule,
     NgbTabsetModule,
+    NgxSortableModule,
     FormsModule,
     ReactiveFormsModule,
     CKEditorModule,

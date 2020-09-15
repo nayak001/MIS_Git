@@ -238,7 +238,10 @@
 							<td style="width: 20%;  padding-left: 20px; vertical-align: top;">
 								<div [hidden]="hide_createnewsegment_button" >
 									<div class="row" >
-										<div class="col col-lg-6 col-md-6 col-sm-6"><div class="bold-font">Segment</div></div>
+										<div class="col col-lg-6 col-md-6 col-sm-6"><div class="bold-font">
+											Segment
+											<button (click)="openreordersegments(reordersegments)"  class="btn btn-light float-right" type="button" title="Add Segment" style="font-size: 10px;" >Reorder Segment</button>
+										</div></div>
 										<div class="col col-lg-6 col-md-6 col-sm-6">
 											<div>
 												<select value="{{selected_segment_index}}"  (change)="segment_select_onchange($event)" class="form-control">
@@ -515,3 +518,23 @@
 		</div>
 	</div>
 </ng-template>
+
+<ng-template #reordersegments let-c="close" let-d="dismiss">
+	<!-- Close Button -->
+	<div style="width: 100%; padding: 10px;">
+		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+	</div>
+
+	<div class="modal-body">
+		<div class="row">
+			<!-- ADD RE-ORDER CODE HERE -->
+			<ngx-sortable [items]="segments_list" [name]="'Reorder Segments'" (listSorted)="listOrderChanged($event)" [listStyle]='listStyle' style="margin-left: 25%;">
+				<ng-template let-item><div class="sortable-list-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ item.type }}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( {{item.displayname}} ) </div></ng-template>
+			</ngx-sortable>
+		</div>
+		<div class="bottomanchor_div2">
+			<button (click)="save_reorder_btn_click()" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
