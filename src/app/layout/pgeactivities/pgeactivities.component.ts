@@ -48,6 +48,7 @@ export class PgeactivitiesComponent implements OnInit {
   month_select_option_list: any = [];
   week_select_option_list: any = [];
 
+  extraresources_list: any = [];
   segments_list: any = [];
   selected_segment_index: number = -1;
   selected_segment: any = {};
@@ -119,6 +120,12 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_preflanguage = selectedOptionValue;
 
+    // Reset other dropdown list
+    this.selected_program = '';
+    this.selected_level = '';
+    this.selected_subject = '';
+    this.selected_month = '';
+    this.selected_week = '';
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
@@ -146,10 +153,10 @@ export class PgeactivitiesComponent implements OnInit {
       this.level_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}, {value: '4', text: 'Level 4'}, {value: '5', text: 'Level 5'}];
     }
 
+    this.selected_level = '';
+    //this.selected_subject = '';
     this.selected_month = '';
     this.selected_week = '';
-    this.selected_level = '';
-    
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
@@ -159,6 +166,10 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_level = selectedOptionValue;
+    
+    this.selected_subject = (this.selected_program == 'ece') ? 'na' : '';
+    this.selected_month = '';
+    this.selected_week = '';
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
@@ -168,6 +179,9 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
+    
+    this.selected_month = '';
+    this.selected_week = '';
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
   }
 
@@ -420,6 +434,76 @@ export class PgeactivitiesComponent implements OnInit {
       this.openvideopreviewmodal(this.videopreviewmodal);
     }
   }
+
+  // Resources
+  add_resources_btn_click(){
+    if(this.save_operation == 'save'){
+			swal.fire('info', 'Please add atleast one segment first', 'warning');
+      this.modalReference.close();
+    }else{
+      this.hideProgressbar = false;
+      this.progress.percentage = 0;
+      this.currentFileUpload = this.selectedFiles.item(0);
+      console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
+      this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
+        console.log('$$$event: '+JSON.stringify(event));
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.hideProgressbar = true;
+          this.s3path = event.body['s3path'];
+          console.log('File is completely uploaded!->'+this.s3path);
+          let newobj = {
+            type: 'resources',
+            displayname: this.displayname,
+            s3name: this.s3name,
+            filetype: this.filetype,
+            s3_url: this.s3path,
+            preview_url: this.s3path,
+            value: this.s3path
+          }
+          this.extraresources_list.push(newobj);
+          let body = {
+            extraresources: this.extraresources_list
+          }
+          this.update_record(this.record_id, body);
+          this.modalReference.close();
+        }
+      });
+    }
+  }
+  
+  delete_resource_btn_click(index_position){
+    swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to remove this Resource file?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.delete_resource_file(index_position);
+      }
+    });
+  }
+
+  delete_resource_file(index_position){
+    let resource_to_delete = this.extraresources_list[index_position];
+    console.log('-->resource_to_delete: '+JSON.stringify(resource_to_delete));
+    let file_to_delete = resource_to_delete.s3name;
+    this.extraresources_list.splice(index_position, 1);
+    const body = {
+      extraresources: this.extraresources_list
+    }
+    this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(data1 => {
+        console.log('@@@s3 data delete: '+JSON.stringify(data1));
+        this.update_record(this.record_id, body);
+        this.go_btn_click();
+      }, error => {}, () => {}
+    );
+  }
   // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
@@ -449,10 +533,12 @@ export class PgeactivitiesComponent implements OnInit {
         if (Object.keys(data).length > 0) {
           this.save_operation = 'update';
           this.record_id = data[0]['_id'];
+          this.extraresources_list = data[0]['extraresources'];
           this.segments_list = data[0]['segment'];
         } else {
           this.save_operation = 'save';
           this.record_id = '';
+          this.extraresources_list = [];
           this.segments_list = [];
         }
         this.hide_Loading_indicator = true;
@@ -734,6 +820,17 @@ export class PgeactivitiesComponent implements OnInit {
     });
   }
 
+  openreordersegments(content) {
+    console.log('---> save_operation: ' + this.save_operation);
+    this.video_to_play = this.selected_segment.s3_url;
+    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -744,6 +841,33 @@ export class PgeactivitiesComponent implements OnInit {
     }
   }
 
+  reordered_segments_list: any = [];
+  listStyle: any = {
+    width:'400px',          //default 300,
+    height: '250px',        //default 250,
+    dropZoneHeight: '50px'  //default 50
+  }
+
+  listOrderChanged(event){
+    this.reordered_segments_list = event;
+  }
+
+  save_reorder_btn_click(){
+    this.reordered_segments_list = (this.reordered_segments_list == undefined || this.reordered_segments_list == null) ? [] : this.reordered_segments_list;
+    if(this.reordered_segments_list.length <= 0){
+      swal.fire('Info', 'Error generating reordered list', "warning");
+    } else if(this.record_id == undefined || this.record_id == null || this.record_id == ''){
+      swal.fire('Info', 'Error fetching record id', "warning");
+    } else{
+      const body = {
+        segment: this.reordered_segments_list
+      }
+      this.update_record(this.record_id, body);
+      this.go_btn_click();
+      this.reordered_segments_list = [];
+      this.modalReference.close();
+    }
+  }
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   delflashcard(i) {

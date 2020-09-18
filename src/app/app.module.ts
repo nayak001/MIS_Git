@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { RouterModule,  } from '@angular/router';  
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { NgxSortableModule } from 'ngx-sortable';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -29,6 +30,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         BrowserModule,
         NgbModule,
         RouterModule,
+        NgxSortableModule,
         BrowserAnimationsModule,
         HttpClientModule,
         TranslateModule.forRoot({
