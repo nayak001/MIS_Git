@@ -11,23 +11,23 @@ const baseUrl = environment.baseUrl;
 export class Masterteachertraining2Service {
 	constructor(private http: HttpClient) { }
 
-	getalltrainingtopics(submoduleid){
-		return this.http.get(baseUrl+'getalltrainingtopics/'+submoduleid,{
+	getalltrainingtopics(submoduleid,language){
+		return this.http.get(baseUrl+'getalltrainingtopics/'+submoduleid +'/'+ language,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			
 		});
 	}
 
-	getalltrainingmodules(){				
-		return this.http.get(baseUrl+'getalltrainingmodules/',
+	getalltrainingmodules(language){				
+		return this.http.get(baseUrl+'getalltrainingmodules/' + language,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});			
 	}
 
-	getalltrainingsubmodules(moduleid){				
-		return this.http.get(baseUrl+'getalltrainingsubmodules/'+moduleid,
+	getalltrainingsubmodules(moduleid,language){				
+		return this.http.get(baseUrl+'getalltrainingsubmodules/'+moduleid +'/'+ language,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

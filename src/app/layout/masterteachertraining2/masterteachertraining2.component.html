@@ -18,11 +18,22 @@
 					<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
 						<thead>
 							<tr>
-								<th style="width: 30%">Module</th>
-								<th style="width: 30%">Sub-module</th>
-								<th style="width: 30%">Topic</th>
+								<th style="width: 25%">Language</th>
+								<th style="width: 25%">Module</th>
+								<th style="width: 25%">Sub-module</th>
+								<th style="width: 25%">Topic</th>
 							</tr>
 							<tr>
+								<td>
+									<span>
+										<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
+											<option value="">Select</option>
+											<option value="en" [selected]="isSelected">English</option>
+											<option value="od">ଓଡିଆ</option>
+											<option value="hi">हिंदी</option>
+										</select>
+									</span>
+								</td>
 								<td>
 									<select value="" (change)="onselect_modules_select($event)" class="form-control">
 										<option value="">Select module</option>

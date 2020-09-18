@@ -20,6 +20,8 @@ const URL = environment.uploadURL;
 
 export class Masterteachertraining2Component implements OnInit {
 	// video
+	isSelected:boolean=true;
+	selected_preflanguage:any;
 	disable_button:boolean;
 	video_file_name:string ='';
 	divs: number[] = [];
@@ -112,12 +114,13 @@ export class Masterteachertraining2Component implements OnInit {
 	) {
 		this.hideLoading_indicator = true;
 		this.hideContent_div = true;
+		this.selected_preflanguage = 'en'
 		
 	}
 	
 	ngOnInit() {
 		this.reset_contents();
-		this.load_allmodules_list();
+		this.load_allmodules_list(this.selected_preflanguage);
 		this.Editor.defaultConfig = {
 			toolbar: {
 			  items: [
@@ -147,7 +150,15 @@ export class Masterteachertraining2Component implements OnInit {
 			language: 'en'
 		  };
 	}
-
+	preflanguage_select_onchange(event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.selected_preflanguage = selectedOptionValue;
+		this.load_allmodules_list(this.selected_preflanguage);
+		// this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
+	  }
 	reset_contents(){
 		this.content_value = '';
 		this.video_value = [];
@@ -156,9 +167,9 @@ export class Masterteachertraining2Component implements OnInit {
 		this.quiz_value = [];
 	}
 
-	load_allmodules_list(){
+	load_allmodules_list(language){
 		this.hideLoading_indicator = false;
-		this.masterteachertraining2Service.getalltrainingmodules().subscribe(data => {
+		this.masterteachertraining2Service.getalltrainingmodules(language).subscribe(data => {
 				this.allmodules_list = data;
 				this.hideLoading_indicator = true;
 			},
@@ -170,7 +181,7 @@ export class Masterteachertraining2Component implements OnInit {
 	load_alltopic_list(submoduleid){
 		if(submoduleid != undefined && submoduleid != null && submoduleid != ''){
 			this.hideLoading_indicator = false;
-			this.masterteachertraining2Service.getalltrainingtopics(submoduleid).subscribe(data => {
+			this.masterteachertraining2Service.getalltrainingtopics(submoduleid,this.selected_preflanguage).subscribe(data => {
 					this.alltopic_list = data;
 					this.hideLoading_indicator = true;
 				},
@@ -184,7 +195,7 @@ export class Masterteachertraining2Component implements OnInit {
 	load_allsubmodules_list(moduleid){
 		if(moduleid != undefined && moduleid != null && moduleid != ''){
 			this.hideLoading_indicator = false;
-			this.masterteachertraining2Service.getalltrainingsubmodules(moduleid).subscribe(data => {
+			this.masterteachertraining2Service.getalltrainingsubmodules(moduleid,this.selected_preflanguage).subscribe(data => {
 					this.allsubmodules_list = data;
 					this.hideLoading_indicator = true;
 				},
@@ -544,7 +555,8 @@ export class Masterteachertraining2Component implements OnInit {
 				flashcard: this.flashcard_value,
 				worksheet: this.worksheet_value,
 				video: this.video_value,
-				quiz: this.quiz_value
+				quiz: this.quiz_value,
+				language:this.selected_preflanguage
 			}
 			this.save_record(body);
 			this.s3vedioname = '';
@@ -565,7 +577,8 @@ export class Masterteachertraining2Component implements OnInit {
 				flashcard: this.flashcard_value,
 				worksheet: this.worksheet_value,
 				video: this.video_value,
-				quiz: this.quiz_value
+				quiz: this.quiz_value,
+				language:this.selected_preflanguage
 			}
 			// this.allcontent.push({"key":"value"})
 			this.update_record(this.record_id,body);
@@ -727,7 +740,8 @@ export class Masterteachertraining2Component implements OnInit {
 			flashcard: this.flashcard_value,
 			worksheet: this.worksheet_value,
 			video: this.video_value,
-			quiz: this.quiz_value
+			quiz: this.quiz_value,
+			language:this.selected_preflanguage
 		}
 		if(this.quiz_value.length>0 && this.save_operation == 'update'){
 			this.update_record(this.record_id,body)
