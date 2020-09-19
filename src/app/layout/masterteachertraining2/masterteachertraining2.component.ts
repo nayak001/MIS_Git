@@ -114,10 +114,7 @@ export class Masterteachertraining2Component implements OnInit {
 	) {
 		this.hideLoading_indicator = true;
 		this.hideContent_div = true;
-<<<<<<< HEAD
 		this.selected_preflanguage = 'en'
-=======
->>>>>>> master
 		
 	}
 	
@@ -172,11 +169,7 @@ export class Masterteachertraining2Component implements OnInit {
 
 	load_allmodules_list(language){
 		this.hideLoading_indicator = false;
-<<<<<<< HEAD
 		this.masterteachertraining2Service.getalltrainingmodules(language).subscribe(data => {
-=======
-		this.masterteachertraining2Service.getalltrainingmodules().subscribe(data => {
->>>>>>> master
 				this.allmodules_list = data;
 				this.hideLoading_indicator = true;
 			},
@@ -188,11 +181,7 @@ export class Masterteachertraining2Component implements OnInit {
 	load_alltopic_list(submoduleid){
 		if(submoduleid != undefined && submoduleid != null && submoduleid != ''){
 			this.hideLoading_indicator = false;
-<<<<<<< HEAD
 			this.masterteachertraining2Service.getalltrainingtopics(submoduleid,this.selected_preflanguage).subscribe(data => {
-=======
-			this.masterteachertraining2Service.getalltrainingtopics(submoduleid).subscribe(data => {
->>>>>>> master
 					this.alltopic_list = data;
 					this.hideLoading_indicator = true;
 				},
@@ -206,11 +195,7 @@ export class Masterteachertraining2Component implements OnInit {
 	load_allsubmodules_list(moduleid){
 		if(moduleid != undefined && moduleid != null && moduleid != ''){
 			this.hideLoading_indicator = false;
-<<<<<<< HEAD
 			this.masterteachertraining2Service.getalltrainingsubmodules(moduleid,this.selected_preflanguage).subscribe(data => {
-=======
-			this.masterteachertraining2Service.getalltrainingsubmodules(moduleid).subscribe(data => {
->>>>>>> master
 					this.allsubmodules_list = data;
 					this.hideLoading_indicator = true;
 				},
@@ -592,12 +577,8 @@ export class Masterteachertraining2Component implements OnInit {
 				flashcard: this.flashcard_value,
 				worksheet: this.worksheet_value,
 				video: this.video_value,
-<<<<<<< HEAD
 				quiz: this.quiz_value,
 				language:this.selected_preflanguage
-=======
-				quiz: this.quiz_value
->>>>>>> master
 			}
 			// this.allcontent.push({"key":"value"})
 			this.update_record(this.record_id,body);

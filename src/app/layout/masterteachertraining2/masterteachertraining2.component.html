@@ -89,12 +89,8 @@
 																	<span class="delbtn" (click)="opencontent(deletecontentmodal,data,i,'deletecontentmodal')" title="delete"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
 																	<span class="addbtn" (click)="opencontent(previewcontentmodal,data,i,'previewcontentmodal')" title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></span>
 																</div>
-<<<<<<< HEAD
 																<div [innerHTML]="data.content"></div>
 																<!-- <ckeditor  [editor]="Editor" [(ngModel)]="data.content" data="{{data.content}}"></ckeditor> -->
-=======
-																<ckeditor [editor]="Editor"  [(ngModel)]="data.content" data="{{data.content}}"></ckeditor>
->>>>>>> master
 															</div>
 															<div *ngIf="data.type == 'image'">
 																<div>
@@ -181,11 +177,6 @@
 								</div>
 							</ng-template>
 						</ngb-tab>
-<<<<<<< HEAD
-=======
-
-						
->>>>>>> master
 					</ngb-tabset>
 					
 
@@ -350,13 +341,8 @@
 						</div>
 						<div class="modal-body" >
 							<div class="row padd15">
-<<<<<<< HEAD
 								<div class="tab_content_height margintop30" style="width: 1000px;">
 									<ckeditor [editor]="Editor" [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
-=======
-								<div class="tab_content_height margintop30">
-									<ckeditor [editor]="Editor"  [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
->>>>>>> master
 								</div>
 								<button type="button" class="btn btn-primary" (click)="addcontent()" style = "margin-top: 10px;margin-left: 350px;">Add Content</button>
 								<div>
