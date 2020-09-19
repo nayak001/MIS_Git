@@ -759,12 +759,8 @@ export class Masterteachertraining2Component implements OnInit {
 			flashcard: this.flashcard_value,
 			worksheet: this.worksheet_value,
 			video: this.video_value,
-<<<<<<< HEAD
 			quiz: this.quiz_value,
 			language:this.selected_preflanguage
-=======
-			quiz: this.quiz_value
->>>>>>> master
 		}
 		if(this.quiz_value.length>0 && this.save_operation == 'update'){
 			this.update_record(this.record_id,body)
