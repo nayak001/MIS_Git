@@ -20,11 +20,8 @@ const URL = environment.uploadURL;
 
 export class Masterteachertraining2Component implements OnInit {
 	// video
-<<<<<<< HEAD
 	isSelected:boolean=true;
 	selected_preflanguage:any;
-=======
->>>>>>> master
 	disable_button:boolean;
 	video_file_name:string ='';
 	divs: number[] = [];
