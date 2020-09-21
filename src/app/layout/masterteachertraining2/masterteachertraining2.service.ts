@@ -34,8 +34,8 @@ export class Masterteachertraining2Service {
 		});			
 	}
 
-	getalltrainingcontents(moduleid, submoduleid,topicid){				
-		return this.http.get(baseUrl+'getalltrainingcontents/'+moduleid+'/'+submoduleid+'/'+topicid,
+	getalltrainingcontents(moduleid, submoduleid,topicid,language){				
+		return this.http.get(baseUrl+'getalltrainingcontents/'+moduleid+'/'+submoduleid+'/'+topicid +'/'+ language,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

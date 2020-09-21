@@ -113,28 +113,29 @@ export class Masterteachertraining1Component implements OnInit {
 		}
 	}
     preflanguage_select_onchange(event) {
-		this.allsubmodules_list = '';
+		this.allsubmodules_list = [];
+		this.alltopic_list = [];
 		this.hideLoading_indicator1 = false;
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_preflanguage = selectedOptionValue;
-		this.allsubmodules_list= '';
-		this.alltopic_list = '';
-		this.masterteachertraining1Service.getalltrainingmodules(this.selected_preflanguage).subscribe(data => {
-			if(data){
-				this.allmodules_list = data;
-			}else{
-				this.allmodules_list = '';
-			}
-			this.hideLoading_indicator1 = true;
-		},
-		error => {},
-		() => {}
-		
-	  );
-		// this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
+		if(this.selected_preflanguage !=''){
+			this.masterteachertraining1Service.getalltrainingmodules(this.selected_preflanguage).subscribe(data => {
+				if(data){
+					this.allmodules_list = data;
+				}else{
+					this.allmodules_list = '';
+					this.allsubmodules_list = '';
+					this.alltopic_list = '';
+				}
+				this.hideLoading_indicator1 = true;
+			},
+			error => {},
+			() => {}
+		  );
+		}
 	  }
 	updatemodule_btnclick(){
 		this.modulename_toupdate = this.modulename_toupdate.toUpperCase().toLowerCase();

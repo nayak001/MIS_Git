@@ -278,7 +278,7 @@ export class Masterteachertraining2Component implements OnInit {
 
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
-			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid).subscribe(data => {
+			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid,this.selected_preflanguage).subscribe(data => {
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
