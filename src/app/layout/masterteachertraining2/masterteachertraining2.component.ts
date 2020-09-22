@@ -530,7 +530,7 @@ export class Masterteachertraining2Component implements OnInit {
 				const obj = {
 					"contentid" : new Date().getTime(),
 					"content":this.s3vediopath,
-					"vedio_path":this.s3vediopath,
+					"vedio_path":this.s3vedioname,
 					"type":"vedio"
 				}
 				if(this.save_operation == 'save'){

@@ -97,6 +97,7 @@ export class PgeactivitiesComponent implements OnInit {
     this.hide_Loading_indicator = true;
     this.hide_createnewsegment_button = true;
     this.hideSubject_select = false;
+   
   }
 
   ngOnInit() {}
@@ -232,7 +233,6 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_segment_index = selectedOptionValue;
     this.load_segment(this.selected_segment_index)
   }
@@ -529,12 +529,12 @@ export class PgeactivitiesComponent implements OnInit {
 
       let preferedlanguage = preflanguage;
       this.pgeactivitiesService.getmasteractivitiydetails(preferedlanguage, program, subject, month, week, level).subscribe(data => {
-        console.log('### page load data: ' + JSON.stringify(data));
         if (Object.keys(data).length > 0) {
           this.save_operation = 'update';
           this.record_id = data[0]['_id'];
           this.extraresources_list = data[0]['extraresources'];
           this.segments_list = data[0]['segment'];
+          this.load_segment(0)
         } else {
           this.save_operation = 'save';
           this.record_id = '';
