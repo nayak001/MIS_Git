@@ -10,7 +10,6 @@ import { DataTableModule } from "angular-6-datatable";
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FileUploadModule } from 'ng2-file-upload';
 
-
 import { Masterteachertraining2Service } from  './masterteachertraining2.service';
 @NgModule({
     imports: [

@@ -5,11 +5,30 @@
             <div class="card mb-3">
                 <div class="card-header">
 					<div class="row">
-						<div class="col col-xl-8 col-lg-8">
-							<h4>TEACHER TRAINING- MODULES/SUBMODULES</h4>
+						<div class="col col-xl-6 col-lg-6">
+							<h4>TEACHER TRAINING- MODULES</h4>
 						</div>
-						<div class="col">
-							<button (click)="back_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;</button>
+						<div class="col col-xl-4 col-lg-4">
+							<div class="row">
+								<div class="col col-xl-6 col-lg-6" style="margin: auto;">
+									Prefered Language
+								</div>
+								<div class="col col-xl-6 col-lg-6">
+									<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
+										<option value="">Select</option>
+										<option value="en"  [selected]="isSelected">English</option>
+										<option value="od">ଓଡିଆ</option>
+										<option value="hi">हिंदी</option>
+									</select>
+								</div>
+							</div>
+							<!-- <span class="bold-font">Prefered Language</span>
+							<span>
+								
+							</span> -->
+						</div>
+						<div class="col col-xl-2 col-lg-2">
+							<button (click)="back_btn_click()" class="btn btn-sm btn-primary float-right" type="button" style="margin-top: 2px;">&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</div>					
 				</div>

@@ -18,11 +18,22 @@
 					<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
 						<thead>
 							<tr>
-								<th style="width: 30%">Module</th>
-								<th style="width: 30%">Sub-module</th>
-								<th style="width: 30%">Topic</th>
+								<th style="width: 25%">Language</th>
+								<th style="width: 25%">Module</th>
+								<th style="width: 25%">Sub-module</th>
+								<th style="width: 25%">Topic</th>
 							</tr>
 							<tr>
+								<td>
+									<span>
+										<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
+											<option value="">Select</option>
+											<option value="en" [selected]="isSelected">English</option>
+											<option value="od">ଓଡିଆ</option>
+											<option value="hi">हिंदी</option>
+										</select>
+									</span>
+								</td>
 								<td>
 									<select value="" (change)="onselect_modules_select($event)" class="form-control">
 										<option value="">Select module</option>
@@ -78,7 +89,8 @@
 																	<span class="delbtn" (click)="opencontent(deletecontentmodal,data,i,'deletecontentmodal')" title="delete"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
 																	<span class="addbtn" (click)="opencontent(previewcontentmodal,data,i,'previewcontentmodal')" title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></span>
 																</div>
-																<ckeditor [editor]="Editor"  [(ngModel)]="data.content" data="{{data.content}}"></ckeditor>
+																<div [innerHTML]="data.content"></div>
+																<!-- <ckeditor  [editor]="Editor" [(ngModel)]="data.content" data="{{data.content}}"></ckeditor> -->
 															</div>
 															<div *ngIf="data.type == 'image'">
 																<div>
@@ -165,8 +177,6 @@
 								</div>
 							</ng-template>
 						</ngb-tab>
-
-						
 					</ngb-tabset>
 					
 
@@ -331,8 +341,8 @@
 						</div>
 						<div class="modal-body" >
 							<div class="row padd15">
-								<div class="tab_content_height margintop30">
-									<ckeditor [editor]="Editor"  [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
+								<div class="tab_content_height margintop30" style="width: 1000px;">
+									<ckeditor [editor]="Editor" [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
 								</div>
 								<button type="button" class="btn btn-primary" (click)="addcontent()" style = "margin-top: 10px;margin-left: 350px;">Add Content</button>
 								<div>

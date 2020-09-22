@@ -245,7 +245,7 @@
 										<div class="col col-lg-6 col-md-6 col-sm-6">
 											<div>
 												<select value="{{selected_segment_index}}"  (change)="segment_select_onchange($event)" class="form-control">
-													<option value="-1">Select</option>
+													<!-- <option value="-1">Select</option> -->
 													<option *ngFor="let seg of segments_list; let i=index;"  value="{{i}}">{{ i+1 }}</option>
 												</select>
 											</div>
