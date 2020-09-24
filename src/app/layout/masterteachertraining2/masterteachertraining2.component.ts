@@ -157,6 +157,9 @@ export class Masterteachertraining2Component implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_preflanguage = selectedOptionValue;
 		this.load_allmodules_list(this.selected_preflanguage);
+		this.allsubmodules_list = [];
+		this.alltopic_list=[];
+		this.data = [];
 		// this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
 	  }
 	reset_contents(){
