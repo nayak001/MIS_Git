@@ -20,6 +20,8 @@ const URL = environment.uploadURL;
 
 export class Masterteachertraining2Component implements OnInit {
 	// video
+	isSelected:boolean=true;
+	selected_preflanguage:any;
 	disable_button:boolean;
 	video_file_name:string ='';
 	divs: number[] = [];
@@ -112,14 +114,51 @@ export class Masterteachertraining2Component implements OnInit {
 	) {
 		this.hideLoading_indicator = true;
 		this.hideContent_div = true;
+		this.selected_preflanguage = 'en'
 		
 	}
 	
 	ngOnInit() {
 		this.reset_contents();
-		this.load_allmodules_list();
+		this.load_allmodules_list(this.selected_preflanguage);
+		this.Editor.defaultConfig = {
+			toolbar: {
+			  items: [
+				'heading',
+				'|',
+				'bold',
+				'italic',
+				'|',
+				'bulletedList',
+				'numberedList',
+				'|',
+				'undo',
+				'redo'
+			  ]
+			},
+			image: {
+			  toolbar: [
+				'imageStyle:full',
+				'imageStyle:side',
+				'|',
+				'imageTextAlternative'
+			  ]
+			},
+			table: {
+			  contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
+			},
+			language: 'en'
+		  };
 	}
-
+	preflanguage_select_onchange(event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.selected_preflanguage = selectedOptionValue;
+		this.load_allmodules_list(this.selected_preflanguage);
+		// this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
+	  }
 	reset_contents(){
 		this.content_value = '';
 		this.video_value = [];
@@ -128,9 +167,9 @@ export class Masterteachertraining2Component implements OnInit {
 		this.quiz_value = [];
 	}
 
-	load_allmodules_list(){
+	load_allmodules_list(language){
 		this.hideLoading_indicator = false;
-		this.masterteachertraining2Service.getalltrainingmodules().subscribe(data => {
+		this.masterteachertraining2Service.getalltrainingmodules(language).subscribe(data => {
 				this.allmodules_list = data;
 				this.hideLoading_indicator = true;
 			},
@@ -142,7 +181,7 @@ export class Masterteachertraining2Component implements OnInit {
 	load_alltopic_list(submoduleid){
 		if(submoduleid != undefined && submoduleid != null && submoduleid != ''){
 			this.hideLoading_indicator = false;
-			this.masterteachertraining2Service.getalltrainingtopics(submoduleid).subscribe(data => {
+			this.masterteachertraining2Service.getalltrainingtopics(submoduleid,this.selected_preflanguage).subscribe(data => {
 					this.alltopic_list = data;
 					this.hideLoading_indicator = true;
 				},
@@ -156,7 +195,7 @@ export class Masterteachertraining2Component implements OnInit {
 	load_allsubmodules_list(moduleid){
 		if(moduleid != undefined && moduleid != null && moduleid != ''){
 			this.hideLoading_indicator = false;
-			this.masterteachertraining2Service.getalltrainingsubmodules(moduleid).subscribe(data => {
+			this.masterteachertraining2Service.getalltrainingsubmodules(moduleid,this.selected_preflanguage).subscribe(data => {
 					this.allsubmodules_list = data;
 					this.hideLoading_indicator = true;
 				},
@@ -239,7 +278,7 @@ export class Masterteachertraining2Component implements OnInit {
 
 			this.hideLoading_indicator = false;
 			this.hideContent_div = true;
-			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid).subscribe(data => {
+			this.masterteachertraining2Service.getalltrainingcontents(this.selected_moduleid, this.selected_submoduleid,this.selected_topicid,this.selected_preflanguage).subscribe(data => {
 					if(Object.keys(data).length > 0){
 						this.save_operation = 'update';
 						this.record_id = data[0]['_id'];
@@ -305,17 +344,21 @@ export class Masterteachertraining2Component implements OnInit {
 			this.flashcard_value.splice(i,1);
 	}
 	addquiz(){
-		let obj = {
-			"qid": new Date().getTime(),
-			"question": this.add_q_question,
-			"A": this.add_q_optionA,
-			"B": this.add_q_optionB,
-			"C": this.add_q_optionC,
-			"D": this.add_q_optionD,
-			"answer": this.selected_qans_val_add
+		if(this.add_q_question == '' || this.add_q_optionA == '' || this.add_q_optionB == '' ||this.add_q_optionC == '' || this.add_q_optionD == '' || this.selected_qans_val_add == ''){
+			swal.fire('info', 'Please fill all the fields !!!', 'warning');
+		}else{
+			let obj = {
+				"qid": new Date().getTime(),
+				"question": this.add_q_question,
+				"A": this.add_q_optionA,
+				"B": this.add_q_optionB,
+				"C": this.add_q_optionC,
+				"D": this.add_q_optionD,
+				"answer": this.selected_qans_val_add
+			}
+			this.quiz_value.push(obj);
+			this.modalReference.close();
 		}
-		this.quiz_value.push(obj);
-		this.modalReference.close();
 	}
 	updatequiz(){
 		let obj = {
@@ -487,7 +530,7 @@ export class Masterteachertraining2Component implements OnInit {
 				const obj = {
 					"contentid" : new Date().getTime(),
 					"content":this.s3vediopath,
-					"vedio_path":this.s3vediopath,
+					"vedio_path":this.s3vedioname,
 					"type":"vedio"
 				}
 				if(this.save_operation == 'save'){
@@ -512,7 +555,8 @@ export class Masterteachertraining2Component implements OnInit {
 				flashcard: this.flashcard_value,
 				worksheet: this.worksheet_value,
 				video: this.video_value,
-				quiz: this.quiz_value
+				quiz: this.quiz_value,
+				language:this.selected_preflanguage
 			}
 			this.save_record(body);
 			this.s3vedioname = '';
@@ -533,7 +577,8 @@ export class Masterteachertraining2Component implements OnInit {
 				flashcard: this.flashcard_value,
 				worksheet: this.worksheet_value,
 				video: this.video_value,
-				quiz: this.quiz_value
+				quiz: this.quiz_value,
+				language:this.selected_preflanguage
 			}
 			// this.allcontent.push({"key":"value"})
 			this.update_record(this.record_id,body);
@@ -695,7 +740,8 @@ export class Masterteachertraining2Component implements OnInit {
 			flashcard: this.flashcard_value,
 			worksheet: this.worksheet_value,
 			video: this.video_value,
-			quiz: this.quiz_value
+			quiz: this.quiz_value,
+			language:this.selected_preflanguage
 		}
 		if(this.quiz_value.length>0 && this.save_operation == 'update'){
 			this.update_record(this.record_id,body)

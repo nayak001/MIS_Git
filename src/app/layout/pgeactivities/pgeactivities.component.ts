@@ -97,6 +97,7 @@ export class PgeactivitiesComponent implements OnInit {
     this.hide_Loading_indicator = true;
     this.hide_createnewsegment_button = true;
     this.hideSubject_select = false;
+   
   }
 
   ngOnInit() {}
@@ -135,6 +136,7 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_program = selectedOptionValue;
+    this.selected_subject = '';
     
     if (this.selected_program == 'ece') {
       this.skillset_label = 'Themes';
@@ -231,7 +233,6 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_segment_index = selectedOptionValue;
     this.load_segment(this.selected_segment_index);
   }
@@ -528,16 +529,19 @@ export class PgeactivitiesComponent implements OnInit {
 
       let preferedlanguage = preflanguage;
       this.pgeactivitiesService.getmasteractivitiydetails(preferedlanguage, program, subject, month, week, level).subscribe(data => {
-        console.log('### page load data: ' + JSON.stringify(data));
         if (Object.keys(data).length > 0) {
           this.save_operation = 'update';
           this.record_id = data[0]['_id'];
           this.extraresources_list = data[0]['extraresources'];
           this.segments_list = data[0]['segment'];
+<<<<<<< HEAD
           // added by nayak on 21-09-2020 to set segment 1 selected bydefault
           if(this.segments_list.length > 0){
             //this.segment_select_onchange(0);
           }
+=======
+          this.load_segment(0)
+>>>>>>> 742b3696b53b87632abe327453bfbe963f8453b8
         } else {
           this.save_operation = 'save';
           this.record_id = '';
