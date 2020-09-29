@@ -71,7 +71,7 @@ const routes: Routes = [
       { path: 'manager_todo', loadChildren: './manager_todo/manager_todo.module#Manager_todoModule' },
       { path: 'passcodemanager', loadChildren: './passcodemanager/passcodemanager.module#PasscodemanagerModule' },
       { path: 'trainingmisc', loadChildren: './trainingmisc/trainingmisc.module#TrainingMiscModule' },
-      
+      { path: 'hblmaster', loadChildren: './hblmaster/hblmaster.module#HblmasterModule' },
 
     ]
   }

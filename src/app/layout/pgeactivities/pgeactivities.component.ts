@@ -233,7 +233,7 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_segment_index = selectedOptionValue;
-    this.load_segment(this.selected_segment_index)
+    this.load_segment(this.selected_segment_index);
   }
 
   reset_segment(){
@@ -534,6 +534,10 @@ export class PgeactivitiesComponent implements OnInit {
           this.record_id = data[0]['_id'];
           this.extraresources_list = data[0]['extraresources'];
           this.segments_list = data[0]['segment'];
+          // added by nayak on 21-09-2020 to set segment 1 selected bydefault
+          if(this.segments_list.length > 0){
+            //this.segment_select_onchange(0);
+          }
         } else {
           this.save_operation = 'save';
           this.record_id = '';

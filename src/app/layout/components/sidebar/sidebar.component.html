@@ -260,6 +260,18 @@
         </ng-template>
       </ngb-panel>
 
+      <ngb-panel id="hlm_accordion">
+        <ng-template ngbPanelTitle>
+          <span><b>HBL</b></span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <a [routerLink]="['/hblmaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-ravelry" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'HBL Master' | translate }}</span>
+          </a>
+        </ng-template>
+      </ngb-panel>
+
     </ngb-accordion>
     
     <!-- <a [routerLink]="['/leap']" [routerLinkActive]="['router-link-active']" class="list-group-item">
