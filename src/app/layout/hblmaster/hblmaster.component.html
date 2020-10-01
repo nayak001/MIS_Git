@@ -1,5 +1,4 @@
 <div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
     <div class="row">
         <div class="col col-xl-12 col-lg-12">
             <div class="card mb-3">
@@ -8,215 +7,586 @@
 						<div class="col col-xl-4 col-lg-4">
 							<h4>HOME BASED LEARNING MASTER</h4>
 						</div>
-						<div class="col">
-							
-							
-
-							<button (click)="open(addmodal_gobal, null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Add Feedback</button>
-
-							<!-- Modal starts from here -->
-							<ng-template #addmodal_gobal let-c="close" let-d="dismiss">
-								<form role="form" [formGroup]="add_globalCenterfeedbackFormGroup" (ngSubmit)="add_globalFormSubmitAction()">
-									<div class="modal-body">
-										<div class="row">
-											<div class="col col-xl-4 col-lg-4">Feedback Desc.</div>
-											<div class="col col-xl-8 col-lg-8 row-fluid">
-												<input value="{{ add_globalmodal_centerfeedback_desc }}" formControlName="add_globalmodal_centerfeedback_desc" [(ngModel)]="add_globalmodal_centerfeedback_desc" type="text" placeholder="Description" class="modal_textbox">
-												<div class="validation-error-message"  *ngIf="add_globalCenterfeedbackFormGroup.controls.add_globalmodal_centerfeedback_desc.invalid">Description required</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col col-xl-4 col-lg-4">Type</div>
-											<div class="col col-xl-8 col-lg-8 row-fluid">
-												<select value="{{selected_type}}" (change)="type_onchange($event)" class="form-control" placeholder="Type">
-													<option value="select">select</option>
-													<option value="calendar">calendar</option>
-													<option value="input">input</option>
-												</select>
-											</div>
-										</div>
-										<br>
-										<div class="row" *ngIf="isSelectType">
-											<div class="col col-xl-4 col-lg-4">Selection mode</div>
-											<div class="col col-xl-8 col-lg-8 row-fluid">
-												<div class="row">
-													<div class="col col-xl-6 col-lg-6">
-														<input type="radio" name="mode" value="single" (change)="selectmode_on_change($event.target.value)" checked /> Single
-													</div>
-													<div class="col col-xl-6 col-lg-6">
-														<input type="radio" name="mode" value="multiple" (change)="selectmode_on_change($event.target.value)" /> Multiple
-													</div>
-												</div>
-											</div>
-										</div>
-										<br>
-										<div class="row" *ngIf="isSelectType">
-											<div class="col col-xl-4 col-lg-4">Options</div>
-											<div class="col col-xl-8 col-lg-8 row-fluid">
-												<input value="{{ optionval }}" (input)="txt_add_options_change($event.target.value)" type="text" placeholder="Options" class="modal_textbox1">
-												<button type="button" (click)="add_option_clicked()" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
-											</div>
-										</div>
-										<br>
-										<div *ngIf="isSelectType">
-											<div class="row" *ngFor="let opt of all_options_arr; let i = index;">
-												<div class="col col-xl-2 col-lg-2">{{i+1}}</div>
-												<div class="col col-xl-7 col-lg-7">{{opt}}</div>
-												<div class="col col-xl-3 col-lg-3"><button type="button" (click)="delete_option_clicked(i)" class="btn btn-danger btn-sm"><i class="fa fa-times" aria-hidden="true"></i></button></div>
-											</div><br>
-										</div>
-
-
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-										<button [disabled]="!add_globalCenterfeedbackFormGroup.valid" type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</form>
-							</ng-template>
-						</div>
+						<div class="col"></div>
 					</div>
-                </div>
-
-                <!-- content displayed here -->
+				</div>
+				
+				<!-- Contents -->
                 <div class="card-body table-responsive">
-
-
-
-					
+					<!-- drop down menus -->
 					<div ngbDropdown class="d-inline-block">
 						<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Options</button>
 						<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="width: 600px; font-size: 12px;">
-						  <div class="d-flex justify-content-between">
-							<button class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Create Manager</button>
-							<button class="dropdown-item" style="color: blue; font-weight: bold;"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Update Manager</button>
-							<button class="dropdown-item" style="color: red; font-weight: bold;">  <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp; Delete Manager</button>
-						  </div>
+							<div class="d-flex justify-content-between">
+								<button (click)="open_createstudentmodal(createstudentmodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp; Create Student</button>
+								<button (click)="open_createmanagermodal(createmanagermodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-address-book" aria-hidden="true"></i>&nbsp;&nbsp; Create Manager</button>
+								<button (click)="open_createvolunteermodal(createvolunteermodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp; Create Volunteer</button>
+							</div>
 
-						  <hr>
-						  <div ngbDropdownItem class="d-flex justify-content-between">
-							<button class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Create Volunteer</button>
-							<button class="dropdown-item" style="color: blue; font-weight: bold;"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Update Volunteer</button>
-							<button class="dropdown-item" style="color: red; font-weight: bold;">  <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp; Delete Volunteer</button>
-						  </div>
+							<hr>
+							<div class="d-flex justify-content-between">
+								<button (click)="open_createschoolmodal(createschoolmodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-bank" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
+								<button (click)="open_createlevelmodal(createlevelmodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;&nbsp; Create Level</button>
+								<button (click)="open_createresponsemodal(createresponsemodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;&nbsp; Create Response</button>
+							</div>
 
-						  <hr>
-						  <div class="d-flex justify-content-between">
-							<button class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
-							<button class="dropdown-item" style="color: blue; font-weight: bold;"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Update School</button>
-							<button class="dropdown-item" style="color: red; font-weight: bold;">  <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp; Delete School</button>
-						  </div>
-
-						  <hr>
-						  <div ngbDropdownItem class="d-flex justify-content-between">
-							<button class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Create Response</button>
-							<button class="dropdown-item" style="color: blue; font-weight: bold;"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Update Response</button>
-							<button class="dropdown-item" style="color: red; font-weight: bold;">  <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp; Delete Response</button>
-						  </div>
-
-						  <hr>
-						  <div ngbDropdownItem class="d-flex justify-content-between">
-							<button class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Create Baseline</button>
-							<button class="dropdown-item" style="color: blue; font-weight: bold;"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Update Baseline</button>
-							<button class="dropdown-item" style="color: red; font-weight: bold;">  <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp; Delete Baseline</button>
-						  </div>
-
-						  <hr>
-						  <div class="d-flex justify-content-between">
-							<button class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Create Level</button>
-							<button class="dropdown-item" style="color: blue; font-weight: bold;"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Update Level</button>
-							<button class="dropdown-item" style="color: red; font-weight: bold;">  <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp; Delete Level</button>
-						  </div>
 						</div>
-					  </div>
-
-
-
-
-
+					</div>
 
 					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
 						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
 					</div>
-                    <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
-					  <thead>
-					  <tr>
-						  <th style="width: 75%">
-							  <mfDefaultSorter by="question">Description</mfDefaultSorter>
-						  </th>
-						  <th style="width: 25%">
-							  Action
-						  </th>
-					  </tr>
-					  </thead>
-					  <tbody>
-					  <tr *ngFor="let feedback of mf.data; let i = index" id="{{ 'tr' + i }}" [attr.data-index]="i">
-						  <td><span class="bold-font">{{feedback.feedback}}</span></td>
-						  <td>
-								<div class="row">
-									<div class="col col-xl-4 col-lg-4">
-										<!-- edit button datatable -->
-										<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(editmodal,feedback)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-									</div>
-									<div class="col col-xl-4 col-lg-4">
-										<!-- delete button datatable -->
-										<button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal,feedback)"><i class="fa fa-trash" aria-hidden="true"></i></button>
-									</div>
-								</div>
 
-							<!-- global button add modal starts from here -->
-
-
-							<!-- edit modal starts from here -->
-							<ng-template #editmodal let-c="close" let-d="dismiss">
-								<form role="form" [formGroup]="editCenterfeedbackFormGroup" (ngSubmit)="editFormSubmitAction(feedback._id)">
-									<div class="modal-body">
-										<div class="row">
-											<div class="col col-xl-4 col-lg-4">Feedback Desc.</div>
-											<div class="col col-xl-8 col-lg-8 row-fluid">
-												<input value="{{ editmodal_centerfeedback_desc }}" formControlName="editmodal_centerfeedback_desc" [(ngModel)]="editmodal_centerfeedback_desc" type="text" placeholder="Description" class="modal_textbox">
-												<div class="validation-error-message"  *ngIf="editCenterfeedbackFormGroup.controls.editmodal_centerfeedback_desc.invalid">
-													Description required
-												</div>
+					<div class="sub_content">
+						
+						<div class="row">
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold; color: #9b7b7b; margin-bottom: 15px;">Students ( {{ all_students_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let studentdata of all_students_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: white; font-size: 14px; font-weight: bold; background: #827b4a; padding: 5px 30px;">{{ studentdata.studentname }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ studentdata.studentid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Class:{{ studentdata.class }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">{{ studentdata.gender }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updatestudentmodal(updatestudentmodal, studentdata)" type="button" class="btn btn-outline-primary">Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="student_delete_btn_click(studentdata)" type="button" class="btn btn-outline-danger">Delete</button>
 											</div>
 										</div>
 									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-										<button [disabled]="!editCenterfeedbackFormGroup.valid" type="submit" class="btn btn-primary">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</form>
-							</ng-template>
+								</div>
+							</div>
 
-							<!-- Delete Modal starts from here -->
-							<ng-template #deletemodal let-c="close" let-d="dismiss">
-								<form role="form" (ngSubmit)="deleteFormSubmitAction(feedback._id)">
-									<div class="modal-body">
-										<div class="row">
-										<img src="assets/images/warning.png" class="warning-icon">
-										<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records  !</span>
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold; color: #9b7b7b; margin-bottom: 15px;">Managers ( {{ all_managers_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let managerdata of all_managers_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: white; font-size: 14px; font-weight: bold; background: #7676ff; padding: 5px 30px;">{{ managerdata.managername }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ managerdata.managerid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Phone: {{ managerdata.phone }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updatemanagermodal(updatemanagermodal, managerdata)" type="button" class="btn btn-outline-primary">Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="manager_delete_btn_click(managerdata)" type="button" class="btn btn-outline-danger">Delete</button>
+											</div>
 										</div>
 									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-										<button type="submit" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</div>
+
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold; color: #9b7b7b; margin-bottom: 15px;">Volunteers ( {{ all_volunteers_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let volunteerdata of all_volunteers_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: white; font-size: 14px; font-weight: bold; background: #ff8976; padding: 5px 30px;">{{ volunteerdata.volunteername }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ volunteerdata.volunteerid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Phone: {{ volunteerdata.phone }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updatevolunteermodal(updatevolunteermodal, volunteerdata)" type="button" class="btn btn-outline-primary">Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="volunteer_delete_btn_click(volunteerdata)" type="button" class="btn btn-outline-danger">Delete</button>
+											</div>
+										</div>
 									</div>
-								</form>
-							</ng-template>
-						  </td>
-					  </tr>
-					  </tbody>
-					  <tfoot>
-					  <tr>
-						  <td colspan="4">
-							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
-							  <mfBootstrapPaginator></mfBootstrapPaginator>
-						  </td>
-					  </tr>
-					  </tfoot>
-					</table>
+								</div>
+							</div>
+						</div>
+
+						<hr>
+						<div class="row">
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold; color: #9b7b7b; margin-bottom: 15px;">Schools ( {{ all_schools_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let schooldata of all_schools_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: black; font-size: 14px; font-weight: bold; background: #ffee76; padding: 5px 30px;">{{ schooldata.schoolname }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ schooldata.schoolid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">{{ schooldata.block }} , {{ schooldata.district }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updateschoolmodal(updateschoolmodal, schooldata)" type="button" class="btn btn-outline-primary">Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="school_delete_btn_click(schooldata)" type="button" class="btn btn-outline-danger">Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold; color: #9b7b7b; margin-bottom: 15px;">Levels ( {{ all_levels_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let leveldata of all_levels_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: black; font-size: 14px; font-weight: bold; background: #76ff8d; padding: 5px 30px;">{{ leveldata.leveldesc }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ leveldata.levelid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Subject: {{ leveldata.subject }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updatelevelmodal(updatelevelmodal, leveldata)" type="button" class="btn btn-outline-primary">Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="level_delete_btn_click(leveldata)" type="button" class="btn btn-outline-danger">Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold; color: #9b7b7b; margin-bottom: 15px;">Responses ( {{ all_responses_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let responsedata of all_responses_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: black; font-size: 14px; font-weight: bold; background: #f776ff; padding: 5px 30px;">{{ responsedata.responsedesc }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ responsedata.responseid }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updateresponsemodal(updateresponsemodal, responsedata)" type="button" class="btn btn-outline-primary">Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="response_delete_btn_click(responsedata)" type="button" class="btn btn-outline-danger">Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						
+
+					</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Create Student MOdal -->
+<ng-template #createstudentmodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Manager</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ studentmanagerid }}" [(ngModel)]="studentmanagerid" placeholder="Manager" class="form-control">
+					<option value="">Select</option>
+					<option *ngFor="let manager of all_managers_list" value="{{ manager.managerid }}">{{ manager.managername }}</option>
+				</select>
+			</div>
+		</div>
+		<br>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Volunteer</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ studentvolunteerid }}" [(ngModel)]="studentvolunteerid" placeholder="Volunteer" class="form-control">
+					<option value="">Select</option>
+					<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
+				</select>
+			</div>
+		</div>
+		<br>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">School</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ studentschoolid }}" [(ngModel)]="studentschoolid" placeholder="School" class="form-control">
+					<option value="">Select</option>
+					<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
+				</select>
+			</div>
+		</div>
+		<br>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Student Name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ studentname }}" [(ngModel)]="studentname" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Class</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioclass" [(ngModel)]="studentclass">
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="1"> 1
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="2"> 2
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="3"> 3
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="4"> 4
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="5"> 5
+					</label>
+			  	</div>
+			</div>
+			<!-- <div class="col col-xl-1 col-lg-1 row-fluid">{{ studentclass }}</div> -->
+		</div>
+		<br>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Gender</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<div class="btn-group btn-group-toggle" ngbRadioGroup name="radiogender" [(ngModel)]="studentgender">
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="1"> Male
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="2"> Female
+					</label>
+			  	</div>
+			</div>
+			<!-- <div class="col col-xl-1 col-lg-1 row-fluid">{{ studentgender }}</div> -->
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="student_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Create Student MOdal -->
+<ng-template #updatestudentmodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Manager</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ studentmanagerid }}" [(ngModel)]="studentmanagerid" placeholder="Manager" class="form-control">
+					<option value="">Select</option>
+					<option *ngFor="let manager of all_managers_list" value="{{ manager.managerid }}">{{ manager.managername }}</option>
+				</select>
+			</div>
+		</div>
+		<br>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Volunteer</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ studentvolunteerid }}" [(ngModel)]="studentvolunteerid" placeholder="Volunteer" class="form-control">
+					<option value="">Select</option>
+					<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
+				</select>
+			</div>
+		</div>
+		<br>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">School</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ studentschoolid }}" [(ngModel)]="studentschoolid" placeholder="School" class="form-control">
+					<option value="">Select</option>
+					<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
+				</select>
+			</div>
+		</div>
+		<br>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Student Name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ studentname }}" [(ngModel)]="studentname" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Class</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioclass" [(ngModel)]="studentclass">
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="1"> 1
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="2"> 2
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="3"> 3
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="4"> 4
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="5"> 5
+					</label>
+			  	</div>
+			</div>
+			<!-- <div class="col col-xl-1 col-lg-1 row-fluid">{{ studentclass }}</div> -->
+		</div>
+		<br>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Gender</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<div class="btn-group btn-group-toggle" ngbRadioGroup name="radiogender" [(ngModel)]="studentgender">
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="1"> Male
+					</label>
+					<label ngbButtonLabel class="btn-primary">
+				  		<input ngbButton type="radio" [value]="2"> Female
+					</label>
+			  	</div>
+			</div>
+			<!-- <div class="col col-xl-1 col-lg-1 row-fluid">{{ studentgender }}</div> -->
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="student_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Create Manager MOdal -->
+<ng-template #createmanagermodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Manager Name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ managername }}" [(ngModel)]="managername" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Phone</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ managerphone }}" [(ngModel)]="managerphone" type="text" placeholder="Phone" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="manager_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Update Manager MOdal -->
+<ng-template #updatemanagermodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Manager Name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ managername }}" [(ngModel)]="managername" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Phone</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ managerphone }}" [(ngModel)]="managerphone" type="text" placeholder="Phone" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="manager_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Create Volunteer MOdal -->
+<ng-template #createvolunteermodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Volunteer Name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ volunteername }}" [(ngModel)]="volunteername" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Phone</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ volunteerphone }}" [(ngModel)]="volunteerphone" type="text" placeholder="Phone" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="volunteer_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Update Volunteer MOdal -->
+<ng-template #updatevolunteermodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Volunteer Name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ volunteername }}" [(ngModel)]="volunteername" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Phone</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ volunteerphone }}" [(ngModel)]="volunteerphone" type="text" placeholder="Phone" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="volunteer_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Create School MOdal -->
+<ng-template #createschoolmodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">School Name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ schoolname }}" [(ngModel)]="schoolname" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">District</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ schooldistrict }}" (change)="schooldistrict_onchange($event)" class="form-control" placeholder="District">
+					<option value="">Select</option>
+					<option value="cuttack">Cuttack</option>
+					<option value="kendrapada">Kendrapada</option>
+					<option value="puri">Puri</option>
+					<option value="khordha">Khordha</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Block</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ schoolblock }}" [(ngModel)]="schoolblock" type="text" placeholder="Block" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="school_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Update School MOdal -->
+<ng-template #updateschoolmodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">School Name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ schoolname }}" [(ngModel)]="schoolname" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">District</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ schooldistrict }}" (change)="schooldistrict_onchange($event)" class="form-control" placeholder="District">
+					<option value="">Select</option>
+					<option value="cuttack">Cuttack</option>
+					<option value="kendrapada">Kendrapada</option>
+					<option value="puri">Puri</option>
+					<option value="khordha">Khordha</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Block</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ schoolblock }}" [(ngModel)]="schoolblock" type="text" placeholder="Block" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="school_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Create Level MOdal -->
+<ng-template #createlevelmodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Subject</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ levelsubject }}" (change)="levelsubject_onchange($event)" class="form-control" placeholder="Subject">
+					<option value="">Select</option>
+					<option value="math">Math</option>
+					<option value="english">English</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Level Desc.</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ leveldesc }}" [(ngModel)]="leveldesc" type="text" placeholder="Level description" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="level_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Update Level MOdal -->
+<ng-template #updatelevelmodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Subject</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{ levelsubject }}" (change)="levelsubject_onchange($event)" class="form-control" placeholder="Subject">
+					<option value="">Select</option>
+					<option value="math">Math</option>
+					<option value="english">English</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Level Desc.</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ leveldesc }}" [(ngModel)]="leveldesc" type="text" placeholder="Level description" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="level_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Create Response MOdal -->
+<ng-template #createresponsemodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Response Desc.</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ responsedesc }}" [(ngModel)]="responsedesc" type="text" placeholder="Response description" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="response_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Update Level MOdal -->
+<ng-template #updateresponsemodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Response Desc.</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ responsedesc }}" [(ngModel)]="responsedesc" type="text" placeholder="Response description" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="response_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>

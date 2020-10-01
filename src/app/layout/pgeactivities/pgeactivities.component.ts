@@ -534,14 +534,10 @@ export class PgeactivitiesComponent implements OnInit {
           this.record_id = data[0]['_id'];
           this.extraresources_list = data[0]['extraresources'];
           this.segments_list = data[0]['segment'];
-<<<<<<< HEAD
           // added by nayak on 21-09-2020 to set segment 1 selected bydefault
           if(this.segments_list.length > 0){
             //this.segment_select_onchange(0);
           }
-=======
-          this.load_segment(0)
->>>>>>> 742b3696b53b87632abe327453bfbe963f8453b8
         } else {
           this.save_operation = 'save';
           this.record_id = '';
