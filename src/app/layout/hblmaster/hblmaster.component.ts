@@ -64,6 +64,13 @@ export class HblmasterComponent implements OnInit {
 	responseid: string = '';
 	responsedesc: string = '';
 
+	// Misc
+	studentmanagername: string = '';
+	studentvolunteername: string = '';
+	studentschoolname: string = '';
+	studentschoolblock: string = '';
+	studentschooldistrict: string = '';
+
     constructor(
 		private modalService: NgbModal,
         public router: Router,
@@ -140,6 +147,41 @@ export class HblmasterComponent implements OnInit {
 		this.hblmasterService.getallhblresponses().subscribe(data => {
 				console.log('@@--> get responses response data: '+JSON.stringify(data));
 				this.all_responses_list = data;
+				this.hideLoading_indicator = true;
+			}, error => {}, () => {}
+		);
+	}
+
+	getmanagername(managerid){
+		this.hideLoading_indicator = false;
+		this.hblmasterService.gethblmanagerbyid(managerid).subscribe(data => {
+				this.studentmanagername = (Object.keys(data).length > 0) ? data[0].managername : 'Not found';
+				this.hideLoading_indicator = true;
+			}, error => {}, () => {}
+		);
+	}
+
+	getvolunteername(volunteerid){
+		this.hideLoading_indicator = false;
+		this.hblmasterService.gethblvolunteerbyid(volunteerid).subscribe(data => {
+				this.studentvolunteername = (Object.keys(data).length > 0) ? data[0].volunteername : 'Not found';
+				this.hideLoading_indicator = true;
+			}, error => {}, () => {}
+		);
+	}
+
+	getschoolname(schoolid){
+		this.hideLoading_indicator = false;
+		this.hblmasterService.gethblschoolbyid(schoolid).subscribe(data => {
+				if(Object.keys(data).length > 0){
+					this.studentschoolname = data[0].schoolname;
+					this.studentschoolblock = data[0].block;
+					this.studentschooldistrict = data[0].district;
+				}else{
+					this.studentschoolname = 'Not found';
+					this.studentschoolblock = 'Not found';
+					this.studentschooldistrict = 'Not found';
+				}	
 				this.hideLoading_indicator = true;
 			}, error => {}, () => {}
 		);
@@ -711,6 +753,32 @@ export class HblmasterComponent implements OnInit {
 		this.studentname = '';
 		this.studentgender = '';
 		this.studentclass = '';
+
+		console.log(this.ngbModalOptions);
+		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
+	open_viewstudentmodal(content, studentdata){
+		console.log('@@--> studentdata: '+JSON.stringify(studentdata));
+		this.studentmanagername = '';
+		this.studentvolunteername = '';
+		this.studentschoolname = '';
+
+		this._id = studentdata._id;
+		this.studentmanagerid = studentdata.managerid;
+		this.getmanagername(this.studentmanagerid);
+		this.studentvolunteerid = studentdata.volunteerid;
+		this.getvolunteername(this.studentvolunteerid);
+		this.studentschoolid = studentdata.schoolid;
+		this.getschoolname(this.studentschoolid);
+		this.studentid = studentdata.studentid;
+		this.studentname = studentdata.studentname;
+		this.studentgender = studentdata.gender;
+		this.studentclass = parseInt(studentdata.class);
 
 		console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);

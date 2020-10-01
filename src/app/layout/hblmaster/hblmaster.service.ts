@@ -20,6 +20,14 @@ export class HblmasterService {
 		});			
 	}
 	
+	gethblmanagerbyid(managerid){				
+		return this.http.get(baseUrl+'gethblmanagerbyid/'+managerid,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+
 	createnewhblmanager(body){
 		return this.http.post(baseUrl+'createnewhblmanager', body,
 		{
@@ -53,6 +61,14 @@ export class HblmasterService {
 		});			
 	}
 	
+	gethblvolunteerbyid(volunteerid){				
+		return this.http.get(baseUrl+'gethblvolunteerbyid/'+volunteerid,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+	
 	createnewhblvolunteer(body){
 		return this.http.post(baseUrl+'createnewhblvolunteer', body,
 		{
@@ -80,6 +96,14 @@ export class HblmasterService {
 	// School
 	getallhblschools(){				
 		return this.http.get(baseUrl+'getallhblschools',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+	
+	gethblschoolbyid(schoolid){				
+		return this.http.get(baseUrl+'gethblschoolbyid/'+schoolid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

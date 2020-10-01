@@ -51,6 +51,8 @@
 											<div style="font-size: 12px; color: #9b7b7b;">{{ studentdata.gender }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_viewstudentmodal(viewstudentmodal, studentdata)" type="button" class="btn btn-outline-primary">View</button>
+												&nbsp;&nbsp;
 												<button (click)="open_updatestudentmodal(updatestudentmodal, studentdata)" type="button" class="btn btn-outline-primary">Edit</button>
 												&nbsp;&nbsp;
 												<button (click)="student_delete_btn_click(studentdata)" type="button" class="btn btn-outline-danger">Delete</button>
@@ -257,7 +259,7 @@
 	</div>
 </ng-template>
 
-<!-- Create Student MOdal -->
+<!-- Update Student MOdal -->
 <ng-template #updatestudentmodal let-c="close" let-d="dismiss">
 	<div class="modal-body">
 		<div class="row">
@@ -344,6 +346,53 @@
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
 		<button type="button" class="btn btn-primary" (click)="student_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- View Student MOdal -->
+<ng-template #viewstudentmodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div>
+			<div style="font-size: 25px;font-weight: bold;">{{ studentname }}</div>
+			<div style="font-size: 12px;color: gray;">{{ studentid }}</div>
+			<div style="font-size: 12px;color: gray;">Class: {{ studentclass }} , {{ studentgender | titlecase }}</div>
+		</div>
+		<br>
+
+		<div style="border: 1px solid #dfdada; padding: 5px 30px;">
+			<div>
+				<div style="font-size: 10px;font-weight: bold;">Manager</div>
+				<hr>
+				<div style="font-size: 18px;font-weight: bold;">{{ studentmanagername }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentmanagerid }}</div>
+			</div>
+		</div>
+		<br>
+
+		<div style="border: 1px solid #dfdada; padding: 5px 30px;">
+			<div>
+				<div style="font-size: 10px;font-weight: bold;">Volunteer</div>
+				<hr>
+				<div style="font-size: 18px;font-weight: bold;">{{ studentvolunteername }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentvolunteerid }}</div>
+			</div>
+		</div>
+		<br>
+
+		<div style="border: 1px solid #dfdada; padding: 5px 30px;">
+			<div>
+				<div style="font-size: 10px;font-weight: bold;">School</div>
+				<hr>
+				<div style="font-size: 18px;font-weight: bold;">{{ studentschoolname }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentschoolid }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentschoolblock }} , {{ studentschooldistrict }}</div>
+			</div>
+		</div>
+		<br>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
 	</div>
 </ng-template>
 
