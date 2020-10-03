@@ -29,10 +29,14 @@ export class HblmasterComponent implements OnInit {
 	studentid: string = '';
 	studentname: string = '';
 	studentmanagerid: string = '';
+	studentmanagername: string = '';
 	studentvolunteerid: string = '';
+	studentvolunteername: string = '';
 	studentschoolid: string = '';
+	studentschoolname: string = '';
 	studentgender: any;
     studentclass: any;
+	studentphone: string = '';
 
 	// Manager
 	all_managers_list: any = [];
@@ -65,9 +69,9 @@ export class HblmasterComponent implements OnInit {
 	responsedesc: string = '';
 
 	// Misc
-	studentmanagername: string = '';
-	studentvolunteername: string = '';
-	studentschoolname: string = '';
+	//studentmanagername: string = '';
+	//studentvolunteername: string = '';
+	//studentschoolname: string = '';
 	studentschoolblock: string = '';
 	studentschooldistrict: string = '';
 
@@ -152,6 +156,7 @@ export class HblmasterComponent implements OnInit {
 		);
 	}
 
+	// Comment from here
 	getmanagername(managerid){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.gethblmanagerbyid(managerid).subscribe(data => {
@@ -186,8 +191,39 @@ export class HblmasterComponent implements OnInit {
 			}, error => {}, () => {}
 		);
 	}
+	// comment to here
 
 	// Select On Change Events
+	studentmanager_onchange(event: Event){
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.studentmanagerid = selectedOptionValue;
+		this.studentmanagername = selectElementText;
+		console.log('@@--> studentmanagerid: '+this.studentmanagerid+'    studentmanagername: '+this.studentmanagername);
+	}
+
+	studentvolunteer_onchange(event: Event){
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.studentvolunteerid = selectedOptionValue;
+		this.studentvolunteername = selectElementText;
+		console.log('@@--> studentvolunteerid: '+this.studentvolunteerid+'    studentvolunteername: '+this.studentvolunteername);
+	}
+
+	studentschool_onchange(event: Event){
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.studentschoolid = selectedOptionValue;
+		this.studentschoolname = selectElementText;
+		console.log('@@--> studentschoolid: '+this.studentschoolid+'    studentschoolname: '+this.studentschoolname);
+	}
+
 	schooldistrict_onchange(event: Event){
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
@@ -216,19 +252,25 @@ export class HblmasterComponent implements OnInit {
 			swal.fire('Info', 'Please select school', 'warning')
 		}else if(this.studentname == undefined || this.studentname == null || this.studentname.trim() == ''){
 			swal.fire('Info', 'Please check student name', 'warning')
+		}else if(this.studentphone == undefined || this.studentphone == null || this.studentphone.trim() == ''){
+			swal.fire('Info', 'Please enter a valid phone number', 'warning')
 		}else if(this.studentclass == undefined || this.studentclass == null || this.studentclass == ''){
 			swal.fire('Info', 'Please select class', 'warning')
 		}else if(this.studentgender == undefined || this.studentgender == null || this.studentgender == ''){
 			swal.fire('Info', 'Please choose gender', 'warning')
 		}else{
 			this.studentid = ''+(new Date().getTime());
-			let gender = (this.studentgender == '1') ? 'male' : 'female';
+			let gender = (this.studentgender == 1) ? 'male' : 'female';
 			let body = {
 				managerid: this.studentmanagerid,
+				managername: this.studentmanagername,
 				volunteerid: this.studentvolunteerid,
+				volunteername: this.studentvolunteername,
 				schoolid: this.studentschoolid,
+				schoolname: this.studentschoolname,
 				studentid: this.studentid,
 				studentname: this.studentname,
+				phone: this.studentphone,
 				gender: gender,
 				class: this.studentclass,
 				status: 'active'
@@ -240,10 +282,14 @@ export class HblmasterComponent implements OnInit {
 
 					// reset
 					this.studentmanagerid = '';
+					this.studentmanagername = '';
 					this.studentvolunteerid = '';
+					this.studentvolunteername = '';
 					this.studentschoolid = '';
+					this.studentschoolname = '';
 					this.studentid = '';
 					this.studentname = '';
+					this.studentphone = '';
 					this.studentgender = '';
 					this.studentclass = '';
 
@@ -399,10 +445,14 @@ export class HblmasterComponent implements OnInit {
 		let gender = (this.studentgender == '1') ? 'male' : 'female';
 		let body = {
 			managerid: this.studentmanagerid,
+			managername: this.studentmanagername,
 			volunteerid: this.studentvolunteerid,
+			volunteername: this.studentvolunteername,
 			schoolid: this.studentschoolid,
+			schoolname: this.studentschoolname,
 			studentid: this.studentid,
 			studentname: this.studentname,
+			phone: this.studentphone,
 			gender: gender,
 			class: this.studentclass,
 			status: 'active'
@@ -747,10 +797,14 @@ export class HblmasterComponent implements OnInit {
 	open_createstudentmodal(content) {
 		this._id = '';
 		this.studentmanagerid = '';
+		this.studentmanagername = '';
 		this.studentvolunteerid = '';
+		this.studentvolunteername = '';
 		this.studentschoolid = '';
+		this.studentschoolname = '';
 		this.studentid = '';
 		this.studentname = '';
+		this.studentphone = '';
 		this.studentgender = '';
 		this.studentclass = '';
 
@@ -770,13 +824,14 @@ export class HblmasterComponent implements OnInit {
 
 		this._id = studentdata._id;
 		this.studentmanagerid = studentdata.managerid;
-		this.getmanagername(this.studentmanagerid);
+		this.studentmanagername = studentdata.managername;
 		this.studentvolunteerid = studentdata.volunteerid;
-		this.getvolunteername(this.studentvolunteerid);
+		this.studentvolunteername = studentdata.volunteername;
 		this.studentschoolid = studentdata.schoolid;
-		this.getschoolname(this.studentschoolid);
+		this.studentschoolname = studentdata.schoolname;
 		this.studentid = studentdata.studentid;
 		this.studentname = studentdata.studentname;
+		this.studentphone = studentdata.phone;
 		this.studentgender = studentdata.gender;
 		this.studentclass = parseInt(studentdata.class);
 
@@ -792,10 +847,14 @@ export class HblmasterComponent implements OnInit {
 		console.log('@@--> studentdata: '+JSON.stringify(studentdata));
 		this._id = studentdata._id;
 		this.studentmanagerid = studentdata.managerid;
+		this.studentmanagername = studentdata.managername;
 		this.studentvolunteerid = studentdata.volunteerid;
+		this.studentvolunteername = studentdata.volunteername;
 		this.studentschoolid = studentdata.schoolid;
+		this.studentschoolname = studentdata.schoolname;
 		this.studentid = studentdata.studentid;
 		this.studentname = studentdata.studentname;
+		this.studentphone = studentdata.phone;
 		this.studentgender = (studentdata.gender == 'male') ? 1 : 2;
 		this.studentclass = parseInt(studentdata.class);
 

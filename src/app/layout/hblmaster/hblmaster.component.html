@@ -45,13 +45,13 @@
 								<div class="" style="height: 300px; overflow: auto;">
 									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
 										<div *ngFor="let studentdata of all_students_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
-											<div style="color: white; font-size: 14px; font-weight: bold; background: #827b4a; padding: 5px 30px;">{{ studentdata.studentname }}</div>
+											<div style="color: white; font-size: 14px; font-weight: bold; background: #827b4a; padding: 5px 30px;">{{ studentdata.studentname | titlecase }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ studentdata.studentid }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">Class:{{ studentdata.class }}</div>
-											<div style="font-size: 12px; color: #9b7b7b;">{{ studentdata.gender }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">{{ studentdata.gender | titlecase }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
-												<button (click)="open_viewstudentmodal(viewstudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;&nbsp; View</button>
+												<button (click)="open_viewstudentmodal(viewstudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
 												&nbsp;&nbsp;
 												<button (click)="open_updatestudentmodal(updatestudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
 												&nbsp;&nbsp;
@@ -176,7 +176,7 @@
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Manager</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<select value="{{ studentmanagerid }}" [(ngModel)]="studentmanagerid" placeholder="Manager" class="form-control">
+				<select value="{{ studentmanagerid }}" (change)="studentmanager_onchange($event)" placeholder="Manager" class="form-control">
 					<option value="">Select</option>
 					<option *ngFor="let manager of all_managers_list" value="{{ manager.managerid }}">{{ manager.managername }}</option>
 				</select>
@@ -187,7 +187,7 @@
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Volunteer</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<select value="{{ studentvolunteerid }}" [(ngModel)]="studentvolunteerid" placeholder="Volunteer" class="form-control">
+				<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="Volunteer" class="form-control">
 					<option value="">Select</option>
 					<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
 				</select>
@@ -198,7 +198,7 @@
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">School</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<select value="{{ studentschoolid }}" [(ngModel)]="studentschoolid" placeholder="School" class="form-control">
+				<select value="{{ studentschoolid }}" (change)="studentschool_onchange($event)" placeholder="School" class="form-control">
 					<option value="">Select</option>
 					<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
 				</select>
@@ -210,6 +210,13 @@
 			<div class="col col-xl-4 col-lg-4">Student Name</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
 				<input value="{{ studentname }}" [(ngModel)]="studentname" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Phone</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ studentphone }}" [(ngModel)]="studentphone" type="text" placeholder="Phone" class="modal_textbox">
 			</div>
 		</div>
 
@@ -250,7 +257,6 @@
 					</label>
 			  	</div>
 			</div>
-			<!-- <div class="col col-xl-1 col-lg-1 row-fluid">{{ studentgender }}</div> -->
 		</div>
 
 	</div>
@@ -267,7 +273,7 @@
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Manager</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<select value="{{ studentmanagerid }}" [(ngModel)]="studentmanagerid" placeholder="Manager" class="form-control">
+				<select value="{{ studentmanagerid }}" (change)="studentmanager_onchange($event)" placeholder="Manager" class="form-control">
 					<option value="">Select</option>
 					<option *ngFor="let manager of all_managers_list" value="{{ manager.managerid }}">{{ manager.managername }}</option>
 				</select>
@@ -278,7 +284,7 @@
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Volunteer</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<select value="{{ studentvolunteerid }}" [(ngModel)]="studentvolunteerid" placeholder="Volunteer" class="form-control">
+				<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="Volunteer" class="form-control">
 					<option value="">Select</option>
 					<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
 				</select>
@@ -289,7 +295,7 @@
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">School</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<select value="{{ studentschoolid }}" [(ngModel)]="studentschoolid" placeholder="School" class="form-control">
+				<select value="{{ studentschoolid }}" (change)="studentschool_onchange($event)" placeholder="School" class="form-control">
 					<option value="">Select</option>
 					<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
 				</select>
@@ -301,6 +307,13 @@
 			<div class="col col-xl-4 col-lg-4">Student Name</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
 				<input value="{{ studentname }}" [(ngModel)]="studentname" type="text" placeholder="Name" class="modal_textbox">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Phone</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ studentphone }}" [(ngModel)]="studentphone" type="text" placeholder="Phone" class="modal_textbox">
 			</div>
 		</div>
 
@@ -341,7 +354,6 @@
 					</label>
 			  	</div>
 			</div>
-			<!-- <div class="col col-xl-1 col-lg-1 row-fluid">{{ studentgender }}</div> -->
 		</div>
 
 	</div>
