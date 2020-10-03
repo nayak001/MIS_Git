@@ -4,7 +4,7 @@
             <div class="card mb-3">
                 <div class="card-header">
 					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
+						<div class="col col-xl-8 col-lg-8">
 							<h4>HOME BASED LEARNING MASTER</h4>
 						</div>
 						<div class="col"></div>
@@ -16,18 +16,18 @@
 					<!-- drop down menus -->
 					<div ngbDropdown class="d-inline-block">
 						<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Options</button>
-						<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="width: 600px; font-size: 12px;">
+						<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="width: 600px; left: -3px; font-size: 12px; border: 10px solid rgba(0, 123, 255, 0.5); background: #efefef;">
 							<div class="d-flex justify-content-between">
-								<button (click)="open_createstudentmodal(createstudentmodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp; Create Student</button>
-								<button (click)="open_createmanagermodal(createmanagermodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-address-book" aria-hidden="true"></i>&nbsp;&nbsp; Create Manager</button>
-								<button (click)="open_createvolunteermodal(createvolunteermodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp; Create Volunteer</button>
+								<button (click)="open_createstudentmodal(createstudentmodal)" class="dropdown-item" style="font-size: 15px; font-weight: bold;"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp; Create Student</button>
+								<button (click)="open_createmanagermodal(createmanagermodal)" class="dropdown-item" style="font-size: 15px; font-weight: bold;"><i class="fa fa-address-book" aria-hidden="true"></i>&nbsp;&nbsp; Create Manager</button>
+								<button (click)="open_createvolunteermodal(createvolunteermodal)" class="dropdown-item" style="font-size: 15px; font-weight: bold;"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp; Create Volunteer</button>
 							</div>
 
 							<hr>
 							<div class="d-flex justify-content-between">
-								<button (click)="open_createschoolmodal(createschoolmodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-bank" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
-								<button (click)="open_createlevelmodal(createlevelmodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;&nbsp; Create Level</button>
-								<button (click)="open_createresponsemodal(createresponsemodal)" class="dropdown-item" style="color: green; font-weight: bold;"><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;&nbsp; Create Response</button>
+								<button (click)="open_createschoolmodal(createschoolmodal)" class="dropdown-item" style="font-size: 15px; font-weight: bold;"><i class="fa fa-bank" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
+								<button (click)="open_createlevelmodal(createlevelmodal)" class="dropdown-item" style="font-size: 15px; font-weight: bold;"><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;&nbsp; Create Level</button>
+								<button (click)="open_createresponsemodal(createresponsemodal)" class="dropdown-item" style="font-size: 15px; font-weight: bold;"><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;&nbsp; Create Response</button>
 							</div>
 
 						</div>
@@ -51,11 +51,11 @@
 											<div style="font-size: 12px; color: #9b7b7b;">{{ studentdata.gender }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
-												<button (click)="open_viewstudentmodal(viewstudentmodal, studentdata)" type="button" class="btn btn-outline-primary">View</button>
+												<button (click)="open_viewstudentmodal(viewstudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;&nbsp; View</button>
 												&nbsp;&nbsp;
-												<button (click)="open_updatestudentmodal(updatestudentmodal, studentdata)" type="button" class="btn btn-outline-primary">Edit</button>
+												<button (click)="open_updatestudentmodal(updatestudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
 												&nbsp;&nbsp;
-												<button (click)="student_delete_btn_click(studentdata)" type="button" class="btn btn-outline-danger">Delete</button>
+												<button (click)="student_delete_btn_click(studentdata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
 											</div>
 										</div>
 									</div>
@@ -72,9 +72,9 @@
 											<div style="font-size: 12px; color: #9b7b7b;">Phone: {{ managerdata.phone }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
-												<button (click)="open_updatemanagermodal(updatemanagermodal, managerdata)" type="button" class="btn btn-outline-primary">Edit</button>
+												<button (click)="open_updatemanagermodal(updatemanagermodal, managerdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
 												&nbsp;&nbsp;
-												<button (click)="manager_delete_btn_click(managerdata)" type="button" class="btn btn-outline-danger">Delete</button>
+												<button (click)="manager_delete_btn_click(managerdata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
 											</div>
 										</div>
 									</div>
@@ -91,9 +91,9 @@
 											<div style="font-size: 12px; color: #9b7b7b;">Phone: {{ volunteerdata.phone }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
-												<button (click)="open_updatevolunteermodal(updatevolunteermodal, volunteerdata)" type="button" class="btn btn-outline-primary">Edit</button>
+												<button (click)="open_updatevolunteermodal(updatevolunteermodal, volunteerdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
 												&nbsp;&nbsp;
-												<button (click)="volunteer_delete_btn_click(volunteerdata)" type="button" class="btn btn-outline-danger">Delete</button>
+												<button (click)="volunteer_delete_btn_click(volunteerdata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
 											</div>
 										</div>
 									</div>
@@ -113,9 +113,9 @@
 											<div style="font-size: 12px; color: #9b7b7b;">{{ schooldata.block }} , {{ schooldata.district }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
-												<button (click)="open_updateschoolmodal(updateschoolmodal, schooldata)" type="button" class="btn btn-outline-primary">Edit</button>
+												<button (click)="open_updateschoolmodal(updateschoolmodal, schooldata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
 												&nbsp;&nbsp;
-												<button (click)="school_delete_btn_click(schooldata)" type="button" class="btn btn-outline-danger">Delete</button>
+												<button (click)="school_delete_btn_click(schooldata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
 											</div>
 										</div>
 									</div>
@@ -132,9 +132,9 @@
 											<div style="font-size: 12px; color: #9b7b7b;">Subject: {{ leveldata.subject }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
-												<button (click)="open_updatelevelmodal(updatelevelmodal, leveldata)" type="button" class="btn btn-outline-primary">Edit</button>
+												<button (click)="open_updatelevelmodal(updatelevelmodal, leveldata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
 												&nbsp;&nbsp;
-												<button (click)="level_delete_btn_click(leveldata)" type="button" class="btn btn-outline-danger">Delete</button>
+												<button (click)="level_delete_btn_click(leveldata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
 											</div>
 										</div>
 									</div>
@@ -150,9 +150,9 @@
 											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ responsedata.responseid }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
-												<button (click)="open_updateresponsemodal(updateresponsemodal, responsedata)" type="button" class="btn btn-outline-primary">Edit</button>
+												<button (click)="open_updateresponsemodal(updateresponsemodal, responsedata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
 												&nbsp;&nbsp;
-												<button (click)="response_delete_btn_click(responsedata)" type="button" class="btn btn-outline-danger">Delete</button>
+												<button (click)="response_delete_btn_click(responsedata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
 											</div>
 										</div>
 									</div>
@@ -171,6 +171,7 @@
 
 <!-- Create Student MOdal -->
 <ng-template #createstudentmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Student </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Manager</div>
@@ -261,6 +262,7 @@
 
 <!-- Update Student MOdal -->
 <ng-template #updatestudentmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Student </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Manager</div>
@@ -351,14 +353,15 @@
 
 <!-- View Student MOdal -->
 <ng-template #viewstudentmodal let-c="close" let-d="dismiss">
-	<div class="modal-body">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> 
 		<div>
 			<div style="font-size: 25px;font-weight: bold;">{{ studentname }}</div>
-			<div style="font-size: 12px;color: gray;">{{ studentid }}</div>
-			<div style="font-size: 12px;color: gray;">Class: {{ studentclass }} , {{ studentgender | titlecase }}</div>
+			<div style="font-size: 12px;">{{ studentid }}</div>
+			<div style="font-size: 12px;">Class: {{ studentclass }} , {{ studentgender | titlecase }}</div>
 		</div>
-		<br>
-
+	</div>
+	<div class="modal-body">
+		
 		<div style="border: 1px solid #dfdada; padding: 5px 30px;">
 			<div>
 				<div style="font-size: 10px;font-weight: bold;">Manager</div>
@@ -398,6 +401,7 @@
 
 <!-- Create Manager MOdal -->
 <ng-template #createmanagermodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Manager </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Manager Name</div>
@@ -420,6 +424,7 @@
 
 <!-- Update Manager MOdal -->
 <ng-template #updatemanagermodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Manager </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Manager Name</div>
@@ -442,6 +447,7 @@
 
 <!-- Create Volunteer MOdal -->
 <ng-template #createvolunteermodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Volunteer </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Volunteer Name</div>
@@ -464,6 +470,7 @@
 
 <!-- Update Volunteer MOdal -->
 <ng-template #updatevolunteermodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Volunteer </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Volunteer Name</div>
@@ -486,6 +493,7 @@
 
 <!-- Create School MOdal -->
 <ng-template #createschoolmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create School </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">School Name</div>
@@ -547,6 +555,7 @@
 
 <!-- Update School MOdal -->
 <ng-template #updateschoolmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update School </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">School Name</div>
@@ -608,6 +617,7 @@
 
 <!-- Create Level MOdal -->
 <ng-template #createlevelmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Level </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Subject</div>
@@ -635,6 +645,7 @@
 
 <!-- Update Level MOdal -->
 <ng-template #updatelevelmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Level </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Subject</div>
@@ -662,6 +673,7 @@
 
 <!-- Create Response MOdal -->
 <ng-template #createresponsemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Response </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Response Desc.</div>
@@ -678,6 +690,7 @@
 
 <!-- Update Level MOdal -->
 <ng-template #updateresponsemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px; font-weight: bold; color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Response </div>
 	<div class="modal-body">
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Response Desc.</div>
