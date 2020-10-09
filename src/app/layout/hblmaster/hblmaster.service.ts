@@ -20,8 +20,8 @@ export class HblmasterService {
 		});			
 	}
 	
-	gethblmanagerbyid(managerid){				
-		return this.http.get(baseUrl+'gethblmanagerbyid/'+managerid,
+	gethblmanagerbymanagerid(managerid){				
+		return this.http.get(baseUrl+'gethblmanagerbymanagerid/'+managerid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
@@ -61,8 +61,16 @@ export class HblmasterService {
 		});			
 	}
 	
-	gethblvolunteerbyid(volunteerid){				
-		return this.http.get(baseUrl+'gethblvolunteerbyid/'+volunteerid,
+	gethblvolunteerbyvolunteerid(volunteerid){				
+		return this.http.get(baseUrl+'gethblvolunteerbyvolunteerid/'+volunteerid,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+	
+	gethblvolunteerbymanagerid(managerid){				
+		return this.http.get(baseUrl+'gethblvolunteerbymanagerid/'+managerid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
@@ -79,6 +87,14 @@ export class HblmasterService {
 	
 	updatehblvolunteer(id,body){
 		return this.http.put(baseUrl+'updatehblvolunteer/'+id, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	
+	updatehblvolunteer_managername(managerid,body){
+		return this.http.put(baseUrl+'updatehblvolunteer_managername/'+managerid, body,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 
@@ -102,8 +118,16 @@ export class HblmasterService {
 		});			
 	}
 	
-	gethblschoolbyid(schoolid){				
-		return this.http.get(baseUrl+'gethblschoolbyid/'+schoolid,
+	gethblschoolbyschoolid(schoolid){				
+		return this.http.get(baseUrl+'gethblschoolbyschoolid/'+schoolid,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+	
+	gethblschoolbyvolunteerid(volunteerid){				
+		return this.http.get(baseUrl+'gethblschoolbyvolunteerid/'+volunteerid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
@@ -125,9 +149,90 @@ export class HblmasterService {
 			//,responseType: 'text' 
 		});
 	}
+	
+	updatehblschool_managername(managerid,body){
+		return this.http.put(baseUrl+'updatehblschool_managername/'+managerid, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	updatehblschool_volunteername(volunteerid,body){
+		return this.http.put(baseUrl+'updatehblschool_volunteername/'+volunteerid, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
 
 	deletehblschool(id){
 		return this.http.delete(baseUrl+'deletehblschool/'+id,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	// Student
+	getallhblstudents(){				
+		return this.http.get(baseUrl+'getallhblstudents',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+
+	createnewhblstudent(body){
+		return this.http.post(baseUrl+'createnewhblstudent', body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	updatehblstudent(id,body){
+		return this.http.put(baseUrl+'updatehblstudent/'+id, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	
+	updatehblstudent_managername(managerid,body){
+		return this.http.put(baseUrl+'updatehblstudent_managername/'+managerid, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	updatehblstudent_volunteername(volunteerid,body){
+		return this.http.put(baseUrl+'updatehblstudent_volunteername/'+volunteerid, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	updatehblstudent_schoolname(schoolid,body){
+		return this.http.put(baseUrl+'updatehblstudent_schoolname/'+schoolid, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	deletehblstudent(id){
+		return this.http.delete(baseUrl+'deletehblstudent/'+id,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	deletehblstudentsbyschoolid(schoolid){
+		return this.http.delete(baseUrl+'deletehblstudentsbyschoolid/'+schoolid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 
@@ -194,39 +299,6 @@ export class HblmasterService {
 
 	deletehblresponse(id){
 		return this.http.delete(baseUrl+'deletehblresponse/'+id,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//,responseType: 'text' 
-		});
-	}
-
-	// Student
-	getallhblstudents(){				
-		return this.http.get(baseUrl+'getallhblstudents',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
-	}
-
-	createnewhblstudent(body){
-		return this.http.post(baseUrl+'createnewhblstudent', body,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//,responseType: 'text' 
-		});
-	}
-
-	updatehblstudent(id,body){
-		return this.http.put(baseUrl+'updatehblstudent/'+id, body,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//,responseType: 'text' 
-		});
-	}
-
-	deletehblstudent(id){
-		return this.http.delete(baseUrl+'deletehblstudent/'+id,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 
