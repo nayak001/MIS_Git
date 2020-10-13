@@ -12,6 +12,7 @@ import swal from 'sweetalert2';
     styleUrls: ['./hblmaster.component.scss'],
     animations: [routerTransition()]
 })
+
 export class HblmasterComponent implements OnInit {
 	ngbModalOptions: NgbModalOptions = {
 		backdrop : 'static',
@@ -20,6 +21,7 @@ export class HblmasterComponent implements OnInit {
 	modalReference: any;
 	closeResult: string;
 	hideLoading_indicator: boolean;
+	hideModalLoading_indicator: boolean = true;
 
 	// current document id
 	_id: string = '';
@@ -83,12 +85,15 @@ export class HblmasterComponent implements OnInit {
 	studentschoolblock: string = '';
 	studentschooldistrict: string = '';
 
+	validatephone: any = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
     constructor(
 		private modalService: NgbModal,
         public router: Router,
 		private hblmasterService: HblmasterService
 	) {
 		this.hideLoading_indicator = true;
+		this.hideModalLoading_indicator = true;
 		this.reload_all_data();
 	}
 
@@ -309,7 +314,9 @@ export class HblmasterComponent implements OnInit {
 		}else if(this.studentname == undefined || this.studentname == null || this.studentname.trim() == ''){
 			swal.fire('Info', 'Please check student name', 'warning')
 		}else if(this.studentphone == undefined || this.studentphone == null || this.studentphone.trim() == ''){
-			swal.fire('Info', 'Please enter a valid phone number', 'warning')
+			swal.fire('Info', 'Phone number is required', 'warning')
+		}else if(!this.validatephone.test(this.studentphone)){
+			swal.fire('Info', 'Please enter a valid phone number. Valid formats: 0123456789, (012)345-6789, 012-345-6789', 'warning')
 		}else if(this.studentclass == undefined || this.studentclass == null || this.studentclass == ''){
 			swal.fire('Info', 'Please select class', 'warning')
 		}else if(this.studentgender == undefined || this.studentgender == null || this.studentgender == ''){
@@ -324,14 +331,14 @@ export class HblmasterComponent implements OnInit {
 				volunteername: this.studentvolunteername,
 				schoolid: this.studentschoolid,
 				schoolname: this.studentschoolname,
-				studentid: this.studentid,
-				studentname: this.studentname,
+				studentid: this.studentid.toLowerCase(),
+				studentname: this.studentname.toLowerCase(),
 				phone: this.studentphone,
-				gender: gender,
+				gender: gender.toLowerCase(),
 				class: this.studentclass,
 				status: 'active'
 			}
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblstudent(body).subscribe(data => {
 				console.log('@@--> save student response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Student details saved successfully', 'success');
@@ -351,7 +358,7 @@ export class HblmasterComponent implements OnInit {
 				this.studentclass = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 			}, error => {}, () => {});
 		}
 	}
@@ -359,6 +366,10 @@ export class HblmasterComponent implements OnInit {
 	manager_save_btn_click(){
 		if(this.managername == undefined || this.managername == null || this.managername.trim() == ''){
 			swal.fire('Info', 'Please check manager name', 'warning')
+		}else if(this.managerphone == undefined || this.managerphone == null || this.managerphone.trim() == ''){
+			swal.fire('Info', 'Phone number is required', 'warning')
+		}else if(!this.validatephone.test(this.managerphone)){
+			swal.fire('Info', 'Please enter a valid phone number. Valid formats: 0123456789, (012)345-6789, 012-345-6789', 'warning')
 		}else{
 			let name = this.managername;
 			name = name.trim();
@@ -368,12 +379,12 @@ export class HblmasterComponent implements OnInit {
 			this.managerid = name+'@'+suffix;
 
 			let body = {
-				managerid: this.managerid,
-				managername: this.managername,
+				managerid: this.managerid.toLowerCase(),
+				managername: this.managername.toLowerCase(),
 				phone: this.managerphone,
 				status: 'active'
 			}
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblmanager(body).subscribe(data => {
 				console.log('@@--> save manager response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Manager details saved successfully', 'success');
@@ -385,7 +396,7 @@ export class HblmasterComponent implements OnInit {
 				this.managerphone = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 			}, error => {}, () => {});
 		}
 	}
@@ -395,6 +406,10 @@ export class HblmasterComponent implements OnInit {
 			swal.fire('Info', 'Please select a manager', 'warning')
 		}else if(this.volunteername == undefined || this.volunteername == null || this.volunteername.trim() == ''){
 			swal.fire('Info', 'Please check volunteer name', 'warning')
+		}else if(this.volunteerphone == undefined || this.volunteerphone == null || this.volunteerphone.trim() == ''){
+			swal.fire('Info', 'Phone number is required', 'warning')
+		}else if(!this.validatephone.test(this.volunteerphone)){
+			swal.fire('Info', 'Please enter a valid phone number. Valid formats: 0123456789, (012)345-6789, 012-345-6789', 'warning')
 		}else{
 			let name = this.volunteername;
 			name = name.trim();
@@ -405,12 +420,12 @@ export class HblmasterComponent implements OnInit {
 			let body = {
 				managerid: this.volunteermanagerid,
 				managername: this.volunteermanagername,
-				volunteerid: this.volunteerid,
-				volunteername: this.volunteername,
+				volunteerid: this.volunteerid.toLowerCase(),
+				volunteername: this.volunteername.toLowerCase(),
 				phone: this.volunteerphone,
 				status: 'active'
 			}
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblvolunteer(body).subscribe(data => {
 				console.log('@@--> save volunteer response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Volunteer details saved successfully', 'success');
@@ -422,7 +437,7 @@ export class HblmasterComponent implements OnInit {
 				this.volunteerphone = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 			}, error => {}, () => {});
 		}
 	}
@@ -443,13 +458,13 @@ export class HblmasterComponent implements OnInit {
 				managername: this.schoolmanagername,
 				volunteerid: this.schoolvolunteerid,
 				volunteername: this.schoolvolunteername,
-				schoolid: this.schoolid,
-				schoolname: this.schoolname,
-				block: this.schoolblock,
-				district: this.schooldistrict,
+				schoolid: this.schoolid.toLowerCase(),
+				schoolname: this.schoolname.toLowerCase(),
+				block: this.schoolblock.toLowerCase(),
+				district: this.schooldistrict.toLowerCase(),
 				status: 'active'
 			}
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblschool(body).subscribe(data => {
 				console.log('@@--> save school response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'School details saved successfully', 'success');
@@ -462,7 +477,7 @@ export class HblmasterComponent implements OnInit {
 				this.schooldistrict = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 			}, error => {}, () => {});
 		}
 	}
@@ -477,9 +492,9 @@ export class HblmasterComponent implements OnInit {
 			let body = {
 				levelid: this.levelid,
 				leveldesc: this.leveldesc,
-				subject: this.levelsubject
+				subject: this.levelsubject.toLowerCase()
 			}
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhbllevel(body).subscribe(data => {
 				console.log('@@--> save level response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Level details saved successfully', 'success');
@@ -491,7 +506,7 @@ export class HblmasterComponent implements OnInit {
 				this.levelsubject = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 			}, error => {}, () => {});
 		}
 	}
@@ -505,7 +520,7 @@ export class HblmasterComponent implements OnInit {
 				responseid: this.responseid,
 				responsedesc: this.responsedesc
 			}
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblresponse(body).subscribe(data => {
 				console.log('@@--> save response response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Response details saved successfully', 'success');
@@ -516,7 +531,7 @@ export class HblmasterComponent implements OnInit {
 				this.responsedesc = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 			}, error => {}, () => {});
 		}
 	}
@@ -532,13 +547,15 @@ export class HblmasterComponent implements OnInit {
 		}else if(this.studentname == undefined || this.studentname == null || this.studentname.trim() == ''){
 			swal.fire('Info', 'Please check student name', 'warning')
 		}else if(this.studentphone == undefined || this.studentphone == null || this.studentphone.trim() == ''){
-			swal.fire('Info', 'Please enter a valid phone number', 'warning')
+			swal.fire('Info', 'Phone number is required', 'warning')
+		}else if(!this.validatephone.test(this.studentphone)){
+			swal.fire('Info', 'Please enter a valid phone number. Valid formats: 0123456789, (012)345-6789, 012-345-6789', 'warning')
 		}else if(this.studentclass == undefined || this.studentclass == null || this.studentclass == ''){
 			swal.fire('Info', 'Please select class', 'warning')
 		}else if(this.studentgender == undefined || this.studentgender == null || this.studentgender == ''){
 			swal.fire('Info', 'Please choose gender', 'warning')
 		}else{
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			let gender = (this.studentgender == '1') ? 'male' : 'female';
 			let body = {
 				managerid: this.studentmanagerid,
@@ -548,9 +565,9 @@ export class HblmasterComponent implements OnInit {
 				schoolid: this.studentschoolid,
 				schoolname: this.studentschoolname,
 				studentid: this.studentid,
-				studentname: this.studentname,
+				studentname: this.studentname.toLowerCase(),
 				phone: this.studentphone,
-				gender: gender,
+				gender: gender.toLowerCase(),
 				class: this.studentclass,
 				status: 'active'
 			}
@@ -570,7 +587,7 @@ export class HblmasterComponent implements OnInit {
 				this.studentclass = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 				this.modalReference.close();
 			}, error => {}, () => {});
 		}
@@ -579,11 +596,15 @@ export class HblmasterComponent implements OnInit {
 	manager_update_btn_click(){
 		if(this.managername == undefined || this.managername == null || this.managername.trim() == ''){
 			swal.fire('Info', 'Please check manager name', 'warning')
+		}else if(this.managerphone == undefined || this.managerphone == null || this.managerphone.trim() == ''){
+			swal.fire('Info', 'Phone number is required', 'warning')
+		}else if(!this.validatephone.test(this.managerphone)){
+			swal.fire('Info', 'Please enter a valid phone number. Valid formats: 0123456789, (012)345-6789, 012-345-6789', 'warning')
 		}else{
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			let body = {
 				managerid: this.managerid,
-				managername: this.managername,
+				managername: this.managername.toLowerCase(),
 				phone: this.managerphone,
 				status: 'active'
 			}
@@ -606,7 +627,7 @@ export class HblmasterComponent implements OnInit {
 							this.managerphone = '';
 			
 							this.reload_all_data();
-							this.hideLoading_indicator = true;
+							this.hideModalLoading_indicator = true;
 							this.modalReference.close();
 						}, error => {}, () => {});
 					}, error => {}, () => {});
@@ -620,20 +641,24 @@ export class HblmasterComponent implements OnInit {
 			swal.fire('Info', 'Please select a manager', 'warning')
 		}else if(this.volunteername == undefined || this.volunteername == null || this.volunteername.trim() == ''){
 			swal.fire('Info', 'Please check volunteer name', 'warning')
+		}else if(this.volunteerphone == undefined || this.volunteerphone == null || this.volunteerphone.trim() == ''){
+			swal.fire('Info', 'Phone number is required', 'warning')
+		}else if(!this.validatephone.test(this.volunteerphone)){
+			swal.fire('Info', 'Please enter a valid phone number. Valid formats: 0123456789, (012)345-6789, 012-345-6789', 'warning')
 		}else{
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			let body = {
 				managerid: this.volunteermanagerid,
 				managername: this.volunteermanagername,
 				volunteerid: this.volunteerid,
-				volunteername: this.volunteername,
+				volunteername: this.volunteername.toLowerCase(),
 				phone: this.volunteerphone,
 				status: 'active'
 			}
 			this.hblmasterService.updatehblvolunteer(this._id, body).subscribe(data => {
 				console.log('@@--> update volunteers response data: '+JSON.stringify(data));
 				let obj = {
-					volunteername: this.volunteername
+					volunteername: this.volunteername.toLowerCase()
 				}
 
 				this.hblmasterService.updatehblschool_volunteername(this.volunteerid, obj).subscribe(data => {
@@ -648,7 +673,7 @@ export class HblmasterComponent implements OnInit {
 						this.volunteerphone = '';
 		
 						this.reload_all_data();
-						this.hideLoading_indicator = true;
+						this.hideModalLoading_indicator = true;
 						this.modalReference.close();
 					}, error => {}, () => {});
 				}, error => {}, () => {});
@@ -666,22 +691,22 @@ export class HblmasterComponent implements OnInit {
 		}else if(this.schoolblock == undefined || this.schoolblock == null || this.schoolblock.trim() == ''){
 			swal.fire('Info', 'Please check block name', 'warning')
 		}else{
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			let body = {
 				managerid: this.schoolmanagerid,
 				managername: this.schoolmanagername,
 				volunteerid: this.schoolvolunteerid,
 				volunteername: this.schoolvolunteername,
 				schoolid: this.schoolid,
-				schoolname: this.schoolname,
-				block: this.schoolblock,
-				district: this.schooldistrict,
+				schoolname: this.schoolname.toLowerCase(),
+				block: this.schoolblock.toLowerCase(),
+				district: this.schooldistrict.toLowerCase(),
 				status: 'active'
 			}
 			this.hblmasterService.updatehblschool(this._id, body).subscribe(data => {
 				console.log('@@--> update school response data: '+JSON.stringify(data));
 				let obj = {
-					schoolname: this.schoolname
+					schoolname: this.schoolname.toLowerCase()
 				}
 
 				this.hblmasterService.updatehblstudent_schoolname(this.schoolid, obj).subscribe(data => {
@@ -696,7 +721,7 @@ export class HblmasterComponent implements OnInit {
 					this.schooldistrict = '';
 	
 					this.reload_all_data();
-					this.hideLoading_indicator = true;
+					this.hideModalLoading_indicator = true;
 					this.modalReference.close();
 				}, error => {}, () => {});
 			}, error => {}, () => {});
@@ -709,11 +734,11 @@ export class HblmasterComponent implements OnInit {
 		}else if(this.levelsubject == undefined || this.levelsubject == null || this.levelsubject.trim() == ''){
 			swal.fire('Info', 'Please select subject', 'warning')
 		}else{
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			let body = {
 				levelid: this.levelid,
 				leveldesc: this.leveldesc,
-				subject: this.levelsubject
+				subject: this.levelsubject.toLowerCase()
 			}
 			this.hblmasterService.updatehbllevel(this._id, body).subscribe(data => {
 				console.log('@@--> update level response data: '+JSON.stringify(data));
@@ -727,7 +752,7 @@ export class HblmasterComponent implements OnInit {
 				this.levelsubject = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 				this.modalReference.close();
 			}, error => {}, () => {});
 		}
@@ -737,7 +762,7 @@ export class HblmasterComponent implements OnInit {
 		if(this.responsedesc == undefined || this.responsedesc == null || this.responsedesc.trim() == ''){
 			swal.fire('Info', 'Please check response description', 'warning')
 		}else{
-			this.hideLoading_indicator = false;
+			this.hideModalLoading_indicator = false;
 			let body = {
 				responseid: this.responseid,
 				responsedesc: this.responsedesc
@@ -753,7 +778,7 @@ export class HblmasterComponent implements OnInit {
 				this.responsedesc = '';
 
 				this.reload_all_data();
-				this.hideLoading_indicator = true;
+				this.hideModalLoading_indicator = true;
 				this.modalReference.close();
 			}, error => {}, () => {});
 		}
