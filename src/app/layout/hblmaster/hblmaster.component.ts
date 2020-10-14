@@ -54,7 +54,6 @@ export class HblmasterComponent implements OnInit {
 	volunteerid: string = '';
 	volunteername: string = '';
 	volunteerphone: string = '';
-	is_volunteer_have_schools: boolean = false;
 
 	// School
 	all_schools_list: any = [];
@@ -210,18 +209,6 @@ export class HblmasterComponent implements OnInit {
 
 				this.studentschoolblock = 'Not found';
 				this.studentschooldistrict = 'Not found';
-			}	
-			this.hideLoading_indicator = true;
-		}, error => {}, () => {});
-	}
-
-	gethblschoolbyvolunteerid(volunteerid){
-		this.hideLoading_indicator = false;
-		this.hblmasterService.gethblschoolbyvolunteerid(volunteerid).subscribe(data => {
-			if(Object.keys(data).length > 0){
-				this.is_volunteer_have_schools = true;
-			}else{
-				this.is_volunteer_have_schools = false;
 			}	
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -443,9 +430,7 @@ export class HblmasterComponent implements OnInit {
 	}
 
 	school_save_btn_click(){
-		if(this.schoolvolunteername == undefined || this.schoolvolunteername == null || this.schoolvolunteername == ''){
-			swal.fire('Info', 'Please select a volunteer manager name', 'warning');
-		}else if(this.schoolname == undefined || this.schoolname == null || this.schoolname.trim() == ''){
+		if(this.schoolname == undefined || this.schoolname == null || this.schoolname.trim() == ''){
 			swal.fire('Info', 'Please check school name', 'warning')
 		}else if(this.schooldistrict == undefined || this.schooldistrict == null || this.schooldistrict.trim() == ''){
 			swal.fire('Info', 'Please select district', 'warning')
@@ -454,10 +439,6 @@ export class HblmasterComponent implements OnInit {
 		}else{
 			this.schoolid = ''+(new Date().getTime());
 			let body = {
-				managerid: this.schoolmanagerid,
-				managername: this.schoolmanagername,
-				volunteerid: this.schoolvolunteerid,
-				volunteername: this.schoolvolunteername,
 				schoolid: this.schoolid.toLowerCase(),
 				schoolname: this.schoolname.toLowerCase(),
 				block: this.schoolblock.toLowerCase(),
@@ -615,21 +596,19 @@ export class HblmasterComponent implements OnInit {
 				}
 
 				this.hblmasterService.updatehblvolunteer_managername(this.managerid, obj).subscribe(data => {
-					this.hblmasterService.updatehblschool_managername(this.managerid, obj).subscribe(data => {
-						this.hblmasterService.updatehblstudent_managername(this.managerid, obj).subscribe(data => {
-							//swal.fire('Success', 'Manager details updated successfully.', 'success');
-							this.toast('success', 'Successfully updated');
-			
-							// reset
-							this._id = '';
-							this.managerid = '';
-							this.managername = '';
-							this.managerphone = '';
-			
-							this.reload_all_data();
-							this.hideModalLoading_indicator = true;
-							this.modalReference.close();
-						}, error => {}, () => {});
+					this.hblmasterService.updatehblstudent_managername(this.managerid, obj).subscribe(data => {
+						//swal.fire('Success', 'Manager details updated successfully.', 'success');
+						this.toast('success', 'Successfully updated');
+		
+						// reset
+						this._id = '';
+						this.managerid = '';
+						this.managername = '';
+						this.managerphone = '';
+		
+						this.reload_all_data();
+						this.hideModalLoading_indicator = true;
+						this.modalReference.close();
 					}, error => {}, () => {});
 				}, error => {}, () => {});
 			}, error => {}, () => {});
@@ -661,30 +640,26 @@ export class HblmasterComponent implements OnInit {
 					volunteername: this.volunteername.toLowerCase()
 				}
 
-				this.hblmasterService.updatehblschool_volunteername(this.volunteerid, obj).subscribe(data => {
-					this.hblmasterService.updatehblstudent_volunteername(this.volunteerid, obj).subscribe(data => {
-						//swal.fire('Success', 'Volunteer details updated successfully.', 'success');
-						this.toast('success', 'Successfully updated');
-		
-						// reset
-						this._id = '';
-						this.volunteerid = '';
-						this.volunteername = '';
-						this.volunteerphone = '';
-		
-						this.reload_all_data();
-						this.hideModalLoading_indicator = true;
-						this.modalReference.close();
-					}, error => {}, () => {});
+				this.hblmasterService.updatehblstudent_volunteername(this.volunteerid, obj).subscribe(data => {
+					//swal.fire('Success', 'Volunteer details updated successfully.', 'success');
+					this.toast('success', 'Successfully updated');
+	
+					// reset
+					this._id = '';
+					this.volunteerid = '';
+					this.volunteername = '';
+					this.volunteerphone = '';
+	
+					this.reload_all_data();
+					this.hideModalLoading_indicator = true;
+					this.modalReference.close();
 				}, error => {}, () => {});
 			}, error => {}, () => {});
 		}
 	}
 
 	school_update_btn_click(){
-		if(this.schoolvolunteername == undefined || this.schoolvolunteername == null || this.schoolvolunteername == ''){
-			swal.fire('Info', 'Please select a volunteer manager name', 'warning');
-		}else if(this.schoolname == undefined || this.schoolname == null || this.schoolname.trim() == ''){
+		if(this.schoolname == undefined || this.schoolname == null || this.schoolname.trim() == ''){
 			swal.fire('Info', 'Please check school name', 'warning')
 		}else if(this.schooldistrict == undefined || this.schooldistrict == null || this.schooldistrict.trim() == ''){
 			swal.fire('Info', 'Please select district', 'warning')
@@ -693,10 +668,6 @@ export class HblmasterComponent implements OnInit {
 		}else{
 			this.hideModalLoading_indicator = false;
 			let body = {
-				managerid: this.schoolmanagerid,
-				managername: this.schoolmanagername,
-				volunteerid: this.schoolvolunteerid,
-				volunteername: this.schoolvolunteername,
 				schoolid: this.schoolid,
 				schoolname: this.schoolname.toLowerCase(),
 				block: this.schoolblock.toLowerCase(),
@@ -835,7 +806,7 @@ export class HblmasterComponent implements OnInit {
 	}
 
 	deletemanager(id){
-		if(this.is_manager_have_volunteers){
+		if(this.is_manager_have_volunteers == true){
 			swal.fire('Info', 'Can not delete this manager because it is linked with some of the volunteers. Please re-assign the volunteers to another manager.', 'info');
 		}else{
 			this.hideLoading_indicator = false;
@@ -852,11 +823,11 @@ export class HblmasterComponent implements OnInit {
 	}
 	
 	volunteer_delete_btn_click(volunteerdata){
-		this.gethblschoolbyvolunteerid(volunteerdata.volunteerid);
 		this._id = volunteerdata._id;
+		let volunteerid = volunteerdata.volunteerid;
 		swal.fire({
 			title: 'Are you sure?',
-			text: "Do you want to delete this volunteer details?",
+			text: "By deleting this volunteer, all the student informations also be removed permanently. Do you want to delete this volunteer details??",
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
@@ -864,26 +835,22 @@ export class HblmasterComponent implements OnInit {
 			confirmButtonText: 'Yes'
 		}).then((result) => {
 			if (result.value) {
-				this.deletevolunteer(this._id);
+				this.deletevolunteer(this._id, volunteerid);
 			}
 		});
 	}
 
-	deletevolunteer(id){
-		if(this.is_volunteer_have_schools){
-			swal.fire('Info', 'Can not delete this volunteer because it is linked with some of the schools. Please re-assign the schools to another volunteer.', 'info');
-		}else{
-			this.hideLoading_indicator = false;
-			this.hblmasterService.deletehblvolunteer(id).subscribe(data => {
-				console.log('@@--> delete volunteers response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Volunteer details deleted successfully.', 'success');
+	deletevolunteer(id, volunteerid){
+		this.hideLoading_indicator = false;
+		this.hblmasterService.deletehblvolunteer(id).subscribe(data => {
+			this.hblmasterService.deletehblstudentsbyvolunteerid(volunteerid).subscribe(data => {
 				this.toast('success', 'Successfully deleted');
 	
 				this._id = '';
 				this.reload_all_data();
 				this.hideLoading_indicator = true;
 			}, error => {}, () => {});
-		}
+		}, error => {}, () => {});
 	}
 	
 	school_delete_btn_click(schooldata){
@@ -891,7 +858,7 @@ export class HblmasterComponent implements OnInit {
 		let school_id = schooldata.schoolid;
 		swal.fire({
 			title: 'Are you sure?',
-			text: "By deleting schools, all the student informations also be removed permanently. Do you want to delete this school details?",
+			text: "By deleting this school, all the student informations also be removed permanently. Do you want to delete this school details?",
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
@@ -908,8 +875,6 @@ export class HblmasterComponent implements OnInit {
 		this.hideLoading_indicator = false;
 		this.hblmasterService.deletehblschool(id).subscribe(data => {
 			this.hblmasterService.deletehblstudentsbyschoolid(schoolid).subscribe(data => {
-				console.log('@@--> delete school response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'School details deleted successfully.', 'success');
 				this.toast('success', 'Successfully deleted');
 	
 				this._id = '';

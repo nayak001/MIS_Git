@@ -126,13 +126,13 @@ export class HblmasterService {
 		});			
 	}
 	
-	gethblschoolbyvolunteerid(volunteerid){				
+	/*gethblschoolbyvolunteerid(volunteerid){				
 		return this.http.get(baseUrl+'gethblschoolbyvolunteerid/'+volunteerid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});			
-	}
+	}*/
 
 	createnewhblschool(body){
 		return this.http.post(baseUrl+'createnewhblschool', body,
@@ -225,6 +225,14 @@ export class HblmasterService {
 
 	deletehblstudent(id){
 		return this.http.delete(baseUrl+'deletehblstudent/'+id,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	deletehblstudentsbyvolunteerid(volunteerid){
+		return this.http.delete(baseUrl+'deletehblstudentsbyvolunteerid/'+volunteerid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 

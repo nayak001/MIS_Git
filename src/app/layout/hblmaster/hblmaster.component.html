@@ -184,6 +184,12 @@
 
 	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
 		<div class="modal-body">
+			<div class="row" *ngIf="studentmanagerid != ''">
+				<div class="col col-xl-4 col-lg-4">Manager</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentmanagername }}</div>
+			</div>
+			<br>
+
 			<div class="row">
 				<div class="col col-xl-4 col-lg-4">School</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
@@ -195,15 +201,14 @@
 			</div>
 			<br>
 	
-			<div class="row" *ngIf="studentmanagerid != ''">
-				<div class="col col-xl-4 col-lg-4">Manager</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentmanagername }}</div>
-			</div>
-			<br>
-	
-			<div class="row" *ngIf="studentvolunteerid != ''">
+			<div class="row">
 				<div class="col col-xl-4 col-lg-4">Volunteer</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentvolunteername }}</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="School" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
+					</select>
+				</div>
 			</div>
 			<br>
 	
@@ -278,6 +283,12 @@
 
 	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
 		<div class="modal-body">
+			<div class="row" *ngIf="studentmanagerid != ''">
+				<div class="col col-xl-4 col-lg-4">Manager</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentmanagername }}</div>
+			</div>
+			<br>
+			
 			<div class="row">
 				<div class="col col-xl-4 col-lg-4">School</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
@@ -289,15 +300,14 @@
 			</div>
 			<br>
 	
-			<div class="row" *ngIf="studentmanagerid != ''">
-				<div class="col col-xl-4 col-lg-4">Manager</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentmanagername }}</div>
-			</div>
-			<br>
-	
-			<div class="row" *ngIf="studentvolunteerid != ''">
+			<div class="row">
 				<div class="col col-xl-4 col-lg-4">Volunteer</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentvolunteername }}</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="School" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
+					</select>
+				</div>
 			</div>
 			<br>
 	
@@ -563,23 +573,6 @@
 	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
 		<div class="modal-body">
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Volunteer</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">
-					<select value="{{ schoolvolunteerid }}" (change)="schoolvolunteer_onchange($event)" placeholder="Volunteer" class="form-control">
-						<option value="">Select</option>
-						<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
-					</select>
-				</div>
-			</div>
-			<br>
-	
-			<div class="row" *ngIf="schoolmanagerid != ''">
-				<div class="col col-xl-4 col-lg-4">Manager</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">{{ schoolmanagername }}</div>
-			</div>
-			<br>
-	
-			<div class="row">
 				<div class="col col-xl-4 col-lg-4">School Name</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
 					<input value="{{ schoolname }}" [(ngModel)]="schoolname" type="text" placeholder="Name" class="modal_textbox">
@@ -648,23 +641,6 @@
 
 	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
 		<div class="modal-body">
-			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Volunteer</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">
-					<select value="{{ schoolvolunteerid }}" (change)="schoolvolunteer_onchange($event)" placeholder="Volunteer" class="form-control">
-						<option value="">Select</option>
-						<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
-					</select>
-				</div>
-			</div>
-			<br>
-	
-			<div class="row" *ngIf="schoolmanagerid != ''">
-				<div class="col col-xl-4 col-lg-4">Manager</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">{{ schoolmanagername }}</div>
-			</div>
-			<br>
-			
 			<div class="row">
 				<div class="col col-xl-4 col-lg-4">School Name</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
