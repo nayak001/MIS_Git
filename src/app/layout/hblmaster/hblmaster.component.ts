@@ -28,6 +28,7 @@ export class HblmasterComponent implements OnInit {
 
 	// Student
 	all_students_list: any = [];
+	all_students_list_bkp: any = [];
 	studentid: string = '';
 	studentname: string = '';
 	studentmanagerid: string = '';
@@ -79,6 +80,7 @@ export class HblmasterComponent implements OnInit {
 	//studentschoolname: string = '';
 	studentschoolblock: string = '';
 	studentschooldistrict: string = '';
+	public searchdata : any;
 
 	validatephone: any = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
@@ -109,6 +111,7 @@ export class HblmasterComponent implements OnInit {
 		this.hblmasterService.getallhblstudents().subscribe(data => {
 			console.log('@@--> get students response data: '+JSON.stringify(data));
 			this.all_students_list = data;
+			this.all_students_list_bkp = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
 	}
@@ -1153,6 +1156,19 @@ export class HblmasterComponent implements OnInit {
         }
 	}
 	
+	
+
+	searchstudent(term: string) {
+		term = (term == undefined || term == null) ? '' : term;
+		if(!term) {
+			this.all_students_list = this.all_students_list_bkp;
+		} else {
+			this.all_students_list = this.all_students_list_bkp.filter(element => 
+			element.studentname.toLowerCase().includes(term.trim().toLowerCase())
+		  );
+		}
+	}
+
 
 	toast(type, message){
 		const Toast = swal.mixin({
