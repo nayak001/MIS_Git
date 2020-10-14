@@ -57,10 +57,6 @@ export class HblmasterComponent implements OnInit {
 
 	// School
 	all_schools_list: any = [];
-	schoolmanagerid: string = '';
-	schoolmanagername: string = '';
-	schoolvolunteerid: string = '';
-	schoolvolunteername: string = '';
 	schoolid: string = '';
 	schoolname: string = '';
 	schoolblock: string = '';
@@ -140,11 +136,11 @@ export class HblmasterComponent implements OnInit {
 		this.hblmasterService.gethblvolunteerbyvolunteerid(volunteerid).subscribe(data => {
 			console.log('@@--> get volunteers response data: '+JSON.stringify(data));
 			if(Object.keys(data).length > 0){
-				this.schoolmanagerid = data[0].managerid;
-				this.schoolmanagername = data[0].managername;
+				this.studentmanagerid = data[0].managerid;
+				this.studentmanagername = data[0].managername;
 			}else{
-				this.schoolmanagerid = '';
-				this.schoolmanagername = '';
+				this.studentmanagerid = '';
+				this.studentmanagername = '';
 			}
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -194,19 +190,9 @@ export class HblmasterComponent implements OnInit {
 		this.hideLoading_indicator = false;
 		this.hblmasterService.gethblschoolbyschoolid(schoolid).subscribe(data => {
 			if(Object.keys(data).length > 0){
-				this.studentmanagerid = data[0].managerid;
-				this.studentmanagername = data[0].managername;
-				this.studentvolunteerid = data[0].volunteerid;
-				this.studentvolunteername = data[0].volunteername;
-				
 				this.studentschoolblock = data[0].block;
 				this.studentschooldistrict = data[0].district;
 			}else{
-				this.studentmanagerid = '';
-				this.studentmanagername = '';
-				this.studentvolunteerid = '';
-				this.studentvolunteername = '';
-
 				this.studentschoolblock = 'Not found';
 				this.studentschooldistrict = 'Not found';
 			}	
@@ -233,6 +219,7 @@ export class HblmasterComponent implements OnInit {
 		this.studentvolunteerid = selectedOptionValue;
 		this.studentvolunteername = selectElementText;
 		console.log('@@--> studentvolunteerid: '+this.studentvolunteerid+'    studentvolunteername: '+this.studentvolunteername);
+		this.gethblvolunteerbyvolunteerid(this.studentvolunteerid);
 	}
 
 	studentschool_onchange(event: Event){
@@ -243,9 +230,6 @@ export class HblmasterComponent implements OnInit {
 		this.studentschoolid = selectedOptionValue;
 		this.studentschoolname = selectElementText;
 		console.log('@@--> studentschoolid: '+this.studentschoolid+'    studentschoolname: '+this.studentschoolname);
-
-		// get studentmanagerid, studentmanagername, studentvolunteerid, studentvolunteername from here
-		this.gethblschoolbyschoolid(this.studentschoolid);
 	}
 
 	schooldistrict_onchange(event: Event){
@@ -274,20 +258,6 @@ export class HblmasterComponent implements OnInit {
 		this.volunteermanagerid = selectedOptionValue;
 		this.volunteermanagername = selectElementText;
 		console.log('@@--> volunteermanagerid: '+this.volunteermanagerid+'    volunteermanagername: '+this.volunteermanagername);
-	}
-
-	schoolvolunteer_onchange(event: Event){
-		const selectedOptions = event.target['options'];
-		const selectedIndex = selectedOptions.selectedIndex;
-		const selectedOptionValue = selectedOptions[selectedIndex].value;
-		const selectElementText = selectedOptions[selectedIndex].text;
-		this.schoolvolunteerid = selectedOptionValue;
-		this.schoolvolunteername = selectElementText;
-		console.log('@@--> schoolvolunteerid: '+this.schoolvolunteerid+'    schoolvolunteername: '+this.schoolvolunteername);
-
-		// get schoolmanagerid and schoolmanagername here
-		this.gethblvolunteerbyvolunteerid(this.schoolvolunteerid);
-		console.log('@@--> schoolmanagerid: '+this.schoolmanagerid+'    schoolmanagername: '+this.schoolmanagername);
 	}
 
 	// Save oprations
@@ -1091,10 +1061,6 @@ export class HblmasterComponent implements OnInit {
 	}
 	open_createschoolmodal(content) {
 		this._id = '';
-		this.schoolmanagerid = '';
-		this.schoolmanagername = '';
-		this.schoolvolunteerid = '';
-		this.schoolvolunteername = '';
 		this.schoolid = '';
 		this.schoolname = '';
 		this.schoolblock = '';
@@ -1110,10 +1076,6 @@ export class HblmasterComponent implements OnInit {
 	}
 	open_updateschoolmodal(content, schooldata) {
 		this._id = schooldata._id;
-		this.schoolmanagerid = schooldata.managerid;
-		this.schoolmanagername = schooldata.managername;
-		this.schoolvolunteerid = schooldata.volunteerid;
-		this.schoolvolunteername = schooldata.volunteername;
 		this.schoolid = schooldata.schoolid;
 		this.schoolname = schooldata.schoolname;
 		this.schoolblock = schooldata.block;

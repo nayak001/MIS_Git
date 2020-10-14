@@ -117,8 +117,6 @@
 											<div style="color: black; font-weight: bold; background: #ffee76; padding: 5px 30px;">{{ schooldata.schoolname | titlecase }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ schooldata.schoolid }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">{{ schooldata.block | titlecase }} , {{ schooldata.district | titlecase }}</div>
-											<div style="font-size: 12px; color: #9b7b7b;">Volunteer: {{ schooldata.volunteername | titlecase }}</div>
-											<div style="font-size: 12px; color: #9b7b7b;">Manager: {{ schooldata.managername | titlecase }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
 												<button (click)="open_updateschoolmodal(updateschoolmodal, schooldata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
@@ -189,17 +187,6 @@
 				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentmanagername }}</div>
 			</div>
 			<br>
-
-			<div class="row">
-				<div class="col col-xl-4 col-lg-4">School</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">
-					<select value="{{ studentschoolid }}" (change)="studentschool_onchange($event)" placeholder="School" class="form-control">
-						<option value="">Select</option>
-						<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
-					</select>
-				</div>
-			</div>
-			<br>
 	
 			<div class="row">
 				<div class="col col-xl-4 col-lg-4">Volunteer</div>
@@ -207,6 +194,17 @@
 					<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="School" class="form-control">
 						<option value="">Select</option>
 						<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
+					</select>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">School</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ studentschoolid }}" (change)="studentschool_onchange($event)" placeholder="School" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
 					</select>
 				</div>
 			</div>
@@ -288,17 +286,6 @@
 				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentmanagername }}</div>
 			</div>
 			<br>
-			
-			<div class="row">
-				<div class="col col-xl-4 col-lg-4">School</div>
-				<div class="col col-xl-8 col-lg-8 row-fluid">
-					<select value="{{ studentschoolid }}" (change)="studentschool_onchange($event)" placeholder="School" class="form-control">
-						<option value="">Select</option>
-						<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
-					</select>
-				</div>
-			</div>
-			<br>
 	
 			<div class="row">
 				<div class="col col-xl-4 col-lg-4">Volunteer</div>
@@ -306,6 +293,17 @@
 					<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="School" class="form-control">
 						<option value="">Select</option>
 						<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
+					</select>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">School</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ studentschoolid }}" (change)="studentschool_onchange($event)" placeholder="School" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
 					</select>
 				</div>
 			</div>
