@@ -72,6 +72,7 @@ const routes: Routes = [
       { path: 'passcodemanager', loadChildren: './passcodemanager/passcodemanager.module#PasscodemanagerModule' },
       { path: 'trainingmisc', loadChildren: './trainingmisc/trainingmisc.module#TrainingMiscModule' },
       { path: 'hblmaster', loadChildren: './hblmaster/hblmaster.module#HblmasterModule' },
+      { path: 'hblactivityreport', loadChildren: './hblactivityreport/hblactivityreport.module#HblactivityreportModule' },
 
     ]
   }
