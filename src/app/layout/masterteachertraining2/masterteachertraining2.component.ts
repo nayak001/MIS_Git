@@ -590,7 +590,6 @@ export class Masterteachertraining2Component implements OnInit {
 			swal.fire('info', 'Please select some content', 'warning');
 			this.modalReference.close()
 		}
-		
 	}
 	updatecontent() {
 		const body = {
