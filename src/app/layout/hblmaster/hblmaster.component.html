@@ -11,7 +11,7 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<!-- drop down menus -->
 								<div ngbDropdown class="d-inline-block">
-									<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+									<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;</button>
 									<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="width: 600px; left: -3px; font-size: 12px; border: 10px solid rgba(0, 123, 255, 0.5); background: #efefef;">
 										<div class="d-flex justify-content-between">
 											<button (click)="open_createstudentmodal(createstudentmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp; Create Student</button>
@@ -23,14 +23,18 @@
 										<div class="d-flex justify-content-between">
 											<button (click)="open_createschoolmodal(createschoolmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-bank" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
 											<button (click)="open_createlevelmodal(createlevelmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;&nbsp; Create Level</button>
-											<button (click)="open_createresponsemodal(createresponsemodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;&nbsp; Create Activity</button>
+											<button (click)="open_createresponsemodal(createresponsemodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;&nbsp; Create Question</button>
 										</div>
 									</div>
 								</div>
-
 							</div>
 						</div>
-						<div class="col"></div>
+						<div class="col">
+							<!-- Download button -->
+							<div style="width: 100%;">
+								<button (click)="downloadfile()" style="float: right;"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download</button>
+							</div>
+						</div>
 					</div>
 				</div>
 				
@@ -90,7 +94,10 @@
 							</div>
 
 							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
-								<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Volunteers ( {{ all_volunteers_list.length }} )</div>
+								<div class="row">
+									<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Volunteers ( {{ all_volunteers_list.length }} )</div>
+									<input type="text" (keyup)="searchvolunteer($event.target.value)" placeholder="&#xF002; Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
+								</div>
 								<div class="" style="height: 300px; overflow: auto;">
 									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
 										<div *ngFor="let volunteerdata of all_volunteers_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
@@ -151,12 +158,13 @@
 							</div>
 
 							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
-								<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Activities ( {{ all_responses_list.length }} )</div>
+								<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Questions ( {{ all_responses_list.length }} )</div>
 								<div class="" style="height: 300px; overflow: auto;">
 									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
 										<div *ngFor="let responsedata of all_responses_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
 											<div style="color: black; font-weight: bold; background: #f776ff; padding: 5px 30px;">{{ responsedata.responsedesc }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ responsedata.responseid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Subject: {{ responsedata.subject }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
 												<button (click)="open_updateresponsemodal(updateresponsemodal, responsedata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
@@ -377,7 +385,7 @@
 <ng-template #viewstudentmodal let-c="close" let-d="dismiss">
 	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> 
 		<div>
-			<div style="font-size: 25px;">{{ studentname }}</div>
+			<div style="font-size: 25px;">{{ studentname | titlecase }}</div>
 			<div style="font-size: 12px;">{{ studentid }}</div>
 			<div style="font-size: 12px;">Class: {{ studentclass }} , {{ studentgender | titlecase }}</div>
 		</div>
@@ -388,7 +396,7 @@
 			<div>
 				<div style="font-size: 10px;">Manager</div>
 				<hr>
-				<div style="font-size: 18px;">{{ studentmanagername }}</div>
+				<div style="font-size: 18px;">{{ studentmanagername | titlecase }}</div>
 				<div style="font-size: 12px;color: gray;">{{ studentmanagerid }}</div>
 			</div>
 		</div>
@@ -398,7 +406,7 @@
 			<div>
 				<div style="font-size: 10px;">Volunteer</div>
 				<hr>
-				<div style="font-size: 18px;">{{ studentvolunteername }}</div>
+				<div style="font-size: 18px;">{{ studentvolunteername | titlecase }}</div>
 				<div style="font-size: 12px;color: gray;">{{ studentvolunteerid }}</div>
 			</div>
 		</div>
@@ -408,9 +416,9 @@
 			<div>
 				<div style="font-size: 10px;">School</div>
 				<hr>
-				<div style="font-size: 18px;">{{ studentschoolname }}</div>
+				<div style="font-size: 18px;">{{ studentschoolname | titlecase }}</div>
 				<div style="font-size: 12px;color: gray;">{{ studentschoolid }}</div>
-				<div style="font-size: 12px;color: gray;">{{ studentschoolblock }} , {{ studentschooldistrict }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentschoolblock | titlecase }} , {{ studentschooldistrict | titlecase }}</div>
 			</div>
 		</div>
 		<br>
@@ -771,9 +779,9 @@
 	</div>
 </ng-template>
 
-<!-- Create Activity MOdal -->
+<!-- Create Question MOdal -->
 <ng-template #createresponsemodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Activity </div>
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Question </div>
 	
 	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
 		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
@@ -782,9 +790,20 @@
 	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
 		<div class="modal-body">
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Activity Desc.</div>
+				<div class="col col-xl-4 col-lg-4">Subject</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
-					<input value="{{ responsedesc }}" [(ngModel)]="responsedesc" type="text" placeholder="Activity description" class="modal_textbox">
+					<select value="{{ responsesubject }}" (change)="responsesubject_onchange($event)" class="form-control" placeholder="Subject">
+						<option value="">Select</option>
+						<option value="math">Math</option>
+						<option value="odia">Odia</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Question Desc.</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ responsedesc }}" [(ngModel)]="responsedesc" type="text" placeholder="Question description" class="modal_textbox">
 				</div>
 			</div>
 		</div>
@@ -795,9 +814,9 @@
 	</div>
 </ng-template>
 
-<!-- Update Level MOdal -->
+<!-- Update Question Modal -->
 <ng-template #updateresponsemodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Activity </div>
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Question </div>
 	
 	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
 		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
@@ -806,9 +825,20 @@
 	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
 		<div class="modal-body">
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Activity Desc.</div>
+				<div class="col col-xl-4 col-lg-4">Subject</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
-					<input value="{{ responsedesc }}" [(ngModel)]="responsedesc" type="text" placeholder="Activity description" class="modal_textbox">
+					<select value="{{ responsesubject }}" (change)="responsesubject_onchange($event)" class="form-control" placeholder="Subject">
+						<option value="">Select</option>
+						<option value="math">Math</option>
+						<option value="odia">Odia</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Question Desc.</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ responsedesc }}" [(ngModel)]="responsedesc" type="text" placeholder="Question description" class="modal_textbox">
 				</div>
 			</div>
 		</div>

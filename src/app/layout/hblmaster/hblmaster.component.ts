@@ -6,6 +6,11 @@ import { Router } from '@angular/router';
 import { HblmasterService } from  './hblmaster.service';
 import swal from 'sweetalert2';
 
+// download as csv
+import * as json2csv from 'json2csv'; // convert json file to csv
+import { saveAs } from 'file-saver';  // save the file
+
+
 @Component({
     selector: 'app-hblmaster',
     templateUrl: './hblmaster.component.html',
@@ -14,6 +19,8 @@ import swal from 'sweetalert2';
 })
 
 export class HblmasterComponent implements OnInit {
+	Json2csvParser = json2csv.Parser;
+
 	ngbModalOptions: NgbModalOptions = {
 		backdrop : 'static',
 		keyboard : false
@@ -50,6 +57,7 @@ export class HblmasterComponent implements OnInit {
 
 	// Volunteer
 	all_volunteers_list: any = [];
+	all_volunteers_list_bkp: any = [];
 	volunteermanagerid: string = '';
 	volunteermanagername: string = '';
 	volunteerid: string = '';
@@ -73,6 +81,7 @@ export class HblmasterComponent implements OnInit {
 	all_responses_list: any = [];
 	responseid: string = '';
 	responsedesc: string = '';
+	responsesubject: string = '';
 
 	// Misc
 	//studentmanagername: string = '';
@@ -109,7 +118,7 @@ export class HblmasterComponent implements OnInit {
 	getallstudentsdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblstudents().subscribe(data => {
-			console.log('@@--> get students response data: '+JSON.stringify(data));
+			//console.log('@@--> get students response data: '+JSON.stringify(data));
 			this.all_students_list = data;
 			this.all_students_list_bkp = data;
 			this.hideLoading_indicator = true;
@@ -119,7 +128,7 @@ export class HblmasterComponent implements OnInit {
 	getallmanagersdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblmanagers().subscribe(data => {
-			console.log('@@--> get managers response data: '+JSON.stringify(data));
+			//console.log('@@--> get managers response data: '+JSON.stringify(data));
 			this.all_managers_list = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -128,8 +137,9 @@ export class HblmasterComponent implements OnInit {
 	getallvolunteersdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblvolunteers().subscribe(data => {
-			console.log('@@--> get volunteers response data: '+JSON.stringify(data));
+			//console.log('@@--> get volunteers response data: '+JSON.stringify(data));
 			this.all_volunteers_list = data;
+			this.all_volunteers_list_bkp = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
 	}
@@ -137,7 +147,7 @@ export class HblmasterComponent implements OnInit {
 	gethblvolunteerbyvolunteerid(volunteerid){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.gethblvolunteerbyvolunteerid(volunteerid).subscribe(data => {
-			console.log('@@--> get volunteers response data: '+JSON.stringify(data));
+			//console.log('@@--> get volunteers response data: '+JSON.stringify(data));
 			if(Object.keys(data).length > 0){
 				this.studentmanagerid = data[0].managerid;
 				this.studentmanagername = data[0].managername;
@@ -152,7 +162,7 @@ export class HblmasterComponent implements OnInit {
 	gethblvolunteerbymanagerid(managerid){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.gethblvolunteerbymanagerid(managerid).subscribe(data => {
-			console.log('@@--> gethblvolunteerbymanagerid data: '+JSON.stringify(data));
+			//console.log('@@--> gethblvolunteerbymanagerid data: '+JSON.stringify(data));
 			if(Object.keys(data).length > 0){
 				this.is_manager_have_volunteers = true;
 			}else{
@@ -165,7 +175,7 @@ export class HblmasterComponent implements OnInit {
 	getallschoolsdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblschools().subscribe(data => {
-			console.log('@@--> get schools response data: '+JSON.stringify(data));
+			//console.log('@@--> get schools response data: '+JSON.stringify(data));
 			this.all_schools_list = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -174,7 +184,7 @@ export class HblmasterComponent implements OnInit {
 	getalllevelsdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhbllevels().subscribe(data => {
-			console.log('@@--> get levels response data: '+JSON.stringify(data));
+			//console.log('@@--> get levels response data: '+JSON.stringify(data));
 			this.all_levels_list = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -183,7 +193,7 @@ export class HblmasterComponent implements OnInit {
 	getallresponsesdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblresponses().subscribe(data => {
-			console.log('@@--> get responses response data: '+JSON.stringify(data));
+			//console.log('@@--> get responses response data: '+JSON.stringify(data));
 			this.all_responses_list = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -211,7 +221,7 @@ export class HblmasterComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.studentmanagerid = selectedOptionValue;
 		this.studentmanagername = selectElementText;
-		console.log('@@--> studentmanagerid: '+this.studentmanagerid+'    studentmanagername: '+this.studentmanagername);
+		//console.log('@@--> studentmanagerid: '+this.studentmanagerid+'    studentmanagername: '+this.studentmanagername);
 	}
 
 	studentvolunteer_onchange(event: Event){
@@ -221,7 +231,7 @@ export class HblmasterComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.studentvolunteerid = selectedOptionValue;
 		this.studentvolunteername = selectElementText;
-		console.log('@@--> studentvolunteerid: '+this.studentvolunteerid+'    studentvolunteername: '+this.studentvolunteername);
+		//console.log('@@--> studentvolunteerid: '+this.studentvolunteerid+'    studentvolunteername: '+this.studentvolunteername);
 		this.gethblvolunteerbyvolunteerid(this.studentvolunteerid);
 	}
 
@@ -232,7 +242,7 @@ export class HblmasterComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.studentschoolid = selectedOptionValue;
 		this.studentschoolname = selectElementText;
-		console.log('@@--> studentschoolid: '+this.studentschoolid+'    studentschoolname: '+this.studentschoolname);
+		//console.log('@@--> studentschoolid: '+this.studentschoolid+'    studentschoolname: '+this.studentschoolname);
 	}
 
 	schooldistrict_onchange(event: Event){
@@ -241,7 +251,7 @@ export class HblmasterComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.schooldistrict = selectedOptionValue;
-		console.log('@@--> selected schooldistrict: '+this.schooldistrict);
+		//console.log('@@--> selected schooldistrict: '+this.schooldistrict);
 	}
 	
 	levelsubject_onchange(event: Event){
@@ -250,7 +260,16 @@ export class HblmasterComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.levelsubject = selectedOptionValue;
-		console.log('@@--> selected levelsubject: '+this.levelsubject);
+		//console.log('@@--> selected levelsubject: '+this.levelsubject);
+	}
+
+	responsesubject_onchange(event: Event){
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.responsesubject = selectedOptionValue;
+		//console.log('@@--> selected levelsubject: '+this.levelsubject);
 	}
 
 	volunteermanager_onchange(event: Event){
@@ -260,7 +279,7 @@ export class HblmasterComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.volunteermanagerid = selectedOptionValue;
 		this.volunteermanagername = selectElementText;
-		console.log('@@--> volunteermanagerid: '+this.volunteermanagerid+'    volunteermanagername: '+this.volunteermanagername);
+		//console.log('@@--> volunteermanagerid: '+this.volunteermanagerid+'    volunteermanagername: '+this.volunteermanagername);
 	}
 
 	// Save oprations
@@ -300,7 +319,7 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblstudent(body).subscribe(data => {
-				console.log('@@--> save student response data: '+JSON.stringify(data));
+				//console.log('@@--> save student response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Student details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
@@ -346,7 +365,7 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblmanager(body).subscribe(data => {
-				console.log('@@--> save manager response data: '+JSON.stringify(data));
+				//console.log('@@--> save manager response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Manager details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
@@ -387,7 +406,7 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblvolunteer(body).subscribe(data => {
-				console.log('@@--> save volunteer response data: '+JSON.stringify(data));
+				//console.log('@@--> save volunteer response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Volunteer details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
@@ -420,7 +439,7 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblschool(body).subscribe(data => {
-				console.log('@@--> save school response data: '+JSON.stringify(data));
+				//console.log('@@--> save school response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'School details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
@@ -450,7 +469,7 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhbllevel(body).subscribe(data => {
-				console.log('@@--> save level response data: '+JSON.stringify(data));
+				//console.log('@@--> save level response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Level details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
@@ -468,25 +487,29 @@ export class HblmasterComponent implements OnInit {
 	response_save_btn_click(){
 		if(this.responsedesc == undefined || this.responsedesc == null || this.responsedesc.trim() == ''){
 			swal.fire('Info', 'Please check response description', 'warning')
+		}else if(this.responsesubject == undefined || this.responsesubject == null || this.responsesubject.trim() == ''){
+			swal.fire('Info', 'Please select subject', 'warning')
 		}else{
 			this.responseid = ''+(new Date().getTime());
 			let body = {
 				responseid: this.responseid,
-				responsedesc: this.responsedesc
+				responsedesc: this.responsedesc,
+				subject: this.responsesubject
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblresponse(body).subscribe(data => {
-				console.log('@@--> save response response data: '+JSON.stringify(data));
+				//console.log('@@--> save response response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Response details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
 				// reset
 				this.responseid = '';
 				this.responsedesc = '';
+				this.responsesubject = '';
 
 				this.reload_all_data();
 				this.hideModalLoading_indicator = true;
-			}, error => {}, () => {});
+			}, error => { console.log(' !!! Connection Error !!!') }, () => {});
 		}
 	}
 
@@ -518,7 +541,6 @@ export class HblmasterComponent implements OnInit {
 				volunteername: this.studentvolunteername,
 				schoolid: this.studentschoolid,
 				schoolname: this.studentschoolname,
-				studentid: this.studentid,
 				studentname: this.studentname.toLowerCase(),
 				phone: this.studentphone,
 				gender: gender.toLowerCase(),
@@ -526,7 +548,7 @@ export class HblmasterComponent implements OnInit {
 				status: 'active'
 			}
 			this.hblmasterService.updatehblstudent(this._id, body).subscribe(data => {
-				console.log('@@--> update students response data: '+JSON.stringify(data));
+				//console.log('@@--> update students response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Student details updated successfully.', 'success');
 				this.toast('success', 'Successfully updated');
 
@@ -557,13 +579,12 @@ export class HblmasterComponent implements OnInit {
 		}else{
 			this.hideModalLoading_indicator = false;
 			let body = {
-				managerid: this.managerid,
 				managername: this.managername.toLowerCase(),
 				phone: this.managerphone,
 				status: 'active'
 			}
 			this.hblmasterService.updatehblmanager(this._id, body).subscribe(data => {
-				console.log('@@--> update managers response data: '+JSON.stringify(data));
+				//console.log('@@--> update managers response data: '+JSON.stringify(data));
 				let obj = {
 					managername: this.managername
 				}
@@ -602,13 +623,12 @@ export class HblmasterComponent implements OnInit {
 			let body = {
 				managerid: this.volunteermanagerid,
 				managername: this.volunteermanagername,
-				volunteerid: this.volunteerid,
 				volunteername: this.volunteername.toLowerCase(),
 				phone: this.volunteerphone,
 				status: 'active'
 			}
 			this.hblmasterService.updatehblvolunteer(this._id, body).subscribe(data => {
-				console.log('@@--> update volunteers response data: '+JSON.stringify(data));
+				//console.log('@@--> update volunteers response data: '+JSON.stringify(data));
 				let obj = {
 					volunteername: this.volunteername.toLowerCase()
 				}
@@ -641,14 +661,13 @@ export class HblmasterComponent implements OnInit {
 		}else{
 			this.hideModalLoading_indicator = false;
 			let body = {
-				schoolid: this.schoolid,
 				schoolname: this.schoolname.toLowerCase(),
 				block: this.schoolblock.toLowerCase(),
 				district: this.schooldistrict.toLowerCase(),
 				status: 'active'
 			}
 			this.hblmasterService.updatehblschool(this._id, body).subscribe(data => {
-				console.log('@@--> update school response data: '+JSON.stringify(data));
+				//console.log('@@--> update school response data: '+JSON.stringify(data));
 				let obj = {
 					schoolname: this.schoolname.toLowerCase()
 				}
@@ -680,12 +699,11 @@ export class HblmasterComponent implements OnInit {
 		}else{
 			this.hideModalLoading_indicator = false;
 			let body = {
-				levelid: this.levelid,
 				leveldesc: this.leveldesc,
 				subject: this.levelsubject.toLowerCase()
 			}
 			this.hblmasterService.updatehbllevel(this._id, body).subscribe(data => {
-				console.log('@@--> update level response data: '+JSON.stringify(data));
+				//console.log('@@--> update level response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Level details updated successfully.', 'success');
 				this.toast('success', 'Successfully updated');
 
@@ -705,14 +723,16 @@ export class HblmasterComponent implements OnInit {
 	response_update_btn_click(){
 		if(this.responsedesc == undefined || this.responsedesc == null || this.responsedesc.trim() == ''){
 			swal.fire('Info', 'Please check response description', 'warning')
+		}else if(this.responsesubject == undefined || this.responsesubject == null || this.responsesubject.trim() == ''){
+			swal.fire('Info', 'Please select subject', 'warning')
 		}else{
 			this.hideModalLoading_indicator = false;
 			let body = {
-				responseid: this.responseid,
-				responsedesc: this.responsedesc
+				responsedesc: this.responsedesc,
+				subject: this.responsesubject
 			}
 			this.hblmasterService.updatehblresponse(this._id, body).subscribe(data => {
-				console.log('@@--> update response response data: '+JSON.stringify(data));
+				//console.log('@@--> update response response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Response details updated successfully.', 'success');
 				this.toast('success', 'Successfully updated');
 
@@ -720,6 +740,7 @@ export class HblmasterComponent implements OnInit {
 				this._id = '';
 				this.responseid = '';
 				this.responsedesc = '';
+				this.responsesubject = '';
 
 				this.reload_all_data();
 				this.hideModalLoading_indicator = true;
@@ -749,7 +770,7 @@ export class HblmasterComponent implements OnInit {
 	deletestudent(id){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.deletehblstudent(id).subscribe(data => {
-			console.log('@@--> delete students response data: '+JSON.stringify(data));
+			//console.log('@@--> delete students response data: '+JSON.stringify(data));
 			//swal.fire('Success', 'Student details deleted successfully.', 'success');
 			this.toast('success', 'Successfully deleted');
 
@@ -784,7 +805,7 @@ export class HblmasterComponent implements OnInit {
 		}else{
 			this.hideLoading_indicator = false;
 			this.hblmasterService.deletehblmanager(id).subscribe(data => {
-				console.log('@@--> delete managers response data: '+JSON.stringify(data));
+				//console.log('@@--> delete managers response data: '+JSON.stringify(data));
 				//swal.fire('Success', 'Manager details deleted successfully.', 'success');
 				this.toast('success', 'Successfully deleted');
 	
@@ -877,7 +898,7 @@ export class HblmasterComponent implements OnInit {
 	deletelevel(id){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.deletehbllevel(id).subscribe(data => {
-			console.log('@@--> delete level response data: '+JSON.stringify(data));
+			//console.log('@@--> delete level response data: '+JSON.stringify(data));
 			//swal.fire('Success', 'Level details deleted successfully.', 'success');
 			this.toast('success', 'Successfully deleted');
 
@@ -907,21 +928,21 @@ export class HblmasterComponent implements OnInit {
 	deleteresponse(id){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.deletehblresponse(id).subscribe(data => {
-			console.log('@@--> delete response response data: '+JSON.stringify(data));
+			//console.log('@@--> delete response response data: '+JSON.stringify(data));
 			//swal.fire('Success', 'Response details deleted successfully.', 'success');
 			this.toast('success', 'Successfully deleted');
 
 			this._id = '';
 			this.reload_all_data();
 			this.hideLoading_indicator = true;
-		}, error => {}, () => {});
+		}, error => { console.log(' !!! Connection Error !!!') }, () => {});
 	}
 
 	// Open modal box
 	open(content,param) {
 		if(param != null || param != undefined){}
 		
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -943,7 +964,7 @@ export class HblmasterComponent implements OnInit {
 		this.studentgender = '';
 		this.studentclass = '';
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -952,7 +973,7 @@ export class HblmasterComponent implements OnInit {
         });
 	}
 	open_viewstudentmodal(content, studentdata){
-		console.log('@@--> studentdata: '+JSON.stringify(studentdata));
+		//console.log('@@--> studentdata: '+JSON.stringify(studentdata));
 		this.studentmanagername = '';
 		this.studentvolunteername = '';
 		this.studentschoolname = '';
@@ -971,7 +992,7 @@ export class HblmasterComponent implements OnInit {
 		this.studentgender = studentdata.gender;
 		this.studentclass = parseInt(studentdata.class);
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -980,7 +1001,7 @@ export class HblmasterComponent implements OnInit {
         });
 	}
 	open_updatestudentmodal(content, studentdata){
-		console.log('@@--> studentdata: '+JSON.stringify(studentdata));
+		//console.log('@@--> studentdata: '+JSON.stringify(studentdata));
 		this._id = studentdata._id;
 		this.studentmanagerid = studentdata.managerid;
 		this.studentmanagername = studentdata.managername;
@@ -994,7 +1015,7 @@ export class HblmasterComponent implements OnInit {
 		this.studentgender = (studentdata.gender == 'male') ? 1 : 2;
 		this.studentclass = parseInt(studentdata.class);
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1008,7 +1029,7 @@ export class HblmasterComponent implements OnInit {
 		this.managername = '';
 		this.managerphone = '';
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1022,7 +1043,7 @@ export class HblmasterComponent implements OnInit {
 		this.managername = managerdata.managername;
 		this.managerphone = managerdata.phone;
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1038,7 +1059,7 @@ export class HblmasterComponent implements OnInit {
 		this.volunteername = '';
 		this.volunteerphone = '';
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1054,7 +1075,7 @@ export class HblmasterComponent implements OnInit {
 		this.volunteername = volunteerdata.volunteername;
 		this.volunteerphone = volunteerdata.phone;
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1069,7 +1090,7 @@ export class HblmasterComponent implements OnInit {
 		this.schoolblock = '';
 		this.schooldistrict = '';
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1084,7 +1105,7 @@ export class HblmasterComponent implements OnInit {
 		this.schoolblock = schooldata.block;
 		this.schooldistrict = schooldata.district;
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1098,7 +1119,7 @@ export class HblmasterComponent implements OnInit {
 		this.leveldesc = '';
 		this.levelsubject = '';
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1112,7 +1133,7 @@ export class HblmasterComponent implements OnInit {
 		this.leveldesc = leveldata.leveldesc;
 		this.levelsubject = leveldata.subject;
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1124,8 +1145,9 @@ export class HblmasterComponent implements OnInit {
 		this._id = '';
 		this.responseid = '';
 		this.responsedesc = '';
+		this.responsesubject = '';
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1135,10 +1157,11 @@ export class HblmasterComponent implements OnInit {
 	}
 	open_updateresponsemodal(content, responsedata) {
 		this._id = responsedata._id;
-		this.levelid = responsedata.responseid;
+		this.responseid = responsedata.responseid;
 		this.responsedesc = responsedata.responsedesc;
+		this.responsesubject = responsedata.subject;
 
-		console.log(this.ngbModalOptions);
+		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1169,6 +1192,30 @@ export class HblmasterComponent implements OnInit {
 		}
 	}
 
+	searchvolunteer(term: string) {
+		term = (term == undefined || term == null) ? '' : term;
+		if(!term) {
+			this.all_volunteers_list = this.all_volunteers_list_bkp;
+		} else {
+			this.all_volunteers_list = this.all_volunteers_list_bkp.filter(element => 
+			element.volunteername.toLowerCase().includes(term.trim().toLowerCase())
+		  );
+		}
+	}
+
+	downloadfile(){
+		let data = this.all_students_list;
+        let csvData = this.convertToCSV(data);
+        let file = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+        saveAs(file,"HBL_Data.csv");
+	}
+
+    public convertToCSV(objArray: any, fields?) {
+        let json2csvParser = new this.Json2csvParser({ opts: fields });
+        let csv = json2csvParser.parse(objArray);
+        //console.log(csv);
+        return csv;
+    }
 
 	toast(type, message){
 		const Toast = swal.mixin({
