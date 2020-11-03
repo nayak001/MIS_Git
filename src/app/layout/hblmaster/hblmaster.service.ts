@@ -182,6 +182,22 @@ export class HblmasterService {
 			//responseType: 'text' 
 		});			
 	}
+	
+	getallhblstudentsbypage(page){				
+		return this.http.get(baseUrl+'getallhblstudentsbypage/'+page,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+
+	searchhblstudentsbystudentname(studentname){				
+		return this.http.get(baseUrl+'searchhblstudentsbystudentname/'+studentname,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
 
 	createnewhblstudent(body){
 		return this.http.post(baseUrl+'createnewhblstudent', body,

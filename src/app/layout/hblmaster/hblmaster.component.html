@@ -11,19 +11,25 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<!-- drop down menus -->
 								<div ngbDropdown class="d-inline-block">
-									<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;</button>
-									<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="width: 600px; left: -3px; font-size: 12px; border: 10px solid rgba(0, 123, 255, 0.5); background: #efefef;">
+									<button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="width: 250px; left: -3px; font-size: 12px; border: 10px solid rgb(50 50 50 / 50%); background: #efefef;">
 										<div class="d-flex justify-content-between">
-											<button (click)="open_createstudentmodal(createstudentmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp; Create Student</button>
-											<button (click)="open_createmanagermodal(createmanagermodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-address-book" aria-hidden="true"></i>&nbsp;&nbsp; Create Manager</button>
-											<button (click)="open_createvolunteermodal(createvolunteermodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp; Create Volunteer</button>
-										</div>
-			
-										<hr>
+											<button (click)="open_createstudentmodal(createstudentmodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp; Create Student</button>
+										</div><hr>
 										<div class="d-flex justify-content-between">
-											<button (click)="open_createschoolmodal(createschoolmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-bank" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
-											<button (click)="open_createlevelmodal(createlevelmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;&nbsp; Create Level</button>
-											<button (click)="open_createresponsemodal(createresponsemodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;&nbsp; Create Question</button>
+											<button (click)="open_createmanagermodal(createmanagermodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-address-book" aria-hidden="true"></i>&nbsp;&nbsp; Create Manager</button>
+										</div><hr>
+										<div class="d-flex justify-content-between">
+											<button (click)="open_createvolunteermodal(createvolunteermodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp; Create Volunteer</button>
+										</div><hr>
+										<div class="d-flex justify-content-between">
+											<button (click)="open_createschoolmodal(createschoolmodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-bank" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
+										</div><hr>
+										<div class="d-flex justify-content-between">
+											<button (click)="open_createlevelmodal(createlevelmodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;&nbsp; Create Level</button>
+										</div><hr>
+										<div class="d-flex justify-content-between">
+											<button (click)="open_createresponsemodal(createresponsemodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;&nbsp; Create Question</button>
 										</div>
 									</div>
 								</div>
@@ -32,7 +38,7 @@
 						<div class="col">
 							<!-- Download button -->
 							<div style="width: 100%;">
-								<button (click)="downloadfile()" style="float: right;"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download</button>
+								<button type="button" class="btn btn-outline-secondary" (click)="open_downloadfilemodal(downloadfilemodal)" style="float: right; cursor: pointer;"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Excel</button>
 							</div>
 						</div>
 					</div>
@@ -50,10 +56,11 @@
 							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
 								<div class="row">
 									<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Students ( {{ all_students_list.length }} )</div>
-									<input type="text" (keyup)="searchstudent($event.target.value)" placeholder="&#xF002; Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
+									<button type="button" class="btn btn-outline-secondary" (click)="open_searchstudentmodal(searchstudentmodal)" style="height: 0%; margin-left: 20px; margin-top: -5px;">Search Student</button>
 								</div>
-								<div class="" style="height: 300px; overflow: auto;">
+								<div  infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false" style="height: 300px; overflow: auto;">
 									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+
 										<div *ngFor="let studentdata of all_students_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
 											<div style="color: white; font-weight: bold; background: #827b4a; padding: 5px 30px;">{{ studentdata.studentname | titlecase }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ studentdata.studentid }}</div>
@@ -96,7 +103,7 @@
 							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
 								<div class="row">
 									<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Volunteers ( {{ all_volunteers_list.length }} )</div>
-									<input type="text" (keyup)="searchvolunteer($event.target.value)" placeholder="&#xF002; Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
+									<input type="text" (keyup)="searchvolunteer($event.target.value)" placeholder="Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
 								</div>
 								<div class="" style="height: 300px; overflow: auto;">
 									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
@@ -429,6 +436,48 @@
 	</div>
 </ng-template>
 
+<!-- Search Student MOdal -->
+<ng-template #searchstudentmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;">Search Student
+	</div>
+	<div class="modal-body">
+		<div class="row" style="width: 100%;">
+			<input [(ngModel)]="studentnamesearchstring" type="text" placeholder="Search" style="border: 1px solid #007bff; width: 250px; margin-left:20px;"><!-- (keyup)="searchstudent($event.target.value)" -->
+			<button type="button" class="btn btn-outline-primary" (click)="searchstudentbystudentname()"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Search Student</button>
+		</div>
+		<div class="row" style="margin-left: 10px;"><h2>{{ all_students_list_search.length }}</h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Record(s)</div>
+		<div>
+			<div style="height: 300px; overflow: auto;">
+				<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideSearchStudentLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." style="width: 50%;" ></span>
+					</div>
+
+					<div *ngFor="let studentdata of all_students_list_search" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+						<div style="color: white; font-weight: bold; background: #827b4a; padding: 5px 30px;">{{ studentdata.studentname | titlecase }}</div>
+						<div style="font-size: 12px; color: #9b7b7b;">ID: {{ studentdata.studentid }}</div>
+						<div style="font-size: 12px; color: #9b7b7b;">Class: {{ studentdata.class }}, {{ studentdata.gender | titlecase }}</div>
+						<div style="font-size: 12px; color: #9b7b7b;">School: {{ studentdata.schoolname | titlecase }}</div>
+						<div style="font-size: 12px; color: #9b7b7b;">Volunteer: {{ studentdata.volunteername | titlecase }}</div>
+						<div style="font-size: 12px; color: #9b7b7b;">Manager: {{ studentdata.managername | titlecase }}</div>
+						<br>
+						<div class="row" style="padding-left: 15px;">
+							<button (click)="open_viewstudentmodal(viewstudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+							&nbsp;&nbsp;
+							<button (click)="open_updatestudentmodal(updatestudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
+							&nbsp;&nbsp;
+							<button (click)="student_delete_btn_click(studentdata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+	</div>
+</ng-template>
+
 <!-- Create Manager MOdal -->
 <ng-template #createmanagermodal let-c="close" let-d="dismiss">
 	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Manager </div>
@@ -627,9 +676,9 @@
 			</div>
 			<br>
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Block</div>
+				<div class="col col-xl-4 col-lg-4">Cluster</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
-					<input value="{{ schoolblock }}" [(ngModel)]="schoolblock" type="text" placeholder="Block" class="modal_textbox">
+					<input value="{{ schoolblock }}" [(ngModel)]="schoolblock" type="text" placeholder="Cluster" class="modal_textbox">
 				</div>
 			</div>
 		</div>
@@ -696,9 +745,9 @@
 			</div>
 			<br>
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Block</div>
+				<div class="col col-xl-4 col-lg-4">Cluster</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
-					<input value="{{ schoolblock }}" [(ngModel)]="schoolblock" type="text" placeholder="Block" class="modal_textbox">
+					<input value="{{ schoolblock }}" [(ngModel)]="schoolblock" type="text" placeholder="Cluster" class="modal_textbox">
 				</div>
 			</div>
 		</div>
@@ -845,6 +894,32 @@
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
 			<button type="button" class="btn btn-primary" (click)="response_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Download file Modal -->
+<ng-template #downloadfilemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Download </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." style="width: 50%;"></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div style="width: 100%; text-align: center;">
+					<br>
+					Do you want to download this file containing <b>{{ all_students_list_report.length }}</b> records?
+					<br><br><br>
+					<button type="button" class="btn btn-outline-primary" (click)="downloadfile()" style="cursor: pointer;"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download</button>
+					<br><br>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
 		</div>
 	</div>
 </ng-template>

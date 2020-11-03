@@ -9,6 +9,7 @@ import { DataTableModule } from "angular-6-datatable";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HblmasterService } from  './hblmaster.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { HblmasterService } from  './hblmaster.service';
 		PageHeaderModule, 
 		DataTableModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		InfiniteScrollModule
 	],
     declarations: [HblmasterComponent],
 	providers: [HblmasterService]

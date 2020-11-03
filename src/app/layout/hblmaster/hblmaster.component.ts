@@ -10,7 +10,6 @@ import swal from 'sweetalert2';
 import * as json2csv from 'json2csv'; // convert json file to csv
 import { saveAs } from 'file-saver';  // save the file
 
-
 @Component({
     selector: 'app-hblmaster',
     templateUrl: './hblmaster.component.html',
@@ -29,6 +28,7 @@ export class HblmasterComponent implements OnInit {
 	closeResult: string;
 	hideLoading_indicator: boolean;
 	hideModalLoading_indicator: boolean = true;
+	hideSearchStudentLoading_indicator: boolean = true;
 
 	// current document id
 	_id: string = '';
@@ -36,6 +36,8 @@ export class HblmasterComponent implements OnInit {
 	// Student
 	all_students_list: any = [];
 	all_students_list_bkp: any = [];
+	all_students_list_report: any = [];
+	all_students_list_search: any = [];
 	studentid: string = '';
 	studentname: string = '';
 	studentmanagerid: string = '';
@@ -90,6 +92,10 @@ export class HblmasterComponent implements OnInit {
 	studentschoolblock: string = '';
 	studentschooldistrict: string = '';
 	public searchdata : any;
+	studentnamesearchstring: string = '';
+	
+	// For infinite loading
+	page: number = 0;
 
 	validatephone: any = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
@@ -100,6 +106,7 @@ export class HblmasterComponent implements OnInit {
 	) {
 		this.hideLoading_indicator = true;
 		this.hideModalLoading_indicator = true;
+		this.hideSearchStudentLoading_indicator = true;
 		this.reload_all_data();
 	}
 
@@ -107,7 +114,8 @@ export class HblmasterComponent implements OnInit {
 
 	// Page Load
 	reload_all_data(){
-		this.getallstudentsdata();
+		//this.getallstudentsdata();
+		this.getallstudentsdatabypage();
 		this.getallmanagersdata();
 		this.getallvolunteersdata();
 		this.getallschoolsdata();
@@ -116,13 +124,35 @@ export class HblmasterComponent implements OnInit {
 	}
 
 	getallstudentsdata(){
-		this.hideLoading_indicator = false;
+		this.hideModalLoading_indicator = false;
 		this.hblmasterService.getallhblstudents().subscribe(data => {
 			//console.log('@@--> get students response data: '+JSON.stringify(data));
-			this.all_students_list = data;
-			this.all_students_list_bkp = data;
-			this.hideLoading_indicator = true;
+			this.all_students_list_report = data;
+			this.hideModalLoading_indicator = true;
 		}, error => {}, () => {});
+	}
+
+	public searchhblstudentsbystudentname(){
+		this.hideSearchStudentLoading_indicator = false;
+		this.hblmasterService.searchhblstudentsbystudentname(this.studentnamesearchstring).subscribe(data => {
+			console.log('@@--> get search students response data: '+JSON.stringify(data));
+			this.all_students_list_search = data;
+			this.studentnamesearchstring = '';
+			this.hideSearchStudentLoading_indicator = true;
+		}, error => {}, () => { });
+	}
+
+	getallstudentsdatabypage(){  
+		console.log('GetData PageNo: ', this.page);
+		this.hblmasterService.getallhblstudentsbypage(this.page).subscribe(data => {
+			//console.log('@@--> GetData data: '+JSON.stringify(data));
+			if (data != undefined) {
+				Object.keys(data).forEach(i => {
+					this.all_students_list.push(data[i]);
+				});
+			}
+		}, error => {}, () => {}); 
+		this.all_students_list_bkp = this.all_students_list;
 	}
 
 	getallmanagersdata(){
@@ -1169,6 +1199,28 @@ export class HblmasterComponent implements OnInit {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
 	}
+	open_downloadfilemodal(content) {
+		this.getallstudentsdata();
+
+		//console.log(this.ngbModalOptions);
+		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
+	open_searchstudentmodal(content) {
+		
+
+		//console.log(this.ngbModalOptions);
+		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
             return 'by pressing ESC';
@@ -1191,6 +1243,13 @@ export class HblmasterComponent implements OnInit {
 		  );
 		}
 	}
+	
+	searchstudentbystudentname() {
+		if(this.studentnamesearchstring == undefined || this.studentnamesearchstring == null || this.studentnamesearchstring.trim() == ''){
+		}else{
+			this.searchhblstudentsbystudentname();
+		}
+	}
 
 	searchvolunteer(term: string) {
 		term = (term == undefined || term == null) ? '' : term;
@@ -1204,10 +1263,11 @@ export class HblmasterComponent implements OnInit {
 	}
 
 	downloadfile(){
-		let data = this.all_students_list;
+		let data = this.all_students_list_report;
         let csvData = this.convertToCSV(data);
         let file = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
-        saveAs(file,"HBL_Data.csv");
+		saveAs(file,"HBL_Data.csv");
+		this.modalReference.close();
 	}
 
     public convertToCSV(objArray: any, fields?) {
@@ -1216,6 +1276,14 @@ export class HblmasterComponent implements OnInit {
         //console.log(csv);
         return csv;
     }
+
+	//-------------- Infinite Loading --------------
+	onScroll(){  
+		console.log("Scrolled");  
+		this.page = this.page + 1;  
+		this.getallstudentsdatabypage();
+	}
+	//----------------------------------------------
 
 	toast(type, message){
 		const Toast = swal.mixin({
