@@ -23,8 +23,8 @@ export class HblactivityreportComponent implements OnInit {
 	hideLoading_indicator: boolean;
 
 	// activity
-	all_activities_list: any = [];
-	all_activities_list_bkp: any = [];
+	all_students_list: any = [];
+	all_students_list_bkp: any = []; 
 
 	// manager
 	all_managers_list: any = [];
@@ -41,10 +41,13 @@ export class HblactivityreportComponent implements OnInit {
 	// Modal
 	modal_student_name: string = '';
 	modal_week: string = '';
-	modal_odia_level: string = '';
-	modal_math_level: string = '';
-	modal_odia_activity: any = {};
-	modal_math_activity: any = {}; 
+	modal_odia_level_baseline: string = '';
+	modal_math_level_baseline: string = '';
+	modal_odia_level_endline: string = '';
+	modal_math_level_endline: string = '';
+
+	modal_odia_activity: any = [];
+	modal_math_activity: any = []; 
 
     constructor(
 		private modalService: NgbModal,
@@ -62,7 +65,7 @@ export class HblactivityreportComponent implements OnInit {
 		this.hideLoading_indicator = true;
 
 		this.getallmanagersdata();
-		this.load_records();
+		//this.load_records();
 	}
 
 	ngOnInit() {}
@@ -93,10 +96,10 @@ export class HblactivityreportComponent implements OnInit {
 		this.hblactivityreportService.getallhblactivitiesandbaselines(managerid, volunteerid, week).subscribe(data => {
 			console.log('@@--> getallhblactivitiesandbaselines: '+JSON.stringify(data));
 			if(Object.keys(data).length > 0){
-				this.all_activities_list = data['studentdetails'];
-				this.all_activities_list_bkp = data['studentdetails'];
+				this.all_students_list = data['studentdetails'];
+				this.all_students_list_bkp = data['studentdetails'];
 			}else{
-				this.all_activities_list = [];
+				this.all_students_list = [];
 			}
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -145,13 +148,64 @@ export class HblactivityreportComponent implements OnInit {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
 	}
-	open_viewodialevelmodal(content,param) {
+	open_viewodialevelbaselinemodal(content,param) {
 		if(param != null || param != undefined){
 			this.modal_student_name = param.baselinedetails[0].studentname;
-			this.modal_odia_level = param.baselinedetails[0].odia_level;
+			this.modal_odia_level_baseline = param.baselinedetails[0].odia_level_baseline;
 		}else {
 			this.modal_student_name = 'Not Found';
-			this.modal_odia_level = 'Not Found'
+			this.modal_odia_level_baseline = 'Not Found'
+		}
+		
+		console.log(this.ngbModalOptions);
+		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
+	open_viewmathlevelbaselinemodal(content,param) {
+		if(param != null || param != undefined){
+			this.modal_student_name = param.baselinedetails[0].studentname;
+			this.modal_math_level_baseline = param.baselinedetails[0].math_level_baseline;
+		}else {
+			this.modal_student_name = 'Not Found';
+			this.modal_math_level_baseline = 'Not Found'
+		}
+		
+		console.log(this.ngbModalOptions);
+		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
+	open_viewodialevelendlinemodal(content,param) {
+		if(param != null || param != undefined){
+			this.modal_student_name = param.baselinedetails[0].studentname;
+			this.modal_odia_level_endline = param.baselinedetails[0].odia_level_endline;
+		}else {
+			this.modal_student_name = 'Not Found';
+			this.modal_odia_level_endline = 'Not Found'
+		}
+		
+		console.log(this.ngbModalOptions);
+		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
+	open_viewmathlevelendlinemodal(content,param) {
+		if(param != null || param != undefined){
+			this.modal_student_name = param.baselinedetails[0].studentname;
+			this.modal_math_level_endline = param.baselinedetails[0].math_level_endline;
+		}else {
+			this.modal_student_name = 'Not Found';
+			this.modal_math_level_endline = 'Not Found'
 		}
 		
 		console.log(this.ngbModalOptions);
@@ -168,7 +222,7 @@ export class HblactivityreportComponent implements OnInit {
 			this.modal_odia_activity = param.activitydetails[0].odia_activity;
 		}else {
 			this.modal_student_name = 'Not Found';
-			this.modal_odia_activity = {}
+			this.modal_odia_activity = []
 		}
 		
 		console.log(this.ngbModalOptions);
@@ -185,24 +239,7 @@ export class HblactivityreportComponent implements OnInit {
 			this.modal_math_activity = param.activitydetails[0].math_activity;
 		}else {
 			this.modal_student_name = 'Not Found';
-			this.modal_math_activity = {}
-		}
-		
-		console.log(this.ngbModalOptions);
-		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
-        this.modalReference.result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-	}
-	open_viewmathlevelmodal(content,param) {
-		if(param != null || param != undefined){
-			this.modal_student_name = param.baselinedetails[0].studentname;
-			this.modal_math_level = param.baselinedetails[0].math_level;
-		}else {
-			this.modal_student_name = 'Not Found';
-			this.modal_math_level = 'Not Found'
+			this.modal_math_activity = []
 		}
 		
 		console.log(this.ngbModalOptions);
@@ -228,9 +265,9 @@ export class HblactivityreportComponent implements OnInit {
 	searchstudent(term: string) {
 		term = (term == undefined || term == null) ? '' : term;
 		if(!term) {
-			this.all_activities_list = this.all_activities_list_bkp;
+			this.all_students_list = this.all_students_list_bkp;
 		} else {
-			this.all_activities_list = this.all_activities_list_bkp.filter(element => element.studentname.toLowerCase().includes(term.trim().toLowerCase())
+			this.all_students_list = this.all_students_list_bkp.filter(element => element.studentname.toLowerCase().includes(term.trim().toLowerCase())
 		  );
 		}
 	}

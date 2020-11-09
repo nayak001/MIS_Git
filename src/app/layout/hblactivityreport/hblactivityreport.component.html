@@ -6,7 +6,7 @@
 					<div class="row">
 						<div class="col col-xl-8 col-lg-8">
 							<div class="row">
-								<h4>HBL Activity Report</h4>
+								<h4>HBL Report</h4>
 							</div>
 						</div>
 						<div class="col"></div>
@@ -50,12 +50,12 @@
 
 					<div class="sub_content">
 						<div class="row">
-							<h2>{{ all_activities_list.length }} Records found.</h2>
+							<h2>{{ all_students_list.length }} Records found.</h2>
 							Find Student
 							<input type="text" (keyup)="searchstudent($event.target.value)" placeholder="&#xF002; Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
 						</div>
 						<div class="">
-							<table class="table table-striped" [mfData]="all_activities_list" #mf="mfDataTable" [mfRowsOnPage]="10">
+							<table class="table table-striped" [mfData]="all_students_list" #mf="mfDataTable" [mfRowsOnPage]="10">
 								<thead>
 									<tr>
 										<th style="width: 20%">
@@ -71,16 +71,22 @@
 											<mfDefaultSorter by="gender">School</mfDefaultSorter>
 										</th>
 										<th style="width: 10%">
-											<mfDefaultSorter by="contactnumber">Odia Level</mfDefaultSorter>
+											<mfDefaultSorter by="contactnumber">Odia Baseline Level</mfDefaultSorter>
 										</th>
 										<th style="width: 10%">
-											<mfDefaultSorter by="contactnumber">Math Level</mfDefaultSorter>
+											<mfDefaultSorter by="contactnumber">Math Baseline Level</mfDefaultSorter>
 										</th>
 										<th style="width: 10%">
-											<mfDefaultSorter by="permanentaddress">Odia Activity</mfDefaultSorter>
+											<mfDefaultSorter by="contactnumber">Odia Endline Level</mfDefaultSorter>
 										</th>
 										<th style="width: 10%">
-											<mfDefaultSorter by="permanentaddress">Math Activity</mfDefaultSorter>
+											<mfDefaultSorter by="contactnumber">Math Endline Level</mfDefaultSorter>
+										</th>
+										<th style="width: 10%">
+											<mfDefaultSorter by="permanentaddress">Odia Question</mfDefaultSorter>
+										</th>
+										<th style="width: 10%">
+											<mfDefaultSorter by="permanentaddress">Math Question</mfDefaultSorter>
 										</th>
 									</tr>
 								</thead>
@@ -94,11 +100,11 @@
 										<td> {{ row.schoolname | titlecase }} </td>
 										<td>
 											<div *ngIf="row.baselinedetails.length > 0"> 
-												<div *ngIf="((row.baselinedetails[0].odia_level == undefined) || (row.baselinedetails[0].odia_level == null) || (row.baselinedetails[0].odia_level.trim() == ''));else elsepart" class="notdoneicon">
+												<div *ngIf="((row.baselinedetails[0].odia_level_baseline == undefined) || (row.baselinedetails[0].odia_level_baseline == null) || (row.baselinedetails[0].odia_level_baseline.trim() == ''));else elsepart" class="notdoneicon">
 													<i class="fa fa-times-circle" aria-hidden="true"></i> 
 												</div>
 												<ng-template #elsepart>
-													<div class="doneicon" (click)="open_viewodialevelmodal(viewodialevelmodal, row)">
+													<div class="doneicon" (click)="open_viewodialevelbaselinemodal(viewodialevelbaselinemodal, row)">
 														<i class="fa fa-check-circle" aria-hidden="true"></i>
 													</div>
 												</ng-template>  
@@ -109,11 +115,41 @@
 										</td>
 										<td>
 											<div *ngIf="row.baselinedetails.length > 0"> 
-												<div *ngIf="((row.baselinedetails[0].math_level == undefined) || (row.baselinedetails[0].math_level == null) || (row.baselinedetails[0].math_level.trim() == ''));else elsepart" class="notdoneicon">
+												<div *ngIf="((row.baselinedetails[0].math_level_baseline == undefined) || (row.baselinedetails[0].math_level_baseline == null) || (row.baselinedetails[0].math_level_baseline.trim() == ''));else elsepart" class="notdoneicon">
 													<i class="fa fa-times-circle" aria-hidden="true"></i> 
 												</div>
 												<ng-template #elsepart>
-													<div class="doneicon" (click)="open_viewmathlevelmodal(viewmathlevelmodal, row)">
+													<div class="doneicon" (click)="open_viewmathlevelbaselinemodal(viewmathlevelbaselinemodal, row)">
+														<i class="fa fa-check-circle" aria-hidden="true"></i>
+													</div>
+												</ng-template>  
+											</div>
+											<div *ngIf="row.baselinedetails.length <= 0" class="notdoneicon"> 
+												<i class="fa fa-times-circle" aria-hidden="true"></i> 
+											</div>
+										</td>
+										<td>
+											<div *ngIf="row.baselinedetails.length > 0"> 
+												<div *ngIf="((row.baselinedetails[0].odia_level_endline == undefined) || (row.baselinedetails[0].odia_level_endline == null) || (row.baselinedetails[0].odia_level_endline.trim() == ''));else elsepart" class="notdoneicon">
+													<i class="fa fa-times-circle" aria-hidden="true"></i> 
+												</div>
+												<ng-template #elsepart>
+													<div class="doneicon" (click)="open_viewodialevelendlinemodal(viewodialevelendlinemodal, row)">
+														<i class="fa fa-check-circle" aria-hidden="true"></i>
+													</div>
+												</ng-template>  
+											</div>
+											<div *ngIf="row.baselinedetails.length <= 0" class="notdoneicon"> 
+												<i class="fa fa-times-circle" aria-hidden="true"></i> 
+											</div>
+										</td>
+										<td>
+											<div *ngIf="row.baselinedetails.length > 0"> 
+												<div *ngIf="((row.baselinedetails[0].math_level_endline == undefined) || (row.baselinedetails[0].math_level_endline == null) || (row.baselinedetails[0].math_level_endline.trim() == ''));else elsepart" class="notdoneicon">
+													<i class="fa fa-times-circle" aria-hidden="true"></i> 
+												</div>
+												<ng-template #elsepart>
+													<div class="doneicon" (click)="open_viewmathlevelendlinemodal(viewmathlevelendlinemodal, row)">
 														<i class="fa fa-check-circle" aria-hidden="true"></i>
 													</div>
 												</ng-template>  
@@ -173,10 +209,9 @@
     </div>
 </div>
 
-
 <!-- View Odia Level MOdal -->
-<ng-template #viewodialevelmodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Odia Level </div>
+<ng-template #viewodialevelbaselinemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Odia Baseline Level </div>
 	<div style="width: 100%;">
 		<div class="modal-body">
 			<div class="row">
@@ -185,8 +220,8 @@
 			</div>
 			<br>
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4"> Odia Level </div>
-				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_odia_level }} </h5></div>
+				<div class="col col-xl-4 col-lg-4"> Odia Baseline Level </div>
+				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_odia_level_baseline }} </h5></div>
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -196,8 +231,8 @@
 </ng-template>
 
 <!-- View Math Level MOdal -->
-<ng-template #viewmathlevelmodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Math Level </div>
+<ng-template #viewmathlevelbaselinemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Math Baseline Level </div>
 	<div style="width: 100%;">
 		<div class="modal-body">
 			<div class="row">
@@ -206,8 +241,8 @@
 			</div>
 			<br>
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4"> Math Level </div>
-				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_math_level }} </h5></div>
+				<div class="col col-xl-4 col-lg-4"> Math Baseline Level </div>
+				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_math_level_baseline }} </h5></div>
 			</div>
 		</div>
 		<div class="modal-footer">
@@ -216,9 +251,9 @@
 	</div>
 </ng-template>
 
-<!-- View Odia Activity MOdal -->
-<ng-template #viewodiaactivitymodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Odia Activity </div>
+<!-- View Odia Level MOdal -->
+<ng-template #viewodialevelendlinemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Odia Endline Level </div>
 	<div style="width: 100%;">
 		<div class="modal-body">
 			<div class="row">
@@ -227,14 +262,55 @@
 			</div>
 			<br>
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4"><h5><u> Odia Activity: </u></h5></div>
-				<div class="col col-xl-8 col-lg-8 row-fluid"> </div>
+				<div class="col col-xl-4 col-lg-4"> Odia Endline Level </div>
+				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_odia_level_endline }} </h5></div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- View Math Level MOdal -->
+<ng-template #viewmathlevelendlinemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Math Endline Level </div>
+	<div style="width: 100%;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4"> Student </div>
+				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_student_name | titlecase }} </h5></div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4"> Math Endline Level </div>
+				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_math_level_endline }} </h5></div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- View Odia Question MOdal -->
+<ng-template #viewodiaactivitymodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Odia Question </div>
+	<div style="width: 100%;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4"> Student </div>
+				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_student_name | titlecase }} </h5></div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col"><h5><u> Odia Question: </u></h5></div>
 			</div>
 			<div class="">
 				<div class="row" *ngFor="let activity of modal_odia_activity" style="margin-bottom: 10px;">
-					<div class="col col-xl-9 col-lg-9"> {{ activity.question }} </div>
+					<div class="col col-xl-9 col-lg-9"> {{ activity.responsedesc }} </div>
 					<div class="col col-xl-3 col-lg-3 row-fluid"> 
-						<div *ngIf="(activity.answer == 'no');else elsepart" class="notdoneicon">
+						<div *ngIf="(activity.selectedvalue == 'no');else elsepart" class="notdoneicon">
 							<i class="fa fa-times-circle" aria-hidden="true"></i> 
 						</div>
 						<ng-template #elsepart>
@@ -252,9 +328,9 @@
 	</div>
 </ng-template>
 
-<!-- View Math Activity MOdal -->
+<!-- View Math Question MOdal -->
 <ng-template #viewmathactivitymodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Math Activity </div>
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Math Question </div>
 	<div style="width: 100%;">
 		<div class="modal-body">
 			<div class="row">
@@ -263,14 +339,13 @@
 			</div>
 			<br>
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4"><h5><u> Math Activity </u></h5></div>
-				<div class="col col-xl-8 col-lg-8 row-fluid"> </div>
+				<div class="col"><h5><u> Math Question </u></h5></div>
 			</div>
 			<div class="">
 				<div class="row" *ngFor="let activity of modal_math_activity" style="margin-bottom: 10px;">
-					<div class="col col-xl-9 col-lg-9"> {{ activity.question }} </div>
+					<div class="col col-xl-9 col-lg-9"> {{ activity.responsedesc }} </div>
 					<div class="col col-xl-3 col-lg-3 row-fluid"> 
-						<div *ngIf="(activity.answer == 'no');else elsepart" class="notdoneicon">
+						<div *ngIf="(activity.selectedvalue == 'no');else elsepart" class="notdoneicon">
 							<i class="fa fa-times-circle" aria-hidden="true"></i> 
 						</div>
 						<ng-template #elsepart>

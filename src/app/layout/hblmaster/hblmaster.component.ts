@@ -125,9 +125,9 @@ export class HblmasterComponent implements OnInit {
 
 	getallstudentsdata(){
 		this.hideModalLoading_indicator = false;
-		this.hblmasterService.getallhblstudents().subscribe(data => {
-			//console.log('@@--> get students response data: '+JSON.stringify(data));
-			this.all_students_list_report = data;
+		this.hblmasterService.gethblreportdata().subscribe(data => {
+			console.log('@@@ Report Data: '+JSON.stringify(data))
+			this.all_students_list_report = data['studentdetails'];
 			this.hideModalLoading_indicator = true;
 		}, error => {}, () => {});
 	}
@@ -135,7 +135,6 @@ export class HblmasterComponent implements OnInit {
 	public searchhblstudentsbystudentname(){
 		this.hideSearchStudentLoading_indicator = false;
 		this.hblmasterService.searchhblstudentsbystudentname(this.studentnamesearchstring).subscribe(data => {
-			console.log('@@--> get search students response data: '+JSON.stringify(data));
 			this.all_students_list_search = data;
 			this.studentnamesearchstring = '';
 			this.hideSearchStudentLoading_indicator = true;
@@ -145,7 +144,6 @@ export class HblmasterComponent implements OnInit {
 	getallstudentsdatabypage(){  
 		console.log('GetData PageNo: ', this.page);
 		this.hblmasterService.getallhblstudentsbypage(this.page).subscribe(data => {
-			//console.log('@@--> GetData data: '+JSON.stringify(data));
 			if (data != undefined) {
 				Object.keys(data).forEach(i => {
 					this.all_students_list.push(data[i]);
@@ -158,7 +156,6 @@ export class HblmasterComponent implements OnInit {
 	getallmanagersdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblmanagers().subscribe(data => {
-			//console.log('@@--> get managers response data: '+JSON.stringify(data));
 			this.all_managers_list = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -167,7 +164,6 @@ export class HblmasterComponent implements OnInit {
 	getallvolunteersdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblvolunteers().subscribe(data => {
-			//console.log('@@--> get volunteers response data: '+JSON.stringify(data));
 			this.all_volunteers_list = data;
 			this.all_volunteers_list_bkp = data;
 			this.hideLoading_indicator = true;
@@ -177,7 +173,6 @@ export class HblmasterComponent implements OnInit {
 	gethblvolunteerbyvolunteerid(volunteerid){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.gethblvolunteerbyvolunteerid(volunteerid).subscribe(data => {
-			//console.log('@@--> get volunteers response data: '+JSON.stringify(data));
 			if(Object.keys(data).length > 0){
 				this.studentmanagerid = data[0].managerid;
 				this.studentmanagername = data[0].managername;
@@ -192,7 +187,6 @@ export class HblmasterComponent implements OnInit {
 	gethblvolunteerbymanagerid(managerid){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.gethblvolunteerbymanagerid(managerid).subscribe(data => {
-			//console.log('@@--> gethblvolunteerbymanagerid data: '+JSON.stringify(data));
 			if(Object.keys(data).length > 0){
 				this.is_manager_have_volunteers = true;
 			}else{
@@ -205,7 +199,6 @@ export class HblmasterComponent implements OnInit {
 	getallschoolsdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblschools().subscribe(data => {
-			//console.log('@@--> get schools response data: '+JSON.stringify(data));
 			this.all_schools_list = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -214,7 +207,6 @@ export class HblmasterComponent implements OnInit {
 	getalllevelsdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhbllevels().subscribe(data => {
-			//console.log('@@--> get levels response data: '+JSON.stringify(data));
 			this.all_levels_list = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -223,7 +215,6 @@ export class HblmasterComponent implements OnInit {
 	getallresponsesdata(){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.getallhblresponses().subscribe(data => {
-			//console.log('@@--> get responses response data: '+JSON.stringify(data));
 			this.all_responses_list = data;
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
@@ -251,7 +242,6 @@ export class HblmasterComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.studentmanagerid = selectedOptionValue;
 		this.studentmanagername = selectElementText;
-		//console.log('@@--> studentmanagerid: '+this.studentmanagerid+'    studentmanagername: '+this.studentmanagername);
 	}
 
 	studentvolunteer_onchange(event: Event){
@@ -261,7 +251,6 @@ export class HblmasterComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.studentvolunteerid = selectedOptionValue;
 		this.studentvolunteername = selectElementText;
-		//console.log('@@--> studentvolunteerid: '+this.studentvolunteerid+'    studentvolunteername: '+this.studentvolunteername);
 		this.gethblvolunteerbyvolunteerid(this.studentvolunteerid);
 	}
 
@@ -272,7 +261,6 @@ export class HblmasterComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.studentschoolid = selectedOptionValue;
 		this.studentschoolname = selectElementText;
-		//console.log('@@--> studentschoolid: '+this.studentschoolid+'    studentschoolname: '+this.studentschoolname);
 	}
 
 	schooldistrict_onchange(event: Event){
@@ -281,7 +269,6 @@ export class HblmasterComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.schooldistrict = selectedOptionValue;
-		//console.log('@@--> selected schooldistrict: '+this.schooldistrict);
 	}
 	
 	levelsubject_onchange(event: Event){
@@ -290,7 +277,6 @@ export class HblmasterComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.levelsubject = selectedOptionValue;
-		//console.log('@@--> selected levelsubject: '+this.levelsubject);
 	}
 
 	responsesubject_onchange(event: Event){
@@ -299,7 +285,6 @@ export class HblmasterComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.responsesubject = selectedOptionValue;
-		//console.log('@@--> selected levelsubject: '+this.levelsubject);
 	}
 
 	volunteermanager_onchange(event: Event){
@@ -309,7 +294,6 @@ export class HblmasterComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.volunteermanagerid = selectedOptionValue;
 		this.volunteermanagername = selectElementText;
-		//console.log('@@--> volunteermanagerid: '+this.volunteermanagerid+'    volunteermanagername: '+this.volunteermanagername);
 	}
 
 	// Save oprations
@@ -349,8 +333,6 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblstudent(body).subscribe(data => {
-				//console.log('@@--> save student response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Student details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
 				// reset
@@ -395,8 +377,6 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblmanager(body).subscribe(data => {
-				//console.log('@@--> save manager response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Manager details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
 				// reset
@@ -436,8 +416,6 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblvolunteer(body).subscribe(data => {
-				//console.log('@@--> save volunteer response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Volunteer details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
 				// reset
@@ -469,8 +447,6 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblschool(body).subscribe(data => {
-				//console.log('@@--> save school response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'School details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
 				// reset
@@ -499,8 +475,6 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhbllevel(body).subscribe(data => {
-				//console.log('@@--> save level response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Level details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
 				// reset
@@ -528,8 +502,6 @@ export class HblmasterComponent implements OnInit {
 			}
 			this.hideModalLoading_indicator = false;
 			this.hblmasterService.createnewhblresponse(body).subscribe(data => {
-				//console.log('@@--> save response response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Response details saved successfully', 'success');
 				this.toast('success', 'Successfully saved');
 
 				// reset
@@ -578,23 +550,35 @@ export class HblmasterComponent implements OnInit {
 				status: 'active'
 			}
 			this.hblmasterService.updatehblstudent(this._id, body).subscribe(data => {
-				//console.log('@@--> update students response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Student details updated successfully.', 'success');
-				this.toast('success', 'Successfully updated');
-
-				// reset
-				this._id = '';
-				this.studentmanagerid = '';
-				this.studentvolunteerid = '';
-				this.studentschoolid = '';
-				this.studentid = '';
-				this.studentname = '';
-				this.studentgender = '';
-				this.studentclass = '';
-
-				this.reload_all_data();
-				this.hideModalLoading_indicator = true;
-				this.modalReference.close();
+				let obj = {
+					managerid: this.studentmanagerid,
+					managername: this.studentmanagername,
+					volunteerid: this.studentvolunteerid,
+					volunteername: this.studentvolunteername,
+					schoolid: this.studentschoolid,
+					schoolname: this.studentschoolname,
+					studentname: this.studentname.toLowerCase(),
+					studentphone: this.studentphone,
+					gender: gender.toLowerCase(),
+					class: this.studentclass
+				}
+				this.hblmasterService.updatehbl_trnasactivity_transbaseline_bystudentid(this.studentid, obj).subscribe(data => {
+					this.toast('success', 'Successfully updated');
+	
+					// reset
+					this._id = '';
+					this.studentmanagerid = '';
+					this.studentvolunteerid = '';
+					this.studentschoolid = '';
+					this.studentid = '';
+					this.studentname = '';
+					this.studentgender = '';
+					this.studentclass = '';
+	
+					this.reload_all_data();
+					this.hideModalLoading_indicator = true;
+					this.modalReference.close();
+				}, error => {}, () => {});
 			}, error => {}, () => {});
 		}
 	}
@@ -614,25 +598,25 @@ export class HblmasterComponent implements OnInit {
 				status: 'active'
 			}
 			this.hblmasterService.updatehblmanager(this._id, body).subscribe(data => {
-				//console.log('@@--> update managers response data: '+JSON.stringify(data));
 				let obj = {
-					managername: this.managername
+					managername: this.managername.toLowerCase()
 				}
 
 				this.hblmasterService.updatehblvolunteer_managername(this.managerid, obj).subscribe(data => {
 					this.hblmasterService.updatehblstudent_managername(this.managerid, obj).subscribe(data => {
-						//swal.fire('Success', 'Manager details updated successfully.', 'success');
-						this.toast('success', 'Successfully updated');
-		
-						// reset
-						this._id = '';
-						this.managerid = '';
-						this.managername = '';
-						this.managerphone = '';
-		
-						this.reload_all_data();
-						this.hideModalLoading_indicator = true;
-						this.modalReference.close();
+						this.hblmasterService.updatehbl_trnasactivity_transbaseline_bymanagerid(this.managerid, obj).subscribe(data => {
+							this.toast('success', 'Successfully updated');
+			
+							// reset
+							this._id = '';
+							this.managerid = '';
+							this.managername = '';
+							this.managerphone = '';
+			
+							this.reload_all_data();
+							this.hideModalLoading_indicator = true;
+							this.modalReference.close();
+						}, error => {}, () => {});
 					}, error => {}, () => {});
 				}, error => {}, () => {});
 			}, error => {}, () => {});
@@ -658,24 +642,27 @@ export class HblmasterComponent implements OnInit {
 				status: 'active'
 			}
 			this.hblmasterService.updatehblvolunteer(this._id, body).subscribe(data => {
-				//console.log('@@--> update volunteers response data: '+JSON.stringify(data));
 				let obj = {
+					managerid: this.volunteermanagerid,
+					managername: this.volunteermanagername,
 					volunteername: this.volunteername.toLowerCase()
 				}
 
 				this.hblmasterService.updatehblstudent_volunteername(this.volunteerid, obj).subscribe(data => {
-					//swal.fire('Success', 'Volunteer details updated successfully.', 'success');
-					this.toast('success', 'Successfully updated');
-	
-					// reset
-					this._id = '';
-					this.volunteerid = '';
-					this.volunteername = '';
-					this.volunteerphone = '';
-	
-					this.reload_all_data();
-					this.hideModalLoading_indicator = true;
-					this.modalReference.close();
+					this.hblmasterService.updatehbl_trnasactivity_transbaseline_byvolunteerid(this.volunteerid, obj).subscribe(data => {
+						this.toast('success', 'Successfully updated');
+		
+						// reset
+						this._id = '';
+						this.volunteerid = '';
+						this.volunteername = '';
+						this.volunteerphone = '';
+		
+						this.reload_all_data();
+						this.hideModalLoading_indicator = true;
+						this.modalReference.close();
+					}, error => {}, () => {});
+					
 				}, error => {}, () => {});
 			}, error => {}, () => {});
 		}
@@ -697,13 +684,11 @@ export class HblmasterComponent implements OnInit {
 				status: 'active'
 			}
 			this.hblmasterService.updatehblschool(this._id, body).subscribe(data => {
-				//console.log('@@--> update school response data: '+JSON.stringify(data));
 				let obj = {
 					schoolname: this.schoolname.toLowerCase()
 				}
 
 				this.hblmasterService.updatehblstudent_schoolname(this.schoolid, obj).subscribe(data => {
-					//swal.fire('Success', 'School details updated successfully.', 'success');
 					this.toast('success', 'Successfully updated');
 	
 					// reset
@@ -733,8 +718,6 @@ export class HblmasterComponent implements OnInit {
 				subject: this.levelsubject.toLowerCase()
 			}
 			this.hblmasterService.updatehbllevel(this._id, body).subscribe(data => {
-				//console.log('@@--> update level response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Level details updated successfully.', 'success');
 				this.toast('success', 'Successfully updated');
 
 				// reset
@@ -762,8 +745,6 @@ export class HblmasterComponent implements OnInit {
 				subject: this.responsesubject
 			}
 			this.hblmasterService.updatehblresponse(this._id, body).subscribe(data => {
-				//console.log('@@--> update response response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Response details updated successfully.', 'success');
 				this.toast('success', 'Successfully updated');
 
 				// reset
@@ -800,8 +781,6 @@ export class HblmasterComponent implements OnInit {
 	deletestudent(id){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.deletehblstudent(id).subscribe(data => {
-			//console.log('@@--> delete students response data: '+JSON.stringify(data));
-			//swal.fire('Success', 'Student details deleted successfully.', 'success');
 			this.toast('success', 'Successfully deleted');
 
 			this._id = '';
@@ -835,8 +814,6 @@ export class HblmasterComponent implements OnInit {
 		}else{
 			this.hideLoading_indicator = false;
 			this.hblmasterService.deletehblmanager(id).subscribe(data => {
-				//console.log('@@--> delete managers response data: '+JSON.stringify(data));
-				//swal.fire('Success', 'Manager details deleted successfully.', 'success');
 				this.toast('success', 'Successfully deleted');
 	
 				this._id = '';
@@ -928,8 +905,6 @@ export class HblmasterComponent implements OnInit {
 	deletelevel(id){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.deletehbllevel(id).subscribe(data => {
-			//console.log('@@--> delete level response data: '+JSON.stringify(data));
-			//swal.fire('Success', 'Level details deleted successfully.', 'success');
 			this.toast('success', 'Successfully deleted');
 
 			this._id = '';
@@ -958,8 +933,6 @@ export class HblmasterComponent implements OnInit {
 	deleteresponse(id){
 		this.hideLoading_indicator = false;
 		this.hblmasterService.deletehblresponse(id).subscribe(data => {
-			//console.log('@@--> delete response response data: '+JSON.stringify(data));
-			//swal.fire('Success', 'Response details deleted successfully.', 'success');
 			this.toast('success', 'Successfully deleted');
 
 			this._id = '';
@@ -972,7 +945,6 @@ export class HblmasterComponent implements OnInit {
 	open(content,param) {
 		if(param != null || param != undefined){}
 		
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -994,7 +966,6 @@ export class HblmasterComponent implements OnInit {
 		this.studentgender = '';
 		this.studentclass = '';
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1003,7 +974,6 @@ export class HblmasterComponent implements OnInit {
         });
 	}
 	open_viewstudentmodal(content, studentdata){
-		//console.log('@@--> studentdata: '+JSON.stringify(studentdata));
 		this.studentmanagername = '';
 		this.studentvolunteername = '';
 		this.studentschoolname = '';
@@ -1022,7 +992,6 @@ export class HblmasterComponent implements OnInit {
 		this.studentgender = studentdata.gender;
 		this.studentclass = parseInt(studentdata.class);
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1031,7 +1000,6 @@ export class HblmasterComponent implements OnInit {
         });
 	}
 	open_updatestudentmodal(content, studentdata){
-		//console.log('@@--> studentdata: '+JSON.stringify(studentdata));
 		this._id = studentdata._id;
 		this.studentmanagerid = studentdata.managerid;
 		this.studentmanagername = studentdata.managername;
@@ -1045,7 +1013,6 @@ export class HblmasterComponent implements OnInit {
 		this.studentgender = (studentdata.gender == 'male') ? 1 : 2;
 		this.studentclass = parseInt(studentdata.class);
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1059,7 +1026,6 @@ export class HblmasterComponent implements OnInit {
 		this.managername = '';
 		this.managerphone = '';
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1073,7 +1039,6 @@ export class HblmasterComponent implements OnInit {
 		this.managername = managerdata.managername;
 		this.managerphone = managerdata.phone;
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1089,7 +1054,6 @@ export class HblmasterComponent implements OnInit {
 		this.volunteername = '';
 		this.volunteerphone = '';
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1105,7 +1069,6 @@ export class HblmasterComponent implements OnInit {
 		this.volunteername = volunteerdata.volunteername;
 		this.volunteerphone = volunteerdata.phone;
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1120,7 +1083,6 @@ export class HblmasterComponent implements OnInit {
 		this.schoolblock = '';
 		this.schooldistrict = '';
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1135,7 +1097,6 @@ export class HblmasterComponent implements OnInit {
 		this.schoolblock = schooldata.block;
 		this.schooldistrict = schooldata.district;
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1149,7 +1110,6 @@ export class HblmasterComponent implements OnInit {
 		this.leveldesc = '';
 		this.levelsubject = '';
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1163,7 +1123,6 @@ export class HblmasterComponent implements OnInit {
 		this.leveldesc = leveldata.leveldesc;
 		this.levelsubject = leveldata.subject;
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1177,7 +1136,6 @@ export class HblmasterComponent implements OnInit {
 		this.responsedesc = '';
 		this.responsesubject = '';
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1191,7 +1149,6 @@ export class HblmasterComponent implements OnInit {
 		this.responsedesc = responsedata.responsedesc;
 		this.responsesubject = responsedata.subject;
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1202,7 +1159,6 @@ export class HblmasterComponent implements OnInit {
 	open_downloadfilemodal(content) {
 		this.getallstudentsdata();
 
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1211,9 +1167,6 @@ export class HblmasterComponent implements OnInit {
         });
 	}
 	open_searchstudentmodal(content) {
-		
-
-		//console.log(this.ngbModalOptions);
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -1299,5 +1252,3 @@ export class HblmasterComponent implements OnInit {
 		})
 	}
 }
-
-// Toast Message
