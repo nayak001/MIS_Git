@@ -182,14 +182,6 @@ export class HblmasterService {
 			//responseType: 'text' 
 		});			
 	}
-
-	gethblreportdata(){				
-		return this.http.get(baseUrl+'gethblreportdata',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
-	}
 	
 	getallhblstudentsbypage(page){				
 		return this.http.get(baseUrl+'getallhblstudentsbypage/'+page,

@@ -11,24 +11,47 @@ const baseUrl = environment.baseUrl;
 export class HblactivityreportService {
 	constructor(private http: HttpClient) { }
 
-	getallhblmanagers(){				
-		return this.http.get(baseUrl+'getallhblmanagers',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
-	}
-	
-	gethblvolunteerbymanagerid(managerid){				
-		return this.http.get(baseUrl+'gethblvolunteerbymanagerid/'+managerid,
+	getdistincthbldistricts(){				
+		return this.http.get(baseUrl+'getdistincthbldistricts',
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});			
 	}
 
-	getallhblactivitiesandbaselines(managerid, volunteerid, week){				
-		return this.http.get(baseUrl+'getallhblactivitiesandbaselines/'+managerid+'/'+volunteerid+'/'+week,
+	getdistincthblmanagers(){				
+		return this.http.get(baseUrl+'getdistincthblmanagers',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+	getdistincthblschoolsbydistrictsarray(districtsarray){
+		return this.http.post(baseUrl+'getdistincthblschoolsbydistrictsarray', districtsarray,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	gethblreportdatabyschools(schoolsarray){
+		return this.http.post(baseUrl+'gethblreportdatabyschools', schoolsarray,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	gethblreportdatabymanagers(managersarray){
+		return this.http.post(baseUrl+'gethblreportdatabymanagers', managersarray,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	getallhblreportdata(){				
+		return this.http.get(baseUrl+'getallhblreportdata',
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 

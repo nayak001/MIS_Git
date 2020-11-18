@@ -36,10 +36,6 @@
 							</div>
 						</div>
 						<div class="col">
-							<!-- Download button -->
-							<div style="width: 100%;">
-								<button type="button" class="btn btn-outline-secondary" (click)="open_downloadfilemodal(downloadfilemodal)" style="float: right; cursor: pointer;"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Excel</button>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -894,32 +890,6 @@
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
 			<button type="button" class="btn btn-primary" (click)="response_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
-		</div>
-	</div>
-</ng-template>
-
-<!-- Download file Modal -->
-<ng-template #downloadfilemodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Download </div>
-	
-	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
-		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." style="width: 50%;"></span>
-	</div>
-
-	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
-		<div class="modal-body">
-			<div class="row">
-				<div style="width: 100%; text-align: center;">
-					<br>
-					Do you want to download this file containing <b>{{ all_students_list_report.length }}</b> records?
-					<br><br><br>
-					<button type="button" class="btn btn-outline-primary" (click)="downloadfile()" style="cursor: pointer;"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download</button>
-					<br><br>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
 		</div>
 	</div>
 </ng-template>

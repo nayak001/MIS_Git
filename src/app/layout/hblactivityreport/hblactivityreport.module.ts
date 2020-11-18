@@ -7,6 +7,7 @@ import { HblactivityreportComponent } from './hblactivityreport.component';
 import { PageHeaderModule } from './../../shared';
 import { DataTableModule } from "angular-6-datatable";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { HblactivityreportService } from  './hblactivityreport.service';
 
@@ -18,7 +19,8 @@ import { HblactivityreportService } from  './hblactivityreport.service';
 		PageHeaderModule, 
 		DataTableModule,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		NgMultiSelectDropDownModule
 	],
     declarations: [HblactivityreportComponent],
 	providers: [HblactivityreportService]

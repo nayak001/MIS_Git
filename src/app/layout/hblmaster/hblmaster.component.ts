@@ -6,10 +6,6 @@ import { Router } from '@angular/router';
 import { HblmasterService } from  './hblmaster.service';
 import swal from 'sweetalert2';
 
-// download as csv
-import * as json2csv from 'json2csv'; // convert json file to csv
-import { saveAs } from 'file-saver';  // save the file
-
 @Component({
     selector: 'app-hblmaster',
     templateUrl: './hblmaster.component.html',
@@ -18,8 +14,6 @@ import { saveAs } from 'file-saver';  // save the file
 })
 
 export class HblmasterComponent implements OnInit {
-	Json2csvParser = json2csv.Parser;
-
 	ngbModalOptions: NgbModalOptions = {
 		backdrop : 'static',
 		keyboard : false
@@ -36,7 +30,6 @@ export class HblmasterComponent implements OnInit {
 	// Student
 	all_students_list: any = [];
 	all_students_list_bkp: any = [];
-	all_students_list_report: any = [];
 	all_students_list_search: any = [];
 	studentid: string = '';
 	studentname: string = '';
@@ -121,15 +114,6 @@ export class HblmasterComponent implements OnInit {
 		this.getallschoolsdata();
 		this.getalllevelsdata();
 		this.getallresponsesdata();
-	}
-
-	getallstudentsdata(){
-		this.hideModalLoading_indicator = false;
-		this.hblmasterService.gethblreportdata().subscribe(data => {
-			console.log('@@@ Report Data: '+JSON.stringify(data))
-			this.all_students_list_report = data['studentdetails'];
-			this.hideModalLoading_indicator = true;
-		}, error => {}, () => {});
 	}
 
 	public searchhblstudentsbystudentname(){
@@ -1156,16 +1140,6 @@ export class HblmasterComponent implements OnInit {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
 	}
-	open_downloadfilemodal(content) {
-		this.getallstudentsdata();
-
-		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
-        this.modalReference.result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-	}
 	open_searchstudentmodal(content) {
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
@@ -1214,21 +1188,6 @@ export class HblmasterComponent implements OnInit {
 		  );
 		}
 	}
-
-	downloadfile(){
-		let data = this.all_students_list_report;
-        let csvData = this.convertToCSV(data);
-        let file = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
-		saveAs(file,"HBL_Data.csv");
-		this.modalReference.close();
-	}
-
-    public convertToCSV(objArray: any, fields?) {
-        let json2csvParser = new this.Json2csvParser({ opts: fields });
-        let csv = json2csvParser.parse(objArray);
-        //console.log(csv);
-        return csv;
-    }
 
 	//-------------- Infinite Loading --------------
 	onScroll(){  
