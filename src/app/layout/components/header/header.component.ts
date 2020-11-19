@@ -3,6 +3,9 @@ import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from './../../users/users.service';
+import { environment } from './../../../../environments/environment.prod';
+
+const version = environment.version;
 
 @Component({
   selector: 'app-header',
@@ -10,6 +13,7 @@ import { UsersService } from './../../users/users.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  version: string = version;
   public pushRightClass: string;
   dbid: string = '';
   currentuser_userid: string = '';

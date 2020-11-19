@@ -12,7 +12,7 @@
 						<div class="col">
 							<!-- Download button -->
 							<div style="width: 100%;">
-								<button type="button" class="btn btn-outline-secondary" (click)="open_downloadfilemodal(downloadfilemodal)" style="float: right; cursor: pointer;"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download All Report in Excel</button>
+								<button type="button" class="btn btn-outline-secondary" (click)="open_downloadfilemodal(downloadfilemodal,'all')" style="float: right; cursor: pointer;"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download All Report in Excel</button>
 							</div>
 						</div>
 					</div>
@@ -130,7 +130,7 @@
 								</div>
 							</div>
 							<div class="col col-lg-4 col-md-4 col-sm-4">
-								<button type="button" class="btn btn-outline-secondary" *ngIf="current_report_data.length > 0" (click)="download_current_report()" style="float: right; cursor: pointer;"><i class="fa fa-download" aria-hidden="true"></i></button>
+								<button type="button" class="btn btn-outline-secondary" *ngIf="current_report_data.length > 0" (click)="open_downloadfilemodal(downloadfilemodal,'filter')" style="float: right; cursor: pointer;"><i class="fa fa-download" aria-hidden="true"></i></button>
 							</div>
 						</div>
 
@@ -444,7 +444,7 @@
 					<br>
 					Do you want to download this file containing <b>{{ all_report_data.length }}</b> records?
 					<br><br><br>
-					<button type="button" class="btn btn-outline-primary" (click)="download_all_report()" style="cursor: pointer;"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download</button>
+					<button type="button" class="btn btn-outline-primary" (click)="download_report()" style="cursor: pointer;"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download</button>
 					<br><br>
 				</div>
 			</div>

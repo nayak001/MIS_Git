@@ -50,6 +50,22 @@ export class HblactivityreportService {
 		});
 	}
 
+	gethblreportdatabyschools_csv(schoolsarray){
+		return this.http.post(baseUrl+'gethblreportdatabyschools_csv', schoolsarray,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	gethblreportdatabymanagers_csv(managersarray){
+		return this.http.post(baseUrl+'gethblreportdatabymanagers_csv', managersarray,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
 	getallhblreportdata(){				
 		return this.http.get(baseUrl+'getallhblreportdata',
 		{

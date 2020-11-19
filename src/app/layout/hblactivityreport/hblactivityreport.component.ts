@@ -40,6 +40,7 @@ export class HblactivityreportComponent implements OnInit {
 	all_districts_list: any = [];
 	district_multiselect_selectedlist = [];
 	district_multiselect_settings = {};
+	schoolsarray: any = [];
 
 	// manager
 	all_managers_list: any = [];
@@ -63,6 +64,7 @@ export class HblactivityreportComponent implements OnInit {
 
 	modal_odia_activity: any = [];
 	modal_math_activity: any = []; 
+	modal_downloadbutton_flag: string = '';
 
     constructor(
 		private modalService: NgbModal,
@@ -171,12 +173,12 @@ export class HblactivityreportComponent implements OnInit {
 		}
 		this.hideLoading_indicator = false;
 		this.hblactivityreportService.getdistincthblschoolsbydistrictsarray(obj).subscribe(data => {
-			let schoolsarray = data;
+			this.schoolsarray = data;
 			//console.log('@@@ schoolsarray: '+JSON.stringify(schoolsarray))
 
 			// get report data
 			let obj = {
-				schoolsarray: schoolsarray,
+				schoolsarray: this.schoolsarray,
 				week: this.week_multiselect_selectedlist[0]
 			}
 			this.hblactivityreportService.gethblreportdatabyschools(obj).subscribe(data => {
@@ -237,14 +239,7 @@ export class HblactivityreportComponent implements OnInit {
 		}
 	}
 
-	download_current_report(){
-		let data = this.current_report_data;
-        let csvData = this.convertToCSV(data);
-        let file = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
-		saveAs(file,"HBL_Data.csv");
-	}
-
-	download_all_report(){
+	download_report(){
 		let data = this.all_report_data;
         let csvData = this.convertToCSV(data);
         let file = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
@@ -261,6 +256,32 @@ export class HblactivityreportComponent implements OnInit {
 	getallhblreportdata(){
 		this.hideModalLoading_indicator = false;
 		this.hblactivityreportService.getallhblreportdata().subscribe(data => {
+			//console.log('@@@ Report Data: '+JSON.stringify(data))
+			this.all_report_data = data['studentdetails'];
+			this.hideModalLoading_indicator = true;
+		}, error => {}, () => {});
+	}
+
+	gethblreportdatabyschools_csv(){
+		let obj = {
+			schoolsarray: this.schoolsarray,
+			week: this.week_multiselect_selectedlist[0]
+		}
+		this.hideModalLoading_indicator = false;
+		this.hblactivityreportService.gethblreportdatabyschools_csv(obj).subscribe(data => {
+			//console.log('@@@ Report Data: '+JSON.stringify(data))
+			this.all_report_data = data['studentdetails'];
+			this.hideModalLoading_indicator = true;
+		}, error => {}, () => {});
+	}
+
+	gethblreportdatabymanagers_csv(){
+		let obj = {
+			managersarray: this.manager_multiselect_selectedlist,
+			week: this.week_multiselect_selectedlist[0]
+		}
+		this.hideModalLoading_indicator = false;
+		this.hblactivityreportService.gethblreportdatabymanagers_csv(obj).subscribe(data => {
 			//console.log('@@@ Report Data: '+JSON.stringify(data))
 			this.all_report_data = data['studentdetails'];
 			this.hideModalLoading_indicator = true;
@@ -382,8 +403,22 @@ export class HblactivityreportComponent implements OnInit {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
 	}
-	open_downloadfilemodal(content) {
-		this.getallhblreportdata();
+	open_downloadfilemodal(content,flag) {
+		this.modal_downloadbutton_flag = '';
+		if(flag == 'all'){
+			this.getallhblreportdata();
+			this.modal_downloadbutton_flag = 'all';
+		}else if(flag == 'filter'){
+			if(this.selected_radiofilter_value == 'district'){
+				this.gethblreportdatabyschools_csv();
+				this.modal_downloadbutton_flag = 'filterdistrict';
+			}else if(this.selected_radiofilter_value == 'manager'){
+				this.gethblreportdatabymanagers_csv();
+				this.modal_downloadbutton_flag = 'filtermanager';
+			}
+		}else{
+			this.modal_downloadbutton_flag = '';
+		}
 
 		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
         this.modalReference.result.then((result) => {
