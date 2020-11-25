@@ -1,78 +1,56 @@
 <div [@routerTransition]> 
+    <!-- ======================== Loader ============================ -->
+    <div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator">
+        <span class="loading_span">Fetching details. Please wait <img src="assets/images/loader3.gif" style="padding: 25px;" alt="Loading. Please wait..."></span>
+    </div>
+    <!-- ======================== Loader ============================ -->
+
     <!-- ======================== ROW 1 ============================  -->
-    <div class="row">
-        <div class="col col-lg-3 col-md-3 col-sm-3">
+    <div class="row" *ngFor="let count of data">
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allusers')">
             <div class="row card_maindiv">
                 <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Users</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">2931</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allUsers}}</span></div>
             </div>
         </div>
-        <div class="col col-lg-3 col-md-3 col-sm-3">
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allmanagers')">
             <div class="row card_maindiv">
                 <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Managers</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">9</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allManagers}}</span></div>
             </div>
         </div>
-        <div class="col col-lg-3 col-md-3 col-sm-3">
+        <!-- <div class="col col-lg-3 col-md-3 col-sm-3">
             <div class="row card_maindiv">
                 <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Field staffs</span></div>
                 <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">9</span></div>
             </div>
-        </div>
-        <div class="col col-lg-3 col-md-3 col-sm-3">
+        </div> -->
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allcenters')">
             <div class="row card_maindiv">
                 <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Centers</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">101</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allCenters}}</span></div>
             </div>
         </div>
     </div>
     
     <!-- ======================== ROW 2 ============================  -->
-    <div class="row"  *ngFor="let count of data">
-        <div class="col col-lg-3 col-md-3 col-sm-3">
-            <div class="row card_maindiv">
-                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">All Students</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allStudent}}</span></div>
-            </div>
-        </div>
-        <div class="col col-lg-3 col-md-3 col-sm-3">
-            <div class="row card_maindiv">
-                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">ECE Students</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allecestudents}}</span></div>
-            </div>
-        </div>
-        <div class="col col-lg-3 col-md-3 col-sm-3">
-            <div class="row card_maindiv">
-                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">PGE Students</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allpgestudents}}</span></div>
-            </div>
-        </div>
-        <div class="col col-lg-3 col-md-3 col-sm-3">
-            <div class="row card_maindiv">
-                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">TIME Fellows</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allfellow}}</span></div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ======================== ROW 3 ============================  -->
-    <div class="row"  *ngFor="let count of data">
-        <div class="col col-lg-3 col-md-3 col-sm-3">
-            <div class="row card_maindiv">
-                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Total Girls</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.girlCount}}</span></div>
-            </div>
-        </div>
-        <div class="col col-lg-3 col-md-3 col-sm-3">
+    <div class="row" *ngFor="let count of data">
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allanganwadis')">
             <div class="row card_maindiv">
                 <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Anganwadis</span></div>
                 <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allanganwadi}}</span></div>
             </div>
         </div>
-        <div class="col col-lg-3 col-md-3 col-sm-3">
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allschools')">
             <div class="row card_maindiv">
                 <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Schools</span></div>
                 <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allschool}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allfellows')">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Fellows</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allfellow}}</span></div>
             </div>
         </div>
         <div class="col col-lg-3 col-md-3 col-sm-3">
@@ -80,14 +58,36 @@
         </div>
     </div>
     
-    <!-- ======================== ROW 4 ============================  -->
-    <div class="row"  *ngFor="let count of data">
-        <div class="col col-lg-3 col-md-3 col-sm-3">
+    <!-- ======================== ROW 3 ============================  -->
+    <div class="row" *ngFor="let count of data">
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allstudents')">
             <div class="row card_maindiv">
-                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">ECE 70% Learning Outcomes</span></div>
-                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.passcount || '0'}}</span></div>
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">All Students</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allStudent}}</span></div>
             </div>
         </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allgirls')">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Total Girls</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.girlCount}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allece')">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">ECE Students</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allecestudents}}</span></div>
+            </div>
+        </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3" (click)="open(showdetailsmodal, 'allpge')">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">PGE Students</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.allpgestudents}}</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ======================== ROW 4 ============================  -->
+    <div class="row" *ngFor="let count of data">
         <div class="col col-lg-3 col-md-3 col-sm-3">
             <div class="row card_maindiv">
                 <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">Level jump Odia</span></div>
@@ -106,8 +106,13 @@
                 <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.alleng}}</span></div>
             </div>
         </div>
+        <div class="col col-lg-3 col-md-3 col-sm-3">
+            <div class="row card_maindiv">
+                <div class="col col-lg-7 col-md-7 col-sm-7 card_left_innerdiv"><span class="">ECE 70% Learning Outcomes</span></div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 card_right_innerdiv"><span class="card_right_innerspan">{{count.passcount || '0'}}</span></div>
+            </div>
+        </div>
     </div>
-
 
 
 <!--
@@ -331,3 +336,39 @@
     </div>       
 -->
 </div>
+
+<!-- Show Details Modal -->
+<ng-template #showdetailsmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> {{ modal_title }} </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+    </div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+        <div class="modal_records_found">{{ details_list.length }} Record(s) found.</div>
+		<div class="modal-body">
+			<div class="">
+				<div class="modal_scroll_container">
+                    <div *ngFor="let detail of details_list; let i = index;">
+                        <div *ngIf="param=='allusers' || param=='allmanagers'" class="modal_list_card">
+                            <div class="modal_list_title1">{{ (i+1) }} . {{ detail.username | titlecase }}</div>
+                            <div class="modal_list_title2">{{ detail.userid }}</div>
+                        </div>
+                        <div *ngIf="param=='allcenters' || param=='allanganwadis' || param=='allschools' || param=='allfellows'" class="modal_list_card">
+                            <div class="modal_list_title1">{{ (i+1) }} . {{ detail.centername | titlecase }}</div>
+                            <div class="modal_list_title2">{{ detail.centerid }}</div>
+                        </div>
+                        <div *ngIf="param=='allstudents' || param=='allgirls' || param=='allece' || param=='allpge'" class="modal_list_card">
+                            <div class="modal_list_title1">{{ (i+1) }} . {{ detail.studentname | titlecase }}</div>
+                            <div class="modal_list_title2">{{ detail.studentid }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>

@@ -1157,8 +1157,6 @@ export class HblmasterComponent implements OnInit {
             return  `with: ${reason}`;
         }
 	}
-	
-	
 
 	searchstudent(term: string) {
 		term = (term == undefined || term == null) ? '' : term;
