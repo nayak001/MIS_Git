@@ -367,8 +367,8 @@ export class UsersregistrationComponent implements OnInit {
 
 	// Nrusingh- 19-03-2020, ngx-croppie image upload part
 	public get imageToDisplay() {
-		if (this.currentImage) { return this.currentImage; }
-		if (this.imageUrl) { return this.imageUrl; }
+		if (this.currentImage) { this.profileimage = this.currentImage; return this.currentImage; }
+		if (this.imageUrl) { this.profileimage = this.imageUrl; return this.imageUrl; }
 		return this.profileimage;
 	}
 	

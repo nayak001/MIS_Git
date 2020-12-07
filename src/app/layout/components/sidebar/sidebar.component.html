@@ -24,7 +24,7 @@
           </a>
           <a [routerLink]="['/surveymaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
-            <span>{{ 'Survey' | translate }}</span>
+            <span>{{ 'Survey Master' | translate }}</span>
           </a>
           <a [routerLink]="['/teacherprofile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-address-book"></i>&nbsp;
@@ -256,6 +256,22 @@
           <a [routerLink]="['/individualTeachersEducatorPage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
             <span>{{ 'Teachers Details' | translate }}</span>
+          </a>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel id="hlm_accordion">
+        <ng-template ngbPanelTitle>
+          <span><b>HBL</b></span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <a [routerLink]="['/hblmaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-ravelry" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'HBL Master' | translate }}</span>
+          </a>
+          <a [routerLink]="['/hblactivityreport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;
+            <span>{{ 'HBL Activity Report' | translate }}</span>
           </a>
         </ng-template>
       </ngb-panel>

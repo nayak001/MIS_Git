@@ -9,10 +9,12 @@
 							<h4>TEACHER TRAINING CONTENTS</h4>
 						</div>
 						<div class="col">
-							<button (click)="modulesubmodule_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Monthly Assesment&nbsp;&nbsp;&nbsp;</button>
+							
 						</div>
 						<div class="col">
-							<button (click)="modulesubmodule_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Modules/Sub-modules&nbsp;&nbsp;&nbsp;</button>
+							<div class="col col-xl-2 col-lg-2">
+								<button (click)="back_btn_click()" class="btn btn-sm btn-primary float-right" type="button" style="margin-right: -292px;">&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;</button>
+							</div>
 						</div>
 					</div>					
 				</div>
@@ -22,9 +24,7 @@
 						<thead>
 							<tr>
 								<th style="width: 25%">Language</th>
-								<th style="width: 25%">Module</th>
-								<th style="width: 25%">Sub-module</th>
-								<th style="width: 25%">Topic</th>
+								<th style="width: 25%">Select Month</th>
 							</tr>
 							<tr>
 								<td>
@@ -38,26 +38,24 @@
 									</span>
 								</td>
 								<td>
-									<select value="" (change)="onselect_modules_select($event)" class="form-control">
-										<option value="">Select module</option>
-										<option *ngFor="let module of allmodules_list;" value="{{ module.moduleid }}">{{ module.modulename }}</option>									
-									</select>
+									<span>
+										<select id="selected_prefmonth" value="{{selected_prefmonth}}"  (change)="prefmonth_select_onchange($event)" class="form-control">
+											<!-- <option value="">Select</option> -->
+											<option value="m1" [selected]="isSelected">Month 1</option>
+											<option value="m2">Month 2</option>
+											<option value="m3">Month 3</option>
+											<option value="m4">Month 4</option>
+											<option value="m5">Month 5</option>
+											<option value="m6">Month 6</option>
+											<option value="m7">Month 7</option>
+											<option value="m8">Month 8</option>
+											<option value="m9">Month 9</option>
+											<option value="m10">Month 10</option>
+											<option value="m11">Month 11</option>
+											<option value="m12">Month 12</option>
+										</select>
+									</span>
 								</td>
-								<td>
-									<select value="" (change)="onselect_submodules_select($event)" class="form-control">
-										<option value="">Select sub-module</option>
-										<option *ngFor="let submodule of allsubmodules_list;" value="{{ submodule.submoduleid }}">{{ submodule.submodulename }}</option>									
-									</select>
-								</td>
-								<td>
-									<select value="" (change)="onselect_topic_select($event)" class="form-control">
-										<option value="">Select Topic</option>
-										<option *ngFor="let topic of alltopic_list;" value="{{ topic.topicid }}">{{ topic.topicname }}</option>									
-									</select>
-								</td>
-								<td>
-									<!-- <button (click)="go_btn_click()" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp;Go&nbsp;&nbsp;&nbsp;</button> -->
-								</td>	
 							</tr>
 						</thead>
 					</table>
@@ -69,119 +67,63 @@
 
 				<div id="content_div" class="pad25" [hidden]="hideContent_div" >
 					<ngb-tabset>
-						 <!-- CONTENTS TAB -->
 						<ngb-tab>
-							<ng-template ngbTabTitle><b>CONTENTS</b></ng-template>
-							  <ng-template ngbTabContent>
-								<div class="tab_content_height margintop30">
-									<div class="">
-										<div>
-											<div>
-												<span class="bold-font">Add Content:</span>
-												<span class="addbtn" (click)="opencontent(addcontentmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
-											</div>
-										</div>
-										<div  class="tbl_tr" >
-											<div>
-												<div class="">
-													<div class="row" *ngFor="let data of data; let i = index;">
-														<div class="col col-xl-4 col-lg-4 tbl_tr" *ngFor="let data of data.content; let i = index;">
-															<div  *ngIf="data.type == 'content'">
-																<div>
-																	<span class="addbtn" (click)="opencontent(editcontentmodal,data,i,'editcontentmodal')" style="margin-left: 195px;" title="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-																	<span class="delbtn" (click)="opencontent(deletecontentmodal,data,i,'deletecontentmodal')" title="delete"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-																	<span class="addbtn" (click)="opencontent(previewcontentmodal,data,i,'previewcontentmodal')" title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></span>
-																</div>
-																<div [innerHTML]="data.content"></div>
-																<!-- <ckeditor  [editor]="Editor" [(ngModel)]="data.content" data="{{data.content}}"></ckeditor> -->
-															</div>
-															<div *ngIf="data.type == 'image'">
-																<div>
-																	<span class="addbtn" (click)="opencontent(editimagemodal,data,i,'editimagemodal')" style="margin-left: 195px;"title="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-																	<span class="delbtn" (click)="opencontent(deleteimagemodal,data,i,'deleteimagemodal')" title="delete"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-																	<span class="addbtn" (click)="opencontent(previewimagemodal,data,i,'previewimagemodal')"  title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></span>
-																</div>
-																<img src="{{ data.content }}" class="image" />
-															</div>
-															<div  *ngIf="data.type == 'vedio'">
-																<div>
-																	<span class="addbtn" (click)="opencontent(editvediomodal,data,i,'editvediomodal')" style="margin-left: 195px;" title="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-																	<span class="delbtn" (click)="opencontent(deletevediomodal,data,i,'deletevediomodal')"><i class="fa fa-minus-square" aria-hidden="true" title="delete"></i></span>
-																	<span class="addbtn" (click)="opencontent(previewvediomodal,data,i,'previewvediomodal')" title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></span>
-																</div>
-																<span><div class="imgcenter"><img src="assets/images/download.jpeg" class="imgpreview"></div></span><br>
-															</div>
-														</div>
-													</div>
-													
-													
-												</div>
-											</div>
-										</div>
-									</div>
-								  </div>
-							</ng-template>
-						</ngb-tab>
-						
-						 <!-- QUIZ TAB -->
-						 <ngb-tab>
-							<ng-template ngbTabTitle><b>QUIZ</b></ng-template>
-							<ng-template ngbTabContent>
-								<div class="tab_content_height margintop30">
-									<table class="table50">
-										<tr>
-											<td>
-												<span class="bold-font">Quizes:</span>
-												<span class="addbtn" (click)="open(addmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
-											</td>
-										</tr>
-										<tr *ngFor="let quiz of quiz_value; let i = index;" class="tbl_tr">
-											<td>
-												<div class="q_container">
-													<div class="row">
-														<div class="col col-xl-12 col-lg-12 q_div">
-															{{ i+1 }}. {{ quiz.question }}
-														</div>
-													</div>
-													<div class="row">
-														<div class="col col-xl-6 col-lg-6">
-															A. {{ quiz.A }}
-														</div>
-														<div class="col col-xl-6 col-lg-6">
-															B. {{ quiz.B }}
-														</div>
-													</div>
-													<div class="row">
-														<div class="col col-xl-6 col-lg-6">
-															C. {{ quiz.C }}
-														</div>
-														<div class="col col-xl-6 col-lg-6">
-															D. {{ quiz.D }}
-														</div>
-													</div>
-													<div class="row">
-														<div class="col col-xl-12 col-lg-12 ans_div">
-															Ans. {{ quiz.answer | uppercase }}
-														</div>
-													</div>
-												</div>
-											</td>
-											<td class="tbl_td">
-												<div>
-													<span class="addbtn" (click)="open(editmodal,quiz,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-													<span class="delbtn" (click)="open(deletemodal,quiz,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-												</div>
-											</td>
-										</tr>
-									</table>
-								</div>
-								<div>
-									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-								</div>
-							</ng-template>
-						</ngb-tab>
-					</ngb-tabset>
-					
+						   <ng-template ngbTabTitle><b>QUIZ</b></ng-template>
+						   <ng-template ngbTabContent>
+							   <div class="tab_content_height margintop30">
+								   <table class="table50">
+									   <tr>
+										   <td>
+											   <span class="bold-font">Quizes:</span>
+											   <span class="addbtn" (click)="open(addmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
+										   </td>
+									   </tr>
+									   <tr *ngFor="let quiz of quiz_value; let i = index;" class="tbl_tr">
+										   <td>
+											   <div class="q_container">
+												   <div class="row">
+													   <div class="col col-xl-12 col-lg-12 q_div">
+														   {{ i+1 }}. {{ quiz.question }}
+													   </div>
+												   </div>
+												   <div class="row">
+													   <div class="col col-xl-6 col-lg-6">
+														   A. {{ quiz.A }}
+													   </div>
+													   <div class="col col-xl-6 col-lg-6">
+														   B. {{ quiz.B }}
+													   </div>
+												   </div>
+												   <div class="row">
+													   <div class="col col-xl-6 col-lg-6">
+														   C. {{ quiz.C }}
+													   </div>
+													   <div class="col col-xl-6 col-lg-6">
+														   D. {{ quiz.D }}
+													   </div>
+												   </div>
+												   <div class="row">
+													   <div class="col col-xl-12 col-lg-12 ans_div">
+														   Ans. {{ quiz.answer | uppercase }}
+													   </div>
+												   </div>
+											   </div>
+										   </td>
+										   <td class="tbl_td">
+											   <div>
+												   <span class="addbtn" (click)="open(editmodal,quiz,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+												   <span class="delbtn" (click)="open(deletemodal,quiz,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+											   </div>
+										   </td>
+									   </tr>
+								   </table>
+							   </div>
+							   <div>
+								   <button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
+							   </div>
+						   </ng-template>
+					   </ngb-tab>
+				   </ngb-tabset>
 
 					<!-- Quiz Modal starts from here -->
 					<ng-template #addmodal let-c="close" let-d="dismiss">

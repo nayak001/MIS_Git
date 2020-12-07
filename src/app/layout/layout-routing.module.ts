@@ -44,6 +44,7 @@ const routes: Routes = [
       { path: 'masterteachertraining2', loadChildren: './masterteachertraining2/masterteachertraining2.module#Masterteachertraining2Module' },
       { path: 'mastermanagertraining1', loadChildren: './mastermanagertraining1/mastermanagertraining1.module#Mastermanagertraining1Module' },
       { path: 'mastermanagertraining2', loadChildren: './mastermanagertraining2/mastermanagertraining2.module#Mastermanagertraining2Module' },
+      { path: 'masterteacherassesment', loadChildren: './masterteacherassesment/masterteacherassesment.module#MasterteacherassesmentModule' },
       { path: 'userfeedback', loadChildren: './userfeedback/userfeedback.module#UserfeedbackModule' },
       { path: 'usersession', loadChildren: './usersession/usersession.module#UsersessionModule' },
       { path: 'tchassessment', loadChildren: './tchassessment/tchassessment.module#TchassessmentModule' },
@@ -71,7 +72,8 @@ const routes: Routes = [
       { path: 'manager_todo', loadChildren: './manager_todo/manager_todo.module#Manager_todoModule' },
       { path: 'passcodemanager', loadChildren: './passcodemanager/passcodemanager.module#PasscodemanagerModule' },
       { path: 'trainingmisc', loadChildren: './trainingmisc/trainingmisc.module#TrainingMiscModule' },
-      
+      { path: 'hblmaster', loadChildren: './hblmaster/hblmaster.module#HblmasterModule' },
+      { path: 'hblactivityreport', loadChildren: './hblactivityreport/hblactivityreport.module#HblactivityreportModule' },
 
     ]
   }

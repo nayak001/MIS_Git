@@ -1,13 +1,13 @@
-import { Masterteachertraining2Module } from './masterteachertraining2.module';
+import { MasterteacherassesmentModule } from './masterteacherassesment.module';
 
-describe('Masterteachertraining2Module', () => {
-  let masterteachertraining2Module: Masterteachertraining2Module;
+describe('MasterteacherassesmentModule', () => {
+  let masterteacherassesmentModule: MasterteacherassesmentModule;
 
   beforeEach(() => {
-    masterteachertraining2Module = new Masterteachertraining2Module();
+    masterteacherassesmentModule = new MasterteacherassesmentModule();
   });
 
   it('should create an instance', () => {
-    expect(masterteachertraining2Module).toBeTruthy();
+    expect(MasterteacherassesmentModule).toBeTruthy();
   });
 });

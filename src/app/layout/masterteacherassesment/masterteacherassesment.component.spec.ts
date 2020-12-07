@@ -1,19 +1,19 @@
 import { async, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Masterteachertraining2Component } from './masterteachertraining2.component';
-import { Masterteachertraining2Module } from './masterteachertraining2.module';
+import { MasterteacherassesmentComponent } from './masterteacherassesment.component';
+import { MasterteacherassesmentModule } from './masterteacherassesment.module';
 
-describe('Masterteachertraining2Component', () => {
+describe('MasterteacherassesmentComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ Masterteachertraining2Module, RouterTestingModule ],
+      imports: [ MasterteacherassesmentModule, RouterTestingModule ],
     })
     .compileComponents();
   }));
 
   it('should create', () => {
-    const fixture = TestBed.createComponent(Masterteachertraining2Component);
+    const fixture = TestBed.createComponent(MasterteacherassesmentComponent);
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });

@@ -68,6 +68,7 @@ export class MessageComponent implements OnInit {
 		// get all user
     this.messageService.getalluser().subscribe(data => {
         this.all_users = data;
+        
         this.hideLoading_indicator = true;
 
         Object.keys(data).forEach(i => {

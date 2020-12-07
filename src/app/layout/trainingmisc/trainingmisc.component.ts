@@ -204,3 +204,4 @@ export class TrainingMiscComponent implements OnInit {
     }
   }
 }
+

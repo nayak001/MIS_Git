@@ -56,7 +56,13 @@ export class Masterteachertraining2Service {
 			//,responseType: 'text' 
 		});
 	}
-
+	updatetchtrainingpercentage(moduleid,submoduleid,topicid) {
+		return this.http.put(baseUrl+'updatetopicpercentage/'+moduleid+'/'+submoduleid+'/'+topicid,
+		  {
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text'
+		  });
+	}
 	updatetrainingcontentsbyid(id,body){
 		return this.http.put(baseUrl+'updatetrainingcontentsbyid/'+id,
 		body,{

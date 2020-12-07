@@ -26,4 +26,4 @@ import { MasterteacherassesmentService } from  './masterteacherassesment.service
     declarations: [MasterteacherassesmentComponent],
 	providers: [MasterteacherassesmentService]
 })
-export class Masterteachertraining2Module {}
+export class MasterteacherassesmentModule {}

@@ -25,7 +25,28 @@ export class MasterteacherassesmentService {
 			//responseType: 'text' 
 		});			
 	}
-
+	//functions used for teacher assesment master 
+	getalltrainingassesment(month,language){
+		return this.http.get(baseUrl+'getalltrainingassesment/' + month +'/'+ language,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});
+	}
+	createnewtrainingassesment(body){
+		return this.http.post(baseUrl+'addtrainingassesment',
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	updatetrainingassesmentyid(id,body){
+		return this.http.put(baseUrl+'updatetrainingassesmentyid/'+id,
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
 	getalltrainingsubmodules(moduleid,language){				
 		return this.http.get(baseUrl+'getalltrainingsubmodules/'+moduleid +'/'+ language,
 		{

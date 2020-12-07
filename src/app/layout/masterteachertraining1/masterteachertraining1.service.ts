@@ -101,7 +101,21 @@ export class Masterteachertraining1Service {
 			//responseType: 'text' 
 		});	
 	}
-	
+	 getalluser(){
+		return this.http.get(baseUrl+'getalluser',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text'
+		});
+	  }
+	  createnewmessage(message) {
+		return this.http.post(baseUrl+'createnewmessage',
+		message, {
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			, responseType: 'text'
+		});
+	}
+
 	createnewtrainingsubmodule(modulebody){
 		return this.http.post(baseUrl+'createnewtrainingsubmodule',
 		modulebody,{

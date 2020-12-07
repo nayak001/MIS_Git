@@ -1,0 +1,850 @@
+<div [@routerTransition]>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-8 col-lg-8">
+							<div class="row">
+								<h4>HOME BASED LEARNING MASTER</h4>
+	
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<!-- drop down menus -->
+								<div ngbDropdown class="d-inline-block">
+									<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="width: 600px; left: -3px; font-size: 12px; border: 10px solid rgba(0, 123, 255, 0.5); background: #efefef;">
+										<div class="d-flex justify-content-between">
+											<button (click)="open_createstudentmodal(createstudentmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;&nbsp; Create Student</button>
+											<button (click)="open_createmanagermodal(createmanagermodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-address-book" aria-hidden="true"></i>&nbsp;&nbsp; Create Manager</button>
+											<button (click)="open_createvolunteermodal(createvolunteermodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp; Create Volunteer</button>
+										</div>
+			
+										<hr>
+										<div class="d-flex justify-content-between">
+											<button (click)="open_createschoolmodal(createschoolmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-bank" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
+											<button (click)="open_createlevelmodal(createlevelmodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;&nbsp; Create Level</button>
+											<button (click)="open_createresponsemodal(createresponsemodal)" class="dropdown-item" style="font-size: 15px; "><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;&nbsp; Create Question</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<!-- Download button -->
+							<div style="width: 100%;">
+								<button (click)="downloadfile()" style="float: right;"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Contents -->
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+
+					<div class="sub_content">
+						
+						<div class="row">
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div class="row">
+									<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Students ( {{ all_students_list.length }} )</div>
+									<input type="text" (keyup)="searchstudent($event.target.value)" placeholder="&#xF002; Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
+								</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let studentdata of all_students_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: white; font-weight: bold; background: #827b4a; padding: 5px 30px;">{{ studentdata.studentname | titlecase }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ studentdata.studentid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Class: {{ studentdata.class }}, {{ studentdata.gender | titlecase }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">School: {{ studentdata.schoolname | titlecase }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Volunteer: {{ studentdata.volunteername | titlecase }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Manager: {{ studentdata.managername | titlecase }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_viewstudentmodal(viewstudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+												&nbsp;&nbsp;
+												<button (click)="open_updatestudentmodal(updatestudentmodal, studentdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="student_delete_btn_click(studentdata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Managers ( {{ all_managers_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let managerdata of all_managers_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: white; font-weight: bold; background: #7676ff; padding: 5px 30px;">{{ managerdata.managername | titlecase }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ managerdata.managerid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Phone: {{ managerdata.phone }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updatemanagermodal(updatemanagermodal, managerdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="manager_delete_btn_click(managerdata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div class="row">
+									<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Volunteers ( {{ all_volunteers_list.length }} )</div>
+									<input type="text" (keyup)="searchvolunteer($event.target.value)" placeholder="&#xF002; Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
+								</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let volunteerdata of all_volunteers_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: white; font-weight: bold; background: #ff8976; padding: 5px 30px;">{{ volunteerdata.volunteername | titlecase }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ volunteerdata.volunteerid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Phone: {{ volunteerdata.phone }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Manager: {{ volunteerdata.managername | titlecase }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updatevolunteermodal(updatevolunteermodal, volunteerdata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="volunteer_delete_btn_click(volunteerdata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<hr>
+						<div class="row">
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Schools ( {{ all_schools_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let schooldata of all_schools_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: black; font-weight: bold; background: #ffee76; padding: 5px 30px;">{{ schooldata.schoolname | titlecase }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ schooldata.schoolid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">{{ schooldata.block | titlecase }} , {{ schooldata.district | titlecase }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updateschoolmodal(updateschoolmodal, schooldata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="school_delete_btn_click(schooldata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Levels ( {{ all_levels_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let leveldata of all_levels_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: black; font-weight: bold; background: #76ff8d; padding: 5px 30px;">{{ leveldata.leveldesc }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ leveldata.levelid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Subject: {{ leveldata.subject | titlecase }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updatelevelmodal(updatelevelmodal, leveldata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="level_delete_btn_click(leveldata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
+								<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Questions ( {{ all_responses_list.length }} )</div>
+								<div class="" style="height: 300px; overflow: auto;">
+									<div style="border: 1px solid #ddd7d7; padding: 15px; background: #e9e9e9;">
+										<div *ngFor="let responsedata of all_responses_list" style="border: 1px solid #c8c5c5; border-bottom: 1px solid #a7a5a5; margin-bottom: 10px; padding: 15px; background: white;">
+											<div style="color: black; font-weight: bold; background: #f776ff; padding: 5px 30px;">{{ responsedata.responsedesc }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ responsedata.responseid }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Subject: {{ responsedata.subject }}</div>
+											<br>
+											<div class="row" style="padding-left: 15px;">
+												<button (click)="open_updateresponsemodal(updateresponsemodal, responsedata)" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp; Edit</button>
+												&nbsp;&nbsp;
+												<button (click)="response_delete_btn_click(responsedata)" type="button" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Delete</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Student MOdal -->
+<ng-template #createstudentmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Student </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row" *ngIf="studentmanagerid != ''">
+				<div class="col col-xl-4 col-lg-4">Manager</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentmanagername }}</div>
+			</div>
+			<br>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Volunteer</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="School" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
+					</select>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">School</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ studentschoolid }}" (change)="studentschool_onchange($event)" placeholder="School" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
+					</select>
+				</div>
+			</div>
+			<br>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Student Name</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ studentname }}" [(ngModel)]="studentname" type="text" placeholder="Name" class="modal_textbox">
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Phone</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ studentphone }}" [(ngModel)]="studentphone" type="text" placeholder="Phone" class="modal_textbox">
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Class</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioclass" [(ngModel)]="studentclass">
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="1"> 1
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="2"> 2
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="3"> 3
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="4"> 4
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="5"> 5
+						</label>
+					  </div>
+				</div>
+				<!-- <div class="col col-xl-1 col-lg-1 row-fluid">{{ studentclass }}</div> -->
+			</div>
+			<br>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Gender</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<div class="btn-group btn-group-toggle" ngbRadioGroup name="radiogender" [(ngModel)]="studentgender">
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="1"> Male
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="2"> Female
+						</label>
+					  </div>
+				</div>
+			</div>
+	
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="student_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Update Student MOdal -->
+<ng-template #updatestudentmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Student </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row" *ngIf="studentmanagerid != ''">
+				<div class="col col-xl-4 col-lg-4">Manager</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">{{ studentmanagername }}</div>
+			</div>
+			<br>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Volunteer</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="School" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let volunteer of all_volunteers_list" value="{{ volunteer.volunteerid }}">{{ volunteer.volunteername }}</option>
+					</select>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">School</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ studentschoolid }}" (change)="studentschool_onchange($event)" placeholder="School" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let school of all_schools_list" value="{{ school.schoolid }}">{{ school.schoolname }}</option>
+					</select>
+				</div>
+			</div>
+			<br>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Student Name</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ studentname }}" [(ngModel)]="studentname" type="text" placeholder="Name" class="modal_textbox">
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Phone</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ studentphone }}" [(ngModel)]="studentphone" type="text" placeholder="Phone" class="modal_textbox">
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Class</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioclass" [(ngModel)]="studentclass">
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="1"> 1
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="2"> 2
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="3"> 3
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="4"> 4
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="5"> 5
+						</label>
+					  </div>
+				</div>
+				<!-- <div class="col col-xl-1 col-lg-1 row-fluid">{{ studentclass }}</div> -->
+			</div>
+			<br>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Gender</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<div class="btn-group btn-group-toggle" ngbRadioGroup name="radiogender" [(ngModel)]="studentgender">
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="1"> Male
+						</label>
+						<label ngbButtonLabel class="btn-primary">
+							  <input ngbButton type="radio" [value]="2"> Female
+						</label>
+					  </div>
+				</div>
+			</div>
+	
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="student_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- View Student MOdal -->
+<ng-template #viewstudentmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> 
+		<div>
+			<div style="font-size: 25px;">{{ studentname | titlecase }}</div>
+			<div style="font-size: 12px;">{{ studentid }}</div>
+			<div style="font-size: 12px;">Class: {{ studentclass }} , {{ studentgender | titlecase }}</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		
+		<div style="border: 1px solid #dfdada; padding: 5px 30px;">
+			<div>
+				<div style="font-size: 10px;">Manager</div>
+				<hr>
+				<div style="font-size: 18px;">{{ studentmanagername | titlecase }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentmanagerid }}</div>
+			</div>
+		</div>
+		<br>
+
+		<div style="border: 1px solid #dfdada; padding: 5px 30px;">
+			<div>
+				<div style="font-size: 10px;">Volunteer</div>
+				<hr>
+				<div style="font-size: 18px;">{{ studentvolunteername | titlecase }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentvolunteerid }}</div>
+			</div>
+		</div>
+		<br>
+
+		<div style="border: 1px solid #dfdada; padding: 5px 30px;">
+			<div>
+				<div style="font-size: 10px;">School</div>
+				<hr>
+				<div style="font-size: 18px;">{{ studentschoolname | titlecase }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentschoolid }}</div>
+				<div style="font-size: 12px;color: gray;">{{ studentschoolblock | titlecase }} , {{ studentschooldistrict | titlecase }}</div>
+			</div>
+		</div>
+		<br>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+	</div>
+</ng-template>
+
+<!-- Create Manager MOdal -->
+<ng-template #createmanagermodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Manager </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Manager Name</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ managername }}" [(ngModel)]="managername" type="text" placeholder="Name" class="modal_textbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Phone</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ managerphone }}" [(ngModel)]="managerphone" type="text" placeholder="Phone" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="manager_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Update Manager MOdal -->
+<ng-template #updatemanagermodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Manager </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Manager Name</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ managername }}" [(ngModel)]="managername" type="text" placeholder="Name" class="modal_textbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Phone</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ managerphone }}" [(ngModel)]="managerphone" type="text" placeholder="Phone" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="manager_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Create Volunteer MOdal -->
+<ng-template #createvolunteermodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Volunteer </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Manager</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ volunteermanagerid }}" (change)="volunteermanager_onchange($event)" placeholder="Manager" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let manager of all_managers_list" value="{{ manager.managerid }}">{{ manager.managername }}</option>
+					</select>
+				</div>
+			</div>
+			<br>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Volunteer Name</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ volunteername }}" [(ngModel)]="volunteername" type="text" placeholder="Name" class="modal_textbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Phone</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ volunteerphone }}" [(ngModel)]="volunteerphone" type="text" placeholder="Phone" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="volunteer_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Update Volunteer MOdal -->
+<ng-template #updatevolunteermodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Volunteer </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Manager</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ volunteermanagerid }}" (change)="volunteermanager_onchange($event)" placeholder="Manager" class="form-control">
+						<option value="">Select</option>
+						<option *ngFor="let manager of all_managers_list" value="{{ manager.managerid }}">{{ manager.managername }}</option>
+					</select>
+				</div>
+			</div>
+			<br>
+	
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Volunteer Name</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ volunteername }}" [(ngModel)]="volunteername" type="text" placeholder="Name" class="modal_textbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Phone</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ volunteerphone }}" [(ngModel)]="volunteerphone" type="text" placeholder="Phone" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="volunteer_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Create School MOdal -->
+<ng-template #createschoolmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create School </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">School Name</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ schoolname }}" [(ngModel)]="schoolname" type="text" placeholder="Name" class="modal_textbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">District</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ schooldistrict }}" (change)="schooldistrict_onchange($event)" class="form-control" placeholder="District">
+						<option value="">Select</option>
+						<option value="anugul">Anugul</option>
+						<option value="bargarh">Bargarh</option>
+						<option value="bhadrak">Bhadrak</option>
+						<option value="balasore">Balasore</option>
+						<option value="balangir">Balangir</option>
+						<option value="boudh">Boudh</option>
+						<option value="cuttack">Cuttack</option>
+						<option value="deogarh">Deogarh</option>
+						<option value="dhenkanal">Dhenkanal</option>
+						<option value="gajapati">Gajapati</option>
+						<option value="ganjam">Ganjam</option>
+						<option value="jagatsinghpur">Jagatsinghpur</option>
+						<option value="jajpur">Jajpur</option>
+						<option value="jharsuguda">Jharsuguda</option>
+						<option value="kalahandi">Kalahandi</option>
+						<option value="kandhamal">Kandhamal</option>
+						<option value="kendrapada">Kendrapada</option>
+						<option value="keonjhar">Keonjhar</option>
+						<option value="khordha">Khordha</option>
+						<option value="koraput">Koraput</option>
+						<option value="malkangiri">Malkangiri</option>
+						<option value="mayurbhanj">Mayurbhanj</option>
+						<option value="nuapada">Nuapada</option>
+						<option value="nabarangpur">Nabarangpur</option>
+						<option value="nayagarh">Nayagarh</option>
+						<option value="puri">Puri</option>
+						<option value="rayagada">Rayagada</option>
+						<option value="sambalpur">Sambalpur</option>
+						<option value="sonepur">Sonepur</option>
+						<option value="sundargarh">Sundargarh</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Block</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ schoolblock }}" [(ngModel)]="schoolblock" type="text" placeholder="Block" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="school_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Update School MOdal -->
+<ng-template #updateschoolmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update School </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">School Name</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ schoolname }}" [(ngModel)]="schoolname" type="text" placeholder="Name" class="modal_textbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">District</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ schooldistrict }}" (change)="schooldistrict_onchange($event)" class="form-control" placeholder="District">
+						<option value="">Select</option>
+						<option value="anugul">Anugul</option>
+						<option value="bargarh">Bargarh</option>
+						<option value="bhadrak">Bhadrak</option>
+						<option value="balasore">Balasore</option>
+						<option value="balangir">Balangir</option>
+						<option value="boudh">Boudh</option>
+						<option value="cuttack">Cuttack</option>
+						<option value="deogarh">Deogarh</option>
+						<option value="dhenkanal">Dhenkanal</option>
+						<option value="gajapati">Gajapati</option>
+						<option value="ganjam">Ganjam</option>
+						<option value="jagatsinghpur">Jagatsinghpur</option>
+						<option value="jajpur">Jajpur</option>
+						<option value="jharsuguda">Jharsuguda</option>
+						<option value="kalahandi">Kalahandi</option>
+						<option value="kandhamal">Kandhamal</option>
+						<option value="kendrapada">Kendrapada</option>
+						<option value="keonjhar">Keonjhar</option>
+						<option value="khordha">Khordha</option>
+						<option value="koraput">Koraput</option>
+						<option value="malkangiri">Malkangiri</option>
+						<option value="mayurbhanj">Mayurbhanj</option>
+						<option value="nuapada">Nuapada</option>
+						<option value="nabarangpur">Nabarangpur</option>
+						<option value="nayagarh">Nayagarh</option>
+						<option value="puri">Puri</option>
+						<option value="rayagada">Rayagada</option>
+						<option value="sambalpur">Sambalpur</option>
+						<option value="sonepur">Sonepur</option>
+						<option value="sundargarh">Sundargarh</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Block</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ schoolblock }}" [(ngModel)]="schoolblock" type="text" placeholder="Block" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="school_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Create Level MOdal -->
+<ng-template #createlevelmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Level </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Subject</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ levelsubject }}" (change)="levelsubject_onchange($event)" class="form-control" placeholder="Subject">
+						<option value="">Select</option>
+						<option value="math">Math</option>
+						<option value="odia">Odia</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Level Desc.</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ leveldesc }}" [(ngModel)]="leveldesc" type="text" placeholder="Level description" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="level_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Update Level MOdal -->
+<ng-template #updatelevelmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Level </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Subject</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ levelsubject }}" (change)="levelsubject_onchange($event)" class="form-control" placeholder="Subject">
+						<option value="">Select</option>
+						<option value="math">Math</option>
+						<option value="odia">Odia</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Level Desc.</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ leveldesc }}" [(ngModel)]="leveldesc" type="text" placeholder="Level description" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="level_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Create Question MOdal -->
+<ng-template #createresponsemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Question </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Subject</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ responsesubject }}" (change)="responsesubject_onchange($event)" class="form-control" placeholder="Subject">
+						<option value="">Select</option>
+						<option value="math">Math</option>
+						<option value="odia">Odia</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Question Desc.</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ responsedesc }}" [(ngModel)]="responsedesc" type="text" placeholder="Question description" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="response_save_btn_click()">&nbsp;&nbsp;&nbsp;SAVE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Update Question Modal -->
+<ng-template #updateresponsemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Question </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Subject</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<select value="{{ responsesubject }}" (change)="responsesubject_onchange($event)" class="form-control" placeholder="Subject">
+						<option value="">Select</option>
+						<option value="math">Math</option>
+						<option value="odia">Odia</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4">Question Desc.</div>
+				<div class="col col-xl-8 col-lg-8 row-fluid">
+					<input value="{{ responsedesc }}" [(ngModel)]="responsedesc" type="text" placeholder="Question description" class="modal_textbox">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="response_update_btn_click()">&nbsp;&nbsp;&nbsp;UPDATE&nbsp;&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</ng-template>

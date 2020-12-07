@@ -6,7 +6,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Masterteachertraining1Service, ValidationService } from './masterteachertraining1.service';
-
+import { environment } from './../../../environments/environment.prod';
+const teacherappAuthkey = environment.teacherappAuthkey;
 @Component({
     selector: 'app-masterteachertraining1',
     templateUrl: './masterteachertraining1.component.html',
@@ -47,7 +48,6 @@ export class Masterteachertraining1Component implements OnInit {
 	hideLoading_indicator2: boolean;
 	hideLoading_indicator3: boolean;
 	modalReference: any;
-
     constructor(
 		private modalService: NgbModal,
 		private formBuilder: FormBuilder,
@@ -199,11 +199,13 @@ export class Masterteachertraining1Component implements OnInit {
 		this.alltopic_list = [];
 		this.load_allsubmodules_list(this.selected_submodule_moduleid,this.selected_preflanguage);
 	}
+	selected_submodule_name:any;
 	onselect_sub_modules_select(event: Event){
 		let selectedOption = event.target['options'];
 		let selectedindex = selectedOption.selectedIndex;
 		let selectedoptionValue = selectedOption[selectedindex].value;
 		let selectElement = selectedOption[selectedindex].text;
+		this.selected_submodule_name = selectElement;
 		this.selected_submodule_id = selectedoptionValue;
 		this.load_alltopic_list(this.selected_submodule_id,this.selected_preflanguage);
 		
@@ -341,9 +343,13 @@ export class Masterteachertraining1Component implements OnInit {
 							language:this.selected_preflanguage
 						}
 						this.masterteachertraining1Service.createnewtrainingtopic(subtopicbody).subscribe(data => {
-								this.hideLoading_indicator3 = true;
-								this.load_alltopic_list(this.selected_submodule_moduleid,this.selected_preflanguage);
-								this.subtopicname_tosave ='';
+							    console.log("data1234",Object.keys(data).length>0,this.selected_submodule_modulename,this.selected_submodule_name,this.subtopicname_tosave)
+							    if(Object.keys(data).length>0){
+									this.sendMessageToallUser(this.selected_submodule_modulename,this.selected_submodule_name,this.subtopicname_tosave)
+									this.hideLoading_indicator3 = true;
+									this.load_alltopic_list(this.selected_submodule_moduleid,this.selected_preflanguage);
+									this.subtopicname_tosave ='';
+								}
 							},
 							error => {},
 							() => {}
@@ -355,6 +361,42 @@ export class Masterteachertraining1Component implements OnInit {
 			);
 		}
 	}
+	
+	all_users:any;
+	txt_title:String;
+	txt_message:String;
+	sendMessageToallUser(modulename,submodulename,subtopicname){
+		this.txt_title = "New topic added";
+		this.txt_message = "New topic"+''+subtopicname+''+'added in'+''+submodulename+''+'under'+''+modulename;
+		this.masterteachertraining1Service.getalluser().subscribe(data => {
+			this.all_users = data;
+			console.log(" this.all_users", this.all_users)
+			if(Object.keys(data).length>0){
+				let id = ''+ (new Date().getTime());
+				let title = this.txt_title;
+				let message = this.txt_message;
+				let status = 'unread';
+				let obj = {
+				  id: id,
+				  userid_list: this.all_users,
+				  title: title,
+				  message: message,
+				  status: status
+				};
+				this.masterteachertraining1Service.createnewmessage(obj).subscribe(data => {
+					// location.reload();
+					console.log("hi i am here",data)
+				  },
+				  error => { },
+				  () => {}
+				);
+			}
+		  },
+		  error => {},
+		  () => {}
+		);
+	}
+
 	updatetopic_btnclick(){
 		this.topic_toupdate = this.topic_toupdate.toUpperCase().toLowerCase();
 		if(this.topic_toupdate == undefined || this.topic_toupdate == null || this.topic_toupdate == ''){
