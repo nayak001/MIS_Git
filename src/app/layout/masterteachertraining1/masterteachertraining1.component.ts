@@ -367,7 +367,7 @@ export class Masterteachertraining1Component implements OnInit {
 	txt_message:String;
 	sendMessageToallUser(modulename,submodulename,subtopicname){
 		this.txt_title = "New topic added";
-		this.txt_message = "New topic"+''+subtopicname+''+'added in'+''+submodulename+''+'under'+''+modulename;
+		this.txt_message = "New topic" + " " + subtopicname + " " +"added in" + " " + submodulename + "  " +"under" + "  "+modulename;
 		this.masterteachertraining1Service.getalluser().subscribe(data => {
 			this.all_users = data;
 			console.log(" this.all_users", this.all_users)

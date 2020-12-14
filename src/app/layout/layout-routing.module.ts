@@ -50,6 +50,7 @@ const routes: Routes = [
       { path: 'tchassessment', loadChildren: './tchassessment/tchassessment.module#TchassessmentModule' },
       { path: 'versionmanager', loadChildren: './versionmanager/versionmanager.module#VersionmanagerModule' },
       { path: 'surveymaster', loadChildren: './surveymaster/surveymaster.module#SurveymasterModule' },
+      { path: 'surveyreport', loadChildren: './surveyReport/surveyReport.module#SurveyReportModule' },
       { path: 'tchbaseline', loadChildren: './tchbaseline/tchbaseline.module#TchbaselineModule' },
       { path: 'leapgeneralinfo', loadChildren: './leapgeneralinfo/leapgeneralinfo.module#LeapgeneralinfoModule' },
       { path: 'schoolgenifo', loadChildren: './schoolgeninfo/schoolgeninfo.module#SchoolgeninfoModule' },
