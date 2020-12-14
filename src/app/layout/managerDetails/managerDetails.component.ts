@@ -95,7 +95,6 @@ month : any;
 	}
 
 	// mont(value){
-	// 	debugger
 	// 	this.month = value
 	// }
 
@@ -109,6 +108,7 @@ month : any;
 	}
 	dyCols = [];
 	getManagersDetails(){
+		this.dyCols = [];
 		this.api_hit = false
 		// var mon = document.getElementById("month1")
 
@@ -120,10 +120,8 @@ month : any;
 			month : this.month,
 			limit:10,
 		} 
-		debugger
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe((data: any)=> {
 			this.gotoTable(this.info_type);
-			debugger
 			this.data = data.records;
 			this.dyCols = data.dyCols;
 			this.all_managers_data = data.records;
@@ -164,24 +162,24 @@ month : any;
 			this.getManagersDetails()
 		}
 
-		  gotoTable(value){
-			  this.check= true;
-			  this.check1= false;
-			  this.check2= false;
-			  this.check3= false;
-			  if(value == 'dailyinfo'){
-				  this.check = true
-			  } else if(value == 'skillstought'){
-				  this.check=false;
-				this.check1= true;
-			  }else if(value == 'Monthlyinfo'){
-				this.check=false;
-				this.check2= true;
-			  }else if(value == 'feedbackissues'){
-				this.check=false;
-				this.check3= true;
-			  }
-		  }
+	gotoTable(value){
+		this.check= true;
+		this.check1= false;
+		this.check2= false;
+		this.check3= false;
+		if(value == 'dailyinfo'){
+			this.check = true
+		} else if(value == 'skillstought'){
+			this.check=false;
+			this.check1= true;
+		}else if(value == 'Monthlyinfo'){
+			this.check=false;
+			this.check2= true;
+		}else if(value == 'feedbackissues'){
+			this.check=false;
+			this.check3= true;
+		}
+	}
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
             return 'by pressing ESC';
@@ -190,18 +188,17 @@ month : any;
         } else {
             return  `with: ${reason}`;
         }
-    }
+	}
+	
 	getDate(data){
 		if(data && data.Details && data.Details.createdon){
 			var date = moment(data.Details.createdon).format('DD MMM, YYYY')
 			return date
-			
 		}
 		return ''
 	}
 	
-	search(term: string) {
-	  }
+	search(term: string) {}
 	
 	
 	  
@@ -238,14 +235,14 @@ month : any;
 }
 
 
-download(){
-	
-this.loader = true
+download(){	
+	debugger
+	var cols = [];
+	this.loader = true
 	// var cols = ["name","feedback date"]
     var cols =  this.dyCols;
-	cols.splice(0,0,"feedbackdate")
+	cols.splice(0,0,"feedbackdate");
 	cols.splice(0,0,"Name");
-	
 	// cols.splice(0,0, "Age")
 	var rows =[];
 	
@@ -261,22 +258,42 @@ this.loader = true
 			// row[col_name] = data_row[col_name];
 			let data = data_row[col_name]
 			if(data){
-			row.push(data[0])
-			}	}
+				row.push(data[0])
+			}	
+		}
 		rows.push(row);
 	}
 	this.loader = false
 
 	this.api_hit = true
-	let csvContent = "data:text/csv;charset=utf-8,"
-	+ rows.map(e => e.join(",")).join("\n");
+	let csvContent = "data:text/csv;charset=utf-8,"+ rows.map(e => e.join(",")).join("\n");
 	var encodedUri = encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
 	link.setAttribute("download", "ManagerDetails.csv");
 	document.body.appendChild(link); // Required for FF	
 	link.click()
+}
+
+download1(){
+	let reportdata = [];
+	let all_managers_data_bkp = this.all_managers_data;
+	reportdata = this.all_managers_data;
+	for(var i = 0 ; i < all_managers_data_bkp.length;i++){
+		if(i == this.all_managers_data.length-1) this.download_to_csv(reportdata);
+		//if('name' in all_managers_data_bkp[i]) delete all_managers_data_bkp[i]['name'];
+		//if('userData' in all_managers_data_bkp[i]) delete all_managers_data_bkp[i]['userData'];
+		let obj = {};
+
+		console.log('-->data: '+JSON.stringify(all_managers_data_bkp[i]));
+		reportdata.push(all_managers_data_bkp[i])
 	}
+}
+download_to_csv(reportdata){
+	console.log('download_to_csv is called')
+	console.log('-->data: '+JSON.stringify(reportdata));
+}
+
 selectBlock(distic) {
 	this.all_blocks = []
 	for (let i = 0; i < this.allDisticBlocks.length; i++) {
@@ -286,16 +303,11 @@ selectBlock(distic) {
 			}
 		}
 	}
-
 }
 
 gotoViewDetails(data){
-	
 	const mangerId = data.manager._id
 	this.router.navigate(['individualUserPage/' + mangerId]);
 }
 
 }
-
-
-

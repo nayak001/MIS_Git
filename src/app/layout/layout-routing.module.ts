@@ -14,6 +14,7 @@ const routes: Routes = [
       { path: 'blockdistrict', loadChildren: './blockdistrict/blockdistrict.module#BlockdistrictModule' },
       { path: 'users', loadChildren: './users/users.module#UsersModule' },
       { path: 'usersregistration', loadChildren: './usersregistration/usersregistration.module#UsersregistrationModule' },
+      { path: 'usersregistrationpage', loadChildren: './usersregistrationpage/usersregistrationpage.module#UsersregistrationpageModule' },
       { path: 'teacherprofile', loadChildren: './teacherprofile/teacherprofile.module#TeacherprofileModule' },
       { path: 'centers-allocation', loadChildren: './centers-allocation/centers-allocation.module#CentersAllocationModule' },
       { path: 'baselinetest', loadChildren: './baselinetest/baselinetest.module#BaselinetestModule' },

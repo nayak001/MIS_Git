@@ -86,7 +86,8 @@ export class UsersComponent implements OnInit {
 				}
 			};
 		}
-        this.router.navigate(["/usersregistration"], navigationExtras);
+        //this.router.navigate(["/usersregistration"], navigationExtras);
+        this.router.navigate(["/usersregistrationpage"], navigationExtras);
 	}
 
 	// delete user

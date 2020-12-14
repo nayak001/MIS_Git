@@ -1,0 +1,368 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-3 col-lg-3">
+							<button type="button" class="btn back_button" (click)="back_to_users_page()"><i class="fa fa-reply" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Back</button>
+						</div>
+						<div class="col">
+							<h4>{{ (qp_action == 'edit_user') ? (selected_username | uppercase) : 'NEW USER REGISTRATION' }}</h4>
+						</div>
+					</div>					
+                </div>
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div class="">
+						<table>
+							<tr>
+								<td style="vertical-align: top; width: 1%;">
+									<div class="image_container1">
+										<img [src]="imageToDisplay" alt="" class="image_container2">
+										<button (click)="open(profileimagemodal)" class="btn btn-primary">&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;</button>
+										
+										<ng-template #profileimagemodal let-c="close" let-d="dismiss">
+											<div class="modalpadding">
+												<span class="modaltitlestyle">Change Profile Image</span>
+												<div class="modalimage_container1">
+													<ngx-croppie *ngIf="croppieImage" #ngxCroppie [croppieOptions]="croppieOptions" [imageUrl]="croppieImage" [points]="[0,0,400,400]" (result)="newImageResultFromCroppie($event)"></ngx-croppie>
+												</div>
+												<div>
+													<input type="file" id="fileupload" #imageUpload (change)="imageUploadEvent($event)" accept="image/gif, image/jpeg, image/png"/>
+													<button type="button" class="btn btn-primary" (click)="saveImageFromCroppie()">Save</button>
+													<!-- 
+													<button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelCroppieEdit()">Cancel</button>
+													<button type="button" class="btn btn-primary" (click)="getCropPoints()">Get crop points</button> 
+													-->
+												</div>
+											</div>
+											<button type="button" class="btn btn-danger" (click)="c('Close click')">X&nbsp;&nbsp;Close</button>
+										</ng-template>
+										
+									</div>
+								</td>
+								<td style="vertical-align: top;">
+									<div class="">
+											<div class="modal-body">									
+												<div class="form-content">
+													<div class="row stripe-gray">
+														<div class="col col-xl-2 col-lg-2"><b>Type</b></div>
+														<div class="col">
+															<div class="form-group">						
+																<div class="form-content">
+																	<ng-multiselect-dropdown
+																		[placeholder]="'Select User Type'"
+																		[data]="all_available_usertypes_list"
+																		[settings]="usertype_multiselect_settings" 
+  																		[(ngModel)]="selected_usertype_list" 
+																		(onSelect)="usertype_multiselect_onselect($event)"
+																		(onDeSelect)="usertype_multiselect_ondeselect($event)"
+																		[disabled]="disable_usertype_dropdown"
+																	></ng-multiselect-dropdown>
+																</div>
+															</div>														
+														</div>
+													</div>
+
+
+													<!-- Anganwadis,Schools,Fellows Form -->
+													<div>
+														<div class="" [hidden]="hide_anganwadis_schools_fellows_form">
+
+															<div class="row stripe-white">
+																<div class="col col-xl-2 col-lg-2"><b>Center</b></div>
+																<div class="col col-xl-8 col-lg-8">
+																	<div class="form-group">						
+																		<div class="form-content">
+																			<ng-multiselect-dropdown
+																				[placeholder]="'Select Ceneter'"
+																				[data]="all_available_centers_list"
+																				[settings]="center_multiselect_settings"
+																				[(ngModel)]="selected_center_list" 
+																				(onSelect)="center_multiselect_onselect($event)"
+																				(onDeSelect)="center_multiselect_ondeselect($event)"
+																				[disabled]="disable_center_dropdown"
+																			></ng-multiselect-dropdown>
+																		</div>
+																	</div>														
+																</div>
+																<div class="col col-xl-2 col-lg-2">
+																	<button type="button" class="btn btn-danger float-right" (click)="release_center_button_click()" [disabled]="disable_rlease_center_button">X</button>
+																</div>
+															</div>
+
+															<div class="row stripe-gray">
+																<div class="col col-xl-2 col-lg-2"><b>Manager</b></div>
+																<div class="col">
+																	<div class="form-group">						
+																		<div class="form-content">
+																			<ng-multiselect-dropdown
+																				[placeholder]="'Select Manager'"
+																				[data]="all_available_managers_list"
+																				[settings]="manager_multiselect_settings"
+																				[(ngModel)]="selected_manager_list" 
+																				(onSelect)="manager_multiselect_onselect($event)"
+																				(onDeSelect)="manager_multiselect_ondeselect($event)"
+																				[disabled]="false"
+																			></ng-multiselect-dropdown>
+																		</div>
+																	</div>														
+																</div>
+															</div>
+
+															<div class="row stripe-white">
+																<div class="col col-xl-2 col-lg-2"><b>Name</b></div>
+																<div class="col">
+																	<div class="form-group">
+																		<input [value]="selected_username" [(ngModel)]="selected_username" type="text" class="form-control input-underline input-lg" placeholder="Username">
+																	</div>
+																</div>
+															</div>
+													
+															<div class="row stripe-gray">
+																<div class="col col-xl-2 col-lg-2"><b>Password</b></div>
+																<div class="col col-xl-8 col-lg-8">
+																	<div class="form-group">
+																		<input [type]="showpassword ? 'text' : 'password'" value="{{ selected_password }}" [(ngModel)]="selected_password" class="form-control input-underline input-lg" placeholder="Password">
+																	</div>
+																</div>
+																<div class="col col-xl-2 col-lg-2">
+																	<button type="button" class="btn btn-warning float-right" (click)="showpass()">{{ showhide_button }}&nbsp;</button>
+																</div>
+															</div>
+		
+															<div class="row stripe-white">
+																<div class="col col-xl-2 col-lg-2"><b>Phone</b></div>
+																<div class="col">
+																	<div class="form-group">
+																		<input value="{{ selected_phone }}" [(ngModel)]="selected_phone" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number" >
+																	</div>
+																</div>
+															</div>
+
+															<div class="row stripe-gray">
+																<div class="col col-xl-2 col-lg-2"><b>Gender</b></div>
+																<div class="col">
+																	<div class="form-group">						
+																		<div class="form-content">
+																			<ng-multiselect-dropdown
+																				[placeholder]="'Select Gender'"
+																				[data]="all_available_genders_list"
+																				[settings]="gender_multiselect_settings"
+																				[(ngModel)]="selected_gender_list" 
+																				(onSelect)="gender_multiselect_onselect($event)"
+																				(onDeSelect)="gender_multiselect_ondeselect($event)"
+																				[disabled]="false"
+																			></ng-multiselect-dropdown>
+																		</div>
+																	</div>														
+																</div>
+															</div>
+		
+															<div class="row stripe-white">
+																<div class="col col-xl-2 col-lg-2"><b>Email ID</b></div>
+																<div class="col">
+																	<div class="form-group">
+																		<input value="{{ selected_email }}" [(ngModel)]="selected_email" type="text" class="form-control input-underline input-lg" placeholder="Email ID" >
+																	</div>
+																</div>
+															</div>
+															
+															<div class="row stripe-gray">
+																<div class="col col-xl-2 col-lg-2"><b>State</b></div>
+																<div class="col">
+																	<div class="form-group">						
+																		<div class="form-content">
+																			<ng-multiselect-dropdown
+																				[placeholder]="'Select State'"
+																				[data]="all_available_states_list"
+																				[settings]="state_multiselect_settings"
+																				[(ngModel)]="selected_state_list" 
+																				(onSelect)="state_multiselect_onselect($event)"
+																				(onDeSelect)="state_multiselect_ondeselect($event)"
+																				[disabled]="false"
+																			></ng-multiselect-dropdown>
+																		</div>
+																	</div>														
+																</div>
+															</div>
+
+															<div class="row stripe-white">
+																<div class="col col-xl-2 col-lg-2"><b>District</b></div>
+																<div class="col">
+																	<div class="form-group">						
+																		<div class="form-content">
+																			<ng-multiselect-dropdown
+																				[placeholder]="'Select District'"
+																				[data]="all_available_districts_list"
+																				[settings]="district_multiselect_settings"
+																				[(ngModel)]="selected_district_list" 
+																				(onSelect)="district_multiselect_onselect($event)"
+																				(onDeSelect)="district_multiselect_ondeselect($event)"
+																				[disabled]="false"
+																			></ng-multiselect-dropdown>
+																		</div>
+																	</div>														
+																</div>
+															</div>
+		
+															<div class="row stripe-gray">
+																<div class="col col-xl-2 col-lg-2"><b>Block</b></div>
+																<div class="col">
+																	<div class="form-group">
+																		<input value="{{ selected_block }}" [(ngModel)]="selected_block" type="text" class="form-control input-underline input-lg" placeholder="Block Name" >
+																	</div>
+																</div>
+															</div>
+
+															<div class="row stripe-white">
+																<div class="col">
+																	<button type="button" class="btn btn-success float-right"(click)="formSubmitAction(usersubmitaction)">&nbsp;&nbsp;&nbsp;<i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;{{ btn_text }}&nbsp;&nbsp;&nbsp;</button>
+																</div>
+															</div>
+
+														</div>
+													</div>
+
+													<!-- Managers Form -->
+													<div>
+														<div class="" [hidden]="hide_managers_form">
+
+															<div class="row stripe-white">
+																<div class="col col-xl-2 col-lg-2"><b>Name</b></div>
+																<div class="col">
+																	<div class="form-group">
+																		<input [value]="selected_username" [(ngModel)]="selected_username" type="text" class="form-control input-underline input-lg" placeholder="Username">
+																	</div>
+																</div>
+															</div>
+													
+															<div class="row stripe-gray">
+																<div class="col col-xl-2 col-lg-2"><b>Password</b></div>
+																<div class="col col-xl-8 col-lg-8">
+																	<div class="form-group">
+																		<input [type]="showpassword ? 'text' : 'password'" value="{{ selected_password }}" [(ngModel)]="selected_password" class="form-control input-underline input-lg" placeholder="Password">
+																	</div>
+																</div>
+																<div class="col col-xl-2 col-lg-2">
+																	<button type="button" class="btn btn-warning float-right" (click)="showpass()">{{ showhide_button }}&nbsp;</button>
+																</div>
+															</div>
+
+															<div class="row stripe-white">
+																<div class="col col-xl-2 col-lg-2"><b>Gender</b></div>
+																<div class="col">
+																	<div class="form-group">						
+																		<div class="form-content">
+																			<ng-multiselect-dropdown
+																				[placeholder]="'Select Gender'"
+																				[data]="all_available_genders_list"
+																				[settings]="gender_multiselect_settings"
+																				[(ngModel)]="selected_gender_list" 
+																				(onSelect)="gender_multiselect_onselect($event)"
+																				(onDeSelect)="gender_multiselect_ondeselect($event)"
+																				[disabled]="false"
+																			></ng-multiselect-dropdown>
+																		</div>
+																	</div>														
+																</div>
+															</div>
+		
+															<div class="row stripe-gray">
+																<div class="col col-xl-2 col-lg-2"><b>Email ID</b></div>
+																<div class="col">
+																	<div class="form-group">
+																		<input value="{{ selected_email }}" [(ngModel)]="selected_email" type="text" class="form-control input-underline input-lg" placeholder="Email ID" >
+																	</div>
+																</div>
+															</div>
+
+															<div class="row stripe-white">
+																<div class="col">
+																	<button type="button" class="btn btn-success float-right"(click)="formSubmitAction(usersubmitaction)">&nbsp;&nbsp;&nbsp;<i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;{{ btn_text }}&nbsp;&nbsp;&nbsp;</button>
+																</div>
+															</div>
+
+														</div>
+													</div>
+
+
+													
+													
+													
+													
+
+													
+			
+													<!-- commented by nrusingh on 09-03-2020 -->
+													<!-- 										
+													<div class="row">
+														<div class="col col-xl-2 col-lg-2">
+															Phone
+														</div>
+														<div class="col col-xl-4 col-lg-4">
+															<div class="form-group">
+																<input id="modal_contactnumber" value="{{ modal_contactnumber }}" formControlName="modal_contactnumber" [(ngModel)]="modal_contactnumber" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number">
+																<div class="validation-error-message"  *ngIf="userModalFormGroup.controls.modal_contactnumber.invalid">Enter valid Phone number</div> 
+															</div>
+														</div>
+														<div class="col col-xl-2 col-lg-2">
+															Gender
+														</div>
+														<div class="col col-xl-4 col-lg-4">
+															<div class="form-group">
+																<select id="selected_gender" value="{{ selected_gender }}" (change)="onSelect_selected_gender($event)"  class="form-control">
+																	<option value="male">Male</option>
+																	<option value="female">Female</option>														
+																</select>
+															</div>
+														</div>
+													</div>
+														-->
+			
+											</div>									
+										</div>
+										<!-- <div class="modal-footer">
+											<button type="submit" class="btn btn-success" [disabled]="!userModalFormGroup.valid">&nbsp;&nbsp;&nbsp;{{ btn_text }}&nbsp;&nbsp;&nbsp;</button> 
+										</div> -->
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>
+
+
+<!-- Update Question Modal -->
+<ng-template #loadingmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Question </div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			
+			<div *ngIf="(hideModalLoading_indicator);else elsepart" class="">
+				<div id="loading_indicator" style="width: 100%; text-align: center;">
+					<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
+				</div>
+			</div>
+			<ng-template #elsepart>
+				<div class="">
+					<i class="fa fa-check-circle" aria-hidden="true"></i>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					Data Saved Successfully
+				</div>
+			</ng-template>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>

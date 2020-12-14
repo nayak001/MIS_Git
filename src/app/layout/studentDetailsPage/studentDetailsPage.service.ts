@@ -19,25 +19,20 @@ export class StudentDetailsPageService {
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});	
-
 	}
 
-
 	getalStudents(data){
-		debugger
 		return this.http.get(baseUrl + 'getalStudents?userType=' + data.userType + 
-		'&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type +
-		 "&baseline=" + data.baseline + "&sex=" + data.sex  + "&avg_attendance=" + data.avg_attendance
-		 +"&seventyece=" + data.seventyece + "&enrolldate=" + data.enrolldate,
+				'&distric=' + data.distric + '&block=' + data.block + '&program_type=' + data.program_type +
+				'&baseline=' + data.baseline + '&sex=' + data.sex  + '&avg_attendance=' + data.avg_attendance+
+				'&seventyece=' + data.seventyece + '&enrolldate=' + data.enrolldate,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});	
 	}
 
-
 	getallDetailsStudents(data){
-		debugger
 		return this.http.post(baseUrl + 'getallDetailsStudents',data,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -63,9 +58,7 @@ export class StudentDetailsPageService {
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});	
-
 	}
-
 }
 
 export class ValidationService {
