@@ -28,23 +28,26 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col col-xl-4 col-lg-4">
-                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Center Details</h4>
+                            <h4 style="font-size: 16px; margin-top: 5px;color: black;">Survey Report Details</h4>
                         </div>
                     </div>
                 </div>
                 <div class="row" style="padding: 25px; font-size: 15px;color: black;" *ngIf = "api_hit">
+                    
                     <div class="col-2">
-                        <label>Center Type</label>
-                        <select class="form-control select2" [(ngModel)]="center_type"
+                        <label>Manager Name</label>
+                        <!-- <select class="form-control select2" [(ngModel)]="center_type"
                             style="font-size: 14px; height: 30px;">
                             <option value="all">All</option>
                             <option value="anganwadi">Anganwadi</option>
                             <option value="school">School</option>
                             <option value="fellow">Fellow</option>
+                        </select> -->
+                        <select value="{{ selected_manager_id}}" (change)="onselect_manager_select($event)" class="form-control" placeholder="Manager">
+                            <option *ngFor="let manager of managers;" value="{{ manager.userid }}">{{ manager.username }}</option>									
                         </select>
-
                     </div>
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <label>Select District</label>
                         <select class="form-control select2" [(ngModel)]="distric" (change)="selectBlock(distric)"
                             style=" height: 30px;">
@@ -53,16 +56,16 @@
                             <option *ngFor="let distic of allDistics" value={{distic.districtvalue}}>{{distic.districtvalue}}
                             </option>
                         </select>
-                    </div>
-                    <div class="col-2">
+                    </div> -->
+                    <!-- <div class="col-2">
                         <label>Select Block</label>
                         <select class="form-control select2" [(ngModel)]="block" style=" height: 30px;">
 
                             <option value="all">All</option>
                             <option *ngFor="let block of all_blocks" value={{block.block}}>{{block.block}}</option>
                         </select>
-                    </div>
-                    <div class="col-2">
+                    </div> -->
+                    <!-- <div class="col-2">
                         <label>Program Type</label>
                         <select class="form-control select2" [(ngModel)]="program_type" name="program_type" (change)="selectProgramType(program_type)" style=" height: 30px;">
 
@@ -70,9 +73,9 @@
                             <option value="ece">ECE</option>
                             <option value="pge">PGE</option>
                         </select>
-                    </div>
+                    </div> -->
 
-                    <div class="col-2" *ngIf="isClass">
+                    <!-- <div class="col-2" *ngIf="isClass">
                         <label>Class</label>
                         <select class="form-control select2" [(ngModel)]="class_type" name="class_type" style=" height: 30px;">
 
@@ -82,14 +85,14 @@
                             <option value="class4">Class 4</option>
                             <option value="class5">Class 5</option>
                         </select>
-                    </div>
+                    </div> -->
                   
                     <div class="col-2">
 
                         <div class="row">
-                            <button type="button" (click)="viewData()" class="btn btn-info">Filter</button>
+                            <!-- <button type="button" (click)="viewData()" class="btn btn-info">Filter</button> -->
 
-                            <i class="fa fa-download" (click)="download()" title="Download" style="float: right;"></i>
+                            <i class="fa fa-download" (click)="downloadfile()" title="Download" style="float: right;"></i>
                         </div>
                     </div>
 
@@ -99,10 +102,10 @@
                
 
                 </div>
-                <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
+                <!-- <div id="loading_indicator" class="loading_indicator" >
                     <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
                             alt="Loading. Please wait..."></span>
-                </div>
+                </div> -->
 
                 
             <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">

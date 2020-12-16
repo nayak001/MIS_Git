@@ -41,6 +41,20 @@ export class SurveyReportService {
 		});	
 
 	}
+	getallmanager(){				
+		return this.http.get(baseUrl+'getallmanager',
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+	getmanagerSurveyReport(id){
+		return this.http.get(baseUrl+'getmanagersurveyreport'+'/'+id,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});
+	}
 
 }
 

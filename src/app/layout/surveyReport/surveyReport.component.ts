@@ -6,6 +6,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SurveyReportService } from './surveyReport.service';
+import * as json2csv from 'json2csv';
+import { saveAs } from 'file-saver';
 
 @Component({
 	selector: 'app-surveyReportDetails',
@@ -13,7 +15,9 @@ import { SurveyReportService } from './surveyReport.service';
 	styleUrls: ['./surveyReport.component.scss'],
 	animations: [routerTransition()]
 })
+
 export class SurveyReportComponent implements OnInit {
+	Json2csvParser = json2csv.Parser;
 	userModalFormGroup: FormGroup;
 	center_type: any = 'all'
 	distric: any = 'all'
@@ -80,26 +84,64 @@ export class SurveyReportComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private translate: TranslateService,
 		public router: Router,
-		private centerDetailsService: SurveyReportService
+		private SurveyReportService: SurveyReportService
 	) {
 
-		this.hideLoading_indicator = true;
+		// this.hideLoading_indicator = true;
 		this.showpassword = false;
 		this.showhide_button = 'Show';
 	}
-
 	async ngOnInit() {
-		
-		this.hideLoading_indicator = false;
-		await this.getBlockDetails()
+		// this.hideLoading_indicator = false;
 
-		await this.getCenterDetails()
+		await this.getallmanager()
 		// window.addEventListener('scroll', this.myFunction, true);
 	}
 
+	managers:any;
+    getallmanager(){
+		this.SurveyReportService.getallmanager().subscribe(data => {
+			  if(Object.keys(data).length > 0){
+				// this.hideLoading_indicator = true;
+				this.managers = data;
+				console.log("jii",this.managers)
+			  }
+			}, 
+			error => {}, 
+			() => {}
+		);	
+	}
+	selected_manager_id:any;
+    onselect_manager_select(e){
+		this.selected_manager_id = e.target.value;
+	}
+	allreportdata:any;
+	downloadfile(){
+		this.SurveyReportService.getmanagerSurveyReport(this.selected_manager_id).subscribe(data => {
+			if(data){
+				if(Object.keys(data).length > 0){
+					this.allreportdata = data
+					let csvData = this.convertToCSV(this.allreportdata);
+					let file = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+					saveAs(file,"Survey_report.csv");
+					}else{
+						
+					}
+			}else{
+				alert("no data to download")
+			}
+			
+		}, 
+		error => {}, 
+		() => {}
+		);
+	}
 
-
-
+    public convertToCSV(objArray: any, fields?) {
+        let json2csvParser = new this.Json2csvParser({ opts: fields });
+        let csv = json2csvParser.parse(objArray);
+        return csv;
+    }
 	// myFunction() {
 
 
@@ -118,41 +160,34 @@ export class SurveyReportComponent implements OnInit {
 
 
 
-	getBlockDetails() {
-		this.centerDetailsService.getBlocks().subscribe(data => {
-			this.allDisticBlocks = data
-			for (var i = 0; i < this.allDisticBlocks.length; i++) {
-				if (this.allDistics.length > 0) {
-					let isDistic = false
-					for (var j = 0; j < this.allDistics.length; j++) {
-						if (this.allDistics[j].districtvalue == this.allDisticBlocks[i].districtvalue) {
-							isDistic = true;
-						}
-					}
-					if (!isDistic) {
-						this.allDistics.push(this.allDisticBlocks[i])
-					}
-				}
-				else {
-					this.allDistics.push(this.allDisticBlocks[i])
-				}
-			}
-			// this.all_blocks=data;
-		},
-			error => { },
-			() => { }
-		);
+	// getBlockDetails() {
+	// 	this.centerDetailsService.getBlocks().subscribe(data => {
+	// 		this.allDisticBlocks = data
+	// 		for (var i = 0; i < this.allDisticBlocks.length; i++) {
+	// 			if (this.allDistics.length > 0) {
+	// 				let isDistic = false
+	// 				for (var j = 0; j < this.allDistics.length; j++) {
+	// 					if (this.allDistics[j].districtvalue == this.allDisticBlocks[i].districtvalue) {
+	// 						isDistic = true;
+	// 					}
+	// 				}
+	// 				if (!isDistic) {
+	// 					this.allDistics.push(this.allDisticBlocks[i])
+	// 				}
+	// 			}
+	// 			else {
+	// 				this.allDistics.push(this.allDisticBlocks[i])
+	// 			}
+	// 		}
+	// 		// this.all_blocks=data;
+	// 	},
+	// 		error => { },
+	// 		() => { }
+	// 	);
 
-	}
+	// }
 	viewData() {
-        this.type_class =this.class_type 
-		this.api_hit = false
-		// this.program_type = this.is_program_type
-		this.p_type = this.program_type;
-		this.isLoaded = false
-		this.page_no = 1
-		this.isdata_table = false
-		this.getCenterDetails()
+
 	}
 
 
@@ -160,7 +195,6 @@ export class SurveyReportComponent implements OnInit {
 	getPageNo(event) {
 		this.loader = true
 		this.page_no = event
-		this.getCenterDetails()
 
 	}
 
@@ -185,34 +219,6 @@ export class SurveyReportComponent implements OnInit {
 		// });
 	}
 
-	getCenterDetails() {
-		this.api_hit = false
-		const data = {
-			center_type: this.center_type,
-			distric: this.distric,
-			block: this.block,
-			program_type: this.program_type,
-			page_no: this.page_no,
-			limit: 10,
-			downloadclick: this.downloadclick,
-			class: this.class_type
-		}
-		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
-			this.filterData = data;
-			//this.filterData = [];
-			this.isLoaded = true;
-			if (this.filterData.length == 0) {
-				this.isdata_table = true;
-			}
-			else {
-				this.isdata_table = false;
-				this.count = this.filterData[0].centercount
-			}
-
-			this.loader = false;
-			this.api_hit = true
-		});
-	}
 
 
 	getRoundedValue(value) {
@@ -376,11 +382,11 @@ export class SurveyReportComponent implements OnInit {
 
 		}
 
-		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
+		this.SurveyReportService.getCenterDetails(data).subscribe(data => {
 			debugger
 			this.alldata = data;
 			//this.filterData = [];
-			this.isLoaded = true;
+			// this.isLoaded = true;
 
 			// if (this.alldata.length == 0) {
 			// 	this.isdata_table = true;

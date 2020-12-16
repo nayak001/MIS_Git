@@ -87,7 +87,6 @@ export class Masterteachertraining1Component implements OnInit {
 			this.hideLoading_indicator1 = false;
 			this.masterteachertraining1Service.findtrainingmodulebyname(this.modulename_tosave).subscribe(data => {
 					this.hideLoading_indicator1 = true;
-
 					if(Object.keys(data).length > 0){
 						alert('Module name already exists.')
 					}else{
