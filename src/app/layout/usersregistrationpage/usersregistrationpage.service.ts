@@ -18,6 +18,10 @@ export class UsersregistrationpageService {
 	userreg_getavailablecenters(){				
 		return this.http.get(baseUrl+'userreg_getavailablecenters/',{ headers: new HttpHeaders().set('Content-Type', 'application/json') });			
 	}
+
+	userreg_getcenterbycenterid(centerid){				
+		return this.http.get(baseUrl+'userreg_getcenterbycenterid/'+centerid,{ headers: new HttpHeaders().set('Content-Type', 'application/json') });			
+	}
   
 	userreg_getmanagers(){				
 		return this.http.get(baseUrl+'userreg_getmanagers/',{ headers: new HttpHeaders().set('Content-Type', 'application/json') });			

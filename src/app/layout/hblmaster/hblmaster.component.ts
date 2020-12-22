@@ -285,7 +285,7 @@ export class HblmasterComponent implements OnInit {
 		if(this.studentmanagerid == undefined || this.studentmanagerid == null || this.studentmanagerid.trim() == ''){
 			swal.fire('Info', 'Please select manager', 'warning')
 		}else if(this.studentvolunteerid == undefined || this.studentvolunteerid == null || this.studentvolunteerid.trim() == ''){
-			swal.fire('Info', 'Please select volunteer', 'warning')
+			swal.fire('Info', 'Please select teacher', 'warning')
 		}else if(this.studentschoolid == undefined || this.studentschoolid == null || this.studentschoolid.trim() == ''){
 			swal.fire('Info', 'Please select school', 'warning')
 		}else if(this.studentname == undefined || this.studentname == null || this.studentname.trim() == ''){
@@ -378,7 +378,7 @@ export class HblmasterComponent implements OnInit {
 		if(this.volunteermanagername == undefined || this.volunteermanagername == null || this.volunteermanagername == ''){
 			swal.fire('Info', 'Please select a manager', 'warning')
 		}else if(this.volunteername == undefined || this.volunteername == null || this.volunteername.trim() == ''){
-			swal.fire('Info', 'Please check volunteer name', 'warning')
+			swal.fire('Info', 'Please check teacher name', 'warning')
 		}else if(this.volunteerphone == undefined || this.volunteerphone == null || this.volunteerphone.trim() == ''){
 			swal.fire('Info', 'Phone number is required', 'warning')
 		}else if(!this.validatephone.test(this.volunteerphone)){
@@ -504,7 +504,7 @@ export class HblmasterComponent implements OnInit {
 		if(this.studentmanagerid == undefined || this.studentmanagerid == null || this.studentmanagerid.trim() == ''){
 			swal.fire('Info', 'Please select manager', 'warning')
 		}else if(this.studentvolunteerid == undefined || this.studentvolunteerid == null || this.studentvolunteerid.trim() == ''){
-			swal.fire('Info', 'Please select volunteer', 'warning')
+			swal.fire('Info', 'Please select teacher', 'warning')
 		}else if(this.studentschoolid == undefined || this.studentschoolid == null || this.studentschoolid.trim() == ''){
 			swal.fire('Info', 'Please select school', 'warning')
 		}else if(this.studentname == undefined || this.studentname == null || this.studentname.trim() == ''){
@@ -611,7 +611,7 @@ export class HblmasterComponent implements OnInit {
 		if(this.volunteermanagername == undefined || this.volunteermanagername == null || this.volunteermanagername == ''){
 			swal.fire('Info', 'Please select a manager', 'warning')
 		}else if(this.volunteername == undefined || this.volunteername == null || this.volunteername.trim() == ''){
-			swal.fire('Info', 'Please check volunteer name', 'warning')
+			swal.fire('Info', 'Please check teacher name', 'warning')
 		}else if(this.volunteerphone == undefined || this.volunteerphone == null || this.volunteerphone.trim() == ''){
 			swal.fire('Info', 'Phone number is required', 'warning')
 		}else if(!this.validatephone.test(this.volunteerphone)){
@@ -794,7 +794,7 @@ export class HblmasterComponent implements OnInit {
 
 	deletemanager(id){
 		if(this.is_manager_have_volunteers == true){
-			swal.fire('Info', 'Can not delete this manager because it is linked with some of the volunteers. Please re-assign the volunteers to another manager.', 'info');
+			swal.fire('Info', 'Can not delete this manager because it is linked with some of the teachers. Please re-assign the teachers to another manager.', 'info');
 		}else{
 			this.hideLoading_indicator = false;
 			this.hblmasterService.deletehblmanager(id).subscribe(data => {
@@ -812,7 +812,7 @@ export class HblmasterComponent implements OnInit {
 		let volunteerid = volunteerdata.volunteerid;
 		swal.fire({
 			title: 'Are you sure?',
-			text: "By deleting this volunteer, all the student informations also be removed permanently. Do you want to delete this volunteer details??",
+			text: "By deleting this teacher, all the student informations also be removed permanently. Do you want to delete this teacher details??",
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',

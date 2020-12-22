@@ -20,7 +20,7 @@
 											<button (click)="open_createmanagermodal(createmanagermodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-address-book" aria-hidden="true"></i>&nbsp;&nbsp; Create Manager</button>
 										</div><hr>
 										<div class="d-flex justify-content-between">
-											<button (click)="open_createvolunteermodal(createvolunteermodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp; Create Volunteer</button>
+											<button (click)="open_createvolunteermodal(createvolunteermodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;&nbsp; Create Teacher</button>
 										</div><hr>
 										<div class="d-flex justify-content-between">
 											<button (click)="open_createschoolmodal(createschoolmodal)" class="dropdown-item" style="font-size: 15px; cursor: pointer; "><i class="fa fa-bank" aria-hidden="true"></i>&nbsp;&nbsp; Create School</button>
@@ -62,7 +62,7 @@
 											<div style="font-size: 12px; color: #9b7b7b;">ID: {{ studentdata.studentid }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">Class: {{ studentdata.class }}, {{ studentdata.gender | titlecase }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">School: {{ studentdata.schoolname | titlecase }}</div>
-											<div style="font-size: 12px; color: #9b7b7b;">Volunteer: {{ studentdata.volunteername | titlecase }}</div>
+											<div style="font-size: 12px; color: #9b7b7b;">Teacher: {{ studentdata.volunteername | titlecase }}</div>
 											<div style="font-size: 12px; color: #9b7b7b;">Manager: {{ studentdata.managername | titlecase }}</div>
 											<br>
 											<div class="row" style="padding-left: 15px;">
@@ -98,7 +98,7 @@
 
 							<div class="col col-lg-4 col-md-4 col-sm-4" style="padding: 10px; margin-top: 10px;">
 								<div class="row">
-									<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Volunteers ( {{ all_volunteers_list.length }} )</div>
+									<div style="font-size: 20px; font-weight: bold;  color: #9b7b7b; margin-bottom: 15px;">Teachers ( {{ all_volunteers_list.length }} )</div>
 									<input type="text" (keyup)="searchvolunteer($event.target.value)" placeholder="Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
 								</div>
 								<div class="" style="height: 300px; overflow: auto;">
@@ -203,7 +203,7 @@
 			<br>
 	
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Volunteer</div>
+				<div class="col col-xl-4 col-lg-4">Teacher</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
 					<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="School" class="form-control">
 						<option value="">Select</option>
@@ -302,7 +302,7 @@
 			<br>
 	
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Volunteer</div>
+				<div class="col col-xl-4 col-lg-4">Teacher</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
 					<select value="{{ studentvolunteerid }}" (change)="studentvolunteer_onchange($event)" placeholder="School" class="form-control">
 						<option value="">Select</option>
@@ -407,7 +407,7 @@
 
 		<div style="border: 1px solid #dfdada; padding: 5px 30px;">
 			<div>
-				<div style="font-size: 10px;">Volunteer</div>
+				<div style="font-size: 10px;">Teacher</div>
 				<hr>
 				<div style="font-size: 18px;">{{ studentvolunteername | titlecase }}</div>
 				<div style="font-size: 12px;color: gray;">{{ studentvolunteerid }}</div>
@@ -454,7 +454,7 @@
 						<div style="font-size: 12px; color: #9b7b7b;">ID: {{ studentdata.studentid }}</div>
 						<div style="font-size: 12px; color: #9b7b7b;">Class: {{ studentdata.class }}, {{ studentdata.gender | titlecase }}</div>
 						<div style="font-size: 12px; color: #9b7b7b;">School: {{ studentdata.schoolname | titlecase }}</div>
-						<div style="font-size: 12px; color: #9b7b7b;">Volunteer: {{ studentdata.volunteername | titlecase }}</div>
+						<div style="font-size: 12px; color: #9b7b7b;">Teacher: {{ studentdata.volunteername | titlecase }}</div>
 						<div style="font-size: 12px; color: #9b7b7b;">Manager: {{ studentdata.managername | titlecase }}</div>
 						<br>
 						<div class="row" style="padding-left: 15px;">
@@ -536,7 +536,7 @@
 
 <!-- Create Volunteer MOdal -->
 <ng-template #createvolunteermodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Volunteer </div>
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Create Teacher </div>
 	
 	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
 		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
@@ -556,7 +556,7 @@
 			<br>
 	
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Volunteer Name</div>
+				<div class="col col-xl-4 col-lg-4">Teacher Name</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
 					<input value="{{ volunteername }}" [(ngModel)]="volunteername" type="text" placeholder="Name" class="modal_textbox">
 				</div>
@@ -577,7 +577,7 @@
 
 <!-- Update Volunteer MOdal -->
 <ng-template #updatevolunteermodal let-c="close" let-d="dismiss">
-	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Volunteer </div>
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Update Teacher </div>
 	
 	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
 		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." ></span>
@@ -597,7 +597,7 @@
 			<br>
 	
 			<div class="row">
-				<div class="col col-xl-4 col-lg-4">Volunteer Name</div>
+				<div class="col col-xl-4 col-lg-4">Teacher Name</div>
 				<div class="col col-xl-8 col-lg-8 row-fluid">
 					<input value="{{ volunteername }}" [(ngModel)]="volunteername" type="text" placeholder="Name" class="modal_textbox">
 				</div>
