@@ -21,6 +21,8 @@ export class UsersComponent implements OnInit {
 	modalReference: any;
 	closeResult: string;
 
+	selected_searchfilter: string = 'username';
+
     constructor(public router: Router, private usersService: UsersService) {
 		this.hideLoading_indicator = true;
 		this.getallUsers();
@@ -57,15 +59,33 @@ export class UsersComponent implements OnInit {
 		this.getallUsers();
 	}
 
+	searchfilter_select_onchange(event: Event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.selected_searchfilter = selectedOptionValue;
+	}
+
 	search(term: string) {
 		term = (term == undefined || term == null) ? '' : term;
 		if(!term) {
 		  this.filterData = this.data;
 		} else {
-		  this.filterData = this.data.filter(element => 
-			element.emailid.toLowerCase().includes(term.trim().toLowerCase())
-		  );
+			if(this.selected_searchfilter == 'username') this.searchusername(term);
+			else if(this.selected_searchfilter == 'centername') this.searchcentername(term);
 		}
+	}
+	searchusername(term){
+		this.filterData = this.data.filter(element => 
+		  	element.username.toLowerCase().includes(term.trim().toLowerCase())
+		);
+	}
+	searchcentername(term){
+		this.filterData = this.data.filter(function(element){
+			if(element.centername != undefined)
+				return element.centername.toLowerCase().includes(term.trim().toLowerCase())
+		});
 	}
 
 	// naviagte to registration page

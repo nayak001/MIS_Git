@@ -43,6 +43,7 @@ export class UsersregistrationpageComponent implements OnInit {
 	selected_password: string;
 	selected_phone: string;
 	selected_email: string;
+	selected_permanentaddress: string = '';
 	selected_block: string;
 
 	// Action type
@@ -88,7 +89,7 @@ export class UsersregistrationpageComponent implements OnInit {
 	// District
 	all_available_districts_list: any = [];
 	selected_district_list: any = [];
-	selected_districtcode: string;
+	selected_districtid: string;
 	selected_districtvalue: string;
 	district_multiselect_settings: any = {};
 
@@ -135,7 +136,7 @@ export class UsersregistrationpageComponent implements OnInit {
 		this.croppieImage = this.imageUrl;
 		this.get_availavle_centers();
 		this.get_availavle_managers();
-		this.get_availavle_states();
+		//this.get_availavle_states();
 		this.get_queryparams_values();
 	}
 	
@@ -144,8 +145,8 @@ export class UsersregistrationpageComponent implements OnInit {
 		this.center_multiselect_configuration();
 		this.manager_multiselect_configuration();
 		this.gender_multiselect_configuration();
-		this.state_multiselect_configuration();
-		this.district_multiselect_configuration();
+		//this.state_multiselect_configuration();
+		//this.district_multiselect_configuration();
 		this.load_page_data();
 	}
 
@@ -262,6 +263,27 @@ export class UsersregistrationpageComponent implements OnInit {
 		}, error => {}, () => {});
 	}
 
+	get_center_by_centerid(centerid){
+		this.hideLoading_indicator = false;
+		this.usersregistrationpageService.userreg_getcenterbycenterid(centerid).subscribe(data => {
+			console.log('-->userreg_getcenterbycenterid: '+JSON.stringify(data));
+			if(Object.keys(data).length > 0){
+				this.selected_statecode = (data[0].statecode == undefined || data[0].statecode == null || data[0].statecode.trim() == '') ? '' : data[0].statecode;
+				this.selected_statevalue = (data[0].statevalue == undefined || data[0].statevalue == null || data[0].statevalue.trim() == '') ? '' :  data[0].statevalue;
+				this.selected_districtid = (data[0].districtid == undefined || data[0].districtid == null || data[0].districtid.trim() == '') ? '' :  data[0].districtid;
+				this.selected_districtvalue = (data[0].districtvalue == undefined || data[0].districtvalue == null || data[0].districtvalue.trim() == '') ? '' :  data[0].districtvalue;
+				this.selected_block = (data[0].block == undefined || data[0].block == null || data[0].block.trim() == '') ? '' :  data[0].block;
+			}else{
+				this.selected_statecode = '';
+				this.selected_statevalue = '';
+				this.selected_districtid = '';
+				this.selected_districtvalue = '';
+				this.selected_block = '';
+			}
+			this.hideLoading_indicator = true;
+		}, error => {}, () => {});
+	}
+
 	// Get all Managers
 	get_availavle_managers(){
 		this.hideLoading_indicator = false;
@@ -314,20 +336,38 @@ export class UsersregistrationpageComponent implements OnInit {
 	}
 
 	release_center_button_click(){
-		if(this.selected_centerid != undefined && this.selected_centerid != null && this.selected_centerid.length > 0){
-			this.update_center_status(this.selected_centerid, {status: 'available'});
-			this.get_availavle_centers();
-			this.selected_center_list = [];
-			this.selected_centerid = '';
-			this.selected_centername = '';
-			this.disable_center_dropdown = false;
-		}else{
-			swal.fire('Info', 'No Centers selected', 'warning');
-			this.selected_center_list = [];
-			this.selected_centerid = '';
-			this.selected_centername = '';
-			this.disable_center_dropdown = false;
-		}
+		swal.fire({
+			title: 'Are you sure? ',
+			text: 'Do you want to release this center for this user?',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes'
+		}).then((result) => {
+			if (result.value) {
+				if(this.selected_centerid != undefined && this.selected_centerid != null && this.selected_centerid.length > 0){
+					// update center status
+					this.update_center_status(this.selected_centerid, {status: 'available'});
+					// update user
+					let body = { centerid : '', centername : '', statecode : '', statevalue : '', districtid : '', districtvalue : '' };
+					this.hideLoading_indicator = false;
+					this.usersregistrationpageService.userreg_updateuser(this.document_id, body).subscribe(data => {this.hideLoading_indicator = true;}, error => {}, () => {} );
+		
+					this.get_availavle_centers();
+					this.selected_center_list = [];
+					this.selected_centerid = '';
+					this.selected_centername = '';
+					this.disable_center_dropdown = false;
+				}else{
+					swal.fire('Info', 'No Centers selected', 'warning');
+					this.selected_center_list = [];
+					this.selected_centerid = '';
+					this.selected_centername = '';
+					this.disable_center_dropdown = false;
+				}
+			}
+		});
 	}
 
 	load_page_data(){
@@ -364,15 +404,16 @@ export class UsersregistrationpageComponent implements OnInit {
 				this.selected_gender = user.gender;
 				this.selected_statecode = user.statecode;			//<-
 				this.selected_statevalue = user.statevalue;			//<-
-				this.selected_districtcode = user.districtcode;		//<-
+				this.selected_districtid = user.districtid;		//<-
 				this.selected_districtvalue = user.districtvalue;	//<-
-				this.selected_block = user.blockname;				//<-
+				this.selected_block = user.block;				//<-
+				this.selected_permanentaddress = user.permanentaddress;
 				this.currentImage = user.image;
 
 				this.selected_usertypeid = (this.selected_usertypeid == undefined || this.selected_usertypeid == null || this.selected_usertypeid.trim() == '') ? '' : this.selected_usertypeid.trim().toLowerCase();
 				this.selected_gender   = (this.selected_gender == undefined || this.selected_gender == null || this.selected_gender.trim() == '') ? '' : this.selected_gender.trim().toLowerCase();
 		
-				//console.log('-->selected_usertypeid= ',this.selected_usertypeid,'    selected_centerid= ',this.selected_centerid,'    selected_managerid= ',this.selected_managerid,'    selected_username= ',this.selected_username,'    selected_password= ',this.selected_password,'    selected_phone= ',this.selected_phone,'    selected_email= ',this.selected_email,'    selected_gender= ',this.selected_gender,'    selected_statecode= ',this.selected_statecode,'    selected_statevalue= ',this.selected_statevalue,'    selected_districtcode= ',this.selected_districtcode,'    selected_districtvalue= ',this.selected_districtvalue,'    selected_block= ',this.selected_block);
+				//console.log('-->selected_usertypeid= ',this.selected_usertypeid,'    selected_centerid= ',this.selected_centerid,'    selected_managerid= ',this.selected_managerid,'    selected_username= ',this.selected_username,'    selected_password= ',this.selected_password,'    selected_phone= ',this.selected_phone,'    selected_email= ',this.selected_email,'    selected_gender= ',this.selected_gender,'    selected_statecode= ',this.selected_statecode,'    selected_statevalue= ',this.selected_statevalue,'    selected_districtid= ',this.selected_districtid,'    selected_districtvalue= ',this.selected_districtvalue,'    selected_block= ',this.selected_block);
 				
 				if(this.selected_usertypeid.trim().toLowerCase() == 'anganwadi' || this.selected_usertypeid.trim().toLowerCase() == 'school' || this.selected_usertypeid.trim().toLowerCase() == 'fellow'){	
 					this.hide_anganwadis_schools_fellows_form = false;
@@ -409,7 +450,7 @@ export class UsersregistrationpageComponent implements OnInit {
 			else if(this.selected_gender.trim().toLowerCase() == 'female')  	this.selected_gender_list = [{genderid:this.selected_gender, gendername: 'Female'}];
 			else  																this.selected_gender_list = [{genderid:this.selected_gender, gendername: 'Other'}];
 			this.selected_state_list = [{_id: this.selected_statecode, statevalue: this.selected_statevalue}];
-			this.selected_district_list = [{_id: this.selected_districtcode, districtvalue: this.selected_districtvalue}];
+			this.selected_district_list = [{_id: this.selected_districtid, districtvalue: this.selected_districtvalue}];
 		}else{
 			this.disable_usertype_dropdown = (this.usersubmitaction == 'Update') ? true : false;
 			this.selected_usertype_list = [];
@@ -428,6 +469,7 @@ export class UsersregistrationpageComponent implements OnInit {
 		this.selected_usertypeid = item.typeid;
 		this.selected_usertypeid = (this.selected_usertypeid == undefined || this.selected_usertypeid == null || this.selected_usertypeid.trim() == '') ? '' : this.selected_usertypeid;
 
+		this.selected_usertype_list = [{typeid: item.typeid, typetext: item.typetext}]; 
 		if(this.selected_usertypeid.trim().toLowerCase() == 'anganwadi' || this.selected_usertypeid.trim().toLowerCase() == 'school' || this.selected_usertypeid.trim().toLowerCase() == 'fellow'){	
 			this.hide_anganwadis_schools_fellows_form = false;
 			this.hide_managers_form = true;
@@ -446,14 +488,23 @@ export class UsersregistrationpageComponent implements OnInit {
 	}
 
 	center_multiselect_onselect(item: any) {
+		console.log(this.selected_center_list)
 		this.selected_centerid = item.centerid;
 		this.selected_centername = item.centername;
 		this.selected_centerid = (this.selected_centerid == undefined || this.selected_centerid == null || this.selected_centerid.trim() == '') ? '' : this.selected_centerid;
 		this.selected_centername = (this.selected_centername == undefined || this.selected_centername == null || this.selected_centername.trim() == '') ? '' : this.selected_centername;
+		
+		this.get_center_by_centerid(this.selected_centerid);
 	}
 	center_multiselect_ondeselect(item: any) {
 		this.selected_centerid = '';
 		this.selected_centername = '';
+
+		this.selected_statecode = '';
+		this.selected_statevalue = '';
+		this.selected_districtid = '';
+		this.selected_districtvalue = '';
+		this.selected_block = '';
 	}
 
 	manager_multiselect_onselect(item: any) {
@@ -477,7 +528,7 @@ export class UsersregistrationpageComponent implements OnInit {
 
 	state_multiselect_onselect(item: any) {
 		this.selected_district_list = null;
-		this.selected_districtcode = '';
+		this.selected_districtid = '';
 		this.selected_districtvalue = '';
 		this.selected_statecode = item._id;
 		this.selected_statevalue = item.statevalue;
@@ -490,16 +541,16 @@ export class UsersregistrationpageComponent implements OnInit {
 		this.selected_statecode = '';
 		this.selected_statevalue = '';
 		this.selected_district_list = null;
-		this.selected_districtcode = '';
+		this.selected_districtid = '';
 		this.selected_districtvalue = '';
 	}
 
 	district_multiselect_onselect(item: any) {
-		this.selected_districtcode = item._id;
+		this.selected_districtid = item._id;
 		this.selected_districtvalue =  item.districtvalue;
 	}
 	district_multiselect_ondeselect(item: any) {
-		this.selected_districtcode = '';
+		this.selected_districtid = '';
 		this.selected_districtvalue = '';
 		this.selected_district_list = null;
 	}
@@ -507,7 +558,7 @@ export class UsersregistrationpageComponent implements OnInit {
 	// save user
 	formSubmitAction(usersubmitaction) {
 		//console.log('-->usersubmitaction= ',usersubmitaction)
-		//console.log('-->selected_usertypeid= ',this.selected_usertypeid,'    selected_centerid= ',this.selected_centerid,'    selected_managerid= ',this.selected_managerid,'    selected_username= ',this.selected_username,'    selected_password= ',this.selected_password,'    selected_phone= ',this.selected_phone,'    selected_email= ',this.selected_email,'    selected_gender= ',this.selected_gender,'    selected_statecode= ',this.selected_statecode,'    selected_statevalue= ',this.selected_statevalue,'    selected_districtcode= ',this.selected_districtcode,'    selected_districtvalue= ',this.selected_districtvalue,'    selected_block= ',this.selected_block)
+		//console.log('-->selected_usertypeid= ',this.selected_usertypeid,'    selected_centerid= ',this.selected_centerid,'    selected_managerid= ',this.selected_managerid,'    selected_username= ',this.selected_username,'    selected_password= ',this.selected_password,'    selected_phone= ',this.selected_phone,'    selected_email= ',this.selected_email,'    selected_gender= ',this.selected_gender,'    selected_statecode= ',this.selected_statecode,'    selected_statevalue= ',this.selected_statevalue,'    selected_districtid= ',this.selected_districtid,'    selected_districtvalue= ',this.selected_districtvalue,'    selected_block= ',this.selected_block)
 		
 		let body = {};
 		this.document_id = (this.document_id == undefined || this.document_id == null || this.document_id.trim() == '') ? '' : this.document_id ;
@@ -520,11 +571,12 @@ export class UsersregistrationpageComponent implements OnInit {
 		this.selected_managerid = (this.selected_managerid == undefined || this.selected_managerid == null || this.selected_managerid.trim() == '') ? '' : this.selected_managerid ;
 		this.selected_statecode = (this.selected_statecode == undefined || this.selected_statecode == null || this.selected_statecode.trim() == '') ? '' : this.selected_statecode ;
 		this.selected_statevalue = (this.selected_statevalue == undefined || this.selected_statevalue == null || this.selected_statevalue.trim() == '') ? '' : this.selected_statevalue;
-		this.selected_districtcode = (this.selected_districtcode == undefined || this.selected_districtcode == null || this.selected_districtcode.trim() == '') ? '' : this.selected_districtcode ;
+		this.selected_districtid = (this.selected_districtid == undefined || this.selected_districtid == null || this.selected_districtid.trim() == '') ? '' : this.selected_districtid ;
 		this.selected_districtvalue = (this.selected_districtvalue == undefined || this.selected_districtvalue == null || this.selected_districtvalue.trim() == '') ? '' : this.selected_districtvalue ;
 		this.selected_block = (this.selected_block == undefined || this.selected_block == null || this.selected_block.trim() == '') ? '' : this.selected_block.toLowerCase() ;
 		this.selected_phone = (this.selected_phone == undefined || this.selected_phone == null || this.selected_phone.trim() == '') ? '' : this.selected_phone ;
 		this.selected_gender = (this.selected_gender == undefined || this.selected_gender == null || this.selected_gender.trim() == '') ? '' : this.selected_gender.toLowerCase() ;
+		this.selected_permanentaddress = (this.selected_permanentaddress == undefined || this.selected_permanentaddress == null || this.selected_permanentaddress.trim() == '') ? '' : this.selected_permanentaddress.toLowerCase() ;
 		this.profileimage = (this.image_s3url == undefined || this.image_s3url == null || this.image_s3url.trim() == '') ? this.profileimage : this.image_s3url ;
 		
 		const _id = this.document_id;
@@ -540,9 +592,10 @@ export class UsersregistrationpageComponent implements OnInit {
 		const managername = this.selected_managername;
 		const statecode = this.selected_statecode;
 		const statevalue = this.selected_statevalue;
-		const districtcode = this.selected_districtcode;
+		const districtid = this.selected_districtid;
 		const districtvalue = this.selected_districtvalue;
-		const blockname = this.selected_block;
+		const block = this.selected_block;
+		const permanentaddress = this.selected_permanentaddress;
 
 		const status = 'active';
 		const contactnumber = this.selected_phone;
@@ -576,13 +629,15 @@ export class UsersregistrationpageComponent implements OnInit {
 				}else if(!this.validatephone.test(contactnumber)){
 					swal.fire('Info', 'Contact number is not in valid format. Valid formats: 0123456789, (012)345-6789, 012-345-6789', 'warning')
 				}else if(statecode.trim() == ''){
-					swal.fire('Info','Invalid state.','warning');
-				}else if(districtcode.trim() == ''){
-					swal.fire('Info','Invalid district.','warning');
-				}else if(blockname.trim() == ''){
-					swal.fire('Info','Invalid block name.','warning');
-				}else if(blockname.trim().length < 4){
+					swal.fire('Info','Invalid state.(check Center master)','warning');
+				}else if(districtid.trim() == ''){
+					swal.fire('Info','Invalid district.(check Center master)','warning');
+				}else if(block.trim() == ''){
+					swal.fire('Info','Invalid block name.(check Center master)','warning');
+				}else if(block.trim().length < 4){
 					swal.fire('Info','Block name must be of 4 or more character length.','warning');
+				}else if(permanentaddress.trim() != '' && permanentaddress.length < 5){
+					swal.fire('Info','Invalid address.','warning');
 				}else{
 					if(usersubmitaction === 'Create'){
 						let name = username;
@@ -607,9 +662,10 @@ export class UsersregistrationpageComponent implements OnInit {
 							managername : managername,
 							statecode : statecode,
 							statevalue : statevalue,
-							districtcode : districtcode,
+							districtid : districtid,
 							districtvalue : districtvalue,
-							blockname : blockname,
+							block : block,
+							permanentaddress: permanentaddress,
 							image : image,
 							contactnumber : contactnumber
 						}
@@ -637,13 +693,14 @@ export class UsersregistrationpageComponent implements OnInit {
 								managername : managername,
 								statecode : statecode,
 								statevalue : statevalue,
-								districtcode : districtcode,
+								districtid : districtid,
 								districtvalue : districtvalue,
-								blockname : blockname,
+								block : block,
+								permanentaddress: permanentaddress,
 								image : image,
 								contactnumber : contactnumber
 							}
-							//console.log('-->update user  _id: ', _id, '    body: ', body);
+							console.log('-->update user  _id: ', _id, '    body: ', body);
 							this.updateuser(_id, body);
 						}
 					}else {
@@ -842,8 +899,9 @@ export class UsersregistrationpageComponent implements OnInit {
 		this.selected_phone = '';
 		this.selected_gender = '';
 		this.selected_statecode = '';
-		this.selected_districtcode = '';
+		this.selected_districtid = '';
 		this.selected_block = '';
+		this.selected_permanentaddress = '';
 
 		this.selected_usertype_list = [];
 		this.selected_center_list 	= [];

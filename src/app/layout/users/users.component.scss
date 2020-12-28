@@ -13,11 +13,32 @@
 	color:#3e42c2;
 	font-family: 'Arial Narrow';
 }
+.userdetail-card{
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    border-top: 1px solid #d3cece;
+    border-right: 1px solid #d3cece;
+    border-bottom: 1px solid #6e6c6c;
+    border-left: 1px solid #6e6c6c;
+}
+.userdetail-card-titlebar{
+    background-color: #3b8182;
+    padding: 10px 10px;
+    font-size: 25px !important;
+    font-weight: bold;
+    color: #ffffff;
+}
 .bold-font{
 	font-size: 15px !important;	
 	font-weight: bold;
 	color: #494949;
-	font-family: 'Arial Narrow';
+    border-bottom: 2px solid gray;
+}
+.bold-font-subtitle{
+    font-size: 13px !important;
+    font-weight: bold;
+    color: #999999;
 }
 .normal-font{
 	font-size: 14px !important;	
@@ -57,19 +78,25 @@
     font-weight: bold;
 }
 
+.btn-container{
+    background-color: white;
+}
+
 .delete-button{
     background-color: #ffffff00;
     color: red;
-    font-size: 20px;
-    padding: 0px;
+    font-size: 15px;
+    padding: 10px;
+    margin-left: -8px;
     border: none;
 }
 
 .edit-button{
     background-color: #ffffff00;
     color: blue;
-    font-size: 20px;
-    padding: 0px;
+    font-size: 15px;
+    padding: 10px;
+    margin-left: -8px;
     border: none;
 }
 
