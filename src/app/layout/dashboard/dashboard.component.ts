@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
- import {DashboardService } from './dashboard.service';
+import { NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DashboardService } from './dashboard.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -9,16 +10,85 @@ import { routerTransition } from '../../router.animations';
     animations: [routerTransition()]
 })
 export class DashboardComponent implements OnInit {
-    public alerts: Array<any> = [];
+	ngbModalOptions: NgbModalOptions = {
+		backdrop : 'static',
+		keyboard : false
+  	};
+	modalReference: any;
+    closeResult: string;
+    modal_title: string = 'Show Details';
+    
     public sliders: Array<any> = [];
-    data:any;
+    public data: any;
+    public details_list: any = [];
+    param: string = '';
 
+    hideLoading_indicator: boolean = true;
+	hideModalLoading_indicator: boolean = true;
 
-    constructor(
-        private dashboardService : DashboardService,
-    ) {
-       
-        
+    constructor( 
+		private modalService: NgbModal,
+        private dashboardService : DashboardService 
+    ) {}
+
+    async ngOnInit() {
+        this.hideLoading_indicator = true;
+        this.hideModalLoading_indicator = true;
+        //this.initialize_slider();
+        await this.getAllDashboardData();
+    }
+
+    getAllDashboardData(){
+        this.hideLoading_indicator = false;
+        this.dashboardService.getallstudents().subscribe(data => {
+            //console.log('--> dashboard data: '+JSON.stringify(data));
+            this.data = data;
+            this.hideLoading_indicator = true;
+        })
+    }
+
+    getDetails(apiurl){
+        this.hideModalLoading_indicator = false;
+        this.dashboardService.getdashboarddetails(apiurl).subscribe(data => {
+            if(Object.keys(data).length > 0){
+                this.details_list = data;
+            }
+            this.hideModalLoading_indicator = true;
+        })
+    }
+
+	open(content,param) {
+        this.param = param;
+        this.details_list = [];
+             if(param == 'allusers')        { this.modal_title = 'All Users'; this.getDetails('dboard_getallusers'); }
+        else if(param == 'allmanagers')     { this.modal_title = 'All Managers'; this.getDetails('dboard_getallmanagers'); }
+        else if(param == 'allcenters')      { this.modal_title = 'All Centers'; this.getDetails('dboard_getallcenters'); }
+        else if(param == 'allanganwadis')   { this.modal_title = 'All Anganwadis'; this.getDetails('dboard_getallanganwadis'); }
+        else if(param == 'allschools')      { this.modal_title = 'All Schools'; this.getDetails('dboard_getallschools'); }
+        else if(param == 'allfellows')      { this.modal_title = 'All Fellows'; this.getDetails('dboard_getallfellows'); }
+        else if(param == 'allstudents')     { this.modal_title = 'All Students'; this.getDetails('dboard_getallstudents'); }
+        else if(param == 'allgirls')        { this.modal_title = 'All Girl Students'; this.getDetails('dboard_getallgirlstudents'); }
+        else if(param == 'allece')          { this.modal_title = 'All ECE Students'; this.getDetails('dboard_getallecestudents'); }
+        else if(param == 'allpge')          { this.modal_title = 'All PGE Students'; this.getDetails('dboard_getallpgestudents'); }
+		
+		this.modalReference = this.modalService.open(content, this.ngbModalOptions);
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return  `with: ${reason}`;
+        }
+	}
+    
+    initialize_slider(){
         this.sliders.push(
             {
                 imagePath: 'assets/images/banner1.jpg',
@@ -34,27 +104,7 @@ export class DashboardComponent implements OnInit {
                 imagePath: 'assets/images/banner3.jpg',
                 label: 'Nobel Service',
                 text:'The prospect of ThinkZone empowering women entrepreneurs as teachers to impart quality education using innovative low cost and scalable technology which can potentially benefit nearly 2 million students in the next five years is outlined as the rationale behind Gray Matters Capital'
-			});
-        
+            }
+        );
     }
-
-    async ngOnInit() {
-       await this.getallStudents()
-	}
-
-    public closeAlert(alert: any) {
-        const index: number = this.alerts.indexOf(alert);
-        this.alerts.splice(index, 1);
-    }
-
-   getallStudents(){
-        this.dashboardService.getallstudents().subscribe(data => {
-       
-            this.data = data
-        })
-    }
-
- 
-
-
 }

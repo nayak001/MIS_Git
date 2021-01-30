@@ -39,7 +39,7 @@ export class PushnotificationComponent implements OnInit {
 
 	notificationid: number = 0;
 
-	// multi select settins
+	// multi select settings
 	multiselect_userlist = [];
 	multiselect_selecteduserlist = [];
 	multiselect_settings = {};

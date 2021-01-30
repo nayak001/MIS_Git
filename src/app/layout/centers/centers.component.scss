@@ -43,7 +43,11 @@
 }
 .btn{
 	/*border-radius: 1.25rem;*/
-	border-radius: 0;
+	border-radius: 5px;
+    border-top: 1px solid #a97705;
+    border-right: 1px solid #a97705;
+    border-bottom: 1px solid #4d3602;
+    border-left: 1px solid #4d3602;
 }
 .modal-text{
 	font-size: 22px;
@@ -60,3 +64,60 @@
     font-weight: bold;
 }
 
+.centers-found{
+    font-size: 25px;
+    font-weight: bold;
+    color: #087272;
+}
+
+.alloted{
+    background-color: #edbb5d;
+    font-size: 12px;
+    font-weight: bold;
+    color: #000000;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border-top: 1px solid #a97705;
+    border-right: 1px solid #a97705;
+    border-bottom: 1px solid #4d3602;
+    border-left: 1px solid #4d3602;
+}
+
+.available{
+    background-color: #1ad11a;
+    font-size: 12px;
+    font-weight: bold;
+    color: #000000;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border-top: 1px solid #039b03;
+    border-right: 1px solid #039b03;
+    border-bottom: 1px solid #023202;
+    border-left: 1px solid #023202;
+}
+
+.list-card{
+    background-color: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #cac9c9;
+    border-right: 1px solid #cac9c9;
+    border-bottom: 1px solid #6c6b6b;
+    border-left: 1px solid #6c6b6b;
+    border-radius: 5px;
+}
+
+.list-card-title{
+    background-color: #059797;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 10px;
+    margin-top: -10px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.list-card-subtitle{
+    color: #3f3b3b;
+    font-size: 13px;
+    padding: 0px 10px;
+}

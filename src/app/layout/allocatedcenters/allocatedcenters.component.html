@@ -1,0 +1,125 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>ALLOCATED CENTERS</h4>
+						</div>
+					</div>					
+                </div>
+                <div class="card-body table-responsive" >
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><b>Please wait</b> <img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div class="row">
+						<div class="col col-lg-1 col-md-1 col-sm-1"><i class="fa fa-search" aria-hidden="true"></i> Search </div>
+						<div class="col col-lg-4 col-md-4 col-sm-4">
+							<input type="text" (keyup)='search($event.target.value)' class="">
+						</div>
+						<div class="col bfont">{{ filterData ? filterData.length : 0 }} Record(s) found</div>
+					</div>
+                    <table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="4">
+					  <thead>
+					  <tr>
+						  <th style="width: 40%">
+							  <mfDefaultSorter by="uname">Manager</mfDefaultSorter>
+						  </th>
+						  <th style="width: 60%">
+							  <mfDefaultSorter by="cnames">Centers</mfDefaultSorter>
+						  </th>
+					  </tr>
+					  </thead>
+					  <tbody>
+					  <tr *ngFor="let rowdata of mf.data">
+						  <td>
+							  	<div class="bold-font">{{ rowdata._id.managername | titlecase }}</div>
+							  	<div class="grey-font">{{ rowdata._id.managerid }}</div>
+						  </td>
+						  <td>
+								<div class="badge"><b>{{ rowdata.detailsarr ? rowdata.detailsarr.length : 0 }}</b> Center(s)</div>
+							  	<div class="centers-card-container">
+								  	<div class="" *ngFor="let detail of rowdata.detailsarr; let i=index;">
+										<div class="centers-card">
+											<div class="row">
+												<div class="col col-lg-3 col-md-3 col-sm-3">
+													<b>{{ i+1 }}.</b>
+												</div>
+												<div class="col">
+													<button (click)="modify_center_btn_click(detail)" type="button" class="btn btn-primary float-right"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col col-lg-3 col-md-3 col-sm-3">
+													<b><u>Center:</u></b>
+												</div>
+												<div class="col col-lg-9 col-md-9 col-sm-9">
+													<div class="bold-font">{{ detail.centername | titlecase }}</div>
+													<div class="grey-font">{{ detail.centerid }}</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col col-lg-3 col-md-3 col-sm-3">
+													<b><u>Teacher:</u></b>
+												</div>
+												<div class="col col-lg-9 col-md-9 col-sm-9">
+													<div class="bold-font">{{ detail.username | titlecase }}</div>
+													<div class="grey-font">{{ detail.userid }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+							  	</div>
+						  </td>						  
+						  <td></td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+					  <tr>
+						  <td colspan="4">
+							  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+							  <mfBootstrapPaginator></mfBootstrapPaginator>
+						  </td>
+					  </tr>
+					  </tfoot>
+					</table>
+                </div>
+            </div>                       
+        </div>        
+    </div>
+</div>
+
+ <!-- Modal -->
+<!-- <ng-template #addcentermodal let-c="close" let-d="dismiss">
+	<div class="modal-body">											
+		<div class="modal-body">									
+			<div class="form-content">
+				<div class="row">
+					<div class="col col-xl-3 col-lg-3">Manager:</div>
+					<div class="col col-xl-6 col-lg-6">
+						<div class="form-group bfont">
+							{{callot.uname}}
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="centerlist">
+					<div class="row" *ngFor="let cntr of filterData">
+						<a class="list-group-item">
+							<label for="{{ cntr['_id'] }}">
+								<input type="checkbox" id="{{ cntr['_id'] }}"  data-md-icheck (change)="addCheckboxChanged($event,cntr)"/>															
+								<span class="centerlist-text float_l">{{cntr['centername']}}</span>
+							</label>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="addCenterFormSubmitAction(callot)">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>	 -->

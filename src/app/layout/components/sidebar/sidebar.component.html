@@ -14,6 +14,18 @@
             <i class="fa fa-fw fa-users"></i>&nbsp;
             <span>{{ 'User Types' | translate }}</span>
           </a>
+          <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-male"></i>&nbsp;
+            <span>{{ 'Users' | translate }}</span>
+          </a>
+          <a [routerLink]="['/centers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
+            <span>{{ 'Centers' | translate }}</span>
+          </a>
+          <a [routerLink]="['/allocatedcenters']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-child"></i>&nbsp;
+            <span>{{ 'Allocated Centers' | translate }}</span>
+          </a>
           <a [routerLink]="['/versionmanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-vine"></i>&nbsp;
             <span>{{ 'Version Manager' | translate }}</span>
@@ -34,10 +46,6 @@
             <i class="fa fa-fw fa-address-book"></i>&nbsp;
             <span>{{ 'Teachers Profile' | translate }}</span>
           </a>
-          <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-male"></i>&nbsp;
-            <span>{{ 'Users' | translate }}</span>
-          </a>
           <a [routerLink]="['/managersfeedbackform']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-question-circle-o"></i>&nbsp;
             <span>{{ 'Feedback Form' | translate }}</span>
@@ -54,30 +62,26 @@
             <i class="fa fa-fw fa-commenting"></i>&nbsp;
             <span>{{ 'Push Notification' | translate }}</span>
           </a>
-          <a [routerLink]="['/centers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
-            <span>{{ 'Centers' | translate }}</span>
-          </a>
-          <a [routerLink]="['/centerfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <!-- <a [routerLink]="['/centerfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-comments"></i>&nbsp;
             <span>{{ 'Center Feedback' | translate }}</span>
-          </a>
-          <a [routerLink]="['/paymentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          </a> -->
+          <!-- <a [routerLink]="['/paymentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-money"></i>&nbsp;
             <span>{{ 'Payment Info' | translate }}</span>
-          </a>
+          </a> -->
           <a [routerLink]="['/assessmentmaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-wpexplorer"></i>&nbsp;
             <span>{{ 'Assessment Master' | translate }}</span>
           </a>
-          <a [routerLink]="['/assessmentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <!-- <a [routerLink]="['/assessmentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-calendar"></i>&nbsp;
             <span>{{ 'Assessment Info' | translate }}</span>
-          </a>
-          <a [routerLink]="['/communityvisit']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          </a> -->
+          <!-- <a [routerLink]="['/communityvisit']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-ticket"></i>&nbsp;
             <span>{{ 'Community Visit' | translate }}</span>
-          </a>
+          </a> -->
           <a [routerLink]="['/issues']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-question-circle-o"></i>&nbsp;
             <span>{{ 'Issues' | translate }}</span>
@@ -94,10 +98,10 @@
             <i class="fa fa-fw fa-child"></i>&nbsp;
             <span>{{ 'Activities' | translate }}</span>
           </a>
-          <a [routerLink]="['/centers-allocation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <!-- <a [routerLink]="['/centers-allocation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-check-square-o"></i>&nbsp;
             <span>{{ 'Center allocation' | translate }}</span>
-          </a>
+          </a> -->
           <a [routerLink]="['/baselinetest']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-file-code-o"></i>&nbsp;
             <span>{{ 'Baseline test' | translate }}</span>
@@ -119,10 +123,10 @@
             <span>{{ 'Training MISC' | translate }}</span>
           </a>
           
-          <a [routerLink]="['/userfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <!-- <a [routerLink]="['/userfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-comments"></i>&nbsp;
             <span>{{ 'User Feedback' | translate }}</span>
-          </a>
+          </a> -->
           <a [routerLink]="['/usersession']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-history"></i>&nbsp;
             <span>{{ 'User Session' | translate }}</span>
@@ -159,14 +163,14 @@
             <i class="fa fa-fw fa-microchip"></i>&nbsp;
             <span>{{ 'To Do Listings' | translate }}</span>
           </a>
-          <a [routerLink]="['/dailyinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <!-- <a [routerLink]="['/dailyinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-id-badge"></i>&nbsp;
             <span>{{ 'Daily Info' | translate }}</span>
-          </a>
-          <a [routerLink]="['/mgroperations']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          </a> -->
+          <!-- <a [routerLink]="['/mgroperations']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-cubes"></i>&nbsp;
             <span>{{ 'Operations' | translate }}</span>
-          </a>
+          </a> -->
           <!--
           <a [routerLink]="['/centerimage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
               <i class="fa fa-fw fa-photo"></i>&nbsp;
@@ -185,26 +189,26 @@
           <span><b>Teachers</b></span>
         </ng-template>
         <ng-template ngbPanelContent>
-          <a [routerLink]="['/studentdetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <!-- <a [routerLink]="['/studentdetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-podcast"></i>&nbsp;
             <span>{{ 'Student Details' | translate }}</span>
-          </a>
-          <a [routerLink]="['/attendance']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          </a> -->
+          <!-- <a [routerLink]="['/attendance']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-book"></i>&nbsp;
             <span>{{ 'Attendance' | translate }}</span>
-          </a>
-          <a [routerLink]="['/tchactivity']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          </a> -->
+          <!-- <a [routerLink]="['/tchactivity']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-universal-access"></i>&nbsp;
             <span>{{ 'Activities' | translate }}</span>
-          </a>
-          <a [routerLink]="['/tchbaseline']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          </a> -->
+          <!-- <a [routerLink]="['/tchbaseline']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-superpowers"></i>&nbsp;
             <span>{{ 'Baseline Detail' | translate }}</span>
-          </a>
-          <a [routerLink]="['/tchassessment']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          </a> -->
+          <!-- <a [routerLink]="['/tchassessment']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-building"></i>&nbsp;
             <span>{{ 'Assessments Detail' | translate }}</span>
-          </a>
+          </a> -->
         </ng-template>
       </ngb-panel>
 
@@ -275,7 +279,7 @@
           </a>
           <a [routerLink]="['/hblactivityreport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;
-            <span>{{ 'HBL Activity Report' | translate }}</span>
+            <span>{{ 'HBL Report' | translate }}</span>
           </a>
         </ng-template>
       </ngb-panel>

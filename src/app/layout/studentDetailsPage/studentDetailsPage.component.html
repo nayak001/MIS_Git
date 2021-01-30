@@ -10,6 +10,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row" style="padding: 25px; font-size: 13px;color: black;" *ngIf = "api_hit">
                     <div class="col-2">
                         <label>Baseline Completed</label>
@@ -18,43 +19,42 @@
 							<option value="yes">Yes</option>
 							<option value="no">No</option>
 						</select>
-
                     </div>
-                     <div class="col-2">
+
+                    <div class="col-2">
                         <label>70% in ECE</label>
                         <select class="form-control select2" [(ngModel)]="seventyece" style="font-size: 14px; height: 30px;">
                             <option value="all">All</option>
                             <option value="yes">Yes</option>
-							<option value="no">No</option>  
-						
+                            <option value="no">No</option>  
                         </select>
-                     </div>
-                        <div class="col-2">
-                            <label>Gender</label>
-                            <select class="form-control select2" [(ngModel)]="sex" style=" height: 30px;">
-                                <option value="all">All</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                        <div class="col-2">
-                            <label>Average Attendance</label>
-                            <select class="form-control select2" [(ngModel)]="avg_attendance" style=" height: 30px;">
-                                <option value="all">All</option>
-                                <option value="lessfifety"> < = 50% </option>
-                                <option value="lessseventyfive"> > 50%  -  < = 75% </option>
-                                <option value="moreseventyfive"> > 75% </option>
-                                
-                            </select>
-                        </div>
-                        <div class="col-3">
-                            
-                            <label>Enrollment Date</label>
-                            <input type="month" id="month" name="input" ng-model="enrolldate"/>
-                        </div>
-                    
-                   
+                    </div>
+
+                    <div class="col-2">
+                        <label>Gender</label>
+                        <select class="form-control select2" [(ngModel)]="sex" style=" height: 30px;">
+                            <option value="all">All</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-2">
+                        <label>Average Attendance</label>
+                        <select class="form-control select2" [(ngModel)]="avg_attendance" style=" height: 30px;">
+                            <option value="all">All</option>
+                            <option value="lessfifety"> < = 50% </option>
+                            <option value="lessseventyfive"> > 50%  -  < = 75% </option>
+                            <option value="moreseventyfive"> > 75% </option>
+                        </select>
+                    </div>
+
+                    <div class="col-2">
+                        <label>Enrollment Date</label>
+                        <input type="month" id="month" name="input" [(ngModel)]="enrolldate" class="form-control select2"/>
+                    </div>
                 </div>
+
                 <div class="row" style="padding: 25px; font-size: 13px;color: black;"  *ngIf = "api_hit">
                     <div class="col-2">
                         <label>Center Type</label>
@@ -64,8 +64,8 @@
 							<option value="school">School</option>
 							<option value="fellow">Fellow</option>
 						</select>
-
                     </div>
+
                     <div class="col-2">
                         <label>Select District</label>
                         <select class="form-control select2" [(ngModel)]="distric" (change)="selectBlock(distric)" style=" height: 30px;">
@@ -74,6 +74,7 @@
 							</option>
 						</select>
                     </div>
+
                     <div class="col-2">
                         <label>Select Block</label>
                         <select class="form-control select2" [(ngModel)]="block" style=" height: 30px;">
@@ -81,47 +82,37 @@
 							<option *ngFor="let block of all_blocks" value={{block.block}}>{{block.block}}</option>
 						</select>
                     </div>
+
                     <div class="col-2">
                         <label>Program Type</label>
                         <select class="form-control select2" id="program_type" [(ngModel)]="p_type" name="p_type" style=" height: 30px;">)
 							<option value="all" selected>All</option>
 							<option value="ece">ECE</option>
 							<option value="pge">PGE</option>
-							
 						</select>
                     </div>
                 
                     <div class="col-2">
                         <button type="button" (click)="viewData()" class="btn btn-info" style="margin-top:29px;">Filter</button>
                     </div>
+
                     <div class="col-2">
                         <div class="row" style="float: right;">
-
                             <i class="fa fa-download" (click)="download()" title="Download" style="cursor: pointer;"></i>
                         </div>
-
-
                     </div>
+
                     <!-- <div class="col-2" style="width: 20%;margin-left: 79%;margin-top: 3%;">
                         <label>Search</label>
-                        
-                        
                         <input type="text" (keyup)='search($event.target.value)'>
-                   
                     </div> -->
-
-
                 </div>
-               
-           
 
                 <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
-                    <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
-							alt="Loading. Please wait..."></span>
+                    <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;" alt="Loading. Please wait..."></span>
                 </div>
 
                 <div id="table-scroll" class="table-scroll" *ngIf="isLoaded">
-
                        <div class="table-wrap" style="overflow-x:auto; margin-top: -2%;">
                         <table class="table table-striped main-table" *ngIf="isLoaded && !isdata_table" [mfData]="getallStudents"
                          #mf="mfDataTable" [mfRowsOnPage]="mfRowsOnPage" [mfActivePage] = 'mfActivePage' (mfOnPageChange)="onPageChange($event)"> 
@@ -131,7 +122,7 @@
 
                                     <th>Name</th>
                                     <th>Date of Enrollment</th>
-                                    <th>Sex</th>
+                                    <th>Gender</th>
                                     <th>Center Name</th>
                                     <th>Centerid</th>
                                     <th>Center Type</th>
@@ -150,32 +141,30 @@
                                     <th *ngIf="canDisplay('pge')">Odia Assessment Score</th>
                                     <th *ngIf="canDisplay('ece')">Quarterly ECE Assessment Score</th>
                                     <!-- <th>Avg Quarterly Assessment Score</th> -->
-                                    <th>Avg Attendance</th>
+                                    <th> Avg Attendance</th>
                                     <th *ngIf="canDisplay('pge')">No of Endline Assessment Completed in PG</th>
                                     <th *ngIf="canDisplay('pge')">No of Levels jumped in Maths</th>
                                     <th *ngIf="canDisplay('pge')">No of Levels jumped in Odia</th>
                                     <th *ngIf="canDisplay('pge')">No of Levels jumped in English</th>
                                     <th *ngIf="canDisplay('ece')">Total Number of Quarter 4 Assessment Completed in ECE</th>
                                     <th *ngIf="canDisplay('ece')">Acheived atleast 70% age-appropriate learning outcomes in ECE</th>
-                                    <th>Baseline Test Participated</th>
+                                    <th> Baseline Test Completed </th>
                                     <th *ngIf="canDisplay('pge')">Class/Grade of the Student</th>
-
-
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
                                     <td class="sname" aria-hidden="true" (click)="openStudentDetails(editmodal,user)">
-                                        {{user.student.studentname}}</td>
+                                        {{user.student.studentname |titlecase}}</td>
                                     <td>{{getDate(user)}}</td>
-                                    <td>{{user.student.gender}}</td>
-                                    <td>{{user.student.center.centername}}</td>
-                                    <td>{{user.student.center.centerid}}</td>
-                                    <td>{{user.student.center.centertype}}</td>
-                                    <td style=" text-transform :uppercase">{{user.student.program}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.student.center.block}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.student.center.district}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.state}}</td>
+                                    <td>{{user.student.gender |titlecase}}</td>
+                                    <td>{{user.student.user.centername |titlecase}}</td>
+                                    <td>{{user.student.user.centerid}}</td>
+                                    <td>{{user.student.user.usertype |titlecase}}</td>
+                                    <td style=" text-transform :uppercase">{{user.student.program |uppercase}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.user.block |titlecase}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.user.districtvalue |titlecase}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.user.statevalue |titlecase}}</td>
                                     <td>{{user.student.phone}}</td>
                                     <td *ngIf="canDisplay('ece')">{{user.student.ec_level}}</td>
                                     <td *ngIf="canDisplay('pge')">{{user.student.math_level}}</td>

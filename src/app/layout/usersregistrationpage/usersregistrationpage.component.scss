@@ -1,0 +1,91 @@
+/*
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+*/
+.card-body{
+    min-height: 400px;
+}
+:host ::ng-deep .multiselect-dropdown{
+    background-color: #ffffff;
+}
+.bold-font{
+	font-size: 11px !important;	
+	font-weight: bold;
+	color: #2e2ef9;
+	font-family: 'Arial';
+}
+.loading_indicator{
+    /*margin-left: 27%;
+    width: 210px;
+    border: 1px solid grey;
+    padding: 30px;
+    position: absolute;
+    background-color: white;
+    box-shadow: -2px 3px 20px 0px;
+    margin-top: 7%;
+	*/
+}
+.modal-footer{
+    border-top: 1px solid #c3c3c3;
+    background-color: #edecec;
+}
+.btn{
+	border-radius: 0rem;
+}
+.modal-text{
+	font-size: 22px;
+    color: #505050;
+}
+.warning-icon{
+	width: 40px;
+	height: 40px;
+	margin-left: 40px;
+}
+.validation-error-message{
+	color: red;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.image_container1{
+    width: 250px;
+    height: 250px;
+    text-align: center;
+}
+.image_container2{
+    width: 200px;
+    height: 200px;
+    border: 1px solid #e4e4e4;
+    border-radius: 50%;
+    margin-bottom: 30px;
+}
+.modalimage_container1{
+    width: 450px;
+    height: 450px;
+    text-align: center;
+}
+.modalpadding{
+    padding: 20px;
+    text-align: center;
+}
+.modaltitlestyle{
+    font-size: 20px;
+    font-weight: bold;
+}
+.f10{
+    font-size: 10px;
+}
+.back_button{
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5%;
+}
+
+.stripe-gray{
+    background: #efefef;
+    padding: 15px 15px;
+}
+.stripe-white{
+    background: #ffffff;
+    padding: 15px 15px;
+}

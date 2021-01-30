@@ -9,37 +9,24 @@ const baseUrl = environment.baseUrl;
   providedIn: 'root'
 })
 export class CenterDetailsService {
-	constructor(
-		private http: HttpClient
-	) { }
+	constructor(private http: HttpClient) { }
   
 	getCenterDetails(data){
 		return this.http.get(baseUrl+'centerDetails?center_type=' + data.center_type + '&distric=' +
-		 data.distric + '&block=' + data.block + '&program_type=' + data.program_type + "&page_no=" + data.page_no +
-		 "&limit=" + data.limit + "&downloadclick=" + data.downloadclick + "&class="+ data.class,
-
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});	
-
+			data.distric + '&block=' + data.block + '&program_type=' + data.program_type + "&page_no=" + data.page_no +
+			"&limit=" + data.limit + "&downloadclick=" + data.downloadclick + "&class="+ data.class,
+			{headers: new HttpHeaders().set('Content-Type', 'application/json')});	
 	}
+
 	getallCenterDetails(data){
 		return this.http.get(baseUrl+'allcenterDetails?center_type=' + data.center_type + '&distric=' +
-		 data.distric + '&block=' + data.block + '&program_type=' + data.program_type,
-
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});	
+			data.distric + '&block=' + data.block + '&program_type=' + data.program_type,
+			{headers: new HttpHeaders().set('Content-Type', 'application/json')});	
 	}
+
 	getBlocks(){
 		return this.http.get(baseUrl+'disticBlockDetails',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});	
-
+			{headers: new HttpHeaders().set('Content-Type', 'application/json')});	
 	}
 
 }
@@ -53,6 +40,7 @@ export class ValidationService {
 			return { 'invalidEmailAddress': true };
 		}
 	}
+
 	static passwordValidator(control) {
 		// {6,100}           - Assert password is between 6 and 100 characters
 		// (?=.*[0-9])       - Assert a string has at least one number
@@ -62,6 +50,7 @@ export class ValidationService {
 			return { 'invalidPassword': true };
 		}
 	}
+
 	static checkLimit(min: number, max: number): ValidatorFn {
 		return (c: AbstractControl): { [key: string]: boolean } | null => {
 			if (c.value && (isNaN(c.value) || c.value < min || c.value > max)) {

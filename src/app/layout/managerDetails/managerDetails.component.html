@@ -43,8 +43,7 @@
                     <div class="col-2">
                         <div class="row" style="float: right;">
 
-                            <i class="fa fa-download" (click)="download()" title="Download"
-                                style="cursor: pointer;"></i>
+                            <i class="fa fa-download" (click)="download()" title="Download" style="cursor: pointer;"></i>
                         </div>
 
 
@@ -92,7 +91,7 @@
                                 <!-- *ngIf="user && user.manager && user.manager.username"
                                         (click)="dailyInfoT(editmodal,user)"
                                         style="cursor: pointer; color:#007bff !important;" -->
-                                        <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
+                                <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
                                     <td><span *ngIf="user && user.Details && user.Details.username">{{user.Details.username}}</span></td>
                                     <td><span *ngIf="user && user.Details && user.Details.centername">{{user.Details.centername}}</span></td>
                                     <td>{{getDate(user)}}</td>

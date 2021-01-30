@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/dist/*
 /tmp
 /out-tsc
 
@@ -32,6 +33,9 @@ package-lock.json
 /coverage
 /libpeerconnection.log
 npm-debug.log
+debug.log
+/debug.log
+/*.log
 testem.log
 /typings
 

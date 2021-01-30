@@ -182,6 +182,22 @@ export class HblmasterService {
 			//responseType: 'text' 
 		});			
 	}
+	
+	getallhblstudentsbypage(page){				
+		return this.http.get(baseUrl+'getallhblstudentsbypage/'+page,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+
+	searchhblstudentsbystudentname(studentname){				
+		return this.http.get(baseUrl+'searchhblstudentsbystudentname/'+studentname,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
 
 	createnewhblstudent(body){
 		return this.http.post(baseUrl+'createnewhblstudent', body,
@@ -209,6 +225,30 @@ export class HblmasterService {
 
 	updatehblstudent_volunteername(volunteerid,body){
 		return this.http.put(baseUrl+'updatehblstudent_volunteername/'+volunteerid, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	updatehbl_trnasactivity_transbaseline_bymanagerid(managerid,body){
+		return this.http.put(baseUrl+'updatehbl_trnasactivity_transbaseline_bymanagerid/'+managerid, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	updatehbl_trnasactivity_transbaseline_byvolunteerid(volunteerid,body){
+		return this.http.put(baseUrl+'updatehbl_trnasactivity_transbaseline_byvolunteerid/'+volunteerid, body,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	updatehbl_trnasactivity_transbaseline_bystudentid(studentid,body){
+		return this.http.put(baseUrl+'updatehbl_trnasactivity_transbaseline_bystudentid/'+studentid, body,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 

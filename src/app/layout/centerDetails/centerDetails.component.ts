@@ -19,9 +19,10 @@ export class CenterDetailsComponent implements OnInit {
 	distric: any = 'all'
 	block: any = 'all'
 	program_type: any = 'all';
-	p_type:any='all'
-	class_type: any = ''
-	is_program_type: any = 'all'
+	p_type:any='all';
+	class_type: any = '';
+	is_program_type: any = 'all';
+	programtype_list: any = ['all', 'ece', 'pge'];
 	noda: any = false;
 	centerDetails: any;
 	check: boolean = true;
@@ -198,6 +199,7 @@ export class CenterDetailsComponent implements OnInit {
 			class: this.class_type
 		}
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
+			//console.log('###centerDetails data: '+JSON.stringify(data))
 			this.filterData = data;
 			//this.filterData = [];
 			this.isLoaded = true;
@@ -326,15 +328,28 @@ export class CenterDetailsComponent implements OnInit {
 		}
 	}
 
+	center_select_onchange(center_type){
+		//console.log('@@@ selected center type: '+center_type);
+		if(center_type == 'anganwadi'){
+			this.programtype_list = ['ece'];
+			this.program_type = 'ece';
+		}else if(center_type == 'school'){
+			this.programtype_list = ['pge'];
+			this.program_type = 'pge';
+		}else{
+			this.programtype_list = ['all', 'ece', 'pge'];
+			this.program_type = 'all';
+		}
+	}
+
 	selectProgramType(programType) {
 		if (programType == 'pge') {
-			this.isClass = true;
-		}
-		else {
+			//this.isClass = true;
+			this.isClass = false;
+		} else {
 			this.isClass = false
 			this.class_type = ''
 		}
-
 	}
 
 	selectBlock(distic) {
@@ -348,6 +363,7 @@ export class CenterDetailsComponent implements OnInit {
 			}
 		}
 	}
+
 	download() {
 
 		this.loader = true
