@@ -1,0 +1,248 @@
+/*
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+*/
+.table {
+    width: 100%;
+}
+.table-striped{
+	font-size: 12px !important;	
+	font-family: 'Arial';
+}
+.table-striped th{
+	font-size: 11px !important;	
+	font-weight: bold;
+	color: #636161;
+	font-family: 'Arial black';
+}
+.bold-font{
+	font-size: 15px !important;	
+	font-weight: bold;
+	color: #2e2ef9;
+	font-family: 'Arial';
+}
+.grey-font{
+	color: #6b6a6a;
+    font-size: 10px;
+}
+.loading_indicator{
+    /*margin-left: 27%;
+    width: 210px;
+    border: 1px solid grey;
+    padding: 30px;
+    position: absolute;
+    background-color: white;
+    box-shadow: -2px 3px 20px 0px;
+    margin-top: 7%;
+	*/
+}
+.modal-footer{
+    border-top: 1px solid #848484;
+    background-color: #c3c3c3;
+}
+.btn{
+	border-radius: 1.25rem;
+}
+.modal-text{
+	font-size: 22px;
+    color: #505050;
+}
+.warning-icon{
+	width: 40px;
+	height: 40px;
+	margin-left: 40px;
+}
+.validation-error-message{
+	color: red;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+
+.manager-select{
+	height: 35px;
+    padding: 0px 30px;
+    background-color: #e4f5f9;
+    font-weight: bold;
+    color: #3a3636;
+}
+
+.centers_container{
+	height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #c7c7c7;
+    background-color: #efecec;
+    padding: 20px;
+    line-height: 35px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+input[type=checkbox] {
+  transform: scale(1.5);
+}
+
+input[type=checkbox] {
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  visibility: hidden;
+}
+
+input[type=checkbox]:after {
+  content: " ";
+  background-color: #fff;
+  display: inline-block;
+  margin-left: 10px;
+  padding-bottom: 5px;
+  color: #00BFF0;
+  width: 22px;
+  height: 25px;
+  visibility: visible;
+  border: 1px solid #00BFF0;
+  padding-left: 3px;
+  border-radius: 5px;
+}
+
+input[type=checkbox]:checked:after {
+  content: "\2714";
+  padding: -5px;
+  font-weight: bold;
+}
+label{
+	width: 100%;
+}
+.center-names{
+    width: 100%;
+    font-size: 11px;
+    color: black;
+    /*vertical-align: top;
+	margin-left: 20px;*/
+
+}
+a.list-group-item{
+	width: 100%;
+    padding-bottom: 0px;
+}
+
+a.list-group-item:hover{
+	background-color: #bdf3f9;
+}
+
+.delete-button{
+    background-color: #ffffff00;
+    color: red;
+    font-size: 20px;
+    padding: 0px;
+    border: none;
+}
+
+.availability_status{
+    font-size: 11px;
+    font-weight: bold;
+    color: #4a4444;
+    font-family: cursive;
+}
+
+.tblwidth{
+    width: 100%;
+}
+
+.searchtxt{
+    float: right;
+    background-color: #f6f6f6;
+}
+
+.float_r{
+    float: right;
+}
+
+.r_td{
+    width: 55%;
+    vertical-align: top;
+    padding-left: 20px;
+}
+.l_td{
+    vertical-align: top;
+}
+.selected_td_div{
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 170px;
+    height: 250px;
+}
+
+.float_l{
+    margin-left: 15px;
+}
+
+.action_link_add{
+    cursor: pointer;
+    color: white;
+    margin-top: 2px;
+    width: 100%;
+    border-radius: 0;
+    background-color: #1b22eb;
+    border-color: grey;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.action_link_del{
+    cursor: pointer;
+    color: white;
+    margin-top: 2px;
+    width: 100%;
+    border-radius: 0;
+    background-color: #e11a1a;
+    border-color: grey;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.bfont{
+    font-weight: bold;
+    font-size: 20px !important;
+}
+
+.centerlist{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 250px;
+}
+.centerlist-text{
+    width: 100%;
+    color: black;
+    font-size: 18px;
+    vertical-align: top;
+}
+
+.centers-card-container{
+    height: 230px;
+    overflow: auto;
+    padding: 15px;
+    border: 1px solid #cacaca;
+    background-color: #f5f6e0;
+}
+.badge{
+    font-size: 14px;
+    width: 120px;
+    margin: 8px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: #5a5add;
+    color: #ffffff;
+}
+.centers-card{
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #ffffff;
+    border-top: 1px solid #e7e6e6;
+    border-right: 1px solid #e7e6e6;
+    border-bottom: 1px solid #9b9898;
+    border-left: 1px solid #9b9898;
+}

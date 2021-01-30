@@ -155,16 +155,16 @@
                             <tbody>
                                 <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
                                     <td class="sname" aria-hidden="true" (click)="openStudentDetails(editmodal,user)">
-                                        {{user.student.studentname}}</td>
+                                        {{user.student.studentname |titlecase}}</td>
                                     <td>{{getDate(user)}}</td>
-                                    <td>{{user.student.gender}}</td>
-                                    <td>{{user.student.center.centername}}</td>
-                                    <td>{{user.student.center.centerid}}</td>
-                                    <td>{{user.student.center.centertype}}</td>
-                                    <td style=" text-transform :uppercase">{{user.student.program}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.student.center.block}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.student.center.district}}</td>
-                                    <td style=" text-transform: capitalize;">{{user.state}}</td>
+                                    <td>{{user.student.gender |titlecase}}</td>
+                                    <td>{{user.student.user.centername |titlecase}}</td>
+                                    <td>{{user.student.user.centerid}}</td>
+                                    <td>{{user.student.user.usertype |titlecase}}</td>
+                                    <td style=" text-transform :uppercase">{{user.student.program |uppercase}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.user.block |titlecase}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.user.districtvalue |titlecase}}</td>
+                                    <td style=" text-transform: capitalize;">{{user.student.user.statevalue |titlecase}}</td>
                                     <td>{{user.student.phone}}</td>
                                     <td *ngIf="canDisplay('ece')">{{user.student.ec_level}}</td>
                                     <td *ngIf="canDisplay('pge')">{{user.student.math_level}}</td>

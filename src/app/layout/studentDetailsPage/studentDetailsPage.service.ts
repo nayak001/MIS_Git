@@ -33,11 +33,7 @@ export class StudentDetailsPageService {
 	}
 
 	getallDetailsStudents(data){
-		return this.http.post(baseUrl + 'getallDetailsStudents',data,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json'),
-			// responseType: 'text' 
-		});	
+		return this.http.post(baseUrl + 'getallDetailsStudents',data,{headers: new HttpHeaders().set('Content-Type', 'application/json'),});	
 	}
 
 	// getallDetailsStudents(data){

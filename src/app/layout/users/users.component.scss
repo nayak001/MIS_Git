@@ -2,16 +2,17 @@
 @import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
 @import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
 */
+.cursor-pointer{
+    cursor: pointer;
+}
 .table-striped{
-	font-size: 12px !important;	
-	color: #2e2ef9;
-	font-family: 'Arial';
+	font-size: 15px !important;
+    font-weight: bold;
 }
 .table-striped th{
 	font-size: 17px !important;	
 	font-weight: bold;
 	color:#3e42c2;
-	font-family: 'Arial Narrow';
 }
 .userdetail-card{
     padding: 10px;
@@ -79,7 +80,7 @@
 }
 
 .btn-container{
-    background-color: white;
+    
 }
 
 .delete-button{
@@ -111,5 +112,10 @@ input{
     font-weight: bold;
     font-family: 'Arial Black';
     color: #5f5e5e;
+}
+
+.records_found{
+    font-size: 25px;
+    font-weight: bold;
 }
 

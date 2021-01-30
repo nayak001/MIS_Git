@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router, NavigationExtras } from '@angular/router';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
 import { UsersService } from './users.service';
 
@@ -21,9 +22,33 @@ export class UsersComponent implements OnInit {
 	modalReference: any;
 	closeResult: string;
 
+	userdetail_username: string = '';
+	userdetail_userid: string = '';
+	userdetail_password: string = '';
+	userdetail_usertype: string = '';
+	userdetail_gender: string = '';
+	userdetail_emailid: string = '';
+	userdetail_phone: string = '';
+	userdetail_address: string = '';
+	userdetail_status: string = '';
+	userdetail_centername: string = '';
+	userdetail_centerid: string = '';
+	userdetail_managername: string = '';
+	userdetail_managerid: string = '';
+	userdetail_statecode: string = '';
+	userdetail_statevalue: string = '';
+	userdetail_districtid: string = '';
+	userdetail_districtvalue: string = '';
+	userdetail_block: string = '';
+	userdetail_userimage: string = '';
+	userdetail_createdon: string = '';
+
 	selected_searchfilter: string = 'username';
 
-    constructor(public router: Router, private usersService: UsersService) {
+    constructor(
+		private modalService: NgbModal,
+		private changeDetectorRef: ChangeDetectorRef,
+		public router: Router, private usersService: UsersService) {
 		this.hideLoading_indicator = true;
 		this.getallUsers();
 		//this.getalluserCount()
@@ -130,5 +155,72 @@ export class UsersComponent implements OnInit {
 				);
 			}
 		  });
+	}
+
+	show_user_details(modal, user){
+		this.reset_userdetails();
+		this.set_userdetails(user);
+		this.changeDetectorRef.detectChanges();
+		this.modalReference = this.modalService.open(modal, {backdrop  : 'static',keyboard  : false});
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return  `with: ${reason}`;
+        }
+	}
+
+	set_userdetails(user){
+		this.userdetail_username = (user.username == undefined || user.username == null || user.username.trim() == '') ? 'Not Found' : user.username.trim().toLowerCase();
+		this.userdetail_userid = (user.userid == undefined || user.userid == null || user.userid.trim() == '') ? 'Not Found' : user.userid.trim();
+		this.userdetail_password = (user.password == undefined || user.password == null || user.password.trim() == '') ? 'Not Found' : user.password;
+		this.userdetail_usertype = (user.usertype == undefined || user.usertype == null || user.usertype.trim() == '') ? 'Not Found' : user.usertype.trim().toLowerCase();
+		this.userdetail_gender = (user.gender == undefined || user.gender == null || user.gender.trim() == '') ? 'Not Found' : user.gender.trim().toLowerCase();
+		this.userdetail_emailid = (user.emailid == undefined || user.emailid == null || user.emailid.trim() == '') ? 'Not Found' : user.emailid.trim();
+		this.userdetail_phone = (user.contactnumber == undefined || user.contactnumber == null || user.contactnumber.trim() == '') ? 'Not Found' : user.contactnumber.trim();
+		this.userdetail_address = (user.permanentaddress == undefined || user.permanentaddress == null || user.permanentaddress.trim() == '') ? 'Not Found' : user.permanentaddress.trim().toLowerCase();
+		this.userdetail_status = (user.status == undefined || user.status == null || user.status.trim() == '') ? 'Not Found' : user.status.trim().toLowerCase();
+		this.userdetail_centerid = (user.centerid == undefined || user.centerid == null || user.centerid.trim() == '') ? 'Not Found' : user.centerid.trim();
+		this.userdetail_centername = (user.centername == undefined || user.centername == null || user.centername.trim() == '') ? 'Not Found' : user.centername.trim().toLowerCase();
+		this.userdetail_managerid = (user.managerid == undefined || user.managerid == null || user.managerid.trim() == '') ? 'Not Found' : user.managerid.trim().toLowerCase();
+		this.userdetail_managername = (user.managername == undefined || user.managername == null || user.managername.trim() == '') ? 'Not Found' : user.managername.trim().toLowerCase();
+		this.userdetail_statecode = (user.statecode == undefined || user.statecode == null || user.statecode.trim() == '') ? 'Not Found' : user.statecode.trim();
+		this.userdetail_statevalue = (user.statevalue == undefined || user.statevalue == null || user.statevalue.trim() == '') ? 'Not Found' : user.statevalue.trim().toLowerCase();
+		this.userdetail_districtid = (user.districtid == undefined || user.districtid == null || user.districtid.trim() == '') ? 'Not Found' : user.districtid.trim();
+		this.userdetail_districtvalue = (user.districtvalue == undefined || user.districtvalue == null || user.districtvalue.trim() == '') ? 'Not Found' : user.districtvalue.trim().toLowerCase();
+		this.userdetail_block = (user.block == undefined || user.block == null || user.block.trim() == '') ? 'Not Found' : user.block.trim().toLowerCase();
+		this.userdetail_userimage = (user.image == undefined || user.image == null || user.image.trim() == '') ? 'Not Found' : user.image.trim();
+		this.userdetail_createdon = (user.createdon == undefined || user.createdon == null || user.createdon.trim() == '') ? 'Not Found' : user.createdon.trim();
+	}
+
+	reset_userdetails(){
+		this.userdetail_username = '';
+		this.userdetail_userid = '';
+		this.userdetail_password = '';
+		this.userdetail_usertype = '';
+		this.userdetail_gender = '';
+		this.userdetail_emailid = '';
+		this.userdetail_phone = '';
+		this.userdetail_address = '';
+		this.userdetail_status = '';
+		this.userdetail_centername = '';
+		this.userdetail_centerid = '';
+		this.userdetail_managername = '';
+		this.userdetail_managerid = '';
+		this.userdetail_statecode = '';
+		this.userdetail_statevalue = '';
+		this.userdetail_districtid = '';
+		this.userdetail_districtvalue = '';
+		this.userdetail_block = '';
+		this.userdetail_userimage = '';
+		this.userdetail_createdon = '';
 	}
 }

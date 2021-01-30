@@ -1,25 +1,3 @@
-<!-- <style>
-    .headerid {
-  padding: 10px 16px;
-  background: #555;
-  color: #f1f1f1;
-}
-
-.contentid {
-  padding: 16px;
-}
-
-.sticky {
-  position: fixed;
-  top: 0px;
-  width: 100%;
-}
-
-.sticky + .contentid {
-  padding-top: 102px;
-}
-</style> -->
-
 <div [@routerTransition]>
     <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
     <div class="row">
@@ -156,13 +134,16 @@
                             <tbody class="contentid">
                                 <tr *ngFor="let user of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
                                     <td class="sname" aria-hidden="true" (click)="opencenterDetails(editmodal,user)" style="color: blue;cursor: pointer;">{{user.center.centerid}}</td>
-                                    <td>{{user.center.centername}}</td>
+                                    <td>{{user.center.centername | titlecase}}</td>
                                     <td>{{user.user_contactno}}</td>
-                                    <td>{{user.center.centertype}}</td>
-                                    <td>{{user.center.block}}</td>
-                                    <td>{{user.center.district}}</td>
-                                    <td>{{user.state}}</td>
-                                    <td>{{user.educator}}</td>
+                                    <!-- <td>{{user.center.centertype}}</td> -->
+                                    <td>{{user.center.usertype | titlecase}}</td>
+                                    <td>{{user.center.block | titlecase}}</td>
+                                    <!-- <td>{{user.center.district}}</td> -->
+                                    <td>{{user.center.districtvalue | titlecase}}</td>
+                                    <!-- <td>{{user.state}}</td> -->
+                                    <td>{{user.center.statevalue | titlecase}}</td>
+                                    <td>{{user.educator | titlecase}}</td>
                                     <td>{{user.no_of_students}}</td>
                                     <td>{{user.no_female_students}}</td>
 
@@ -521,7 +502,7 @@
 
                             <div class="row">
                                 <div class="col-8 sideheading">Type</div>
-                                <div class="col-4" style="text-transform:capitalize;">{{user.center.centertype}}</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.center.usertype}}<!--{{user.center.centertype}}--></div>
                             </div>
                          
                             <div class="row">
@@ -530,11 +511,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">District</div>
-                                <div class="col-4" style="text-transform:capitalize;">{{user.center.district}}</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.center.districtvalue}}<!--{{user.center.district}}--></div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">State</div>
-                                <div class="col-4" style="text-transform:capitalize;">{{user.state}}</div>
+                                <div class="col-4" style="text-transform:capitalize;">{{user.center.statevalue}}<!--{{user.state}}--></div>
                             </div>
                             <div class="row">
                                 <div class="col-8 sideheading">Educator name</div>
