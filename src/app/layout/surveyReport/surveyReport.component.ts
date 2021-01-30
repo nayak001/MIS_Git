@@ -104,37 +104,40 @@ export class SurveyReportComponent implements OnInit {
 			  if(Object.keys(data).length > 0){
 				// this.hideLoading_indicator = true;
 				this.managers = data;
-				console.log("jii",this.managers)
 			  }
 			}, 
 			error => {}, 
 			() => {}
 		);	
 	}
-	selected_manager_id:any;
+	selected_manager_id:any ;
     onselect_manager_select(e){
 		this.selected_manager_id = e.target.value;
 	}
 	allreportdata:any;
 	downloadfile(){
-		this.SurveyReportService.getmanagerSurveyReport(this.selected_manager_id).subscribe(data => {
-			if(data){
-				if(Object.keys(data).length > 0){
-					this.allreportdata = data
-					let csvData = this.convertToCSV(this.allreportdata);
-					let file = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
-					saveAs(file,"Survey_report.csv");
-					}else{
-						
-					}
-			}else{
-				alert("no data to download")
-			}
-			
-		}, 
-		error => {}, 
-		() => {}
-		);
+		if(this.selected_manager_id == undefined){
+		  this.selected_manager_id = this.managers[0]._id
+			this.SurveyReportService.getmanagerSurveyReport(this.selected_manager_id).subscribe(data => {
+				if(data){
+					if(Object.keys(data).length > 0){
+						this.allreportdata = data
+						let csvData = this.convertToCSV(this.allreportdata);
+						let file = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+						saveAs(file,"Survey_report.csv");
+						}else{
+							
+						}
+				}else{
+					alert("no data to download")
+				}
+				
+			}, 
+			error => {}, 
+			() => {}
+			);
+		}
+		
 	}
 
     public convertToCSV(objArray: any, fields?) {
