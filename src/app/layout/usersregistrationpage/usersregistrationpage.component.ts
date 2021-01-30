@@ -618,8 +618,77 @@ export class UsersregistrationpageComponent implements OnInit {
 			}else if(gender.trim() == ''){
 				swal.fire('Info','Invalid gender.','warning');
 			}else if(usertype == 'manager'){
-				// do nothing
+				console.log('--> Usertype = '+usertype);
+				if(usersubmitaction === 'Create'){
+					let name = username;
+					name = name.trim();
+					var arr = name.split(' ');
+					name = (arr.length > 0) ? arr[0] : ''; 
+					var suffix = Math.floor(1000 + Math.random() * 9999);
+					userid = name+''+suffix+'@thinkzone.in';
+					
+					body = {};
+					body = {
+						userid : userid,
+						username : username,
+						usertype : usertype,
+						emailid : emailid,
+						password : password,
+						status : status,
+						gender : gender,
+						centerid : centerid,
+						centername : centername,
+						managerid : managerid,
+						managername : managername,
+						statecode : statecode,
+						statevalue : statevalue,
+						districtid : districtid,
+						districtvalue : districtvalue,
+						block : block,
+						permanentaddress: permanentaddress,
+						image : image,
+						contactnumber : contactnumber
+					}
+					//console.log('-->save user  body: ', body);
+					this.saveuser(body);
+					this.update_center_status(centerid, {status: 'alloted'});
+				}else if (usersubmitaction === 'Update'){
+					if(_id.trim() == ''){
+						swal.fire('Info','Invalid document id.','warning');
+					}else if(userid.trim() == ''){
+						swal.fire('Info','Invalid userid.','warning');
+					}else{
+					
+						body = {};
+						body = {
+							username : username,
+							usertype : usertype,
+							emailid : emailid,
+							password : password,
+							status : status,
+							gender : gender,
+							centerid : centerid,
+							centername : centername,
+							managerid : managerid,
+							managername : managername,
+							statecode : statecode,
+							statevalue : statevalue,
+							districtid : districtid,
+							districtvalue : districtvalue,
+							block : block,
+							permanentaddress: permanentaddress,
+							image : image,
+							contactnumber : contactnumber
+						}
+						console.log('-->update user  _id: ', _id, '    body: ', body);
+						this.updateuser(_id, body);
+						this.update_center_status(centerid, {status: 'alloted'});
+					}
+				}else {
+					swal.fire('Info','Data can not be saved.','warning');
+				}
 			}else{
+				console.log('--> Usertype = '+usertype);
 				if(centerid.trim() == ''){
 					swal.fire('Info','Invalid center.','warning');
 				}else if(managerid.trim() == ''){
@@ -702,6 +771,7 @@ export class UsersregistrationpageComponent implements OnInit {
 							}
 							console.log('-->update user  _id: ', _id, '    body: ', body);
 							this.updateuser(_id, body);
+							this.update_center_status(centerid, {status: 'alloted'});
 						}
 					}else {
 						swal.fire('Info','Data can not be saved.','warning');

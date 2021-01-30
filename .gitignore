@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/dist/*
 /tmp
 /out-tsc
 
@@ -33,6 +34,8 @@ package-lock.json
 /libpeerconnection.log
 npm-debug.log
 debug.log
+/debug.log
+/*.log
 testem.log
 /typings
 

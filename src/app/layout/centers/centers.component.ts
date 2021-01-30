@@ -168,6 +168,7 @@ export class CentersComponent implements OnInit {
 				//console.log('-->body: ',body)
 				this.savecenter(body);
 			} else if (centersubmitaction === 'Update' && this.document_id !== '') {
+				let document_id = this.document_id;
 				let body = {
 					centername : this.selected_centername.trim().toLowerCase(),
 					statecode : this.selected_statecode.trim(),
@@ -177,7 +178,7 @@ export class CentersComponent implements OnInit {
 					block : this.selected_blockname.trim().toLowerCase(),
 				}
 				//console.log('-->documentid: ',this.document_id,'    body: ',body)
-				this.updatecenter(this.document_id, body);
+				this.updatecenter(document_id, body);
 			} else {
 				swal.fire('Info', 'Data can not be saved', 'warning');
 			}
@@ -185,6 +186,7 @@ export class CentersComponent implements OnInit {
 	}
 
 	savecenter(body){
+		this.reset_all();
 		this.centersService.createnewcenter(body).subscribe(data => {
 			this.modalReference.close();
 			this.reset_all();
@@ -194,6 +196,7 @@ export class CentersComponent implements OnInit {
 	}
 
 	updatecenter(documentid, body){
+		this.reset_all();
 		this.centersService.updatecenter(documentid, body).subscribe(data => {
 			this.modalReference.close();
 			this.reset_all();

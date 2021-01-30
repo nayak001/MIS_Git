@@ -230,6 +230,7 @@ export class StudentDetailsPageComponent implements OnInit {
 		}
 		//console.log('--> paramiters: '+JSON.stringify(data));
 		this.StudentDetailsPageService.getallDetailsStudents(data).subscribe(res => {
+			//console.log('--> paramiters: '+JSON.stringify(res));
 			this.program_type = program_type
 			this.getallStudents = res
 			this.isLoaded = true
