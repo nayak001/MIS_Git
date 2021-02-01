@@ -853,6 +853,9 @@ export class Masterteachertraining2Component implements OnInit {
 	image_to_preview:any;
 	vedio_to_preview:any;
 	opencontent(content,obj,index,flag) {
+		this.content_value = '';
+		this.s3path = '';
+		this.s3vediopath = '';
 		if(flag == 'addcontentmodal'){
 			this.content_value = '';
 			this.add_q_question = '';
