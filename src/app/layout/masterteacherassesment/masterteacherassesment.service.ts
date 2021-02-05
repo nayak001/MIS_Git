@@ -8,146 +8,147 @@ const baseUrl = environment.baseUrl;
 @Injectable({
   providedIn: 'root'
 })
-export class Masterteachertraining1Service {
+export class MasterteacherassesmentService {
 	constructor(private http: HttpClient) { }
 
 	getalltrainingtopics(submoduleid,language){
-		return this.http.get(baseUrl+'getalltrainingtopics/'+submoduleid +'/'+language,{
+		return this.http.get(baseUrl+'getalltrainingtopics/'+submoduleid +'/'+ language,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			
 		});
 	}
-	findtrainingtopicbyname(submoduleid, subtopicname){
-		return this.http.get(baseUrl+'findtrainingtopicbyname/'+
-		submoduleid+'/'+subtopicname,{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
-		});
-	}
-	createnewtrainingtopic(modulebody){
-		return this.http.post(baseUrl+'createtrainingtopic',
-		modulebody,{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
-		});
-	}
-	updatetrainingtopicbyid(id,modulebody){
-		return this.http.put(baseUrl+'updatetrainingtopicbyid/'+id,
-		modulebody,{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
-		});
-	}
-	deletetrainingtopicbyid(id){
-		return this.http.delete(baseUrl+'deletetrainingtopicbyid/'+id,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
-		});
-	}
-	// modules part
-	getalltrainingmodules(ln){				
-		return this.http.get(baseUrl+'getalltrainingmodules/'+ln,
+
+	getalltrainingmodules(language){				
+		return this.http.get(baseUrl+'getalltrainingmodules/' + language,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});			
 	}
-
-	findtrainingmodulebyname(modulename){
-		return this.http.get(baseUrl+'findtrainingmodulebyname/'+modulename,
+	//functions used for teacher assesment master 
+	getalltrainingassesment(month,language){
+		return this.http.get(baseUrl+'getalltrainingassesment/' + month +'/'+ language,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
-		});	
-	}
-	
-	createnewtrainingmodule(modulebody){
-		return this.http.post(baseUrl+'createnewtrainingmodule',
-		modulebody,{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
 		});
 	}
-	
-	updatetrainingmodulebyid(id,modulebody){
-		return this.http.put(baseUrl+'updatetrainingmodulebyid/'+id,
-		modulebody,{
+	createnewtrainingassesment(body){
+		return this.http.post(baseUrl+'addtrainingassesment',
+		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			//,responseType: 'text' 
 		});
 	}
-	
-	deletetrainingmodulebyid(id){
-		return this.http.delete(baseUrl+'deletetrainingmodulebyid/'+id,
-		{
+	updatetrainingassesmentyid(id,body){
+		return this.http.put(baseUrl+'updatetrainingassesmentyid/'+id,
+		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			//,responseType: 'text' 
 		});
 	}
-
-	// sub modules part
 	getalltrainingsubmodules(moduleid,language){				
-		return this.http.get(baseUrl+'getalltrainingsubmodules/'+moduleid +'/'+language,
+		return this.http.get(baseUrl+'getalltrainingsubmodules/'+moduleid +'/'+ language,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});			
 	}
 
-	findtrainingsubmodulebyname(moduleid, submodulename){
-		return this.http.get(baseUrl+'findtrainingsubmodulebyname/'+moduleid+'/'+submodulename,
+	getalltrainingcontents(moduleid, submoduleid,topicid,language){				
+		return this.http.get(baseUrl+'getalltrainingcontents/'+moduleid+'/'+submoduleid+'/'+topicid +'/'+ language,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
-		});	
+		});			
 	}
-	 getalluser(){
+
+	uploadImage(formData){
+		return this.http.post(baseUrl+'trainingcontentsuploads',
+		formData,{
+			headers: new HttpHeaders().set('enctype', 'multipart/form-data').set('Accept', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	createnewtrainingcontents(body){
+		return this.http.post(baseUrl+'createnewtrainingcontents',
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+
+	updatetrainingcontentsbyid(id,body){
+		return this.http.put(baseUrl+'updatetrainingcontentsbyid/'+id,
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	updatetrainingcontents(id,body){
+		return this.http.put(baseUrl+'updatetrainingcontentsbyid/'+id,
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	deletecontent(id,body){
+		return this.http.put(baseUrl+'deletetrainingcontentsbyid/'+id,body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	
+
+
+
+
+
+
+
+
+
+	getmasteractivitiydetails(program, subject, month, week, level){				
+		return this.http.get(baseUrl+'getmasteractivitiydetails/'+program+'/'+subject+'/'+month+'/'+week+'/'+level,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});			
+	}
+	
+	
+
+	getalluser(){				
 		return this.http.get(baseUrl+'getalluser',
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text'
-		});
-	  }
-	  createnewmessage(message) {
-		return this.http.post(baseUrl+'createnewmessage',
-		message, {
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			, responseType: 'text'
-		});
+			//responseType: 'text' 
+		});			
 	}
-
-	createnewtrainingsubmodule(modulebody){
-		return this.http.post(baseUrl+'createnewtrainingsubmodule',
-		modulebody,{
+	
+	createnewuser(user){
+		return this.http.post(baseUrl+'createnewuser',
+		user,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			,responseType: 'text' 
 		});
 	}
 	
-	updatetrainingsubmodulebyid(id,modulebody){
-		return this.http.put(baseUrl+'updatetrainingsubmodulebyid/'+id,
-		modulebody,{
+	updateuser(id,user){
+		return this.http.put(baseUrl+'updateuser/'+id,
+		user,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			,responseType: 'text' 
 		});
 	}
 	
-	deletetrainingsubmodulebyid(id){
-		return this.http.delete(baseUrl+'deletetrainingsubmodulebyid/'+id,
+	deleteuser(id){
+		return this.http.delete(baseUrl+'deleteuser/'+id,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			,responseType: 'text' 
 		});
 	}
-
-	deletetrainingsubmodulebymoduleid(moduleid){
-		return this.http.delete(baseUrl+'deletetrainingsubmodulebymoduleid/'+moduleid,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
-		});
-	}
-
 }
 
 export class ValidationService {
@@ -176,5 +177,4 @@ export class ValidationService {
 			return null;
 		};
 	}
-	
 }

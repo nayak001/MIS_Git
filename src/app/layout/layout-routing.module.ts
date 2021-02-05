@@ -46,11 +46,11 @@ const routes: Routes = [
       { path: 'masterteachertraining2', loadChildren: './masterteachertraining2/masterteachertraining2.module#Masterteachertraining2Module' },
       { path: 'mastermanagertraining1', loadChildren: './mastermanagertraining1/mastermanagertraining1.module#Mastermanagertraining1Module' },
       { path: 'mastermanagertraining2', loadChildren: './mastermanagertraining2/mastermanagertraining2.module#Mastermanagertraining2Module' },
+      { path: 'masterteacherassesment', loadChildren: './masterteacherassesment/masterteacherassesment.module#MasterteacherassesmentModule' },
       { path: 'userfeedback', loadChildren: './userfeedback/userfeedback.module#UserfeedbackModule' },
       { path: 'usersession', loadChildren: './usersession/usersession.module#UsersessionModule' },
       { path: 'tchassessment', loadChildren: './tchassessment/tchassessment.module#TchassessmentModule' },
       { path: 'versionmanager', loadChildren: './versionmanager/versionmanager.module#VersionmanagerModule' },
-      { path: 'surveymaster', loadChildren: './surveymaster/surveymaster.module#SurveymasterModule' },
       { path: 'tchbaseline', loadChildren: './tchbaseline/tchbaseline.module#TchbaselineModule' },
       { path: 'leapgeneralinfo', loadChildren: './leapgeneralinfo/leapgeneralinfo.module#LeapgeneralinfoModule' },
       { path: 'schoolgenifo', loadChildren: './schoolgeninfo/schoolgeninfo.module#SchoolgeninfoModule' },
@@ -75,6 +75,8 @@ const routes: Routes = [
       { path: 'trainingmisc', loadChildren: './trainingmisc/trainingmisc.module#TrainingMiscModule' },
       { path: 'hblmaster', loadChildren: './hblmaster/hblmaster.module#HblmasterModule' },
       { path: 'hblactivityreport', loadChildren: './hblactivityreport/hblactivityreport.module#HblactivityreportModule' },
+	  { path: 'surveymaster', loadChildren: './surveymaster/surveymaster.module#SurveymasterModule' },
+      { path: 'surveyreport', loadChildren: './surveyReport/surveyReport.module#SurveyReportModule' },
 
     ]
   }
