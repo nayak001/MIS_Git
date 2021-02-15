@@ -34,9 +34,13 @@
             <i class="fa fa-fw fa-fax"></i>&nbsp;
             <span>{{ 'Passcode Manager' | translate }}</span>
           </a>
-          <a [routerLink]="['/surveymaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+		  <a [routerLink]="['/surveymaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
-            <span>{{ 'Survey' | translate }}</span>
+            <span>{{ 'Survey Master' | translate }}</span>
+          </a>
+          <a [routerLink]="['/surveyreport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-eercast"></i>&nbsp;
+            <span>{{ 'Survey Report' | translate }}</span>
           </a>
           <a [routerLink]="['/teacherprofile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-address-book"></i>&nbsp;

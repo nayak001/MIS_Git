@@ -157,6 +157,9 @@ export class Masterteachertraining2Component implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_preflanguage = selectedOptionValue;
 		this.load_allmodules_list(this.selected_preflanguage);
+		this.allsubmodules_list = [];
+		this.alltopic_list=[];
+		this.data = [];
 		// this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
 	  }
 	reset_contents(){
@@ -272,6 +275,9 @@ export class Masterteachertraining2Component implements OnInit {
 		this.router.navigate(['/masterteachertraining1']);
 	}
 	
+	teacherassesment_load(){
+		this.router.navigate(['/masterteacherassesment']);
+	}
 	async load_record(){
 		if(	 this.selected_moduleid != undefined && this.selected_moduleid != null && this.selected_moduleid != ''
 		  && this.selected_submoduleid != undefined && this.selected_submoduleid != null && this.selected_submoduleid != '' && this.selected_topicid != undefined && this.selected_topicid != null && this.selected_topicid != '') {
@@ -587,7 +593,6 @@ export class Masterteachertraining2Component implements OnInit {
 			swal.fire('info', 'Please select some content', 'warning');
 			this.modalReference.close()
 		}
-		
 	}
 	updatecontent() {
 		const body = {
@@ -760,7 +765,20 @@ export class Masterteachertraining2Component implements OnInit {
 			() => {}
 		);
 	}
-
+	updatetchtrainingpercentage(moduleid,submoduleid,topicid){
+		// this.masterteachertraining1Service.gettchtrainingdetails(moduleid,submoduleid).subscribe(data => {
+		// 	console.log("hii i am hereee12",data)
+		// 	},
+		// 	error => {},
+		// 	() => {}
+		// );
+		this.masterteachertraining2Service.updatetchtrainingpercentage(moduleid,submoduleid,topicid).subscribe(data => {
+			console.log("hii i am hereee12",data)
+		  },
+		  error => {},
+		  () => {}
+		);
+	}
 	async update_content_record(id, body){
 		this.masterteachertraining2Service.updatetrainingcontents(id, body).subscribe(data => {
 				swal.fire('Success', 'Record updated successfully', 'success');
@@ -773,6 +791,7 @@ export class Masterteachertraining2Component implements OnInit {
 	async update_record(id, body){
 		this.masterteachertraining2Service.updatetrainingcontentsbyid(id, body).subscribe(data => {
 				swal.fire('Success', 'Record updated successfully', 'success');
+				this.updatetchtrainingpercentage(this.selected_moduleid,this.selected_submoduleid, this.selected_topicid)
 				this.load_record();
 			},
 			error => {},
@@ -834,6 +853,9 @@ export class Masterteachertraining2Component implements OnInit {
 	image_to_preview:any;
 	vedio_to_preview:any;
 	opencontent(content,obj,index,flag) {
+		this.content_value = '';
+		this.s3path = '';
+		this.s3vediopath = '';
 		if(flag == 'addcontentmodal'){
 			this.content_value = '';
 			this.add_q_question = '';
