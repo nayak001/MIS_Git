@@ -63,9 +63,8 @@
                         <input type="text" (keyup)='search($event.target.value)'>
                    
                     </div> -->
-
-
                 </div>
+                
                 <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
                     <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
                             alt="Loading. Please wait..."></span>
@@ -82,9 +81,6 @@
                                     <th>Feedback Date</th>
                                     <!-- <th>Contact No</th> -->
                                     <th *ngFor="let col_name of dyCols"> {{col_name}} </th>
-
-
-
                                 </tr>
                             </thead>
                             <tbody>
