@@ -121,8 +121,10 @@ month : any;
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe((data: any)=> {
 			this.gotoTable(this.info_type);
 			this.data = data.records;
-			this.dyCols = data.dyCols;
+			this.dyCols = data.dyCols.reverse();
+			
 			this.all_managers_data = data.records;
+			// console.log("here",this.dyCols,'this.all_managers_data',this.all_managers_data)
 			this.isLoaded = true
 			if(this.all_managers_data.length == 0){
 				this.isdata_table = true;
@@ -229,38 +231,49 @@ month : any;
 
 
 download(){	
-	var cols = [];
 	this.loader = true
-	// var cols = ["name","feedback date"]
-    var cols =  this.dyCols;
-	// cols.splice(0,0,"feedbackdate");
-	// cols.splice(0,0,"Name");
-	// cols.splice(0,0, "Age")
+	var cols =  this.dyCols;
 	var rows =[];
-	
 	rows.push(cols)
 	for(var i = 0 ; i < this.all_managers_data.length;i++){
 		var row = []
+		// if(this.all_managers_data[i] == ''){
+		// 	this.all_managers_data[i] = 'NA'
+		// }
 		var data_row =this.all_managers_data[i];
-		// row.push(data_row.Details.username)
-		// row.push(data_row.Details.createdon)
-		// row['name'] = data_row.name;
+
+		console.log("data_row12",data_row)
 		for(var c=0;c<this.dyCols.length;c++){
 			var col_name = this.dyCols[c];
+			console.log("data_row",data_row[col_name],"col_name",col_name)
+			// if(data_row == col_name){
+				// var data = data_row[col_name]
+				// if(data){
+				// 	row.push(data)
+				// }
+			 //}
+			// console.log("col_name",data_row[col_name][0])
 			// row[col_name] = data_row[col_name];
-			let data = data_row[col_name]
-			if(data){
-				row.push(data[0])
-			}	
+			 if(typeof(data_row[col_name]) == "object"){
+				var data = data_row[col_name][0]
+				if(data){
+					row.push(data)
+				}
+			 }
+			 if(typeof(data_row[col_name]) == "string"){
+				var data1 = data_row[col_name]
+				if(data1){
+					row.push(data1)
+				}
+			}
 		}
 		rows.push(row);
 	}
-	
-    
+	console.log("rows",rows)
 	this.loader = false
-
 	this.api_hit = true
 	let csvContent = "data:text/csv;charset=utf-8,"+ rows.map(e => e.join(",")).join("\n");
+	
 	var encodedUri = encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
