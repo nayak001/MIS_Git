@@ -9,7 +9,7 @@
 							<h4>PUSH NOTIFICATIONS</h4>
 						</div>
 						<div class="col">
-							<button (click)="open(content)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;All Notifications</button>
+							<button (click)="open(content)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Send Notifications</button>
 							
 							<!-- Modal starts from here -->
 							<ng-template #content let-c="close" let-d="dismiss">
@@ -26,12 +26,21 @@
 
 										<div class="row">
 											<div class="col col-xl-3 col-lg-3">App Type</div>
-											<div class="col col-xl-6 col-lg-6">
+											<div class="col col-xl-9 col-lg-9">
 												<div class="form-group">
-													<select id="modal_id" value="{{ selected_apptype }}" (change)="onSelect_apptype_select($event)"  class="form-control width157">
+													<ng-multiselect-dropdown
+														[placeholder]="'Select App'"
+														[data]="multiselect_applist"
+														[(ngModel)]="multiselect_selectedapplist"
+														[settings]="multiselect_settings_applist"
+														(onSelect)="multiselect_applist_onselectitem($event)" 
+														(onDeSelect)="multiselect_applist_ondeselectitem($event)"
+														(onSelectAll)="multiselect_applist_onselectall($event)">
+													</ng-multiselect-dropdown>
+													<!-- <select id="modal_id" value="{{ selected_apptype }}" (change)="onSelect_apptype_select($event)"  class="form-control width157">
 														<option value="teacherapp">Teacher App</option>
 														<option value="managerapp">Manager App</option>
-													</select>
+													</select> -->
 												</div>
 											</div>
 										</div>
@@ -48,8 +57,7 @@
 														[(ngModel)]="multiselect_selecteduserlist"
 														[settings]="multiselect_settings"
 														(onSelect)="multiselect_onselectitem($event)"
-														(onSelectAll)="multiselect_onselectall($event)"
-													>
+														(onSelectAll)="multiselect_onselectall($event)">
 													</ng-multiselect-dropdown>
 												</div>
 											</div>
@@ -98,12 +106,6 @@
 						</div>
 					</div>					
 				</div>
-
-
-
-
-
-
 
 				<div>
 						<div class="modal-body">	
@@ -177,7 +179,6 @@
 								</table>
 						</div>
 				</div>
-
                 
             </div>                       
         </div>        
