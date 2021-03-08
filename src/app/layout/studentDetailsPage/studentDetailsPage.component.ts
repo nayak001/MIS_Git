@@ -355,8 +355,9 @@ export class StudentDetailsPageComponent implements OnInit {
 			var endline = getendline(mathbaseline,engbaseline,odiabaseline);
 
 			var array = [value.student.studentname , value.student.registration_date ,value.student.gender,
-						value.student.user.centername,value.student.user.centerid,value.student.user.usertype,
-						usertType , value.student.program , value.student.user.block, value.student.user.districtvalue || "",
+						value.student.user?value.student.user.centername:'',value.student.user?value.student.user.centerid:'',
+						value.student.user?value.student.user.usertype:'', usertType , value.student.program , 
+						value.student.user.block, value.student.user.districtvalue || "",
 						value.state,value.student.ec_level , value.student.math_level , value.student.eng_level , 
 						value.student.odia_level ,math_String , eng_String || "", odia_String || "" , ece_string || "", 
 						value.avg_attendance || "",endline || "",value.jumpmath,value.jumpodia,value.jumpeng,
