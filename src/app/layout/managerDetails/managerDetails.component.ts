@@ -111,8 +111,6 @@ month : any;
 		this.dyCols = [];
 		this.api_hit = false
 		// var mon = document.getElementById("month1")
-
-
 		const data = {
 			center_type : this.center_type,
 			createdon : this.createdon,
@@ -123,8 +121,10 @@ month : any;
 		this.ManagerDetailsService.getAllManagersDetails(data).subscribe((data: any)=> {
 			this.gotoTable(this.info_type);
 			this.data = data.records;
-			this.dyCols = data.dyCols;
+			this.dyCols = data.dyCols.reverse();
+			
 			this.all_managers_data = data.records;
+			// console.log("here",this.dyCols,'this.all_managers_data',this.all_managers_data)
 			this.isLoaded = true
 			if(this.all_managers_data.length == 0){
 				this.isdata_table = true;
@@ -141,8 +141,7 @@ month : any;
 				() => {}
 			);
 		  }
-	highlight(index:String){
-
+	   highlight(index:String){
 		document.querySelectorAll('.record-row').forEach(function(ele) {
 			if(ele.getAttribute("id") == "user_"+ index) {
 				ele.classList.add('highlight');
@@ -151,13 +150,9 @@ month : any;
 			}
 			// Now do something with my button
 		});}
-
-
-
-			  
-		  viewData(){
-			  this.api_hit = false
-			  this.page_no = 1
+		viewData(){
+			this.api_hit = false
+			this.page_no = 1
 			this.isLoaded = true
 			this.getManagersDetails()
 		}
@@ -236,37 +231,49 @@ month : any;
 
 
 download(){	
-	debugger
-	var cols = [];
 	this.loader = true
-	// var cols = ["name","feedback date"]
-    var cols =  this.dyCols;
-	cols.splice(0,0,"feedbackdate");
-	cols.splice(0,0,"Name");
-	// cols.splice(0,0, "Age")
+	var cols =  this.dyCols;
 	var rows =[];
-	
 	rows.push(cols)
 	for(var i = 0 ; i < this.all_managers_data.length;i++){
 		var row = []
+		// if(this.all_managers_data[i] == ''){
+		// 	this.all_managers_data[i] = 'NA'
+		// }
 		var data_row =this.all_managers_data[i];
-		row.push(data_row.Details.username)
-		row.push(data_row.Details.createdon)
-		// row['name'] = data_row.name;
+
+		console.log("data_row12",data_row)
 		for(var c=0;c<this.dyCols.length;c++){
 			var col_name = this.dyCols[c];
+			console.log("data_row",data_row[col_name],"col_name",col_name)
+			// if(data_row == col_name){
+				// var data = data_row[col_name]
+				// if(data){
+				// 	row.push(data)
+				// }
+			 //}
+			// console.log("col_name",data_row[col_name][0])
 			// row[col_name] = data_row[col_name];
-			let data = data_row[col_name]
-			if(data){
-				row.push(data[0])
-			}	
+			 if(typeof(data_row[col_name]) == "object"){
+				var data = data_row[col_name][0]
+				if(data){
+					row.push(data)
+				}
+			 }
+			 if(typeof(data_row[col_name]) == "string"){
+				var data1 = data_row[col_name]
+				if(data1){
+					row.push(data1)
+				}
+			}
 		}
 		rows.push(row);
 	}
+	console.log("rows",rows)
 	this.loader = false
-
 	this.api_hit = true
 	let csvContent = "data:text/csv;charset=utf-8,"+ rows.map(e => e.join(",")).join("\n");
+	
 	var encodedUri = encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
@@ -275,24 +282,52 @@ download(){
 	link.click()
 }
 
-download1(){
-	let reportdata = [];
-	let all_managers_data_bkp = this.all_managers_data;
-	reportdata = this.all_managers_data;
-	for(var i = 0 ; i < all_managers_data_bkp.length;i++){
-		if(i == this.all_managers_data.length-1) this.download_to_csv(reportdata);
-		//if('name' in all_managers_data_bkp[i]) delete all_managers_data_bkp[i]['name'];
-		//if('userData' in all_managers_data_bkp[i]) delete all_managers_data_bkp[i]['userData'];
-		let obj = {};
+ exportToCsv(filename, rows) {
+	var processRow = function (row) {
+		var finalVal = '';
+		for (var j = 0; j < row.length; j++) {
+			var innerValue = row[j] === null ? '' : row[j].toString();
+			if (row[j] instanceof Date) {
+				innerValue = row[j].toLocaleString();
+			};
+			var result = innerValue.replace(/"/g, '""');
+			if (result.search(/("|,|\n)/g) >= 0)
+				result = '"' + result + '"';
+			if (j > 0)
+				finalVal += ',';
+			finalVal += result;
+		}
+		return finalVal + '\n';
+	};
 
-		console.log('-->data: '+JSON.stringify(all_managers_data_bkp[i]));
-		reportdata.push(all_managers_data_bkp[i])
+	var csvFile = '';
+	for (var i = 0; i < rows.length; i++) {
+		csvFile += processRow(rows[i]);
+	}
+
+	var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+	if (navigator.msSaveBlob) { // IE 10+
+		navigator.msSaveBlob(blob, filename);
+	} else {
+		var link = document.createElement("a");
+		if (link.download !== undefined) { // feature detection
+			// Browsers that support HTML5 download attribute
+			var url = URL.createObjectURL(blob);
+			link.setAttribute("href", url);
+			link.setAttribute("download", filename);
+			link.style.visibility = 'hidden';
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+		}
 	}
 }
-download_to_csv(reportdata){
-	console.log('download_to_csv is called')
-	console.log('-->data: '+JSON.stringify(reportdata));
-}
+
+// Date:-16/02/2021
+// Activity:-Worked on debugging center
+
+
+
 
 selectBlock(distic) {
 	this.all_blocks = []
