@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer, SafeResourceUrl, SafeUrl, SafeValue} from '@angular/platform-browser';
 
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -70,11 +71,14 @@ month : any;
 	page_no:any = 1;
 	count : any;
 
+	image_preview: any = null;
+	hideModalLoading_indicator: boolean = true;
 
 	constructor(
 		private modalService: NgbModal,
 		private formBuilder: FormBuilder,
 		private translate: TranslateService,
+		public domSanitizer:DomSanitizer,
 		public router: Router,
 		private ManagerDetailsService: ManagerDetailsService
 	) {
@@ -83,6 +87,7 @@ month : any;
 		this.showpassword = false;
 		this.showhide_button = 'Show';
 		this.hideLoading_indicator = false;
+		this.hideModalLoading_indicator = true;
 		
 
 	
@@ -124,7 +129,7 @@ month : any;
 			this.dyCols = data.dyCols.reverse();
 			
 			this.all_managers_data = data.records;
-			// console.log("here",this.dyCols,'this.all_managers_data',this.all_managers_data)
+			console.log("here",data)
 			this.isLoaded = true
 			if(this.all_managers_data.length == 0){
 				this.isdata_table = true;
@@ -343,6 +348,32 @@ selectBlock(distic) {
 gotoViewDetails(data){
 	const mangerId = data.manager._id
 	this.router.navigate(['individualUserPage/' + mangerId]);
+}
+
+show_picture(content,user){
+	this.hideModalLoading_indicator = false;
+	this.image_preview = null;
+	let id = user["_id"];
+	//console.log('###document id: '+id)
+	 
+	this.ManagerDetailsService.getfeedbackimagebyid(id).subscribe((data: any)=> {
+		if(Object.keys(data).length > 0){
+			if(data.images == undefined || data.images == null || data.images.length <= 0){
+				this.image_preview = null;
+			}else{
+				this.image_preview = this.domSanitizer.bypassSecurityTrustResourceUrl("data:image/jpg;base64,"+data.images[0]);
+			}
+		}else{
+			this.image_preview = null;
+		}
+		this.hideModalLoading_indicator = true;
+	},error => {},() => {this.hideModalLoading_indicator = true;});
+	this.modalReference = this.modalService.open(content);	
+	this.modalReference.result.then((result) => {
+		this.closeResult = `Closed with: ${result}`;
+	}, (reason) => {
+		this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+	});
 }
 
 }

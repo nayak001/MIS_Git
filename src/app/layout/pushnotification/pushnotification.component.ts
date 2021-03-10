@@ -194,7 +194,7 @@ export class PushnotificationComponent implements OnInit {
 		},error => {},() => {
 			//this.modalReference.close();
 			//location.reload();
-			alert('Message successfully sent !!!');
+			swal.fire('Success','Message successfully sent','success');
 			this.modal_push_title = '';
 			this.modal_push_subtitle = '';
 			this.modal_push_message = '';

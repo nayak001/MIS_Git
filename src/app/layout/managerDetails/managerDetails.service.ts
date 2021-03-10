@@ -31,6 +31,14 @@ export class ManagerDetailsService {
 		});	
 	}
 
+	getfeedbackimagebyid(id){
+		return this.http.get(baseUrl+'getfeedbackimagebyid/'+id, 
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});	
+	}
+
 
 	// getallmanagersfeedbacks(){
 	// 	return this.http.get(baseUrl+'getallmanagersfeedbacks',

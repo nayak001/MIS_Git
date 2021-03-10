@@ -78,6 +78,7 @@
                                     <!-- <th>Center Name</th> -->
                                     <!-- <th>Feedback Date</th> -->
                                     <!-- <th>Contact No</th> -->
+                                    <th>Image</th>
                                     <th *ngFor="let col_name of dyCols"> {{col_name}} </th>
                                 </tr>
                             </thead>
@@ -90,6 +91,30 @@
                                     <td><span *ngIf="user && user.Details && user.Details.centername">{{user.Details.centername}}</span></td>
                                     <td>{{getDate(user)}}</td> -->
                                     <!-- <td>{{user.userData.contactnumber}}</td> -->
+                                    <td><div class="" (click)="show_picture(viewmodal,user)" style="text-align: center; cursor: pointer;color: red;"><i class="fa fa-picture-o" aria-hidden="true"></i></div>
+                                        <ng-template #viewmodal let-c="close" let-d="dismiss">
+                                            <div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> 
+                                                <div class="row">
+                                                    <div class="col-lg-10 col-md-10 col-sm-10">
+                                                        Center Image 
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-2" style="font-weight: bold;text-align: right; cursor: pointer;" (click)="c('Close click')">
+                                                        X
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+                                                    <span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." style="width: 50%;"></span>
+                                                </div>	
+                                                <div class="row" [hidden]="!hideModalLoading_indicator">
+                                                    <div class="col-md-12" style="text-align: center;">
+                                                        <img [src]="(image_preview == null || image_preview == undefined || image_preview == '' ) ? '../../../assets/images/no_image_available.png' : image_preview" style="height:360px;width:240px">
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </ng-template>
+                                    </td>
                                     <td *ngFor="let col_name of dyCols">
                                         {{ user[col_name] }}
 
