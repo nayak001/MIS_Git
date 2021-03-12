@@ -611,10 +611,8 @@ export class UsersregistrationpageComponent implements OnInit {
 				swal.fire('Info','Invalid password.','warning');
 			}else if(password.trim().length < 5){
 				swal.fire('Info','Password must be of 5 or more character length.','warning');
-			}else if(emailid.trim() != ''){
-				if(!(this.selected_email.match(this.validatemail))) {
-					swal.fire('Info','Invalid email id.','warning');
-				}
+			}else if(emailid.trim() != '' && !(this.selected_email.match(this.validatemail))){
+				swal.fire('Info','Invalid email id.','warning');
 			}else if(gender.trim() == ''){
 				swal.fire('Info','Invalid gender.','warning');
 			}else if(usertype == 'manager'){
