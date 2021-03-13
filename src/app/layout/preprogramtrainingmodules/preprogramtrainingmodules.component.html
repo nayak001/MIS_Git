@@ -1,0 +1,253 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-6 col-lg-6">
+							<h4>PREPROGRAM TEACHER TRAINING- MODULES</h4>
+						</div>
+						<div class="col col-xl-4 col-lg-4">
+							<div class="row">
+								<div class="col col-xl-6 col-lg-6" style="margin: auto;">
+									Prefered Language
+								</div>
+								<div class="col col-xl-6 col-lg-6">
+									<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
+										<option value="">Select</option>
+										<option value="en"  [selected]="isSelected">English</option>
+										<option value="od">ଓଡିଆ</option>
+										<option value="hi">हिंदी</option>
+									</select>
+								</div>
+							</div>
+							<!-- <span class="bold-font">Prefered Language</span>
+							<span>
+								
+							</span> -->
+						</div>
+						<div class="col col-xl-2 col-lg-2">
+							<button (click)="back_btn_click()" class="btn btn-sm btn-primary float-right" type="button" style="margin-top: 2px;">&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</div>					
+				</div>
+
+				<div class="card-body table-responsive">
+					<div class="col">
+						<div class="row">
+							<!-- Module section -->
+							<div class="col col-xl-4 col-lg-4">
+								<h5><b>Modules:</b></h5>
+								<div class="form-control">
+									<div>
+										<div class="row">
+											<div class="col col-xl-9 col-lg-9">
+												<input [(ngModel)]="modulename_tosave" type="text" placeholder="Module Name" class="form-control" />
+											</div>
+											<div class="col col-xl-3 col-lg-3">
+												<button (click)="savemodule_btnclick()" class="btn btn-primary float-right">Save</button>
+											</div>
+										</div>
+									</div>
+									<div class="scrl_div">
+										<div class="loading_indicator" [hidden]="hideLoading_indicator1" >
+											<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+										</div>
+										<div class="row border_bottom" *ngFor="let module of allmodules_list; let i = index;">
+											<div class="col col-xl-9 col-lg-9">
+												{{ i+1 }}. {{ module.modulename | titlecase }}
+											</div>
+											<div class="col col-xl-3 col-lg-3">
+												<div class="row">
+													<div class="col col-xl-6 col-lg-6">
+														<!-- edit button datatable -->
+														<button (click)="open(module_editmodal, module, 'edit_module')" type="button" class="btn btn-primary input-block-level form-control edit-button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+													</div>
+													<div class="col col-xl-6 col-lg-6">
+														<!-- delete button datatable -->
+														<button (click)="open(module_deletemodal, module, 'delete_module')" type="button" class="btn btn-danger input-block-level form-control delete-button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Module part modal starts from here -->
+										<ng-template #module_editmodal let-c="close" let-d="dismiss">
+											<div class="modal-body">											
+												<div class="row">
+													<div class="col col-xl-12 col-lg-12">
+														<input [(ngModel)]="modulename_toupdate" [value]="modulename_toupdate" type="text" placeholder="Module Name" class="form-control" />
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+												<button type="button" class="btn btn-primary" (click)="updatemodule_btnclick()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+											</div>
+										</ng-template>
+										<ng-template #module_deletemodal let-c="close" let-d="dismiss">
+											<div class="modal-body">											
+												<div class="row">
+												<img src="assets/images/warning.png" class="warning-icon">											
+												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ modulename_todelete }} !</span>									
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+												<button type="button" class="btn btn-danger"   (click)="deletemodule_btnclick()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+											</div>
+										</ng-template>
+									</div>
+								</div>
+							</div>
+
+							<!-- Submodule section -->
+							<div class="col col-xl-4 col-lg-4">
+								<h5><b>Sub-modules:</b></h5>
+								<div class="form-control">
+									<div>
+										<div class="row">
+											<div class="col col-xl-6 col-lg-6">
+												<select value="" (change)="onselect_modules_select($event)" class="form-control" placeholder="Manager" style="width: 91px;">
+													<option value="">Select</option>
+													<option *ngFor="let module of allmodules_list;" value="{{ module.moduleid }}">{{ module.modulename | titlecase }}</option>									
+												</select>
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<input [(ngModel)]="submodulename_tosave" type="text" placeholder="Sub Module Name" class="form-control" style="margin-left: -18px;width: 117px;
+												margin-left: -63px;"/>
+											</div>
+											<div class="col col-xl-2 col-lg-2">
+												<button (click)="savesubmodule_btnclick()" class="btn btn-primary float-right">Save</button>
+											</div>
+										</div>
+									</div>
+									<div class="scrl_div">
+										<div class="loading_indicator" [hidden]="hideLoading_indicator2" >
+											<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+										</div>
+										<div class="row border_bottom" *ngFor="let submodule of allsubmodules_list; let i = index;">
+											<div class="col col-xl-9 col-lg-9">
+												{{ i+1 }}. {{ submodule.submodulename | titlecase }}
+											</div>
+											<div class="col col-xl-3 col-lg-3">
+												<div class="row">
+													<div class="col col-xl-6 col-lg-6">
+														<!-- edit button datatable -->
+														<button (click)="open(submodule_editemodal, submodule, 'edit_submodule')" type="button" class="btn btn-primary input-block-level form-control edit-button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+													</div>
+													<div class="col col-xl-6 col-lg-6">
+														<!-- delete button datatable -->
+														<button (click)="open(submodule_deletemodal, submodule, 'delete_submodule')" type="button" class="btn btn-danger input-block-level form-control delete-button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Sub-module part modal starts from here -->
+										<ng-template #submodule_editemodal let-c="close" let-d="dismiss">
+											<div class="modal-body">											
+												<div class="row">
+													<div class="col col-xl-12 col-lg-12">
+														<input [(ngModel)]="submodulename_toupdate" [value]="submodulename_toupdate" type="text" placeholder="Module Name" class="form-control" />
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+												<button type="button" class="btn btn-primary" (click)="updatesubmodule_btnclick()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+											</div>
+										</ng-template>
+										<ng-template #submodule_deletemodal let-c="close" let-d="dismiss">
+											<div class="modal-body">											
+												<div class="row">
+												<img src="assets/images/warning.png" class="warning-icon">											
+												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ submodulename_todelete }} !</span>									
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+												<button type="button" class="btn btn-danger"   (click)="deletesubmodule_btnclick()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+											</div>
+										</ng-template>
+									</div>	
+								</div>
+							</div>
+							<div class="col col-xl-4 col-lg-4">
+								<h5><b>Topics:</b></h5>
+								<div class="form-control">
+									<div>
+										<div class="row">
+											<div class="col col-xl-4 col-lg-4">
+												<select value="" (change)="onselect_sub_modules_select($event)" class="form-control" placeholder="Manager" style="width: 92px;">
+													<option value="">Select</option>
+													<option *ngFor="let submodule of allsubmodules_list;" value="{{ submodule.submoduleid }}">{{ submodule.submodulename | titlecase }}</option>									
+												</select>
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<input [(ngModel)]="subtopicname_tosave" type="text" placeholder="Topic" class="form-control" style="width: 117px;" />
+											</div>
+											<div class="col col-xl-4 col-lg-4">
+												<button (click)="savesubtopic_btnclick()" class="btn btn-primary float-right">Save</button>
+											</div>
+										</div>
+									</div>
+									<div class="scrl_div">
+										<div class="loading_indicator" [hidden]="hideLoading_indicator2" >
+											<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+										</div>
+										<div class="row border_bottom" *ngFor="let topics of alltopic_list; let i = index;">
+											<div class="col col-xl-9 col-lg-9">
+												{{ i+1 }}. {{ topics.topicname | titlecase }}
+											</div>
+											<div class="col col-xl-3 col-lg-3">
+												<div class="row">
+													<div class="col col-xl-6 col-lg-6">
+														<!-- edit button datatable -->
+														<button (click)="open(topic_editmodal, topics, 'edit_topic')" type="button" class="btn btn-primary input-block-level form-control edit-button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+													</div>
+													<div class="col col-xl-6 col-lg-6">
+														<!-- delete button datatable -->
+														<button (click)="open(topic_deletemodal, topics, 'delete_topic')" type="button" class="btn btn-danger input-block-level form-control delete-button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Sub-module part modal starts from here -->
+										<ng-template #topic_editmodal let-c="close" let-d="dismiss">
+											<div class="modal-body">											
+												<div class="row">
+													<div class="col col-xl-12 col-lg-12">
+														<input [(ngModel)]="topic_toupdate" [value]="topic_toupdate" type="text" placeholder="Topic Name" class="form-control" />
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+												<button type="button" class="btn btn-primary" (click)="updatetopic_btnclick()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+											</div>
+										</ng-template>
+										<ng-template #topic_deletemodal let-c="close" let-d="dismiss">
+											<div class="modal-body">											
+												<div class="row">
+												<img src="assets/images/warning.png" class="warning-icon">											
+												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ topicname_todelete }} !</span>									
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+												<button type="button" class="btn btn-danger"   (click)="deletetopic_btnclick()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+											</div>
+										</ng-template>
+									</div>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>                       
+        </div>        
+    </div>
+</div>
