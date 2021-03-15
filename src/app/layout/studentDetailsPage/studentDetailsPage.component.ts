@@ -303,6 +303,7 @@ export class StudentDetailsPageComponent implements OnInit {
 			this.getallStu = res
 			this.isLoaded = true
 			this.getallStu.forEach(value => {
+				console.log("value",value)
 				var usertType ='';
 				var block = '';
 				if (value && value.student && value.student.user && value.student.user.usertype) {
@@ -353,18 +354,17 @@ export class StudentDetailsPageComponent implements OnInit {
 			}
 
 			var endline = getendline(mathbaseline,engbaseline,odiabaseline);
-
 			var array = [value.student.studentname , value.student.registration_date ,value.student.gender,
 						value.student.user?value.student.user.centername:'',value.student.user?value.student.user.centerid:'',
 						value.student.user?value.student.user.usertype:'', usertType , value.student.program , 
 						value.student.user.block, value.student.user.districtvalue || "",
 						value.state,value.student.ec_level , value.student.math_level , value.student.eng_level , 
 						value.student.odia_level ,math_String , eng_String || "", odia_String || "" , ece_string || "", 
-						value.avg_attendance || "",endline || "",value.jumpmath,value.jumpodia,value.jumpeng,
+						value.avg_attendancce +'%' || "0%",endline || "",value.jumpmath,value.jumpodia,value.jumpeng,
 						value.quarter4ece,value.ispass,value.isparticipated,value.student.class];
 			rows.push(array);
 		});
-		
+		console.log("rows",rows)
 		let csvContent = "data:text/csv;charset=utf-8,"+ rows.map(e => e.join(",")).join("\n");
 		var encodedUri = encodeURI(csvContent);
 		var link = document.createElement("a");

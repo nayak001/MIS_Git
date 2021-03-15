@@ -77,7 +77,8 @@ const routes: Routes = [
       { path: 'hblactivityreport', loadChildren: './hblactivityreport/hblactivityreport.module#HblactivityreportModule' },
 	  { path: 'surveymaster', loadChildren: './surveymaster/surveymaster.module#SurveymasterModule' },
       { path: 'surveyreport', loadChildren: './surveyReport/surveyReport.module#SurveyReportModule' },
-
+      { path: 'ppt', loadChildren: './preprogramteachertraining/preprogramteachertraining.module#PreprgrameTeacherTrainingModule' },
+      { path: 'preprogramtrainingmodule', loadChildren: './preprogramtrainingmodules/preprogramtrainingmodules.module#PreprogramtrainingModule' },
     ]
   }
 ];
