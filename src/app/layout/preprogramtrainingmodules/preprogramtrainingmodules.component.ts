@@ -336,6 +336,9 @@ export class PreprogramTrainingComponent implements OnInit {
 					}else{
 						let curr_date = new Date();
 						let subtopicbody = {
+							moduleid: this.selected_submodule_moduleid,
+							modulename: this.selected_submodule_modulename,
+							submodulename: this.submodulename_tosave,
 							topicid:curr_date.getTime(),
 							submoduleid: this.selected_submodule_id,
 							topicname: this.subtopicname_tosave,
@@ -409,6 +412,9 @@ export class PreprogramTrainingComponent implements OnInit {
 						alert('Topic name already exists.')
 					}else{
 						let body = {
+							moduleid: this.selected_submodule_moduleid,
+							modulename: this.selected_submodule_modulename,
+							submodulename: this.submodulename_tosave,
 							submoduleid: this.selected_submodule_id,
 							topicid: this.topic_id,
 							topicname: this.topic_toupdate,
