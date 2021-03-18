@@ -339,7 +339,7 @@ export class PreprogramTrainingComponent implements OnInit {
 							moduleid: this.selected_submodule_moduleid,
 							modulename: this.selected_submodule_modulename,
 							submoduleid: this.selected_submodule_id,
-							submodulename: this.submodulename_tosave,
+							submodulename: this.selected_submodule_name,
 							topicid:curr_date.getTime(),
 							topicname: this.subtopicname_tosave,
 							language:this.selected_preflanguage
@@ -415,7 +415,7 @@ export class PreprogramTrainingComponent implements OnInit {
 							moduleid: this.selected_submodule_moduleid,
 							modulename: this.selected_submodule_modulename,
 							submoduleid: this.selected_submodule_id,
-							submodulename: this.submodulename_tosave,
+							submodulename: this.selected_submodule_name,
 							topicid: this.topic_id,
 							topicname: this.topic_toupdate,
 							language:this.selected_preflanguage
