@@ -199,7 +199,8 @@ export class PptreportComponent implements OnInit {
 
 	async showdetails(row){
 		let uid = row ? row.userid : '';
-		let lng = 'en';
+		let lng = this.language_multiselect_selectedlist ? this.language_multiselect_selectedlist[0].languageid : 'en';
+		console.log('@@@ language: ',lng, '    userid: ',uid);
 		this.hideModalLoading_indicator = false;
 		this.pptreportService.ppt_trans_getoveralldatabyuserid(uid, lng).subscribe(data => {
 			//console.log('@@@ report data: '+JSON.stringify(data));
