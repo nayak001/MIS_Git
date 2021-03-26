@@ -1,0 +1,411 @@
+<div style="min-height: 550px;">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-8 col-lg-8">
+							<div class="row">
+								<h4>PPT Report</h4>
+							</div>
+						</div>
+						<div class="col">
+							<!-- Download button -->
+							<!-- <div style="width: 100%;">
+								<button type="button" class="btn btn-outline-secondary" (click)="open_downloadfilemodal(downloadfilemodal,'all')" style="float: right; cursor: pointer;"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download All Report in Excel</button>
+							</div> -->
+						</div>
+					</div>
+				</div>
+				
+				<!-- Contents -->
+                <div class="card-body">
+					<div>
+						<div class="row">
+							<div class="col col-lg-4 col-md-4 col-sm-4">
+								<div class="row">
+									Language
+									<ng-multiselect-dropdown
+										[placeholder]="'Select Language'"
+										[data]="language_list"
+										[(ngModel)]="language_multiselect_selectedlist"
+										[settings]="language_multiselect_settings"
+										(onSelect)="language_multiselect_onselect($event)"
+										(onDeSelect)="language_multiselect_ondeselect($event)"
+										[disabled]="disabled"
+										style="width: 70%; margin-left: 10px;"
+									>
+									</ng-multiselect-dropdown>
+								</div>
+							</div>
+							<div class="col">
+								Filter by &nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" name="radiofilter" value="ppt" (change)="radiofilter_on_change($event.target.value)" checked /> Pre Program Training
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" name="radiofilter" value="training" (change)="radiofilter_on_change($event.target.value)" /> Training
+							</div>
+						</div>
+						<br>
+
+						<!--
+						<div class="row" style="margin-left: 0px;">
+							<div class="col">
+								<div style="width: 100%;">
+									<button type="button" class="btn btn-primary" (click)="showdata()" style="vertical-align: text-top; cursor: pointer;"><i class="fa fa-share" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Show Data</button>
+								</div>
+							</div>
+						</div>
+						-->
+					</div>
+					<hr>
+
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<hr>
+
+					<div class="sub_content">
+						<div class="row">
+							<div class="col col-lg-3 col-md-3 col-sm-3"><h4>{{ alldata.length }} Record(s) found.</h4></div>
+							<div class="col col-lg-3 col-md-3 col-sm-3">
+								<div class="row">
+									Find User
+									<input type="text" (keyup)="searchdata($event.target.value)" placeholder="Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
+								</div>
+							</div>
+							<div class="col">
+								<div class="row">
+									Status
+									<ng-multiselect-dropdown
+										[placeholder]="'Select Status'"
+										[data]="status_list"
+										[(ngModel)]="status_multiselect_selectedlist"
+										[settings]="status_multiselect_settings"
+										(onSelect)="status_multiselect_onselect($event)"
+										(onSelectAll)="status_multiselect_onselectall($event)"
+										(onDeSelect)="status_multiselect_ondeselect($event)"
+										style="width: 70%; margin-left: 10px;"
+									>
+									</ng-multiselect-dropdown>
+								</div>
+							</div>
+							<!-- <div class="col col-lg-4 col-md-4 col-sm-4">
+								<button type="button" class="btn btn-outline-secondary" *ngIf="alldata.length > 0" (click)="open_downloadfilemodal(downloadfilemodal,'filter')" style="float: right; cursor: pointer;"><i class="fa fa-download" aria-hidden="true"></i></button>
+							</div> -->
+						</div>
+
+						<div class="table-responsive">
+							<table class="table table-striped" [mfData]="alldata" #mf="mfDataTable" [mfRowsOnPage]="10">
+								<thead>
+									<tr>
+										<th style="width: 10%">
+											<mfDefaultSorter by="username">#</mfDefaultSorter>
+										</th>
+										<th style="width: 50%">
+											<mfDefaultSorter by="username">User</mfDefaultSorter>
+										</th>
+										<th style="width: 10%">
+											<mfDefaultSorter by="username">User Type</mfDefaultSorter>
+										</th>
+										<th style="width: 30%">
+											<mfDefaultSorter by="usertype">Status</mfDefaultSorter>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let row of  mf.data; let i = index;" (click)="open(detailsmodal,row)">
+										<td>
+											<div class="serial_number_label">
+												{{ (i+1) }} .
+											</div>
+										</td>
+										<td> 
+											<div class="">
+												<div class="bold_font"> {{ row.username | titlecase }} </div>
+												<div class="gray_font"> {{ row.userid }} </div>
+											</div>
+										</td>
+										<td> 
+											<div class="">
+												<div class="gray_font status_label"> {{ row.usertype | titlecase }} </div>
+											</div>
+										</td>
+										<td> 
+											<div [ngSwitch]="row.status">
+												<div *ngSwitchCase="'1'"><div class="row"><div class="col col-lg-2 col-md-2 col-sm-2"><i class="fa fa-check-circle complete_status_icon" aria-hidden="true"></i></div><div class="col status_label">Complete</div></div></div>
+												<div *ngSwitchCase="'2'"><div class="row"><div class="col col-lg-2 col-md-2 col-sm-2"><i class="fa fa-play-circle inprogress_status_icon" aria-hidden="true"></i></div><div class="col status_label">In Progress</div></div></div>
+												<div *ngSwitchCase="'3'"><div class="row"><div class="col col-lg-2 col-md-2 col-sm-2"><i class="fa fa-stop-circle stop_status_icon" aria-hidden="true"></i></div><div class="col status_label">Not Started Yet</div></div></div>
+												<div *ngSwitchDefault>   <div class="row"><div class="col col-lg-2 col-md-2 col-sm-2"><i class="fa fa-question-circle default_status_icon" aria-hidden="true"></i></div><div class="col status_label">Data Not Found</div></div></div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="4">
+											<!--<ngb-pagination (click)="getPageNo($event)" [collectionSize]="totalPage.count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination> -->
+											<!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+											<mfBootstrapPaginator></mfBootstrapPaginator> 
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<ng-template #detailsmodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> {{modal_username | titlecase}} </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." style="width: 50%;"></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div *ngIf="(modulesarr == undefined || modulesarr == null || modulesarr.length <= 0); else elsediv">
+				<div class="">Nothing to display</div>
+			</div>
+			<ng-template #elsediv>
+				<div class="row table_header">
+					<div class="col col-lg-1 col-md-1 col-sm-1">#</div>
+					<div class="col col-lg-3 col-md-3 col-sm-3">Module</div>
+					<div class="col col-lg-4 col-md-4 col-sm-4">Sub-module</div>
+					<div class="col col-lg-2 col-md-2 col-sm-2"> Topic</div>
+					<div class="col"> Status</div>
+				</div>
+				<div class="row table_row" *ngFor="let module of modulesarr; let i = index;">
+					<div class="col col-lg-1 col-md-1 col-sm-1">{{(i+1)}}</div>
+					<div class="col col-lg-3 col-md-3 col-sm-3">{{module.modulename}}</div>
+					<div class="col">
+						<div class="row" *ngFor="let submodule of module.submodulesarr;">
+							<div class="col col-lg-6 col-md-6 col-sm-6">{{submodule.submodulename}}</div>
+							<div class="col">
+								<div class="row" *ngFor="let topic of submodule.topicsarr;">
+									<div class="col col-lg-8 col-md-8 col-sm-8">{{topic.topicname}}</div>
+									<div class="col">
+										<div class="row" *ngFor="let trans of topic.transarr;">
+											<div class="col">{{trans.topic_percentage ? trans.topic_percentage : '-'}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- View Odia Level MOdal -->
+<ng-template #viewodialevelbaselinemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Odia Baseline Level </div>
+	<div style="width: 100%;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6"> Student </div>
+				<div class="col col-xl-6 col-lg-6 row-fluid"> {{ modal_student_name | titlecase }} </div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6"> Odia Baseline Level </div>
+				<div class="col col-xl-6 col-lg-6 row-fluid"> {{ modal_odia_level_baseline }} </div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- View Math Level MOdal -->
+<ng-template #viewmathlevelbaselinemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Math Baseline Level </div>
+	<div style="width: 100%;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6"> Student </div>
+				<div class="col col-xl-6 col-lg-6 row-fluid"> {{ modal_student_name | titlecase }} </div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6"> Math Baseline Level </div>
+				<div class="col col-xl-6 col-lg-6 row-fluid"> {{ modal_math_level_baseline }} </div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- View Odia Level MOdal -->
+<ng-template #viewodialevelendlinemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Odia Endline Level </div>
+	<div style="width: 100%;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6"> Student </div>
+				<div class="col col-xl-6 col-lg-6 row-fluid"> {{ modal_student_name | titlecase }} </div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6"> Odia Endline Level </div>
+				<div class="col col-xl-6 col-lg-6 row-fluid"> {{ modal_odia_level_endline }} </div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- View Math Level MOdal -->
+<ng-template #viewmathlevelendlinemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Math Endline Level </div>
+	<div style="width: 100%;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6"> Student </div>
+				<div class="col col-xl-6 col-lg-6 row-fluid"> {{ modal_student_name | titlecase }} </div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col col-xl-6 col-lg-6"> Math Endline Level </div>
+				<div class="col col-xl-6 col-lg-6 row-fluid"> {{ modal_math_level_endline }} </div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- View Odia Question MOdal -->
+<ng-template #viewodiaactivitymodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Odia Question </div>
+	<div style="width: 100%;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4"> Student </div>
+				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_student_name | titlecase }} </h5></div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col"><h5><u> Odia Question: </u></h5></div>
+			</div>
+			<div class="">
+				<div class="row" *ngFor="let activity of modal_odia_activity" style="margin-bottom: 10px;">
+					<div class="col col-xl-9 col-lg-9"> {{ activity.responsedesc }} </div>
+					<div class="col col-xl-3 col-lg-3 row-fluid"> 
+						<div *ngIf="(activity.selectedvalue == 'no');else elsepart" class="notdoneicon">
+							<i class="fa fa-times-circle" aria-hidden="true"></i> 
+						</div>
+						<ng-template #elsepart>
+							<div class="doneicon">
+								<i class="fa fa-check-circle" aria-hidden="true"></i>
+							</div>
+						</ng-template>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- View Math Question MOdal -->
+<ng-template #viewmathactivitymodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Math Question </div>
+	<div style="width: 100%;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col col-xl-4 col-lg-4"> Student </div>
+				<div class="col col-xl-8 col-lg-8 row-fluid"><h5> {{ modal_student_name | titlecase }} </h5></div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col"><h5><u> Math Question </u></h5></div>
+			</div>
+			<div class="">
+				<div class="row" *ngFor="let activity of modal_math_activity" style="margin-bottom: 10px;">
+					<div class="col col-xl-9 col-lg-9"> {{ activity.responsedesc }} </div>
+					<div class="col col-xl-3 col-lg-3 row-fluid"> 
+						<div *ngIf="(activity.selectedvalue == 'no');else elsepart" class="notdoneicon">
+							<i class="fa fa-times-circle" aria-hidden="true"></i> 
+						</div>
+						<ng-template #elsepart>
+							<div class="doneicon">
+								<i class="fa fa-check-circle" aria-hidden="true"></i>
+							</div>
+						</ng-template>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">OK</button>
+		</div>
+	</div>
+</ng-template>
+
+<!-- Download file Modal -->
+<ng-template #downloadfilemodal let-c="close" let-d="dismiss">
+	<div style="font-size: 25px;  color: #ffffff; background: #4a90ac; padding: 10px 50px;"> Download </div>
+	
+	<div id="loading_indicator" style="width: 100%; text-align: center;" [hidden]="hideModalLoading_indicator">
+		<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." style="width: 50%;"></span>
+	</div>
+
+	<div style="width: 100%;" [hidden]="!hideModalLoading_indicator">
+		<div class="modal-body">
+			<div class="row">
+				<div style="width: 100%; text-align: center;">
+					<br>
+					Do you want to download this file containing <b>{{ all_report_data.length }}</b> records?
+					<br><br><br>
+					<button type="button" class="btn btn-outline-primary" (click)="download_report()" style="cursor: pointer;"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Download</button>
+					<br><br>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		</div>
+	</div>
+</ng-template>

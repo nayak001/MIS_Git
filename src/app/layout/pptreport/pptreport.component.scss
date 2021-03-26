@@ -1,0 +1,146 @@
+/*
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+*/
+.table-striped{
+	font-size: 13px !important;	
+	color: #191919;
+	font-family: 'Arial';
+}
+.table-striped thead{
+    background: #1d5959;
+}
+.table-striped th{
+	font-size: 13px !important;	
+	font-weight: bold;
+	color: white;
+	font-family: 'Arial black';
+}
+.table-striped tr:hover{
+    cursor: pointer;
+    background: #bceff1;    
+}
+
+
+.modal-footer{
+    border-top: 1px solid #848484;
+    background-color: #c3c3c3;
+}
+.modal-text{
+	font-size: 22px;
+    color: #505050;
+}
+.warning-icon{
+	width: 40px;
+	height: 40px;
+	margin-left: 40px;
+}
+.modal_textbox{
+	width: 100%;
+    border: none;
+    border-bottom: 1px solid #b7b7b7;
+    margin-bottom: 30px;
+    font-family: arial;
+    font-size: 12px;
+}
+
+.modal_textbox1{
+    width: 50%;
+    border: none;
+    border-bottom: 1px solid #b7b7b7;
+    margin-bottom: 30px;
+    font-family: arial;
+    font-size: 12px;
+}
+.modal_textbox:focus {
+    outline-width: 0;
+}
+select{
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    background-position: right 50%;
+    background-repeat: no-repeat;
+    padding: .5em;
+    padding-right: 1.5em;
+    font-family: arial;
+    font-size: 12px;
+    border: none;
+    border-bottom: 1px solid #bfbcbc;
+}
+select:focus {
+    outline-width: 0 !important;
+    outline: none !important;
+}
+
+
+.doneicon{
+    font-size: 20px; 
+    text-align: center; 
+    color: green;
+    cursor: pointer;
+}
+
+.notdoneicon{
+    font-size: 20px; 
+    text-align: center; 
+    color: red;
+}
+
+.normal_font{
+    font-size: 12px;
+    color: #000000;
+}
+
+.bold_font{
+    font-size: 14px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.gray_font{
+    font-size: 12px;
+    font-weight: bold;
+    color: #4e4d4d;
+}
+
+.stop_status_icon{
+    font-size: 30px;
+    color: #eb5656;
+}
+.complete_status_icon{
+    font-size: 30px;
+    color: #46b649;
+}
+.inprogress_status_icon{
+    font-size: 30px;
+    color: #4593ca;
+}
+.default_status_icon{
+    font-size: 30px;
+    color: #636160;
+}
+
+.status_label{
+    margin-top: 2%;
+    font-weight: bold;
+    color: gray;
+}
+
+.serial_number_label{
+    margin-top: 2%;
+    font-weight: bold;
+    color: gray;
+    font-size: 18px;
+}
+
+.table_header{
+    font-weight: bold;
+    border-bottom: 1px solid #cecece;
+    margin-bottom: 15px;
+}
+
+.table_row{
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 20px;
+}
+
