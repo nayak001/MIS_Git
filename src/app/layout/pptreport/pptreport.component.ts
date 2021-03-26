@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -17,6 +17,7 @@ import { saveAs } from 'file-saver';  // save the file
 })
 
 export class PptreportComponent implements OnInit {
+	@ViewChild('searchtextfield') searchtextfield: ElementRef;
 	// Loading indicator
 	hideLoading_indicator: boolean;
 	hideModalLoading_indicator: boolean = true;
@@ -103,11 +104,11 @@ export class PptreportComponent implements OnInit {
 			closeDropDownOnSelection: true
 		};
 	}
-	status_multiselect_onselect(item: any) {this.filterstatus();} 
-	status_multiselect_ondeselect(items: any) {this.filterstatus();}
+	status_multiselect_onselect(item: any) {this.filterdata();} 
+	status_multiselect_ondeselect(items: any) {this.filterdata();}
 	/*status_multiselect_onselectall(items: any) {
 		this.status_multiselect_selectedlist = items;
-		this.filterstatus();
+		this.filterdata();
 	}*/
 
 	// language multi-select
@@ -136,7 +137,7 @@ export class PptreportComponent implements OnInit {
 		let language= this.language_multiselect_selectedlist[0].languageid;
 		console.log('@@@ language: '+language);
 		this.pptreportService.ppt_trans_getoveralldata(language).subscribe(data => {
-			console.log('@@@ report data: '+JSON.stringify(data));
+			//console.log('@@@ report data: '+JSON.stringify(data));
 			if(Object.keys(data).length > 0){
 				if(data['status']=='success'){
 					this.alldata = data['data'];
@@ -167,8 +168,11 @@ export class PptreportComponent implements OnInit {
 		}
 	}
 
-	// Search Table Data
 	searchdata(searchstring: string) {
+		let statarr = [];
+		statarr.push(this.status_list[0]);
+		this.status_multiselect_selectedlist = statarr;
+
 		searchstring = (searchstring == undefined || searchstring == null) ? '' : searchstring;
 		if(!searchstring) {
 			this.alldata = this.alldata_bkp;
@@ -177,10 +181,11 @@ export class PptreportComponent implements OnInit {
 		}
 	}
 
-	async filterstatus(){
+	async filterdata(){
+		this.searchtextfield.nativeElement.value = "";
+
 		if(this.status_multiselect_selectedlist == undefined || this.status_multiselect_selectedlist == null || this.status_multiselect_selectedlist.length <= 0 ){
 			swal.fire('Info','Please select atleast one status','warning');
-			this.tabledata = [];
 		}else{
 			let statusid = this.status_multiselect_selectedlist[0].statusid;
 			console.log('###statusid: ', statusid);
