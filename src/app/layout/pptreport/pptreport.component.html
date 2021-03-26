@@ -67,7 +67,7 @@
 					<div class="sub_content">
 						<div class="row">
 							<div class="col col-lg-3 col-md-3 col-sm-3"><h4>{{ alldata.length }} Record(s) found.</h4></div>
-							<div class="col col-lg-3 col-md-3 col-sm-3">
+							<div class="col col-lg-6 col-md-6 col-sm-6">
 								<div class="row">
 									Find User
 									<input type="text" (keyup)="searchdata($event.target.value)" placeholder="Search" style="border: none; border-bottom: 1px solid #b7b7b7; margin-left:20px; margin-bottom: 20px; font-family: arial; font-size: 12px;">
@@ -82,7 +82,6 @@
 										[(ngModel)]="status_multiselect_selectedlist"
 										[settings]="status_multiselect_settings"
 										(onSelect)="status_multiselect_onselect($event)"
-										(onSelectAll)="status_multiselect_onselectall($event)"
 										(onDeSelect)="status_multiselect_ondeselect($event)"
 										style="width: 70%; margin-left: 10px;"
 									>

@@ -37,7 +37,7 @@ export class PptreportComponent implements OnInit {
 	selected_radiofilter_value: string = 'ppt';
 
 	// User
-	status_list: any = [{statusid: '1', statusname: 'Complete'}, {statusid: '2', statusname: 'In Progress'}, {statusid: '3', statusname: 'Not Started Yet'}];
+	status_list: any = [{statusid: '0', statusname: 'All'},{statusid: '1', statusname: 'Complete'}, {statusid: '2', statusname: 'In Progress'}, {statusid: '3', statusname: 'Not Started Yet'}];
 	status_multiselect_selectedlist = [];
 	status_multiselect_settings = {};
 	
@@ -51,6 +51,8 @@ export class PptreportComponent implements OnInit {
 	// Table Data
 	alldata: any = [];
 	alldata_bkp: any = [];
+	alldata_bkp2: any = [];
+
 	transdata: any = [];
 	totaltopics: any = [];
 	tabledata: any = [];
@@ -78,32 +80,35 @@ export class PptreportComponent implements OnInit {
 		// set default
 		let langarr = [];
 		langarr.push(this.language_list[0]);
+		let statarr = [];
+		statarr.push(this.status_list[0]);
 		this.language_multiselect_selectedlist = langarr;
-		this.status_multiselect_selectedlist = this.status_list;
+		this.status_multiselect_selectedlist = statarr;
 
 		// fetch data
 		this.getoveralldata();
 	}
 	
-	// user
+	// Status
 	initialize_status_multiselect() {
 		this.status_multiselect_selectedlist = [];
 		this.status_multiselect_settings = {
-			singleSelection: false,
+			singleSelection: true,
 			idField: 'statusid',
 			textField: 'statusname',
 			selectAllText: 'Select All',
 			unSelectAllText: 'UnSelect All',
-			itemsShowLimit: 3,
-			allowSearchFilter: true
+			itemsShowLimit: 1,
+			allowSearchFilter: true,
+			closeDropDownOnSelection: true
 		};
 	}
 	status_multiselect_onselect(item: any) {this.filterstatus();} 
 	status_multiselect_ondeselect(items: any) {this.filterstatus();}
-	status_multiselect_onselectall(items: any) {
+	/*status_multiselect_onselectall(items: any) {
 		this.status_multiselect_selectedlist = items;
 		this.filterstatus();
-	}
+	}*/
 
 	// language multi-select
 	initialize_language_multiselect() {
@@ -136,27 +141,19 @@ export class PptreportComponent implements OnInit {
 				if(data['status']=='success'){
 					this.alldata = data['data'];
 					this.alldata_bkp = data['data'];
+					this.alldata_bkp2 = data['data'];
 				}else{
 					this.alldata = [];
 					this.alldata_bkp = [];
+					this.alldata_bkp2 = [];
 				}
 			}else{
 				this.alldata = [];
 				this.alldata_bkp = [];
+				this.alldata_bkp2 = [];
 			}
 			this.hideLoading_indicator = true;
 		}, error => {}, () => {});
-	}
-
-	// Search Table Data
-	searchdata(searchstring: string) {
-		searchstring = (searchstring == undefined || searchstring == null) ? '' : searchstring;
-		if(!searchstring) {
-			this.alldata = this.alldata_bkp;
-		} else {
-			this.alldata = this.alldata_bkp.filter(element => element.username.toLowerCase().includes(searchstring.trim().toLowerCase())
-		  );
-		}
 	}
 
 	// Show Data
@@ -170,13 +167,27 @@ export class PptreportComponent implements OnInit {
 		}
 	}
 
+	// Search Table Data
+	searchdata(searchstring: string) {
+		searchstring = (searchstring == undefined || searchstring == null) ? '' : searchstring;
+		if(!searchstring) {
+			this.alldata = this.alldata_bkp;
+		} else {
+			this.alldata = this.alldata_bkp.filter(element => element.username.toLowerCase().includes(searchstring.trim().toLowerCase()));
+		}
+	}
+
 	async filterstatus(){
 		if(this.status_multiselect_selectedlist == undefined || this.status_multiselect_selectedlist == null || this.status_multiselect_selectedlist.length <= 0 ){
 			swal.fire('Info','Please select atleast one status','warning');
 			this.tabledata = [];
 		}else{
-			if(this.alldata.length > 0){
-				
+			let statusid = this.status_multiselect_selectedlist[0].statusid;
+			console.log('###statusid: ', statusid);
+			if(statusid == '0'){
+				this.alldata = this.alldata_bkp2;
+			} else {
+				this.alldata = this.alldata_bkp2.filter(element => element.status.toLowerCase().includes(statusid.trim().toLowerCase()));
 			}
 		}
 	}
