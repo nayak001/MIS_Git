@@ -1,148 +1,258 @@
 <div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <div class="card mb-3">
-                <div class="card-header">
-					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
-							<h4>ASSESSMENT MASTER</h4>
-						</div>
-					</div>					
-				</div>
-				
-				<div class="card-body table-responsive">
-					<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
-						<thead>
-							<tr>
-								<th style="width: 15%">Prefered Language</th>
-								<th style="width: 15%">Program</th>
-								<th style="width: 15%" [hidden]="hideSubject_select">Subject</th>
-								<th style="width: 15%">Stage</th>
-								<th style="width: 15%">Level</th>
-								<th style="width: 15%"></th>	
-							</tr>
-							<tr>
-								<td>
-									<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
-										<option value="">Select</option>
-										<option value="en">English</option>
-										<option value="od">ଓଡିଆ</option>
-										<!-- <option value="hi">हिंदी</option> -->
-									</select>
-								</td>
-								<td>
-									<select id="select_program" value="{{selected_program}}"  (change)="program_select_onchange($event)" class="form-control">
-										<option value="">Select</option>
-										<option value="ece">ECE</option>
-										<option value="pge">PGE</option>
-									</select>
-								</td>
-								<td [hidden]="hideSubject_select">
-									<select id="select_subject" value="{{selected_subject}}"  (change)="subject_select_onchange($event)" class="form-control">
-										<option value="">Select</option>
-										<option value="math">Math</option>
-										<option value="english">English</option>
-										<option value="odia">Odia</option>
-									</select>
-								</td>
-								<td>
-									<select id="selected_stage" value="{{selected_stage}}"  (change)="stage_select_onchange($event.target.value)" class="form-control">
-										<option value="">Select</option>
-										<option *ngFor="let opt of stage_select_option_list" value="{{opt.value}}">{{opt.text | titlecase}}</option>
-									</select>
-								</td>
-								<td>
-									<select id="selected_level" value="{{selected_level}}"  (change)="class_select_onchange($event.target.value)" class="form-control">
-										<option value="">Select</option>
-										<option *ngFor="let opt of level_select_option_list" value="{{opt.value}}">{{opt.text | titlecase}}</option>
-									</select>
-								</td>
-								<td>
-									<!-- <button (click)="go_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Go&nbsp;&nbsp;&nbsp;</button> -->
-								</td>					
-							</tr>
-						</thead>
-					</table>
-				</div>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>ASSESSMENT MASTER</h4>
+            </div>
+          </div>
+        </div>
 
-				<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-					<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-				</div>
+        <div class="card-body table-responsive">
+          <table
+            class="table table-striped"
+            [mfData]="data"
+            #mf="mfDataTable"
+            [mfRowsOnPage]="4"
+          >
+            <thead>
+              <tr>
+                <th style="width: 15%">Prefered Language</th>
+                <th style="width: 15%">Program</th>
+                <th style="width: 15%" [hidden]="hideSubject_select">
+                  Subject
+                </th>
+                <th style="width: 15%">Stage</th>
+                <th style="width: 15%">Class</th>
+                <th style="width: 15%"></th>
+              </tr>
+              <tr>
+                <td>
+                  <select
+                    id="selected_preflanguage"
+                    value="{{ selected_preflanguage }}"
+                    (change)="preflanguage_select_onchange($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option value="en">English</option>
+                    <option value="od">ଓଡିଆ</option>
+                    <!-- <option value="hi">हिंदी</option> -->
+                  </select>
+                </td>
+                <td>
+                  <select
+                    id="select_program"
+                    value="{{ selected_program }}"
+                    (change)="program_select_onchange($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option value="ece">ECE</option>
+                    <option value="pge">PGE</option>
+                  </select>
+                </td>
+                <td [hidden]="hideSubject_select">
+                  <select
+                    id="select_subject"
+                    value="{{ selected_subject }}"
+                    (change)="subject_select_onchange($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option value="math">Math</option>
+                    <option value="english">English</option>
+                    <option value="odia">Odia</option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    id="selected_stage"
+                    value="{{ selected_stage }}"
+                    (change)="stage_select_onchange($event.target.value)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option
+                      *ngFor="let opt of stage_select_option_list"
+                      value="{{ opt.value }}"
+                    >
+                      {{ opt.text | titlecase }}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    id="selected_level"
+                    value="{{ selected_level }}"
+                    (change)="class_select_onchange($event.target.value)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option
+                      *ngFor="let opt of level_select_option_list"
+                      value="{{ opt.value }}"
+                    >
+                      {{ opt.text | titlecase }}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <!-- <button (click)="go_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Go&nbsp;&nbsp;&nbsp;</button> -->
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
 
-				<div id="content_div" class="pad25" [hidden]="hideContent_div" >
-					<table class="assessment_table">
-						<tr>
-							<th>Assessments</th>
-							<th></th>
-							<th>
-								<button (click)="open(addmodal, 'add', null)" class="btn btn-sm btn-primary float-right" type="button">
-									<i class="fa fa-plus" aria-hidden="true"></i> <!-- Add New -->
-								</button>
-							</th>
-						</tr>
+        <div
+          id="loading_indicator"
+          class="loading_indicator"
+          [hidden]="hideLoading_indicator"
+        >
+          <span class=""
+            ><img src="assets/images/loader3.gif" alt="Loading. Please wait..."
+          /></span>
+        </div>
 
-						<tr *ngFor="let assessment of assessment_list; let i =index;">
-							<td class="first_td_width">{{i+1}}</td>
-							<td class="second_td_width"><div>{{assessment.question}}</div></td>
-							<td class="third_td_width">
-								<div>
-									<span class="delbtn" (click)="open(deletemodal, 'delete', assessment)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-									<span class="editbtn" (click)="open(editmodal, 'edit', assessment)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-								</div>
-							</td>
-						</tr>
-					</table>
+        <div id="content_div" class="pad25" [hidden]="hideContent_div">
+          <table class="assessment_table">
+            <tr>
+              <th>Assessments</th>
+              <th></th>
+              <th>
+                <button
+                  (click)="open(addmodal, 'add', null)"
+                  class="btn btn-sm btn-primary float-right"
+                  type="button"
+                >
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <!-- Add New -->
+                </button>
+              </th>
+            </tr>
 
-					<!-- Modal starts from here -->
-					<!-- add modal -->
-					<ng-template #addmodal let-c="close" let-d="dismiss">
-						<div class="modal-body">
-							<div>
-								<span class="bold-font">Assessment Content:</span>
-								<textarea [value]="" [(ngModel)]="content_value" class="area-width" placeholder="Assessment content"></textarea>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" (click)="save_record()" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
+            <tr *ngFor="let assessment of assessment_list; let i = index">
+              <td class="first_td_width">{{ i + 1 }}</td>
+              <td class="second_td_width">
+                <div>{{ assessment.question }}</div>
+              </td>
+              <td class="third_td_width">
+                <div>
+                  <span
+                    class="delbtn"
+                    (click)="open(deletemodal, 'delete', assessment)"
+                    ><i class="fa fa-minus-square" aria-hidden="true"></i
+                  ></span>
+                  <span
+                    class="editbtn"
+                    (click)="open(editmodal, 'edit', assessment)"
+                    ><i class="fa fa-pencil-square-o" aria-hidden="true"></i
+                  ></span>
+                </div>
+              </td>
+            </tr>
+          </table>
 
-					<!-- edit modal -->
-					<ng-template #editmodal let-c="close" let-d="dismiss">
-						<div class="modal-body">
-							<div>
-								<span class="bold-font">Assessment Content:</span>
-								<textarea [value]="content_value" [(ngModel)]="content_value" class="area-width" placeholder="Assessment content"></textarea>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" (click)="update_record()" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
+          <!-- Modal starts from here -->
+          <!-- add modal -->
+          <ng-template #addmodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div>
+                <span class="bold-font">Assessment Content:</span>
+                <textarea
+                  [value]=""
+                  [(ngModel)]="content_value"
+                  class="area-width"
+                  placeholder="Assessment content"
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                (click)="save_record()"
+                class="btn btn-primary"
+              >
+                &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
 
-					<!-- delete modal -->
-					<ng-template #deletemodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row">
-							<img src="assets/images/warning.png" class="warning-icon">											
-							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record !</span>									
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" (click)="delete_record()" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					
-	
-					<div>
-						<!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button> -->
-					</div>
-				</div>
-            </div>                       
-        </div>        
+          <!-- edit modal -->
+          <ng-template #editmodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div>
+                <span class="bold-font">Assessment Content:</span>
+                <textarea
+                  [value]="content_value"
+                  [(ngModel)]="content_value"
+                  class="area-width"
+                  placeholder="Assessment content"
+                ></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                (click)="update_record()"
+                class="btn btn-primary"
+              >
+                &nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+
+          <!-- delete modal -->
+          <ng-template #deletemodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row">
+                <img src="assets/images/warning.png" class="warning-icon" />
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this record !</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                (click)="delete_record()"
+                class="btn btn-danger"
+              >
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+
+          <div>
+            <!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button> -->
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
