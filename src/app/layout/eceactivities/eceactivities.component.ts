@@ -6,18 +6,18 @@ import { HttpResponse, HttpEventType } from '@angular/common/http';
 import swal from 'sweetalert2';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-import { PgeactivitiesService } from './pgeactivities.service';
+import { EceactivitiesService } from './eceactivities.service';
 import { GalleryService } from  './../gallery/gallery.service';
 
 
 @Component({
-  selector: 'app-pgeactivities',
-  templateUrl: './pgeactivities.component.html',
-  styleUrls: ['./pgeactivities.component.scss'],
+  selector: 'app-eceactivities',
+  templateUrl: './eceactivities.component.html',
+  styleUrls: ['./eceactivities.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [routerTransition()]
 })
-export class PgeactivitiesComponent implements OnInit {
+export class EceactivitiesComponent implements OnInit {
   @ViewChild('updatetextcontentsmodal') updatetextcontentsmodal: any;
   @ViewChild('updateimagecontentsmodal') updateimagecontentsmodal: any;
   @ViewChild('updatevideocontentsmodal') updatevideocontentsmodal: any;
@@ -37,7 +37,7 @@ export class PgeactivitiesComponent implements OnInit {
   save_operation: string = '';
   record_id: string = '';
   selected_preflanguage = '';
-  selected_program: string = 'pge';
+  selected_program: string = 'ece';
   selected_subject: string = '';
   selected_month: string = '';
   selected_week: string = '';
@@ -79,10 +79,10 @@ export class PgeactivitiesComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     public router: Router,
-    private pgeactivitiesService: PgeactivitiesService,
+    private eceactivitiesService: EceactivitiesService,
     private galleryService: GalleryService
   ) {
-    this.selected_program = 'pge';
+    this.selected_program = 'ece';
     this.selected_subject = '';
     this.selected_month = '';
     this.selected_week = '';
@@ -200,7 +200,7 @@ export class PgeactivitiesComponent implements OnInit {
       this.week_select_option_list = [];
       this.hide_Loading_indicator = false;
       let selected_stage = 'month'+this.selected_month;
-      this.pgeactivitiesService.gettchassessment(this.selected_preflanguage, this.selected_program, this.selected_level, selected_stage, this.selected_subject).subscribe(data => {
+      this.eceactivitiesService.gettchassessment(this.selected_preflanguage, this.selected_program, this.selected_level, selected_stage, this.selected_subject).subscribe(data => {
         console.log('### data: ' + JSON.stringify(data));
         Object.keys(data).forEach(ind => {
           let obj = {};
@@ -528,7 +528,7 @@ export class PgeactivitiesComponent implements OnInit {
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
-      this.pgeactivitiesService.getmasteractivitiydetails(preferedlanguage, program, subject, month, week, level).subscribe(data => {
+      this.eceactivitiesService.getmasteractivitiydetails(preferedlanguage, program, subject, month, week, level).subscribe(data => {
         if (Object.keys(data).length > 0) {
           this.save_operation = 'update';
           this.record_id = data[0]['_id'];
@@ -730,7 +730,7 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   async save_record(body) {
-    this.pgeactivitiesService.createmasteractivities(body).subscribe(data => {
+    this.eceactivitiesService.createmasteractivities(body).subscribe(data => {
       console.log('###1 save data: ' + JSON.stringify(data));
       swal.fire('Successful', 'Data saved successfully', 'success');
       this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
@@ -738,7 +738,7 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   async update_record(id, body) {
-    this.pgeactivitiesService.updatemasteractivities(id, body).subscribe(data => {
+    this.eceactivitiesService.updatemasteractivities(id, body).subscribe(data => {
       console.log('###1 update data: ' + JSON.stringify(data));
       swal.fire('Successful', 'Data updated successfully', 'success');
       this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_level);
