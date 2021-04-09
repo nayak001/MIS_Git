@@ -11,21 +11,19 @@ const baseUrl = environment.baseUrl;
 export class PgeactivitiesService {
   constructor(private http: HttpClient) { }
 
-  getmasteractivitiydetails(preferedlanguage, program, subject, month, week, level) {
-    return this.http.get(baseUrl + 'getmasterpgeactivitiydetails/' + preferedlanguage + '/' + program + '/' + subject + '/' + month + '/' + week + '/' + level,
-      {
-        headers: new HttpHeaders().set('Content-Type', 'application/json')
-        //responseType: 'text'
-      });
+  //getmasteractivitiydetails(preferedlanguage, program, subject, month, week, level) {
+  getmasteractivitiydetails(preferedlanguage, program, subject, week, level) {
+    //let url = baseUrl + 'getmasterpgeactivitiydetails/' + preferedlanguage + '/' + program + '/' + subject + '/' + month + '/' + week + '/' + level;
+    let url = baseUrl + 'getmasterpgeactivitiydetailsnostage/' + preferedlanguage + '/' + program + '/' + subject + '/' + week + '/' + level;
+    
+    return this.http.get(url, { headers: new HttpHeaders().set('Content-Type', 'application/json') });
   }
 
-  gettchassessment(preferedlanguage, program, level, stage, subject) {
-    let url = baseUrl + 'gettchassessment/' + preferedlanguage + '/' + program + '/' + level + '/' + stage + '/' + subject;
-    return this.http.get(url,
-      {
-        headers: new HttpHeaders().set('Content-Type', 'application/json')
-        //responseType: 'text'
-      });
+  //gettchassessment(preferedlanguage, program, level, stage, subject) {
+  gettchassessment(preferedlanguage, program, level, subject) {
+    //let url = baseUrl + 'gettchassessment/' + preferedlanguage + '/' + program + '/' + level + '/' + stage + '/' + subject;
+    let url = baseUrl + 'gettchassessmentnostage/' + preferedlanguage + '/' + program + '/' + level + '/' + subject;
+    return this.http.get(url,{ headers: new HttpHeaders().set('Content-Type', 'application/json') });
   }
 
   createmasteractivities(body) {
