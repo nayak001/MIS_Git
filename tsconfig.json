@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "angularCompilerOptions": {
-    "disableTypeScriptVersionCheck": true,
+    "disableTypeScriptVersionCheck": true
   },
   "compilerOptions": {
     "types": ["node"],
@@ -14,12 +14,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "typeRoots": ["node_modules/@types"],
+
+    "lib": ["es2018", "dom"],
+    "skipLibCheck": true
   }
 }

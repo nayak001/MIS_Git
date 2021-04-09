@@ -1,540 +1,958 @@
 <div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <div class="card mb-3">
-				<div class="card-header">
-						<div class="row">
-							<div class="col col-xl-4 col-lg-4">
-								<h4>ECE ACTIVITIES DASHBOARD</h4>
-							</div>
-							<div class="col">
-								<div [hidden]="hide_createnewsegment_button">
-									<button (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp; </button>
-									<button (click)="opencontentsmodal(addresourcesmodal)" class="btn btn-warning float-right" type="button" title="Add Resources"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Resource&nbsp;&nbsp;&nbsp;</button>
-								</div>
-							</div>
-					</div>					
-				</div>
-				
-				<div class="card-body table-responsive">
-					<table style="width: 100%;">
-						<tr>
-							<td style="width: 20%; vertical-align: top;"></td>
-							<td style="vertical-align: top;">
-								<!-- add/edit modal starts from here -->
-								<ng-template #addcontentsmodal let-c="close" let-d="dismiss">
-									<!-- Close Button -->
-									<div style="width: 100%; padding: 10px;">
-										<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-									</div>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>ECE ACTIVITIES</h4>
+            </div>
+            <div class="col">
+              <div [hidden]="hide_createnewsegment_button">
+                <button
+                  (click)="opencontentsmodal(addcontentsmodal)"
+                  class="btn btn-primary float-right"
+                  type="button"
+                  title="Add Segment"
+                >
+                  <i class="fa fa-plus" aria-hidden="true"></i
+                  >&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp;
+                </button>
+                <button
+                  (click)="opencontentsmodal(addresourcesmodal)"
+                  class="btn btn-warning float-right"
+                  type="button"
+                  title="Add Resources"
+                >
+                  <i class="fa fa-plus" aria-hidden="true"></i
+                  >&nbsp;&nbsp;&nbsp;Create New Resource&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-									<div class="modal-body">
-										<div class="row">
-											<div style="width: 100%; vertical-align: top;">
-												<div id="content_div" class="pad25">
-													<!-- === Tabs Started Here ===  -->
-													<ngb-tabset class="tabset1">
-								
-														<ngb-tab title="Contents">
-															<ng-template ngbTabContent>
-																<div class="tab_content" >
-																	<!-- Text Contents  -->
-																	<div>
-																		<ckeditor #editor [editor]="Editor1"  [(ngModel)]="content_value" data=""></ckeditor>
-																	</div>
-																	<br />
-																	<div class="bottomanchor_div">
-																		<button (click)="save_btn_click('textcontent_tab')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save Content&nbsp;&nbsp;&nbsp;</button>
-																	</div>
-																</div>
-															</ng-template>
-														</ngb-tab>
-								
-														<ngb-tab title="Images">
-															<ng-template ngbTabContent>
-																<div class="tab_content" >
-				
-																	<div class="row">
-																		<div class="image_preview_container">
-																			<div class="image_preview" *ngFor="let flash of image_value; let i = index;">
-																				<div>
-																					<img src="{{  flash.s3path  }}" class="image" />
-																				</div>
-																				<div class="delbtn" (click)="delflashcard(i)">
-																					<i class="fa fa-times-circle" aria-hidden="true"></i>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-				
-																	<div class="margintop30">
-																		<div class="row">
-																			<div class="col">
-																				<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-																						<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-																						attr.aria-valuenow="{{progress.percentage}}"
-																						aria-valuemin="0" aria-valuemax="100" 
-																						[ngStyle]="{width:progress.percentage+'%'}">
-																						{{progress.percentage}}%
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																		<div class="row">
-																			<div class="col col-lg-10 col-md-10 col-sm-10">
-																				<div class="file-upload">
-																					<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="bottomanchor_div">
-																		<button (click)="save_btn_click('image_tab')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save Image&nbsp;&nbsp;&nbsp;</button>
-																	</div>
-																</div>
-															</ng-template>
-														</ngb-tab>
-								
-														<ngb-tab title="Videos">
-															<ng-template ngbTabContent>
-																<div class="tab_content" >
-				
-																	<div class="row">
-																		<div class="image_preview_container">
-																			<div class="image_preview" *ngFor="let video of video_value; let i = index;">
-																				<div style="text-align: center;">
-																					<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 50%;"></span><br>
-																					<span class="">{{ video.displayname }}</span>
-																				</div>
-																				<div class="delbtn" (click)="delvideo(i)">
-																					<i class="fa fa-times-circle" aria-hidden="true"></i>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-				
-																	<div class="margintop30">
-																		<div class="row">
-																			<div class="col">
-																				<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-																						<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-																						attr.aria-valuenow="{{progress.percentage}}"
-																						aria-valuemin="0" aria-valuemax="100" 
-																						[ngStyle]="{width:progress.percentage+'%'}">
-																						{{progress.percentage}}%
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																		<div class="row">
-																			<div class="col col-lg-10 col-md-10 col-sm-10">
-																				<div class="file-upload">
-																					<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="bottomanchor_div">
-																		<button (click)="save_btn_click('video_tab')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save Video&nbsp;&nbsp;&nbsp;</button>
-																	</div>
-																</div>
-															</ng-template>
-														</ngb-tab>
-													</ngb-tabset>
-												</div>
-											</div>
-											<!-- ====================================================== -->
-										</div>
-									</div>
-								</ng-template>
-							</td>
-						</tr>
-						<tr>
-							<td style="width: 20%;  padding-right: 30px; vertical-align: top;">
-								<div>
-									<div>
-										<span class="bold-font">Prefered Language</span>
-										<span>
-											<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
-												<option value="">Select</option>
-												<option value="en">English</option>
-												<option value="od">ଓଡିଆ</option>
-												<!-- <option value="hi">हिंदी</option> -->
-											</select>
-										</span>
-									</div>
-									<br />
+        <div class="card-body table-responsive">
+          <table style="width: 100%">
+            <tr>
+              <td style="width: 20%; vertical-align: top"></td>
+              <td style="vertical-align: top">
+                <!-- add/edit modal starts from here -->
+                <ng-template #addcontentsmodal let-c="close" let-d="dismiss">
+                  <!-- Close Button -->
+                  <div style="width: 100%; padding: 10px">
+                    <button
+                      type="button"
+                      class="btn btn-light"
+                      (click)="c('Close click')"
+                      style="float: right"
+                    >
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
 
-									<div>
-										<span class="bold-font">Program</span>
-										<span>
-											<select id="select_program" value="{{selected_program}}"  (change)="program_select_onchange($event)" class="form-control">
-												<option value="">Select</option>
-												<option value="ece">ECE</option>
-												<option value="pge">PGE</option>
-											</select>
-										</span>
-									</div>
-									<br />
+                  <div class="modal-body">
+                    <div class="row">
+                      <div style="width: 100%; vertical-align: top">
+                        <div id="content_div" class="pad25">
+                          <!-- === Tabs Started Here ===  -->
+                          <ngb-tabset class="tabset1">
+                            <ngb-tab title="Contents">
+                              <ng-template ngbTabContent>
+                                <div class="tab_content">
+                                  <!-- Text Contents  -->
+                                  <div>
+                                    <ckeditor
+                                      #editor
+                                      [editor]="Editor1"
+                                      [(ngModel)]="content_value"
+                                      data=""
+                                    ></ckeditor>
+                                  </div>
+                                  <br />
+                                  <div class="bottomanchor_div">
+                                    <button
+                                      (click)="
+                                        save_btn_click('textcontent_tab')
+                                      "
+                                      class="btn btn-primary float-right"
+                                      type="button"
+                                    >
+                                      &nbsp;&nbsp;&nbsp;Save
+                                      Content&nbsp;&nbsp;&nbsp;
+                                    </button>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </ngb-tab>
 
-									<div>
-										<span class="bold-font">Level</span>
-										<span>
-											<select id="selected_level" value="{{selected_level}}"  (change)="level_select_onchange($event.target.value)" class="form-control">
-												<option value="">Select</option>
-												<option *ngFor="let opt of level_select_option_list;" value="{{ opt.value }}">{{ opt.text | titlecase }}</option>
-											</select>
-										</span>
-									</div>
-									<br />
+                            <ngb-tab title="Images">
+                              <ng-template ngbTabContent>
+                                <div class="tab_content">
+                                  <div class="row">
+                                    <div class="image_preview_container">
+                                      <div
+                                        class="image_preview"
+                                        *ngFor="
+                                          let flash of image_value;
+                                          let i = index
+                                        "
+                                      >
+                                        <div>
+                                          <img
+                                            src="{{ flash.s3path }}"
+                                            class="image"
+                                          />
+                                        </div>
+                                        <div
+                                          class="delbtn"
+                                          (click)="delflashcard(i)"
+                                        >
+                                          <i
+                                            class="fa fa-times-circle"
+                                            aria-hidden="true"
+                                          ></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
-									<div [hidden]="hideSubject_select">
-										<span class="bold-font">Subject</span>
-										<span>
-											<select id="select_subject" value="{{selected_subject}}"  (change)="subject_select_onchange($event)" class="form-control">
-												<option value="">Select</option>
-												<option value="math">Math</option>
-												<option value="english">English</option>
-												<option value="odia">Odia</option>
-											</select>
-										</span>
-									</div>
-									<br />
+                                  <div class="margintop30">
+                                    <div class="row">
+                                      <div class="col">
+                                        <div
+                                          *ngIf="currentFileUpload"
+                                          class="progress"
+                                          [hidden]="hideProgressbar"
+                                        >
+                                          <div
+                                            class="progress-bar progress-bar-info progress-bar-striped"
+                                            role="progressbar"
+                                            attr.aria-valuenow="{{
+                                              progress.percentage
+                                            }}"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                            [ngStyle]="{
+                                              width: progress.percentage + '%'
+                                            }"
+                                          >
+                                            {{ progress.percentage }}%
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div
+                                        class="col col-lg-10 col-md-10 col-sm-10"
+                                      >
+                                        <div class="file-upload">
+                                          <input
+                                            type="file"
+                                            #fileInput
+                                            (change)="
+                                              filechooser_onchange($event)
+                                            "
+                                            accept="image/x-png,image/gif,image/jpeg"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bottomanchor_div">
+                                    <button
+                                      (click)="save_btn_click('image_tab')"
+                                      class="btn btn-primary float-right"
+                                      type="button"
+                                    >
+                                      &nbsp;&nbsp;&nbsp;Save
+                                      Image&nbsp;&nbsp;&nbsp;
+                                    </button>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </ngb-tab>
 
-									<div>
-										<span class="bold-font">{{ skillset_label }}</span>
-										<span>
-											<select id="selected_month" value="{{selected_month}}"  (change)="month_select_onchange($event.target.value)" class="form-control">
-												<option value="">Select</option>
-												<option *ngFor="let opt of month_select_option_list;" value="{{ opt.value }}">{{ opt.text | titlecase }}</option>
-											</select>
-										</span>
-									</div>
-									<br />
+                            <ngb-tab title="Videos">
+                              <ng-template ngbTabContent>
+                                <div class="tab_content">
+                                  <div class="row">
+                                    <div class="image_preview_container">
+                                      <div
+                                        class="image_preview"
+                                        *ngFor="
+                                          let video of video_value;
+                                          let i = index
+                                        "
+                                      >
+                                        <div style="text-align: center">
+                                          <span
+                                            ><img
+                                              class="lazy"
+                                              src="assets/images/play-circle.svg"
+                                              alt="play video"
+                                              style="width: 50%" /></span
+                                          ><br />
+                                          <span class="">{{
+                                            video.displayname
+                                          }}</span>
+                                        </div>
+                                        <div
+                                          class="delbtn"
+                                          (click)="delvideo(i)"
+                                        >
+                                          <i
+                                            class="fa fa-times-circle"
+                                            aria-hidden="true"
+                                          ></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
-									<div>
-										<span class="bold-font">Skill</span>
-										<span>
-											<select id="selected_week" value="{{selected_week}}"  (change)="week_select_onchange($event.target.value)" class="form-control">
-												<option value="">Select</option>
-												<option *ngFor="let opt of week_select_option_list;" value="{{ opt.value }}">{{ opt.text | titlecase }}</option>
-											</select>
-										</span>
-									</div>
-								</div>
-							</td>
+                                  <div class="margintop30">
+                                    <div class="row">
+                                      <div class="col">
+                                        <div
+                                          *ngIf="currentFileUpload"
+                                          class="progress"
+                                          [hidden]="hideProgressbar"
+                                        >
+                                          <div
+                                            class="progress-bar progress-bar-info progress-bar-striped"
+                                            role="progressbar"
+                                            attr.aria-valuenow="{{
+                                              progress.percentage
+                                            }}"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                            [ngStyle]="{
+                                              width: progress.percentage + '%'
+                                            }"
+                                          >
+                                            {{ progress.percentage }}%
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div
+                                        class="col col-lg-10 col-md-10 col-sm-10"
+                                      >
+                                        <div class="file-upload">
+                                          <input
+                                            type="file"
+                                            #fileInput
+                                            (change)="
+                                              filechooser_onchange($event)
+                                            "
+                                            accept="video/mp4,video/x-m4v,video/*"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="bottomanchor_div">
+                                    <button
+                                      (click)="save_btn_click('video_tab')"
+                                      class="btn btn-primary float-right"
+                                      type="button"
+                                    >
+                                      &nbsp;&nbsp;&nbsp;Save
+                                      Video&nbsp;&nbsp;&nbsp;
+                                    </button>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </ngb-tab>
+                          </ngb-tabset>
+                        </div>
+                      </div>
+                      <!-- ====================================================== -->
+                    </div>
+                  </div>
+                </ng-template>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 20%; padding-right: 30px; vertical-align: top">
+                <div>
+                  <div>
+                    <span class="bold-font">Prefered Language</span>
+                    <span>
+                      <select
+                        id="selected_preflanguage"
+                        value="{{ selected_preflanguage }}"
+                        (change)="preflanguage_select_onchange($event)"
+                        class="form-control"
+                      >
+                        <option value="">Select</option>
+                        <option value="en">English</option>
+                        <option value="od">ଓଡିଆ</option>
+                        <!-- <option value="hi">हिंदी</option> -->
+                      </select>
+                    </span>
+                  </div>
+                  <br />
 
-							<td style="width: 60%; background-color: #615f5f;; vertical-align: top;">
-								<div id="loading_indicator" [hidden]="hide_Loading_indicator" class="loading_indicator" >  
-									<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." class="loading_image"></span>
-								</div>
-								<div class="mobile_view">
-									<div #show_segment_details [innerHTML]="current_segment_details"></div>
-								</div>
-							</td>
+                  <!-- <div>
+                    <span class="bold-font">Program</span>
+                    <span>
+                      <select
+                        id="select_program"
+                        value="{{ selected_program }}"
+                        (change)="program_select_onchange($event)"
+                        class="form-control"
+                      >
+                        <option value="">Select</option>
+                        <option value="ece">ECE</option>
+                      </select>
+                    </span>
+                  </div>
+                  <br /> -->
 
-							<!-- Select Segment Panel -->
-							<td style="width: 20%;  padding-left: 20px; vertical-align: top;">
-								<div [hidden]="hide_createnewsegment_button" >
-									<div class="row" >
-										<div class="col col-lg-6 col-md-6 col-sm-6"><div class="bold-font">
-											Segment
-											<button (click)="openreordersegments(reordersegments)"  class="btn btn-light float-right" type="button" title="Add Segment" style="font-size: 10px;" >Reorder Segment</button>
-										</div></div>
-										<div class="col col-lg-6 col-md-6 col-sm-6">
-											<div>
-												<select value="{{selected_segment_index}}"  (change)="segment_select_onchange($event)" class="form-control">
-													<!-- <option value="-1">Select</option> -->
-													<option *ngFor="let seg of segments_list; let i=index;"  value="{{i}}">{{ i+1 }}</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<br>
-									<div class="row" *ngIf="selected_segment_index != -1">
-										<div class="col col-lg-4 col-md-4 col-sm-4">
-											<div>
-												<button (click)="update_segment_btn_click()" class="btn btn-primary" type="button" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-											</div>
-										</div>
-										<div class="col col-lg-4 col-md-4 col-sm-4" style="text-align: center;">
-											<div>
-												<button (click)="preview_segment_btn_click()" class="btn btn-primary" type="button" title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></button>
-											</div>
-										</div>
-										<div class="col col-lg-4 col-md-4 col-sm-4">
-											<div>
-												<button (click)="delete_segment_btn_click()" class="btn btn-danger float-right" type="button" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-											</div>
-										</div>
-									</div>
-									<br>
-									<div class="row" style="width: 100%;">
-										<div class="col">
-											<div class="bold-font">Resources</div>
-										</div>
-									</div>
-									<br>
-									<div style="background: #fafafa; width: 100%; height: 365px; overflow: auto;">
-										<div>
-											<div *ngFor="let resources of extraresources_list; let i=index;" style="background: white; width: 95%; padding: 10px; margin-top: 10px; border-bottom: 1px solid lightgrey; border-left: 1px solid lightgrey; border-radius: 3px;">
-												<div class="row">
-													<div class="col col-lg-10 col-md-10 col-sm-10"><i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-														<a href="{{ resources.s3_url }}" target="_blank" style="text-decoration: none;">{{ resources.displayname }}</a></div>
-													<div (click)="delete_resource_btn_click(i)" class="col col-lg-2 col-md-2 col-sm-2" style="text-align: right;color: red;vertical-align: top;cursor: pointer;"><i class="fa fa-window-close" aria-hidden="true"></i></div>
-												</div>
-											</div>
-										</div>
-									</div>
-									
-								</div>
-							</td>
+                  <div>
+                    <span class="bold-font">Level</span>
+                    <span>
+                      <select
+                        id="selected_level"
+                        value="{{ selected_level }}"
+                        (change)="level_select_onchange($event.target.value)"
+                        class="form-control"
+                      >
+                        <option value="">Select</option>
+                        <option
+                          *ngFor="let opt of level_select_option_list"
+                          value="{{ opt.value }}"
+                        >
+                          {{ opt.text | titlecase }}
+                        </option>
+                      </select>
+                    </span>
+                  </div>
+                  <br />
+                  <!-- 
+                  <div [hidden]="hideSubject_select">
+                    <span class="bold-font">Subject</span>
+                    <span>
+                      <select
+                        id="select_subject"
+                        value="{{ selected_subject }}"
+                        (change)="subject_select_onchange($event)"
+                        class="form-control"
+                      >
+                        <option value="">Select</option>
+                        <option value="math">Math</option>
+                        <option value="english">English</option>
+                        <option value="odia">Odia</option>
+                      </select>
+                    </span>
+                  </div>
+                  <br /> -->
 
-						</tr>
-					</table>
-				</div>
-            </div>                       
-        </div>        
+                  <div>
+                    <span class="bold-font">Themes</span>
+                    <span>
+                      <select
+                        id="selected_month"
+                        value="{{ selected_month }}"
+                        (change)="month_select_onchange($event.target.value)"
+                        class="form-control"
+                      >
+                        <option value="">Select</option>
+                        <option
+                          *ngFor="let opt of month_select_option_list"
+                          value="{{ opt.value }}"
+                        >
+                          {{ opt.text | titlecase }}
+                        </option>
+                      </select>
+                    </span>
+                  </div>
+                  <br />
+
+                  <div>
+                    <span class="bold-font">Skill</span>
+                    <span>
+                      <select
+                        id="selected_week"
+                        value="{{ selected_week }}"
+                        (change)="week_select_onchange($event.target.value)"
+                        class="form-control"
+                      >
+                        <option value="">Select</option>
+                        <option
+                          *ngFor="let opt of week_select_option_list"
+                          value="{{ opt.value }}"
+                        >
+                          {{ opt.text | titlecase }}
+                        </option>
+                      </select>
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td
+                style="
+                  width: 60%;
+                  background-color: #615f5f;
+                  vertical-align: top;
+                "
+              >
+                <div
+                  id="loading_indicator"
+                  [hidden]="hide_Loading_indicator"
+                  class="loading_indicator"
+                >
+                  <span class=""
+                    ><img
+                      src="assets/images/loader4.gif"
+                      alt="Loading. Please wait..."
+                      class="loading_image"
+                  /></span>
+                </div>
+                <div class="mobile_view">
+                  <div
+                    #show_segment_details
+                    [innerHTML]="current_segment_details"
+                  ></div>
+                </div>
+              </td>
+
+              <!-- Select Segment Panel -->
+              <td style="width: 20%; padding-left: 20px; vertical-align: top">
+                <div [hidden]="hide_createnewsegment_button">
+                  <div class="row">
+                    <div class="col col-lg-6 col-md-6 col-sm-6">
+                      <div class="bold-font">
+                        Segment
+                        <button
+                          (click)="openreordersegments(reordersegments)"
+                          class="btn btn-light float-right"
+                          type="button"
+                          title="Add Segment"
+                          style="font-size: 10px"
+                        >
+                          Reorder Segment
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-6">
+                      <div>
+                        <select
+                          value="{{ selected_segment_index }}"
+                          (change)="segment_select_onchange($event)"
+                          class="form-control"
+                        >
+                          <!-- <option value="-1">Select</option> -->
+                          <option
+                            *ngFor="let seg of segments_list; let i = index"
+                            value="{{ i }}"
+                          >
+                            {{ i + 1 }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row" *ngIf="selected_segment_index != -1">
+                    <div class="col col-lg-4 col-md-4 col-sm-4">
+                      <div>
+                        <button
+                          (click)="update_segment_btn_click()"
+                          class="btn btn-primary"
+                          type="button"
+                          title="Edit"
+                        >
+                          <i
+                            class="fa fa-pencil-square-o"
+                            aria-hidden="true"
+                          ></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      class="col col-lg-4 col-md-4 col-sm-4"
+                      style="text-align: center"
+                    >
+                      <div>
+                        <button
+                          (click)="preview_segment_btn_click()"
+                          class="btn btn-primary"
+                          type="button"
+                          title="Preview"
+                        >
+                          <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col col-lg-4 col-md-4 col-sm-4">
+                      <div>
+                        <button
+                          (click)="delete_segment_btn_click()"
+                          class="btn btn-danger float-right"
+                          type="button"
+                          title="Delete"
+                        >
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row" style="width: 100%">
+                    <div class="col">
+                      <div class="bold-font">Resources</div>
+                    </div>
+                  </div>
+                  <br />
+                  <div
+                    style="
+                      background: #fafafa;
+                      width: 100%;
+                      height: 365px;
+                      overflow: auto;
+                    "
+                  >
+                    <div>
+                      <div
+                        *ngFor="
+                          let resources of extraresources_list;
+                          let i = index
+                        "
+                        style="
+                          background: white;
+                          width: 95%;
+                          padding: 10px;
+                          margin-top: 10px;
+                          border-bottom: 1px solid lightgrey;
+                          border-left: 1px solid lightgrey;
+                          border-radius: 3px;
+                        "
+                      >
+                        <div class="row">
+                          <div class="col col-lg-10 col-md-10 col-sm-10">
+                            <i class="fa fa-file-text" aria-hidden="true"></i
+                            >&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a
+                              href="{{ resources.s3_url }}"
+                              target="_blank"
+                              style="text-decoration: none"
+                              >{{ resources.displayname }}</a
+                            >
+                          </div>
+                          <div
+                            (click)="delete_resource_btn_click(i)"
+                            class="col col-lg-2 col-md-2 col-sm-2"
+                            style="
+                              text-align: right;
+                              color: red;
+                              vertical-align: top;
+                              cursor: pointer;
+                            "
+                          >
+                            <i
+                              class="fa fa-window-close"
+                              aria-hidden="true"
+                            ></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- update modals starts from here -->
 <ng-template #updatetextcontentsmodal let-c="close" let-d="dismiss">
-	<!-- Close Button -->
-	<div style="width: 100%; padding: 10px;">
-		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-	</div>
+  <!-- Close Button -->
+  <div style="width: 100%; padding: 10px">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="c('Close click')"
+      style="float: right"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
 
-	<div class="modal-body">
-		<div class="row">
-			<div style="width: 100%; vertical-align: top;">
-				<div id="content_div" class="pad25">
-					<!-- Text Contents  -->
-					<div>
-						<ckeditor #editor [editor]="Editor2"  [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
-					</div>
-					<br />
-					<div class="bottomanchor_div2">
-						<button (click)="update_segment('textcontentsmodal')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save Content&nbsp;&nbsp;&nbsp;</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="modal-body">
+    <div class="row">
+      <div style="width: 100%; vertical-align: top">
+        <div id="content_div" class="pad25">
+          <!-- Text Contents  -->
+          <div>
+            <ckeditor
+              #editor
+              [editor]="Editor2"
+              [(ngModel)]="content_value"
+              data="{{ content_value }}"
+            ></ckeditor>
+          </div>
+          <br />
+          <div class="bottomanchor_div2">
+            <button
+              (click)="update_segment('textcontentsmodal')"
+              class="btn btn-primary float-right"
+              type="button"
+            >
+              &nbsp;&nbsp;&nbsp;Save Content&nbsp;&nbsp;&nbsp;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #updateimagecontentsmodal let-c="close" let-d="dismiss">
-	<!-- Close Button -->
-	<div style="width: 100%; padding: 10px;">
-		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-	</div>
+  <!-- Close Button -->
+  <div style="width: 100%; padding: 10px">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="c('Close click')"
+      style="float: right"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
 
-	<div class="modal-body">
-		<div class="row">
-			<div style="width: 100%; vertical-align: top;">
-				<div id="content_div" class="pad25">
-					<!-- Image Contents  -->
-					<div class="row">
-						<div class="image_preview_container">
-							<div style="text-align: center;">
-								<img src="{{  image_value  }}" class="image2" />
-							</div>
-						</div>
-					</div>
+  <div class="modal-body">
+    <div class="row">
+      <div style="width: 100%; vertical-align: top">
+        <div id="content_div" class="pad25">
+          <!-- Image Contents  -->
+          <div class="row">
+            <div class="image_preview_container">
+              <div style="text-align: center">
+                <img src="{{ image_value }}" class="image2" />
+              </div>
+            </div>
+          </div>
 
-					<div class="margintop30">
-						<div class="row">
-							<div class="col">
-								<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-										attr.aria-valuenow="{{progress.percentage}}"
-										aria-valuemin="0" aria-valuemax="100" 
-										[ngStyle]="{width:progress.percentage+'%'}">
-										{{progress.percentage}}%
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col col-lg-10 col-md-10 col-sm-10">
-								<div class="file-upload">
-									<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="bottomanchor_div2">
-						<button (click)="update_segment('imagecontentsmodal')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save Image&nbsp;&nbsp;&nbsp;</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+          <div class="margintop30">
+            <div class="row">
+              <div class="col">
+                <div
+                  *ngIf="currentFileUpload"
+                  class="progress"
+                  [hidden]="hideProgressbar"
+                >
+                  <div
+                    class="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar"
+                    attr.aria-valuenow="{{ progress.percentage }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    [ngStyle]="{ width: progress.percentage + '%' }"
+                  >
+                    {{ progress.percentage }}%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-lg-10 col-md-10 col-sm-10">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    #fileInput
+                    (change)="filechooser_onchange($event)"
+                    accept="image/x-png,image/gif,image/jpeg"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bottomanchor_div2">
+            <button
+              (click)="update_segment('imagecontentsmodal')"
+              class="btn btn-primary float-right"
+              type="button"
+            >
+              &nbsp;&nbsp;&nbsp;Save Image&nbsp;&nbsp;&nbsp;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #updatevideocontentsmodal let-c="close" let-d="dismiss">
-	<!-- Close Button -->
-	<div style="width: 100%; padding: 10px;">
-		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-	</div>
+  <!-- Close Button -->
+  <div style="width: 100%; padding: 10px">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="c('Close click')"
+      style="float: right"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
 
-	<div class="modal-body">
-		<div class="row">
-			<div style="width: 100%; vertical-align: top;">
-				<div id="content_div" class="pad25">
-					<div class="margintop30">
-						<div class="row">
-							<div class="col">
-								<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-										attr.aria-valuenow="{{progress.percentage}}"
-										aria-valuemin="0" aria-valuemax="100" 
-										[ngStyle]="{width:progress.percentage+'%'}">
-										{{progress.percentage}}%
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col col-lg-10 col-md-10 col-sm-10">
-								<div class="file-upload">
-									<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="bottomanchor_div2">
-						<button (click)="update_segment('videocontentsmodal')" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save Content&nbsp;&nbsp;&nbsp;</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="modal-body">
+    <div class="row">
+      <div style="width: 100%; vertical-align: top">
+        <div id="content_div" class="pad25">
+          <div class="margintop30">
+            <div class="row">
+              <div class="col">
+                <div
+                  *ngIf="currentFileUpload"
+                  class="progress"
+                  [hidden]="hideProgressbar"
+                >
+                  <div
+                    class="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar"
+                    attr.aria-valuenow="{{ progress.percentage }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    [ngStyle]="{ width: progress.percentage + '%' }"
+                  >
+                    {{ progress.percentage }}%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-lg-10 col-md-10 col-sm-10">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    #fileInput
+                    (change)="filechooser_onchange($event)"
+                    accept="video/mp4,video/x-m4v,video/*"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bottomanchor_div2">
+            <button
+              (click)="update_segment('videocontentsmodal')"
+              class="btn btn-primary float-right"
+              type="button"
+            >
+              &nbsp;&nbsp;&nbsp;Save Content&nbsp;&nbsp;&nbsp;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #textpreviewmodal let-c="close" let-d="dismiss">
-	<!-- Close Button -->
-	<div style="width: 100%; padding: 10px;">
-		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-	</div>
+  <!-- Close Button -->
+  <div style="width: 100%; padding: 10px">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="c('Close click')"
+      style="float: right"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
 
-	<div class="modal-body">
-		<div class="row">
-			<div style="width: 100%; vertical-align: top;">
-				<div id="content_div" class="pad25">
-					<!-- Text Contents  -->
-					<div>
-						<ckeditor #editor [editor]="Editor2" data="{{text_to_preview}}"></ckeditor>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="modal-body">
+    <div class="row">
+      <div style="width: 100%; vertical-align: top">
+        <div id="content_div" class="pad25">
+          <!-- Text Contents  -->
+          <div>
+            <ckeditor
+              #editor
+              [editor]="Editor2"
+              data="{{ text_to_preview }}"
+            ></ckeditor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #imagepreviewmodal let-c="close" let-d="dismiss">
-	<!-- Close Button -->
-	<div style="width: 100%; padding: 10px;">
-		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-	</div>
+  <!-- Close Button -->
+  <div style="width: 100%; padding: 10px">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="c('Close click')"
+      style="float: right"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
 
-	<div class="modal-body">
-		<div class="row">
-			<div style="width: 100%; vertical-align: top;">
-				<div id="content_div" class="pad25">
-					<!-- Text Contents  -->
-					<div style="text-align: center;">
-						<div class="image_preview_container">
-							<div style="text-align: center;">
-								<img src="{{  image_to_preview  }}" class="image2" />
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="modal-body">
+    <div class="row">
+      <div style="width: 100%; vertical-align: top">
+        <div id="content_div" class="pad25">
+          <!-- Text Contents  -->
+          <div style="text-align: center">
+            <div class="image_preview_container">
+              <div style="text-align: center">
+                <img src="{{ image_to_preview }}" class="image2" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #videopreviewmodal let-c="close" let-d="dismiss">
-	<!-- Close Button -->
-	<div style="width: 100%; padding: 10px;">
-		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-	</div>
+  <!-- Close Button -->
+  <div style="width: 100%; padding: 10px">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="c('Close click')"
+      style="float: right"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
 
-	<div class="modal-body">
-		<div class="row">
-			<div style="width: 100%; vertical-align: top;">
-				<div id="content_div" class="pad25">
-					<!-- Text Contents  -->
-					<div style="text-align: center;">
-						<video width="50%" height="50%" controls>
-							<source src="{{video_to_play}}" type="video/mp4">
-						</video>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="modal-body">
+    <div class="row">
+      <div style="width: 100%; vertical-align: top">
+        <div id="content_div" class="pad25">
+          <!-- Text Contents  -->
+          <div style="text-align: center">
+            <video width="50%" height="50%" controls>
+              <source src="{{ video_to_play }}" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #addresourcesmodal let-c="close" let-d="dismiss">
-	<!-- Close Button -->
-	<div style="width: 100%; padding: 10px;">
-		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-	</div>
+  <!-- Close Button -->
+  <div style="width: 100%; padding: 10px">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="c('Close click')"
+      style="float: right"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
 
-	<div class="modal-body">
-		<div class="row">
-			<div style="width: 100%; vertical-align: top;">
-				<div id="content_div" class="pad25">
-					<div class="margintop30">
-						<div class="row">
-							<div class="col">
-								<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-										attr.aria-valuenow="{{progress.percentage}}"
-										aria-valuemin="0" aria-valuemax="100" 
-										[ngStyle]="{width:progress.percentage+'%'}">
-										{{progress.percentage}}%
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col col-lg-10 col-md-10 col-sm-10">
-								<div class="file-upload">
-									<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="bottomanchor_div2">
-						<button (click)="add_resources_btn_click()" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="modal-body">
+    <div class="row">
+      <div style="width: 100%; vertical-align: top">
+        <div id="content_div" class="pad25">
+          <div class="margintop30">
+            <div class="row">
+              <div class="col">
+                <div
+                  *ngIf="currentFileUpload"
+                  class="progress"
+                  [hidden]="hideProgressbar"
+                >
+                  <div
+                    class="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar"
+                    attr.aria-valuenow="{{ progress.percentage }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    [ngStyle]="{ width: progress.percentage + '%' }"
+                  >
+                    {{ progress.percentage }}%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-lg-10 col-md-10 col-sm-10">
+                <div class="file-upload">
+                  <input
+                    type="file"
+                    #fileInput
+                    (change)="filechooser_onchange($event)"
+                    accept="image/x-png,image/gif,image/jpeg"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bottomanchor_div2">
+            <button
+              (click)="add_resources_btn_click()"
+              class="btn btn-primary float-right"
+              type="button"
+            >
+              &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #reordersegments let-c="close" let-d="dismiss">
-	<!-- Close Button -->
-	<div style="width: 100%; padding: 10px;">
-		<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-	</div>
+  <!-- Close Button -->
+  <div style="width: 100%; padding: 10px">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="c('Close click')"
+      style="float: right"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
 
-	<div class="modal-body">
-		<div class="row">
-			<!-- ADD RE-ORDER CODE HERE -->
-			<ngx-sortable [items]="segments_list" [name]="'Reorder Segments'" (listSorted)="listOrderChanged($event)" [listStyle]='listStyle' style="margin-left: 25%;">
-				<ng-template let-item><div class="sortable-list-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ item.type }}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( {{item.displayname}} ) </div></ng-template>
-			</ngx-sortable>
-		</div>
-		<div class="bottomanchor_div2">
-			<button (click)="save_reorder_btn_click()" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-		</div>
-	</div>
+  <div class="modal-body">
+    <div class="row">
+      <!-- ADD RE-ORDER CODE HERE -->
+      <ngx-sortable
+        [items]="segments_list"
+        [name]="'Reorder Segments'"
+        (listSorted)="listOrderChanged($event)"
+        [listStyle]="listStyle"
+        style="margin-left: 25%"
+      >
+        <ng-template let-item
+          ><div class="sortable-list-item">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{ item.type }}</b
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( {{ item.displayname }} )
+          </div></ng-template
+        >
+      </ngx-sortable>
+    </div>
+    <div class="bottomanchor_div2">
+      <button
+        (click)="save_reorder_btn_click()"
+        class="btn btn-primary float-right"
+        type="button"
+      >
+        &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+      </button>
+    </div>
+  </div>
 </ng-template>
-
