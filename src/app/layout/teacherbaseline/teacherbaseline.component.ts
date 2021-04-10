@@ -229,20 +229,22 @@ export class TeacherbaselineComponent implements OnInit {
 	}
 
 	addquiz(){
-		if(this.add_q_question == '' || this.add_q_optionA == '' || this.add_q_optionB == '' || this.selected_qans_val_add == ''){
-			swal.fire('info', 'Please fill at least two options !!!', 'warning');
+		console.log("12345",this.add_q_question,this.add_q_optionA,this.add_q_optionB,this.add_q_optionC,this.add_q_optionD)
+		if(this.add_q_question == '' || this.selected_qans_val_add == ''){
+			swal.fire('info', 'Please fill at least two options with answer!!!', 'warning');
 		}else{
 			let obj = {
 				"qid": new Date().getTime(),
 				"question": this.add_q_question,
-				"A": this.add_q_optionA,
-				"B": this.add_q_optionB,
-				"C": this.add_q_optionC,
-				"D": this.add_q_optionD,
+				"A": (this.add_q_optionA == '')?'':this.add_q_optionA,
+				"B": (this.add_q_optionB == '')?'':this.add_q_optionB,
+				"C": (this.add_q_optionC == '')?'':this.add_q_optionC,
+				"D": (this.add_q_optionD == '')?'':this.add_q_optionD,
 				"answer": this.selected_qans_val_add
 			}
-			this.quiz_value.push(obj);
-			this.modalReference.close();
+			console.log("obj",obj)
+			// this.quiz_value.push(obj);
+			// this.modalReference.close();
 		}
 	}
 	updatequiz(){
@@ -285,24 +287,24 @@ export class TeacherbaselineComponent implements OnInit {
 			language:this.selected_preflanguage,
 			type : this.selected_assesment,
 		}
-		if(this.quiz_value.length>0 && this.save_operation == 'save'){
-			this.TeacherbaselineService.createteacherassesment(body).subscribe(data => {
-				swal.fire('Success', 'assesment created successfully', 'success');
-				this.load_record();
-			},
-			error => {},
-			() => {}
-		);
-		}else{
-			this.TeacherbaselineService.updateteacherassesment(this.dataid,body).subscribe(data => {
-				console.log("data",data)
-				swal.fire('Success', 'assesment updated successfully', 'success');
-				this.load_record();
-			},
-			error => {},
-			() => {}
-			);
-		}
+		// if(this.quiz_value.length>0 && this.save_operation == 'save'){
+		// 	this.TeacherbaselineService.createteacherassesment(body).subscribe(data => {
+		// 		swal.fire('Success', 'assesment created successfully', 'success');
+		// 		this.load_record();
+		// 	},
+		// 	error => {},
+		// 	() => {}
+		// );
+		// }else{
+		// 	this.TeacherbaselineService.updateteacherassesment(this.dataid,body).subscribe(data => {
+		// 		console.log("data",data)
+		// 		swal.fire('Success', 'assesment updated successfully', 'success');
+		// 		this.load_record();
+		// 	},
+		// 	error => {},
+		// 	() => {}
+		// 	);
+		// }
 		// else{
 		// 	swal.fire('info', 'Please add some content !!!', 'warning');
 		// }
