@@ -25,8 +25,8 @@
                 <th style="width: 15%" [hidden]="hideSubject_select">
                   Subject
                 </th>
-                <th style="width: 15%">Stage</th>
                 <th style="width: 15%">Class</th>
+                <th style="width: 15%">Stage</th>
                 <th style="width: 15%"></th>
               </tr>
               <tr>
@@ -68,22 +68,7 @@
                     <option value="odia">Odia</option>
                   </select>
                 </td>
-                <td>
-                  <select
-                    id="selected_stage"
-                    value="{{ selected_stage }}"
-                    (change)="stage_select_onchange($event.target.value)"
-                    class="form-control"
-                  >
-                    <option value="">Select</option>
-                    <option
-                      *ngFor="let opt of stage_select_option_list"
-                      value="{{ opt.value }}"
-                    >
-                      {{ opt.text | titlecase }}
-                    </option>
-                  </select>
-                </td>
+
                 <td>
                   <select
                     id="selected_level"
@@ -94,6 +79,22 @@
                     <option value="">Select</option>
                     <option
                       *ngFor="let opt of level_select_option_list"
+                      value="{{ opt.value }}"
+                    >
+                      {{ opt.text | titlecase }}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    id="selected_stage"
+                    value="{{ selected_stage }}"
+                    (change)="stage_select_onchange($event.target.value)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option
+                      *ngFor="let opt of stage_select_option_list"
                       value="{{ opt.value }}"
                     >
                       {{ opt.text | titlecase }}
