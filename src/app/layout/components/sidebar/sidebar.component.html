@@ -26,6 +26,14 @@
             <i class="fa fa-fw fa-child"></i>&nbsp;
             <span>{{ 'Allocated Centers' | translate }}</span>
           </a>
+          <a [routerLink]="['/eceactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-child"></i>&nbsp;
+            <span>{{ 'ECE Activities' | translate }}</span>
+          </a>
+          <a [routerLink]="['/pgeactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-child"></i>&nbsp;
+            <span>{{ 'PGE Activities' | translate }}</span>
+          </a>
           <a [routerLink]="['/versionmanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-vine"></i>&nbsp;
             <span>{{ 'Version Manager' | translate }}</span>
@@ -34,7 +42,7 @@
             <i class="fa fa-fw fa-fax"></i>&nbsp;
             <span>{{ 'Passcode Manager' | translate }}</span>
           </a>
-		  <a [routerLink]="['/surveymaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+		      <a [routerLink]="['/surveymaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
             <span>{{ 'Survey Master' | translate }}</span>
           </a>
@@ -94,10 +102,6 @@
             <i class="fa fa-fw fa-child"></i>&nbsp;
             <span>{{ 'Activities' | translate }}</span>
           </a> -->
-          <a [routerLink]="['/pgeactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-child"></i>&nbsp;
-            <span>{{ 'Activities' | translate }}</span>
-          </a>
           <!-- <a [routerLink]="['/centers-allocation']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-check-square-o"></i>&nbsp;
             <span>{{ 'Center allocation' | translate }}</span>
@@ -114,6 +118,10 @@
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
             <span>{{ 'Training Module' | translate }}</span>
           </a> -->
+          <a [routerLink]="['/teacherbaseline']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-grav"></i>&nbsp;
+            <span>{{ 'Teacher Baseline' | translate }}</span>
+          </a>
           <a [routerLink]="['/ppt']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-grav"></i>&nbsp;
             <span>{{ 'Preprogram Training' | translate }}</span>

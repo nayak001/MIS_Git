@@ -36,6 +36,7 @@ const routes: Routes = [
       { path: 'pushnotification', loadChildren: './pushnotification/pushnotification.module#PushnotificationModule' },
       { path: 'sendSMS', loadChildren: './sendSMS/sendSMS.module#SendSMSModule' },
       { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule' },
+      { path: 'eceactivities', loadChildren: './eceactivities/eceactivities.module#EceactivitiesModule' },
       { path: 'pgeactivities', loadChildren: './pgeactivities/pgeactivities.module#PgeactivitiesModule' },
       { path: 'dailyinfo', loadChildren: './dailyinfo/dailyinfo.module#DailyinfoModule' },
       { path: 'studentdetails', loadChildren: './studentdetails/studentdetails.module#StudentdetailsModule' },
@@ -79,6 +80,7 @@ const routes: Routes = [
 	    { path: 'surveymaster', loadChildren: './surveymaster/surveymaster.module#SurveymasterModule' },
       { path: 'surveyreport', loadChildren: './surveyReport/surveyReport.module#SurveyReportModule' },
       { path: 'ppt', loadChildren: './preprogramteachertraining/preprogramteachertraining.module#PreprgrameTeacherTrainingModule' },
+      { path: 'teacherbaseline', loadChildren: './teacherbaseline/teacherbaseline.module#TeacherBaselineModule' },
       { path: 'preprogramtrainingmodule', loadChildren: './preprogramtrainingmodules/preprogramtrainingmodules.module#PreprogramtrainingModule' },
     ]
   }
