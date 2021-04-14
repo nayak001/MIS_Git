@@ -123,6 +123,8 @@ export class PgeactivitiesComponent implements OnInit {
     this.selected_class = '';
     this.selected_subject = '';
     this.selected_week = '';
+
+    //this.load_assessmentlist();
     this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
   }
 
@@ -134,6 +136,7 @@ export class PgeactivitiesComponent implements OnInit {
     this.selected_class = selectedOptionValue;
     
     this.selected_week = '';
+    this.load_assessmentlist();
     this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
   }
 
@@ -144,23 +147,7 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
     
-    this.selected_week = '';
-    //-------- Get all assessments of that subject
-    this.week_select_option_list = [];
-    this.hide_Loading_indicator = false;
-    this.pgeactivitiesService.gettchassessment(this.selected_preflanguage, 'pge', this.selected_class, this.selected_subject).subscribe(data => {
-      console.log('### data: ' + JSON.stringify(data));
-      Object.keys(data).forEach(ind => {
-        let obj = {};
-        obj = {
-          value: (parseInt(ind)+1),
-          text: data[ind]['question']
-        }
-        this.week_select_option_list.push(obj);
-      });
-      this.hide_Loading_indicator = true;
-    },error => { this.hide_Loading_indicator = true; },() =>{});
-    //--------
+    this.load_assessmentlist();
     this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
   }
 
@@ -841,6 +828,36 @@ export class PgeactivitiesComponent implements OnInit {
         this.update_record(this.record_id, body);
       }
     });
+  }
+
+  async load_assessmentlist() {
+    this.selected_segment_index = -1;
+    this.reset_segment();
+    if (
+      this.selected_preflanguage != undefined && this.selected_preflanguage != null && this.selected_preflanguage != ''
+      && this.selected_subject != undefined && this.selected_subject != null && this.selected_subject != ''
+      && this.selected_class != undefined && this.selected_class != null && this.selected_class != ''
+    ) {
+      this.hide_Loading_indicator = false;
+      this.selected_week = '';
+      //-------- Get all assessments of that subject
+      this.week_select_option_list = [];
+      this.hide_Loading_indicator = false;
+      this.pgeactivitiesService.gettchassessment(this.selected_preflanguage, 'pge', this.selected_class, this.selected_subject).subscribe(data => {
+        console.log('### data: ' + JSON.stringify(data));
+        Object.keys(data).forEach(ind => {
+          let obj = {};
+          obj = {
+            value: (parseInt(ind)+1),
+            text: data[ind]['question']
+          }
+          this.week_select_option_list.push(obj);
+        });
+        this.hide_Loading_indicator = true;
+      },error => { this.hide_Loading_indicator = true; },() =>{});
+      //--------
+      this.hide_Loading_indicator = true;
+    }
   }
 
   
