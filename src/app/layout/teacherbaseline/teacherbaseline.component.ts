@@ -300,7 +300,7 @@ export class TeacherbaselineComponent implements OnInit {
 				this.load_record();
 			},error => {}, () => {});
 		}else{
-			swal.fire('info', 'Please add some content !!!', 'warning');
+			swal.fire('info', 'Something went wrong !!!', 'warning');
 		}
 	}
 	
