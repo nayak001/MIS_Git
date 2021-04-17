@@ -287,25 +287,19 @@ export class TeacherbaselineComponent implements OnInit {
 			language:this.selected_preflanguage,
 			type : this.selected_assesment,
 		}
+
 		if(this.quiz_value.length>0 && this.save_operation == 'save'){
 			this.TeacherbaselineService.createteacherassesment(body).subscribe(data => {
 				swal.fire('Success', 'assesment created successfully', 'success');
 				this.load_record();
-			},
-			error => {},
-			() => {}
-		);
-		}else{
+			},error => {}, () => {});
+		}else if(this.quiz_value.length>0 && this.save_operation == 'update'){
 			this.TeacherbaselineService.updateteacherassesment(this.dataid,body).subscribe(data => {
 				console.log("data",data)
 				swal.fire('Success', 'assesment updated successfully', 'success');
 				this.load_record();
-			},
-			error => {},
-			() => {}
-			);
-		}
-		else{
+			},error => {}, () => {});
+		}else{
 			swal.fire('info', 'Please add some content !!!', 'warning');
 		}
 	}
