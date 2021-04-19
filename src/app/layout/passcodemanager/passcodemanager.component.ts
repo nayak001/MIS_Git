@@ -80,9 +80,9 @@ export class PasscodemanagerComponent implements OnInit {
     }else if(this.passcode == null || this.passcode == undefined || this.passcode == '') {
       this.valid_submit = false;
       alert('Passcode is not valid !!!');
-    }else if(this.passcode.length<5 || this.passcode.length>5){
+    }else if(this.passcode.length<5 || this.passcode.length>15){
       this.valid_submit = false;
-      alert('Passcode must have only five charchters !!!');
+      alert('Passcode must have only 5 -to- 15 charchters !!!');
     }else if(!passcoderegx.test(this.passcode)){
       this.valid_submit = false;
       alert('Passcode should content letters and numeric !!!');
