@@ -6,7 +6,7 @@
                 <div class="card-header">
 					<div class="row">
 						<div class="col col-xl-6 col-lg-6">
-							<h4>PREPROGRAM TEACHER TRAINING- MODULES</h4>
+							<h4>PREPROGRAM TRAINING-MODULES</h4>
 						</div>
 						<div class="col col-xl-4 col-lg-4">
 							<div class="row">
@@ -16,8 +16,8 @@
 								<div class="col col-xl-6 col-lg-6">
 									<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
 										<option value="">Select</option>
-										<option value="en"  [selected]="isSelected">English</option>
-										<option value="od">ଓଡିଆ</option>
+										<option value="en">English</option>
+										<option value="od" [selected]="isSelected">ଓଡିଆ</option>
 										<option value="hi">हिंदी</option>
 									</select>
 								</div>
@@ -46,7 +46,7 @@
 												<input [(ngModel)]="modulename_tosave" type="text" placeholder="Module Name" class="form-control" />
 											</div>
 											<div class="col col-xl-3 col-lg-3">
-												<button (click)="savemodule_btnclick()" class="btn btn-primary float-right">Save</button>
+												<button [disabled]="disable_button" (click)="savemodule_btnclick()" class="btn btn-primary float-right">Save</button>
 											</div>
 										</div>
 									</div>
@@ -119,7 +119,7 @@
 												margin-left: -63px;"/>
 											</div>
 											<div class="col col-xl-2 col-lg-2">
-												<button (click)="savesubmodule_btnclick()" class="btn btn-primary float-right">Save</button>
+												<button [disabled]="disable_button" (click)="savesubmodule_btnclick()" class="btn btn-primary float-right">Save</button>
 											</div>
 										</div>
 									</div>
@@ -189,7 +189,7 @@
 												<input [(ngModel)]="subtopicname_tosave" type="text" placeholder="Topic" class="form-control" style="width: 117px;" />
 											</div>
 											<div class="col col-xl-4 col-lg-4">
-												<button (click)="savesubtopic_btnclick()" class="btn btn-primary float-right">Save</button>
+												<button [disabled]="disable_button" (click)="savesubtopic_btnclick()" class="btn btn-primary float-right">Save</button>
 											</div>
 										</div>
 									</div>

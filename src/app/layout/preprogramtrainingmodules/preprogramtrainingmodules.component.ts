@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PreprogramtrainingService, ValidationService } from './preprogramtrainingmodules.service';
 import { environment } from './../../../environments/environment.prod';
 const teacherappAuthkey = environment.teacherappAuthkey;
+import swal from 'sweetalert2';
 @Component({
     selector: 'app-preprogramtrainingmodules',
     templateUrl: './preprogramtrainingmodules.component.html',
@@ -47,6 +48,9 @@ export class PreprogramTrainingComponent implements OnInit {
 	hideLoading_indicator1: boolean;
 	hideLoading_indicator2: boolean;
 	hideLoading_indicator3: boolean;
+
+	// enable/ disable save button
+	disable_button: boolean = false;
 	modalReference: any;
     constructor(
 		private modalService: NgbModal,
@@ -58,7 +62,7 @@ export class PreprogramTrainingComponent implements OnInit {
 		this.hideLoading_indicator1 = true;
 		this.hideLoading_indicator2 = true;
 		this.hideLoading_indicator3=true;
-		this.selected_preflanguage = 'en'
+		this.selected_preflanguage = 'od'
 	}
 	
 	ngOnInit() {
@@ -78,37 +82,36 @@ export class PreprogramTrainingComponent implements OnInit {
 	}
 
 	savemodule_btnclick(){
+		this.disable_button = true;
 		this.modulename_tosave = this.modulename_tosave.toUpperCase().toLowerCase();
 		if(this.selected_preflanguage == '' || this.selected_preflanguage == null){
-			alert('Select prefered language');
+			swal.fire('Info','Select prefered language','warning');
+			this.disable_button = false;
 		}else if(this.modulename_tosave == undefined || this.modulename_tosave == null || this.modulename_tosave == ''){
-			alert('Module name can not be empty');
+			swal.fire('Info','Module name can not be empty','warning');
+			this.disable_button = false;
 		}else{
 			this.hideLoading_indicator1 = false;
 			this.preprogramteachertrainingService.findppttrainingmodulebyname(this.modulename_tosave).subscribe(data => {
-					this.hideLoading_indicator1 = true;
-					if(Object.keys(data).length > 0){
-						alert('Module name already exists.')
-					}else{
-						let curr_date = new Date();
-						let modulebody = {
-							moduleid: curr_date.getTime(),
-							modulename: this.modulename_tosave,
-							language:this.selected_preflanguage
-						}
-						this.preprogramteachertrainingService.createnewppttrainingmodule(modulebody).subscribe(data => {
-								this.hideLoading_indicator1 = true;
-								this.load_allmodules_list(this.selected_preflanguage);
-								this.modulename_tosave ='';
-							},
-							error => {},
-							() => {}
-						);
+				this.hideLoading_indicator1 = true;
+				if(Object.keys(data).length > 0){
+					swal.fire('Info','Module name already exists.','warning');
+					this.disable_button = false;
+				}else{
+					let curr_date = new Date();
+					let modulebody = {
+						moduleid: curr_date.getTime(),
+						modulename: this.modulename_tosave,
+						language:this.selected_preflanguage
 					}
-				},
-				error => {},
-				() => {}
-			);
+					this.preprogramteachertrainingService.createnewppttrainingmodule(modulebody).subscribe(data => {
+							this.hideLoading_indicator1 = true;
+							this.load_allmodules_list(this.selected_preflanguage);
+							this.modulename_tosave ='';
+							this.disable_button = false;
+					},error => {},() => {this.disable_button = false;});
+				}
+			},error => {},() => {this.disable_button = false;});
 		}
 	}
     preflanguage_select_onchange(event) {
@@ -139,14 +142,14 @@ export class PreprogramTrainingComponent implements OnInit {
 	updatemodule_btnclick(){
 		this.modulename_toupdate = this.modulename_toupdate.toUpperCase().toLowerCase();
 		if(this.modulename_toupdate == undefined || this.modulename_toupdate == null || this.modulename_toupdate == ''){
-			alert('Module name can not be empty');
+			swal.fire('Info','Module name can not be empty','warning');
 		}else{
 			this.hideLoading_indicator1 = false;
 			this.preprogramteachertrainingService.findppttrainingmodulebyname(this.modulename_toupdate).subscribe(data => {
 					this.hideLoading_indicator1 = true;
 
 					if(Object.keys(data).length > 0){
-						alert('Module name already exists.')
+						swal.fire('Info','Module name already exists.','warning')
 					}else{
 						let modulebody = {
 							moduleid: this.moduleid,
@@ -239,52 +242,52 @@ export class PreprogramTrainingComponent implements OnInit {
 	}
 
 	savesubmodule_btnclick(){
+		this.disable_button = true;
 		this.submodulename_tosave = this.submodulename_tosave.toUpperCase().toLowerCase();
-		if(this.submodulename_tosave == undefined || this.submodulename_tosave == null || this.submodulename_tosave == ''){
-			alert('Sub-module name can not be empty');
+		if(this.selected_submodule_moduleid == undefined || this.selected_submodule_moduleid == null || this.selected_submodule_moduleid == ''){
+			swal.fire('Info','Please select a module.','warning');
+			this.disable_button = false;
+		}else if(this.submodulename_tosave == undefined || this.submodulename_tosave == null || this.submodulename_tosave == ''){
+			swal.fire('Info','Sub-module name can not be empty','warning');
+			this.disable_button = false;
 		}else{
 			this.hideLoading_indicator2 = false;
 			this.preprogramteachertrainingService.findppttrainingsubmodulebyname(this.selected_submodule_moduleid, this.submodulename_tosave).subscribe(data => {
-					this.hideLoading_indicator2 = true;
-
-					if(Object.keys(data).length > 0){
-						alert('Sub-module name already exists.')
-					}else{
-						let curr_date = new Date();
-						let submodulebody = {
-							moduleid: this.selected_submodule_moduleid,
-							modulename: this.selected_submodule_modulename,
-							submoduleid: curr_date.getTime(),
-							submodulename: this.submodulename_tosave,
-							language:this.selected_preflanguage
-						}
-						this.preprogramteachertrainingService.createpptnewtrainingsubmodule(submodulebody).subscribe(data => {
-								this.hideLoading_indicator2 = true;
-								this.load_allsubmodules_list(this.selected_submodule_moduleid,this.selected_preflanguage);
-								this.submodulename_tosave ='';
-							},
-							error => {},
-							() => {}
-						);
+				this.hideLoading_indicator2 = true;
+				if(Object.keys(data).length > 0){
+					swal.fire('Info','Sub-module name already exists.','warning');
+					this.disable_button = false;
+				}else{
+					let curr_date = new Date();
+					let submodulebody = {
+						moduleid: this.selected_submodule_moduleid,
+						modulename: this.selected_submodule_modulename,
+						submoduleid: curr_date.getTime(),
+						submodulename: this.submodulename_tosave,
+						language:this.selected_preflanguage
 					}
-				},
-				error => {},
-				() => {}
-			);
+					this.preprogramteachertrainingService.createpptnewtrainingsubmodule(submodulebody).subscribe(data => {
+							this.hideLoading_indicator2 = true;
+							this.load_allsubmodules_list(this.selected_submodule_moduleid,this.selected_preflanguage);
+							this.submodulename_tosave ='';
+							this.disable_button = false;
+					},error => {},() => {this.disable_button = false;});
+				}
+			},error => {},() => {this.disable_button = false;});
 		}
 	}
 
 	updatesubmodule_btnclick(){
 		this.submodulename_toupdate = this.submodulename_toupdate.toUpperCase().toLowerCase();
 		if(this.submodulename_toupdate == undefined || this.submodulename_toupdate == null || this.submodulename_toupdate == ''){
-			alert('Sub-module name can not be empty');
+			swal.fire('Info','Sub-module name can not be empty','warning');
 		}else{
 			this.hideLoading_indicator2 = false;
 			this.preprogramteachertrainingService.findppttrainingsubmodulebyname(this.selected_submodule_moduleid, this.submodulename_toupdate).subscribe(data => {
 					this.hideLoading_indicator2 = true;
 
 					if(Object.keys(data).length > 0){
-						alert('Sub-module name already exists.')
+						swal.fire('Info','Sub-module name already exists.','warning')
 					}else{
 						let modulebody = {
 							moduleid: this.submodule_moduleid,
@@ -322,45 +325,44 @@ export class PreprogramTrainingComponent implements OnInit {
 		);
 	}
 	savesubtopic_btnclick(){
+		this.disable_button = true;
 		this.subtopicname_tosave = this.subtopicname_tosave.toUpperCase().toLowerCase();
-		if(this.subtopicname_tosave == undefined || this.subtopicname_tosave == null || this.subtopicname_tosave == ''){
-			alert('Topic name can not be empty');
-		}else if(this.selected_submodule_id == ''){
-			alert('Select submodule');
+		if(this.selected_submodule_id == undefined || this.selected_submodule_id == null ||this.selected_submodule_id == ''){
+			swal.fire('Info','Select submodule','warning');
+			this.disable_button = false;
+		}else if(this.subtopicname_tosave == undefined || this.subtopicname_tosave == null || this.subtopicname_tosave == ''){
+			swal.fire('Info','Topic name can not be empty','warning');
+			this.disable_button = false;
 		}else{
 			this.hideLoading_indicator2 = false;
 			this.preprogramteachertrainingService.findppttrainingtopicbyname(this.selected_submodule_id, this.subtopicname_tosave).subscribe(data => {
-					this.hideLoading_indicator2 = true;
-					if(data['check'] == false){
-						alert('Topic name already exists.')
-					}else{
-						let curr_date = new Date();
-						let subtopicbody = {
-							moduleid: this.selected_submodule_moduleid,
-							modulename: this.selected_submodule_modulename,
-							submoduleid: this.selected_submodule_id,
-							submodulename: this.selected_submodule_name,
-							topicid:curr_date.getTime(),
-							topicname: this.subtopicname_tosave,
-							language:this.selected_preflanguage
-						}
-						this.preprogramteachertrainingService.createnewppttrainingtopic(subtopicbody).subscribe(data => {
-							    console.log("data1234",Object.keys(data).length>0,this.selected_submodule_modulename,this.selected_submodule_name,this.subtopicname_tosave)
-							    if(Object.keys(data).length>0){
-									// this.sendMessageToallUser(this.selected_submodule_modulename,this.selected_submodule_name,this.subtopicname_tosave)
-									this.hideLoading_indicator3 = true;
-									this.load_alltopic_list(this.selected_submodule_moduleid,this.selected_preflanguage);
-									this.subtopicname_tosave ='';
-								}
-							},
-							error => {},
-							() => {}
-						);
+				this.hideLoading_indicator2 = true;
+				if(data['check'] == false){
+					swal.fire('Info','Topic name already exists.','warning');
+					this.disable_button = false;
+				}else{
+					let curr_date = new Date();
+					let subtopicbody = {
+						moduleid: this.selected_submodule_moduleid,
+						modulename: this.selected_submodule_modulename,
+						submoduleid: this.selected_submodule_id,
+						submodulename: this.selected_submodule_name,
+						topicid:curr_date.getTime(),
+						topicname: this.subtopicname_tosave,
+						language:this.selected_preflanguage
 					}
-				},
-				error => {},
-				() => {}
-			);
+					this.preprogramteachertrainingService.createnewppttrainingtopic(subtopicbody).subscribe(data => {
+						console.log("data1234",Object.keys(data).length>0,this.selected_submodule_modulename,this.selected_submodule_name,this.subtopicname_tosave)
+						if(Object.keys(data).length>0){
+							// this.sendMessageToallUser(this.selected_submodule_modulename,this.selected_submodule_name,this.subtopicname_tosave)
+							this.hideLoading_indicator3 = true;
+							this.load_alltopic_list(this.selected_submodule_moduleid,this.selected_preflanguage);
+							this.subtopicname_tosave ='';
+							this.disable_button = false;
+						}
+					},error => {},() => {this.disable_button = false;});
+				}
+			},error => {},() => {this.disable_button = false;});
 		}
 	}
 	
@@ -402,14 +404,14 @@ export class PreprogramTrainingComponent implements OnInit {
 	updatetopic_btnclick(){
 		this.topic_toupdate = this.topic_toupdate.toUpperCase().toLowerCase();
 		if(this.topic_toupdate == undefined || this.topic_toupdate == null || this.topic_toupdate == ''){
-			alert('topic name can not be empty');
+			swal.fire('Info','topic name can not be empty','warning');
 		}else{
 			this.hideLoading_indicator3 = false;
 			this.preprogramteachertrainingService.findppttrainingtopicbyname(this.selected_submodule_id, this.topic_toupdate).subscribe(data => {
 					this.hideLoading_indicator2 = true;
 
 					if(data['check'] == false){
-						alert('Topic name already exists.')
+						swal.fire('Info','Topic name already exists.','warning')
 					}else{
 						let body = {
 							moduleid: this.selected_submodule_moduleid,

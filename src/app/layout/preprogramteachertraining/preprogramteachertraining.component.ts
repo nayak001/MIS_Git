@@ -114,7 +114,7 @@ export class PreprogrmateachertrainingComponent implements OnInit {
 	) {
 		this.hideLoading_indicator = true;
 		this.hideContent_div = true;
-		this.selected_preflanguage = 'en'
+		this.selected_preflanguage = 'od'
 		
 	}
 	
