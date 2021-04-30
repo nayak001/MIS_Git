@@ -1,0 +1,627 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>TEACHER TRAINING CONTENTS</h4>
+						</div>
+						<div class="col">
+							
+						</div>
+						<div class="col">
+							<button (click)="modulesubmodule_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Modules/Sub-modules&nbsp;&nbsp;&nbsp;</button>
+							<button (click)="teacherassesment_load()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Monthly Assesment&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</div>					
+				</div>
+				
+				<div class="card-body table-responsive">
+					<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+						<thead>
+							<tr>
+								<th style="width: 25%">Language</th>
+								<th style="width: 25%">Module</th>
+								<th style="width: 25%">Sub-module</th>
+								<th style="width: 25%">Topic</th>
+							</tr>
+							<tr>
+								<td>
+									<span>
+										<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
+											<option value="">Select</option>
+											<option value="en" [selected]="isSelected">English</option>
+											<option value="od">ଓଡିଆ</option>
+											<option value="hi">हिंदी</option>
+										</select>
+									</span>
+								</td>
+								<td>
+									<select value="" (change)="onselect_modules_select($event)" class="form-control">
+										<option value="">Select module</option>
+										<option *ngFor="let module of allmodules_list;" value="{{ module.moduleid }}">{{ module.modulename }}</option>									
+									</select>
+								</td>
+								<td>
+									<select value="" (change)="onselect_submodules_select($event)" class="form-control">
+										<option value="">Select sub-module</option>
+										<option *ngFor="let submodule of allsubmodules_list;" value="{{ submodule.submoduleid }}">{{ submodule.submodulename }}</option>									
+									</select>
+								</td>
+								<td>
+									<select value="" (change)="onselect_topic_select($event)" class="form-control">
+										<option value="">Select Topic</option>
+										<option *ngFor="let topic of alltopic_list;" value="{{ topic.topicid }}">{{ topic.topicname }}</option>									
+									</select>
+								</td>
+								<td>
+									<!-- <button (click)="go_btn_click()" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp;Go&nbsp;&nbsp;&nbsp;</button> -->
+								</td>	
+							</tr>
+						</thead>
+					</table>
+				</div>
+
+				<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+					<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+				</div>
+
+				<div id="content_div" class="pad25" [hidden]="hideContent_div" >
+					<ngb-tabset>
+						 <!-- CONTENTS TAB -->
+						<ngb-tab>
+							<ng-template ngbTabTitle><b>CONTENTS</b></ng-template>
+							  <ng-template ngbTabContent>
+								<div class="tab_content_height margintop30">
+									<div class="">
+										<div>
+											<div>
+												<span class="bold-font">Add Content:</span>
+												<span class="addbtn" (click)="opencontent(addcontentmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
+											</div>
+										</div>
+										<div  class="tbl_tr" >
+											<div>
+												<div class="">
+													<div class="row" *ngFor="let data of data; let i = index;">
+														<div class="col col-xl-4 col-lg-4 tbl_tr" *ngFor="let data of data.content; let i = index;">
+															<div  *ngIf="data.type == 'content'">
+																<div>
+																	<span class="addbtn" (click)="opencontent(editcontentmodal,data,i,'editcontentmodal')" style="margin-left: 195px;" title="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+																	<span class="delbtn" (click)="opencontent(deletecontentmodal,data,i,'deletecontentmodal')" title="delete"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+																	<span class="addbtn" (click)="opencontent(previewcontentmodal,data,i,'previewcontentmodal')" title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></span>
+																</div>
+																<div [innerHTML]="data.content"></div>
+																<!-- <ckeditor  [editor]="Editor" [(ngModel)]="data.content" data="{{data.content}}"></ckeditor> -->
+															</div>
+															<div *ngIf="data.type == 'image'">
+																<div>
+																	<span class="addbtn" (click)="opencontent(editimagemodal,data,i,'editimagemodal')" style="margin-left: 195px;"title="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+																	<span class="delbtn" (click)="opencontent(deleteimagemodal,data,i,'deleteimagemodal')" title="delete"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+																	<span class="addbtn" (click)="opencontent(previewimagemodal,data,i,'previewimagemodal')"  title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></span>
+																</div>
+																<img src="{{ data.content }}" class="image" />
+															</div>
+															<div  *ngIf="data.type == 'vedio'">
+																<div>
+																	<span class="addbtn" (click)="opencontent(editvediomodal,data,i,'editvediomodal')" style="margin-left: 195px;" title="edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+																	<span class="delbtn" (click)="opencontent(deletevediomodal,data,i,'deletevediomodal')"><i class="fa fa-minus-square" aria-hidden="true" title="delete"></i></span>
+																	<span class="addbtn" (click)="opencontent(previewvediomodal,data,i,'previewvediomodal')" title="Preview"><i class="fa fa-play-circle-o" aria-hidden="true"></i></span>
+																</div>
+																<span><div class="imgcenter"><img src="assets/images/download.jpeg" class="imgpreview"></div></span><br>
+															</div>
+														</div>
+													 </div>
+													
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								  </div>
+							</ng-template>
+						</ngb-tab>
+						
+						 <!-- QUIZ TAB -->
+						 <ngb-tab>
+							<ng-template ngbTabTitle><b>QUIZ</b></ng-template>
+							<ng-template ngbTabContent>
+								<div class="tab_content_height margintop30">
+									<table class="table50">
+										<tr>
+											<td>
+												<span class="bold-font">Quizes:</span>
+												<span class="addbtn" (click)="open(addmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
+											</td>
+										</tr>
+										<tr *ngFor="let quiz of quiz_value; let i = index;" class="tbl_tr">
+											<td>
+												<div class="q_container">
+													<div class="row">
+														<div class="col col-xl-12 col-lg-12 q_div">
+															{{ i+1 }}. {{ quiz.question }}
+														</div>
+													</div>
+													<div class="row">
+														<div class="col col-xl-6 col-lg-6">
+															A. {{ quiz.A }}
+														</div>
+														<div class="col col-xl-6 col-lg-6">
+															B. {{ quiz.B }}
+														</div>
+													</div>
+													<div class="row">
+														<div class="col col-xl-6 col-lg-6">
+															C. {{ quiz.C }}
+														</div>
+														<div class="col col-xl-6 col-lg-6">
+															D. {{ quiz.D }}
+														</div>
+													</div>
+													<div class="row">
+														<div class="col col-xl-12 col-lg-12 ans_div">
+															Ans. {{ quiz.answer | uppercase }}
+														</div>
+													</div>
+												</div>
+											</td>
+											<td class="tbl_td">
+												<div>
+													<span class="addbtn" (click)="open(editmodal,quiz,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+													<span class="delbtn" (click)="open(deletemodal,quiz,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div>
+									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</ng-template>
+						</ngb-tab>
+					</ngb-tabset>
+					
+
+					<!-- Quiz Modal starts from here -->
+					<ng-template #addmodal let-c="close" let-d="dismiss">
+						<div class="modal-body">											
+							<div class="row padd15">
+								<input [(ngModel)]="add_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
+							</div>
+							<div class="row marginb10">
+								<div class="col col-lg-1 col-md-1">A</div>
+								<div class="col col-lg-4 col-md-4">
+									<input [(ngModel)]="add_q_optionA" type="text" class="form-control input-underline input-lg" placeholder="Option A">
+								</div>
+								<div class="col col-lg-2 col-md-2"></div>
+								<div class="col col-lg-1 col-md-1">B</div>
+								<div class="col col-lg-4 col-md-4">
+									<input [(ngModel)]="add_q_optionB" type="text" class="form-control input-underline input-lg" placeholder="Option B">
+								</div>
+							</div>
+							<div class="row marginb10">
+								<div class="col col-lg-1 col-md-1">C</div>
+								<div class="col col-lg-4 col-md-4">
+									<input [(ngModel)]="add_q_optionC" type="text" class="form-control input-underline input-lg" placeholder="Option C">
+								</div>
+								<div class="col col-lg-2 col-md-2"></div>
+								<div class="col col-lg-1 col-md-1">D</div>
+								<div class="col col-lg-4 col-md-4">
+									<input [(ngModel)]="add_q_optionD" type="text" class="form-control input-underline input-lg" placeholder="Option D">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col-lg-1 col-md-1">Ans</div>
+								<div class="col col-lg-4 col-md-4">
+									<select value="" (change)="onselect_addq_select($event)" class="form-control">
+										<option value="">Select</option>
+										<option value="A">A</option>
+										<option value="B">B</option>
+										<option value="C">C</option>
+										<option value="D">D</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="addquiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+						
+					<ng-template #editmodal let-c="close" let-d="dismiss">
+						<div class="modal-body">											
+							<div class="row padd15">
+								<input value="{{edit_q_question}}" [(ngModel)]="edit_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
+							</div>
+							<div class="row marginb10">
+								<div class="col col-lg-1 col-md-1">A</div>
+								<div class="col col-lg-4 col-md-4">
+									<input value="{{edit_q_optionA}}" [(ngModel)]="edit_q_optionA" type="text" class="form-control input-underline input-lg" placeholder="Option A">
+								</div>
+								<div class="col col-lg-2 col-md-2"></div>
+								<div class="col col-lg-1 col-md-1">B</div>
+								<div class="col col-lg-4 col-md-4">
+									<input value="{{edit_q_optionB}}" [(ngModel)]="edit_q_optionB" type="text" class="form-control input-underline input-lg" placeholder="Option B">
+								</div>
+							</div>
+							<div class="row marginb10">
+								<div class="col col-lg-1 col-md-1">C</div>
+								<div class="col col-lg-4 col-md-4">
+									<input value="{{edit_q_optionC}}" [(ngModel)]="edit_q_optionC" type="text" class="form-control input-underline input-lg" placeholder="Option C">
+								</div>
+								<div class="col col-lg-2 col-md-2"></div>
+								<div class="col col-lg-1 col-md-1">D</div>
+								<div class="col col-lg-4 col-md-4">
+									<input value="{{edit_q_optionD}}" [(ngModel)]="edit_q_optionD" type="text" class="form-control input-underline input-lg" placeholder="Option D">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col col-lg-1 col-md-1">Ans</div>
+								<div class="col col-lg-4 col-md-4">
+									<select value="{{edit_q_ans}}" (change)="onselect_editq_select($event)" class="form-control">
+										<option value="">Select</option>
+										<option value="A">A</option>
+										<option value="B">B</option>
+										<option value="C">C</option>
+										<option value="D">D</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="updatequiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+
+					<!-- delete quiz -->
+					<ng-template #deletemodal let-c="close" let-d="dismiss">
+						<div class="modal-body">											
+							<div class="row">
+							<img src="assets/images/warning.png" class="warning-icon">											
+							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record!</span>									
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-danger" (click)="delquiz()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #deletecontentmodal let-c="close" let-d="dismiss">
+						<div class="modal-body">											
+							<div class="row">
+							<img src="assets/images/warning.png" class="warning-icon">											
+							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record!</span>									
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-danger" (click)="deletecontent()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #deleteimagemodal let-c="close" let-d="dismiss">
+						<div class="modal-body">											
+							<div class="row">
+							<img src="assets/images/warning.png" class="warning-icon">											
+							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record!</span>									
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-danger" (click)="delelteimage()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #deletevediomodal let-c="close" let-d="dismiss">
+						<div class="modal-body">											
+							<div class="row">
+							<img src="assets/images/warning.png" class="warning-icon">											
+							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record!</span>									
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-danger" (click)="vediodelete()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<!-- add file video -->
+					<ng-template #addvideomodal let-c="close" let-d="dismiss">
+						<div class="modal-body">
+							<div class="row padd15">
+								Please enter only filename. <br><b>Extension like .mp4, .pdf etc are NOT required.</b><br><br>
+								<input [(ngModel)]="video_file_name" type="text" class="form-control input-underline input-lg" placeholder="File name">
+							</div>								
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="addvideo()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #addcontentmodal let-c="close" let-d="dismiss" style="width: 666px;">
+						<div style="width: 100%; padding: 10px;">
+							<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+						</div>
+						<div class="modal-body" >
+							<div class="row padd15">
+								<div class="tab_content_height margintop30" style="width: 1000px;">
+									<ckeditor [editor]="Editor" [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
+								</div>
+								<button type="button" class="btn btn-primary" (click)="addcontent()" style = "margin-top: 10px;margin-left: 350px;">Add Content</button>
+								<div>
+									<div class="tab_content_height margintop30" style="  margin-right: 100px;
+										width: 462px;">
+											<table class="table50">
+												<tr>
+													<td>
+														<span class="bold-font">Upload image:</span>
+														<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+																<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+																attr.aria-valuenow="{{progress.percentage}}"
+																aria-valuemin="0" aria-valuemax="100" 
+																[ngStyle]="{width:progress.percentage+'%'}">
+																{{progress.percentage}}%
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<div class="file-upload">
+															<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
+														</div>
+													</td>
+													<td>
+													
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<div *ngIf = "s3path" class="image_preview_container">
+															<div class="image_preview">
+																<div>
+																	<img src="{{s3path}}" class="image" />
+																</div>
+															</div>
+														</div>
+													</td>
+													<td></td>
+												</tr>
+											</table>
+										</div>
+										<button type="button" class="btn btn-primary" (click)="addimage()" style = "margin-top: 10px;margin-left: 350px;">Upload Image</button>
+								</div>
+								<div>
+									<div class="tab_content_height margintop30" style="width: 465px;">
+										<table class="table50">
+											<tr>
+												<td>
+													<span class="bold-font">Upload video:</span>
+													<div *ngIf="currentvedioFileUpload" class="progress" [hidden]="hidevedioProgressbar">
+															<div class="progress-bar progress-bar-info progress-bar-striped" role="vedioprogress" 
+															attr.aria-valuenow="{{vedioprogress.percentage}}"
+															aria-valuemin="0" aria-valuemax="100" 
+															[ngStyle]="{width:vedioprogress.percentage+'%'}">
+															{{vedioprogress.percentage}}%
+														</div>
+													</div>
+												</td>
+												<td></td>
+											</tr>
+											<tr style="border: 1px solid gray; background-color: #d9d8d8;">
+												<td>
+													<div class="file-upload">
+														<input type="file" #fileInput (change)="videochooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<div *ngIf = "s3vediopath" class="image_preview_container">
+														<div class="image_preview">
+															<div style="text-align: center;">
+																<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 50%;"></span><br>
+																<span class="">{{s3vedioname  }}</span>
+															</div>
+														</div>
+													</div>
+												</td>
+												<td></td>
+											</tr>
+										</table>
+									</div>
+									<button type="button" class="btn btn-primary" (click)="addvedio()" style = "margin-top: 10px;margin-left: 350px;">Upload Video</button>
+								</div>
+							</div>								
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')" style="margin-right: 9px;">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="savecontent()">&nbsp;&nbsp;&nbsp;Save All&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #editcontentmodal let-c="close" let-d="dismiss">
+						<div style="width: 100%; padding: 10px;">
+							<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+						</div>
+						<div class="modal-body" >
+							<div class="row padd15">
+								Content
+								<div class="tab_content_height margintop30">
+									<ckeditor [editor]="Editor"  [(ngModel)]="edit_content_value" data="{{edit_content_value}}"></ckeditor>
+								</div>
+							</div>								
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="updatecontent()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #previewcontentmodal let-c="close" let-d="dismiss">
+						<div style="width: 100%; padding: 10px;">
+							<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+						</div>
+						<div class="modal-body" >
+							<div class="row padd15">
+								<div class="tab_content_height margintop30">
+									<ckeditor [editor]="Editor"  [(ngModel)]="text_to_preview" data="{{text_to_preview}}"></ckeditor>
+								</div>
+							</div>								
+						</div>
+					</ng-template>
+					<ng-template #editimagemodal let-c="close" let-d="dismiss">
+						<div style="width: 100%; padding: 10px;">
+							<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+						</div>
+						<div class="modal-body" >
+							<div class="row padd15">
+								<div class="tab_content_height margintop30" style="width: 462px;">
+									<table class="table50">
+										<tr>
+											<td>
+												<span class="bold-font">Upload image:</span>
+												<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+														<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+														attr.aria-valuenow="{{progress.percentage}}"
+														aria-valuemin="0" aria-valuemax="100" 
+														[ngStyle]="{width:progress.percentage+'%'}">
+														{{progress.percentage}}%
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="file-upload">
+													<input type="file" #fileInput (change)="edit_filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
+												</div>
+											</td>
+											<td>
+											
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="image_preview_container">
+													<div class="image_preview">
+														<div>
+															<img src="{{edit_s3_path}}" class="image" />
+														</div>
+													</div>
+												</div>
+											</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div>								
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="updateimage()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #previewimagemodal let-c="close" let-d="dismiss">
+						<!-- Close Button -->
+						<div style="width: 100%; padding: 10px;">
+							<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+						</div>
+					
+						<div class="modal-body">
+							<div class="row">
+								<div>
+									<div id="content_div">
+										<!-- Text Contents  -->
+										<div style="text-align: center;">
+											<div >
+												<div style="text-align: center;">
+													<img src="{{  image_to_preview  }}" style="width:493px"/>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+					<ng-template #previewvediomodal let-c="close" let-d="dismiss">
+						<!-- Close Button -->
+						<div style="width: 100%; padding: 10px;">
+							<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+						</div>
+					
+						<div class="modal-body">
+							<div class="row">
+								<div style="width: 100%; vertical-align: top;">
+									<div id="content_div" class="pad25">
+										<!-- Text Contents  -->
+										<div style="text-align: center;">
+											<video width="100%" height="100%" controls>
+												<source src="{{vedio_to_preview}}" type="video/mp4">
+											</video>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+					<ng-template #editvediomodal let-c="close" let-d="dismiss">
+						<div style="width: 100%; padding: 10px;">
+							<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
+						</div>
+						<div class="modal-body" >
+							<div class="row padd15">
+								<div class="tab_content_height margintop30" style="width: 462px;">
+									<table class="table50">
+										<tr>
+											<td>
+												<span class="bold-font">Upload video:</span>
+												<div *ngIf="currentvedioFileUpload" class="progress" [hidden]="hidevedioProgressbar">
+														<div class="progress-bar progress-bar-info progress-bar-striped" role="vedioprogress" 
+														attr.aria-valuenow="{{vedioprogress.percentage}}"
+														aria-valuemin="0" aria-valuemax="100" 
+														[ngStyle]="{width:vedioprogress.percentage+'%'}">
+														{{vedioprogress.percentage}}%
+													</div>
+												</div>
+											</td>
+											<td></td>
+										</tr>
+										<tr style="border: 1px solid gray; background-color: #d9d8d8;">
+											<td>
+												<div class="file-upload">
+													<input type="file" #fileInput (change)="edit_videochooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="image_preview_container">
+													<div class="image_preview">
+														<div style="text-align: center;">
+															<span><div class="imgcenter"><img src="assets/images/download.jpeg" class="imgpreview"></div></span><br>
+															<span class="">{{edit_s3vedioname}}</span>
+														</div>
+													</div>
+												</div>
+											</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div>								
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-primary" (click)="vedioupdate()">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<div>
+						
+						<!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button> -->
+					</div>
+				</div>
+            </div>                       
+        </div>        
+    </div>
+</div>
