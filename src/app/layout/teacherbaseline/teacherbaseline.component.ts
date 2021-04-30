@@ -229,7 +229,6 @@ export class TeacherbaselineComponent implements OnInit {
 	}
 
 	addquiz(){
-		console.log("12345",this.add_q_question,this.add_q_optionA,this.add_q_optionB,this.add_q_optionC,this.add_q_optionD)
 		if(this.add_q_question == '' || this.selected_qans_val_add == ''){
 			swal.fire('info', 'Please fill at least two options with answer!!!', 'warning');
 		}else{

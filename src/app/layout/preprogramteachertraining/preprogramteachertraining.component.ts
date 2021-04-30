@@ -347,8 +347,8 @@ export class PreprogrmateachertrainingComponent implements OnInit {
 			this.flashcard_value.splice(i,1);
 	}
 	addquiz(){
-		if(this.add_q_question == '' || this.add_q_optionA == '' || this.add_q_optionB == '' ||this.add_q_optionC == '' || this.add_q_optionD == '' || this.selected_qans_val_add == ''){
-			swal.fire('info', 'Please fill all the fields !!!', 'warning');
+		if(this.add_q_question == '' || this.selected_qans_val_add == ''){
+			swal.fire('info', 'Please fill at least two options with answer!!!', 'warning');
 		}else{
 			let obj = {
 				"qid": new Date().getTime(),
