@@ -1,38 +1,41 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest, HttpHeaders  } from '@angular/common/http';
 import { environment } from './../../../environments/environment.prod';
+import { Observable } from 'rxjs';
 
 const baseUrl = environment.baseUrl;
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeacherbaselineService {
+export class HomebaseService {
 	constructor(private http: HttpClient) { }
 
 	getallteacherassesment(type,language){
-		return this.http.get(baseUrl+'getteacherallassessment/'+type +'/'+ language,{
+		return this.http.get(baseUrl+'gethomebasedmasterdata/'+type +'/'+ language,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			
 		});
 	}
 
-	createteacherassesment(formData){
-		return this.http.post(baseUrl+'createteacherassessment',
+	
+	createhomebasemasterdata(formData){
+		return this.http.post(baseUrl+'savehomebasedmasterdata',
 		formData,{
 			headers: new HttpHeaders().set('enctype', 'multipart/form-data').set('Accept', 'application/json')
 			//,responseType: 'text' 
 		});
 	}
-	
-	updateteacherassesment(id,body) {
-		return this.http.put(baseUrl+'updateteacherassessment/'+id,
+	updatehomebasedmasterdata(id,body) {
+		return this.http.put(baseUrl+'updatehblmasterdata/'+id,
 		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text'
 		  });
 	}
+	
+	
 	updatetrainingcontentsbyid(id,body){
 		return this.http.put(baseUrl+'ppt_updatecontentbyid/'+id,
 		body,{
@@ -48,10 +51,21 @@ export class TeacherbaselineService {
 		});
 	}
 	deletecontent(id,body){
-		return this.http.put(baseUrl+'ppt_deletecontent/'+id,body,{
+		return this.http.put(baseUrl+'delete_homebasecontent/'+id,body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 
 		});
+	}
+
+	//to store files in server
+	pushFileToStorage(file: File, s3name): Observable<HttpEvent<{}>> {
+		const formdata: FormData = new FormData();
+		formdata.append('file', file);
+		const req = new HttpRequest('POST', baseUrl+'s3api/upload/'+s3name, formdata, {
+			reportProgress: true,
+			//responseType: 'text'
+		});
+		return this.http.request(req);
 	}
 	
 
@@ -73,37 +87,7 @@ export class TeacherbaselineService {
 	
 	
 
-	getalluser(){				
-		return this.http.get(baseUrl+'getalluser',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
-	}
 	
-	createnewuser(user){
-		return this.http.post(baseUrl+'createnewuser',
-		user,{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
-		});
-	}
-	
-	updateuser(id,user){
-		return this.http.put(baseUrl+'updateuser/'+id,
-		user,{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
-		});
-	}
-	
-	deleteuser(id){
-		return this.http.delete(baseUrl+'deleteuser/'+id,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
-		});
-	}
 }
 
 export class ValidationService {

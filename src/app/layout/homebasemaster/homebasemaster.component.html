@@ -6,10 +6,10 @@
                 <div class="card-header">
 					<div class="row">
 						<div class="col col-xl-4 col-lg-4">
-							<h4>Teacher Assesment question</h4>
+							<h4>Home Base Master</h4>
 						</div>
 						<div class="col">
-							
+							<button (click)="open(addactivitydoc,null,null,'add')"  class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Upload Activity Documents&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</div>					
 				</div>
@@ -33,7 +33,10 @@
 						<div class="col col-xl-4 col-lg-4">
 							<select value="" (change)="onselect_assesment_select($event)" class="form-control">
 								<option value="">Select</option>
-								<option value="baseline" selected>Baseline</option>				
+								<option value="baseline" selected>Baseline</option>			<option value="endline">Odia Activity</option>
+								<option value="endline">Math Activity</option>
+								<option value="endline">English Activity</option>
+								<option value="endline">Assesment</option>	
 								<option value="endline">Endline</option>					
 							</select>
 						</div>
@@ -98,6 +101,57 @@
 													<span class="delbtn" (click)="open(deletemodal,quiz,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
 												</div>
 											</td>
+										</tr>
+									</table>
+								</div>
+								<div>
+									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</ng-template>
+						</ngb-tab>
+						<ngb-tab>
+							<ng-template ngbTabTitle><b>Activity Document</b></ng-template>
+							<ng-template ngbTabContent>
+								<div class="tab_content_height margintop30">
+									<table class="table50">
+										<tr>
+											<span class="bold-font">Upload Activity Document:</span>
+											<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+													<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+													attr.aria-valuenow="{{progress.percentage}}"
+													aria-valuemin="0" aria-valuemax="100" 
+													[ngStyle]="{width:progress.percentage+'%'}">
+													{{progress.percentage}}%
+												</div>
+											</div>
+										</tr>
+										<tr>
+											<td>
+												<div class="file-upload">
+													<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="pdf" />
+												</div>
+											</td>
+											<td>
+												<!-- <button type="button" class="btn btn-primary" (click)="uploadactivitydoc()" style = "margin-top: 10px;margin-left: 307px;">Upload Documents</button> -->
+											</td>
+										</tr>
+										<tr class="tbl_tr" *ngIf = "activity_doc">
+											<td>
+												<div class="q_container">
+													<div class="row">
+														<span class="">
+															<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" style="width: 100px;"/>
+														</span>
+														
+													</div>
+												</div>
+												<div class="">
+													<!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
+														<span class="bold_font">{{ activity_doc }}</span>
+													<!-- </a> -->
+												</div>
+											</td>
+											
 										</tr>
 									</table>
 								</div>
@@ -213,6 +267,41 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
 							<button type="button" class="btn btn-danger" (click)="delquiz()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #addactivitydoc let-c="close" let-d="dismiss">
+						<div class="modal-body">											
+							<div>
+								<div class="tab_content_height margintop30" style="  margin-right: 100px;
+									width: 462px;">
+										<table class="table50">
+											<tr>
+												<td>
+													<span class="bold-font">Upload Activity Document:</span>
+													<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
+															<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+															attr.aria-valuenow="{{progress.percentage}}"
+															aria-valuemin="0" aria-valuemax="100" 
+															[ngStyle]="{width:progress.percentage+'%'}">
+															{{progress.percentage}}%
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<div class="file-upload">
+														<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="pdf" />
+													</div>
+												</td>
+												<td>
+												
+												</td>
+											</tr>
+										</table>
+									</div>
+									<button type="button" class="btn btn-primary" (click)="uploadactivitydoc()" style = "margin-top: 10px;margin-left: 307px;">Upload Documents</button>
+							</div>
 						</div>
 					</ng-template>
 					<ng-template #deletecontentmodal let-c="close" let-d="dismiss">

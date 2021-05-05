@@ -10,7 +10,7 @@ import { DataTableModule } from "angular-6-datatable";
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FileUploadModule } from 'ng2-file-upload';
 
-import { TeacherbaselineService } from  './homebasemaster.service';
+import { HomebaseService } from  './homebasemaster.service';
 @NgModule({
     imports: [
 		CommonModule, 
@@ -24,6 +24,6 @@ import { TeacherbaselineService } from  './homebasemaster.service';
 		NgbModule
 	],
     declarations: [HomebaseMasterComponent],
-	providers: [TeacherbaselineService]
+	providers: [HomebaseService]
 })
-export class TeacherBaselineModule {}
+export class HomebasemasterModule {}

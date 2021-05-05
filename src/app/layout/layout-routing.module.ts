@@ -76,6 +76,7 @@ const routes: Routes = [
       { path: 'trainingmisc', loadChildren: './trainingmisc/trainingmisc.module#TrainingMiscModule' },
       { path: 'hblmaster', loadChildren: './hblmaster/hblmaster.module#HblmasterModule' },
       //{ path: 'hblmaster', loadChildren: './hbl_master/hbl_master.module#hblmasterRoutingModule' },
+      { path: 'homebasemaster', loadChildren: './homebasemaster/homebasemaster.module#HomebasemasterModule' },
       { path: 'hblactivityreport', loadChildren: './hblactivityreport/hblactivityreport.module#HblactivityreportModule' },
       { path: 'pptreport', loadChildren: './pptreport/pptreport.module#PptreportModule' },
 	    { path: 'surveymaster', loadChildren: './surveymaster/surveymaster.module#SurveymasterModule' },

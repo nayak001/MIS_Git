@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
-import { TeacherbaselineService } from './homebasemaster.service';
+import { HomebaseService } from './homebasemaster.service';
 import { ManagersboxService } from  './../managersbox/managersbox.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -12,9 +12,9 @@ import { environment } from './../../../environments/environment.prod';
 const URL = environment.uploadURL;
 
 @Component({
-    selector: 'app-teacherbaseline',
-    templateUrl: './teacherbaseline.component.html',
-    styleUrls: ['./teacherbaseline.component.scss'],
+    selector: 'app-homebasemaster',
+    templateUrl: './homebasemaster.component.html',
+    styleUrls: ['./homebasemaster.component.scss'],
     animations: [routerTransition()]
 })
 
@@ -91,6 +91,7 @@ export class HomebaseMasterComponent implements OnInit {
 	video_value:any = [];
 	flashcard_value:any = [];
 	quiz_value:any = [];
+	activity_documents:any = [];
 	contents:any = [];
 	selectedvedioFiles:any;
 	displayvedioname:any;
@@ -109,7 +110,7 @@ export class HomebaseMasterComponent implements OnInit {
     constructor(
 		private modalService: NgbModal,
         public router: Router,
-		private TeacherbaselineService: TeacherbaselineService,
+		private HomebaseService: HomebaseService,
 		private managersboxService: ManagersboxService
 	) {
 		this.hideLoading_indicator = true;
@@ -211,10 +212,14 @@ export class HomebaseMasterComponent implements OnInit {
 		this.quiz_value = [];
 	}
 	dataid:any;
+	activity_doc :any;
 	async load_record(){
-			this.TeacherbaselineService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage).subscribe(data => {
+			this.HomebaseService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage).subscribe(data => {
+				console.log("data",data)
 				if(Object.keys(data).length > 0){
 					this.dataid = data[0]._id;
+					this.activity_doc = data[0].displayname
+					this.hideProgressbar = false;
 					this.quiz_value = data[0]['assessmentquestion'];
 					this.save_operation = 'update';
 				}else{
@@ -241,7 +246,7 @@ export class HomebaseMasterComponent implements OnInit {
 				"D": (this.add_q_optionD == '')?'':this.add_q_optionD,
 				"answer": this.selected_qans_val_add
 			}
-			console.log("obj",obj)
+			console.log("obj",obj,this.quiz_value)
 			this.quiz_value.push(obj);
 			this.modalReference.close();
 		}
@@ -259,17 +264,22 @@ export class HomebaseMasterComponent implements OnInit {
 		this.quiz_value.splice(this.edit_q_index, 1, obj);
 		this.modalReference.close();
 	}
+	openUploadDocModal(){
 
+	}
 	delquiz(){
 		this.quiz_value.splice(this.delete_q_index, 1);
+		console.log("this.quiz_value",this.quiz_value)
 		this.modalReference.close();
 	}
+	
 	async deletecontent(){
+		console.log("this.quiz_value",this.quiz_value)
 		var contentdata
 		var record_id;
 		
 	
-		this.TeacherbaselineService.deletecontent(record_id,contentdata).subscribe(data => {
+		this.HomebaseService.deletecontent(record_id,contentdata).subscribe(data => {
 			swal.fire('Success', 'Record updated successfully', 'success');
 			this.load_record();
 		},
@@ -285,15 +295,17 @@ export class HomebaseMasterComponent implements OnInit {
 			assessmentquestion : this.quiz_value,
 			language:this.selected_preflanguage,
 			type : this.selected_assesment,
+			activitydocument : this.s3path,
+			displayname : this.displayname
 		}
 
-		if(this.quiz_value.length>0 && this.save_operation == 'save'){
-			this.TeacherbaselineService.createteacherassesment(body).subscribe(data => {
+		if(this.quiz_value.length>0 || this.s3path != '' && this.save_operation == 'save'){
+			this.HomebaseService.createhomebasemasterdata(body).subscribe(data => {
 				swal.fire('Success', 'assesment created successfully', 'success');
 				this.load_record();
 			},error => {}, () => {});
-		}else if(this.quiz_value.length>0 && this.save_operation == 'update'){
-			this.TeacherbaselineService.updateteacherassesment(this.dataid,body).subscribe(data => {
+		}else if(this.quiz_value.length>0  || this.s3path != '' && this.save_operation == 'update'){
+			this.HomebaseService.updatehomebasedmasterdata(this.dataid,body).subscribe(data => {
 				console.log("data",data)
 				swal.fire('Success', 'assesment updated successfully', 'success');
 				this.load_record();
@@ -302,6 +314,32 @@ export class HomebaseMasterComponent implements OnInit {
 			swal.fire('info', 'Something went wrong !!!', 'warning');
 		}
 	}
-	
+
+	selectedFiles: FileList;
+	displayname: string;
+	filetype: string;
+	s3name: string;
+	filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedFiles = event.target.files;
+			this.displayname = event.target.files[0].name;
+			this.filetype = this.displayname.split('.').pop();
+			this.s3name = (new Date()).getTime()+'.'+this.filetype;
+			this.hideProgressbar = false;
+			this.progress.percentage = 0;
+			this.currentFileUpload = this.selectedFiles.item(0);
+			this.HomebaseService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+				if (event.type === HttpEventType.UploadProgress) {
+					this.progress.percentage = Math.round(100 * event.loaded / event.total);
+				} else if (event instanceof HttpResponse) {
+					this.s3path = event.body['s3path'];
+					this.hideProgressbar = true;
+				}
+			});
+		}else{
+			this.displayname = '';
+			this.selectedFiles = null;
+		}
+	}
 
 }

@@ -267,7 +267,7 @@ export class TeacherbaselineComponent implements OnInit {
 	async deletecontent(){
 		var contentdata
 		var record_id;
-		
+		console.log(record_id,contentdata)
 	
 		this.TeacherbaselineService.deletecontent(record_id,contentdata).subscribe(data => {
 			swal.fire('Success', 'Record updated successfully', 'success');
