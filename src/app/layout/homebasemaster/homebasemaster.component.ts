@@ -215,7 +215,6 @@ export class HomebaseMasterComponent implements OnInit {
 	activity_doc :any;
 	async load_record(){
 			this.HomebaseService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage).subscribe(data => {
-				console.log("data",data)
 				if(Object.keys(data).length > 0){
 					this.dataid = data[0]._id;
 					this.activity_doc = data[0].displayname
@@ -246,7 +245,6 @@ export class HomebaseMasterComponent implements OnInit {
 				"D": (this.add_q_optionD == '')?'':this.add_q_optionD,
 				"answer": this.selected_qans_val_add
 			}
-			console.log("obj",obj,this.quiz_value)
 			this.quiz_value.push(obj);
 			this.modalReference.close();
 		}
@@ -269,12 +267,24 @@ export class HomebaseMasterComponent implements OnInit {
 	}
 	delquiz(){
 		this.quiz_value.splice(this.delete_q_index, 1);
-		console.log("this.quiz_value",this.quiz_value)
 		this.modalReference.close();
 	}
-	
+	deleteactivity(){
+		this.hideProgressbar = true;
+		this.progress.percentage = 0;
+		this.s3path = '';
+		this.activity_doc = '';
+		const body = {
+			activitydocument : '',
+			displayname : ''
+		}
+		this.HomebaseService.updatehomebasedmasterdata(this.dataid,body).subscribe(data => {
+			swal.fire('Success', 'document deleted successfully', 'success');
+			this.load_record();
+		},error => {}, () => {});
+		this.modalReference.close();
+	}
 	async deletecontent(){
-		console.log("this.quiz_value",this.quiz_value)
 		var contentdata
 		var record_id;
 		
@@ -290,7 +300,6 @@ export class HomebaseMasterComponent implements OnInit {
 
 	
 	async save_btn_click(){
-		console.log("this.quiz_value",this.quiz_value,this.save_operation,this.selected_preflanguage)
 		const body = {
 			assessmentquestion : this.quiz_value,
 			language:this.selected_preflanguage,
@@ -306,7 +315,6 @@ export class HomebaseMasterComponent implements OnInit {
 			},error => {}, () => {});
 		}else if(this.quiz_value.length>0  || this.s3path != '' && this.save_operation == 'update'){
 			this.HomebaseService.updatehomebasedmasterdata(this.dataid,body).subscribe(data => {
-				console.log("data",data)
 				swal.fire('Success', 'assesment updated successfully', 'success');
 				this.load_record();
 			},error => {}, () => {});

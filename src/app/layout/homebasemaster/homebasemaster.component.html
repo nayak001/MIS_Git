@@ -9,7 +9,6 @@
 							<h4>Home Base Master</h4>
 						</div>
 						<div class="col">
-							<button (click)="open(addactivitydoc,null,null,'add')"  class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Upload Activity Documents&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</div>					
 				</div>
@@ -142,9 +141,12 @@
 														<span class="">
 															<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" style="width: 100px;"/>
 														</span>
-														
+														<span class="delbtn" (click)="open(activitydeletemodal, 'delete', i)" style="   margin-top: -15px;
+														margin-left: -18px;
+													"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
 													</div>
 												</div>
+												
 												<div class="">
 													<!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
 														<span class="bold_font">{{ activity_doc }}</span>
@@ -267,6 +269,18 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
 							<button type="button" class="btn btn-danger" (click)="delquiz()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</ng-template>
+					<ng-template #activitydeletemodal let-c="close" let-d="dismiss">
+						<div class="modal-body">											
+							<div class="row">
+							<img src="assets/images/warning.png" class="warning-icon">											
+							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this file!</span>									
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+							<button type="button" class="btn btn-danger" (click)="deleteactivity()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</ng-template>
 					<ng-template #addactivitydoc let-c="close" let-d="dismiss">
