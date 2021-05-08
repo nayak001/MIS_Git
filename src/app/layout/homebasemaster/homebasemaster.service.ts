@@ -12,14 +12,28 @@ const baseUrl = environment.baseUrl;
 export class HomebaseService {
 	constructor(private http: HttpClient) { }
 
-	getallteacherassesment(type,language){
-		return this.http.get(baseUrl+'gethomebasedmasterdata/'+type +'/'+ language,{
+	getallteacherassesment(type,language,selectedclass,month){
+		return this.http.get(baseUrl+'gethomebasedmasterdata/'+type +'/'+ language +'/'+ selectedclass +'/'+ month,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			
+		});
+	}
+
+	getactivitydocument(type){
+		return this.http.get(baseUrl+'getactivitydocument/'+type ,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			
 		});
 	}
 
 	
+	saveactivitydocument(formData){
+		return this.http.post(baseUrl+'saveactivitydocument',
+		formData,{
+			headers: new HttpHeaders().set('enctype', 'multipart/form-data').set('Accept', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
 	createhomebasemasterdata(formData){
 		return this.http.post(baseUrl+'savehomebasedmasterdata',
 		formData,{
@@ -50,8 +64,8 @@ export class HomebaseService {
 			//,responseType: 'text' 
 		});
 	}
-	deletecontent(id,body){
-		return this.http.put(baseUrl+'delete_homebasecontent/'+id,body,{
+	deletecontent(id){
+		return this.http.put(baseUrl+'delete_homebasecontent/'+id,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 
 		});
