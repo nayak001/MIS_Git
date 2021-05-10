@@ -384,6 +384,7 @@ export class HomebaseMasterComponent implements OnInit {
 		const body = {
 			language:this.selected_preflanguage,
 			activitydocument : this.s3path,
+			filetype:this.filetype,
 			displayname : this.displayname,
 		}
 		this.HomebaseService.saveactivitydocument(body).subscribe(data => {

@@ -13,7 +13,7 @@ export class HomebaseService {
 	constructor(private http: HttpClient) { }
 
 	getallteacherassesment(type,language,selectedclass,month){
-		return this.http.get(baseUrl+'gethomebasedmasterdata/'+type +'/'+ language +'/'+ selectedclass +'/'+ month,{
+		return this.http.get(baseUrl+'gethblassesmentquestion/'+type +'/'+ language +'/'+ selectedclass +'/'+ month,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			
 		});
