@@ -41,7 +41,7 @@
     "angular4-multiselect-dropdown": "^2.0.0",
     "async": "^2.6.3",
     "bigint-as-any-ts": "^1.0.2",
-    "chart.js": "2.7.3",
+    "chart.js": "2.9.4",
     "core-js": "2.5.7",
     "croppie": "^2.6.4",
     "datatables.net": "^1.10.19",
