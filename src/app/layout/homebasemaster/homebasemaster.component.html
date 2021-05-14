@@ -111,8 +111,8 @@
 											</td>
 											<td class="tbl_td">
 												<div>
-													<span class="addbtn" (click)="open(editmodal,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-													<span class="delbtn" (click)="open(deletemodal,quiz,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+													<span class="addbtn" (click)="open(editmodal,assessmentquestion,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+													<span class="delbtn" (click)="open(deletemodal,assessmentquestion._id,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
 												</div>
 											</td>
 										</tr>
@@ -215,7 +215,7 @@
 															<span class="">
 																<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" style="width: 100px;"/>
 															</span>
-															<span class="delbtn" (click)="open(activitydeletemodal, 'delete', i)" style="   margin-top: -15px;
+															<span class="delbtn" (click)="open(activitydeletemodal, doc,i,'delete')" style="   margin-top: -15px;
 															margin-left: -18px;
 														"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
 														</div>

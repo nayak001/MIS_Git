@@ -169,7 +169,11 @@ export class HomebaseMasterComponent implements OnInit {
 		this.selected_qans_val_add = selectedOptionValue;
 		this.selected_qans_text_add = selectElementText;
 	}
+	delete_ques_id:any;
+	edit_ques_id:any;
 	open(content,obj,index,flag) {
+		
+		console.log("content,obj,index,flag",content,obj,index,flag)
 		// update
 		if(flag == 'add'){
 			this.add_q_qid = '';
@@ -182,13 +186,16 @@ export class HomebaseMasterComponent implements OnInit {
 		} else if(flag == 'edit'){
 			this.edit_q_index = index;
 			this.edit_q_qid = obj.qid;
-			this.edit_q_question = obj.question;
+			this.edit_q_question = obj.assessmentquestion;
 			this.edit_q_optionA = obj.A;
 			this.edit_q_optionB = obj.B;
 			this.edit_q_optionC = obj.C;
 			this.edit_q_optionD = obj.D;
 			this.edit_q_ans = obj.answer;
+			this.edit_ques_id = obj._id;
 		} else if(flag == 'delete'){
+			this.delete_ques_id = obj;
+			this.delete_doc_id = obj._id;
 		} else if(flag == 'addvideo'){
 			
 		} else if(flag == 'addworksheet'){
@@ -262,7 +269,6 @@ export class HomebaseMasterComponent implements OnInit {
 		this.HomebaseService.getactivitydocument('hbl').subscribe(data => {
 			if(Object.keys(data).length > 0){
 				console.log("activity data",data)
-				this.delete_doc_id = data[0]._id
 				this.activity_doc = data;
 			}else{
 				
@@ -292,24 +298,28 @@ export class HomebaseMasterComponent implements OnInit {
 		}
 	}
 	updatequiz(){
-		let obj = {
-			"qid":this.edit_q_qid,
-			"question": this.edit_q_question,
-			// "A": this.edit_q_optionA,
-			// "B": this.edit_q_optionB,
-			// "C": this.edit_q_optionC,
-			// "D": this.edit_q_optionD,
-			// "answer": this.selected_qans_val_edit
+		const body = {
+			assessmentquestion : this.edit_q_question,
 		}
 		this.quiz_value = this.edit_q_question;
 		this.modalReference.close();
+		this.HomebaseService.updatehomebasedmasterdata(this.edit_ques_id,body).subscribe(data => {
+			swal.fire('Success', 'assesment updated successfully', 'success');
+			this.load_record();
+		},error => {}, () => {});
+		
 	}
 	openUploadDocModal(){
 
 	}
 	delquiz(){
 		//this.quiz_value.splice(this.delete_q_index, 1);
+		this.HomebaseService.deleteassesment(this.delete_ques_id).subscribe(data => {
+			swal.fire('Success', 'assesment deleted successfully', 'success');
+			this.load_record();
+		},error => {}, () => {});
 		this.modalReference.close();
+		this.load_record();
 	}
 	deleteactivity(){
 		console.log("here123",this.delete_doc_id)
@@ -323,10 +333,10 @@ export class HomebaseMasterComponent implements OnInit {
 		// }
 		this.HomebaseService.deletecontent(this.delete_doc_id).subscribe(data => {
 			swal.fire('Success', 'document deleted successfully', 'success');
-			this.load_record();
+			this.load_activity_record();
 		},error => {}, () => {});
 		this.modalReference.close();
-		this.load_activity_record();
+		// this.load_activity_record();
 	}
 	
 	async addquiz(){
@@ -354,16 +364,7 @@ export class HomebaseMasterComponent implements OnInit {
 				this.load_record();
 			},error => {}, () => {});
 			this.modalReference.close();
-			// if(this.quiz_value.length>0 || this.s3path != '' && this.save_operation == 'save'){
-				
-			// }else if(this.quiz_value.length>0  || this.s3path != '' && this.save_operation == 'update'){
-			// 	this.HomebaseService.updatehomebasedmasterdata(this.dataid,body).subscribe(data => {
-			// 		swal.fire('Success', 'assesment updated successfully', 'success');
-			// 		this.load_record();
-			// 	},error => {}, () => {});
-			// }else{
-			// 	swal.fire('info', 'Something went wrong !!!', 'warning');
-			// }
+			
 			
 		}
 	
@@ -408,6 +409,8 @@ export class HomebaseMasterComponent implements OnInit {
 			this.load_activity_record();
 			this.hideProgressbar = false;
 			this.progress.percentage = 0;
+			this.modalReference.close();
+			
 		},error => {}, () => {});
 	}
 

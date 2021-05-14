@@ -70,7 +70,13 @@ export class HomebaseService {
 			//,responseType: 'text' 
 		});
 	}
-
+	deleteassesment(id){
+		return this.http.put(baseUrl+'delete_homebasemastercontent/'+id,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//,responseType: 'text' 
+		});
+	}
+	
 	//to store files in server
 	pushFileToStorage(file: File, s3name): Observable<HttpEvent<{}>> {
 		const formdata: FormData = new FormData();
