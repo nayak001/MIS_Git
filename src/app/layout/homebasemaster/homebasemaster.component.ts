@@ -90,7 +90,7 @@ export class HomebaseMasterComponent implements OnInit {
 	worksheet_value:any = [];
 	video_value:any = [];
 	flashcard_value:any = [];
-	quiz_value:any = [];
+	quiz_value:string = '';
 	activity_documents:any = [];
 	contents:any = [];
 	selectedvedioFiles:any;
@@ -228,23 +228,25 @@ export class HomebaseMasterComponent implements OnInit {
 		this.video_value = [];
 		this.worksheet_value = [];
 		this.flashcard_value = [];
-		this.quiz_value = [];
+		this.quiz_value = '';
 	}
 	dataid:any;
-	activity_doc :any;
+	activity_doc:any = [];
 	selected_class:any = 0;
-	selected_month:any = 'month1';
+	selected_month:any = 'month0';
+	alldata:any;
 	async load_record(){
+		console.log("api called")
 			this.HomebaseService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage,this.selected_class,this.selected_month).subscribe(data => {
 				if(Object.keys(data).length > 0){
 					console.log("data",data)
+					this.alldata = data;
 					this.dataid = data[0]._id;
-					this.activity_doc = data[0].displayname
 					this.hideProgressbar = false;
-					this.quiz_value = data[0]['assessmentquestion'];
 					this.save_operation = 'update';
 				}else{
-					this.quiz_value = [];
+					this.quiz_value = '';
+					this.alldata = [];
 					this.save_operation = 'save';
 				}
 				},
@@ -261,7 +263,7 @@ export class HomebaseMasterComponent implements OnInit {
 			if(Object.keys(data).length > 0){
 				console.log("activity data",data)
 				this.delete_doc_id = data[0]._id
-				this.activity_doc = data[0].displayname
+				this.activity_doc = data;
 			}else{
 				
 			}
@@ -272,20 +274,20 @@ export class HomebaseMasterComponent implements OnInit {
    }
 	
 
-	addquiz(){
-		if(this.add_q_question == '' || this.selected_qans_val_add == ''){
-			swal.fire('info', 'Please fill at least two options with answer!!!', 'warning');
+	addquiz12(){
+		if(this.add_q_question == ''){
+			swal.fire('info', 'Please add the question!!!', 'warning');
 		}else{
 			let obj = {
 				"qid": new Date().getTime(),
 				"question": this.add_q_question,
-				"A": (this.add_q_optionA == '')?'':this.add_q_optionA,
-				"B": (this.add_q_optionB == '')?'':this.add_q_optionB,
-				"C": (this.add_q_optionC == '')?'':this.add_q_optionC,
-				"D": (this.add_q_optionD == '')?'':this.add_q_optionD,
-				"answer": this.selected_qans_val_add
+				// "A": (this.add_q_optionA == '')?'':this.add_q_optionA,
+				// "B": (this.add_q_optionB == '')?'':this.add_q_optionB,
+				// "C": (this.add_q_optionC == '')?'':this.add_q_optionC,
+				// "D": (this.add_q_optionD == '')?'':this.add_q_optionD,
+				// "answer": this.selected_qans_val_add
 			}
-			this.quiz_value.push(obj);
+			this.quiz_value = this.add_q_question;
 			this.modalReference.close();
 		}
 	}
@@ -293,20 +295,20 @@ export class HomebaseMasterComponent implements OnInit {
 		let obj = {
 			"qid":this.edit_q_qid,
 			"question": this.edit_q_question,
-			"A": this.edit_q_optionA,
-			"B": this.edit_q_optionB,
-			"C": this.edit_q_optionC,
-			"D": this.edit_q_optionD,
-			"answer": this.selected_qans_val_edit
+			// "A": this.edit_q_optionA,
+			// "B": this.edit_q_optionB,
+			// "C": this.edit_q_optionC,
+			// "D": this.edit_q_optionD,
+			// "answer": this.selected_qans_val_edit
 		}
-		this.quiz_value.splice(this.edit_q_index, 1, obj);
+		this.quiz_value = this.edit_q_question;
 		this.modalReference.close();
 	}
 	openUploadDocModal(){
 
 	}
 	delquiz(){
-		this.quiz_value.splice(this.delete_q_index, 1);
+		//this.quiz_value.splice(this.delete_q_index, 1);
 		this.modalReference.close();
 	}
 	deleteactivity(){
@@ -324,34 +326,47 @@ export class HomebaseMasterComponent implements OnInit {
 			this.load_record();
 		},error => {}, () => {});
 		this.modalReference.close();
-		this.activity_doc = '';
+		this.load_activity_record();
 	}
 	
-	async save_btn_click(){
-		console.log("1234",this.selected_class)
-		const body = {
-			assessmentquestion : this.quiz_value,
-			language:this.selected_preflanguage,
-			subject : this.selected_assesment,
-			activitydocument : this.s3path,
-			displayname : this.displayname,
-			class : this.selected_class,
-			month:this.selected_month
-		}
-
-		if(this.quiz_value.length>0 || this.s3path != '' && this.save_operation == 'save'){
+	async addquiz(){
+		if(this.add_q_question == ''){
+			swal.fire('info', 'Please add the question!!!', 'warning');
+		}else{
+			console.log("selected_assesment",this.selected_assesment,"this.quiz_value",this.quiz_value)
+			if(this.selected_assesment == 'baseline' || this.selected_assesment == 'endline'){
+				this.selected_month = 'month0'
+			}
+			else{
+				this.selected_month  = this.selected_month
+			}
+			const body = {
+				assessmentquestion : this.add_q_question,
+				language:this.selected_preflanguage,
+				type : this.selected_assesment,
+				activitydocument : this.s3path,
+				displayname : this.displayname,
+				class : this.selected_class,
+				month:this.selected_month
+			}
 			this.HomebaseService.createhomebasemasterdata(body).subscribe(data => {
 				swal.fire('Success', 'assesment created successfully', 'success');
 				this.load_record();
 			},error => {}, () => {});
-		}else if(this.quiz_value.length>0  || this.s3path != '' && this.save_operation == 'update'){
-			this.HomebaseService.updatehomebasedmasterdata(this.dataid,body).subscribe(data => {
-				swal.fire('Success', 'assesment updated successfully', 'success');
-				this.load_record();
-			},error => {}, () => {});
-		}else{
-			swal.fire('info', 'Something went wrong !!!', 'warning');
+			this.modalReference.close();
+			// if(this.quiz_value.length>0 || this.s3path != '' && this.save_operation == 'save'){
+				
+			// }else if(this.quiz_value.length>0  || this.s3path != '' && this.save_operation == 'update'){
+			// 	this.HomebaseService.updatehomebasedmasterdata(this.dataid,body).subscribe(data => {
+			// 		swal.fire('Success', 'assesment updated successfully', 'success');
+			// 		this.load_record();
+			// 	},error => {}, () => {});
+			// }else{
+			// 	swal.fire('info', 'Something went wrong !!!', 'warning');
+			// }
+			
 		}
+	
 	}
 
 	selectedFiles: FileList;
@@ -390,6 +405,9 @@ export class HomebaseMasterComponent implements OnInit {
 		this.HomebaseService.saveactivitydocument(body).subscribe(data => {
 			swal.fire('Success', 'assesment created successfully', 'success');
 			this.load_record();
+			this.load_activity_record();
+			this.hideProgressbar = false;
+			this.progress.percentage = 0;
 		},error => {}, () => {});
 	}
 

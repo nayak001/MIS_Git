@@ -88,7 +88,6 @@ export class AssessmentmasterComponent implements OnInit {
         .subscribe(
           (data) => {
             this.assessment_list = data;
-
             if (Object.keys(data).length > 0) {
               this.save_operation = "update";
               //this.record_id = data[0]['_id'];

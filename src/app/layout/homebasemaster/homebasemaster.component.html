@@ -29,14 +29,14 @@
 							</select>
 						</div>
 						<div class="col col-xl-2 col-lg-2">
-							Select program
+							Select subject
 						</div>
 						<div class="col col-xl-2 col-lg-2">
 							<select value="" (change)="onselect_assesment_select($event)" class="form-control">
 								<option value="">Select</option>
-								<option value="baseline" selected>Baseline</option>			<option value="odia_activity">Odia Activity</option>
-								<option value="math_activity">Math Activity</option>
-								<option value="english_activity">English Activity</option>
+								<option value="baseline" selected>Baseline</option>			<option value="odia">Odia Activity</option>
+								<option value="math">Math Activity</option>
+								<option value="english">English Activity</option>
 								<option value="assesment">Assesment</option>	
 								<option value="endline">Endline</option>					
 							</select>
@@ -63,6 +63,7 @@
 							<div class="col col-xl-2 col-lg-2">
 								<select value="" (change)="onselect_change_month($event)" class="form-control">
 									<option value="">Select</option>
+									<option value="month0" selected>month0</option>
 									<option value="month1" selected>month1</option>			<option value="month2">month2</option>
 									<option value="month3">month3</option>
 									<option value="month4">month4</option>
@@ -86,7 +87,7 @@
 
 				<div id="content_div" class="pad25" [hidden]="hideContent_div" >
 					<ngb-tabset>
-						 <!-- QUIZ TAB -->
+						 <!-- QUIZ TAB --> 
 						 <ngb-tab>
 							<ng-template ngbTabTitle><b>Assesment</b></ng-template>
 							<ng-template ngbTabContent>
@@ -94,109 +95,34 @@
 									<table class="table50">
 										<tr>
 											<td>
-												<span class="bold-font">Quizes:</span>
+												<span class="bold-font">Add Assesment:</span>
 												<span class="addbtn" (click)="open(addmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
 											</td>
 										</tr>
-										<tr *ngFor="let quiz of quiz_value; let i = index;" class="tbl_tr">
+										<tr *ngFor="let assessmentquestion of alldata; let i = index;" class="tbl_tr">
 											<td>
 												<div class="q_container">
 													<div class="row">
 														<div class="col col-xl-12 col-lg-12 q_div">
-															{{ i+1 }}. {{ quiz.question }}
-														</div>
-													</div>
-													<div class="row">
-														<div class="col col-xl-6 col-lg-6">
-															A. {{ quiz.A }}
-														</div>
-														<div class="col col-xl-6 col-lg-6">
-															B. {{ quiz.B }}
-														</div>
-													</div>
-													<div class="row">
-														<div class="col col-xl-6 col-lg-6">
-															C. {{ quiz.C }}
-														</div>
-														<div class="col col-xl-6 col-lg-6">
-															D. {{ quiz.D }}
-														</div>
-													</div>
-													<div class="row">
-														<div class="col col-xl-12 col-lg-12 ans_div">
-															Ans. {{ quiz.answer | uppercase }}
+															{{ i+1 }}. {{ assessmentquestion.assessmentquestion }}
 														</div>
 													</div>
 												</div>
 											</td>
 											<td class="tbl_td">
 												<div>
-													<span class="addbtn" (click)="open(editmodal,quiz,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+													<span class="addbtn" (click)="open(editmodal,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
 													<span class="delbtn" (click)="open(deletemodal,quiz,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
 												</div>
 											</td>
 										</tr>
 									</table>
 								</div>
-								<div>
+								<!-- <div>
 									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-								</div>
+								</div> -->
 							</ng-template>
 						</ngb-tab>
-						<!-- <ngb-tab>
-							<ng-template ngbTabTitle><b>Activity Document</b></ng-template>
-							<ng-template ngbTabContent>
-								<div class="tab_content_height margintop30">
-									<table class="table50">
-										<tr>
-											<span class="bold-font">Upload Activity Document:</span>
-											<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-													<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-													attr.aria-valuenow="{{progress.percentage}}"
-													aria-valuemin="0" aria-valuemax="100" 
-													[ngStyle]="{width:progress.percentage+'%'}">
-													{{progress.percentage}}%
-												</div>
-											</div>
-										</tr>
-										<tr>
-											<td>
-												<div class="file-upload">
-													<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="pdf" />
-												</div>
-											</td>
-											<td>
-												
-											</td>
-										</tr>
-										<tr class="tbl_tr" *ngIf = "activity_doc">
-											<td>
-												<div class="q_container">
-													<div class="row">
-														<span class="">
-															<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" style="width: 100px;"/>
-														</span>
-														<span class="delbtn" (click)="open(activitydeletemodal, 'delete', i)" style="   margin-top: -15px;
-														margin-left: -18px;
-													"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-													</div>
-												</div>
-												
-												<div class="">
-												
-														<span class="bold_font">{{ activity_doc }}</span>
-												
-												</div>
-											</td>
-											
-										</tr>
-									</table>
-								</div>
-								<div>
-									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-								</div>
-							</ng-template>
-						</ngb-tab> -->
 					</ngb-tabset>
 					
 
@@ -205,40 +131,6 @@
 						<div class="modal-body">											
 							<div class="row padd15">
 								<input [(ngModel)]="add_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
-							</div>
-							<div class="row marginb10">
-								<div class="col col-lg-1 col-md-1">A</div>
-								<div class="col col-lg-4 col-md-4">
-									<input [(ngModel)]="add_q_optionA" type="text" class="form-control input-underline input-lg" placeholder="Option A">
-								</div>
-								<div class="col col-lg-2 col-md-2"></div>
-								<div class="col col-lg-1 col-md-1">B</div>
-								<div class="col col-lg-4 col-md-4">
-									<input [(ngModel)]="add_q_optionB" type="text" class="form-control input-underline input-lg" placeholder="Option B">
-								</div>
-							</div>
-							<div class="row marginb10">
-								<div class="col col-lg-1 col-md-1">C</div>
-								<div class="col col-lg-4 col-md-4">
-									<input [(ngModel)]="add_q_optionC" type="text" class="form-control input-underline input-lg" placeholder="Option C">
-								</div>
-								<div class="col col-lg-2 col-md-2"></div>
-								<div class="col col-lg-1 col-md-1">D</div>
-								<div class="col col-lg-4 col-md-4">
-									<input [(ngModel)]="add_q_optionD" type="text" class="form-control input-underline input-lg" placeholder="Option D">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col col-lg-1 col-md-1">Ans</div>
-								<div class="col col-lg-4 col-md-4">
-									<select value="" (change)="onselect_addq_select($event)" class="form-control">
-										<option value="">Select</option>
-										<option value="A">A</option>
-										<option value="B">B</option>
-										<option value="C">C</option>
-										<option value="D">D</option>
-									</select>
-								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -251,40 +143,6 @@
 						<div class="modal-body">											
 							<div class="row padd15">
 								<input value="{{edit_q_question}}" [(ngModel)]="edit_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
-							</div>
-							<div class="row marginb10">
-								<div class="col col-lg-1 col-md-1">A</div>
-								<div class="col col-lg-4 col-md-4">
-									<input value="{{edit_q_optionA}}" [(ngModel)]="edit_q_optionA" type="text" class="form-control input-underline input-lg" placeholder="Option A">
-								</div>
-								<div class="col col-lg-2 col-md-2"></div>
-								<div class="col col-lg-1 col-md-1">B</div>
-								<div class="col col-lg-4 col-md-4">
-									<input value="{{edit_q_optionB}}" [(ngModel)]="edit_q_optionB" type="text" class="form-control input-underline input-lg" placeholder="Option B">
-								</div>
-							</div>
-							<div class="row marginb10">
-								<div class="col col-lg-1 col-md-1">C</div>
-								<div class="col col-lg-4 col-md-4">
-									<input value="{{edit_q_optionC}}" [(ngModel)]="edit_q_optionC" type="text" class="form-control input-underline input-lg" placeholder="Option C">
-								</div>
-								<div class="col col-lg-2 col-md-2"></div>
-								<div class="col col-lg-1 col-md-1">D</div>
-								<div class="col col-lg-4 col-md-4">
-									<input value="{{edit_q_optionD}}" [(ngModel)]="edit_q_optionD" type="text" class="form-control input-underline input-lg" placeholder="Option D">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col col-lg-1 col-md-1">Ans</div>
-								<div class="col col-lg-4 col-md-4">
-									<select value="{{edit_q_ans}}" (change)="onselect_editq_select($event)" class="form-control">
-										<option value="">Select</option>
-										<option value="A">A</option>
-										<option value="B">B</option>
-										<option value="C">C</option>
-										<option value="D">D</option>
-									</select>
-								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -350,7 +208,7 @@
 												
 												</td>
 											</tr>
-											<tr class="tbl_tr" *ngIf = "activity_doc">
+											<tr class="tbl_tr" *ngFor="let doc of activity_doc; let i = index;">
 												<td>
 													<div class="q_container">
 														<div class="row">
@@ -365,7 +223,7 @@
 													
 													<div class="">
 														<!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
-															<span class="bold_font">{{ activity_doc }}</span>
+															<span class="bold_font">{{ doc.displayname }}</span>
 														<!-- </a> -->
 													</div>
 												</td>
