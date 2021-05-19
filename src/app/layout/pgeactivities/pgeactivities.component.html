@@ -9,11 +9,19 @@
 								<h4>PGE ACTIVITIES</h4>
 							</div>
 							<div class="col">
-								<div [hidden]="hide_createnewsegment_button">
-									<button (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp; </button>
-									<button (click)="opencontentsmodal(addresourcesmodal)" class="btn btn-warning float-right" type="button" title="Add Resources"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Resource&nbsp;&nbsp;&nbsp;</button>
+								<div>
+									<button (click)="open(addmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Skill&nbsp;&nbsp;&nbsp; </button>
+									<button [hidden]="hide_createnewsegment_button" (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp; </button>
+									<button [hidden]="hide_createnewsegment_button" (click)="opencontentsmodal(addresourcesmodal)" class="btn btn-warning float-right" type="button" title="Add Resources"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Resource&nbsp;&nbsp;&nbsp;</button>
+								
 								</div>
 							</div>
+							
+							<!-- <div class="col">
+								<div>
+									<button (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Skill&nbsp;&nbsp;&nbsp; </button>
+								</div>
+							</div> -->
 					</div>					
 				</div>
 				
@@ -37,6 +45,17 @@
 													<ngb-tabset class="tabset1">
 								
 														<ngb-tab title="Contents">
+															<ng-template #addmodal let-c="close" let-d="dismiss">
+																<div class="modal-body">											
+																	<div class="row padd15">
+																		<input [(ngModel)]="add_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
+																	</div>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+																	<button type="button" class="btn btn-primary" (click)="addquiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+																</div>
+															</ng-template>
 															<ng-template ngbTabContent>
 																<div class="tab_content" >
 																	<!-- Text Contents  -->
@@ -95,7 +114,7 @@
 																</div>
 															</ng-template>
 														</ngb-tab>
-								
+														
 														<ngb-tab title="Videos">
 															<ng-template ngbTabContent>
 																<div class="tab_content" >

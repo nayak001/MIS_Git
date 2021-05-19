@@ -29,19 +29,6 @@
 							</select>
 						</div>
 						<div class="col col-xl-2 col-lg-2">
-							Select subject
-						</div>
-						<div class="col col-xl-2 col-lg-2">
-							<select value="" (change)="onselect_assesment_select($event)" class="form-control">
-								<option value="">Select</option>
-								<option value="baseline" selected>Baseline</option>			<option value="odia">Odia Activity</option>
-								<option value="math">Math Activity</option>
-								<option value="english">English Activity</option>
-								<option value="assesment">Assesment</option>	
-								<option value="endline">Endline</option>					
-							</select>
-						</div>
-						<div class="col col-xl-2 col-lg-2">
 							Select class
 						</div>
 						<div class="col col-xl-2 col-lg-2">
@@ -54,8 +41,23 @@
 								<option value="5">5(PGE)</option>					
 							</select>
 						</div>
+						<div class="col col-xl-2 col-lg-2">
+							Select subject
+						</div>
+						<div class="col col-xl-2 col-lg-2">
+							<select value="" (change)="onselect_assesment_select($event)" class="form-control">
+								<option value="">Select</option>
+								<option value="baseline" selected>Baseline</option>
+								<option *ngIf = 'selected_class == "0"'  value="eceActivity">ECE Activity</option>			
+								<option *ngIf = 'selected_class != "0"'  value="odia">Odia Activity</option>
+								<option *ngIf = 'selected_class != "0"'  value="math">Math Activity</option>
+								<option *ngIf = 'selected_class != "0"' value="english">English Activity</option>
+								<option value="assesment">Assesment</option>	
+								<option value="endline">Endline</option>					
+							</select>
+						</div>
 					</div>
-					<div class="card-body table-responsive">
+					<div class="card-body table-responsive" *ngIf = 'show_month'>
 						<div class="row">
 							<div class="col col-xl-2 col-lg-2">
 								Select Month
@@ -63,7 +65,6 @@
 							<div class="col col-xl-2 col-lg-2">
 								<select value="" (change)="onselect_change_month($event)" class="form-control">
 									<option value="">Select</option>
-									<option value="month0" selected>month0</option>
 									<option value="month1" selected>month1</option>			<option value="month2">month2</option>
 									<option value="month3">month3</option>
 									<option value="month4">month4</option>

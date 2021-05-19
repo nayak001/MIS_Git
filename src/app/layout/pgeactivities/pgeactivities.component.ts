@@ -691,6 +691,15 @@ export class PgeactivitiesComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+  open(content) {
+		console.log("hii",content)
+		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
+        this.modalReference.result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+	}
 
   openupdatetextcontentsmodal(content) {
     console.log('---> save_operation: ' + this.save_operation);

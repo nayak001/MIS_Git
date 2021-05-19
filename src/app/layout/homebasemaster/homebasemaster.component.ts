@@ -124,12 +124,18 @@ export class HomebaseMasterComponent implements OnInit {
 		this.load_activity_record()
 	}
 	selected_assesment:any = "baseline";
+	show_month:boolean = false;
 	onselect_assesment_select(event) {
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_assesment = selectedOptionValue;
+		if(this.selected_assesment == 'baseline' || this.selected_assesment == 'endline'){
+			this.show_month = false;
+		}else{
+			this.show_month = true; 
+		}
 		this.load_record();
 	}
 	
@@ -173,7 +179,6 @@ export class HomebaseMasterComponent implements OnInit {
 	edit_ques_id:any;
 	open(content,obj,index,flag) {
 		
-		console.log("content,obj,index,flag",content,obj,index,flag)
 		// update
 		if(flag == 'add'){
 			this.add_q_qid = '';
@@ -243,10 +248,8 @@ export class HomebaseMasterComponent implements OnInit {
 	selected_month:any = 'month0';
 	alldata:any;
 	async load_record(){
-		console.log("api called")
 			this.HomebaseService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage,this.selected_class,this.selected_month).subscribe(data => {
 				if(Object.keys(data).length > 0){
-					console.log("data",data)
 					this.alldata = data;
 					this.dataid = data[0]._id;
 					this.hideProgressbar = false;
@@ -268,7 +271,6 @@ export class HomebaseMasterComponent implements OnInit {
 	async load_activity_record(){
 		this.HomebaseService.getactivitydocument('hbl').subscribe(data => {
 			if(Object.keys(data).length > 0){
-				console.log("activity data",data)
 				this.activity_doc = data;
 			}else{
 				
@@ -322,7 +324,6 @@ export class HomebaseMasterComponent implements OnInit {
 		this.load_record();
 	}
 	deleteactivity(){
-		console.log("here123",this.delete_doc_id)
 		// this.hideProgressbar = true;
 		// this.progress.percentage = 0;
 		// this.s3path = '';
@@ -343,7 +344,6 @@ export class HomebaseMasterComponent implements OnInit {
 		if(this.add_q_question == ''){
 			swal.fire('info', 'Please add the question!!!', 'warning');
 		}else{
-			console.log("selected_assesment",this.selected_assesment,"this.quiz_value",this.quiz_value)
 			if(this.selected_assesment == 'baseline' || this.selected_assesment == 'endline'){
 				this.selected_month = 'month0'
 			}
