@@ -691,6 +691,9 @@ export class PgeactivitiesComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+  click_to_add_skill(){
+		this.router.navigate(['/pgskillmaster']);
+	}
   open(content) {
 		console.log("hii",content)
 		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});

@@ -84,6 +84,8 @@ const routes: Routes = [
       { path: 'ppt', loadChildren: './preprogramteachertraining/preprogramteachertraining.module#PreprgrameTeacherTrainingModule' },
       { path: 'teacherbaseline', loadChildren: './teacherbaseline/teacherbaseline.module#TeacherBaselineModule' },
       { path: 'preprogramtrainingmodule', loadChildren: './preprogramtrainingmodules/preprogramtrainingmodules.module#PreprogramtrainingModule' },
+      { path: 'pgskillmaster', loadChildren: './pgeskillmaster/pgeskillmaster.module#pgskillmasterModule' },
+      
     ]
   }
 ];
