@@ -1,62 +1,66 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { routerTransition } from '../../router.animations';
-import { Router } from '@angular/router';
-import { HttpResponse, HttpEventType } from '@angular/common/http';
-import swal from 'sweetalert2';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { routerTransition } from "../../router.animations";
+import { Router } from "@angular/router";
+import { HttpResponse, HttpEventType } from "@angular/common/http";
+import swal from "sweetalert2";
+import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-import { PgeactivitiesService } from './pgeactivities.service';
-import { GalleryService } from  './../gallery/gallery.service';
-
+import { PgeactivitiesService } from "./pgeactivities.service";
+import { GalleryService } from "./../gallery/gallery.service";
 
 @Component({
-  selector: 'app-pgeactivities',
-  templateUrl: './pgeactivities.component.html',
-  styleUrls: ['./pgeactivities.component.scss'],
+  selector: "app-pgeactivities",
+  templateUrl: "./pgeactivities.component.html",
+  styleUrls: ["./pgeactivities.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  animations: [routerTransition()]
+  animations: [routerTransition()],
 })
 export class PgeactivitiesComponent implements OnInit {
-  @ViewChild('updatetextcontentsmodal') updatetextcontentsmodal: any;
-  @ViewChild('updateimagecontentsmodal') updateimagecontentsmodal: any;
-  @ViewChild('updatevideocontentsmodal') updatevideocontentsmodal: any;
-  @ViewChild('textpreviewmodal') textpreviewmodal: any;
-  @ViewChild('imagepreviewmodal') imagepreviewmodal: any;
-  @ViewChild('videopreviewmodal') videopreviewmodal: any;
-  
-	// File chooser variables
-	selectedFiles: FileList;
-	displayname: string;
-	filetype: string;
+  @ViewChild("updatetextcontentsmodal") updatetextcontentsmodal: any;
+  @ViewChild("updateimagecontentsmodal") updateimagecontentsmodal: any;
+  @ViewChild("updatevideocontentsmodal") updatevideocontentsmodal: any;
+  @ViewChild("textpreviewmodal") textpreviewmodal: any;
+  @ViewChild("imagepreviewmodal") imagepreviewmodal: any;
+  @ViewChild("videopreviewmodal") videopreviewmodal: any;
+
+  // File chooser variables
+  selectedFiles: FileList;
+  displayname: string;
+  filetype: string;
   s3name: string;
-  
+
   public Editor1 = ClassicEditor;
   public Editor2 = ClassicEditor;
 
-  save_operation: string = '';
-  record_id: string = '';
-  selected_preflanguage = '';
-  selected_class: string = '';
-  selected_subject: string = '';
-  selected_week: string = '';
+  save_operation: string = "";
+  record_id: string = "";
+  selected_preflanguage = "";
+  selected_class: string = "";
+  selected_subject: string = "";
+  selected_week: string = "";
 
-  
-  class_select_option_list: any = [{value: '1', text: 'Class 1'}, {value: '2', text: 'Class 2'}, {value: '3', text: 'Class 3'}, {value: '4', text: 'Class 4'}, {value: '5', text: 'Class 5'}];
+  class_select_option_list: any = [
+    { value: "1", text: "Class 1" },
+    { value: "2", text: "Class 2" },
+    { value: "3", text: "Class 3" },
+    { value: "4", text: "Class 4" },
+    { value: "5", text: "Class 5" },
+  ];
   week_select_option_list: any = [];
 
   extraresources_list: any = [];
   segments_list: any = [];
   selected_segment_index: number = -1;
   selected_segment: any = {};
-  selected_segment_type: string = '';
-  selected_segment_displayname: string = '';
-  selected_segment_s3name: string = '';
-  selected_segment_filetype: string = '';
-  selected_segment_s3_url: string = '';
-  selected_segment_preview_url: string = '';
-  selected_segment_value: string = '';
-  current_segment_details: string = '';
+  selected_segment_type: string = "";
+  selected_segment_displayname: string = "";
+  selected_segment_s3name: string = "";
+  selected_segment_filetype: string = "";
+  selected_segment_s3_url: string = "";
+  selected_segment_preview_url: string = "";
+  selected_segment_value: string = "";
+  current_segment_details: string = "";
 
   hide_Loading_indicator: boolean;
   hide_createnewsegment_button: boolean = false;
@@ -64,18 +68,17 @@ export class PgeactivitiesComponent implements OnInit {
   closeResult: string;
   modalReference: any;
 
-  content_value: string = '';
+  content_value: string = "";
   image_value: any = [];
   video_value: any = [];
 
-  text_to_preview: string = '';
-  image_to_preview: string = '';
-  video_to_play: string = '';
+  text_to_preview: string = "";
+  image_to_preview: string = "";
+  video_to_play: string = "";
 
   // to delete
-  skillset_label: string = 'Skill Set';
+  skillset_label: string = "Skill Set";
   month_select_option_list: any = [];
-
 
   constructor(
     private modalService: NgbModal,
@@ -83,88 +86,119 @@ export class PgeactivitiesComponent implements OnInit {
     private pgeactivitiesService: PgeactivitiesService,
     private galleryService: GalleryService
   ) {
-    this.selected_class = '';
-    this.selected_subject = '';
-    this.selected_week = '';
-    
-    this.content_value = '';
+    this.selected_class = "";
+    this.selected_subject = "";
+    this.selected_week = "";
+
+    this.content_value = "";
     this.video_value = [];
 
     //this.skillset_label = 'Skill Set';
-    this.class_select_option_list = [{value: '1', text: 'Class 1'}, {value: '2', text: 'Class 2'}, {value: '3', text: 'Class 3'}, {value: '4', text: 'Class 4'}, {value: '5', text: 'Class 5'}];
+    this.class_select_option_list = [
+      { value: "1", text: "Class 1" },
+      { value: "2", text: "Class 2" },
+      { value: "3", text: "Class 3" },
+      { value: "4", text: "Class 4" },
+      { value: "5", text: "Class 5" },
+    ];
     //this.month_select_option_list = [{value: '1', text: 'Skill 1-4'}, {value: '2', text: 'Skill 5-8'}, {value: '3', text: 'Skill 9-12'}, {value: '4', text: 'Skill 13-16'}, {value: '5', text: 'Skill 17-20'}];
-    
+
     this.hide_Loading_indicator = true;
     this.hide_createnewsegment_button = true;
   }
 
   ngOnInit() {}
 
-	filechooser_onchange(event) {
-		if(event.target.files.length > 0){
-			this.selectedFiles = event.target.files;
-			this.displayname = event.target.files[0].name;
-			this.filetype = this.displayname.split('.').pop();
-			this.s3name = (new Date()).getTime()+'.'+this.filetype;
-		}else{
-			this.displayname = '';
-			this.selectedFiles = null;
-		}
-	}
+  filechooser_onchange(event) {
+    if (event.target.files.length > 0) {
+      this.selectedFiles = event.target.files;
+      this.displayname = event.target.files[0].name;
+      this.filetype = this.displayname.split(".").pop();
+      this.s3name = new Date().getTime() + "." + this.filetype;
+    } else {
+      this.displayname = "";
+      this.selectedFiles = null;
+    }
+  }
 
   preflanguage_select_onchange(event) {
-    const selectedOptions = event.target['options'];
+    const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_preflanguage = selectedOptionValue;
 
     // Reset other dropdown list
-    this.selected_class = '';
-    this.selected_subject = '';
-    this.selected_week = '';
+    this.selected_class = "";
+    this.selected_subject = "";
+    this.selected_week = "";
 
     //this.load_assessmentlist();
-    this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_subject,
+      this.selected_week,
+      this.selected_class
+    );
   }
 
   class_select_onchange(value) {
-    const selectedOptions = event.target['options'];
+    const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_class = selectedOptionValue;
-    
-    this.selected_week = '';
+
+    this.selected_week = "";
     this.load_assessmentlist();
-    this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_subject,
+      this.selected_week,
+      this.selected_class
+    );
   }
 
   subject_select_onchange(value) {
-    const selectedOptions = event.target['options'];
+    const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
-    
+
     this.load_assessmentlist();
-    this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_subject,
+      this.selected_week,
+      this.selected_class
+    );
   }
 
   week_select_onchange(value) {
-    const selectedOptions = event.target['options'];
+    const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
+    console.log(
+      "-->Selected Opt Value= " +
+        selectedOptionValue +
+        "   Text= " +
+        selectElementText
+    );
     this.selected_week = selectedOptionValue;
-    this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_subject,
+      this.selected_week,
+      this.selected_class
+    );
   }
 
   // ====================================== Segment related codes started from here =================================
 
   segment_select_onchange(value) {
-    const selectedOptions = event.target['options'];
+    const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
@@ -172,318 +206,411 @@ export class PgeactivitiesComponent implements OnInit {
     this.load_segment(this.selected_segment_index);
   }
 
-  reset_segment(){
-    this.selected_segment             = {};
-    this.selected_segment_type        = '';
-    this.selected_segment_displayname = '';
-    this.selected_segment_s3name      = '';
-    this.selected_segment_filetype    = '';
-    this.selected_segment_s3_url      = '';
-    this.selected_segment_preview_url = '';
-    this.selected_segment_value       = '';
-    this.current_segment_details      = '';
-    this.hide_Loading_indicator       = true;
+  reset_segment() {
+    this.selected_segment = {};
+    this.selected_segment_type = "";
+    this.selected_segment_displayname = "";
+    this.selected_segment_s3name = "";
+    this.selected_segment_filetype = "";
+    this.selected_segment_s3_url = "";
+    this.selected_segment_preview_url = "";
+    this.selected_segment_value = "";
+    this.current_segment_details = "";
+    this.hide_Loading_indicator = true;
   }
 
-  async load_segment(idx){
+  async load_segment(idx) {
     this.reset_segment();
-    this.hide_Loading_indicator       = false;
+    this.hide_Loading_indicator = false;
 
     this.selected_segment = this.segments_list[idx];
-    console.log('--> selected_segment: '+JSON.stringify(this.selected_segment));
-    if(this.selected_segment == undefined || this.selected_segment == null || Object.keys(this.selected_segment).length <= 0){
+    console.log(
+      "--> selected_segment: " + JSON.stringify(this.selected_segment)
+    );
+    if (
+      this.selected_segment == undefined ||
+      this.selected_segment == null ||
+      Object.keys(this.selected_segment).length <= 0
+    ) {
       this.reset_segment();
-    }else{
-      this.selected_segment_type        = this.selected_segment.type;
+    } else {
+      this.selected_segment_type = this.selected_segment.type;
       this.selected_segment_displayname = this.selected_segment.displayname;
-      this.selected_segment_s3name      = this.selected_segment.s3name;
-      this.selected_segment_filetype    = this.selected_segment.filetype;
-      this.selected_segment_s3_url      = this.selected_segment.s3_url;
+      this.selected_segment_s3name = this.selected_segment.s3name;
+      this.selected_segment_filetype = this.selected_segment.filetype;
+      this.selected_segment_s3_url = this.selected_segment.s3_url;
       this.selected_segment_preview_url = this.selected_segment.preview_url;
-      this.selected_segment_value       = this.selected_segment.value;
+      this.selected_segment_value = this.selected_segment.value;
 
-      if(this.selected_segment_type == 'text_content'){
+      if (this.selected_segment_type == "text_content") {
         this.current_segment_details = this.selected_segment_value;
         this.hide_Loading_indicator = true;
-      }else if(this.selected_segment_type == 'image_content'){
-        this.current_segment_details = '<div class="imgcenter"><img src='+this.selected_segment_s3_url+' class="imgpreview" /></div>';
+      } else if (this.selected_segment_type == "image_content") {
+        this.current_segment_details =
+          '<div class="imgcenter"><img src=' +
+          this.selected_segment_s3_url +
+          ' class="imgpreview" /></div>';
         this.hide_Loading_indicator = true;
-      }else if(this.selected_segment_type == 'video_content'){
-        this.current_segment_details = '<div class="imgcenter"><img src="assets/images/video_preview.jpg" class="imgpreview" /></div>';
+      } else if (this.selected_segment_type == "video_content") {
+        this.current_segment_details =
+          '<div class="imgcenter"><img src="assets/images/video_preview.jpg" class="imgpreview" /></div>';
         this.hide_Loading_indicator = true;
       }
     }
   }
 
-  delete_segment_btn_click(){
-    swal.fire({
-      title: 'Are you sure?',
-      text: "Do you want to remove this segement?",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.delete_segment();
-      }
-    });
+  delete_segment_btn_click() {
+    swal
+      .fire({
+        title: "Are you sure?",
+        text: "Do you want to remove this segement?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.delete_segment();
+        }
+      });
   }
 
-  delete_segment(){
-    console.log('-->delete_segment()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
+  delete_segment() {
+    console.log(
+      "-->delete_segment()    Segment Index Value= " +
+        this.selected_segment_index +
+        "    Record id: " +
+        this.record_id +
+        "    content type: " +
+        this.selected_segment_type
+    );
     let segment_to_delete = this.segments_list[this.selected_segment_index];
-    console.log('-->segment_to_delete: '+JSON.stringify(segment_to_delete));
+    console.log("-->segment_to_delete: " + JSON.stringify(segment_to_delete));
     let file_to_delete = segment_to_delete.s3name;
     this.segments_list.splice(this.selected_segment_index, 1);
     const body = {
-      segment: this.segments_list
-    }
+      segment: this.segments_list,
+    };
 
-    if(this.selected_segment_type == 'image_content' || this.selected_segment_type == 'video_content'){
-      this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(data1 => {
-          console.log('@@@s3 data delete: '+JSON.stringify(data1));
+    if (
+      this.selected_segment_type == "image_content" ||
+      this.selected_segment_type == "video_content"
+    ) {
+      this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(
+        (data1) => {
+          console.log("@@@s3 data delete: " + JSON.stringify(data1));
           this.update_record(this.record_id, body);
           this.go_btn_click();
-        }, error => {}, () => {}
+        },
+        (error) => {},
+        () => {}
       );
-    }else{
+    } else {
       this.update_record(this.record_id, body);
       this.go_btn_click();
     }
   }
 
-  update_segment_btn_click(){
-    console.log('-->update_segment_btn_click()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
+  update_segment_btn_click() {
+    console.log(
+      "-->update_segment_btn_click()    Segment Index Value= " +
+        this.selected_segment_index +
+        "    Record id: " +
+        this.record_id +
+        "    content type: " +
+        this.selected_segment_type
+    );
     let segment_to_update = this.segments_list[this.selected_segment_index];
-    console.log('-->segment_to_update: '+JSON.stringify(segment_to_update));
-    if(this.selected_segment_type == 'text_content'){
+    console.log("-->segment_to_update: " + JSON.stringify(segment_to_update));
+    if (this.selected_segment_type == "text_content") {
       this.openupdatetextcontentsmodal(this.updatetextcontentsmodal);
-    } else if(this.selected_segment_type == 'image_content'){
+    } else if (this.selected_segment_type == "image_content") {
       this.openupdateimagecontentsmodal(this.updateimagecontentsmodal);
-    } else if(this.selected_segment_type == 'video_content'){
+    } else if (this.selected_segment_type == "video_content") {
       this.openupdatevideocontentsmodal(this.updatevideocontentsmodal);
     }
   }
 
-  update_segment(modalwindow){
-    console.log('-->update_segment()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
+  update_segment(modalwindow) {
+    console.log(
+      "-->update_segment()    Segment Index Value= " +
+        this.selected_segment_index +
+        "    Record id: " +
+        this.record_id +
+        "    content type: " +
+        this.selected_segment_type
+    );
 
-    if(modalwindow == 'textcontentsmodal'){
+    if (modalwindow == "textcontentsmodal") {
       let newobj = {
-        type: 'text_content',
+        type: "text_content",
         displayname: null,
         s3name: null,
         filetype: null,
         s3_url: null,
         preview_url: null,
-        value: this.content_value
-      }
-      this.segments_list.splice(this.selected_segment_index,1,newobj);
+        value: this.content_value,
+      };
+      this.segments_list.splice(this.selected_segment_index, 1, newobj);
       let body = {
-        segment: this.segments_list
-      }
+        segment: this.segments_list,
+      };
       this.update_record(this.record_id, body);
       this.modalReference.close();
-    }else if(modalwindow == 'imagecontentsmodal'){
+    } else if (modalwindow == "imagecontentsmodal") {
       let oldfilename = this.segments_list[this.selected_segment_index].s3name;
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
-      this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
-        console.log('$$$event: '+JSON.stringify(event));
-        if (event.type === HttpEventType.UploadProgress) {
-          this.progress.percentage = Math.round(100 * event.loaded / event.total);
-        } else if (event instanceof HttpResponse) {
-          this.hideProgressbar = true;
-          this.s3path = event.body['s3path'];
-          console.log('File is completely uploaded!->'+this.s3path);
-          let newobj = {
-            type: 'image_content',
-            displayname: this.displayname,
-            s3name: this.s3name,
-            filetype: this.filetype,
-            s3_url: this.s3path,
-            preview_url: this.s3path,
-            value: this.s3path
+      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
+      this.galleryService
+        .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+        .subscribe((event) => {
+          console.log("$$$event: " + JSON.stringify(event));
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress.percentage = Math.round(
+              (100 * event.loaded) / event.total
+            );
+          } else if (event instanceof HttpResponse) {
+            this.hideProgressbar = true;
+            this.s3path = event.body["s3path"];
+            console.log("File is completely uploaded!->" + this.s3path);
+            let newobj = {
+              type: "image_content",
+              displayname: this.displayname,
+              s3name: this.s3name,
+              filetype: this.filetype,
+              s3_url: this.s3path,
+              preview_url: this.s3path,
+              value: this.s3path,
+            };
+            this.segments_list.splice(this.selected_segment_index, 1, newobj);
+            let body = {
+              segment: this.segments_list,
+            };
+            this.update_record(this.record_id, body);
+            this.galleryService.deleteFromStorage(null, oldfilename).subscribe(
+              (data1) => {
+                console.log("@@@s3 data delete: " + JSON.stringify(data1));
+              },
+              (error) => {},
+              () => {}
+            );
+            this.modalReference.close();
           }
-          this.segments_list.splice(this.selected_segment_index,1,newobj);
-          let body = {
-            segment: this.segments_list
-          }
-          this.update_record(this.record_id, body);
-          this.galleryService.deleteFromStorage(null, oldfilename).subscribe(data1 => {
-              console.log('@@@s3 data delete: '+JSON.stringify(data1));
-            }, error => {}, () => {}
-          );
-          this.modalReference.close();
-        }
-      });
-    }else if(modalwindow == 'videocontentsmodal'){
+        });
+    } else if (modalwindow == "videocontentsmodal") {
       let oldfilename = this.segments_list[this.selected_segment_index].s3name;
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
-      this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
-        console.log('$$$event: '+JSON.stringify(event));
-        if (event.type === HttpEventType.UploadProgress) {
-          this.progress.percentage = Math.round(100 * event.loaded / event.total);
-        } else if (event instanceof HttpResponse) {
-          this.hideProgressbar = true;
-          this.s3path = event.body['s3path'];
-          console.log('File is completely uploaded!->'+this.s3path);
-          let newobj = {
-            type: 'video_content',
-            displayname: this.displayname,
-            s3name: this.s3name,
-            filetype: this.filetype,
-            s3_url: this.s3path,
-            preview_url: this.s3path,
-            value: this.s3path
+      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
+      this.galleryService
+        .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+        .subscribe((event) => {
+          console.log("$$$event: " + JSON.stringify(event));
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress.percentage = Math.round(
+              (100 * event.loaded) / event.total
+            );
+          } else if (event instanceof HttpResponse) {
+            this.hideProgressbar = true;
+            this.s3path = event.body["s3path"];
+            console.log("File is completely uploaded!->" + this.s3path);
+            let newobj = {
+              type: "video_content",
+              displayname: this.displayname,
+              s3name: this.s3name,
+              filetype: this.filetype,
+              s3_url: this.s3path,
+              preview_url: this.s3path,
+              value: this.s3path,
+            };
+            this.segments_list.splice(this.selected_segment_index, 1, newobj);
+            let body = {
+              segment: this.segments_list,
+            };
+            this.update_record(this.record_id, body);
+            this.galleryService.deleteFromStorage(null, oldfilename).subscribe(
+              (data1) => {
+                console.log("@@@s3 data delete: " + JSON.stringify(data1));
+              },
+              (error) => {},
+              () => {}
+            );
+            this.modalReference.close();
           }
-          this.segments_list.splice(this.selected_segment_index,1,newobj);
-          let body = {
-            segment: this.segments_list
-          }
-          this.update_record(this.record_id, body);
-          this.galleryService.deleteFromStorage(null, oldfilename).subscribe(data1 => {
-              console.log('@@@s3 data delete: '+JSON.stringify(data1));
-            }, error => {}, () => {}
-          );
-          this.modalReference.close();
-        }
-      });
+        });
     }
   }
 
-  preview_segment_btn_click(){
-    console.log('-->update_segment()    Segment Index Value= ' + this.selected_segment_index+'    Record id: '+this.record_id+'    content type: '+this.selected_segment_type);
-    if(this.selected_segment_type == 'text_content'){
+  preview_segment_btn_click() {
+    console.log(
+      "-->update_segment()    Segment Index Value= " +
+        this.selected_segment_index +
+        "    Record id: " +
+        this.record_id +
+        "    content type: " +
+        this.selected_segment_type
+    );
+    if (this.selected_segment_type == "text_content") {
       this.opentextpreviewmodal(this.textpreviewmodal);
-    }else if(this.selected_segment_type == 'image_content'){
+    } else if (this.selected_segment_type == "image_content") {
       this.openimagepreviewmodal(this.imagepreviewmodal);
-    }else if(this.selected_segment_type == 'video_content'){
+    } else if (this.selected_segment_type == "video_content") {
       this.openvideopreviewmodal(this.videopreviewmodal);
     }
   }
 
   // Resources
-  add_resources_btn_click(){
-    if(this.save_operation == 'save'){
-			swal.fire('info', 'Please add atleast one segment first', 'warning');
+  add_resources_btn_click() {
+    if (this.save_operation == "save") {
+      swal.fire("info", "Please add atleast one segment first", "warning");
       this.modalReference.close();
-    }else{
+    } else {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
-      this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
-        console.log('$$$event: '+JSON.stringify(event));
-        if (event.type === HttpEventType.UploadProgress) {
-          this.progress.percentage = Math.round(100 * event.loaded / event.total);
-        } else if (event instanceof HttpResponse) {
-          this.hideProgressbar = true;
-          this.s3path = event.body['s3path'];
-          console.log('File is completely uploaded!->'+this.s3path);
-          let newobj = {
-            type: 'resources',
-            displayname: this.displayname,
-            s3name: this.s3name,
-            filetype: this.filetype,
-            s3_url: this.s3path,
-            preview_url: this.s3path,
-            value: this.s3path
+      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
+      this.galleryService
+        .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+        .subscribe((event) => {
+          console.log("$$$event: " + JSON.stringify(event));
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress.percentage = Math.round(
+              (100 * event.loaded) / event.total
+            );
+          } else if (event instanceof HttpResponse) {
+            this.hideProgressbar = true;
+            this.s3path = event.body["s3path"];
+            console.log("File is completely uploaded!->" + this.s3path);
+            let newobj = {
+              type: "resources",
+              displayname: this.displayname,
+              s3name: this.s3name,
+              filetype: this.filetype,
+              s3_url: this.s3path,
+              preview_url: this.s3path,
+              value: this.s3path,
+            };
+            this.extraresources_list.push(newobj);
+            let body = {
+              extraresources: this.extraresources_list,
+            };
+            this.update_record(this.record_id, body);
+            this.modalReference.close();
           }
-          this.extraresources_list.push(newobj);
-          let body = {
-            extraresources: this.extraresources_list
-          }
-          this.update_record(this.record_id, body);
-          this.modalReference.close();
-        }
-      });
+        });
     }
   }
-  
-  delete_resource_btn_click(index_position){
-    swal.fire({
-      title: 'Are you sure?',
-      text: "Do you want to remove this Resource file?",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.delete_resource_file(index_position);
-      }
-    });
+
+  delete_resource_btn_click(index_position) {
+    swal
+      .fire({
+        title: "Are you sure?",
+        text: "Do you want to remove this Resource file?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.delete_resource_file(index_position);
+        }
+      });
   }
 
-  delete_resource_file(index_position){
+  delete_resource_file(index_position) {
     let resource_to_delete = this.extraresources_list[index_position];
-    console.log('-->resource_to_delete: '+JSON.stringify(resource_to_delete));
+    console.log("-->resource_to_delete: " + JSON.stringify(resource_to_delete));
     let file_to_delete = resource_to_delete.s3name;
     this.extraresources_list.splice(index_position, 1);
     const body = {
-      extraresources: this.extraresources_list
-    }
-    this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(data1 => {
-        console.log('@@@s3 data delete: '+JSON.stringify(data1));
+      extraresources: this.extraresources_list,
+    };
+    this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(
+      (data1) => {
+        console.log("@@@s3 data delete: " + JSON.stringify(data1));
         this.update_record(this.record_id, body);
         this.go_btn_click();
-      }, error => {}, () => {}
+      },
+      (error) => {},
+      () => {}
     );
   }
   // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
-    this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_subject,
+      this.selected_week,
+      this.selected_class
+    );
   }
 
   async load_record(preflanguage, subject, week, level) {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      preflanguage != undefined && preflanguage != null && preflanguage != ''
-      && subject != undefined && subject != null && subject != ''
-      && week != undefined && week != null && week != ''
-      && level != undefined && level != null && level != ''
+      preflanguage != undefined &&
+      preflanguage != null &&
+      preflanguage != "" &&
+      subject != undefined &&
+      subject != null &&
+      subject != "" &&
+      week != undefined &&
+      week != null &&
+      week != "" &&
+      level != undefined &&
+      level != null &&
+      level != ""
     ) {
-      this.content_value = '';
+      this.content_value = "";
       this.video_value = [];
       this.hide_Loading_indicator = false;
-      
+
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
-      this.pgeactivitiesService.getmasteractivitiydetails(preferedlanguage, 'pge', subject, week, level).subscribe(data => {
-        console.log('--> data: '+JSON.stringify(data));
-        
-        if (Object.keys(data).length > 0) {
-          this.save_operation = 'update';
-          this.record_id = data[0]['_id'];
-          this.extraresources_list = data[0]['extraresources'];
-          this.segments_list = data[0]['segment'];
-          // added by nayak on 21-09-2020 to set segment 1 selected bydefault
-          if(this.segments_list.length > 0){
-            //this.segment_select_onchange(0);
-          }
-        } else {
-          this.save_operation = 'save';
-          this.record_id = '';
-          this.extraresources_list = [];
-          this.segments_list = [];
-        }
-        this.hide_Loading_indicator = true;
-      },
-        error => { },
-        () => { }
-      );
+      this.pgeactivitiesService
+        .getmasteractivitiydetails(
+          preferedlanguage,
+          level,
+          subject,
+          week,
+          level
+        )
+        .subscribe(
+          (data) => {
+            console.log("check data", data);
+
+            console.log("--> data: " + JSON.stringify(data));
+
+            if (Object.keys(data).length > 0) {
+              this.save_operation = "update";
+              this.record_id = data[0]["_id"];
+              this.extraresources_list = data[0]["extraresources"];
+              this.segments_list = data[0]["segment"];
+              // added by nayak on 21-09-2020 to set segment 1 selected bydefault
+              if (this.segments_list.length > 0) {
+                //this.segment_select_onchange(0);
+              }
+            } else {
+              this.save_operation = "save";
+              this.record_id = "";
+              this.extraresources_list = [];
+              this.segments_list = [];
+            }
+            this.hide_Loading_indicator = true;
+          },
+          (error) => {},
+          () => {}
+        );
     } else {
       this.hide_Loading_indicator = true;
       this.hide_createnewsegment_button = true;
@@ -491,301 +618,401 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   currentFileUpload: File;
-	hideProgressbar: boolean = true;
-	progress: { percentage: number } = { percentage: 0 };
-  s3path: string = '';
-  
+  hideProgressbar: boolean = true;
+  progress: { percentage: number } = { percentage: 0 };
+  s3path: string = "";
+
   async save_btn_click(selected_tab) {
-    console.log('### selected_tab: '+selected_tab);
+    console.log("### selected_tab: " + selected_tab);
     let body = {};
-    if(selected_tab == 'textcontent_tab'){
-			if(this.content_value == undefined || this.content_value == null || this.content_value == '') {
-				swal.fire('info', 'Please add some content !!!', 'warning');
-			} else{
-        console.log('### textcontent_tab save_operation: ' + this.save_operation);
-        if(this.save_operation == 'save'){
+    if (selected_tab == "textcontent_tab") {
+      if (
+        this.content_value == undefined ||
+        this.content_value == null ||
+        this.content_value == ""
+      ) {
+        swal.fire("info", "Please add some content !!!", "warning");
+      } else {
+        console.log(
+          "### textcontent_tab save_operation: " + this.save_operation
+        );
+        if (this.save_operation == "save") {
           body = {
             preferedlanguage: this.selected_preflanguage,
-            program: 'pge',
+            program: "pge",
             subject: this.selected_subject,
-            month: '',
+            month: "",
             week: this.selected_week,
             level: this.selected_class,
-            segment:[{
-              type: 'text_content',
-              displayname: null,
-              s3name: null,
-              filetype: null,
-              s3_url: null,
-              preview_url: null,
-              value: this.content_value
-            }],
-            extraresources: []
-          }
+            segment: [
+              {
+                type: "text_content",
+                displayname: null,
+                s3name: null,
+                filetype: null,
+                s3_url: null,
+                preview_url: null,
+                value: this.content_value,
+              },
+            ],
+            extraresources: [],
+          };
           this.save_record(body);
           this.modalReference.close();
-        }else{
+        } else {
           let newobj = {
-            type: 'text_content',
+            type: "text_content",
             displayname: null,
             s3name: null,
             filetype: null,
             s3_url: null,
             preview_url: null,
-            value: this.content_value
-          }
+            value: this.content_value,
+          };
           this.segments_list.push(newobj);
           body = {
-            segment: this.segments_list
-          }
+            segment: this.segments_list,
+          };
           this.update_record(this.record_id, body);
           this.modalReference.close();
         }
       }
-    }else if(selected_tab == 'image_tab'){
-      if(this.selectedFiles == undefined || this.selectedFiles == null){
-        swal.fire('info', 'Please select image file', 'warning');
-      }else{
+    } else if (selected_tab == "image_tab") {
+      if (this.selectedFiles == undefined || this.selectedFiles == null) {
+        swal.fire("info", "Please select image file", "warning");
+      } else {
         this.hideProgressbar = false;
         this.progress.percentage = 0;
-  
-        this.currentFileUpload = this.selectedFiles.item(0);
-        console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
-        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
-          console.log('$$$event: '+JSON.stringify(event));
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(100 * event.loaded / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.s3path = event.body['s3path'];
-            console.log('File is completely uploaded!->'+this.s3path);
-            this.hideProgressbar = true;
 
-            console.log('### image_tab save_operation: ' + this.save_operation);
-            if (this.save_operation == 'save') {
-              body = {
-                preferedlanguage: this.selected_preflanguage,
-                program: 'pge',
-                subject: this.selected_subject,
-                month: '',
-                week: this.selected_week,
-                level: this.selected_class,
-                segment:[{
-                  type: 'image_content',
-                  displayname: this.displayname,
-                  s3name: this.s3name,
-                  filetype: this.filetype,
-                  s3_url: this.s3path,
-                  preview_url: this.s3path,
-                  value: this.s3path
-                }],
-                extraresources: []
-              }
-              this.save_record(body);
-              this.modalReference.close();
-            } else {
-              let newobj = {
-                type: 'image_content',
-                displayname: this.displayname,
-                s3name: this.s3name,
-                filetype: this.filetype,
-                s3_url: this.s3path,
-                preview_url: this.s3path,
-                value: this.s3path
-              }
-              this.segments_list.push(newobj);
-              body = {
-                segment: this.segments_list
-              }
-              this.update_record(this.record_id, body);
-              this.modalReference.close();
-            }
-          }
-        });
-      }
-    }else if(selected_tab == 'video_tab'){
-      if(this.selectedFiles == undefined || this.selectedFiles == null){
-        swal.fire('info', 'Please select video file', 'warning');
-      }else{this.hideProgressbar = false;
-        this.progress.percentage = 0;
-  
         this.currentFileUpload = this.selectedFiles.item(0);
-        console.log('###selectedFiles: '+JSON.stringify(this.selectedFiles));
-        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe(event => {
-          console.log('$$$event: '+JSON.stringify(event));
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(100 * event.loaded / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.s3path = event.body['s3path'];
-            console.log('File is completely uploaded!->'+this.s3path);
-            this.hideProgressbar = true;
-  
-            console.log('### video_tab save_operation: ' + this.save_operation);
-            if (this.save_operation == 'save') {
-              body = {
-                preferedlanguage: this.selected_preflanguage,
-                program: 'pge',
-                subject: this.selected_subject,
-                month: '',
-                week: this.selected_week,
-                level: this.selected_class,
-                segment:[{
-                  type: 'video_content',
+        console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
+        this.galleryService
+          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+          .subscribe((event) => {
+            console.log("$$$event: " + JSON.stringify(event));
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
+            } else if (event instanceof HttpResponse) {
+              this.s3path = event.body["s3path"];
+              console.log("File is completely uploaded!->" + this.s3path);
+              this.hideProgressbar = true;
+
+              console.log(
+                "### image_tab save_operation: " + this.save_operation
+              );
+              if (this.save_operation == "save") {
+                body = {
+                  preferedlanguage: this.selected_preflanguage,
+                  program: "pge",
+                  subject: this.selected_subject,
+                  month: "",
+                  week: this.selected_week,
+                  level: this.selected_class,
+                  segment: [
+                    {
+                      type: "image_content",
+                      displayname: this.displayname,
+                      s3name: this.s3name,
+                      filetype: this.filetype,
+                      s3_url: this.s3path,
+                      preview_url: this.s3path,
+                      value: this.s3path,
+                    },
+                  ],
+                  extraresources: [],
+                };
+                this.save_record(body);
+                this.modalReference.close();
+              } else {
+                let newobj = {
+                  type: "image_content",
                   displayname: this.displayname,
                   s3name: this.s3name,
                   filetype: this.filetype,
                   s3_url: this.s3path,
                   preview_url: this.s3path,
-                  value: this.s3path
-                }],
-                extraresources: []
+                  value: this.s3path,
+                };
+                this.segments_list.push(newobj);
+                body = {
+                  segment: this.segments_list,
+                };
+                this.update_record(this.record_id, body);
+                this.modalReference.close();
               }
-              this.save_record(body);
-              this.modalReference.close();
-            } else {
-              let newobj = {
-                type: 'video_content',
-                displayname: this.displayname,
-                s3name: this.s3name,
-                filetype: this.filetype,
-                s3_url: this.s3path,
-                preview_url: this.s3path,
-                value: this.s3path
-              }
-              this.segments_list.push(newobj);
-              body = {
-                segment: this.segments_list
-              }
-              this.update_record(this.record_id, body);
-              this.modalReference.close();
             }
-          }
-        });
+          });
+      }
+    } else if (selected_tab == "video_tab") {
+      if (this.selectedFiles == undefined || this.selectedFiles == null) {
+        swal.fire("info", "Please select video file", "warning");
+      } else {
+        this.hideProgressbar = false;
+        this.progress.percentage = 0;
+
+        this.currentFileUpload = this.selectedFiles.item(0);
+        console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
+        this.galleryService
+          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+          .subscribe((event) => {
+            console.log("$$$event: " + JSON.stringify(event));
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
+            } else if (event instanceof HttpResponse) {
+              this.s3path = event.body["s3path"];
+              console.log("File is completely uploaded!->" + this.s3path);
+              this.hideProgressbar = true;
+
+              console.log(
+                "### video_tab save_operation: " + this.save_operation
+              );
+              if (this.save_operation == "save") {
+                body = {
+                  preferedlanguage: this.selected_preflanguage,
+                  program: "pge",
+                  subject: this.selected_subject,
+                  month: "",
+                  week: this.selected_week,
+                  level: this.selected_class,
+                  segment: [
+                    {
+                      type: "video_content",
+                      displayname: this.displayname,
+                      s3name: this.s3name,
+                      filetype: this.filetype,
+                      s3_url: this.s3path,
+                      preview_url: this.s3path,
+                      value: this.s3path,
+                    },
+                  ],
+                  extraresources: [],
+                };
+                this.save_record(body);
+                this.modalReference.close();
+              } else {
+                let newobj = {
+                  type: "video_content",
+                  displayname: this.displayname,
+                  s3name: this.s3name,
+                  filetype: this.filetype,
+                  s3_url: this.s3path,
+                  preview_url: this.s3path,
+                  value: this.s3path,
+                };
+                this.segments_list.push(newobj);
+                body = {
+                  segment: this.segments_list,
+                };
+                this.update_record(this.record_id, body);
+                this.modalReference.close();
+              }
+            }
+          });
       }
     }
   }
 
   async save_record(body) {
-    this.pgeactivitiesService.createmasteractivities(body).subscribe(data => {
-      console.log('###1 save data: ' + JSON.stringify(data));
-      swal.fire('Successful', 'Data saved successfully', 'success');
-      this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
-    }, error => {}, () => {});
+    console.log("check1", body);
+
+    this.pgeactivitiesService.createmasteractivities(body).subscribe(
+      (data) => {
+        console.log(data);
+
+        console.log("###1 save data: ", JSON.stringify(data));
+        swal.fire("Successful", "Data saved successfully", "success");
+        this.load_record(
+          this.selected_preflanguage,
+          this.selected_subject,
+          this.selected_week,
+          this.selected_class
+        );
+      },
+      (error) => {},
+      () => {}
+    );
   }
 
   async update_record(id, body) {
-    this.pgeactivitiesService.updatemasteractivities(id, body).subscribe(data => {
-      console.log('###1 update data: ' + JSON.stringify(data));
-      swal.fire('Successful', 'Data updated successfully', 'success');
-      this.load_record(this.selected_preflanguage, this.selected_subject, this.selected_week, this.selected_class);
-    }, error => {}, () => {}
+    this.pgeactivitiesService.updatemasteractivities(id, body).subscribe(
+      (data) => {
+        console.log("###1 update data: " + JSON.stringify(data));
+        swal.fire("Successful", "Data updated successfully", "success");
+        this.load_record(
+          this.selected_preflanguage,
+          this.selected_subject,
+          this.selected_week,
+          this.selected_class
+        );
+      },
+      (error) => {},
+      () => {}
     );
   }
 
   opencontentsmodal(content) {
-    console.log('---> save_operation: ' + this.save_operation);
-    this.content_value = '';
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    console.log("---> save_operation: " + this.save_operation);
+    this.content_value = "";
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
-  click_to_add_skill(){
-		this.router.navigate(['/pgskillmaster']);
-	}
+  click_to_add_skill() {
+    this.router.navigate(["/pgskillmaster"]);
+  }
   open(content) {
-		console.log("hii",content)
-		this.modalReference = this.modalService.open(content, {backdrop  : 'static',keyboard  : false});
-        this.modalReference.result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-	}
+    console.log("hii", content);
+    this.modalReference = this.modalService.open(content, {
+      backdrop: "static",
+      keyboard: false,
+    });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
 
   openupdatetextcontentsmodal(content) {
-    console.log('---> save_operation: ' + this.save_operation);
+    console.log("---> save_operation: " + this.save_operation);
     this.content_value = this.selected_segment.value;
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openupdateimagecontentsmodal(content) {
-    console.log('---> save_operation: ' + this.save_operation);
+    console.log("---> save_operation: " + this.save_operation);
     this.image_value = this.selected_segment.s3_url;
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openupdatevideocontentsmodal(content) {
-    console.log('---> save_operation: ' + this.save_operation);
+    console.log("---> save_operation: " + this.save_operation);
     this.video_value = this.selected_segment.s3_url;
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   opentextpreviewmodal(content) {
-    console.log('---> save_operation: ' + this.save_operation);
+    console.log("---> save_operation: " + this.save_operation);
     this.text_to_preview = this.selected_segment.value;
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openimagepreviewmodal(content) {
-    console.log('---> save_operation: ' + this.save_operation);
+    console.log("---> save_operation: " + this.save_operation);
     this.image_to_preview = this.selected_segment.s3_url;
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openvideopreviewmodal(content) {
-    console.log('---> save_operation: ' + this.save_operation);
+    console.log("---> save_operation: " + this.save_operation);
     this.video_to_play = this.selected_segment.s3_url;
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openreordersegments(content) {
-    console.log('---> save_operation: ' + this.save_operation);
+    console.log("---> save_operation: " + this.save_operation);
     this.video_to_play = this.selected_segment.s3_url;
-    this.modalReference = this.modalService.open(content, {size: 'lg', backdrop: 'static'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
+      return "by pressing ESC";
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
+      return "by clicking on a backdrop";
     } else {
       return `with: ${reason}`;
     }
@@ -793,25 +1020,33 @@ export class PgeactivitiesComponent implements OnInit {
 
   reordered_segments_list: any = [];
   listStyle: any = {
-    width:'400px',          //default 300,
-    height: '250px',        //default 250,
-    dropZoneHeight: '50px'  //default 50
-  }
+    width: "400px", //default 300,
+    height: "250px", //default 250,
+    dropZoneHeight: "50px", //default 50
+  };
 
-  listOrderChanged(event){
+  listOrderChanged(event) {
     this.reordered_segments_list = event;
   }
 
-  save_reorder_btn_click(){
-    this.reordered_segments_list = (this.reordered_segments_list == undefined || this.reordered_segments_list == null) ? [] : this.reordered_segments_list;
-    if(this.reordered_segments_list.length <= 0){
-      swal.fire('Info', 'Error generating reordered list', "warning");
-    } else if(this.record_id == undefined || this.record_id == null || this.record_id == ''){
-      swal.fire('Info', 'Error fetching record id', "warning");
-    } else{
+  save_reorder_btn_click() {
+    this.reordered_segments_list =
+      this.reordered_segments_list == undefined ||
+      this.reordered_segments_list == null
+        ? []
+        : this.reordered_segments_list;
+    if (this.reordered_segments_list.length <= 0) {
+      swal.fire("Info", "Error generating reordered list", "warning");
+    } else if (
+      this.record_id == undefined ||
+      this.record_id == null ||
+      this.record_id == ""
+    ) {
+      swal.fire("Info", "Error fetching record id", "warning");
+    } else {
       const body = {
-        segment: this.reordered_segments_list
-      }
+        segment: this.reordered_segments_list,
+      };
       this.update_record(this.record_id, body);
       this.go_btn_click();
       this.reordered_segments_list = [];
@@ -821,58 +1056,77 @@ export class PgeactivitiesComponent implements OnInit {
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   delflashcard(i) {
-    console.log('-->Index Value= ' + i);
-    swal.fire({
-      title: 'Are you sure?',
-      text: "Do you want to remove this record?",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        this.image_value.splice(i, 1);
+    console.log("-->Index Value= " + i);
+    swal
+      .fire({
+        title: "Are you sure?",
+        text: "Do you want to remove this record?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      })
+      .then((result) => {
+        if (result.value) {
+          this.image_value.splice(i, 1);
 
-        const body = {
-          image: this.image_value
+          const body = {
+            image: this.image_value,
+          };
+          this.update_record(this.record_id, body);
         }
-        this.update_record(this.record_id, body);
-      }
-    });
+      });
   }
 
   async load_assessmentlist() {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      this.selected_preflanguage != undefined && this.selected_preflanguage != null && this.selected_preflanguage != ''
-      && this.selected_subject != undefined && this.selected_subject != null && this.selected_subject != ''
-      && this.selected_class != undefined && this.selected_class != null && this.selected_class != ''
+      this.selected_preflanguage != undefined &&
+      this.selected_preflanguage != null &&
+      this.selected_preflanguage != "" &&
+      this.selected_subject != undefined &&
+      this.selected_subject != null &&
+      this.selected_subject != "" &&
+      this.selected_class != undefined &&
+      this.selected_class != null &&
+      this.selected_class != ""
     ) {
       this.hide_Loading_indicator = false;
-      this.selected_week = '';
+      this.selected_week = "";
       //-------- Get all assessments of that subject
       this.week_select_option_list = [];
       this.hide_Loading_indicator = false;
-      this.pgeactivitiesService.gettchassessment(this.selected_preflanguage, 'pge', this.selected_class, this.selected_subject).subscribe(data => {
-        console.log('### data: ' + JSON.stringify(data));
-        Object.keys(data).forEach(ind => {
-          let obj = {};
-          obj = {
-            value: (parseInt(ind)+1),
-            text: data[ind]['question']
-          }
-          this.week_select_option_list.push(obj);
-        });
-        this.hide_Loading_indicator = true;
-      },error => { this.hide_Loading_indicator = true; },() =>{});
+      this.pgeactivitiesService
+        .gettchassessment(
+          this.selected_preflanguage,
+          this.selected_class,
+          this.selected_subject
+        )
+        .subscribe(
+          (data) => {
+            console.log("### data: " + JSON.stringify(data));
+            Object.keys(data).forEach((ind) => {
+              let obj = {};
+              obj = {
+                value: parseInt(ind) + 1,
+                text: data[ind]["question"],
+              };
+              this.week_select_option_list.push(obj);
+            });
+            this.hide_Loading_indicator = true;
+          },
+          (error) => {
+            this.hide_Loading_indicator = true;
+          },
+          () => {}
+        );
       //--------
       this.hide_Loading_indicator = true;
     }
   }
 
-  
   /*
   program_select_onchange(event) {
     const selectedOptions = event.target['options'];
