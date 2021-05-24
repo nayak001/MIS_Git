@@ -180,12 +180,6 @@ export class PgeactivitiesComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log(
-      "-->Selected Opt Value= " +
-        selectedOptionValue +
-        "   Text= " +
-        selectElementText
-    );
     this.selected_week = selectedOptionValue;
     this.load_record(
       this.selected_preflanguage,
@@ -198,6 +192,7 @@ export class PgeactivitiesComponent implements OnInit {
   // ====================================== Segment related codes started from here =================================
 
   segment_select_onchange(value) {
+    console.log("segment_select_onchange",this.selected_segment_index)
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
@@ -224,9 +219,6 @@ export class PgeactivitiesComponent implements OnInit {
     this.hide_Loading_indicator = false;
 
     this.selected_segment = this.segments_list[idx];
-    console.log(
-      "--> selected_segment: " + JSON.stringify(this.selected_segment)
-    );
     if (
       this.selected_segment == undefined ||
       this.selected_segment == null ||
@@ -278,16 +270,7 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   delete_segment() {
-    console.log(
-      "-->delete_segment()    Segment Index Value= " +
-        this.selected_segment_index +
-        "    Record id: " +
-        this.record_id +
-        "    content type: " +
-        this.selected_segment_type
-    );
     let segment_to_delete = this.segments_list[this.selected_segment_index];
-    console.log("-->segment_to_delete: " + JSON.stringify(segment_to_delete));
     let file_to_delete = segment_to_delete.s3name;
     this.segments_list.splice(this.selected_segment_index, 1);
     const body = {
@@ -300,7 +283,6 @@ export class PgeactivitiesComponent implements OnInit {
     ) {
       this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(
         (data1) => {
-          console.log("@@@s3 data delete: " + JSON.stringify(data1));
           this.update_record(this.record_id, body);
           this.go_btn_click();
         },
@@ -314,16 +296,7 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   update_segment_btn_click() {
-    console.log(
-      "-->update_segment_btn_click()    Segment Index Value= " +
-        this.selected_segment_index +
-        "    Record id: " +
-        this.record_id +
-        "    content type: " +
-        this.selected_segment_type
-    );
     let segment_to_update = this.segments_list[this.selected_segment_index];
-    console.log("-->segment_to_update: " + JSON.stringify(segment_to_update));
     if (this.selected_segment_type == "text_content") {
       this.openupdatetextcontentsmodal(this.updatetextcontentsmodal);
     } else if (this.selected_segment_type == "image_content") {
@@ -334,15 +307,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   update_segment(modalwindow) {
-    console.log(
-      "-->update_segment()    Segment Index Value= " +
-        this.selected_segment_index +
-        "    Record id: " +
-        this.record_id +
-        "    content type: " +
-        this.selected_segment_type
-    );
-
     if (modalwindow == "textcontentsmodal") {
       let newobj = {
         type: "text_content",
@@ -364,11 +328,9 @@ export class PgeactivitiesComponent implements OnInit {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
       this.galleryService
         .pushFileToStorage(this.currentFileUpload, null, this.s3name)
         .subscribe((event) => {
-          console.log("$$$event: " + JSON.stringify(event));
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(
               (100 * event.loaded) / event.total
@@ -376,7 +338,6 @@ export class PgeactivitiesComponent implements OnInit {
           } else if (event instanceof HttpResponse) {
             this.hideProgressbar = true;
             this.s3path = event.body["s3path"];
-            console.log("File is completely uploaded!->" + this.s3path);
             let newobj = {
               type: "image_content",
               displayname: this.displayname,
@@ -393,7 +354,6 @@ export class PgeactivitiesComponent implements OnInit {
             this.update_record(this.record_id, body);
             this.galleryService.deleteFromStorage(null, oldfilename).subscribe(
               (data1) => {
-                console.log("@@@s3 data delete: " + JSON.stringify(data1));
               },
               (error) => {},
               () => {}
@@ -406,11 +366,9 @@ export class PgeactivitiesComponent implements OnInit {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
       this.galleryService
         .pushFileToStorage(this.currentFileUpload, null, this.s3name)
         .subscribe((event) => {
-          console.log("$$$event: " + JSON.stringify(event));
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(
               (100 * event.loaded) / event.total
@@ -418,7 +376,6 @@ export class PgeactivitiesComponent implements OnInit {
           } else if (event instanceof HttpResponse) {
             this.hideProgressbar = true;
             this.s3path = event.body["s3path"];
-            console.log("File is completely uploaded!->" + this.s3path);
             let newobj = {
               type: "video_content",
               displayname: this.displayname,
@@ -435,7 +392,6 @@ export class PgeactivitiesComponent implements OnInit {
             this.update_record(this.record_id, body);
             this.galleryService.deleteFromStorage(null, oldfilename).subscribe(
               (data1) => {
-                console.log("@@@s3 data delete: " + JSON.stringify(data1));
               },
               (error) => {},
               () => {}
@@ -447,14 +403,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   preview_segment_btn_click() {
-    console.log(
-      "-->update_segment()    Segment Index Value= " +
-        this.selected_segment_index +
-        "    Record id: " +
-        this.record_id +
-        "    content type: " +
-        this.selected_segment_type
-    );
     if (this.selected_segment_type == "text_content") {
       this.opentextpreviewmodal(this.textpreviewmodal);
     } else if (this.selected_segment_type == "image_content") {
@@ -473,11 +421,9 @@ export class PgeactivitiesComponent implements OnInit {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
       this.galleryService
         .pushFileToStorage(this.currentFileUpload, null, this.s3name)
         .subscribe((event) => {
-          console.log("$$$event: " + JSON.stringify(event));
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(
               (100 * event.loaded) / event.total
@@ -485,7 +431,6 @@ export class PgeactivitiesComponent implements OnInit {
           } else if (event instanceof HttpResponse) {
             this.hideProgressbar = true;
             this.s3path = event.body["s3path"];
-            console.log("File is completely uploaded!->" + this.s3path);
             let newobj = {
               type: "resources",
               displayname: this.displayname,
@@ -526,7 +471,6 @@ export class PgeactivitiesComponent implements OnInit {
 
   delete_resource_file(index_position) {
     let resource_to_delete = this.extraresources_list[index_position];
-    console.log("-->resource_to_delete: " + JSON.stringify(resource_to_delete));
     let file_to_delete = resource_to_delete.s3name;
     this.extraresources_list.splice(index_position, 1);
     const body = {
@@ -534,7 +478,6 @@ export class PgeactivitiesComponent implements OnInit {
     };
     this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(
       (data1) => {
-        console.log("@@@s3 data delete: " + JSON.stringify(data1));
         this.update_record(this.record_id, body);
         this.go_btn_click();
       },
@@ -580,17 +523,13 @@ export class PgeactivitiesComponent implements OnInit {
       this.pgeactivitiesService
         .getmasteractivitiydetails(
           preferedlanguage,
-          level,
+          'pge',
           subject,
           week,
           level
         )
         .subscribe(
           (data) => {
-            console.log("check data", data);
-
-            console.log("--> data: " + JSON.stringify(data));
-
             if (Object.keys(data).length > 0) {
               this.save_operation = "update";
               this.record_id = data[0]["_id"];
@@ -598,7 +537,7 @@ export class PgeactivitiesComponent implements OnInit {
               this.segments_list = data[0]["segment"];
               // added by nayak on 21-09-2020 to set segment 1 selected bydefault
               if (this.segments_list.length > 0) {
-                //this.segment_select_onchange(0);
+                this.load_segment(0);
               }
             } else {
               this.save_operation = "save";
@@ -623,7 +562,6 @@ export class PgeactivitiesComponent implements OnInit {
   s3path: string = "";
 
   async save_btn_click(selected_tab) {
-    console.log("### selected_tab: " + selected_tab);
     let body = {};
     if (selected_tab == "textcontent_tab") {
       if (
@@ -633,9 +571,6 @@ export class PgeactivitiesComponent implements OnInit {
       ) {
         swal.fire("info", "Please add some content !!!", "warning");
       } else {
-        console.log(
-          "### textcontent_tab save_operation: " + this.save_operation
-        );
         if (this.save_operation == "save") {
           body = {
             preferedlanguage: this.selected_preflanguage,
@@ -685,23 +620,16 @@ export class PgeactivitiesComponent implements OnInit {
         this.progress.percentage = 0;
 
         this.currentFileUpload = this.selectedFiles.item(0);
-        console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
         this.galleryService
           .pushFileToStorage(this.currentFileUpload, null, this.s3name)
           .subscribe((event) => {
-            console.log("$$$event: " + JSON.stringify(event));
             if (event.type === HttpEventType.UploadProgress) {
               this.progress.percentage = Math.round(
                 (100 * event.loaded) / event.total
               );
             } else if (event instanceof HttpResponse) {
               this.s3path = event.body["s3path"];
-              console.log("File is completely uploaded!->" + this.s3path);
               this.hideProgressbar = true;
-
-              console.log(
-                "### image_tab save_operation: " + this.save_operation
-              );
               if (this.save_operation == "save") {
                 body = {
                   preferedlanguage: this.selected_preflanguage,
@@ -753,23 +681,16 @@ export class PgeactivitiesComponent implements OnInit {
         this.progress.percentage = 0;
 
         this.currentFileUpload = this.selectedFiles.item(0);
-        console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
         this.galleryService
           .pushFileToStorage(this.currentFileUpload, null, this.s3name)
           .subscribe((event) => {
-            console.log("$$$event: " + JSON.stringify(event));
             if (event.type === HttpEventType.UploadProgress) {
               this.progress.percentage = Math.round(
                 (100 * event.loaded) / event.total
               );
             } else if (event instanceof HttpResponse) {
               this.s3path = event.body["s3path"];
-              console.log("File is completely uploaded!->" + this.s3path);
               this.hideProgressbar = true;
-
-              console.log(
-                "### video_tab save_operation: " + this.save_operation
-              );
               if (this.save_operation == "save") {
                 body = {
                   preferedlanguage: this.selected_preflanguage,
@@ -817,13 +738,8 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   async save_record(body) {
-    console.log("check1", body);
-
     this.pgeactivitiesService.createmasteractivities(body).subscribe(
       (data) => {
-        console.log(data);
-
-        console.log("###1 save data: ", JSON.stringify(data));
         swal.fire("Successful", "Data saved successfully", "success");
         this.load_record(
           this.selected_preflanguage,
@@ -840,7 +756,6 @@ export class PgeactivitiesComponent implements OnInit {
   async update_record(id, body) {
     this.pgeactivitiesService.updatemasteractivities(id, body).subscribe(
       (data) => {
-        console.log("###1 update data: " + JSON.stringify(data));
         swal.fire("Successful", "Data updated successfully", "success");
         this.load_record(
           this.selected_preflanguage,
@@ -855,7 +770,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   opencontentsmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.content_value = "";
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -874,7 +788,6 @@ export class PgeactivitiesComponent implements OnInit {
     this.router.navigate(["/pgskillmaster"]);
   }
   open(content) {
-    console.log("hii", content);
     this.modalReference = this.modalService.open(content, {
       backdrop: "static",
       keyboard: false,
@@ -890,7 +803,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   openupdatetextcontentsmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.content_value = this.selected_segment.value;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -907,7 +819,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   openupdateimagecontentsmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.image_value = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -924,7 +835,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   openupdatevideocontentsmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.video_value = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -941,7 +851,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   opentextpreviewmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.text_to_preview = this.selected_segment.value;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -958,7 +867,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   openimagepreviewmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.image_to_preview = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -975,7 +883,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   openvideopreviewmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.video_to_play = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -992,7 +899,6 @@ export class PgeactivitiesComponent implements OnInit {
   }
 
   openreordersegments(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.video_to_play = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -1106,7 +1012,6 @@ export class PgeactivitiesComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            console.log("### data: " + JSON.stringify(data));
             Object.keys(data).forEach((ind) => {
               let obj = {};
               obj = {

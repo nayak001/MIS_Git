@@ -43,7 +43,7 @@ export class PgeactivitiesService {
       level +
       "/" +
       subject;
-    return this.http.get(url, {
+     return this.http.get(url, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
