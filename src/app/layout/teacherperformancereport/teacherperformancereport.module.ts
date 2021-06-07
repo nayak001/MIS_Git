@@ -7,7 +7,7 @@ import { TeacherperformancereportComponent } from './teacherperformancereport.co
 import { PageHeaderModule } from '../../shared';
 import { DataTableModule } from "angular-6-datatable";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Teacherreportperformanceservice } from  './teacherperformancereports.service.service';
+import { Teacherreportperformanceservice } from  './teacherperformancereports.service';
 
 @NgModule({
     imports: [

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Teacherreportperformanceservice } from './teacherperformancereportservice.service';
+import { Teacherreportperformanceservice } from './teacherperformancereports.service';
 
 describe('Teacherreportperformanceservice', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
