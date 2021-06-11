@@ -150,17 +150,18 @@ export class TeacherperformancereportComponent implements OnInit {
 			limit:10,
 			download_click:this.download_click
 		}
-		this.Teacherreportperformanceservice.TeacherEducatorDetail(data).subscribe(data => {
+		this.Teacherreportperformanceservice.Teacherperformancedetails(data).subscribe(data => {
 		
 					this.filterData = data
+					console.log("this.filterData",this.filterData)
 					this.isLoaded = true
-					if (this.filterData.length == 0) {
-						this.isdata_table = true;
-					}
-					else {
-						this.isdata_table = false;
-						this.count = this.filterData[0].count
-					}
+					// if (this.filterData.length == 0) {
+					// 	this.isdata_table = true;
+					// }
+					// else {
+					// 	this.isdata_table = false;
+					// 	this.count = this.filterData[0].count
+					// }
 					
 				this.api_hit = true
 			// this.all_blocks=data;

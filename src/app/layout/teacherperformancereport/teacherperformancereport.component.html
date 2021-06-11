@@ -6,11 +6,11 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col col-xl-4 col-lg-4">
-                           <h4 style="font-size: 16px; margin-top: 5px;color: black;">Teacher Educator</h4>
+                           <h4 style="font-size: 16px; margin-top: 5px;color: black;">Teacher Performance Report</h4>
                         </div>
                     </div>
                 </div>
-                <div class="row" style="padding: 25px; font-size: 15px;color: black;" *ngIf = "api_hit"> 
+                <!-- <div class="row" style="padding: 25px; font-size: 15px;color: black;" *ngIf = "api_hit"> 
                     <div class="col-2">
                         <label>Center Type</label>
                         <select class="form-control select2" [(ngModel)]="center_type"
@@ -63,7 +63,7 @@
 
                     </div>
 
-                    </div>
+                    </div> -->
 
 
 
@@ -80,46 +80,19 @@
                             <thead>
                                 <tr>
                                     <th>Educator Name</th>
-                                    <th>Status</th>
-                                    <th>Center Name</th>
-                                    <th>Center Type</th>
-                                    <th>Center Id</th>
-                                    <th>Block</th>
-                                    <th>District</th>
-                                    <th>State</th>
-                                    <th>Qualification</th>
-                                    <th>Contact No </th>
-                                    <th> Address</th>
-                                    <th>Special Initiatives</th>
-                                    <th>Aspirations</th>
-                                    <th>Centre Start Date</th>
-                                    <th>Pre-Program Training Marks Secured</th>
-                                    <th>Baseline Mark Secured</th>
-                                    <th>Endline Mark Secured</th>
-                                    <th>Online Training Module Details</th>
+                                    <th>Pre program Modules completed</th>
+                                    <th>Baseline Status</th>
+                                    <th>Endline Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 
                                  <tr *ngFor="let detail of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
-                                        <td class="sname" aria-hidden="true" (click)="openTeacherDetails(editmodal,detail)">
-                                            {{detail.user?.teachername}}</td>
-                                  <td>{{detail.user?.status}}</td>
+                        
+                                  <td>{{detail.teacherbaselinedetail.teacherprofile.teachername}}</td>
                                   <td>{{detail.center?.centername}}</td>
                                   <td>{{detail.center?.centertype}}</td>
                                   <td>{{detail.center?.centerid}}</td>
-                                  <td>{{detail.center?.block}}</td>
-                                  <td>{{detail.center?.district}}</td>
-                                  <td>  </td>
-                                  <td>{{detail.user?.qualification}}</td>
-                                  <td>{{detail.user?.contactno}}</td>
-                                  <td>{{detail.user?.address}}</td>
-                                  <td>{{detail.user?.special_initiatives}}</td>
-                                  <td>{{detail.user?.aspirations}}</td>
-                                  <td>{{getDate(detail)}}</td>
-                                  <td>{{detail.user?.preprogram_training_mark}}</td>
-                                  <td>{{detail.user?.baseline}}</td>
-                                  <td>{{detail.user?.endline}}</td>
                                   <td></td>
                                 </tr>
     

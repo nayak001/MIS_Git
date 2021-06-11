@@ -32,6 +32,13 @@ export class Teacherreportperformanceservice {
 			//responseType: 'text' 
 		});	
 	}
+	Teacherperformancedetails(data){
+		return this.http.get(baseUrl+'teacherperformancedetails', 
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			//responseType: 'text' 
+		});	
+	}
 
 	getBlocks(){
 		return this.http.get(baseUrl+'disticBlockDetails',
