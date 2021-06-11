@@ -75,6 +75,8 @@ const routes: Routes = [
       { path: 'passcodemanager', loadChildren: './passcodemanager/passcodemanager.module#PasscodemanagerModule' },
       { path: 'trainingmisc', loadChildren: './trainingmisc/trainingmisc.module#TrainingMiscModule' },
       { path: 'hblmaster', loadChildren: './hblmaster/hblmaster.module#HblmasterModule' },
+      //{ path: 'hblmaster', loadChildren: './hbl_master/hbl_master.module#hblmasterRoutingModule' },
+      { path: 'homebasemaster', loadChildren: './homebasemaster/homebasemaster.module#HomebasemasterModule' },
       { path: 'hblactivityreport', loadChildren: './hblactivityreport/hblactivityreport.module#HblactivityreportModule' },
       { path: 'pptreport', loadChildren: './pptreport/pptreport.module#PptreportModule' },
 	    { path: 'surveymaster', loadChildren: './surveymaster/surveymaster.module#SurveymasterModule' },
@@ -82,6 +84,8 @@ const routes: Routes = [
       { path: 'ppt', loadChildren: './preprogramteachertraining/preprogramteachertraining.module#PreprgrameTeacherTrainingModule' },
       { path: 'teacherbaseline', loadChildren: './teacherbaseline/teacherbaseline.module#TeacherBaselineModule' },
       { path: 'preprogramtrainingmodule', loadChildren: './preprogramtrainingmodules/preprogramtrainingmodules.module#PreprogramtrainingModule' },
+      { path: 'pgskillmaster', loadChildren: './pgeskillmaster/pgeskillmaster.module#pgskillmasterModule' },
+      
     ]
   }
 ];
