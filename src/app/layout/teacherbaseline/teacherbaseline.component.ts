@@ -241,7 +241,6 @@ export class TeacherbaselineComponent implements OnInit {
 				"D": (this.add_q_optionD == '')?'':this.add_q_optionD,
 				"answer": this.selected_qans_val_add
 			}
-			console.log("obj",obj)
 			this.quiz_value.push(obj);
 			this.modalReference.close();
 		}
@@ -267,7 +266,6 @@ export class TeacherbaselineComponent implements OnInit {
 	async deletecontent(){
 		var contentdata
 		var record_id;
-		console.log(record_id,contentdata)
 	
 		this.TeacherbaselineService.deletecontent(record_id,contentdata).subscribe(data => {
 			swal.fire('Success', 'Record updated successfully', 'success');
@@ -280,7 +278,6 @@ export class TeacherbaselineComponent implements OnInit {
 
 	
 	async save_btn_click(){
-		console.log("this.quiz_value",this.quiz_value,this.save_operation,this.selected_preflanguage)
 		const body = {
 			assessmentquestion : this.quiz_value,
 			language:this.selected_preflanguage,
@@ -294,7 +291,6 @@ export class TeacherbaselineComponent implements OnInit {
 			},error => {}, () => {});
 		}else if(this.quiz_value.length>0 && this.save_operation == 'update'){
 			this.TeacherbaselineService.updateteacherassesment(this.dataid,body).subscribe(data => {
-				console.log("data",data)
 				swal.fire('Success', 'assesment updated successfully', 'success');
 				this.load_record();
 			},error => {}, () => {});
