@@ -33,13 +33,12 @@ export class Teacherreportperformanceservice {
 		});	
 	}
 	Teacherperformancedetails(data){
-		return this.http.get(baseUrl+'teacherperformancedetails', 
+		return this.http.get(baseUrl+'teacherperformancedetails?page_no='+ data.page_no +"&limit=" + data.limit + "&download_click=" + data.download_click, 
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//responseType: 'text' 
 		});	
 	}
-
 	getBlocks(){
 		return this.http.get(baseUrl+'disticBlockDetails',
 		{

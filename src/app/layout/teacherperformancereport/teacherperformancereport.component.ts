@@ -151,9 +151,7 @@ export class TeacherperformancereportComponent implements OnInit {
 			download_click:this.download_click
 		}
 		this.Teacherreportperformanceservice.Teacherperformancedetails(data).subscribe(data => {
-		
-					this.filterData = data
-					console.log("this.filterData",this.filterData)
+					this.filterData = data;
 					this.isLoaded = true
 					// if (this.filterData.length == 0) {
 					// 	this.isdata_table = true;
@@ -170,7 +168,15 @@ export class TeacherperformancereportComponent implements OnInit {
 			() => { }
 		);
  }
-
+search(term: string) {
+	if(!term) {
+		this.filterData = this.filterData;
+	} else {
+		this.filterData = this.filterData.filter(element => 
+		element.teachername.trim().toLowerCase().includes(term.trim().toLowerCase())
+		);
+	}
+}
 
 
  highlight(index:String){
