@@ -16,6 +16,48 @@
 				
 				<div class="card-body table-responsive">
 					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<!-- <div class="col col-xl-2 col-lg-2">
+								
+							</div> -->
+							<div style="margin: 10px;margin-left: 1px;">
+								Select Language
+							</div>
+							<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
+								<option value="">Select</option>
+								<option value="en" [selected]="isSelected">English</option>
+								<option value="od">ଓଡିଆ</option>
+								<option value="hi">हिंदी</option>
+							</select>
+						</div>
+						<div class="col col-xl-4 col-lg-4">
+							<div style="margin: 10px;margin-left: 1px;">
+								Select Category
+							</div>
+							<select value="" (change)="onselect_category_select($event)" class="form-control">
+								<option value="">Select</option>
+								<option value="pedagogy" selected>Child Development and Pedagogy </option>				
+								<option value="odia">Odia</option>
+								<option value="odia">Math</option>		
+								<option value="odia">English</option>	
+								<option value="odia">Technology</option>
+							</select>
+						</div>
+						<div class="col col-xl-4 col-lg-4">
+							<div style="margin: 10px;margin-left: 1px;">
+								Select Program
+							</div>
+							<select value="" (change)="onselect_assesment_select($event)" class="form-control">
+								<option value="">Select</option>
+								<option value="baseline" selected>Baseline</option>				
+								<option value="endline">Endline</option>					
+							</select>
+						</div>
+						<div class="col">
+							
+						</div>
+					</div>
+					<!-- <div class="row">
 						<div class="col col-xl-2 col-lg-2">
 							Select Language
 						</div>
@@ -40,7 +82,7 @@
 						<div class="col">
 							
 						</div>
-					</div>
+					</div> -->
 				</div>
 
 				<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
@@ -55,6 +97,9 @@
 							<ng-template ngbTabContent>
 								<div class="tab_content_height margintop30">
 									<table class="table50">
+									 <tr>
+										
+									  </tr>
 										<tr>
 											<td>
 												<span class="bold-font">Quizes:</span>

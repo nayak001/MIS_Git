@@ -130,6 +130,15 @@ export class TeacherbaselineComponent implements OnInit {
 		this.selected_assesment = selectedOptionValue;
 		this.load_record();
 	}
+	selected_category:any = "pedagogy";
+	onselect_category_select(event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.selected_category = selectedOptionValue;
+		// this.load_record();
+	}
 	onselect_editq_select(value){
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
@@ -212,7 +221,7 @@ export class TeacherbaselineComponent implements OnInit {
 	}
 	dataid:any;
 	async load_record(){
-			this.TeacherbaselineService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage).subscribe(data => {
+			this.TeacherbaselineService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage,this.selected_category).subscribe(data => {
 				if(Object.keys(data).length > 0){
 					this.dataid = data[0]._id;
 					this.quiz_value = data[0]['assessmentquestion'];
@@ -239,7 +248,8 @@ export class TeacherbaselineComponent implements OnInit {
 				"B": (this.add_q_optionB == '')?'':this.add_q_optionB,
 				"C": (this.add_q_optionC == '')?'':this.add_q_optionC,
 				"D": (this.add_q_optionD == '')?'':this.add_q_optionD,
-				"answer": this.selected_qans_val_add
+				"answer": this.selected_qans_val_add,
+				"category":this.selected_category
 			}
 			console.log("obj",obj)
 			this.quiz_value.push(obj);
@@ -254,7 +264,8 @@ export class TeacherbaselineComponent implements OnInit {
 			"B": this.edit_q_optionB,
 			"C": this.edit_q_optionC,
 			"D": this.edit_q_optionD,
-			"answer": this.selected_qans_val_edit
+			"answer": this.selected_qans_val_edit,
+			"category":this.selected_category
 		}
 		this.quiz_value.splice(this.edit_q_index, 1, obj);
 		this.modalReference.close();
@@ -280,11 +291,10 @@ export class TeacherbaselineComponent implements OnInit {
 
 	
 	async save_btn_click(){
-		console.log("this.quiz_value",this.quiz_value,this.save_operation,this.selected_preflanguage)
 		const body = {
 			assessmentquestion : this.quiz_value,
 			language:this.selected_preflanguage,
-			type : this.selected_assesment,
+			type : this.selected_assesment
 		}
 
 		if(this.quiz_value.length>0 && this.save_operation == 'save'){

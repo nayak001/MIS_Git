@@ -11,8 +11,8 @@ const baseUrl = environment.baseUrl;
 export class TeacherbaselineService {
 	constructor(private http: HttpClient) { }
 
-	getallteacherassesment(type,language){
-		return this.http.get(baseUrl+'getteacherallassessment/'+type +'/'+ language,{
+	getallteacherassesment(type,language,category){
+		return this.http.get(baseUrl+'getteacherallassessment/'+type +'/'+ language +'/'+category,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			
 		});
