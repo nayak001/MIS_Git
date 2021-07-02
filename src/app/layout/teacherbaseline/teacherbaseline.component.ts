@@ -137,7 +137,7 @@ export class TeacherbaselineComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_category = selectedOptionValue;
-		// this.load_record();
+		this.load_record();
 	}
 	onselect_editq_select(value){
 		const selectedOptions = event.target['options'];
@@ -248,8 +248,7 @@ export class TeacherbaselineComponent implements OnInit {
 				"B": (this.add_q_optionB == '')?'':this.add_q_optionB,
 				"C": (this.add_q_optionC == '')?'':this.add_q_optionC,
 				"D": (this.add_q_optionD == '')?'':this.add_q_optionD,
-				"answer": this.selected_qans_val_add,
-				"category":this.selected_category
+				"answer": this.selected_qans_val_add
 			}
 			console.log("obj",obj)
 			this.quiz_value.push(obj);
@@ -264,8 +263,7 @@ export class TeacherbaselineComponent implements OnInit {
 			"B": this.edit_q_optionB,
 			"C": this.edit_q_optionC,
 			"D": this.edit_q_optionD,
-			"answer": this.selected_qans_val_edit,
-			"category":this.selected_category
+			"answer": this.selected_qans_val_edit
 		}
 		this.quiz_value.splice(this.edit_q_index, 1, obj);
 		this.modalReference.close();
@@ -294,7 +292,8 @@ export class TeacherbaselineComponent implements OnInit {
 		const body = {
 			assessmentquestion : this.quiz_value,
 			language:this.selected_preflanguage,
-			type : this.selected_assesment
+			type : this.selected_assesment,
+			category:this.selected_category
 		}
 
 		if(this.quiz_value.length>0 && this.save_operation == 'save'){
