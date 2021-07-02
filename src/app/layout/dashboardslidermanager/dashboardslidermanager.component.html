@@ -1,0 +1,121 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>DASHBOARD SLIDER MANAGER</h4>
+						</div>
+						<div class="col">
+							<button type="button" class="btn btn-primary float-right" (click)="open(savemodal)">&nbsp;&nbsp;&nbsp;Add UDISE Number&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</div>
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div class="row">
+						<div class=""><h2>{{ alludashboardsliderlist.length }} Record(s)</h2></div>
+					</div>
+					<div class="row">
+						<div class="row" *ngFor="let row of alludashboardsliderlist; let i = index;" style="width: 95%;border: 1px solid #cbcbcb;padding: 15px;margin-left: 10px;margin-bottom: 10px;">
+							<div class="col col-lg-2 col-md-2 col-sm-2">{{ i+1 }}</div>
+							<div class="col col-lg-5 col-md-5 col-sm-5">
+								<div class="">
+									<img [src]="domSanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + row.image)" class="smallimage" />
+								</div>
+							</div>
+							<div class="col col-lg-5 col-md-5 col-sm-5">
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4">Type</div>
+									<div class="col">: {{ row.type }}</div>
+								</div>
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4">Title</div>
+									<div class="col">: {{ row.title }}</div>
+								</div>
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4">Sub Title</div>
+									<div class="col">: {{ row.subtitle }}</div>
+								</div>
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4">Message</div>
+									<div class="col">: {{ row.message }}</div>
+								</div>
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4">Uploaded On</div>
+									<div class="col">: {{ row.createdon | date: 'EEEE, MMMM d, y' }}</div>
+								</div>
+								<div class="row">
+									<button type="button" class="btn btn-danger float-right btn-sm" (click)="delete_data(row)">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Save Modal starts from here -->
+<ng-template #savemodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div style="text-align: center;">
+			<div style="margin-left: 1%;">
+				<img [src]="base64img" class="smallimage">
+			</div>
+		</div>
+		<br>
+		<div class="form-control">
+			<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
+		</div>
+		<br>
+		<div class="row">
+			<div class="col col-xl-3 col-lg-3">Type</div>
+			<div class="col col-xl-2 col-lg-2"></div>
+			<div class="col row-fluid">
+				<select value="{{slider_type}}"  (change)="slider_type_onchange($event)" class="form-control">
+					<option value="advertisement">Advertisement</option>
+					<option value="performance">Performance</option>
+					<option value="masterspider">Master spider</option>
+					<option value="leaderboard">Leaderboard</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col col-xl-3 col-lg-3">Title</div>
+			<div class="col col-xl-2 col-lg-2"><i style=" color: #e62424; font-weight: bold; font-size: 10px; font-family: sans-serif; ">(optional)</i></div>
+			<div class="col row-fluid">
+				<input value="{{ slider_title }}" [(ngModel)]="slider_title" type="text" placeholder="Title" class="form-control">
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col col-xl-3 col-lg-3">Sub Title</div>
+			<div class="col col-xl-2 col-lg-2"><i style=" color: #e62424; font-weight: bold; font-size: 10px; font-family: sans-serif; ">(optional)</i></div>
+			<div class="col row-fluid">
+				<input value="{{ slider_subtitle }}" [(ngModel)]="slider_subtitle" type="text" placeholder="Sub Title" class="form-control">
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col col-xl-3 col-lg-3">Message</div>
+			<div class="col col-xl-2 col-lg-2"><i style=" color: #e62424; font-weight: bold; font-size: 10px; font-family: sans-serif; ">(optional)</i></div>
+			<div class="col row-fluid">
+				<input value="{{ slider_message }}" [(ngModel)]="slider_message" type="text" placeholder="Message" class="form-control">
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="save_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>

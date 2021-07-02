@@ -38,9 +38,21 @@
             <i class="fa fa-fw fa-vine"></i>&nbsp;
             <span>{{ 'Version Manager' | translate }}</span>
           </a>
+          <a [routerLink]="['/udisemanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-cc"></i>&nbsp;
+            <span>{{ 'UDISE Manager' | translate }}</span>
+          </a>
+          <a [routerLink]="['/dashboardslidermanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-caret-square-o-right"></i>&nbsp;
+            <span>{{ 'Dashboard Slider' | translate }}</span>
+          </a>
           <a [routerLink]="['/passcodemanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-fax"></i>&nbsp;
             <span>{{ 'Passcode Manager' | translate }}</span>
+          </a>
+          <a [routerLink]="['/postcallactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-phone"></i>&nbsp;
+            <span>{{ 'Post Call Activities' | translate }}</span>
           </a>
 		      <a [routerLink]="['/surveymaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
@@ -293,14 +305,14 @@
           <span><b>HBL</b></span>
         </ng-template>
         <ng-template ngbPanelContent>
-          <a [routerLink]="['/hblmaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a [routerLink]="['/homebasemaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-ravelry" aria-hidden="true"></i>&nbsp;
             <span>{{ 'HBL Master' | translate }}</span>
           </a>
-          <a [routerLink]="['/hblactivityreport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <!-- <a [routerLink]="['/hblactivityreport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;
             <span>{{ 'HBL Report' | translate }}</span>
-          </a>
+          </a> -->
         </ng-template>
       </ngb-panel>
 

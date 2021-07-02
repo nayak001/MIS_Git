@@ -36,6 +36,7 @@ const routes: Routes = [
       { path: 'pushnotification', loadChildren: './pushnotification/pushnotification.module#PushnotificationModule' },
       { path: 'sendSMS', loadChildren: './sendSMS/sendSMS.module#SendSMSModule' },
       { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule' },
+      { path: 'postcallactivities', loadChildren: './postcallactivities/postcallactivities.module#PostcallactivitiesModule' },
       { path: 'eceactivities', loadChildren: './eceactivities/eceactivities.module#EceactivitiesModule' },
       { path: 'pgeactivities', loadChildren: './pgeactivities/pgeactivities.module#PgeactivitiesModule' },
       { path: 'dailyinfo', loadChildren: './dailyinfo/dailyinfo.module#DailyinfoModule' },
@@ -52,6 +53,8 @@ const routes: Routes = [
       { path: 'usersession', loadChildren: './usersession/usersession.module#UsersessionModule' },
       { path: 'tchassessment', loadChildren: './tchassessment/tchassessment.module#TchassessmentModule' },
       { path: 'versionmanager', loadChildren: './versionmanager/versionmanager.module#VersionmanagerModule' },
+      { path: 'udisemanager', loadChildren: './udisemanager/udisemanager.module#UdisemanagerModule' },
+      { path: 'dashboardslidermanager', loadChildren: './dashboardslidermanager/dashboardslidermanager.module#DashboardslidermanagerModule' },
       { path: 'tchbaseline', loadChildren: './tchbaseline/tchbaseline.module#TchbaselineModule' },
       { path: 'leapgeneralinfo', loadChildren: './leapgeneralinfo/leapgeneralinfo.module#LeapgeneralinfoModule' },
       { path: 'schoolgenifo', loadChildren: './schoolgeninfo/schoolgeninfo.module#SchoolgeninfoModule' },
@@ -76,6 +79,8 @@ const routes: Routes = [
       { path: 'passcodemanager', loadChildren: './passcodemanager/passcodemanager.module#PasscodemanagerModule' },
       { path: 'trainingmisc', loadChildren: './trainingmisc/trainingmisc.module#TrainingMiscModule' },
       { path: 'hblmaster', loadChildren: './hblmaster/hblmaster.module#HblmasterModule' },
+      //{ path: 'hblmaster', loadChildren: './hbl_master/hbl_master.module#hblmasterRoutingModule' },
+      { path: 'homebasemaster', loadChildren: './homebasemaster/homebasemaster.module#HomebasemasterModule' },
       { path: 'hblactivityreport', loadChildren: './hblactivityreport/hblactivityreport.module#HblactivityreportModule' },
       { path: 'pptreport', loadChildren: './pptreport/pptreport.module#PptreportModule' },
 	    { path: 'surveymaster', loadChildren: './surveymaster/surveymaster.module#SurveymasterModule' },
@@ -83,6 +88,7 @@ const routes: Routes = [
       { path: 'ppt', loadChildren: './preprogramteachertraining/preprogramteachertraining.module#PreprgrameTeacherTrainingModule' },
       { path: 'teacherbaseline', loadChildren: './teacherbaseline/teacherbaseline.module#TeacherBaselineModule' },
       { path: 'preprogramtrainingmodule', loadChildren: './preprogramtrainingmodules/preprogramtrainingmodules.module#PreprogramtrainingModule' },
+      { path: 'pgskillmaster', loadChildren: './pgeskillmaster/pgeskillmaster.module#pgskillmasterModule' },
       
     ]
   }

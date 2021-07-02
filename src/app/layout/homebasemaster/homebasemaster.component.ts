@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { Router } from '@angular/router';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
-import { TeacherbaselineService } from './teacherbaseline.service';
+import { HomebaseService } from './homebasemaster.service';
 import { ManagersboxService } from  './../managersbox/managersbox.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -12,13 +12,13 @@ import { environment } from './../../../environments/environment.prod';
 const URL = environment.uploadURL;
 
 @Component({
-    selector: 'app-teacherbaseline',
-    templateUrl: './teacherbaseline.component.html',
-    styleUrls: ['./teacherbaseline.component.scss'],
+    selector: 'app-homebasemaster',
+    templateUrl: './homebasemaster.component.html',
+    styleUrls: ['./homebasemaster.component.scss'],
     animations: [routerTransition()]
 })
 
-export class TeacherbaselineComponent implements OnInit {
+export class HomebaseMasterComponent implements OnInit {
 	// video
 	isSelected:boolean=true;
 	selected_preflanguage:any;
@@ -90,7 +90,8 @@ export class TeacherbaselineComponent implements OnInit {
 	worksheet_value:any = [];
 	video_value:any = [];
 	flashcard_value:any = [];
-	quiz_value:any = [];
+	quiz_value:string = '';
+	activity_documents:any = [];
 	contents:any = [];
 	selectedvedioFiles:any;
 	displayvedioname:any;
@@ -109,7 +110,7 @@ export class TeacherbaselineComponent implements OnInit {
     constructor(
 		private modalService: NgbModal,
         public router: Router,
-		private TeacherbaselineService: TeacherbaselineService,
+		private HomebaseService: HomebaseService,
 		private managersboxService: ManagersboxService
 	) {
 		this.hideLoading_indicator = true;
@@ -120,25 +121,42 @@ export class TeacherbaselineComponent implements OnInit {
 	
 	ngOnInit() {
 		this.load_record();
+		this.load_activity_record()
 	}
 	selected_assesment:any = "baseline";
+	show_month:boolean = false;
 	onselect_assesment_select(event) {
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.selected_assesment = selectedOptionValue;
+		if(this.selected_assesment == 'baseline' || this.selected_assesment == 'endline'){
+			this.show_month = false;
+		}else{
+			this.show_month = true; 
+		}
 		this.load_record();
 	}
-	selected_category:any = "pedagogy";
-	onselect_category_select(event) {
+	
+	onselect_change_class(event) {
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectElementText = selectedOptions[selectedIndex].text;
-		this.selected_category = selectedOptionValue;
+		this.selected_class = selectedOptionValue;
 		this.load_record();
 	}
+	
+	onselect_change_month(event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.selected_month = selectedOptionValue;
+		this.load_record();
+	}
+	
 	onselect_editq_select(value){
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
@@ -157,7 +175,10 @@ export class TeacherbaselineComponent implements OnInit {
 		this.selected_qans_val_add = selectedOptionValue;
 		this.selected_qans_text_add = selectElementText;
 	}
+	delete_ques_id:any;
+	edit_ques_id:any;
 	open(content,obj,index,flag) {
+		
 		// update
 		if(flag == 'add'){
 			this.add_q_qid = '';
@@ -170,14 +191,16 @@ export class TeacherbaselineComponent implements OnInit {
 		} else if(flag == 'edit'){
 			this.edit_q_index = index;
 			this.edit_q_qid = obj.qid;
-			this.edit_q_question = obj.question;
+			this.edit_q_question = obj.assessmentquestion;
 			this.edit_q_optionA = obj.A;
 			this.edit_q_optionB = obj.B;
 			this.edit_q_optionC = obj.C;
 			this.edit_q_optionD = obj.D;
 			this.edit_q_ans = obj.answer;
+			this.edit_ques_id = obj._id;
 		} else if(flag == 'delete'){
-			this.delete_q_index = index;
+			this.delete_ques_id = obj;
+			this.delete_doc_id = obj._id;
 		} else if(flag == 'addvideo'){
 			
 		} else if(flag == 'addworksheet'){
@@ -217,97 +240,178 @@ export class TeacherbaselineComponent implements OnInit {
 		this.video_value = [];
 		this.worksheet_value = [];
 		this.flashcard_value = [];
-		this.quiz_value = [];
+		this.quiz_value = '';
 	}
 	dataid:any;
+	activity_doc:any = [];
+	selected_class:any = 0;
+	selected_month:any = 'month0';
+	alldata:any;
 	async load_record(){
-			this.TeacherbaselineService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage,this.selected_category).subscribe(data => {
+			this.HomebaseService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage,this.selected_class,this.selected_month).subscribe(data => {
 				if(Object.keys(data).length > 0){
+					this.alldata = data;
 					this.dataid = data[0]._id;
-					this.quiz_value = data[0]['assessmentquestion'];
+					this.hideProgressbar = false;
 					this.save_operation = 'update';
 				}else{
-					this.quiz_value = [];
+					this.quiz_value = '';
+					this.alldata = [];
 					this.save_operation = 'save';
 				}
 				},
 				error => {},
 				() => {}
 			);
+
+			
 		
 	}
+	delete_doc_id:any;
+	async load_activity_record(){
+		this.HomebaseService.getactivitydocument('hbl').subscribe(data => {
+			if(Object.keys(data).length > 0){
+				this.activity_doc = data;
+			}else{
+				
+			}
+			},
+			error => {},
+			() => {}
+		);
+   }
+	
 
-	addquiz(){
-		if(this.add_q_question == '' || this.selected_qans_val_add == ''){
-			swal.fire('info', 'Please fill at least two options with answer!!!', 'warning');
+	addquiz12(){
+		if(this.add_q_question == ''){
+			swal.fire('info', 'Please add the question!!!', 'warning');
 		}else{
 			let obj = {
 				"qid": new Date().getTime(),
 				"question": this.add_q_question,
-				"A": (this.add_q_optionA == '')?'':this.add_q_optionA,
-				"B": (this.add_q_optionB == '')?'':this.add_q_optionB,
-				"C": (this.add_q_optionC == '')?'':this.add_q_optionC,
-				"D": (this.add_q_optionD == '')?'':this.add_q_optionD,
-				"answer": this.selected_qans_val_add
+				// "A": (this.add_q_optionA == '')?'':this.add_q_optionA,
+				// "B": (this.add_q_optionB == '')?'':this.add_q_optionB,
+				// "C": (this.add_q_optionC == '')?'':this.add_q_optionC,
+				// "D": (this.add_q_optionD == '')?'':this.add_q_optionD,
+				// "answer": this.selected_qans_val_add
 			}
-			this.quiz_value.push(obj);
+			this.quiz_value = this.add_q_question;
 			this.modalReference.close();
 		}
 	}
 	updatequiz(){
-		let obj = {
-			"qid":this.edit_q_qid,
-			"question": this.edit_q_question,
-			"A": this.edit_q_optionA,
-			"B": this.edit_q_optionB,
-			"C": this.edit_q_optionC,
-			"D": this.edit_q_optionD,
-			"answer": this.selected_qans_val_edit
-		}
-		this.quiz_value.splice(this.edit_q_index, 1, obj);
-		this.modalReference.close();
-	}
-
-	delquiz(){
-		this.quiz_value.splice(this.delete_q_index, 1);
-		this.modalReference.close();
-	}
-	async deletecontent(){
-		var contentdata
-		var record_id;
-	
-		this.TeacherbaselineService.deletecontent(record_id,contentdata).subscribe(data => {
-			swal.fire('Success', 'Record updated successfully', 'success');
-			this.load_record();
-		},
-		error => {},
-		() => {}
-	);	
-	}
-
-	
-	async save_btn_click(){
 		const body = {
-			assessmentquestion : this.quiz_value,
-			language:this.selected_preflanguage,
-			type : this.selected_assesment,
-			category:this.selected_category
+			assessmentquestion : this.edit_q_question,
 		}
+		this.quiz_value = this.edit_q_question;
+		this.modalReference.close();
+		this.HomebaseService.updatehomebasedmasterdata(this.edit_ques_id,body).subscribe(data => {
+			swal.fire('Success', 'assesment updated successfully', 'success');
+			this.load_record();
+		},error => {}, () => {});
+		
+	}
+	openUploadDocModal(){
 
-		if(this.quiz_value.length>0 && this.save_operation == 'save'){
-			this.TeacherbaselineService.createteacherassesment(body).subscribe(data => {
+	}
+	delquiz(){
+		//this.quiz_value.splice(this.delete_q_index, 1);
+		this.HomebaseService.deleteassesment(this.delete_ques_id).subscribe(data => {
+			swal.fire('Success', 'assesment deleted successfully', 'success');
+			this.load_record();
+		},error => {}, () => {});
+		this.modalReference.close();
+		this.load_record();
+	}
+	deleteactivity(){
+		// this.hideProgressbar = true;
+		// this.progress.percentage = 0;
+		// this.s3path = '';
+	
+		// const body = {
+		// 	activitydocument : '',
+		// 	displayname : ''
+		// }
+		this.HomebaseService.deletecontent(this.delete_doc_id).subscribe(data => {
+			swal.fire('Success', 'document deleted successfully', 'success');
+			this.load_activity_record();
+		},error => {}, () => {});
+		this.modalReference.close();
+		// this.load_activity_record();
+	}
+	
+	async addquiz(){
+		if(this.add_q_question == ''){
+			swal.fire('info', 'Please add the question!!!', 'warning');
+		}else{
+			if(this.selected_assesment == 'baseline' || this.selected_assesment == 'endline'){
+				this.selected_month = 'month0'
+			}
+			else{
+				this.selected_month  = this.selected_month
+			}
+			const body = {
+				assessmentquestion : this.add_q_question,
+				language:this.selected_preflanguage,
+				type : this.selected_assesment,
+				activitydocument : this.s3path,
+				displayname : this.displayname,
+				class : this.selected_class,
+				month:this.selected_month
+			}
+			this.HomebaseService.createhomebasemasterdata(body).subscribe(data => {
 				swal.fire('Success', 'assesment created successfully', 'success');
 				this.load_record();
 			},error => {}, () => {});
-		}else if(this.quiz_value.length>0 && this.save_operation == 'update'){
-			this.TeacherbaselineService.updateteacherassesment(this.dataid,body).subscribe(data => {
-				swal.fire('Success', 'assesment updated successfully', 'success');
-				this.load_record();
-			},error => {}, () => {});
+			this.modalReference.close();
+			
+			
+		}
+	
+	}
+
+	selectedFiles: FileList;
+	displayname: string;
+	filetype: string;
+	s3name: string;
+	filechooser_onchange(event) {
+		if(event.target.files.length > 0){
+			this.selectedFiles = event.target.files;
+			this.displayname = event.target.files[0].name;
+			this.filetype = this.displayname.split('.').pop();
+			this.s3name = (new Date()).getTime()+'.'+this.filetype;
+			this.hideProgressbar = false;
+			this.progress.percentage = 0;
+			this.currentFileUpload = this.selectedFiles.item(0);
+			this.HomebaseService.pushFileToStorage(this.currentFileUpload, this.s3name).subscribe(event => {
+				if (event.type === HttpEventType.UploadProgress) {
+					this.progress.percentage = Math.round(100 * event.loaded / event.total);
+				} else if (event instanceof HttpResponse) {
+					this.s3path = event.body['s3path'];
+					this.hideProgressbar = true;
+				}
+			});
 		}else{
-			swal.fire('info', 'Something went wrong !!!', 'warning');
+			this.displayname = '';
+			this.selectedFiles = null;
 		}
 	}
-	
+	uploadactivitydoc(){
+		const body = {
+			language:this.selected_preflanguage,
+			activitydocument : this.s3path,
+			filetype:this.filetype,
+			displayname : this.displayname,
+		}
+		this.HomebaseService.saveactivitydocument(body).subscribe(data => {
+			swal.fire('Success', 'assesment created successfully', 'success');
+			this.load_record();
+			this.load_activity_record();
+			this.hideProgressbar = false;
+			this.progress.percentage = 0;
+			this.modalReference.close();
+			
+		},error => {}, () => {});
+	}
 
 }

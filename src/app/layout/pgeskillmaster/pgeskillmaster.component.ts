@@ -2,16 +2,16 @@ import { Component, OnInit } from "@angular/core";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { routerTransition } from "../../router.animations";
 import { Router } from "@angular/router";
-import { AssessmentmasterService } from "./assessmentmaster.service";
+import { PgskillmasterService } from "./pgeskillmaster.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: "app-assessmentmaster",
-  templateUrl: "./assessmentmaster.component.html",
-  styleUrls: ["./assessmentmaster.component.scss"],
+  selector: "app-pgskillmaster",
+  templateUrl: "./pgeskillmaster.component.html",
+  styleUrls: ["./pgeskillmaster.component.scss"],
   animations: [routerTransition()],
 })
-export class AssessmentmasterComponent implements OnInit {
+export class PgskillmasterComponent implements OnInit {
   public data: any = [];
   assessment_list: any = [];
 
@@ -39,7 +39,7 @@ export class AssessmentmasterComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private assessmentmasterService: AssessmentmasterService,
+    private pgskillmasterService: PgskillmasterService,
     private modalService: NgbModal
   ) {
     this.selected_program = "";
@@ -55,34 +55,26 @@ export class AssessmentmasterComponent implements OnInit {
   }
 
   ngOnInit() {}
-
-  async load_record(preflanguage, program, level, subject, stage) {
+ 
+  async load_record(preflanguage,subject, level) {
     if (
       preflanguage != undefined &&
       preflanguage != null &&
       preflanguage != "" &&
-      program != undefined &&
-      program != null &&
-      program != "" &&
-      level != undefined &&
-      level != null &&
-      level != "" &&
       subject != undefined &&
       subject != null &&
       subject != "" &&
-      stage != undefined &&
-      stage != null &&
-      stage != ""
+      level != undefined &&
+      level != null &&
+      level != ""
     ) {
       this.hideLoading_indicator = false;
       this.hideContent_div = true;
       // /gettchassessment/:preferedlanguage/:program/:level/:stage/:subject
-      this.assessmentmasterService
-        .getmasterassessmentdetails(
+      this.pgskillmasterService
+        .getpgeactivityskills(
           preflanguage,
-          program,
           level,
-          stage,
           subject
         )
         .subscribe(
@@ -122,10 +114,8 @@ export class AssessmentmasterComponent implements OnInit {
 
     this.load_record(
       this.selected_preflanguage,
-      this.selected_program,
-      this.selected_level,
       this.selected_subject,
-      this.selected_stage
+      this.selected_level
     );
   }
 
@@ -145,11 +135,6 @@ export class AssessmentmasterComponent implements OnInit {
         { value: "quarter2", text: "Quarter 2" },
         { value: "quarter3", text: "Quarter 3" },
         { value: "quarter4", text: "End Line" },
-      ];
-      this.level_select_option_list = [
-        { value: "1", text: "Level 1" },
-        { value: "2", text: "Level 2" },
-        { value: "3", text: "Level 3" },
       ];
 
       this.hideClass_select = false;
@@ -188,10 +173,8 @@ export class AssessmentmasterComponent implements OnInit {
     this.selected_stage = "";
     this.load_record(
       this.selected_preflanguage,
-      this.selected_program,
-      this.selected_level,
       this.selected_subject,
-      this.selected_stage
+      this.selected_level
     );
   }
 
@@ -203,10 +186,8 @@ export class AssessmentmasterComponent implements OnInit {
     this.selected_level = selectedOptionValue;
     this.load_record(
       this.selected_preflanguage,
-      this.selected_program,
-      this.selected_level,
       this.selected_subject,
-      this.selected_stage
+      this.selected_level
     );
   }
 
@@ -218,10 +199,8 @@ export class AssessmentmasterComponent implements OnInit {
     this.selected_subject = selectedOptionValue;
     this.load_record(
       this.selected_preflanguage,
-      this.selected_program,
-      this.selected_level,
       this.selected_subject,
-      this.selected_stage
+      this.selected_level
     );
   }
 
@@ -233,20 +212,16 @@ export class AssessmentmasterComponent implements OnInit {
     this.selected_stage = selectedOptionValue;
     this.load_record(
       this.selected_preflanguage,
-      this.selected_program,
-      this.selected_level,
       this.selected_subject,
-      this.selected_stage
+      this.selected_level
     );
   }
 
   go_btn_click() {
     this.load_record(
       this.selected_preflanguage,
-      this.selected_program,
-      this.selected_level,
       this.selected_subject,
-      this.selected_stage
+      this.selected_level
     );
   }
 
@@ -256,27 +231,23 @@ export class AssessmentmasterComponent implements OnInit {
       this.content_value == null ||
       this.content_value.trim() == ""
     ) {
-      alert("Please give assessment content");
+      alert("Please add skill");
     } else {
       const body = {
         id: new Date().getTime(),
-        preferedlanguage: this.selected_preflanguage,
-        program: this.selected_program,
-        level: this.selected_level,
-        stage: this.selected_stage,
+        language: this.selected_preflanguage,
+        class: this.selected_level,
         subject: this.selected_subject,
         question: this.content_value,
       };
-      this.assessmentmasterService.createmasterassessmentmaster(body).subscribe(
+      this.pgskillmasterService.createpgeskill(body).subscribe(
         (data) => {
           this.modalReference.close();
           //alert('Record save status: '+JSON.stringify(data));
           this.load_record(
             this.selected_preflanguage,
-            this.selected_program,
-            this.selected_level,
             this.selected_subject,
-            this.selected_stage
+            this.selected_level
           );
         },
         (error) => {},
@@ -291,29 +262,25 @@ export class AssessmentmasterComponent implements OnInit {
       this.content_value == null ||
       this.content_value.trim() == ""
     ) {
-      alert("Please give assessment content");
+      alert("Please add pge skill content");
     } else {
       const body = {
         id: this.id,
-        preferedlanguage: this.selected_preflanguage,
-        program: this.selected_program,
-        level: this.selected_level,
-        stage: this.selected_stage,
+        language: this.selected_preflanguage,
+        class: this.selected_level,
         subject: this.selected_subject,
         question: this.content_value,
       };
-      this.assessmentmasterService
-        .updatemasterassessmentmaster(this.record_id, body)
+      this.pgskillmasterService
+        .updatepgeskillmaster(this.record_id, body)
         .subscribe(
           (data) => {
             this.modalReference.close();
             //alert('Record update status: '+JSON.stringify(data));
             this.load_record(
               this.selected_preflanguage,
-              this.selected_program,
-              this.selected_level,
               this.selected_subject,
-              this.selected_stage
+              this.selected_level
             );
           },
           (error) => {},
@@ -323,16 +290,14 @@ export class AssessmentmasterComponent implements OnInit {
   }
 
   async delete_record() {
-    this.assessmentmasterService.deletetchassessment(this.record_id).subscribe(
+    this.pgskillmasterService.deletetpgeskill(this.record_id).subscribe(
       (data) => {
         this.modalReference.close();
         //alert('Record update status: '+JSON.stringify(data));
         this.load_record(
           this.selected_preflanguage,
-          this.selected_program,
-          this.selected_level,
           this.selected_subject,
-          this.selected_stage
+          this.selected_level
         );
       },
       (error) => {},

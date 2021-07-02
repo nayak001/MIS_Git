@@ -1,0 +1,187 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>POST CALL ACTIVITY</h4>
+						</div>
+						<div class="col">
+							<button type="button" class="btn btn-primary float-right" (click)="open(savemodal, 'save', null)">&nbsp;&nbsp;&nbsp;Add Activity&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</div>
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<!-- filters -->
+					<div class="">
+						<div class="row">
+							<div class="col col-xl-3 col-lg-3">Prefered Language</div>
+							<div class="col col-xl-3 col-lg-3">Program</div>
+							<div class="col col-xl-3 col-lg-3" [hidden]="hidesubject_filter">Subject</div>
+							<div class="col col-xl-3 col-lg-3"></div>
+						</div>
+						<div class="row">
+							<div class="col col-xl-3 col-lg-3">
+								<select value="{{preferedlanguage_filter}}"  (change)="preferedlanguage_filter_onchange($event)" class="form-control">
+									<option value="od">ଓଡିଆ</option>
+									<option value="en">English</option>
+								</select>
+							</div>
+							<div class="col col-xl-3 col-lg-3">
+								<select value="{{program_filter}}"  (change)="program_filter_onchange($event)" class="form-control">
+									<option value="ece">ECE</option>
+									<option value="pge">PGE</option>
+								</select>
+							</div>
+							<div class="col col-xl-3 col-lg-3" [hidden]="hidesubject_filter">
+								<select value="{{subject_filter}}"  (change)="subject_filter_onchange($event)" class="form-control">
+									<option value="odia">Odia</option>
+									<option value="english">English</option>
+									<option value="math">Math</option>
+								</select>
+							</div>
+							<div class="col col-xl-3 col-lg-3">
+								<!-- <button type="button" class="btn btn-info float-right btn-block" (click)="filterbutton_click()">&nbsp;&nbsp;&nbsp;Filter&nbsp;&nbsp;&nbsp;</button> -->
+							</div>
+						</div>
+					</div>
+					<!-- ======= -->
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div>
+						<div class="row">
+							<div class="col col-xl-4 col-lg-4"><h2>{{ allpostcallrecordslist.length }} Record(s)</h2></div>
+							<div class="col col-xl-6 col-lg-6">
+								<input (keyup)='search($event.target.value)' type="text" placeholder="Search" class="modal_textbox">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<table>
+									<tr>
+										<th>Sl.</th>
+										<th>Remark</th>
+										<th>Program</th>
+										<th>Subject</th>
+										<th>Action</th>
+									</tr>
+									<tr *ngFor="let row of allpostcallrecordslist; let i = index;">
+										<td><div>{{ i+1 }}</div></td>
+										<td><div>{{ row.question }}</div></td>
+										<td><div>{{ row.program }}</div></td>
+										<td><div>{{ row.subject }}</div></td>
+										<td>
+											<div>
+												<button type="button" class="btn btn-danger float-right btn-sm" (click)="delete_data(row)">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+												<button type="button" class="btn btn-secondary float-right btn-sm" (click)="open(updatemodal, 'update', row)">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Save Modal starts from here -->
+<ng-template #savemodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Prefered Language</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{preferedlanguage}}"  (change)="preferedlanguage_onchange($event)" class="form-control">
+					<option value="od">ଓଡିଆ</option>
+					<option value="en">English</option>
+				</select>
+			</div>
+		</div><br>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Program</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{program}}"  (change)="program_onchange($event)" class="form-control">
+					<option value="ece">ECE</option>
+					<option value="pge">PGE</option>
+				</select>
+			</div>
+		</div><br>
+		<div class="row" [hidden]="hidesubject">
+			<div class="col col-xl-4 col-lg-4">Subject</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{subject}}"  (change)="subject_onchange($event)" class="form-control">
+					<option value="odia">Odia</option>
+					<option value="english">English</option>
+					<option value="math">Math</option>
+				</select>
+			</div>
+		</div><br>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Remark</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ question }}" [(ngModel)]="question" type="text" placeholder="Remark" class="form-control">
+			</div>
+		</div><br>
+		<div class="row">
+			<div style="padding: 15px; word-wrap: break-word; height: 100px; overflow-x: hidden; overflow-y: auto;"><h4>{{ question }}</h4></div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="save_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Update Modal starts from here -->
+<ng-template #updatemodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Prefered Language</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{preferedlanguage}}"  (change)="preferedlanguage_onchange($event)" class="form-control">
+					<option value="od">ଓଡିଆ</option>
+					<option value="en">English</option>
+				</select>
+			</div>
+		</div><br>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Program</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{program}}"  (change)="program_onchange($event)" class="form-control">
+					<option value="ece">ECE</option>
+					<option value="pge">PGE</option>
+				</select>
+			</div>
+		</div><br>
+		<div class="row" [hidden]="hidesubject">
+			<div class="col col-xl-4 col-lg-4">Subject</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<select value="{{subject}}"  (change)="subject_onchange($event)" class="form-control">
+					<option value="odia">Odia</option>
+					<option value="english">English</option>
+					<option value="math">Math</option>
+				</select>
+			</div>
+		</div><br>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Remark</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ question }}" [(ngModel)]="question" type="text" placeholder="Remark" class="form-control">
+			</div>
+		</div><br>
+		<div class="row">
+			<div style="padding: 15px; word-wrap: break-word; height: 100px; overflow-x: hidden; overflow-y: auto;"><h4>{{ question }}</h4></div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="update_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
