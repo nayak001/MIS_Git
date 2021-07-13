@@ -11,8 +11,8 @@ const baseUrl = environment.baseUrl;
 export class TeacherbaselineService {
 	constructor(private http: HttpClient) { }
 
-	getallteacherassesment(type,language){
-		return this.http.get(baseUrl+'getteacherallassessment/'+type +'/'+ language,{
+	getallteacherassesment(type,language,category){
+		return this.http.get(baseUrl+'getteacherallassessment/'+type +'/'+ language +'/'+category,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			
 		});
@@ -47,8 +47,8 @@ export class TeacherbaselineService {
 			//,responseType: 'text' 
 		});
 	}
-	deletecontent(id,body){
-		return this.http.put(baseUrl+'ppt_deletecontent/'+id,body,{
+	deletecontent(id){
+		return this.http.delete(baseUrl+'deleteteacherassessment/'+id,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 
 		});

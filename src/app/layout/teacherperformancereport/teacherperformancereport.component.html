@@ -1,0 +1,320 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col col-xl-4 col-lg-4">
+                           <h4 style="font-size: 16px; margin-top: 5px;color: black;">Teacher Performance Report</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row" style="padding: 25px; font-size: 15px;color: black;" *ngIf = "api_hit"> 
+                    <div class="col-2">
+                        <label>Center Type</label>
+                        <select class="form-control select2" [(ngModel)]="center_type"
+                            style="font-size: 14px; height: 30px;">
+                            <option value="all">All</option>
+                            <option value="anganwadi">Anganwadi</option>
+                            <option value="school">School</option>
+                            <option value="fellow">Fellow</option>
+                        </select>
+
+                    </div>
+                    <div class="col-2">
+                        <label>Select District</label>
+                        <select class="form-control select2" [(ngModel)]="distric" (change)="selectBlock(distric)"
+                            style=" height: 30px;">
+
+                            <option value="all">All</option>
+                            <option *ngFor="let distic of allDistics" value={{distic.districtvalue}}>{{distic.districtvalue}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <label>Select Block</label>
+                        <select class="form-control select2" [(ngModel)]="block" style=" height: 30px;">
+
+                            <option value="all">All</option>
+                            <option *ngFor="let block of all_blocks" value={{block.block}}>{{block.block}}</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <label>Program Type</label>
+                        <select class="form-control select2" [(ngModel)]="program_type" style=" height: 30px;">
+
+                            <option value="all">All</option>
+                            <option value="ece">ECE</option>
+                            <option value="pge">PGE</option>
+                        </select>
+                    </div>
+
+                    
+
+                    <div class="col-2">
+                        <button type="button" (click)="viewData()" class="btn btn-info" style="margin-top:29px;width: 92%;">Filter</button>
+                    </div>
+                    <div class="col-2">
+                        <div class="row" style="float: right;">
+                            <i class="fa fa-download" (click)="download()" title="Download" style="cursor: pointer;margin-right: 21px;"></i>
+                        </div>
+
+
+                    </div>
+
+                    </div> -->
+
+
+
+                </div>
+                <div id="loading_indicator" class="loading_indicator" *ngIf="!isLoaded">
+                    <span class=""><img src="assets/images/loader3.gif" style="padding: 25px;"
+                            alt="Loading. Please wait..."></span>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-1 col-md-1 col-sm-1"><i class="fa fa-search" aria-hidden="true"></i> Search </div>
+                    <div class="col col-lg-4 col-md-4 col-sm-4">
+                        <input type="text" (keyup)='search($event.target.value)' class="">
+                    </div>
+                    <div class="col bfont">{{ filterData ? filterData.length : 0 }} Record(s) found</div>
+                </div>
+                <div id="table-scroll" class="table-scroll" *ngIf="isLoaded && !isdata_table">
+                    <div class="table-wrap" style="overflow-x:auto;  margin-top: -2%;">
+                        <table class="table table-striped main-table" [mfData]="filterData" #mf="mfDataTable"
+                            [mfRowsOnPage]="25">
+                            <thead>
+                                <tr>
+                                    <th>Educator Name</th>
+                                    <th>Email ID</th>
+                                    <th>Pre program Modules completed</th>
+                                    <th>Baseline Status</th>
+                                    <th>Endline Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                 <tr *ngFor="let detail of mf.data;let i=index" class="record-row" id='user_{{i}}' (click)="highlight(i)">
+                        
+                                  <td>{{detail.teachername}}</td>
+                                  <td>{{detail.emailid}}</td>
+                                  <td>{{detail.completedpptmodules}}</td>
+                                  <td>{{detail.teacherbaseline}}</td>
+                                  <td>{{detail.teacherendline}}</td>
+                                </tr>
+                
+                            </tbody>
+                
+                
+                
+                
+                            <tfoot>
+                                <tr>
+                                    <td colspan="20">
+                                        <!-- <ngb-pagination (pageChange)="getPageNo($event)" [pageSize]="10" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination> -->
+                                         <mfBootstrapPaginator></mfBootstrapPaginator>
+                                        <!-- <ngb-pagination (pageChange)="getPageNo($event)" [pageSize]="10" [collectionSize]="count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination> -->
+                                        <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
+                                        <!-- <mfBootstrapPaginator></mfBootstrapPaginator> -->
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="loader" *ngIf ="loader" style="top: 50%;
+                        position: fixed;
+                        left: 50%;"></div>
+                    </div>
+                </div>
+               
+            <div class="row" *ngIf="isdata_table" style="text-align: center;margin:10%;margin-left:30%">
+                <h1>Oops!!</h1>
+                <br>
+                <span style="margin-top: 20px;">There is no Data For Selected Fields</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #editmodal let-c="close" let-d="dismiss">
+    <form role="form" >
+    <div class="row"> 
+        <span class="cross" style="cursor: pointer;margin-left: -18px;"><i class="fa fa-times" (click) ="c('Close click')" aria-hidden="true"></i></span>
+    
+		<label class ="heading" >
+            
+            
+            <span>Teacher Detail</span>
+        </label>
+        </div>
+        <div class="modal-body" style="margin-left: 1%;color: #867e95;font-size: 15px;">
+            <div class="accordion" id="accordionExample" >
+                <div class="card">
+                  <!-- <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link collapsed" style=" margin-top: -10px;" (click)="show('shoDetails')" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                       Basic Details
+                      </button>
+                    </h2>
+                  </div> -->
+              
+                  <div id="collapseOne" *ngIf="check" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" >
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-6 sideheading" >Teacher Name &nbsp;:</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.teachername}} </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6 sideheading" >Status &nbsp;:</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.status}} </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6 sideheading">Center Name</div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center?.centername}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Center Type</div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center?.centertype}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Center Id</div>
+                            <div class="col-6" style="text-transform:uppercase;">{{userDetails.center?.centerid}}</div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-6 sideheading">Block</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.center?.block}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">District</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.center?.district}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">State</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.center?.state}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Qualification</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.qualification}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Contact No</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.contactno}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Address</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.address}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Special Initiative</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.special_initiative}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Aspirations</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.aspiration}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Center Start Date</div>
+                            <div class="col-6" style="text-transform:capitalize;">{{userDetails.user?.center_start_date}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 sideheading">Pre Programming Training Marks</div>
+                            <div class="col-6" style="text-transform:capitalize;"></div>
+                        </div>
+              
+              
+                        
+                    </div>
+                  </div>
+                </div>
+               
+               
+                
+              </div>
+            
+<!-- 			
+            <div class="row">
+                <span>Student Name &nbsp;:  &nbsp;&nbsp;&nbsp;{{userDetails.student.studentname}}</span>
+
+            </div>
+            <div class="row">
+                <span>Date of Enrollment &nbsp;:  &nbsp;&nbsp;&nbsp; {{userDetails.student.registration_date}}</span>
+
+            </div>
+            <div class="row">
+                <span>Name of the type &nbsp;:  &nbsp;&nbsp;&nbsp; {{userDetails.user.usertype}}</span>
+
+			</div>
+         
+            <div class="row">
+                <span>Type &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Block&nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>District&nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>State&nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>ECE Level&nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>PG Maths Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>PG English Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>PG Odia Level &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Avg Monthly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.AvgMonthlyAssestmentScore}}</span>
+
+            </div>
+            <div class="row">
+                <span>Quarterly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.QuarterlyAssestmentScore}}</span>
+
+            </div>
+           
+            <div class="row">
+                <span>Monthly English Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Avg Quarterly Assessment Score &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Level Jumped &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.LevelJumped}}</span>
+
+            </div>
+            <div class="row">
+                <span>Age-appropriate Learning Outcomes Achieved &nbsp; : &nbsp;&nbsp;&nbsp;</span>
+
+            </div>
+            <div class="row">
+                <span>Average Attendance &nbsp; : &nbsp;&nbsp;&nbsp;{{userDetails.averages.AverageAttendance}}</span>
+
+            </div>
+            
+			 -->
+        </div>
+        <div class="footer" style="border: none!important;">
+            <button class="footerbutton" type="button" (click)="c('Close click')" class="btn btn-default">Cancel</button>
+        </div>
+    </form>
+</ng-template>

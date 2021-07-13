@@ -130,6 +130,15 @@ export class TeacherbaselineComponent implements OnInit {
 		this.selected_assesment = selectedOptionValue;
 		this.load_record();
 	}
+	selected_category:any = "pedagogy";
+	onselect_category_select(event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.selected_category = selectedOptionValue;
+		this.load_record();
+	}
 	onselect_editq_select(value){
 		const selectedOptions = event.target['options'];
 		const selectedIndex = selectedOptions.selectedIndex;
@@ -148,6 +157,7 @@ export class TeacherbaselineComponent implements OnInit {
 		this.selected_qans_val_add = selectedOptionValue;
 		this.selected_qans_text_add = selectElementText;
 	}
+	delete_q_qid:any;
 	open(content,obj,index,flag) {
 		// update
 		if(flag == 'add'){
@@ -169,6 +179,7 @@ export class TeacherbaselineComponent implements OnInit {
 			this.edit_q_ans = obj.answer;
 		} else if(flag == 'delete'){
 			this.delete_q_index = index;
+			this.delete_q_qid = obj._id;
 		} else if(flag == 'addvideo'){
 			
 		} else if(flag == 'addworksheet'){
@@ -212,10 +223,10 @@ export class TeacherbaselineComponent implements OnInit {
 	}
 	dataid:any;
 	async load_record(){
-			this.TeacherbaselineService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage).subscribe(data => {
+			this.TeacherbaselineService.getallteacherassesment(this.selected_assesment, this.selected_preflanguage,this.selected_category).subscribe(data => {
 				if(Object.keys(data).length > 0){
 					this.dataid = data[0]._id;
-					this.quiz_value = data[0]['assessmentquestion'];
+					this.quiz_value = data;
 					this.save_operation = 'update';
 				}else{
 					this.quiz_value = [];
@@ -246,28 +257,28 @@ export class TeacherbaselineComponent implements OnInit {
 		}
 	}
 	updatequiz(){
-		let obj = {
-			"qid":this.edit_q_qid,
-			"question": this.edit_q_question,
-			"A": this.edit_q_optionA,
-			"B": this.edit_q_optionB,
-			"C": this.edit_q_optionC,
-			"D": this.edit_q_optionD,
-			"answer": this.selected_qans_val_edit
-		}
-		this.quiz_value.splice(this.edit_q_index, 1, obj);
+		//let obj = {
+			// qid:this.edit_q_qid,
+			// question: this.edit_q_question,
+			// A: this.edit_q_optionA,
+			// B: this.edit_q_optionB,
+			// C: this.edit_q_optionC,
+			// D: this.edit_q_optionD,
+			// answer: this.selected_qans_val_edit
+		//}
+		//this.quiz_value.splice(this.edit_q_index, 1, obj);
 		this.modalReference.close();
 	}
-
-	delquiz(){
-		this.quiz_value.splice(this.delete_q_index, 1);
-		this.modalReference.close();
-	}
-	async deletecontent(){
+	
+	//delquiz(){
+		// this.quiz_value.splice(this.delete_q_index, 1);
+		// this.modalReference.close();
+	//}
+	async delquiz(){
 		var contentdata
 		var record_id;
 	
-		this.TeacherbaselineService.deletecontent(record_id,contentdata).subscribe(data => {
+		this.TeacherbaselineService.deletecontent(this.delete_q_qid).subscribe(data => {
 			swal.fire('Success', 'Record updated successfully', 'success');
 			this.load_record();
 		},
@@ -276,20 +287,43 @@ export class TeacherbaselineComponent implements OnInit {
 	);	
 	}
 
-	
 	async save_btn_click(){
-		const body = {
-			assessmentquestion : this.quiz_value,
-			language:this.selected_preflanguage,
-			type : this.selected_assesment,
-		}
-
-		if(this.quiz_value.length>0 && this.save_operation == 'save'){
+		this.save_operation = 'save';
+		if(this.save_operation == 'save'){
+			const body = {
+				qid: new Date().getTime(),
+				question: this.add_q_question,
+				A:(this.add_q_optionA == '')?'':this.add_q_optionA,
+				B: (this.add_q_optionB == '')?'':this.add_q_optionB,
+				C: (this.add_q_optionC == '')?'':this.add_q_optionC,
+				D: (this.add_q_optionD == '')?'':this.add_q_optionD,
+				answer: this.selected_qans_val_add,
+				language:this.selected_preflanguage,
+				type : this.selected_assesment,
+				category:this.selected_category
+			}
 			this.TeacherbaselineService.createteacherassesment(body).subscribe(data => {
 				swal.fire('Success', 'assesment created successfully', 'success');
 				this.load_record();
 			},error => {}, () => {});
-		}else if(this.quiz_value.length>0 && this.save_operation == 'update'){
+		}else{
+			swal.fire('info', 'Something went wrong !!!', 'warning');
+		}
+	}
+	async update_btn_click(){
+		if(this.save_operation == 'update'){
+			const body = {
+				qid:this.edit_q_qid,
+				question: this.edit_q_question,
+				A: this.edit_q_optionA,
+				B: this.edit_q_optionB,
+				C: this.edit_q_optionC,
+				D: this.edit_q_optionD,
+				answer: this.selected_qans_val_edit,
+				language:this.selected_preflanguage,
+				type : this.selected_assesment,
+				category:this.selected_category
+			}
 			this.TeacherbaselineService.updateteacherassesment(this.dataid,body).subscribe(data => {
 				swal.fire('Success', 'assesment updated successfully', 'success');
 				this.load_record();
