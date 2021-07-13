@@ -16,7 +16,7 @@
 				
 				<div class="card-body table-responsive">
 					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
+						<div class="col col-xl-3 col-lg-3">
 							<!-- <div class="col col-xl-2 col-lg-2">
 								
 							</div> -->
@@ -30,7 +30,7 @@
 								<option value="hi">हिंदी</option>
 							</select>
 						</div>
-						<div class="col col-xl-4 col-lg-4">
+						<div class="col col-xl-3 col-lg-3">
 							<div style="margin: 10px;margin-left: 1px;">
 								Select Category
 							</div>
@@ -38,12 +38,12 @@
 								<option value="">Select</option>
 								<option value="pedagogy" selected>Child Development and Pedagogy </option>				
 								<option value="odia">Odia</option>
-								<option value="odia">Math</option>		
-								<option value="odia">English</option>	
-								<option value="odia">Technology</option>
+								<option value="math">Math</option>		
+								<option value="english">English</option>	
+								<option value="technology">Technology</option>
 							</select>
 						</div>
-						<div class="col col-xl-4 col-lg-4">
+						<div class="col col-xl-3 col-lg-3">
 							<div style="margin: 10px;margin-left: 1px;">
 								Select Program
 							</div>
@@ -53,49 +53,17 @@
 								<option value="endline">Endline</option>					
 							</select>
 						</div>
-						<div class="col">
+						<div class="col col-xl-3 col-lg-3">
+							<div>
+								Add Quiz<span class="addbtn" (click)="open(addmodal,null,null,'add')" style="margin-right: 89px;
+						     	margin-top: 45px;"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
+							</div>
 							
-						</div>
-					</div>
-					<!-- <div class="row">
-						<div class="col col-xl-2 col-lg-2">
-							Select Language
-						</div>
-						<div class="col col-xl-2 col-lg-2">
-							<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
-								<option value="">Select</option>
-								<option value="en" [selected]="isSelected">English</option>
-								<option value="od">ଓଡିଆ</option>
-								<option value="hi">हिंदी</option>
-							</select>
-						</div>
-						<!-- <div class="col col-xl-1 col-lg-1">
-							Select Category
-						</div>
-						<div class="col col-xl-2 col-lg-2">
-							<select value="" (change)="onselect_assesment_select($event)" class="form-control">
-								<option value="">Select</option>
-								<option value="pedagogy" selected>Child Development and Pedagogy </option>				
-								<option value="odia">Odia</option>	
-								<option value="math">Math</option>	
-								<option value="english">English</option>
-								<option value="tech">Technology</option>
-							</select>
+						  <!-- <button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button" style="margin-right: 89px;
+						  margin-top: 45px;">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
 						</div> -->
-						<div class="col col-xl-2 col-lg-2">
-							Select program
-						</div>
-						<div class="col col-xl-4 col-lg-4">
-							<select value="" (change)="onselect_assesment_select($event)" class="form-control">
-								<option value="">Select</option>
-								<option value="baseline" selected>Baseline</option>				
-								<option value="endline">Endline</option>					
-							</select>
-						</div>
-						<div class="col">
-							
-						</div>
-					</div> -->
+					</div>
+				
 				</div>
 
 				<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
@@ -116,7 +84,7 @@
 										<tr>
 											<td>
 												<span class="bold-font">Quizes:</span>
-												<span class="addbtn" (click)="open(addmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
+												
 											</td>
 										</tr>
 										<tr *ngFor="let quiz of quiz_value; let i = index;" class="tbl_tr">
@@ -159,9 +127,9 @@
 										</tr>
 									</table>
 								</div>
-								<div>
+								<!-- <div>
 									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-								</div>
+								</div> -->
 							</ng-template>
 						</ngb-tab>
 					</ngb-tabset>
@@ -210,7 +178,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="addquiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+							<button type="button" class="btn btn-primary" (click)="save_btn_click('quiz_tab')">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</ng-template>
 						
@@ -256,7 +224,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="updatequiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+							<button type="button" class="btn btn-primary" (click)="update_btn_click()">&nbsp;&nbsp;&nbsp;update&nbsp;&nbsp;&nbsp;</button>
 						</div>
 					</ng-template>
 

@@ -47,8 +47,8 @@ export class TeacherbaselineService {
 			//,responseType: 'text' 
 		});
 	}
-	deletecontent(id,body){
-		return this.http.put(baseUrl+'ppt_deletecontent/'+id,body,{
+	deletecontent(id){
+		return this.http.delete(baseUrl+'deleteteacherassessment/'+id,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			//,responseType: 'text' 
 		});
