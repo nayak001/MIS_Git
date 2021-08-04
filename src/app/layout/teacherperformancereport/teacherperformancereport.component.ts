@@ -271,7 +271,7 @@ search(term: string) {
 		this.Teacherreportperformanceservice.TeacherEducatorDetail(data).subscribe(data => {
 			debugger
 			this.teacherdata = data
-			 this.count = this.teacherdata.length
+					// this.count = this.teacherdata[0].count
 			 this.isLoaded = true
 			// this.all_blocks=data;
 			this.loader = false
