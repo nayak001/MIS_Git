@@ -153,13 +153,13 @@ export class TeacherperformancereportComponent implements OnInit {
 		this.Teacherreportperformanceservice.Teacherperformancedetails(data).subscribe(data => {
 					this.filterData = data;
 					this.isLoaded = true
-					// if (this.filterData.length == 0) {
-					// 	this.isdata_table = true;
-					// }
-					// else {
-					// 	this.isdata_table = false;
-					// 	this.count = this.filterData[0].count
-					// }
+					if (this.filterData.length == 0) {
+						this.isdata_table = true;
+					}
+					else {
+						this.isdata_table = false;
+						this.count = this.filterData[0].count;
+					}
 					
 				this.api_hit = true
 			// this.all_blocks=data;
@@ -271,7 +271,7 @@ search(term: string) {
 		this.Teacherreportperformanceservice.TeacherEducatorDetail(data).subscribe(data => {
 			debugger
 			this.teacherdata = data
-					// this.count = this.teacherdata[0].count
+			 this.count = this.teacherdata.length
 			 this.isLoaded = true
 			// this.all_blocks=data;
 			this.loader = false

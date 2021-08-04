@@ -201,6 +201,7 @@ export class CenterDetailsComponent implements OnInit {
 		this.centerDetailsService.getCenterDetails(data).subscribe(data => {
 			//console.log('###centerDetails data: '+JSON.stringify(data))
 			this.filterData = data;
+			console.log("centerdetails",this.filterData)
 			//this.filterData = [];
 			this.isLoaded = true;
 			if (this.filterData.length == 0) {
