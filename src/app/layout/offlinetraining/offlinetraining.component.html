@@ -1,0 +1,74 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>TEACHER OFFLINE TRAINING</h4>
+						</div>
+						<div class="col">
+							
+						</div>
+					</div>					
+				</div>
+				
+				<div class="card-body table-responsive">
+					<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="4">
+						<thead>
+							<tr>
+								<th style="width: 25%">Select Fellow</th>
+								<th style="width: 25%">Select month</th>
+								<th style="width: 25%">Training Category</th>
+								<th style="width: 25%">Status</th>
+							</tr>
+							<tr>
+								<td>
+									<select value="" (change)="onselect_fellow($event)" class="form-control">
+										<option value="">Select fellow</option>
+										<option *ngFor="let fellows of all_fellows;" value="{{ fellows.userid }}">{{ fellows.username }}</option>									
+									</select>
+								</td>
+								<td>
+									<select value="" (change)="onselect_month($event)" class="form-control">
+										<option value="">Select month</option>
+										<option *ngFor="let month of allmonth_list;" value="{{ month.value }}">{{ month.text }}</option>									
+									</select>
+								</td>
+								<td>
+									<select value="" (change)="onselect_category($event)" class="form-control">
+										<option value="">Select category</option>
+										<option value="online">Online</option>
+										<option value="ofline">Ofline</option>									
+									</select>
+								</td>
+								<td>
+									<select value="" (change)="onselect_status($event)" class="form-control">
+										<option value="">Select Status</option>
+										<option value="yes">yes</option>						<option value="no">no</option>				
+									</select>
+								</td>
+								<td>
+									<button (click)="save_btn_click()" class="btn btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+								</td>	
+							</tr>
+						</thead>
+					</table>
+				</div>
+
+				<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+					<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+				</div>
+
+				<div id="content_div" class="pad25" [hidden]="hideContent_div" >
+					
+					<div>
+						
+						<!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button> -->
+					</div>
+				</div>
+            </div>                       
+        </div>        
+    </div>
+</div>

@@ -21,7 +21,7 @@
 						<div class="row">
 							<div class="col col-xl-3 col-lg-3">Prefered Language</div>
 							<div class="col col-xl-3 col-lg-3">Program</div>
-							<div class="col col-xl-3 col-lg-3" [hidden]="hidesubject_filter">Subject</div>
+							<!-- <div class="col col-xl-3 col-lg-3" [hidden]="hidesubject_filter">Subject</div> -->
 							<div class="col col-xl-3 col-lg-3"></div>
 						</div>
 						<div class="row">
@@ -37,13 +37,13 @@
 									<option value="pge">PGE</option>
 								</select>
 							</div>
-							<div class="col col-xl-3 col-lg-3" [hidden]="hidesubject_filter">
+							<!-- <div class="col col-xl-3 col-lg-3" [hidden]="hidesubject_filter">
 								<select value="{{subject_filter}}"  (change)="subject_filter_onchange($event)" class="form-control">
 									<option value="odia">Odia</option>
 									<option value="english">English</option>
 									<option value="math">Math</option>
 								</select>
-							</div>
+							</div> -->
 							<div class="col col-xl-3 col-lg-3">
 								<!-- <button type="button" class="btn btn-info float-right btn-block" (click)="filterbutton_click()">&nbsp;&nbsp;&nbsp;Filter&nbsp;&nbsp;&nbsp;</button> -->
 							</div>
@@ -67,14 +67,14 @@
 										<th>Sl.</th>
 										<th>Remark</th>
 										<th>Program</th>
-										<th>Subject</th>
+										<!-- <th>Subject</th> -->
 										<th>Action</th>
 									</tr>
 									<tr *ngFor="let row of allpostcallrecordslist; let i = index;">
 										<td><div>{{ i+1 }}</div></td>
 										<td><div>{{ row.question }}</div></td>
 										<td><div>{{ row.program }}</div></td>
-										<td><div>{{ row.subject }}</div></td>
+										<!-- <td><div>{{ row.subject }}</div></td> -->
 										<td>
 											<div>
 												<button type="button" class="btn btn-danger float-right btn-sm" (click)="delete_data(row)">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
@@ -113,7 +113,7 @@
 				</select>
 			</div>
 		</div><br>
-		<div class="row" [hidden]="hidesubject">
+		<!-- <div class="row" [hidden]="hidesubject">
 			<div class="col col-xl-4 col-lg-4">Subject</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
 				<select value="{{subject}}"  (change)="subject_onchange($event)" class="form-control">
@@ -122,7 +122,7 @@
 					<option value="math">Math</option>
 				</select>
 			</div>
-		</div><br>
+		</div><br> -->
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Remark</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
@@ -160,7 +160,7 @@
 				</select>
 			</div>
 		</div><br>
-		<div class="row" [hidden]="hidesubject">
+		<!-- <div class="row" [hidden]="hidesubject">
 			<div class="col col-xl-4 col-lg-4">Subject</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
 				<select value="{{subject}}"  (change)="subject_onchange($event)" class="form-control">
@@ -169,7 +169,7 @@
 					<option value="math">Math</option>
 				</select>
 			</div>
-		</div><br>
+		</div><br> -->
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Remark</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">

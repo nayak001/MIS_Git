@@ -46,6 +46,7 @@ const routes: Routes = [
       { path: 'tchactivity', loadChildren: './tchactivity/tchactivity.module#TchactivityModule' },
       { path: 'masterteachertraining1', loadChildren: './masterteachertraining1/masterteachertraining1.module#Masterteachertraining1Module' },
       { path: 'masterteachertraining2', loadChildren: './masterteachertraining2/masterteachertraining2.module#Masterteachertraining2Module' },
+      { path: 'offlinetraining', loadChildren: './offlinetraining/offlinetraining.module#OfflinetrainingModule' },
       { path: 'mastermanagertraining1', loadChildren: './mastermanagertraining1/mastermanagertraining1.module#Mastermanagertraining1Module' },
       { path: 'mastermanagertraining2', loadChildren: './mastermanagertraining2/mastermanagertraining2.module#Mastermanagertraining2Module' },
       { path: 'masterteacherassesment', loadChildren: './masterteacherassesment/masterteacherassesment.module#MasterteacherassesmentModule' },
