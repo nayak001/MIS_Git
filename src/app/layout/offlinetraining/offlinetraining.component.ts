@@ -25,6 +25,10 @@ export class  offlinetrainingComponent implements OnInit {
 	hideContent_div: boolean;
 	public Editor = ClassicEditor;
     allmonth_list:any;
+	modalReference: any;
+	flag:any;
+	closeResult: string;
+	offlinepptmark:any;
     constructor(
 		private modalService: NgbModal,
         public router: Router,
@@ -115,7 +119,7 @@ export class  offlinetrainingComponent implements OnInit {
 			const body = {
 				userid : this.selected_fellow,
 				username : this.selected_fellow_name,
-				selectedmonth:this.selected_month,
+				selected_month:this.selected_month,
 				training_mode:this.selected_category,
 				training_status:this.selected_status
 			}
@@ -133,6 +137,73 @@ export class  offlinetrainingComponent implements OnInit {
 
 		}
 	}
+	clear(){
+		
+	  }
+	  reset(){
+		
+		this.clear();
+	  }
+	open(content, param, flag) {
+		this.flag = flag;
+	
+			if(flag == 'add') {
+		  this.clear();
+		} else if(flag == 'edit') {
+		  
+		} else if(flag == 'delete') {
+		 
+		} else {
+		  this.reset();
+		}
+			this.modalReference = this.modalService.open(content,param);
+		this.modalReference.result.then((result) => {
+			this.closeResult = `Closed with: ${result}`;
+		}, (reason) => {
+			this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+		});
+	  }
+	  private getDismissReason(reason: any): string {
+		if (reason === ModalDismissReasons.ESC) {
+			return 'by pressing ESC';
+		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+			return 'by clicking on a backdrop';
+		} else {
+			return  `with: ${reason}`;
+		}
+	  }
+	  selectedfellow:any;
+	  selectedfellow_name:any;
+	  changefellow(event){
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectElementText = selectedOptions[selectedIndex].text;
+		this.selectedfellow = selectedOptionValue;
+		this.selectedfellow_name = selectElementText;
+	}
+	  
+	  submit_data(){
+		  if(this.offlinepptmark == ''){
+			swal.fire('info', 'Please add ppt mark !!!', 'warning');
+		  }else{
+			let body = {
+				userid : this.selectedfellow,
+				username : this.selectedfellow_name,
+				offlinepptmark:this.offlinepptmark
+			}
+			  this.offlinetrainingService.saveofflinepptmark(body).subscribe(data2 => {
+			  this.modalReference.close();
+			  swal.fire('info', 'training status saved'+data2['status']);
+			  this.hideLoading_indicator = true;
+			  this.reset();
+			},
+			error => {},
+			() => {}
+		  );
+		 }	
+	} 
+  }
 	// async save_btn_click(selected_tab){
 	// 	const body = {
 	// 		moduleid : this.selected_moduleid,
@@ -155,4 +226,5 @@ export class  offlinetrainingComponent implements OnInit {
 	// 	}
 	// }
 
-}
+
+

@@ -8,9 +8,13 @@
 						<div class="col col-xl-4 col-lg-4">
 							<h4>TEACHER OFFLINE TRAINING</h4>
 						</div>
-						<div class="col">
-							
+						<div class="col col-xl-4 col-lg-4">
+
 						</div>
+						<div class="col col-xl-4 col-lg-4">
+							<button type="button" class="btn btn-primary float-right" (click)="open(addeditmodal,null,'add')">Add offline ppt mark <i class="fa fa-plus" aria-hidden="true"></i></button>
+						</div>
+						
 					</div>					
 				</div>
 				
@@ -68,6 +72,29 @@
 						<!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button> -->
 					</div>
 				</div>
+				<ng-template #addeditmodal let-c="close" let-d="dismiss">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col col-xl-4 col-lg-4">Name of fellow</div>
+							<div class="col col-xl-8 col-lg-8 row-fluid">
+								<select value="" (change)="changefellow($event)" class="form-control">
+									<option value="">Select fellow</option>
+									<option *ngFor="let fellows of all_fellows;" value="{{ fellows.userid }}">{{ fellows.username }}</option>									
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col col-xl-4 col-lg-4">Offlinepptmark</div>
+							<div class="col col-xl-8 col-lg-8 row-fluid">
+								<input value="{{ offlinepptmark }}" [(ngModel)]="offlinepptmark" type="text" placeholder="offline ppt mark" class="modal_textbox" ng-pattern-restrict="^[a-zA-Z0-9]+" style='text-transform:uppercase'>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+						<button type="button" class="btn btn-primary" (click)="submit_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+					</div>
+				</ng-template>
             </div>                       
         </div>        
     </div>
