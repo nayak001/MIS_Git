@@ -11,19 +11,15 @@ const baseUrl = environment.baseUrl;
 export class PgskillmasterService {
 	constructor(private http: HttpClient) { }
 
-	getpgeactivityskills(preflanguage, level, subject){				
-		return this.http.get(baseUrl+'getpgeactivityskill/'+preflanguage+'/'+level+'/'+subject,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
+	getpgeactivityskills(preflanguage, program, subject, clas){
+		return this.http.get(baseUrl+'getpgeactivityskill/'+preflanguage+'/'+program+'/'+subject+'/'+clas,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
 	}
-	
+
 	createpgeskill(body){
 		return this.http.post(baseUrl+'createpgeskill',
 		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
 
@@ -31,14 +27,31 @@ export class PgskillmasterService {
 		return this.http.put(baseUrl+'updatepgeskillmaster/'+id,
 		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
+
+	updatemasterpgeactivitiesbyskillsetid(skillsetid,body){
+		return this.http.put(baseUrl+'updatemasterpgeactivitiesbyskillsetid/'+skillsetid,
+		body,{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			,responseType: 'text'
+		});
+	}
+
 	deletetpgeskill(id){
 		return this.http.delete(baseUrl+'deletetpgeskill/'+id,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
+		});
+	}
+
+	deletemasterpgeactivitiesbyskillsetid(skillsetid){
+		return this.http.delete(baseUrl+'deletemasterpgeactivitiesbyskillsetid/'+skillsetid,
+		{
+			headers: new HttpHeaders().set('Content-Type', 'application/json')
+			,responseType: 'text'
 		});
 	}
 }

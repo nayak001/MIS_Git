@@ -12,40 +12,16 @@ export class PgeactivitiesService {
   constructor(private http: HttpClient) {}
 
   //getmasteractivitiydetails(preferedlanguage, program, subject, month, week, level) {
-  getmasteractivitiydetails(preferedlanguage, program, subject, week, level) {
+  getmasteractivitiydetails(preferedlanguage, program, subject, clas, skill) {
     //let url = baseUrl + 'getmasterpgeactivitiydetails/' + preferedlanguage + '/' + program + '/' + subject + '/' + month + '/' + week + '/' + level;
-    let url =
-      baseUrl +
-      "getmasterpgeactivitiydetailsnostage/" +
-      preferedlanguage +
-      "/" +
-      program +
-      "/" +
-      subject +
-      "/" +
-      week +
-      "/" +
-      level;
-
-    return this.http.get(url, {
-      headers: new HttpHeaders().set("Content-Type", "application/json"),
-    });
+    let url = baseUrl + "getmasterpgeactivitiydetailsnostage/" + preferedlanguage + "/" + program + "/" + subject + "/" + clas + "/" + skill;
+    return this.http.get(url, {headers: new HttpHeaders().set("Content-Type", "application/json")});
   }
 
   //gettchassessment(preferedlanguage, program, level, stage, subject) {
-  gettchassessment(preferedlanguage, level, subject) {
-    //let url = baseUrl + 'gettchassessment/' + preferedlanguage + '/' + program + '/' + level + '/' + stage + '/' + subject;
-    let url =
-      baseUrl +
-      "getpgeactivityskill/" +
-      preferedlanguage +
-      "/" +
-      level +
-      "/" +
-      subject;
-     return this.http.get(url, {
-      headers: new HttpHeaders().set("Content-Type", "application/json"),
-    });
+  getpgeactivityskill(preferedlanguage, program, subject, clas) {
+    let url = baseUrl + 'getpgeactivityskill/' + preferedlanguage + '/' + program + '/'  + subject + '/' + clas;
+    return this.http.get(url, {headers: new HttpHeaders().set("Content-Type", "application/json")});
   }
 
   createmasteractivities(body) {

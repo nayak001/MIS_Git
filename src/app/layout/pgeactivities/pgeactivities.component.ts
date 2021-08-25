@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { routerTransition } from "../../router.animations";
-import { Router } from "@angular/router";
+import { Router, NavigationExtras } from "@angular/router";
 import { HttpResponse, HttpEventType } from "@angular/common/http";
 import swal from "sweetalert2";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -36,18 +36,20 @@ export class PgeactivitiesComponent implements OnInit {
   save_operation: string = "";
   record_id: string = "";
   selected_preflanguage = "";
+  selected_program: string = "pge";
   selected_class: string = "";
   selected_subject: string = "";
-  selected_week: string = "";
+  selected_skillsetid: string = "";
+  selected_skillsetname: string = "";
 
   class_select_option_list: any = [
-    { value: "1", text: "Class 1" },
-    { value: "2", text: "Class 2" },
-    { value: "3", text: "Class 3" },
-    { value: "4", text: "Class 4" },
-    { value: "5", text: "Class 5" },
+    { value: "1", text: "1" },
+    { value: "2", text: "2" },
+    { value: "3", text: "3" },
+    { value: "4", text: "4" },
+    { value: "5", text: "5" },
   ];
-  week_select_option_list: any = [];
+  skill_select_option_list: any = [];
 
   extraresources_list: any = [];
   segments_list: any = [];
@@ -86,22 +88,22 @@ export class PgeactivitiesComponent implements OnInit {
     private pgeactivitiesService: PgeactivitiesService,
     private galleryService: GalleryService
   ) {
+    this.selected_program = "pge";
     this.selected_class = "";
     this.selected_subject = "";
-    this.selected_week = "";
+    this.selected_skillsetid = "";
 
     this.content_value = "";
     this.video_value = [];
 
     //this.skillset_label = 'Skill Set';
     this.class_select_option_list = [
-      { value: "1", text: "Class 1" },
-      { value: "2", text: "Class 2" },
-      { value: "3", text: "Class 3" },
-      { value: "4", text: "Class 4" },
-      { value: "5", text: "Class 5" },
+      { value: "1", text: "1" },
+      { value: "2", text: "2" },
+      { value: "3", text: "3" },
+      { value: "4", text: "4" },
+      { value: "5", text: "5" },
     ];
-    //this.month_select_option_list = [{value: '1', text: 'Skill 1-4'}, {value: '2', text: 'Skill 5-8'}, {value: '3', text: 'Skill 9-12'}, {value: '4', text: 'Skill 13-16'}, {value: '5', text: 'Skill 17-20'}];
 
     this.hide_Loading_indicator = true;
     this.hide_createnewsegment_button = true;
@@ -131,15 +133,9 @@ export class PgeactivitiesComponent implements OnInit {
     // Reset other dropdown list
     this.selected_class = "";
     this.selected_subject = "";
-    this.selected_week = "";
-
-    //this.load_assessmentlist();
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_subject,
-      this.selected_week,
-      this.selected_class
-    );
+    this.selected_skillsetid = "";
+    this.selected_skillsetname = "";
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
   }
 
   class_select_onchange(value) {
@@ -149,14 +145,10 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_class = selectedOptionValue;
 
-    this.selected_week = "";
-    this.load_assessmentlist();
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_subject,
-      this.selected_week,
-      this.selected_class
-    );
+    this.selected_skillsetid = "";
+    this.selected_skillsetname = "";
+    this.load_skilllist();
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
   }
 
   subject_select_onchange(value) {
@@ -166,27 +158,18 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
 
-    this.load_assessmentlist();
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_subject,
-      this.selected_week,
-      this.selected_class
-    );
+    this.load_skilllist();
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
   }
 
-  week_select_onchange(value) {
+  skill_select_onchange(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_week = selectedOptionValue;
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_subject,
-      this.selected_week,
-      this.selected_class
-    );
+    this.selected_skillsetid = selectedOptionValue;
+    this.selected_skillsetname = selectElementText;
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
   }
 
   // ====================================== Segment related codes started from here =================================
@@ -488,68 +471,43 @@ export class PgeactivitiesComponent implements OnInit {
   // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_subject,
-      this.selected_week,
-      this.selected_class
-    );
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
   }
 
-  async load_record(preflanguage, subject, week, level) {
+  async load_record(preflanguage, program, subject, clas, skill) {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      preflanguage != undefined &&
-      preflanguage != null &&
-      preflanguage != "" &&
-      subject != undefined &&
-      subject != null &&
-      subject != "" &&
-      week != undefined &&
-      week != null &&
-      week != "" &&
-      level != undefined &&
-      level != null &&
-      level != ""
+      preflanguage != undefined && preflanguage != null && preflanguage != "" &&
+      subject != undefined && subject != null && subject != "" &&
+      clas != undefined && clas != null && clas != "" &&
+      skill != undefined && skill != null && skill != ""
     ) {
       this.content_value = "";
       this.video_value = [];
       this.hide_Loading_indicator = false;
-
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
-      this.pgeactivitiesService
-        .getmasteractivitiydetails(
-          preferedlanguage,
-          'pge',
-          subject,
-          week,
-          level
-        )
-        .subscribe(
-          (data) => {
-            if (Object.keys(data).length > 0) {
-              this.save_operation = "update";
-              this.record_id = data[0]["_id"];
-              this.extraresources_list = data[0]["extraresources"];
-              this.segments_list = data[0]["segment"];
-              // added by nayak on 21-09-2020 to set segment 1 selected bydefault
-              if (this.segments_list.length > 0) {
-                this.load_segment(0);
-              }
-            } else {
-              this.save_operation = "save";
-              this.record_id = "";
-              this.extraresources_list = [];
-              this.segments_list = [];
-            }
-            this.hide_Loading_indicator = true;
-          },
-          (error) => {},
-          () => {}
-        );
+      this.pgeactivitiesService.getmasteractivitiydetails(preferedlanguage, 'pge', subject, clas, skill).subscribe((data) => {
+        console.log('-->data: ', data);
+        if (Object.keys(data).length > 0) {
+          this.save_operation = "update";
+          this.record_id = data[0]["_id"];
+          this.extraresources_list = data[0]["extraresources"];
+          this.segments_list = data[0]["segment"];
+          // added by nayak on 21-09-2020 to set segment 1 selected bydefault
+          if (this.segments_list.length > 0) {
+            this.load_segment(0);
+          }
+        } else {
+          this.save_operation = "save";
+          this.record_id = "";
+          this.extraresources_list = [];
+          this.segments_list = [];
+        }
+        this.hide_Loading_indicator = true;
+      },(error) => {},() => {});
     } else {
       this.hide_Loading_indicator = true;
       this.hide_createnewsegment_button = true;
@@ -564,21 +522,19 @@ export class PgeactivitiesComponent implements OnInit {
   async save_btn_click(selected_tab) {
     let body = {};
     if (selected_tab == "textcontent_tab") {
-      if (
-        this.content_value == undefined ||
-        this.content_value == null ||
-        this.content_value == ""
-      ) {
+      if (this.content_value == undefined || this.content_value == null || this.content_value == "") {
         swal.fire("info", "Please add some content !!!", "warning");
       } else {
         if (this.save_operation == "save") {
           body = {
             preferedlanguage: this.selected_preflanguage,
             program: "pge",
+            themeid: '',
+            themename: 'na',
             subject: this.selected_subject,
-            month: "",
-            week: this.selected_week,
-            level: this.selected_class,
+            class: this.selected_class,
+            skillsetid: this.selected_skillsetid,
+            skillsetname: this.selected_skillsetname,
             segment: [
               {
                 type: "text_content",
@@ -620,9 +576,7 @@ export class PgeactivitiesComponent implements OnInit {
         this.progress.percentage = 0;
 
         this.currentFileUpload = this.selectedFiles.item(0);
-        this.galleryService
-          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-          .subscribe((event) => {
+        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress.percentage = Math.round(
                 (100 * event.loaded) / event.total
@@ -634,10 +588,12 @@ export class PgeactivitiesComponent implements OnInit {
                 body = {
                   preferedlanguage: this.selected_preflanguage,
                   program: "pge",
+                  themeid: '',
+                  themename: 'na',
                   subject: this.selected_subject,
-                  month: "",
-                  week: this.selected_week,
-                  level: this.selected_class,
+                  class: this.selected_class,
+                  skillsetid: this.selected_skillsetid,
+                  skillsetname: this.selected_skillsetname,
                   segment: [
                     {
                       type: "image_content",
@@ -681,9 +637,7 @@ export class PgeactivitiesComponent implements OnInit {
         this.progress.percentage = 0;
 
         this.currentFileUpload = this.selectedFiles.item(0);
-        this.galleryService
-          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-          .subscribe((event) => {
+        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress.percentage = Math.round(
                 (100 * event.loaded) / event.total
@@ -695,10 +649,12 @@ export class PgeactivitiesComponent implements OnInit {
                 body = {
                   preferedlanguage: this.selected_preflanguage,
                   program: "pge",
+                  themeid: '',
+                  themename: 'na',
                   subject: this.selected_subject,
-                  month: "",
-                  week: this.selected_week,
-                  level: this.selected_class,
+                  class: this.selected_class,
+                  skillsetid: this.selected_skillsetid,
+                  skillsetname: this.selected_skillsetname,
                   segment: [
                     {
                       type: "video_content",
@@ -741,12 +697,7 @@ export class PgeactivitiesComponent implements OnInit {
     this.pgeactivitiesService.createmasteractivities(body).subscribe(
       (data) => {
         swal.fire("Successful", "Data saved successfully", "success");
-        this.load_record(
-          this.selected_preflanguage,
-          this.selected_subject,
-          this.selected_week,
-          this.selected_class
-        );
+        this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
       },
       (error) => {},
       () => {}
@@ -757,12 +708,7 @@ export class PgeactivitiesComponent implements OnInit {
     this.pgeactivitiesService.updatemasteractivities(id, body).subscribe(
       (data) => {
         swal.fire("Successful", "Data updated successfully", "success");
-        this.load_record(
-          this.selected_preflanguage,
-          this.selected_subject,
-          this.selected_week,
-          this.selected_class
-        );
+        this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
       },
       (error) => {},
       () => {}
@@ -785,7 +731,14 @@ export class PgeactivitiesComponent implements OnInit {
     );
   }
   click_to_add_skill() {
-    this.router.navigate(["/pgskillmaster"]);
+		let navigationExtras: NavigationExtras;
+    navigationExtras = {
+      queryParams: {
+        program: "pge",
+        navigatedfrom: "/pgeactivities"
+      }
+    };
+    this.router.navigate(["/pgskillmaster"], navigationExtras);
   }
   open(content) {
     this.modalReference = this.modalService.open(content, {
@@ -985,48 +938,37 @@ export class PgeactivitiesComponent implements OnInit {
       });
   }
 
-  async load_assessmentlist() {
+  async load_skilllist() {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      this.selected_preflanguage != undefined &&
-      this.selected_preflanguage != null &&
-      this.selected_preflanguage != "" &&
-      this.selected_subject != undefined &&
-      this.selected_subject != null &&
-      this.selected_subject != "" &&
-      this.selected_class != undefined &&
-      this.selected_class != null &&
-      this.selected_class != ""
+      this.selected_preflanguage != undefined && this.selected_preflanguage != null && this.selected_preflanguage != "" &&
+      this.selected_subject != undefined && this.selected_subject != null && this.selected_subject != "" &&
+      this.selected_class != undefined && this.selected_class != null && this.selected_class != ""
     ) {
       this.hide_Loading_indicator = false;
-      this.selected_week = "";
+      this.selected_skillsetid = "";
       //-------- Get all assessments of that subject
-      this.week_select_option_list = [];
+      this.skill_select_option_list = [];
       this.hide_Loading_indicator = false;
-      this.pgeactivitiesService
-        .gettchassessment(
-          this.selected_preflanguage,
-          this.selected_class,
-          this.selected_subject
-        )
-        .subscribe(
-          (data) => {
-            Object.keys(data).forEach((ind) => {
-              let obj = {};
-              obj = {
-                value: parseInt(ind) + 1,
-                text: data[ind]["question"],
-              };
-              this.week_select_option_list.push(obj);
-            });
-            this.hide_Loading_indicator = true;
-          },
-          (error) => {
-            this.hide_Loading_indicator = true;
-          },
-          () => {}
-        );
+
+      this.pgeactivitiesService.getpgeactivityskill(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class).subscribe((data) => {
+        console.log('--> data: ', data);
+        /*
+        Object.keys(data).forEach((ind) => {
+          let obj = {};
+          obj = {
+            value: parseInt(ind) + 1,
+            text: data[ind]["question"],
+          };
+          this.skill_select_option_list.push(obj);
+        });
+        */
+        this.skill_select_option_list = data;
+        this.hide_Loading_indicator = true;
+      },(error) => {
+        this.hide_Loading_indicator = true;
+      },() => {});
       //--------
       this.hide_Loading_indicator = true;
     }
@@ -1040,26 +982,26 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_program = selectedOptionValue;
     this.selected_subject = '';
-    
+
     if (this.selected_program == 'ece') {
       this.skillset_label = 'Themes';
       this.selected_subject = 'na';
       this.month_select_option_list = [{value: '1', text: 'Body Parts'}, {value: '2', text: 'Animals, Birds & their Sounds'}, {value: '3', text: 'Flowers, Fruits & Vegetables'}, {value: '4', text: 'House & Accessories'}, {value: '5', text: 'Transportation'}, {value: '6', text: 'Occupation'}, {value: '7', text: 'Service Providing Center'}, {value: '8', text: 'Insects'}, {value: '9', text: 'Environment'}, {value: '10', text: 'Seasons'}];
-      this.week_select_option_list = [{value: '1', text: 'Physical'}, {value: '2', text: 'Memory'}, {value: '3', text: 'Social & Emotional'}, {value: '4', text: 'Language'}];
+      this.skill_select_option_list = [{value: '1', text: 'Physical'}, {value: '2', text: 'Memory'}, {value: '3', text: 'Social & Emotional'}, {value: '4', text: 'Language'}];
       this.class_select_option_list = [{value: '1', text: 'Level 1'}, {value: '2', text: 'Level 2'}, {value: '3', text: 'Level 3'}];
     } else {
       this.skillset_label = 'Skill Set';
       this.selected_subject = '';
       this.month_select_option_list = [{value: '1', text: 'Skill 1-4'}, {value: '2', text: 'Skill 5-8'}, {value: '3', text: 'Skill 9-12'}, {value: '4', text: 'Skill 13-16'}, {value: '5', text: 'Skill 17-20'}];
-      this.week_select_option_list = [];
+      this.skill_select_option_list = [];
       this.class_select_option_list = [{value: '1', text: 'Class 1'}, {value: '2', text: 'Class 2'}, {value: '3', text: 'Class 3'}, {value: '4', text: 'Class 4'}, {value: '5', text: 'Class 5'}];
     }
 
     this.selected_class = '';
     //this.selected_subject = '';
     this.selected_month = '';
-    this.selected_week = '';
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_class);
+    this.selected_skillsetid = '';
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_skillsetid, this.selected_class);
   }
   */
 
@@ -1072,10 +1014,10 @@ export class PgeactivitiesComponent implements OnInit {
     console.log('-->Selected Opt Value= ' + selectedOptionValue + '   Text= ' + selectElementText);
     this.selected_month = selectedOptionValue;
 
-    this.selected_week = '';
-    // get list of skills which will be placed in place of weeks in case of pge. 
+    this.selected_skillsetid = '';
+    // get list of skills which will be placed in place of weeks in case of pge.
     if (this.selected_program == 'pge') {
-      this.week_select_option_list = [];
+      this.skill_select_option_list = [];
       this.hide_Loading_indicator = false;
       let selected_stage = 'month'+this.selected_month;
       this.pgeactivitiesService.gettchassessment(this.selected_preflanguage, this.selected_program, this.selected_class, selected_stage, this.selected_subject).subscribe(data => {
@@ -1086,11 +1028,11 @@ export class PgeactivitiesComponent implements OnInit {
             value: (parseInt(ind)+1),
             text: data[ind]['question']
           }
-          this.week_select_option_list.push(obj);
+          this.skill_select_option_list.push(obj);
         });
         this.hide_Loading_indicator = true;
       },error => { this.hide_Loading_indicator = true; },() =>{});
     }
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_week, this.selected_class);
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_skillsetid, this.selected_class);
   }*/
 }

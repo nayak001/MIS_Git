@@ -313,17 +313,17 @@
                   <br /> -->
 
                   <div>
-                    <span class="bold-font">Level</span>
+                    <span class="bold-font">Class</span>
                     <span>
                       <select
-                        id="selected_level"
-                        value="{{ selected_level }}"
-                        (change)="level_select_onchange($event.target.value)"
+                        id="selected_class"
+                        value="{{ selected_class }}"
+                        (change)="class_select_onchange($event.target.value)"
                         class="form-control"
                       >
                         <option value="">Select</option>
                         <option
-                          *ngFor="let opt of level_select_option_list"
+                          *ngFor="let opt of class_select_option_list"
                           value="{{ opt.value }}"
                         >
                           {{ opt.text | titlecase }}
@@ -332,7 +332,7 @@
                     </span>
                   </div>
                   <br />
-                  <!-- 
+                  <!--
                   <div [hidden]="hideSubject_select">
                     <span class="bold-font">Subject</span>
                     <span>
@@ -355,14 +355,14 @@
                     <span class="bold-font">Themes</span>
                     <span>
                       <select
-                        id="selected_month"
-                        value="{{ selected_month }}"
-                        (change)="month_select_onchange($event.target.value)"
+                        id="selected_themeid"
+                        value="{{ selected_themeid }}"
+                        (change)="theme_select_onchange($event.target.value)"
                         class="form-control"
                       >
                         <option value="">Select</option>
                         <option
-                          *ngFor="let opt of month_select_option_list"
+                          *ngFor="let opt of theme_select_option_list"
                           value="{{ opt.value }}"
                         >
                           {{ opt.text | titlecase }}
@@ -376,14 +376,14 @@
                     <span class="bold-font">Skill</span>
                     <span>
                       <select
-                        id="selected_week"
-                        value="{{ selected_week }}"
-                        (change)="week_select_onchange($event.target.value)"
+                        id="selected_skillsetid"
+                        value="{{ selected_skillsetid }}"
+                        (change)="skill_select_onchange($event.target.value)"
                         class="form-control"
                       >
                         <option value="">Select</option>
                         <option
-                          *ngFor="let opt of week_select_option_list"
+                          *ngFor="let opt of skill_select_option_list"
                           value="{{ opt.value }}"
                         >
                           {{ opt.text | titlecase }}

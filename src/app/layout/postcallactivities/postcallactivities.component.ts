@@ -44,19 +44,18 @@ export class PostcallactivitiesComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter, this.subject_filter);
+    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter);
   }
 
   // -------------------------- Get Data -------------------------------
-	getmasterpostcallactivities(preferedlanguage, program, subject){
-    console.log('-->preferedlanguage: ',preferedlanguage, '    program: ',program, '    subject: ',subject);
+	getmasterpostcallactivities(preferedlanguage, program){
+    console.log('-->preferedlanguage: ',preferedlanguage, '    program: ',program);
     if(
       preferedlanguage != undefined && preferedlanguage != null && preferedlanguage.trim() != '' &&
-      program != undefined && program != null && program.trim() != '' &&
-      subject != undefined && subject != null && subject.trim() != ''
+      program != undefined && program != null && program.trim() != '' 
     ){
       this.hideLoading_indicator = false;
-      this.postcallactivitiesService.getmasterpostcallactivities(preferedlanguage, program, subject).subscribe(data => {
+      this.postcallactivitiesService.getmasterpostcallactivities(preferedlanguage, program).subscribe(data => {
         console.log('-->get records: ',data);
         if(data == undefined || data ==null || Object.keys(data).length <= 0){
           this.allpostcallrecordslist = [];
@@ -76,8 +75,6 @@ export class PostcallactivitiesComponent implements OnInit {
       swal.fire('Info','Prefered language is not valid', 'warning');
     }else if(this.program == null || this.program == undefined || this.program == '') {
       swal.fire('Info', 'Program is not valid', 'warning');
-    }else if(this.subject == null || this.subject == undefined || this.subject == '') {
-      swal.fire('Info','Subject is not valid', 'warning');
     }else if(this.question == null || this.question == undefined || this.question == '') {
       swal.fire('Info', 'Remark is not valid', 'warning');
     }else{
@@ -85,13 +82,13 @@ export class PostcallactivitiesComponent implements OnInit {
       let body = {
         preferedlanguage: this.preferedlanguage,
         program: this.program,
-        subject: this.subject,
+        //subject: this.subject,
         question: this.question
       }
       this.postcallactivitiesService.savemasterpostcallactivity(body).subscribe(data2 => {
         this.modalReference.close();
         swal.fire('Success', 'Record saved successfully', 'success');
-        this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter, this.subject_filter);
+        this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter);
         this.hideLoading_indicator = true;
         this.reset();
       },error => {},() => {});
@@ -104,8 +101,6 @@ export class PostcallactivitiesComponent implements OnInit {
       swal.fire('Info','Prefered language is not valid', 'warning');
     }else if(this.program == null || this.program == undefined || this.program == '') {
       swal.fire('Info', 'Program is not valid', 'warning');
-    }else if(this.subject == null || this.subject == undefined || this.subject == '') {
-      swal.fire('Info','Subject is not valid', 'warning');
     }else if(this.question == null || this.question == undefined || this.question == '') {
       swal.fire('Info', 'Remark is not valid', 'warning');
     }else{
@@ -113,13 +108,13 @@ export class PostcallactivitiesComponent implements OnInit {
       let body = {
         preferedlanguage: this.preferedlanguage,
         program: this.program,
-        subject: this.subject,
+        //subject: this.subject,
         question: this.question
       }
       this.postcallactivitiesService.updatemasterpostcallactivity(this.record_id, body).subscribe(data2 => {
         this.modalReference.close();
         swal.fire('Success', 'Record updated successfully', 'success');
-        this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter, this.subject_filter);
+        this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter);
         this.hideLoading_indicator = true;
         this.reset();
       },error => {},() => {});
@@ -146,7 +141,7 @@ export class PostcallactivitiesComponent implements OnInit {
           console.log('--> Delete Error',error);
         },() => {
           console.log('--> Delete Final ');
-          this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter, this.subject_filter);
+          this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter);
           this.hideLoading_indicator = true;
           this.reset();
         });
@@ -203,7 +198,7 @@ export class PostcallactivitiesComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.preferedlanguage_filter = selectedOptionValue;
-    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter, this.subject_filter);
+    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter);
   }
 
   program_filter_onchange(event) {
@@ -216,10 +211,10 @@ export class PostcallactivitiesComponent implements OnInit {
       this.hidesubject_filter = true;
       this.subject_filter = 'na';
     }else{
-      this.hidesubject_filter = false;
-      this.subject_filter = 'odia';
+      // this.hidesubject_filter = false;
+      // this.subject_filter = 'odia';
     }
-    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter, this.subject_filter);
+    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter);
   }
 
   subject_filter_onchange(event) {
@@ -228,11 +223,11 @@ export class PostcallactivitiesComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.subject_filter = selectedOptionValue;
-    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter, this.subject_filter);
+    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter);
   }
 
   filterbutton_click(){
-    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter, this.subject_filter);
+    this.getmasterpostcallactivities(this.preferedlanguage_filter, this.program_filter);
   }
 
   // ---------------------------- Search Result ----------------------

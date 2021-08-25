@@ -10,8 +10,8 @@ const baseUrl = environment.baseUrl;
 export class PostcallactivitiesService {
   constructor(private http: HttpClient) { }
 
-	getmasterpostcallactivities(preferedlanguage, program, subject){				
-		return this.http.get(baseUrl+'getmasterpostcallactivities/'+preferedlanguage+'/'+program+'/'+subject,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
+	getmasterpostcallactivities(preferedlanguage, program){				
+		return this.http.get(baseUrl+'getmasterpostcallactivities/'+preferedlanguage+'/'+program,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
 	}
 	
 	savemasterpostcallactivity(body){

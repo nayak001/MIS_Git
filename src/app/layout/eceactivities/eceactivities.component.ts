@@ -38,14 +38,20 @@ export class EceactivitiesComponent implements OnInit {
   selected_preflanguage = "";
   selected_program: string = "ece";
   selected_subject: string = "";
-  selected_month: string = "";
-  selected_week: string = "";
-  selected_level: string = "";
+  selected_themeid: string = "";
+  selected_themename: string = "";
+  selected_skillsetid: string = "";
+  selected_skillsetname: string = "";
+  selected_class: string = "";
 
   skillset_label: string = "Skill Set";
-  level_select_option_list: any = [];
-  month_select_option_list: any = [];
-  week_select_option_list: any = [];
+  class_select_option_list: any = [
+    { value: "1", text: "1" },
+    { value: "2", text: "2" },
+    { value: "3", text: "3" },
+  ];
+  theme_select_option_list: any = [];
+  skill_select_option_list: any = [];
 
   extraresources_list: any = [];
   segments_list: any = [];
@@ -83,25 +89,18 @@ export class EceactivitiesComponent implements OnInit {
   ) {
     this.selected_program = "ece";
     this.selected_subject = "";
-    this.selected_month = "";
-    this.selected_week = "";
-    this.selected_level = "";
+    this.selected_themeid = "";
+    this.selected_skillsetid = "";
+    this.selected_class = "";
     this.content_value = "";
     this.video_value = [];
 
     this.skillset_label = "Skill Set";
-    this.level_select_option_list = [
-      { value: "1", text: "Level 1" },
-      { value: "2", text: "Level 2" },
-      { value: "3", text: "Level 3" },
+    this.class_select_option_list = [
+      { value: "1", text: "1" },
+      { value: "2", text: "2" },
+      { value: "3", text: "3" },
     ];
-    // this.month_select_option_list = [
-    //   { value: "1", text: "Skill 1-4" },
-    //   { value: "2", text: "Skill 5-8" },
-    //   { value: "3", text: "Skill 9-12" },
-    //   { value: "4", text: "Skill 13-16" },
-    //   { value: "5", text: "Skill 17-20" },
-    // ];
 
     this.hide_Loading_indicator = true;
     this.hide_createnewsegment_button = true;
@@ -131,228 +130,74 @@ export class EceactivitiesComponent implements OnInit {
 
     // Reset other dropdown list
     this.selected_program = "ece";
-    this.selected_level = "";
+    this.selected_class = "";
     this.selected_subject = "na";
-    this.selected_month = "";
-    this.selected_week = "";
-    this.month_select_option_list = [
-      { value: "1", text: "Body Parts" },
-      { value: "2", text: "Animals, Birds & their Sounds" },
-      { value: "3", text: "Flowers, Fruits & Vegetables" },
-      { value: "4", text: "House & Accessories" },
-      { value: "5", text: "Transportation" },
-      { value: "6", text: "Occupation" },
-      { value: "7", text: "Service Providing Center" },
-      { value: "8", text: "Insects" },
-      { value: "9", text: "Environment" },
-      { value: "10", text: "Seasons" },
+    this.selected_themeid = "";
+    this.selected_themename = "";
+    this.selected_skillsetid = "";
+    this.selected_skillsetname = "";
+    this.theme_select_option_list = [
+      { value: "bodyparts", text: "Body Parts" },
+      { value: "animalsbirds&theirsounds", text: "Animals, Birds & their Sounds" },
+      { value: "flowersfruits&vegetables", text: "Flowers, Fruits & Vegetables" },
+      { value: "house&accessories", text: "House & Accessories" },
+      { value: "transportation", text: "Transportation" },
+      { value: "occupation", text: "Occupation" },
+      { value: "serviceprovidingcenter", text: "Service Providing Center" },
+      { value: "insects", text: "Insects" },
+      { value: "environment", text: "Environment" },
+      { value: "seasons", text: "Seasons" },
     ];
-    this.week_select_option_list = [
-      { value: "1", text: "Physical" },
-      { value: "2", text: "Memory" },
-      { value: "3", text: "Social & Emotional" },
-      { value: "4", text: "Language" },
+    this.skill_select_option_list = [
+      { value: "physical", text: "Physical" },
+      { value: "memory", text: "Memory" },
+      { value: "social&emotional", text: "Social & Emotional" },
+      { value: "language", text: "Language" },
     ];
-    this.level_select_option_list = [
-      { value: "1", text: "Level 1" },
-      { value: "2", text: "Level 2" },
-      { value: "3", text: "Level 3" },
+    this.class_select_option_list = [
+      { value: "1", text: "1" },
+      { value: "2", text: "2" },
+      { value: "3", text: "3" },
     ];
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_program,
-      this.selected_subject,
-      this.selected_month,
-      this.selected_week,
-      this.selected_level
-    );
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
   }
 
-  // program_select_onchange(event) {
-  //   const selectedOptions = event.target["options"];
-  //   const selectedIndex = selectedOptions.selectedIndex;
-  //   const selectedOptionValue = selectedOptions[selectedIndex].value;
-  //   const selectElementText = selectedOptions[selectedIndex].text;
-  //   this.selected_program = selectedOptionValue;
-  //   this.selected_subject = "";
-
-  //   if (this.selected_program == "ece") {
-  //     this.skillset_label = "Themes";
-  //     this.selected_subject = "na";
-  //     this.hideSubject_select = true;
-  //     this.month_select_option_list = [
-  //       { value: "1", text: "Body Parts" },
-  //       { value: "2", text: "Animals, Birds & their Sounds" },
-  //       { value: "3", text: "Flowers, Fruits & Vegetables" },
-  //       { value: "4", text: "House & Accessories" },
-  //       { value: "5", text: "Transportation" },
-  //       { value: "6", text: "Occupation" },
-  //       { value: "7", text: "Service Providing Center" },
-  //       { value: "8", text: "Insects" },
-  //       { value: "9", text: "Environment" },
-  //       { value: "10", text: "Seasons" },
-  //     ];
-  //     this.week_select_option_list = [
-  //       { value: "1", text: "Physical" },
-  //       { value: "2", text: "Memory" },
-  //       { value: "3", text: "Social & Emotional" },
-  //       { value: "4", text: "Language" },
-  //     ];
-  //     this.level_select_option_list = [
-  //       { value: "1", text: "Level 1" },
-  //       { value: "2", text: "Level 2" },
-  //       { value: "3", text: "Level 3" },
-  //     ];
-  //   } else {
-  //     this.skillset_label = "Skill Set";
-  //     this.selected_subject = "";
-  //     this.hideSubject_select = false;
-  //     this.month_select_option_list = [
-  //       { value: "1", text: "Skill 1-4" },
-  //       { value: "2", text: "Skill 5-8" },
-  //       { value: "3", text: "Skill 9-12" },
-  //       { value: "4", text: "Skill 13-16" },
-  //       { value: "5", text: "Skill 17-20" },
-  //     ];
-  //     this.week_select_option_list = [];
-  //     this.level_select_option_list = [
-  //       { value: "1", text: "Level 1" },
-  //       { value: "2", text: "Level 2" },
-  //       { value: "3", text: "Level 3" },
-  //       { value: "4", text: "Level 4" },
-  //       { value: "5", text: "Level 5" },
-  //     ];
-  //   }
-
-  //   this.selected_level = "";
-  //   //this.selected_subject = '';
-  //   this.selected_month = "";
-  //   this.selected_week = "";
-  //   this.load_record(
-  //     this.selected_preflanguage,
-  //     this.selected_program,
-  //     this.selected_subject,
-  //     this.selected_month,
-  //     this.selected_week,
-  //     this.selected_level
-  //   );
-  // }
-
-  level_select_onchange(value) {
+  class_select_onchange(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_level = selectedOptionValue;
+    this.selected_class = selectedOptionValue;
 
     this.selected_subject = this.selected_program == "ece" ? "na" : "";
-    this.selected_month = "";
-    this.selected_week = "";
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_program,
-      this.selected_subject,
-      this.selected_month,
-      this.selected_week,
-      this.selected_level
-    );
+    this.selected_themeid = "";
+    this.selected_themename = "";
+    this.selected_skillsetid = "";
+    this.selected_skillsetname = "";
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
   }
 
-  // subject_select_onchange(value) {
-  //   const selectedOptions = event.target["options"];
-  //   const selectedIndex = selectedOptions.selectedIndex;
-  //   const selectedOptionValue = selectedOptions[selectedIndex].value;
-  //   const selectElementText = selectedOptions[selectedIndex].text;
-  //   this.selected_subject = selectedOptionValue;
-
-  //   this.selected_month = "";
-  //   this.selected_week = "";
-  //   this.load_record(
-  //     this.selected_preflanguage,
-  //     this.selected_program,
-  //     this.selected_subject,
-  //     this.selected_month,
-  //     this.selected_week,
-  //     this.selected_level
-  //   );
-  // }
-
-  month_select_onchange(value) {
+  theme_select_onchange(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log(
-      "-->Selected Opt Value= " +
-        selectedOptionValue +
-        "   Text= " +
-        selectElementText
-    );
-    this.selected_month = selectedOptionValue;
+    this.selected_themeid = selectedOptionValue;
+    this.selected_themename = selectElementText;
 
-    this.selected_week = "";
-    // get list of skills which will be placed in place of weeks in case of pge.
-    if (this.selected_program == "pge") {
-      this.week_select_option_list = [];
-      this.hide_Loading_indicator = false;
-      let selected_stage = "month" + this.selected_month;
-      this.eceactivitiesService
-        .gettchassessment(
-          this.selected_preflanguage,
-          this.selected_program,
-          this.selected_level,
-          selected_stage,
-          this.selected_subject
-        )
-        .subscribe(
-          (data) => {
-            console.log("### data: " + JSON.stringify(data));
-            Object.keys(data).forEach((ind) => {
-              let obj = {};
-              obj = {
-                value: parseInt(ind) + 1,
-                text: data[ind]["question"],
-              };
-              this.week_select_option_list.push(obj);
-            });
-            this.hide_Loading_indicator = true;
-          },
-          (error) => {
-            this.hide_Loading_indicator = true;
-          },
-          () => {}
-        );
-    }
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_program,
-      this.selected_subject,
-      this.selected_month,
-      this.selected_week,
-      this.selected_level
-    );
+    this.selected_skillsetid = "";
+    this.selected_skillsetname = "";
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
   }
 
-  week_select_onchange(value) {
+  skill_select_onchange(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    console.log(
-      "-->Selected Opt Value= " +
-        selectedOptionValue +
-        "   Text= " +
-        selectElementText
-    );
-    this.selected_week = selectedOptionValue;
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_program,
-      this.selected_subject,
-      this.selected_month,
-      this.selected_week,
-      this.selected_level
-    );
+    this.selected_skillsetid = selectedOptionValue;
+    this.selected_skillsetname = selectElementText;
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
   }
 
   // ====================================== Segment related codes started from here =================================
@@ -384,14 +229,7 @@ export class EceactivitiesComponent implements OnInit {
     this.hide_Loading_indicator = false;
 
     this.selected_segment = this.segments_list[idx];
-    console.log(
-      "--> selected_segment: " + JSON.stringify(this.selected_segment)
-    );
-    if (
-      this.selected_segment == undefined ||
-      this.selected_segment == null ||
-      Object.keys(this.selected_segment).length <= 0
-    ) {
+    if (this.selected_segment == undefined || this.selected_segment == null || Object.keys(this.selected_segment).length <= 0){
       this.reset_segment();
     } else {
       this.selected_segment_type = this.selected_segment.type;
@@ -438,14 +276,6 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   delete_segment() {
-    console.log(
-      "-->delete_segment()    Segment Index Value= " +
-        this.selected_segment_index +
-        "    Record id: " +
-        this.record_id +
-        "    content type: " +
-        this.selected_segment_type
-    );
     let segment_to_delete = this.segments_list[this.selected_segment_index];
     console.log("-->segment_to_delete: " + JSON.stringify(segment_to_delete));
     let file_to_delete = segment_to_delete.s3name;
@@ -474,16 +304,7 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   update_segment_btn_click() {
-    console.log(
-      "-->update_segment_btn_click()    Segment Index Value= " +
-        this.selected_segment_index +
-        "    Record id: " +
-        this.record_id +
-        "    content type: " +
-        this.selected_segment_type
-    );
     let segment_to_update = this.segments_list[this.selected_segment_index];
-    console.log("-->segment_to_update: " + JSON.stringify(segment_to_update));
     if (this.selected_segment_type == "text_content") {
       this.openupdatetextcontentsmodal(this.updatetextcontentsmodal);
     } else if (this.selected_segment_type == "image_content") {
@@ -494,15 +315,6 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   update_segment(modalwindow) {
-    console.log(
-      "-->update_segment()    Segment Index Value= " +
-        this.selected_segment_index +
-        "    Record id: " +
-        this.record_id +
-        "    content type: " +
-        this.selected_segment_type
-    );
-
     if (modalwindow == "textcontentsmodal") {
       let newobj = {
         type: "text_content",
@@ -607,14 +419,6 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   preview_segment_btn_click() {
-    console.log(
-      "-->update_segment()    Segment Index Value= " +
-        this.selected_segment_index +
-        "    Record id: " +
-        this.record_id +
-        "    content type: " +
-        this.selected_segment_type
-    );
     if (this.selected_segment_type == "text_content") {
       this.opentextpreviewmodal(this.textpreviewmodal);
     } else if (this.selected_segment_type == "image_content") {
@@ -705,38 +509,19 @@ export class EceactivitiesComponent implements OnInit {
   // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
-    this.load_record(
-      this.selected_preflanguage,
-      this.selected_program,
-      this.selected_subject,
-      this.selected_month,
-      this.selected_week,
-      this.selected_level
-    );
+    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
   }
 
-  async load_record(preflanguage, program, subject, month, week, level) {
+  async load_record(preflanguage, program, subject, clas, theme, skill) {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      preflanguage != undefined &&
-      preflanguage != null &&
-      preflanguage != "" &&
-      program != undefined &&
-      program != null &&
-      program != "" &&
-      subject != undefined &&
-      subject != null &&
-      subject != "" &&
-      month != undefined &&
-      month != null &&
-      month != "" &&
-      week != undefined &&
-      week != null &&
-      week != "" &&
-      level != undefined &&
-      level != null &&
-      level != ""
+      preflanguage != undefined && preflanguage != null && preflanguage != "" &&
+      program != undefined && program != null && program != "" &&
+      subject != undefined && subject != null && subject != "" &&
+      theme != undefined && theme != null && theme != "" &&
+      skill != undefined && skill != null && skill != "" &&
+      clas != undefined && clas != null && clas != ""
     ) {
       this.content_value = "";
       this.video_value = [];
@@ -745,37 +530,25 @@ export class EceactivitiesComponent implements OnInit {
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
-      this.eceactivitiesService
-        .getmasteractivitiydetails(
-          preferedlanguage,
-          program,
-          subject,
-          month,
-          week,
-          level
-        )
-        .subscribe(
-          (data) => {
-            if (Object.keys(data).length > 0) {
-              this.save_operation = "update";
-              this.record_id = data[0]["_id"];
-              this.extraresources_list = data[0]["extraresources"];
-              this.segments_list = data[0]["segment"];
-              // added by nayak on 21-09-2020 to set segment 1 selected bydefault
-              if (this.segments_list.length > 0) {
-                //this.segment_select_onchange(0);
-              }
-            } else {
-              this.save_operation = "save";
-              this.record_id = "";
-              this.extraresources_list = [];
-              this.segments_list = [];
-            }
-            this.hide_Loading_indicator = true;
-          },
-          (error) => {},
-          () => {}
-        );
+      this.eceactivitiesService.getmasteractivitiydetails(preferedlanguage, program, subject, clas, theme, skill).subscribe((data) => {
+        if (Object.keys(data).length > 0) {
+          this.save_operation = "update";
+          this.record_id = data[0]["_id"];
+          this.extraresources_list = data[0]["extraresources"];
+          this.segments_list = data[0]["segment"];
+          // added by nayak on 21-09-2020 to set segment 1 selected bydefault
+          if (this.segments_list.length > 0) {
+            //this.segment_select_onchange(0);
+            this.load_segment(0);
+          }
+        } else {
+          this.save_operation = "save";
+          this.record_id = "";
+          this.extraresources_list = [];
+          this.segments_list = [];
+        }
+        this.hide_Loading_indicator = true;
+      },(error) => {},() => {});
     } else {
       this.hide_Loading_indicator = true;
       this.hide_createnewsegment_button = true;
@@ -788,27 +561,21 @@ export class EceactivitiesComponent implements OnInit {
   s3path: string = "";
 
   async save_btn_click(selected_tab) {
-    console.log("### selected_tab: " + selected_tab);
     let body = {};
     if (selected_tab == "textcontent_tab") {
-      if (
-        this.content_value == undefined ||
-        this.content_value == null ||
-        this.content_value == ""
-      ) {
+      if (this.content_value == undefined || this.content_value == null || this.content_value == "") {
         swal.fire("info", "Please add some content !!!", "warning");
       } else {
-        console.log(
-          "### textcontent_tab save_operation: " + this.save_operation
-        );
         if (this.save_operation == "save") {
           body = {
             preferedlanguage: this.selected_preflanguage,
-            program: this.selected_program,
-            subject: this.selected_subject,
-            month: this.selected_month,
-            week: this.selected_week,
-            level: this.selected_level,
+            program: 'ece',
+            themeid: this.selected_themeid,
+            themename:  this.selected_themename,
+            subject: 'na',
+            class: this.selected_class,
+            skillsetid: this.selected_skillsetid,
+            skillsetname: this.selected_skillsetname,
             segment: [
               {
                 type: "text_content",
@@ -851,30 +618,23 @@ export class EceactivitiesComponent implements OnInit {
 
         this.currentFileUpload = this.selectedFiles.item(0);
         console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
-        this.galleryService
-          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-          .subscribe((event) => {
-            console.log("$$$event: " + JSON.stringify(event));
+        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
             if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round(
-                (100 * event.loaded) / event.total
-              );
+              this.progress.percentage = Math.round((100 * event.loaded) / event.total);
             } else if (event instanceof HttpResponse) {
               this.s3path = event.body["s3path"];
               console.log("File is completely uploaded!->" + this.s3path);
               this.hideProgressbar = true;
-
-              console.log(
-                "### image_tab save_operation: " + this.save_operation
-              );
               if (this.save_operation == "save") {
                 body = {
                   preferedlanguage: this.selected_preflanguage,
-                  program: this.selected_program,
-                  subject: this.selected_subject,
-                  month: this.selected_month,
-                  week: this.selected_week,
-                  level: this.selected_level,
+                  program: 'ece',
+                  themeid: this.selected_themeid,
+                  themename:  this.selected_themename,
+                  subject: 'na',
+                  class: this.selected_class,
+                  skillsetid: this.selected_skillsetid,
+                  skillsetname: this.selected_skillsetname,
                   segment: [
                     {
                       type: "image_content",
@@ -918,31 +678,22 @@ export class EceactivitiesComponent implements OnInit {
         this.progress.percentage = 0;
 
         this.currentFileUpload = this.selectedFiles.item(0);
-        console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
-        this.galleryService
-          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-          .subscribe((event) => {
-            console.log("$$$event: " + JSON.stringify(event));
+        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
             if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round(
-                (100 * event.loaded) / event.total
-              );
+              this.progress.percentage = Math.round((100 * event.loaded) / event.total);
             } else if (event instanceof HttpResponse) {
               this.s3path = event.body["s3path"];
-              console.log("File is completely uploaded!->" + this.s3path);
               this.hideProgressbar = true;
-
-              console.log(
-                "### video_tab save_operation: " + this.save_operation
-              );
               if (this.save_operation == "save") {
                 body = {
                   preferedlanguage: this.selected_preflanguage,
-                  program: this.selected_program,
-                  subject: this.selected_subject,
-                  month: this.selected_month,
-                  week: this.selected_week,
-                  level: this.selected_level,
+                  program: 'ece',
+                  themeid: this.selected_themeid,
+                  themename:  this.selected_themename,
+                  subject: 'na',
+                  class: this.selected_class,
+                  skillsetid: this.selected_skillsetid,
+                  skillsetname: this.selected_skillsetname,
                   segment: [
                     {
                       type: "video_content",
@@ -982,79 +733,40 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   async save_record(body) {
-    this.eceactivitiesService.createmasteractivities(body).subscribe(
-      (data) => {
-        console.log("###1 save data: " + JSON.stringify(data));
-        swal.fire("Successful", "Data saved successfully", "success");
-        this.load_record(
-          this.selected_preflanguage,
-          this.selected_program,
-          this.selected_subject,
-          this.selected_month,
-          this.selected_week,
-          this.selected_level
-        );
-      },
-      (error) => {},
-      () => {}
-    );
+    this.eceactivitiesService.createmasteractivities(body).subscribe((data) => {
+      swal.fire("Successful", "Data saved successfully", "success");
+      this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    },(error) => {},() => {});
   }
 
   async update_record(id, body) {
-    this.eceactivitiesService.updatemasteractivities(id, body).subscribe(
-      (data) => {
-        console.log("###1 update data: " + JSON.stringify(data));
-        swal.fire("Successful", "Data updated successfully", "success");
-        this.load_record(
-          this.selected_preflanguage,
-          this.selected_program,
-          this.selected_subject,
-          this.selected_month,
-          this.selected_week,
-          this.selected_level
-        );
-      },
-      (error) => {},
-      () => {}
-    );
+    this.eceactivitiesService.updatemasteractivities(id, body).subscribe((data) => {
+      swal.fire("Successful", "Data updated successfully", "success");
+      this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    },(error) => {},() => {});
   }
 
   opencontentsmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.content_value = "";
-    this.modalReference = this.modalService.open(content, {
-      size: "lg",
-      backdrop: "static",
+    this.modalReference = this.modalService.open(content, {size: "lg", backdrop: "static"});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    },(reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-    this.modalReference.result.then(
-      (result) => {
-        this.closeResult = `Closed with: ${result}`;
-      },
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }
-    );
   }
 
   openupdatetextcontentsmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.content_value = this.selected_segment.value;
-    this.modalReference = this.modalService.open(content, {
-      size: "lg",
-      backdrop: "static",
+    this.modalReference = this.modalService.open(content, {size: "lg", backdrop: "static"});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    },(reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-    this.modalReference.result.then(
-      (result) => {
-        this.closeResult = `Closed with: ${result}`;
-      },
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }
-    );
   }
 
   openupdateimagecontentsmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.image_value = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -1071,7 +783,6 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   openupdatevideocontentsmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.video_value = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -1088,7 +799,6 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   opentextpreviewmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.text_to_preview = this.selected_segment.value;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -1105,7 +815,6 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   openimagepreviewmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.image_to_preview = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -1122,7 +831,6 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   openvideopreviewmodal(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.video_to_play = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",
@@ -1139,7 +847,6 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   openreordersegments(content) {
-    console.log("---> save_operation: " + this.save_operation);
     this.video_to_play = this.selected_segment.s3_url;
     this.modalReference = this.modalService.open(content, {
       size: "lg",

@@ -10,21 +10,21 @@
 							</div>
 							<div class="col">
 								<div>
-									<button (click)="click_to_add_skill()"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Skill&nbsp;&nbsp;&nbsp; </button>
+									<button (click)="click_to_add_skill()"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Skillset Manager&nbsp;&nbsp;&nbsp; </button>
 									<button [hidden]="hide_createnewsegment_button" (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp; </button>
 									<button [hidden]="hide_createnewsegment_button" (click)="opencontentsmodal(addresourcesmodal)" class="btn btn-warning float-right" type="button" title="Add Resources"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Resource&nbsp;&nbsp;&nbsp;</button>
-								
+
 								</div>
 							</div>
-							
+
 							<!-- <div class="col">
 								<div>
 									<button (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Skill&nbsp;&nbsp;&nbsp; </button>
 								</div>
 							</div> -->
-					</div>					
+					</div>
 				</div>
-				
+
 				<div class="card-body table-responsive">
 					<table style="width: 100%;">
 						<tr>
@@ -43,10 +43,10 @@
 												<div id="content_div" class="pad25">
 													<!-- === Tabs Started Here ===  -->
 													<ngb-tabset class="tabset1">
-								
+
 														<ngb-tab title="Contents">
 															<ng-template #addmodal let-c="close" let-d="dismiss">
-																<div class="modal-body">											
+																<div class="modal-body">
 																	<div class="row padd15">
 																		<input [(ngModel)]="add_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
 																	</div>
@@ -69,11 +69,11 @@
 																</div>
 															</ng-template>
 														</ngb-tab>
-								
+
 														<ngb-tab title="Images">
 															<ng-template ngbTabContent>
 																<div class="tab_content" >
-				
+
 																	<div class="row">
 																		<div class="image_preview_container">
 																			<div class="image_preview" *ngFor="let flash of image_value; let i = index;">
@@ -86,14 +86,14 @@
 																			</div>
 																		</div>
 																	</div>
-				
+
 																	<div class="margintop30">
 																		<div class="row">
 																			<div class="col">
 																				<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-																						<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+																						<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
 																						attr.aria-valuenow="{{progress.percentage}}"
-																						aria-valuemin="0" aria-valuemax="100" 
+																						aria-valuemin="0" aria-valuemax="100"
 																						[ngStyle]="{width:progress.percentage+'%'}">
 																						{{progress.percentage}}%
 																					</div>
@@ -114,11 +114,11 @@
 																</div>
 															</ng-template>
 														</ngb-tab>
-														
+
 														<ngb-tab title="Videos">
 															<ng-template ngbTabContent>
 																<div class="tab_content" >
-				
+
 																	<div class="row">
 																		<div class="image_preview_container">
 																			<div class="image_preview" *ngFor="let video of video_value; let i = index;">
@@ -132,14 +132,14 @@
 																			</div>
 																		</div>
 																	</div>
-				
+
 																	<div class="margintop30">
 																		<div class="row">
 																			<div class="col">
 																				<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-																						<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+																						<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
 																						attr.aria-valuenow="{{progress.percentage}}"
-																						aria-valuemin="0" aria-valuemax="100" 
+																						aria-valuemin="0" aria-valuemax="100"
 																						[ngStyle]="{width:progress.percentage+'%'}">
 																						{{progress.percentage}}%
 																					</div>
@@ -235,9 +235,9 @@
 									<div>
 										<span class="bold-font">Skill</span>
 										<span>
-											<select id="selected_week" value="{{selected_week}}"  (change)="week_select_onchange($event.target.value)" class="form-control">
+											<select id="selected_skillsetid" value="{{selected_skillsetid}}"  (change)="skill_select_onchange($event.target.value)" class="form-control">
 												<option value="">Select</option>
-												<option *ngFor="let opt of week_select_option_list;" value="{{ opt.value }}">{{ opt.text | titlecase }}</option>
+												<option *ngFor="let opt of skill_select_option_list;" value="{{ opt.skillsetid }}">{{ opt.skillsetname | titlecase }}</option>
 											</select>
 										</span>
 									</div>
@@ -245,7 +245,7 @@
 							</td>
 
 							<td style="width: 60%; background-color: #615f5f;; vertical-align: top;">
-								<div id="loading_indicator" [hidden]="hide_Loading_indicator" class="loading_indicator" >  
+								<div id="loading_indicator" [hidden]="hide_Loading_indicator" class="loading_indicator" >
 									<span class=""><img src="assets/images/loader4.gif" alt="Loading. Please wait..." class="loading_image"></span>
 								</div>
 								<div class="mobile_view">
@@ -306,15 +306,15 @@
 											</div>
 										</div>
 									</div>
-									
+
 								</div>
 							</td>
 
 						</tr>
 					</table>
 				</div>
-            </div>                       
-        </div>        
+            </div>
+        </div>
     </div>
 </div>
 
@@ -366,9 +366,9 @@
 						<div class="row">
 							<div class="col">
 								<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
 										attr.aria-valuenow="{{progress.percentage}}"
-										aria-valuemin="0" aria-valuemax="100" 
+										aria-valuemin="0" aria-valuemax="100"
 										[ngStyle]="{width:progress.percentage+'%'}">
 										{{progress.percentage}}%
 									</div>
@@ -406,9 +406,9 @@
 						<div class="row">
 							<div class="col">
 								<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
 										attr.aria-valuenow="{{progress.percentage}}"
-										aria-valuemin="0" aria-valuemax="100" 
+										aria-valuemin="0" aria-valuemax="100"
 										[ngStyle]="{width:progress.percentage+'%'}">
 										{{progress.percentage}}%
 									</div>
@@ -512,9 +512,9 @@
 						<div class="row">
 							<div class="col">
 								<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
+										<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
 										attr.aria-valuenow="{{progress.percentage}}"
-										aria-valuemin="0" aria-valuemax="100" 
+										aria-valuemin="0" aria-valuemax="100"
 										[ngStyle]="{width:progress.percentage+'%'}">
 										{{progress.percentage}}%
 									</div>

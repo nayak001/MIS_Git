@@ -5,6 +5,9 @@
       <div class="card mb-3">
         <div class="card-header">
           <div class="row">
+						<div class="col col-xl-1 col-lg-1">
+							<button type="button" class="btn back_button" (click)="back_buttonclick()"><i class="fa fa-reply" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Back</button>
+						</div>
             <div class="col col-xl-4 col-lg-4">
               <h4>PGE SKILL MASTER</h4>
             </div>
@@ -12,28 +15,16 @@
         </div>
 
         <div class="card-body table-responsive">
-          <table
-            class="table table-striped"
-            [mfData]="data"
-            #mf="mfDataTable"
-            [mfRowsOnPage]="4"
-          >
+          <table class="table table-striped" [mfData]="skillset_list" #mf="mfDataTable" [mfRowsOnPage]="4">
             <thead>
               <tr>
                 <th style="width: 30%">Prefered Language</th>
                 <th style="width: 30%">Subject</th>
-                <th style="width: 30%">
-                  Class
-                </th>
+                <th style="width: 30%">Class</th>
               </tr>
               <tr>
                 <td>
-                  <select
-                    id="selected_preflanguage"
-                    value="{{ selected_preflanguage }}"
-                    (change)="preflanguage_select_onchange($event)"
-                    class="form-control"
-                  >
+                  <select id="selected_preferedlanguage" value="{{ selected_preferedlanguage }}" (change)="preflanguage_select_onchange($event)" class="form-control">
                     <option value="">Select</option>
                     <option value="en">English</option>
                     <option value="od">ଓଡିଆ</option>
@@ -41,12 +32,7 @@
                   </select>
                 </td>
                 <td>
-                  <select
-                    id="select_subject"
-                    value="{{ selected_subject }}"
-                    (change)="subject_select_onchange($event)"
-                    class="form-control"
-                  >
+                  <select id="select_subject" value="{{ selected_subject }}" (change)="subject_select_onchange($event)" class="form-control">
                     <option value="">Select</option>
                     <option value="math">Math</option>
                     <option value="english">English</option>
@@ -60,23 +46,9 @@
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
-                    <option value="4">4</option>	
-                    <option value="5">5</option>					
+                    <option value="4">4</option>
+                    <option value="5">5</option>
                   </select>
-                  <!-- <select
-                    id="selected_level"
-                    value="{{ selected_level }}"
-                    (change)="class_select_onchange($event.target.value)"
-                    class="form-control"
-                  >
-                    <option value="">Select</option>
-                    <option
-                      *ngFor="let opt of level_select_option_list"
-                      value="{{ opt.value }}"
-                    >
-                      {{ opt.text | titlecase }}
-                    </option>
-                  </select> -->
                 </td>
                 <td>
                   <!-- <button (click)="go_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Go&nbsp;&nbsp;&nbsp;</button> -->
@@ -86,50 +58,29 @@
           </table>
         </div>
 
-        <div
-          id="loading_indicator"
-          class="loading_indicator"
-          [hidden]="hideLoading_indicator"
-        >
-          <span class=""
-            ><img src="assets/images/loader3.gif" alt="Loading. Please wait..."
-          /></span>
+        <div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator">
+          <span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." /></span>
         </div>
 
-        <div id="content_div" class="pad25">
+        <div id="content_div" class="pad25" [hidden]="hide_records_panel">
           <table class="assessment_table">
             <tr>
               <th>Skills</th>
               <th></th>
               <th>
-                <button
-                  (click)="open(addmodal, 'add', null)"
-                  class="btn btn-sm btn-primary float-right"
-                  type="button"
-                >
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                  <!-- Add New -->
-                </button>
+                <button (click)="open(addmodal, 'add', null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Add New Skill</button>
               </th>
             </tr>
 
-            <tr *ngFor="let assessment of assessment_list; let i = index">
+            <tr *ngFor="let skillset of skillset_list; let i = index">
               <td class="first_td_width">{{ i + 1 }}</td>
               <td class="second_td_width">
-                <div>{{ assessment.question }}</div>
+                <div>{{ skillset.skillsetname }}</div>
               </td>
               <td class="third_td_width">
                 <div>
-                  <span
-                    class="delbtn"
-                    (click)="open(deletemodal, 'delete', assessment)"
-                    ><i class="fa fa-minus-square" aria-hidden="true"></i
-                  ></span>
-                  <span
-                    class="editbtn"
-                    (click)="open(editmodal, 'edit', assessment)"
-                    ><i class="fa fa-pencil-square-o" aria-hidden="true"></i
-                  ></span>
+                  <span class="delbtn" (click)="open(deletemodal, 'delete', skillset)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+                  <span class="editbtn" (click)="open(editmodal, 'edit', skillset)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
                 </div>
               </td>
             </tr>
@@ -140,30 +91,18 @@
           <ng-template #addmodal let-c="close" let-d="dismiss">
             <div class="modal-body">
               <div>
-                <span class="bold-font">Add skills:</span>
-                <textarea
-                  [value]=""
-                  [(ngModel)]="content_value"
-                  class="area-width"
-                  placeholder="Add skills"
-                ></textarea>
+                <span class="bold-font">Add Skill:</span>
+              </div>
+              <div class="row">
+                <div class="col col-xl-4 col-lg-4" style="margin-top: 10px;"> Skill Name</div>
+                <div class="col">
+                  <input type="text" [value]="" [(ngModel)]="selected_skillsetname" class="form-control" placeholder="Skill Name"/>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-default"
-                (click)="c('Close click')"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                (click)="save_record()"
-                class="btn btn-primary"
-              >
-                &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
-              </button>
+              <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+              <button type="button" (click)="save_record()" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
             </div>
           </ng-template>
 
@@ -171,30 +110,18 @@
           <ng-template #editmodal let-c="close" let-d="dismiss">
             <div class="modal-body">
               <div>
-                <span class="bold-font">Update skills:</span>
-                <textarea
-                  [value]="content_value"
-                  [(ngModel)]="content_value"
-                  class="area-width"
-                  placeholder="update skills"
-                ></textarea>
+                <span class="bold-font">Update Skill:</span>
+              </div>
+              <div class="row">
+                <div class="col col-xl-4 col-lg-4" style="margin-top: 10px;"> Skill Name</div>
+                <div class="col">
+                  <input type="text" [value]="selected_skillsetname" [(ngModel)]="selected_skillsetname" class="form-control" placeholder="Skill Name"/>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-default"
-                (click)="c('Close click')"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                (click)="update_record()"
-                class="btn btn-primary"
-              >
-                &nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;
-              </button>
+              <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+              <button type="button" (click)="update_record()" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
             </div>
           </ng-template>
 
@@ -203,32 +130,14 @@
             <div class="modal-body">
               <div class="row">
                 <img src="assets/images/warning.png" class="warning-icon" />
-                <span class="col col-xl-9 col-lg-9"
-                  >Are you sure, you want to remove this record !</span
-                >
+                <span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record !</span>
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-default"
-                (click)="c('Close click')"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                (click)="delete_record()"
-                class="btn btn-danger"
-              >
-                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
-              </button>
+              <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+              <button type="button" (click)="delete_record()" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
             </div>
           </ng-template>
-
-          <div>
-            <!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;{{ save_operation | titlecase }}&nbsp;&nbsp;&nbsp;</button> -->
-          </div>
         </div>
       </div>
     </div>
