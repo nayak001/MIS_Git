@@ -181,6 +181,7 @@ export class  offlinetrainingComponent implements OnInit {
 		const selectElementText = selectedOptions[selectedIndex].text;
 		this.selectedfellow = selectedOptionValue;
 		this.selectedfellow_name = selectElementText;
+		this.offlinepptmark = '';
 	}
 	  
 	  submit_data(){
@@ -204,27 +205,6 @@ export class  offlinetrainingComponent implements OnInit {
 		 }	
 	} 
   }
-	// async save_btn_click(selected_tab){
-	// 	const body = {
-	// 		moduleid : this.selected_moduleid,
-	// 		modulename : this.selected_modulename,
-	// 		submoduleid : this.selected_submoduleid,
-	// 		submodulename : this.selected_submodulename,
-	// 		topicid : this.selected_topicid,
-	// 		topicname : this.selected_topicname,
-	// 		content: this.allcontent,
-	// 		flashcard: this.flashcard_value,
-	// 		worksheet: this.worksheet_value,
-	// 		video: this.video_value,
-	// 		quiz: this.quiz_value,
-	// 		language:this.selected_preflanguage
-	// 	}
-	// 	if(this.quiz_value.length>0 && this.save_operation == 'update'){
-	// 		this.update_record(this.record_id,body)
-	// 	}else{
-	// 		swal.fire('info', 'Please add some content !!!', 'warning');
-	// 	}
-	// }
 
 
 
