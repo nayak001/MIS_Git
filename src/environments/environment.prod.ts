@@ -2,7 +2,6 @@ export const environment = {
   production: true,
   //baseUrl: 'http://localhost:1234/thinkzone/',          // Local
   //baseUrl: 'http://52.142.12.50:1234/thinkzone/',
-
   baseUrl:'http://3.137.106.19:1234/thinkzone/',          // New Testing
   //baseUrl: 'http://3.135.181.145:1234/thinkzone/',        // Production
   ImageURL: 'http://3.135.181.145:1234/thinkzone/getimage/',
