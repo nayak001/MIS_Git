@@ -1,0 +1,116 @@
+<div [@routerTransition]>
+    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+					<div class="row">
+						<div class="col col-xl-4 col-lg-4">
+							<h4>ANGANWADI MANAGER</h4>
+						</div>
+						<div class="col">
+							<button type="button" class="btn btn-primary float-right" (click)="open(savemodal, 'save')">&nbsp;&nbsp;&nbsp;Add Anganwadi&nbsp;&nbsp;&nbsp;</button>
+						</div>
+					</div>
+                </div>
+
+                <!-- content displayed here -->
+                <div class="card-body table-responsive">
+					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
+						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
+					</div>
+					<div>
+						<div class="row">
+							<!-- Records List -->
+							<div class="col col-xl-6 col-lg-6">
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4"><h2>{{ getallanganwadilist.length }} Record(s)</h2></div>
+									<div class="col col-xl-6 col-lg-6">
+										<input (keyup)='search($event.target.value)' type="text" placeholder="Search" class="modal_textbox">
+									</div>
+								</div>
+								<div class="">
+									<table>
+										<tr *ngFor="let row of getallanganwadilist; let i = index;" (click)="record_onselect(row)">
+											<td style="width: 10%">{{ i+1 }}</td>
+											<td style="width: 80%">
+												<div class="row">{{ row.anganwadiname }}</div>
+												<div class="row">{{ row.anganwadicode }}</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+
+							<!-- Deatils View -->
+							<div class="col row-fluid">
+								<div class="row">
+									<div class="col col-xl-4 col-lg-4"><h2>Details</h2></div>
+									<div class="col" [hidden]="no_record_selected">
+										<button type="button" class="btn btn-danger float-right btn-sm" (click)="delete_data()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+										<button type="button" class="btn btn-secondary float-right btn-sm" (click)="open(updatemodal, 'update')">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+									</div>
+								</div>
+								<div class="" [hidden]="no_record_selected">
+									<div class="row">
+										<div class="col col-xl-4 col-lg-4">Anganwadi Name</div>
+										<div class="col">: {{ txt_anganwadiname }}</div>
+									</div>
+									<div class="row">
+										<div class="col col-xl-4 col-lg-4">Code</div>
+										<div class="col">: {{ txt_anganwadi_unique_code }}</div>
+									</div>
+								</div>
+								<div class=""></div>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Save Modal starts from here -->
+<ng-template #savemodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">code</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ txt_anganwadi_unique_code }}" [(ngModel)]="txt_anganwadi_unique_code" type="text" placeholder="Code" class="modal_textbox">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Anganwadi name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ txt_anganwadiname }}" [(ngModel)]="txt_anganwadiname" type="text" placeholder="Anganwadiname" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="save_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
+
+<!-- Update Modal starts from here -->
+<ng-template #updatemodal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">code</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ txt_anganwadi_unique_code }}" [(ngModel)]="txt_anganwadi_unique_code" type="text" placeholder="UDISE Code" class="modal_textbox">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-xl-4 col-lg-4">Anganwadi name</div>
+			<div class="col col-xl-8 col-lg-8 row-fluid">
+				<input value="{{ txt_anganwadiname }}" [(ngModel)]="txt_anganwadiname" type="text" placeholder="School Name" class="modal_textbox">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="update_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+	</div>
+</ng-template>
