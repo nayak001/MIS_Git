@@ -1,59 +1,75 @@
 <div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <div class="card mb-3">
-                <div class="card-header">
-					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
-							<h4>PASSCODE MANAGER</h4>
-						</div>
-					</div>
-                </div>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>PASSCODE MANAGER</h4>
+            </div>
+          </div>
+        </div>
 
-                <!-- content displayed here -->
-                <div class="card-body table-responsive">
+        <!-- content displayed here -->
+        <div class="card-body table-responsive">
 					<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
 						<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
 					</div>
 					<div style="height: 450px;overflow-y: scroll;">
 						<table class="table table-striped" [mfData]="filterData" #mf="mfDataTable" [mfRowsOnPage]="5">
-							<tr style="background: #f1f1f1;;">
+							<tr style="background: #16589c; color: white;">
 								<td></td>
 								<td>
 									<div class="row">
 										<!-- <div class="col col-lg-2 col-md-2 col-sm-2"> -->
-											<span style="margin-top: 4px;">		Search Organisation</span>
+											<span style="margin-top: 4px; color: white;">Search Manager</span>
 										<!-- </div> -->
-								
+
 										<div class="col col-lg-8 col-md-8 col-sm-8">
-											<input type="text" (keyup)='search($event.target.value)'>
+											<input type="text" [(ngModel)]="search_text" (keyup)='search($event.target.value)'>
 										</div>
 									</div>
+                  <div class="row">
+                    <div style="font-weight: bold; font-size: 20px; color: white;">{{ filterData ? filterData.length : 0 }} Manager(s)</div>
+                  </div>
 								</td>
-								<td> 
-									<!-- <div class="row"> -->
-										
-									<!-- </div> -->
-									<div class="row">
-										<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(addeditmodal,null,'add')">Add Passcode <i class="fa fa-plus" aria-hidden="true"></i></button>
+								<td>
+									<div class="row  float-right" style="margin-right: 5px;">
+										<button type="button" class="btn btn-warning" (click)="open(addmanagermodal,null,'mgr')"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; New Manager</button>
 									</div>
 								</td>
 							</tr>
 							<tr *ngFor="let row of mf.data; let i = index;">
 								<td style="width: 10%">{{ i+1 }}</td>
-								<td style="width: 80%">
-									<div class="row"><mfDefaultSorter by="Name of organisation">Name of organisation</mfDefaultSorter>&nbsp;&nbsp;&nbsp;: {{ row.orgname }}</div>
-									<div class="row"><mfDefaultSorter by="Name of organisation">Date of registration</mfDefaultSorter>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{row.createdon  | date:'yyyy-MM-dd'}}</div>
-									<div class="row">Code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ row.passcode }}</div>
+								<td style="width: 70%">
+									<div class="row">
+                    <div class="col col-lg-7 col-md-7 col-sm-7">
+                      <div style="font-size: 18px; font-weight: bold; color: #605e5e;">{{ row.username | titlecase }}</div>
+                      <div style="font-size: 12px; color: #858484;">{{ row.userid }}</div>
+                    </div>
+                  </div>
+									<div class="row">
+                    <div class="col">
+                      <div>{{ row.passcodesarr.length }} Passcode(s)</div></div>
+                    </div>
+                  <div>
+                    <div *ngFor="let psd of row.passcodesarr" class="row">
+                      <div class="col col-lg-6 col-md-6 col-sm-6" style="font-size: 18px; font-weight: bold; background: #1a89be; color: white; padding: 10px; margin-bottom: 10px; margin-left: 15px; box-shadow: -1px 3px 5px 0px black;">
+                        {{ psd.passcode }} &nbsp; &nbsp; &nbsp;<i class="fa fa-product-hunt" aria-hidden="true" *ngIf="psd.passcodetype=='primary'"></i>
+                      </div>
+                      <div class="col">
+                        <button type="button" class="btn btn-sm btn-link" (click)="setprimary(psd)" style="color: #5a5959; font-weight: bold;">Set primary</button>
+                        <button type="button" class="btn btn-sm btn-link" (click)="open(addeditmodal,psd,'edit')" style="color: #5a5959; font-weight: bold;">Update</button>
+                        <button type="button" class="btn btn-sm btn-link" (click)="delete_passcode_btnclick(psd)" style="color: #5a5959; font-weight: bold;">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+									<!-- <div class="row"><mfDefaultSorter by="Name of organisation">Date of registration</mfDefaultSorter>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{row.createdon  | date:'yyyy-MM-dd'}}</div> -->
 								</td>
-								<td style="width: 5%">
-									<div class="row">
-										<button type="button" class="btn btn-primary input-block-level form-control" (click)="open(addeditmodal,row,'edit')">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button>
-									</div>
-									<div class="row">
-										<button type="button" class="btn btn-danger input-block-level form-control" (click)="open(deletemodal,row,'delete')">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
-									</div>
+								<td style="width: 20%">
+                  <div class="col float-right" style="margin-right: -39px;">
+                    <button type="button" class="btn btn-success" (click)="open(addeditmodal,row,'add')"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Passcode</button>
+                  </div>
 								</td>
 							</tr>
 							<tr>
@@ -62,45 +78,81 @@
 								</td>
 							</tr>
 						</table>
-
-						<!-- Add or Edit Modal starts from here -->
-						<ng-template #addeditmodal let-c="close" let-d="dismiss">
-							<div class="modal-body">
-								<div class="row">
-									<div class="col col-xl-4 col-lg-4">Name of Organisation</div>
-									<div class="col col-xl-8 col-lg-8 row-fluid">
-										<input value="{{ org_name }}" [(ngModel)]="org_name" type="text" placeholder="Name of Organisation" class="modal_textbox">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col col-xl-4 col-lg-4">code</div>
-									<div class="col col-xl-8 col-lg-8 row-fluid">
-										<input value="{{ passcode }}" [(ngModel)]="passcode" type="text" placeholder="Passcode" class="modal_textbox" ng-pattern-restrict="^[a-zA-Z0-9]+" style='text-transform:uppercase'>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-								<button type="button" class="btn btn-primary" (click)="submit_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
-							</div>
-						</ng-template>
-
-						<!-- Delete Modal starts from here -->
-						<ng-template #deletemodal let-c="close" let-d="dismiss">
-							<div class="modal-body">
-								<div class="row">
-								<img src="assets/images/warning.png" class="warning-icon">
-								<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove records  !</span>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-								<button type="button" class="btn btn-danger" (click)="delete_data()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-							</div>
-						</ng-template>
 					</div>
-                </div>
-            </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
+
+<!-- =================Add Update Passcode Modal=================== -->
+<ng-template #addeditmodal let-c="close" let-d="dismiss">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Manager</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <div style="font-weight: bold;">{{ selected_username | titlecase }}</div>
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Passcode</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <input value="{{ selected_passcode }}" [(ngModel)]="selected_passcode" type="text" placeholder="Passcode" class="form-control" ng-pattern-restrict="^[a-zA-Z0-9]+" style='text-transform:uppercase'>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="addupdate_passcode()" [disabled]="disable_save_button">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+  </div>
+</ng-template>
+
+<!-- =================Add Manager Modal=================== -->
+<ng-template #addmanagermodal let-c="close" let-d="dismiss">
+  <div class="modal-body">
+    <!-- Add contents Here -->
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Manager Name</div>
+      <div class="col">
+        <div class="form-group">
+          <input id="manager_name" [value]="manager_name" [(ngModel)]="manager_name" type="text" class="form-control input-underline input-lg" placeholder="Manager name">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Email ID</div>
+      <div class="col">
+        <div class="form-group">
+          <input value="{{ manager_email }}" [(ngModel)]="manager_email" type="text" class="form-control input-underline input-lg" placeholder="Mail ID" autocomplete="off" >
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Password</div>
+      <div class="col col-xl-5 col-lg-5">
+        <div class="form-group">
+          <input [type]="passwordfield_type" value="{{ manager_password }}" [(ngModel)]="manager_password" class="form-control input-underline input-lg" placeholder="Password">
+        </div>
+      </div>
+      <div class="col col-xl-3 col-lg-3">
+        <button type="button" class="btn btn-warning float-right" (click)="show_hide_passwordfield()"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Mobile number</div>
+      <div class="col">
+        <div class="form-group">
+          <input value="{{ manager_phone }}" [(ngModel)]="manager_phone" type="text" class="form-control input-underline input-lg" placeholder="Mobile Number" >
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="create_manager()" [disabled]="disable_save_button">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+  </div>
+</ng-template>

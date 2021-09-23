@@ -20,86 +20,86 @@ export class Masterteachertraining1Service {
 		return this.http.get(baseUrl+'findtrainingtopicbyname/'+
 		submoduleid+'/'+subtopicname,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
 	createnewtrainingtopic(modulebody){
 		return this.http.post(baseUrl+'createtrainingtopic',
 		modulebody,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
 	updatetrainingtopicbyid(id,modulebody){
 		return this.http.put(baseUrl+'updatetrainingtopicbyid/'+id,
 		modulebody,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
 	deletetrainingtopicbyid(id){
 		return this.http.delete(baseUrl+'deletetrainingtopicbyid/'+id,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
 	// modules part
-	getalltrainingmodules(ln){				
+	getalltrainingmodules(ln){
 		return this.http.get(baseUrl+'getalltrainingmodules/'+ln,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
+			//responseType: 'text'
+		});
 	}
 
 	findtrainingmodulebyname(modulename){
 		return this.http.get(baseUrl+'findtrainingmodulebyname/'+modulename,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});	
+			//responseType: 'text'
+		});
 	}
-	
+
 	createnewtrainingmodule(modulebody){
 		return this.http.post(baseUrl+'createnewtrainingmodule',
 		modulebody,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
-	
+
 	updatetrainingmodulebyid(id,modulebody){
 		return this.http.put(baseUrl+'updatetrainingmodulebyid/'+id,
 		modulebody,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
-	
+
 	deletetrainingmodulebyid(id){
 		return this.http.delete(baseUrl+'deletetrainingmodulebyid/'+id,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
 
 	// sub modules part
-	getalltrainingsubmodules(moduleid,language){				
+	getalltrainingsubmodules(moduleid,language){
 		return this.http.get(baseUrl+'getalltrainingsubmodules/'+moduleid +'/'+language,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});			
+			//responseType: 'text'
+		});
 	}
 
 	findtrainingsubmodulebyname(moduleid, submodulename){
 		return this.http.get(baseUrl+'findtrainingsubmodulebyname/'+moduleid+'/'+submodulename,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text' 
-		});	
+			//responseType: 'text'
+		});
 	}
 	 getalluser(){
 		return this.http.get(baseUrl+'getalluser',
@@ -120,23 +120,23 @@ export class Masterteachertraining1Service {
 		return this.http.post(baseUrl+'createnewtrainingsubmodule',
 		modulebody,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
-	
+
 	updatetrainingsubmodulebyid(id,modulebody){
 		return this.http.put(baseUrl+'updatetrainingsubmodulebyid/'+id,
 		modulebody,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
-	
+
 	deletetrainingsubmodulebyid(id){
 		return this.http.delete(baseUrl+'deletetrainingsubmodulebyid/'+id,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
 
@@ -144,7 +144,7 @@ export class Masterteachertraining1Service {
 		return this.http.delete(baseUrl+'deletetrainingsubmodulebymoduleid/'+moduleid,
 		{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			,responseType: 'text' 
+			,responseType: 'text'
 		});
 	}
 
@@ -176,5 +176,5 @@ export class ValidationService {
 			return null;
 		};
 	}
-	
+
 }

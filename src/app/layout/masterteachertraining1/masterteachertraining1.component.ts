@@ -60,7 +60,7 @@ export class Masterteachertraining1Component implements OnInit {
 		this.hideLoading_indicator3=true;
 		this.selected_preflanguage = 'en'
 	}
-	
+
 	ngOnInit() {
 		this.load_allmodules_list(this.selected_preflanguage);
 	}
@@ -172,10 +172,6 @@ export class Masterteachertraining1Component implements OnInit {
 
 	deletemodule_btnclick(){
 		this.masterteachertraining1Service.deletetrainingmodulebyid(this.module_id).subscribe(data => {
-				// delete sub module records
-				this.masterteachertraining1Service.deletetrainingsubmodulebymoduleid(this.selected_submodule_moduleid).subscribe(data => {
-				},error => {},() => {});
-
 				this.modalReference.close();
 				this.hideLoading_indicator1 = true;
 				this.load_allmodules_list(this.selected_preflanguage);
@@ -207,7 +203,7 @@ export class Masterteachertraining1Component implements OnInit {
 		this.selected_submodule_name = selectElement;
 		this.selected_submodule_id = selectedoptionValue;
 		this.load_alltopic_list(this.selected_submodule_id,this.selected_preflanguage);
-		
+
 	}
 	load_alltopic_list(submoduleid,language){
 		if(submoduleid != undefined && submoduleid != null && submoduleid != ''){
@@ -360,7 +356,7 @@ export class Masterteachertraining1Component implements OnInit {
 			);
 		}
 	}
-	
+
 	all_users:any;
 	txt_title:String;
 	txt_message:String;
@@ -452,7 +448,7 @@ export class Masterteachertraining1Component implements OnInit {
 			this.module_id = module._id;
 			this.moduleid= module.moduleid;
 			this.modulename_toupdate = module.modulename;
-		}else if(flag == 'delete_module'){ 
+		}else if(flag == 'delete_module'){
 			this.module_id = module._id;
 			this.modulename_todelete = module.modulename;
 		}else if(flag == 'edit_submodule'){
@@ -461,7 +457,7 @@ export class Masterteachertraining1Component implements OnInit {
 			this.submodule_modulename = module.modulename;
 			this.submoduleid = module.submoduleid;
 			this.submodulename_toupdate = module.submodulename;
-		}else if(flag == 'delete_submodule'){ 
+		}else if(flag == 'delete_submodule'){
 			this.submodule_id = module._id;
 			this.submodulename_todelete = module.submodulename;
 		} else if(flag == 'edit_topic'){

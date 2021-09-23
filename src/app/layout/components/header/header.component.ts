@@ -91,7 +91,7 @@ export class HeaderComponent implements OnInit {
 
   getuserdbid() {
     this.usersService.getuserbyuserid(this.currentuser_userid).subscribe(data => {
-      console.log("data",data)
+      //console.log("data",data)
       this.dbid = data[0]['_id'];
     },
       error => { },
