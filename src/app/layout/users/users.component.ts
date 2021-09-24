@@ -45,24 +45,30 @@ export class UsersComponent implements OnInit {
 
 	selected_searchfilter: string = 'username';
 
-    constructor(
+  //-------------
+  usertypelist: any = ['admin', 'anganwadi', 'fellow', 'manager', 'school'];
+  selected_usertype: any = 'manager';
+
+  constructor(
 		private modalService: NgbModal,
 		private changeDetectorRef: ChangeDetectorRef,
-		public router: Router, private usersService: UsersService) {
-		this.hideLoading_indicator = true;
-		this.getallUsers();
-		//this.getalluserCount()
+		public router: Router, private usersService: UsersService
+    ) {
+      this.selected_usertype = 'manager';
+      this.hideLoading_indicator = true;
+      this.getallUsers();
+      //this.getalluserCount()
 	}
-	
+
 	ngOnInit() {}
 
 	// get all users
 	getallUsers() {
 		this.hideLoading_indicator = false;
 		let limit = 10
-		
-		this.usersService.gettotalusers().subscribe(data => {
-		//this.usersService.getalluser(this.page_no, limit).subscribe(data => {
+
+		this.usersService.gettotalusersbyusertype(this.selected_usertype).subscribe(data => {
+		//this.usersService.gettotalusers().subscribe(data => {
 				this.data = data;
 				this.filterData = data;
 				this.hideLoading_indicator = true;
@@ -77,12 +83,23 @@ export class UsersComponent implements OnInit {
 			this.totalPage = data || 0
 		})
 	}
-	
+
 	getPageNo(event) {
 		const page = event.target.text.match(/\d+/)[0]
 		this.page_no = page;
 		this.getallUsers();
 	}
+
+  selected_usertype_onchange(event: Event) {
+		const selectedOptions = event.target['options'];
+		const selectedIndex = selectedOptions.selectedIndex;
+		const selectedOptionValue = selectedOptions[selectedIndex].value;
+		const selectedElementText = selectedOptions[selectedIndex].text;
+		this.selected_usertype = selectedOptionValue;
+    console.log('--> this.selected_usertype: ',this.selected_usertype);
+
+    this.getallUsers();
+  }
 
 	searchfilter_select_onchange(event: Event) {
 		const selectedOptions = event.target['options'];
@@ -102,7 +119,7 @@ export class UsersComponent implements OnInit {
 		}
 	}
 	searchusername(term){
-		this.filterData = this.data.filter(element => 
+		this.filterData = this.data.filter(element =>
 		  	element.username.toLowerCase().includes(term.trim().toLowerCase())
 		);
 	}

@@ -38,6 +38,10 @@
             <i class="fa fa-fw fa-vine"></i>&nbsp;
             <span>{{ 'Version Manager' | translate }}</span>
           </a>
+          <a [routerLink]="['/passcodemanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-fax"></i>&nbsp;
+            <span>{{ 'Passcode Manager' | translate }}</span>
+          </a>
           <a [routerLink]="['/udisemanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-cc"></i>&nbsp;
             <span>{{ 'UDISE Manager' | translate }}</span>
@@ -45,10 +49,6 @@
           <a [routerLink]="['/dashboardslidermanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-caret-square-o-right"></i>&nbsp;
             <span>{{ 'Dashboard Slider' | translate }}</span>
-          </a>
-          <a [routerLink]="['/passcodemanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-fax"></i>&nbsp;
-            <span>{{ 'Passcode Manager' | translate }}</span>
           </a>
           <a [routerLink]="['/postcallactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-phone"></i>&nbsp;
@@ -154,7 +154,7 @@
             <i class="fa fa-fw fa-grav"></i>&nbsp;
             <span>{{ 'Training MISC' | translate }}</span>
           </a>
-          
+
           <!-- <a [routerLink]="['/userfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-comments"></i>&nbsp;
             <span>{{ 'User Feedback' | translate }}</span>
@@ -321,7 +321,7 @@
       </ngb-panel>
 
     </ngb-accordion>
-    
+
     <!-- <a [routerLink]="['/leap']" [routerLinkActive]="['router-link-active']" class="list-group-item">
       <i class="fa fa-fw fa-podcast"></i>&nbsp;
       <span>{{ 'LEAP' | translate }}</span>
@@ -449,7 +449,7 @@
         </li>
       </div>
     </div>-->
-  </div> 
+  </div>
   <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
     <i class="fa fa-fw fa-angle-double-left"></i>&nbsp;
     <span>{{ 'Compact Menu' | translate }}</span>

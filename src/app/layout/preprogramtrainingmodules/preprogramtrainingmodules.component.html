@@ -24,13 +24,13 @@
 							</div>
 							<!-- <span class="bold-font">Prefered Language</span>
 							<span>
-								
+
 							</span> -->
 						</div>
 						<div class="col col-xl-2 col-lg-2">
 							<button (click)="back_btn_click()" class="btn btn-sm btn-primary float-right" type="button" style="margin-top: 2px;">&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;</button>
 						</div>
-					</div>					
+					</div>
 				</div>
 
 				<div class="card-body table-responsive">
@@ -74,7 +74,7 @@
 
 										<!-- Module part modal starts from here -->
 										<ng-template #module_editmodal let-c="close" let-d="dismiss">
-											<div class="modal-body">											
+											<div class="modal-body">
 												<div class="row">
 													<div class="col col-xl-12 col-lg-12">
 														<input [(ngModel)]="modulename_toupdate" [value]="modulename_toupdate" type="text" placeholder="Module Name" class="form-control" />
@@ -87,10 +87,10 @@
 											</div>
 										</ng-template>
 										<ng-template #module_deletemodal let-c="close" let-d="dismiss">
-											<div class="modal-body">											
+											<div class="modal-body">
 												<div class="row">
-												<img src="assets/images/warning.png" class="warning-icon">											
-												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ modulename_todelete }} !</span>									
+												<img src="assets/images/warning.png" class="warning-icon">
+												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ modulename_todelete }} !</span>
 												</div>
 											</div>
 											<div class="modal-footer">
@@ -111,7 +111,7 @@
 											<div class="col col-xl-6 col-lg-6">
 												<select value="" (change)="onselect_modules_select($event)" class="form-control" placeholder="Manager" style="width: 91px;">
 													<option value="">Select</option>
-													<option *ngFor="let module of allmodules_list;" value="{{ module.moduleid }}">{{ module.modulename | titlecase }}</option>									
+													<option *ngFor="let module of allmodules_list;" value="{{ module.moduleid }}">{{ module.modulename | titlecase }}</option>
 												</select>
 											</div>
 											<div class="col col-xl-4 col-lg-4">
@@ -147,7 +147,7 @@
 
 										<!-- Sub-module part modal starts from here -->
 										<ng-template #submodule_editemodal let-c="close" let-d="dismiss">
-											<div class="modal-body">											
+											<div class="modal-body">
 												<div class="row">
 													<div class="col col-xl-12 col-lg-12">
 														<input [(ngModel)]="submodulename_toupdate" [value]="submodulename_toupdate" type="text" placeholder="Module Name" class="form-control" />
@@ -160,10 +160,10 @@
 											</div>
 										</ng-template>
 										<ng-template #submodule_deletemodal let-c="close" let-d="dismiss">
-											<div class="modal-body">											
+											<div class="modal-body">
 												<div class="row">
-												<img src="assets/images/warning.png" class="warning-icon">											
-												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ submodulename_todelete }} !</span>									
+												<img src="assets/images/warning.png" class="warning-icon">
+												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ submodulename_todelete }} !</span>
 												</div>
 											</div>
 											<div class="modal-footer">
@@ -171,7 +171,7 @@
 												<button type="button" class="btn btn-danger"   (click)="deletesubmodule_btnclick()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
 											</div>
 										</ng-template>
-									</div>	
+									</div>
 								</div>
 							</div>
 							<div class="col col-xl-4 col-lg-4">
@@ -182,7 +182,7 @@
 											<div class="col col-xl-4 col-lg-4">
 												<select value="" (change)="onselect_sub_modules_select($event)" class="form-control" placeholder="Manager" style="width: 92px;">
 													<option value="">Select</option>
-													<option *ngFor="let submodule of allsubmodules_list;" value="{{ submodule.submoduleid }}">{{ submodule.submodulename | titlecase }}</option>									
+													<option *ngFor="let submodule of allsubmodules_list;" value="{{ submodule.submoduleid }}">{{ submodule.submodulename | titlecase }}</option>
 												</select>
 											</div>
 											<div class="col col-xl-4 col-lg-4">
@@ -217,7 +217,7 @@
 
 										<!-- Sub-module part modal starts from here -->
 										<ng-template #topic_editmodal let-c="close" let-d="dismiss">
-											<div class="modal-body">											
+											<div class="modal-body">
 												<div class="row">
 													<div class="col col-xl-12 col-lg-12">
 														<input [(ngModel)]="topic_toupdate" [value]="topic_toupdate" type="text" placeholder="Topic Name" class="form-control" />
@@ -230,10 +230,10 @@
 											</div>
 										</ng-template>
 										<ng-template #topic_deletemodal let-c="close" let-d="dismiss">
-											<div class="modal-body">											
+											<div class="modal-body">
 												<div class="row">
-												<img src="assets/images/warning.png" class="warning-icon">											
-												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ topicname_todelete }} !</span>									
+												<img src="assets/images/warning.png" class="warning-icon">
+												<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove the records of {{ topicname_todelete }} !</span>
 												</div>
 											</div>
 											<div class="modal-footer">
@@ -241,13 +241,13 @@
 												<button type="button" class="btn btn-danger"   (click)="deletetopic_btnclick()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
 											</div>
 										</ng-template>
-									</div>	
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-            </div>                       
-        </div>        
+            </div>
+        </div>
     </div>
 </div>
