@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+
 import { routerTransition } from "../../router.animations";
 import { Router } from "@angular/router";
 import { HttpResponse, HttpEventType } from "@angular/common/http";
@@ -17,6 +18,31 @@ import { GalleryService } from "./../gallery/gallery.service";
   animations: [routerTransition()],
 })
 export class EceactivitiesComponent implements OnInit {
+  constructor(
+    private modalService: NgbModal,
+    public router: Router,
+    private eceactivitiesService: EceactivitiesService,
+    private galleryService: GalleryService
+  ) {
+    this.selected_program = "ece";
+    this.selected_subject = "";
+    this.selected_themeid = "";
+    this.selected_skillsetid = "";
+    this.selected_class = "";
+    this.content_value = "";
+    this.video_value = [];
+
+    this.skillset_label = "Skill Set";
+    this.class_select_option_list = [
+      { value: "1", text: "1" },
+      { value: "2", text: "2" },
+      { value: "3", text: "3" },
+    ];
+
+    this.hide_Loading_indicator = true;
+    this.hide_createnewsegment_button = true;
+    this.hideSubject_select = false;
+  }
   @ViewChild("updatetextcontentsmodal") updatetextcontentsmodal: any;
   @ViewChild("updateimagecontentsmodal") updateimagecontentsmodal: any;
   @ViewChild("updatevideocontentsmodal") updatevideocontentsmodal: any;
@@ -26,6 +52,7 @@ export class EceactivitiesComponent implements OnInit {
 
   // File chooser variables
   selectedFiles: FileList;
+  files: string[] = [];
   displayname: string;
   filetype: string;
   s3name: string;
@@ -81,40 +108,37 @@ export class EceactivitiesComponent implements OnInit {
   image_to_preview: string = "";
   video_to_play: string = "";
 
-  constructor(
-    private modalService: NgbModal,
-    public router: Router,
-    private eceactivitiesService: EceactivitiesService,
-    private galleryService: GalleryService
-  ) {
-    this.selected_program = "ece";
-    this.selected_subject = "";
-    this.selected_themeid = "";
-    this.selected_skillsetid = "";
-    this.selected_class = "";
-    this.content_value = "";
-    this.video_value = [];
+  currentFileUpload: File;
+  hideProgressbar: boolean = true;
+  progress: { percentage: number } = { percentage: 0 };
+  s3path: string = "";
 
-    this.skillset_label = "Skill Set";
-    this.class_select_option_list = [
-      { value: "1", text: "1" },
-      { value: "2", text: "2" },
-      { value: "3", text: "3" },
-    ];
-
-    this.hide_Loading_indicator = true;
-    this.hide_createnewsegment_button = true;
-    this.hideSubject_select = false;
-  }
+  // tslint:disable-next-line:member-ordering
+  reordered_segments_list: any = [];
+  listStyle: any = {
+    width: "400px", // default 300,
+    height: "250px", // default 250,
+    dropZoneHeight: "50px", // default 50
+  };
 
   ngOnInit() {}
 
   filechooser_onchange(event) {
+    console.log("Selected files ", event.target.files[0]);
+    console.log("Type of::---", typeof event.target.files);
+
     if (event.target.files.length > 0) {
       this.selectedFiles = event.target.files;
+      console.log(this.selectedFiles);
+
       this.displayname = event.target.files[0].name;
+      console.log(this.displayname);
+
       this.filetype = this.displayname.split(".").pop();
+      console.log(this.filetype);
+
       this.s3name = new Date().getTime() + "." + this.filetype;
+      console.log(this.s3name);
     } else {
       this.displayname = "";
       this.selectedFiles = null;
@@ -138,8 +162,14 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_skillsetname = "";
     this.theme_select_option_list = [
       { value: "bodyparts", text: "Body Parts" },
-      { value: "animalsbirds&theirsounds", text: "Animals, Birds & their Sounds" },
-      { value: "flowersfruits&vegetables", text: "Flowers, Fruits & Vegetables" },
+      {
+        value: "animalsbirds&theirsounds",
+        text: "Animals, Birds & their Sounds",
+      },
+      {
+        value: "flowersfruits&vegetables",
+        text: "Flowers, Fruits & Vegetables",
+      },
       { value: "house&accessories", text: "House & Accessories" },
       { value: "transportation", text: "Transportation" },
       { value: "occupation", text: "Occupation" },
@@ -159,7 +189,14 @@ export class EceactivitiesComponent implements OnInit {
       { value: "2", text: "2" },
       { value: "3", text: "3" },
     ];
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   class_select_onchange(value) {
@@ -174,7 +211,14 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_themename = "";
     this.selected_skillsetid = "";
     this.selected_skillsetname = "";
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   theme_select_onchange(value) {
@@ -187,7 +231,14 @@ export class EceactivitiesComponent implements OnInit {
 
     this.selected_skillsetid = "";
     this.selected_skillsetname = "";
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   skill_select_onchange(value) {
@@ -197,7 +248,14 @@ export class EceactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_skillsetid = selectedOptionValue;
     this.selected_skillsetname = selectElementText;
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   // ====================================== Segment related codes started from here =================================
@@ -229,7 +287,11 @@ export class EceactivitiesComponent implements OnInit {
     this.hide_Loading_indicator = false;
 
     this.selected_segment = this.segments_list[idx];
-    if (this.selected_segment == undefined || this.selected_segment == null || Object.keys(this.selected_segment).length <= 0){
+    if (
+      this.selected_segment == undefined ||
+      this.selected_segment == null ||
+      Object.keys(this.selected_segment).length <= 0
+    ) {
       this.reset_segment();
     } else {
       this.selected_segment_type = this.selected_segment.type;
@@ -436,37 +498,48 @@ export class EceactivitiesComponent implements OnInit {
     } else {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
-      this.currentFileUpload = this.selectedFiles.item(0);
-      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
-      this.galleryService
-        .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-        .subscribe((event) => {
-          console.log("$$$event: " + JSON.stringify(event));
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(
-              (100 * event.loaded) / event.total
-            );
-          } else if (event instanceof HttpResponse) {
-            this.hideProgressbar = true;
-            this.s3path = event.body["s3path"];
-            console.log("File is completely uploaded!->" + this.s3path);
-            let newobj = {
-              type: "resources",
-              displayname: this.displayname,
-              s3name: this.s3name,
-              filetype: this.filetype,
-              s3_url: this.s3path,
-              preview_url: this.s3path,
-              value: this.s3path,
-            };
-            this.extraresources_list.push(newobj);
-            let body = {
-              extraresources: this.extraresources_list,
-            };
-            this.update_record(this.record_id, body);
-            this.modalReference.close();
-          }
-        });
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        console.log(this.selectedFiles);
+
+        this.displayname = this.selectedFiles[i].name;
+        this.filetype = this.displayname.split(".").pop();
+        this.s3name = new Date().getTime() + "." + this.filetype;
+        this.currentFileUpload = this.selectedFiles.item(i);
+        console.log("currentfile", this.currentFileUpload);
+
+        console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
+        this.galleryService
+          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+          .subscribe((event) => {
+            console.log("$$$event: " + JSON.stringify(event));
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
+            } else if (event instanceof HttpResponse) {
+              this.hideProgressbar = true;
+              this.s3path = event.body["s3path"];
+              console.log("File is completely uploaded!->" + this.s3path);
+              let newobj = {
+                type: "resources",
+                displayname: this.displayname,
+                s3name: this.s3name,
+                filetype: this.filetype,
+                s3_url: this.s3path,
+                preview_url: this.s3path,
+                value: this.s3path,
+              };
+              console.log("s3name===", this.s3name);
+
+              this.extraresources_list.push(newobj);
+              let body = {
+                extraresources: this.extraresources_list,
+              };
+              this.update_record(this.record_id, body);
+              this.modalReference.close();
+            }
+          });
+      }
     }
   }
 
@@ -509,19 +582,38 @@ export class EceactivitiesComponent implements OnInit {
   // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   async load_record(preflanguage, program, subject, clas, theme, skill) {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      preflanguage != undefined && preflanguage != null && preflanguage != "" &&
-      program != undefined && program != null && program != "" &&
-      subject != undefined && subject != null && subject != "" &&
-      theme != undefined && theme != null && theme != "" &&
-      skill != undefined && skill != null && skill != "" &&
-      clas != undefined && clas != null && clas != ""
+      preflanguage != undefined &&
+      preflanguage != null &&
+      preflanguage != "" &&
+      program != undefined &&
+      program != null &&
+      program != "" &&
+      subject != undefined &&
+      subject != null &&
+      subject != "" &&
+      theme != undefined &&
+      theme != null &&
+      theme != "" &&
+      skill != undefined &&
+      skill != null &&
+      skill != "" &&
+      clas != undefined &&
+      clas != null &&
+      clas != ""
     ) {
       this.content_value = "";
       this.video_value = [];
@@ -530,49 +622,61 @@ export class EceactivitiesComponent implements OnInit {
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
-      this.eceactivitiesService.getmasteractivitiydetails(preferedlanguage, program, subject, clas, theme, skill).subscribe((data) => {
-        if (Object.keys(data).length > 0) {
-          this.save_operation = "update";
-          this.record_id = data[0]["_id"];
-          this.extraresources_list = data[0]["extraresources"];
-          this.segments_list = data[0]["segment"];
-          // added by nayak on 21-09-2020 to set segment 1 selected bydefault
-          if (this.segments_list.length > 0) {
-            //this.segment_select_onchange(0);
-            this.load_segment(0);
-          }
-        } else {
-          this.save_operation = "save";
-          this.record_id = "";
-          this.extraresources_list = [];
-          this.segments_list = [];
-        }
-        this.hide_Loading_indicator = true;
-      },(error) => {},() => {});
+      this.eceactivitiesService
+        .getmasteractivitiydetails(
+          preferedlanguage,
+          program,
+          subject,
+          clas,
+          theme,
+          skill
+        )
+        .subscribe(
+          (data) => {
+            if (Object.keys(data).length > 0) {
+              this.save_operation = "update";
+              this.record_id = data[0]["_id"];
+              this.extraresources_list = data[0]["extraresources"];
+              this.segments_list = data[0]["segment"];
+              // added by nayak on 21-09-2020 to set segment 1 selected bydefault
+              if (this.segments_list.length > 0) {
+                //this.segment_select_onchange(0);
+                this.load_segment(0);
+              }
+            } else {
+              this.save_operation = "save";
+              this.record_id = "";
+              this.extraresources_list = [];
+              this.segments_list = [];
+            }
+            this.hide_Loading_indicator = true;
+          },
+          (error) => {},
+          () => {}
+        );
     } else {
       this.hide_Loading_indicator = true;
       this.hide_createnewsegment_button = true;
     }
   }
 
-  currentFileUpload: File;
-  hideProgressbar: boolean = true;
-  progress: { percentage: number } = { percentage: 0 };
-  s3path: string = "";
-
   async save_btn_click(selected_tab) {
     let body = {};
     if (selected_tab == "textcontent_tab") {
-      if (this.content_value == undefined || this.content_value == null || this.content_value == "") {
+      if (
+        this.content_value == undefined ||
+        this.content_value == null ||
+        this.content_value == ""
+      ) {
         swal.fire("info", "Please add some content !!!", "warning");
       } else {
-        if (this.save_operation == "save") {
+        if (this.save_operation === "save") {
           body = {
             preferedlanguage: this.selected_preflanguage,
-            program: 'ece',
+            program: "ece",
             themeid: this.selected_themeid,
-            themename:  this.selected_themename,
-            subject: 'na',
+            themename: this.selected_themename,
+            subject: "na",
             class: this.selected_class,
             skillsetid: this.selected_skillsetid,
             skillsetname: this.selected_skillsetname,
@@ -592,7 +696,7 @@ export class EceactivitiesComponent implements OnInit {
           this.save_record(body);
           this.modalReference.close();
         } else {
-          let newobj = {
+          const newobj = {
             type: "text_content",
             displayname: null,
             s3name: null,
@@ -601,10 +705,13 @@ export class EceactivitiesComponent implements OnInit {
             preview_url: null,
             value: this.content_value,
           };
+          console.log(newobj);
+
           this.segments_list.push(newobj);
           body = {
             segment: this.segments_list,
           };
+
           this.update_record(this.record_id, body);
           this.modalReference.close();
         }
@@ -615,155 +722,210 @@ export class EceactivitiesComponent implements OnInit {
       } else {
         this.hideProgressbar = false;
         this.progress.percentage = 0;
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          this.displayname = this.selectedFiles[i].name;
+          this.filetype = this.displayname.split(".").pop();
+          this.s3name = new Date().getTime() + "." + this.filetype;
+          this.currentFileUpload = this.selectedFiles.item(i);
+          console.log(
+            "###selectedFiles: " + JSON.stringify(this.selectedFiles)
+          );
+          this.galleryService
+            .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+            .subscribe((event) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress.percentage = Math.round(
+                  (100 * event.loaded) / event.total
+                );
+              } else if (event instanceof HttpResponse) {
+                this.s3path = event.body["s3path"];
+                console.log("File is completely uploaded!->" + this.s3path);
+                this.hideProgressbar = true;
+                if (this.save_operation === "save") {
+                  body = {
+                    preferedlanguage: this.selected_preflanguage,
+                    program: "ece",
+                    themeid: this.selected_themeid,
+                    themename: this.selected_themename,
+                    subject: "na",
+                    class: this.selected_class,
+                    skillsetid: this.selected_skillsetid,
+                    skillsetname: this.selected_skillsetname,
+                    segment: [
+                      {
+                        type: "image_content",
+                        displayname: this.displayname,
+                        s3name: this.s3name,
+                        filetype: this.filetype,
+                        s3_url: this.s3path,
+                        preview_url: this.s3path,
+                        value: this.s3path,
+                      },
+                    ],
 
-        this.currentFileUpload = this.selectedFiles.item(0);
-        console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
-        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round((100 * event.loaded) / event.total);
-            } else if (event instanceof HttpResponse) {
-              this.s3path = event.body["s3path"];
-              console.log("File is completely uploaded!->" + this.s3path);
-              this.hideProgressbar = true;
-              if (this.save_operation == "save") {
-                body = {
-                  preferedlanguage: this.selected_preflanguage,
-                  program: 'ece',
-                  themeid: this.selected_themeid,
-                  themename:  this.selected_themename,
-                  subject: 'na',
-                  class: this.selected_class,
-                  skillsetid: this.selected_skillsetid,
-                  skillsetname: this.selected_skillsetname,
-                  segment: [
-                    {
-                      type: "image_content",
-                      displayname: this.displayname,
-                      s3name: this.s3name,
-                      filetype: this.filetype,
-                      s3_url: this.s3path,
-                      preview_url: this.s3path,
-                      value: this.s3path,
-                    },
-                  ],
-                  extraresources: [],
-                };
-                this.save_record(body);
-                this.modalReference.close();
-              } else {
-                let newobj = {
-                  type: "image_content",
-                  displayname: this.displayname,
-                  s3name: this.s3name,
-                  filetype: this.filetype,
-                  s3_url: this.s3path,
-                  preview_url: this.s3path,
-                  value: this.s3path,
-                };
-                this.segments_list.push(newobj);
-                body = {
-                  segment: this.segments_list,
-                };
-                this.update_record(this.record_id, body);
-                this.modalReference.close();
+                    extraresources: [],
+                  };
+
+                  this.save_record(body);
+                  this.modalReference.close();
+                } else {
+                  const newobj = {
+                    type: "image_content",
+                    displayname: this.displayname,
+                    s3name: this.s3name,
+                    filetype: this.filetype,
+                    s3_url: this.s3path,
+                    preview_url: this.s3path,
+                    value: this.s3path,
+                  };
+
+                  this.segments_list.push(newobj);
+                  body = {
+                    segment: this.segments_list,
+                  };
+                  this.update_record(this.record_id, body);
+                  this.modalReference.close();
+                }
               }
-            }
-          });
+            });
+        }
       }
-    } else if (selected_tab == "video_tab") {
-      if (this.selectedFiles == undefined || this.selectedFiles == null) {
+    } else if (selected_tab === "video_tab") {
+      if (this.selectedFiles === undefined || this.selectedFiles == null) {
         swal.fire("info", "Please select video file", "warning");
       } else {
         this.hideProgressbar = false;
         this.progress.percentage = 0;
-
-        this.currentFileUpload = this.selectedFiles.item(0);
-        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round((100 * event.loaded) / event.total);
-            } else if (event instanceof HttpResponse) {
-              this.s3path = event.body["s3path"];
-              this.hideProgressbar = true;
-              if (this.save_operation == "save") {
-                body = {
-                  preferedlanguage: this.selected_preflanguage,
-                  program: 'ece',
-                  themeid: this.selected_themeid,
-                  themename:  this.selected_themename,
-                  subject: 'na',
-                  class: this.selected_class,
-                  skillsetid: this.selected_skillsetid,
-                  skillsetname: this.selected_skillsetname,
-                  segment: [
-                    {
-                      type: "video_content",
-                      displayname: this.displayname,
-                      s3name: this.s3name,
-                      filetype: this.filetype,
-                      s3_url: this.s3path,
-                      preview_url: this.s3path,
-                      value: this.s3path,
-                    },
-                  ],
-                  extraresources: [],
-                };
-                this.save_record(body);
-                this.modalReference.close();
-              } else {
-                let newobj = {
-                  type: "video_content",
-                  displayname: this.displayname,
-                  s3name: this.s3name,
-                  filetype: this.filetype,
-                  s3_url: this.s3path,
-                  preview_url: this.s3path,
-                  value: this.s3path,
-                };
-                this.segments_list.push(newobj);
-                body = {
-                  segment: this.segments_list,
-                };
-                this.update_record(this.record_id, body);
-                this.modalReference.close();
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          this.displayname = this.selectedFiles[i].name;
+          this.filetype = this.displayname.split(".").pop();
+          this.s3name = new Date().getTime() + "." + this.filetype;
+          this.currentFileUpload = this.selectedFiles.item(i);
+          this.galleryService
+            .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+            .subscribe((event) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress.percentage = Math.round(
+                  (100 * event.loaded) / event.total
+                );
+              } else if (event instanceof HttpResponse) {
+                this.s3path = event.body["s3path"];
+                this.hideProgressbar = true;
+                if (this.save_operation == "save") {
+                  body = {
+                    preferedlanguage: this.selected_preflanguage,
+                    program: "ece",
+                    themeid: this.selected_themeid,
+                    themename: this.selected_themename,
+                    subject: "na",
+                    class: this.selected_class,
+                    skillsetid: this.selected_skillsetid,
+                    skillsetname: this.selected_skillsetname,
+                    segment: [
+                      {
+                        type: "video_content",
+                        displayname: this.displayname,
+                        s3name: this.s3name,
+                        filetype: this.filetype,
+                        s3_url: this.s3path,
+                        preview_url: this.s3path,
+                        value: this.s3path,
+                      },
+                    ],
+                    extraresources: [],
+                  };
+                  this.save_record(body);
+                  this.modalReference.close();
+                } else {
+                  const newobj = {
+                    type: "video_content",
+                    displayname: this.displayname,
+                    s3name: this.s3name,
+                    filetype: this.filetype,
+                    s3_url: this.s3path,
+                    preview_url: this.s3path,
+                    value: this.s3path,
+                  };
+                  this.segments_list.push(newobj);
+                  body = {
+                    segment: this.segments_list,
+                  };
+                  this.update_record(this.record_id, body);
+                  this.modalReference.close();
+                }
               }
-            }
-          });
+            });
+        }
       }
     }
   }
 
   async save_record(body) {
-    this.eceactivitiesService.createmasteractivities(body).subscribe((data) => {
-      swal.fire("Successful", "Data saved successfully", "success");
-      this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
-    },(error) => {},() => {});
+    this.eceactivitiesService.createmasteractivities(body).subscribe(
+      (data) => {
+        swal.fire("Successful", "Data saved successfully", "success");
+        this.load_record(
+          this.selected_preflanguage,
+          this.selected_program,
+          this.selected_subject,
+          this.selected_class,
+          this.selected_themeid,
+          this.selected_skillsetid
+        );
+      },
+      (error) => {},
+      () => {}
+    );
   }
 
   async update_record(id, body) {
-    this.eceactivitiesService.updatemasteractivities(id, body).subscribe((data) => {
-      swal.fire("Successful", "Data updated successfully", "success");
-      this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
-    },(error) => {},() => {});
+    this.eceactivitiesService.updatemasteractivities(id, body).subscribe(
+      (data) => {
+        swal.fire("Successful", "Data updated successfully", "success");
+        this.load_record(
+          this.selected_preflanguage,
+          this.selected_program,
+          this.selected_subject,
+          this.selected_class,
+          this.selected_themeid,
+          this.selected_skillsetid
+        );
+      },
+      (error) => {},
+      () => {}
+    );
   }
 
   opencontentsmodal(content) {
     this.content_value = "";
-    this.modalReference = this.modalService.open(content, {size: "lg", backdrop: "static"});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    },(reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openupdatetextcontentsmodal(content) {
     this.content_value = this.selected_segment.value;
-    this.modalReference = this.modalService.open(content, {size: "lg", backdrop: "static"});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    },(reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openupdateimagecontentsmodal(content) {
@@ -872,29 +1034,22 @@ export class EceactivitiesComponent implements OnInit {
     }
   }
 
-  reordered_segments_list: any = [];
-  listStyle: any = {
-    width: "400px", //default 300,
-    height: "250px", //default 250,
-    dropZoneHeight: "50px", //default 50
-  };
-
   listOrderChanged(event) {
     this.reordered_segments_list = event;
   }
 
   save_reorder_btn_click() {
     this.reordered_segments_list =
-      this.reordered_segments_list == undefined ||
+      this.reordered_segments_list === undefined ||
       this.reordered_segments_list == null
         ? []
         : this.reordered_segments_list;
     if (this.reordered_segments_list.length <= 0) {
       swal.fire("Info", "Error generating reordered list", "warning");
     } else if (
-      this.record_id == undefined ||
+      this.record_id === undefined ||
       this.record_id == null ||
-      this.record_id == ""
+      this.record_id === ""
     ) {
       swal.fire("Info", "Error fetching record id", "warning");
     } else {

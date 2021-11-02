@@ -1,176 +1,248 @@
 <div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <div class="card mb-3">
-                <div class="card-header">
-					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
-							<h4>SKILLCHART FILE UPLOAD</h4>
-						</div>
-					</div>					
-				</div>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>SKILLCHART FILE UPLOAD</h4>
+            </div>
+          </div>
+        </div>
 
+        <div class="card-body table-responsive">
+          <div class="row">
+            <div class="col col-lg-3 col-md-3 col-sm-3">
+              <input
+                multiple
+                (change)="filechooser_onchange($event)"
+                #fileInput
+                type="file"
+                accept="application/pdf"
+              />
+            </div>
+            <div class="col col-lg-7 col-md-7 col-sm-7">
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input
+                    (change)="radio_button_change('ece')"
+                    type="radio"
+                    name="optradio"
+                    class="form-check-input"
+                  />ECE
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input
+                    (change)="radio_button_change('pgemath')"
+                    type="radio"
+                    name="optradio"
+                    class="form-check-input"
+                  />PGE MATH
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input
+                    (change)="radio_button_change('pgeeng')"
+                    type="radio"
+                    name="optradio"
+                    class="form-check-input"
+                  />PGE ENGLISH
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input
+                    (change)="radio_button_change('pgeodia')"
+                    type="radio"
+                    name="optradio"
+                    class="form-check-input"
+                  />PGE ODIA
+                </label>
+              </div>
+            </div>
+            <div class="col col-lg-2 col-md-2 col-sm-2 float-right">
+              <button
+                (click)="uploadfile_button_click()"
+                [disabled]="!selectedFiles"
+                class="btn btn-success btn-block"
+              >
+                Upload
+              </button>
+            </div>
+          </div>
 
+          <div class="row">
+            <div
+              *ngIf="currentFileUpload"
+              class="progress fullwidth"
+              [hidden]="hideProgressbar"
+            >
+              <div
+                class="progress-bar progress-bar-info progress-bar-striped"
+                role="progressbar"
+                attr.aria-valuenow="{{ progress.percentage }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [ngStyle]="{ width: progress.percentage + '%' }"
+              >
+                {{ progress.percentage }}%
+              </div>
+            </div>
+          </div>
 
+          <div class="row">
+            <div
+              id="loading_indicator"
+              class="loading_indicator"
+              [hidden]="hideLoading_indicator"
+            >
+              <span class=""
+                ><img
+                  src="assets/images/loader3.gif"
+                  alt="Loading. Please wait..."
+              /></span>
+            </div>
+            <div class="card-body table-responsive">
+              <div class="row">
+                <!-- ====================== ECE SKILLCHART ========================== -->
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                  <div class="uploaddivcontainer">
+                    <div class="containertitle">ECE</div>
+                    <div class="row">
+                      <div class="col col-lg-3 col-md-3 col-sm-3">
+                        <img
+                          src="{{ imageicon_ece }}"
+                          alt="Pdf File"
+                          class="iconsize"
+                        />
+                      </div>
+                      <div class="col col-lg-9 col-md-9 col-sm-9">
+                        <a href="#">
+                          <span class="bold_font">{{ filename_ece }}</span>
+                        </a>
+                        <br />
+                        <span class="grey_font">{{ uploaddate_ece }}</span>
+                        <br />
+                        <button
+                          (click)="delete_button_click('ece')"
+                          [hidden]="hidedeletebutton_ece"
+                          class="btn btn-danger"
+                        >
+                          X&nbsp;&nbsp;&nbsp;&nbsp;Delete File
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
+                <!-- ====================== PGE MATH SKILLCHART ========================== -->
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                  <div class="uploaddivcontainer">
+                    <div class="containertitle">PGE MATH</div>
+                    <div class="row">
+                      <div class="col col-lg-3 col-md-3 col-sm-3">
+                        <img
+                          src="{{ imageicon_pgemath }}"
+                          alt="Pdf File"
+                          class="iconsize"
+                        />
+                      </div>
+                      <div class="col col-lg-9 col-md-9 col-sm-9">
+                        <a href="#">
+                          <span class="bold_font">{{ filename_pgemath }}</span>
+                        </a>
+                        <br />
+                        <span class="grey_font">{{ uploaddate_pgemath }}</span>
+                        <br />
+                        <button
+                          (click)="delete_button_click('pgemath')"
+                          [hidden]="hidedeletebutton_pgemath"
+                          class="btn btn-danger"
+                        >
+                          X&nbsp;&nbsp;&nbsp;&nbsp;Delete File
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
+              <div class="row linegap">
+                <div class="col col-lg-6 col-md-6 col-sm-6"></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6"></div>
+              </div>
 
+              <div class="row">
+                <!-- ====================== PGE ENGLISH SKILLCHART ========================== -->
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                  <div class="uploaddivcontainer">
+                    <div class="containertitle">PGE ENGLISH</div>
+                    <div class="row">
+                      <div class="col col-lg-3 col-md-3 col-sm-3">
+                        <img
+                          src="{{ imageicon_pgeeng }}"
+                          alt="Pdf File"
+                          class="iconsize"
+                        />
+                      </div>
+                      <div class="col col-lg-9 col-md-9 col-sm-9">
+                        <a href="#">
+                          <span class="bold_font">{{ filename_pgeeng }}</span>
+                        </a>
+                        <br />
+                        <span class="grey_font">{{ uploaddate_pgeeng }}</span>
+                        <br />
+                        <button
+                          (click)="delete_button_click('pgeeng')"
+                          [hidden]="hidedeletebutton_pgeeng"
+                          class="btn btn-danger"
+                        >
+                          X&nbsp;&nbsp;&nbsp;&nbsp;Delete File
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-
-				<div class="card-body table-responsive">
-					<div class="row">
-						<div class="col col-lg-3 col-md-3 col-sm-3">
-							<input (change)="filechooser_onchange($event)" #fileInput type="file" accept="application/pdf">
-						</div>
-						<div class="col col-lg-7 col-md-7 col-sm-7">
-							<div class="form-check-inline">
-								<label class="form-check-label">
-								  <input (change)="radio_button_change('ece')" type="radio" name="optradio" class="form-check-input">ECE
-								</label>
-							  </div>
-							  <div class="form-check-inline">
-								<label class="form-check-label">
-								  <input (change)="radio_button_change('pgemath')" type="radio" name="optradio" class="form-check-input">PGE MATH
-								</label>
-							  </div>
-							  <div class="form-check-inline">
-								<label class="form-check-label">
-								  <input (change)="radio_button_change('pgeeng')" type="radio" name="optradio" class="form-check-input">PGE ENGLISH
-								</label>
-							  </div>
-							  <div class="form-check-inline">
-								<label class="form-check-label">
-								  <input (change)="radio_button_change('pgeodia')" type="radio" name="optradio" class="form-check-input">PGE ODIA
-								</label>
-							  </div>
-						</div>
-						<div class="col col-lg-2 col-md-2 col-sm-2 float-right">
-							<button (click)="uploadfile_button_click()" [disabled]="!selectedFiles" class="btn btn-success btn-block">Upload</button>
-						</div>
-					</div>
-
-					<div class="row">
-						<div *ngIf="currentFileUpload" class="progress fullwidth" [hidden]="hideProgressbar">
-							<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-								attr.aria-valuenow="{{progress.percentage}}"
-								aria-valuemin="0" aria-valuemax="100" 
-								[ngStyle]="{width:progress.percentage+'%'}">
-								{{progress.percentage}}%
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-								<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-									<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-								</div>
-								<div class="card-body table-responsive">
-									<div class="row">
-										<!-- ====================== ECE SKILLCHART ========================== -->
-										<div class="col col-lg-6 col-md-6 col-sm-6">
-											<div class="uploaddivcontainer">
-												<div class="containertitle">
-													ECE
-												</div>
-												<div class="row">
-													<div class="col col-lg-3 col-md-3 col-sm-3">
-														<img src="{{ imageicon_ece }}" alt="Pdf File" class="iconsize" />
-													</div>
-													<div class="col col-lg-9 col-md-9 col-sm-9">
-														<a href="#">
-															<span class="bold_font">{{ filename_ece }}</span>
-														</a>
-														<br>
-														<span class="grey_font">{{ uploaddate_ece }}</span>
-														<br>
-														<button (click)="delete_button_click('ece')" [hidden]="hidedeletebutton_ece" class="btn btn-danger">X&nbsp;&nbsp;&nbsp;&nbsp;Delete File</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										
-										<!-- ====================== PGE MATH SKILLCHART ========================== -->
-										<div class="col col-lg-6 col-md-6 col-sm-6">
-											<div class="uploaddivcontainer">
-												<div class="containertitle">
-													PGE MATH
-												</div>
-												<div class="row">
-													<div class="col col-lg-3 col-md-3 col-sm-3">
-														<img src="{{ imageicon_pgemath }}" alt="Pdf File" class="iconsize" />
-													</div>
-													<div class="col col-lg-9 col-md-9 col-sm-9">
-														<a href="#">
-															<span class="bold_font">{{ filename_pgemath }}</span>
-														</a>
-														<br>
-														<span class="grey_font">{{ uploaddate_pgemath }}</span>
-														<br>
-														<button (click)="delete_button_click('pgemath')" [hidden]="hidedeletebutton_pgemath" class="btn btn-danger">X&nbsp;&nbsp;&nbsp;&nbsp;Delete File</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-				
-									<div class="row linegap">
-										<div class="col col-lg-6 col-md-6 col-sm-6"></div>
-										<div class="col col-lg-6 col-md-6 col-sm-6"></div>
-									</div>
-				
-									<div class="row">
-										
-										<!-- ====================== PGE ENGLISH SKILLCHART ========================== -->
-										<div class="col col-lg-6 col-md-6 col-sm-6">
-											<div class="uploaddivcontainer">
-												<div class="containertitle">
-													PGE ENGLISH
-												</div>
-												<div class="row">
-													<div class="col col-lg-3 col-md-3 col-sm-3">
-														<img src="{{ imageicon_pgeeng }}" alt="Pdf File" class="iconsize" />
-													</div>
-													<div class="col col-lg-9 col-md-9 col-sm-9">
-														<a href="#">
-															<span class="bold_font">{{ filename_pgeeng }}</span>
-														</a>
-														<br>
-														<span class="grey_font">{{ uploaddate_pgeeng }}</span>
-														<br>
-														<button (click)="delete_button_click('pgeeng')" [hidden]="hidedeletebutton_pgeeng" class="btn btn-danger">X&nbsp;&nbsp;&nbsp;&nbsp;Delete File</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										
-										<!-- ====================== PGE ODIA SKILLCHART ========================== -->
-										<div class="col col-lg-6 col-md-6 col-sm-6">
-											<div class="uploaddivcontainer">
-												<div class="containertitle">
-													PGE ODIA
-												</div>
-												<div class="row">
-													<div class="col col-lg-3 col-md-3 col-sm-3">
-														<img src="{{ imageicon_pgeodia }}" alt="Pdf File" class="iconsize" />
-													</div>
-													<div class="col col-lg-9 col-md-9 col-sm-9">
-														<a href="#">
-															<span class="bold_font">{{ filename_pgeodia }}</span>
-														</a>
-														<br>
-														<span class="grey_font">{{ uploaddate_pgeodia }}</span>
-														<br>
-														<button (click)="delete_button_click('pgeodia')" [hidden]="hidedeletebutton_pgeodia" class="btn btn-danger">X&nbsp;&nbsp;&nbsp;&nbsp;Delete File</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-					</div>
-				</div>
-            </div>                       
-        </div>        
+                <!-- ====================== PGE ODIA SKILLCHART ========================== -->
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                  <div class="uploaddivcontainer">
+                    <div class="containertitle">PGE ODIA</div>
+                    <div class="row">
+                      <div class="col col-lg-3 col-md-3 col-sm-3">
+                        <img
+                          src="{{ imageicon_pgeodia }}"
+                          alt="Pdf File"
+                          class="iconsize"
+                        />
+                      </div>
+                      <div class="col col-lg-9 col-md-9 col-sm-9">
+                        <a href="#">
+                          <span class="bold_font">{{ filename_pgeodia }}</span>
+                        </a>
+                        <br />
+                        <span class="grey_font">{{ uploaddate_pgeodia }}</span>
+                        <br />
+                        <button
+                          (click)="delete_button_click('pgeodia')"
+                          [hidden]="hidedeletebutton_pgeodia"
+                          class="btn btn-danger"
+                        >
+                          X&nbsp;&nbsp;&nbsp;&nbsp;Delete File
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

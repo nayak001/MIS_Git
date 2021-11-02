@@ -135,7 +135,13 @@ export class PgeactivitiesComponent implements OnInit {
     this.selected_subject = "";
     this.selected_skillsetid = "";
     this.selected_skillsetname = "";
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_skillsetid
+    );
   }
 
   class_select_onchange(value) {
@@ -148,7 +154,13 @@ export class PgeactivitiesComponent implements OnInit {
     this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.load_skilllist();
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_skillsetid
+    );
   }
 
   subject_select_onchange(value) {
@@ -159,7 +171,13 @@ export class PgeactivitiesComponent implements OnInit {
     this.selected_subject = selectedOptionValue;
 
     this.load_skilllist();
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_skillsetid
+    );
   }
 
   skill_select_onchange(value) {
@@ -169,13 +187,19 @@ export class PgeactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_skillsetid = selectedOptionValue;
     this.selected_skillsetname = selectElementText;
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_skillsetid
+    );
   }
 
   // ====================================== Segment related codes started from here =================================
 
   segment_select_onchange(value) {
-    console.log("segment_select_onchange",this.selected_segment_index)
+    console.log("segment_select_onchange", this.selected_segment_index);
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
@@ -336,8 +360,7 @@ export class PgeactivitiesComponent implements OnInit {
             };
             this.update_record(this.record_id, body);
             this.galleryService.deleteFromStorage(null, oldfilename).subscribe(
-              (data1) => {
-              },
+              (data1) => {},
               (error) => {},
               () => {}
             );
@@ -374,8 +397,7 @@ export class PgeactivitiesComponent implements OnInit {
             };
             this.update_record(this.record_id, body);
             this.galleryService.deleteFromStorage(null, oldfilename).subscribe(
-              (data1) => {
-              },
+              (data1) => {},
               (error) => {},
               () => {}
             );
@@ -403,34 +425,39 @@ export class PgeactivitiesComponent implements OnInit {
     } else {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
-      this.currentFileUpload = this.selectedFiles.item(0);
-      this.galleryService
-        .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-        .subscribe((event) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(
-              (100 * event.loaded) / event.total
-            );
-          } else if (event instanceof HttpResponse) {
-            this.hideProgressbar = true;
-            this.s3path = event.body["s3path"];
-            let newobj = {
-              type: "resources",
-              displayname: this.displayname,
-              s3name: this.s3name,
-              filetype: this.filetype,
-              s3_url: this.s3path,
-              preview_url: this.s3path,
-              value: this.s3path,
-            };
-            this.extraresources_list.push(newobj);
-            let body = {
-              extraresources: this.extraresources_list,
-            };
-            this.update_record(this.record_id, body);
-            this.modalReference.close();
-          }
-        });
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.displayname = this.selectedFiles[i].name;
+        this.filetype = this.displayname.split(".").pop();
+        this.s3name = new Date().getTime() + "." + this.filetype;
+        this.currentFileUpload = this.selectedFiles.item(i);
+        this.galleryService
+          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+          .subscribe((event) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
+            } else if (event instanceof HttpResponse) {
+              this.hideProgressbar = true;
+              this.s3path = event.body["s3path"];
+              let newobj = {
+                type: "resources",
+                displayname: this.displayname,
+                s3name: this.s3name,
+                filetype: this.filetype,
+                s3_url: this.s3path,
+                preview_url: this.s3path,
+                value: this.s3path,
+              };
+              this.extraresources_list.push(newobj);
+              let body = {
+                extraresources: this.extraresources_list,
+              };
+              this.update_record(this.record_id, body);
+              this.modalReference.close();
+            }
+          });
+      }
     }
   }
 
@@ -471,17 +498,31 @@ export class PgeactivitiesComponent implements OnInit {
   // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_skillsetid
+    );
   }
 
   async load_record(preflanguage, program, subject, clas, skill) {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      preflanguage != undefined && preflanguage != null && preflanguage != "" &&
-      subject != undefined && subject != null && subject != "" &&
-      clas != undefined && clas != null && clas != "" &&
-      skill != undefined && skill != null && skill != ""
+      preflanguage != undefined &&
+      preflanguage != null &&
+      preflanguage != "" &&
+      subject != undefined &&
+      subject != null &&
+      subject != "" &&
+      clas != undefined &&
+      clas != null &&
+      clas != "" &&
+      skill != undefined &&
+      skill != null &&
+      skill != ""
     ) {
       this.content_value = "";
       this.video_value = [];
@@ -489,25 +530,37 @@ export class PgeactivitiesComponent implements OnInit {
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
-      this.pgeactivitiesService.getmasteractivitiydetails(preferedlanguage, 'pge', subject, clas, skill).subscribe((data) => {
-        console.log('-->data: ', data);
-        if (Object.keys(data).length > 0) {
-          this.save_operation = "update";
-          this.record_id = data[0]["_id"];
-          this.extraresources_list = data[0]["extraresources"];
-          this.segments_list = data[0]["segment"];
-          // added by nayak on 21-09-2020 to set segment 1 selected bydefault
-          if (this.segments_list.length > 0) {
-            this.load_segment(0);
-          }
-        } else {
-          this.save_operation = "save";
-          this.record_id = "";
-          this.extraresources_list = [];
-          this.segments_list = [];
-        }
-        this.hide_Loading_indicator = true;
-      },(error) => {},() => {});
+      this.pgeactivitiesService
+        .getmasteractivitiydetails(
+          preferedlanguage,
+          "pge",
+          subject,
+          clas,
+          skill
+        )
+        .subscribe(
+          (data) => {
+            console.log("-->data: ", data);
+            if (Object.keys(data).length > 0) {
+              this.save_operation = "update";
+              this.record_id = data[0]["_id"];
+              this.extraresources_list = data[0]["extraresources"];
+              this.segments_list = data[0]["segment"];
+              // added by nayak on 21-09-2020 to set segment 1 selected bydefault
+              if (this.segments_list.length > 0) {
+                this.load_segment(0);
+              }
+            } else {
+              this.save_operation = "save";
+              this.record_id = "";
+              this.extraresources_list = [];
+              this.segments_list = [];
+            }
+            this.hide_Loading_indicator = true;
+          },
+          (error) => {},
+          () => {}
+        );
     } else {
       this.hide_Loading_indicator = true;
       this.hide_createnewsegment_button = true;
@@ -522,15 +575,19 @@ export class PgeactivitiesComponent implements OnInit {
   async save_btn_click(selected_tab) {
     let body = {};
     if (selected_tab == "textcontent_tab") {
-      if (this.content_value == undefined || this.content_value == null || this.content_value == "") {
+      if (
+        this.content_value == undefined ||
+        this.content_value == null ||
+        this.content_value == ""
+      ) {
         swal.fire("info", "Please add some content !!!", "warning");
       } else {
         if (this.save_operation == "save") {
           body = {
             preferedlanguage: this.selected_preflanguage,
             program: "pge",
-            themeid: '',
-            themename: 'na',
+            themeid: "",
+            themename: "na",
             subject: this.selected_subject,
             class: this.selected_class,
             skillsetid: this.selected_skillsetid,
@@ -574,60 +631,66 @@ export class PgeactivitiesComponent implements OnInit {
       } else {
         this.hideProgressbar = false;
         this.progress.percentage = 0;
-
-        this.currentFileUpload = this.selectedFiles.item(0);
-        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round(
-                (100 * event.loaded) / event.total
-              );
-            } else if (event instanceof HttpResponse) {
-              this.s3path = event.body["s3path"];
-              this.hideProgressbar = true;
-              if (this.save_operation == "save") {
-                body = {
-                  preferedlanguage: this.selected_preflanguage,
-                  program: "pge",
-                  themeid: '',
-                  themename: 'na',
-                  subject: this.selected_subject,
-                  class: this.selected_class,
-                  skillsetid: this.selected_skillsetid,
-                  skillsetname: this.selected_skillsetname,
-                  segment: [
-                    {
-                      type: "image_content",
-                      displayname: this.displayname,
-                      s3name: this.s3name,
-                      filetype: this.filetype,
-                      s3_url: this.s3path,
-                      preview_url: this.s3path,
-                      value: this.s3path,
-                    },
-                  ],
-                  extraresources: [],
-                };
-                this.save_record(body);
-                this.modalReference.close();
-              } else {
-                let newobj = {
-                  type: "image_content",
-                  displayname: this.displayname,
-                  s3name: this.s3name,
-                  filetype: this.filetype,
-                  s3_url: this.s3path,
-                  preview_url: this.s3path,
-                  value: this.s3path,
-                };
-                this.segments_list.push(newobj);
-                body = {
-                  segment: this.segments_list,
-                };
-                this.update_record(this.record_id, body);
-                this.modalReference.close();
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          this.displayname = this.selectedFiles[i].name;
+          this.filetype = this.displayname.split(".").pop();
+          this.s3name = new Date().getTime() + "." + this.filetype;
+          this.currentFileUpload = this.selectedFiles.item(i);
+          this.galleryService
+            .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+            .subscribe((event) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress.percentage = Math.round(
+                  (100 * event.loaded) / event.total
+                );
+              } else if (event instanceof HttpResponse) {
+                this.s3path = event.body["s3path"];
+                this.hideProgressbar = true;
+                if (this.save_operation == "save") {
+                  body = {
+                    preferedlanguage: this.selected_preflanguage,
+                    program: "pge",
+                    themeid: "",
+                    themename: "na",
+                    subject: this.selected_subject,
+                    class: this.selected_class,
+                    skillsetid: this.selected_skillsetid,
+                    skillsetname: this.selected_skillsetname,
+                    segment: [
+                      {
+                        type: "image_content",
+                        displayname: this.displayname,
+                        s3name: this.s3name,
+                        filetype: this.filetype,
+                        s3_url: this.s3path,
+                        preview_url: this.s3path,
+                        value: this.s3path,
+                      },
+                    ],
+                    extraresources: [],
+                  };
+                  this.save_record(body);
+                  this.modalReference.close();
+                } else {
+                  let newobj = {
+                    type: "image_content",
+                    displayname: this.displayname,
+                    s3name: this.s3name,
+                    filetype: this.filetype,
+                    s3_url: this.s3path,
+                    preview_url: this.s3path,
+                    value: this.s3path,
+                  };
+                  this.segments_list.push(newobj);
+                  body = {
+                    segment: this.segments_list,
+                  };
+                  this.update_record(this.record_id, body);
+                  this.modalReference.close();
+                }
               }
-            }
-          });
+            });
+        }
       }
     } else if (selected_tab == "video_tab") {
       if (this.selectedFiles == undefined || this.selectedFiles == null) {
@@ -635,60 +698,66 @@ export class PgeactivitiesComponent implements OnInit {
       } else {
         this.hideProgressbar = false;
         this.progress.percentage = 0;
-
-        this.currentFileUpload = this.selectedFiles.item(0);
-        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round(
-                (100 * event.loaded) / event.total
-              );
-            } else if (event instanceof HttpResponse) {
-              this.s3path = event.body["s3path"];
-              this.hideProgressbar = true;
-              if (this.save_operation == "save") {
-                body = {
-                  preferedlanguage: this.selected_preflanguage,
-                  program: "pge",
-                  themeid: '',
-                  themename: 'na',
-                  subject: this.selected_subject,
-                  class: this.selected_class,
-                  skillsetid: this.selected_skillsetid,
-                  skillsetname: this.selected_skillsetname,
-                  segment: [
-                    {
-                      type: "video_content",
-                      displayname: this.displayname,
-                      s3name: this.s3name,
-                      filetype: this.filetype,
-                      s3_url: this.s3path,
-                      preview_url: this.s3path,
-                      value: this.s3path,
-                    },
-                  ],
-                  extraresources: [],
-                };
-                this.save_record(body);
-                this.modalReference.close();
-              } else {
-                let newobj = {
-                  type: "video_content",
-                  displayname: this.displayname,
-                  s3name: this.s3name,
-                  filetype: this.filetype,
-                  s3_url: this.s3path,
-                  preview_url: this.s3path,
-                  value: this.s3path,
-                };
-                this.segments_list.push(newobj);
-                body = {
-                  segment: this.segments_list,
-                };
-                this.update_record(this.record_id, body);
-                this.modalReference.close();
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          this.displayname = this.selectedFiles[i].name;
+          this.filetype = this.displayname.split(".").pop();
+          this.s3name = new Date().getTime() + "." + this.filetype;
+          this.currentFileUpload = this.selectedFiles.item(i);
+          this.galleryService
+            .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+            .subscribe((event) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress.percentage = Math.round(
+                  (100 * event.loaded) / event.total
+                );
+              } else if (event instanceof HttpResponse) {
+                this.s3path = event.body["s3path"];
+                this.hideProgressbar = true;
+                if (this.save_operation == "save") {
+                  body = {
+                    preferedlanguage: this.selected_preflanguage,
+                    program: "pge",
+                    themeid: "",
+                    themename: "na",
+                    subject: this.selected_subject,
+                    class: this.selected_class,
+                    skillsetid: this.selected_skillsetid,
+                    skillsetname: this.selected_skillsetname,
+                    segment: [
+                      {
+                        type: "video_content",
+                        displayname: this.displayname,
+                        s3name: this.s3name,
+                        filetype: this.filetype,
+                        s3_url: this.s3path,
+                        preview_url: this.s3path,
+                        value: this.s3path,
+                      },
+                    ],
+                    extraresources: [],
+                  };
+                  this.save_record(body);
+                  this.modalReference.close();
+                } else {
+                  let newobj = {
+                    type: "video_content",
+                    displayname: this.displayname,
+                    s3name: this.s3name,
+                    filetype: this.filetype,
+                    s3_url: this.s3path,
+                    preview_url: this.s3path,
+                    value: this.s3path,
+                  };
+                  this.segments_list.push(newobj);
+                  body = {
+                    segment: this.segments_list,
+                  };
+                  this.update_record(this.record_id, body);
+                  this.modalReference.close();
+                }
               }
-            }
-          });
+            });
+        }
       }
     }
   }
@@ -697,7 +766,13 @@ export class PgeactivitiesComponent implements OnInit {
     this.pgeactivitiesService.createmasteractivities(body).subscribe(
       (data) => {
         swal.fire("Successful", "Data saved successfully", "success");
-        this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
+        this.load_record(
+          this.selected_preflanguage,
+          this.selected_program,
+          this.selected_subject,
+          this.selected_class,
+          this.selected_skillsetid
+        );
       },
       (error) => {},
       () => {}
@@ -708,7 +783,13 @@ export class PgeactivitiesComponent implements OnInit {
     this.pgeactivitiesService.updatemasteractivities(id, body).subscribe(
       (data) => {
         swal.fire("Successful", "Data updated successfully", "success");
-        this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_skillsetid);
+        this.load_record(
+          this.selected_preflanguage,
+          this.selected_program,
+          this.selected_subject,
+          this.selected_class,
+          this.selected_skillsetid
+        );
       },
       (error) => {},
       () => {}
@@ -731,12 +812,12 @@ export class PgeactivitiesComponent implements OnInit {
     );
   }
   click_to_add_skill() {
-		let navigationExtras: NavigationExtras;
+    let navigationExtras: NavigationExtras;
     navigationExtras = {
       queryParams: {
         program: "pge",
-        navigatedfrom: "/pgeactivities"
-      }
+        navigatedfrom: "/pgeactivities",
+      },
     };
     this.router.navigate(["/pgskillmaster"], navigationExtras);
   }
@@ -942,9 +1023,15 @@ export class PgeactivitiesComponent implements OnInit {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      this.selected_preflanguage != undefined && this.selected_preflanguage != null && this.selected_preflanguage != "" &&
-      this.selected_subject != undefined && this.selected_subject != null && this.selected_subject != "" &&
-      this.selected_class != undefined && this.selected_class != null && this.selected_class != ""
+      this.selected_preflanguage != undefined &&
+      this.selected_preflanguage != null &&
+      this.selected_preflanguage != "" &&
+      this.selected_subject != undefined &&
+      this.selected_subject != null &&
+      this.selected_subject != "" &&
+      this.selected_class != undefined &&
+      this.selected_class != null &&
+      this.selected_class != ""
     ) {
       this.hide_Loading_indicator = false;
       this.selected_skillsetid = "";
@@ -952,9 +1039,17 @@ export class PgeactivitiesComponent implements OnInit {
       this.skill_select_option_list = [];
       this.hide_Loading_indicator = false;
 
-      this.pgeactivitiesService.getpgeactivityskill(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class).subscribe((data) => {
-        console.log('--> data: ', data);
-        /*
+      this.pgeactivitiesService
+        .getpgeactivityskill(
+          this.selected_preflanguage,
+          this.selected_program,
+          this.selected_subject,
+          this.selected_class
+        )
+        .subscribe(
+          (data) => {
+            console.log("--> data: ", data);
+            /*
         Object.keys(data).forEach((ind) => {
           let obj = {};
           obj = {
@@ -964,11 +1059,14 @@ export class PgeactivitiesComponent implements OnInit {
           this.skill_select_option_list.push(obj);
         });
         */
-        this.skill_select_option_list = data;
-        this.hide_Loading_indicator = true;
-      },(error) => {
-        this.hide_Loading_indicator = true;
-      },() => {});
+            this.skill_select_option_list = data;
+            this.hide_Loading_indicator = true;
+          },
+          (error) => {
+            this.hide_Loading_indicator = true;
+          },
+          () => {}
+        );
       //--------
       this.hide_Loading_indicator = true;
     }
