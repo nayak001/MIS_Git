@@ -69,6 +69,7 @@ export class EceactivitiesComponent implements OnInit {
   hide_Loading_indicator: boolean;
   hide_createnewsegment_button: boolean = false;
   hideSubject_select: boolean = false;
+  isSelected: boolean = true;
 
   closeResult: string;
   modalReference: any;
@@ -138,8 +139,14 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_skillsetname = "";
     this.theme_select_option_list = [
       { value: "bodyparts", text: "Body Parts" },
-      { value: "animalsbirds&theirsounds", text: "Animals, Birds & their Sounds" },
-      { value: "flowersfruits&vegetables", text: "Flowers, Fruits & Vegetables" },
+      {
+        value: "animalsbirds&theirsounds",
+        text: "Animals, Birds & their Sounds",
+      },
+      {
+        value: "flowersfruits&vegetables",
+        text: "Flowers, Fruits & Vegetables",
+      },
       { value: "house&accessories", text: "House & Accessories" },
       { value: "transportation", text: "Transportation" },
       { value: "occupation", text: "Occupation" },
@@ -159,7 +166,14 @@ export class EceactivitiesComponent implements OnInit {
       { value: "2", text: "2" },
       { value: "3", text: "3" },
     ];
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   class_select_onchange(value) {
@@ -174,7 +188,14 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_themename = "";
     this.selected_skillsetid = "";
     this.selected_skillsetname = "";
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   theme_select_onchange(value) {
@@ -187,7 +208,14 @@ export class EceactivitiesComponent implements OnInit {
 
     this.selected_skillsetid = "";
     this.selected_skillsetname = "";
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   skill_select_onchange(value) {
@@ -197,7 +225,14 @@ export class EceactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_skillsetid = selectedOptionValue;
     this.selected_skillsetname = selectElementText;
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   // ====================================== Segment related codes started from here =================================
@@ -229,7 +264,11 @@ export class EceactivitiesComponent implements OnInit {
     this.hide_Loading_indicator = false;
 
     this.selected_segment = this.segments_list[idx];
-    if (this.selected_segment == undefined || this.selected_segment == null || Object.keys(this.selected_segment).length <= 0){
+    if (
+      this.selected_segment == undefined ||
+      this.selected_segment == null ||
+      Object.keys(this.selected_segment).length <= 0
+    ) {
       this.reset_segment();
     } else {
       this.selected_segment_type = this.selected_segment.type;
@@ -509,19 +548,38 @@ export class EceactivitiesComponent implements OnInit {
   // ====================================== Segment related codes ends here =================================
 
   go_btn_click() {
-    this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
+    this.load_record(
+      this.selected_preflanguage,
+      this.selected_program,
+      this.selected_subject,
+      this.selected_class,
+      this.selected_themeid,
+      this.selected_skillsetid
+    );
   }
 
   async load_record(preflanguage, program, subject, clas, theme, skill) {
     this.selected_segment_index = -1;
     this.reset_segment();
     if (
-      preflanguage != undefined && preflanguage != null && preflanguage != "" &&
-      program != undefined && program != null && program != "" &&
-      subject != undefined && subject != null && subject != "" &&
-      theme != undefined && theme != null && theme != "" &&
-      skill != undefined && skill != null && skill != "" &&
-      clas != undefined && clas != null && clas != ""
+      preflanguage != undefined &&
+      preflanguage != null &&
+      preflanguage != "" &&
+      program != undefined &&
+      program != null &&
+      program != "" &&
+      subject != undefined &&
+      subject != null &&
+      subject != "" &&
+      theme != undefined &&
+      theme != null &&
+      theme != "" &&
+      skill != undefined &&
+      skill != null &&
+      skill != "" &&
+      clas != undefined &&
+      clas != null &&
+      clas != ""
     ) {
       this.content_value = "";
       this.video_value = [];
@@ -530,25 +588,38 @@ export class EceactivitiesComponent implements OnInit {
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
-      this.eceactivitiesService.getmasteractivitiydetails(preferedlanguage, program, subject, clas, theme, skill).subscribe((data) => {
-        if (Object.keys(data).length > 0) {
-          this.save_operation = "update";
-          this.record_id = data[0]["_id"];
-          this.extraresources_list = data[0]["extraresources"];
-          this.segments_list = data[0]["segment"];
-          // added by nayak on 21-09-2020 to set segment 1 selected bydefault
-          if (this.segments_list.length > 0) {
-            //this.segment_select_onchange(0);
-            this.load_segment(0);
-          }
-        } else {
-          this.save_operation = "save";
-          this.record_id = "";
-          this.extraresources_list = [];
-          this.segments_list = [];
-        }
-        this.hide_Loading_indicator = true;
-      },(error) => {},() => {});
+      this.eceactivitiesService
+        .getmasteractivitiydetails(
+          preferedlanguage,
+          program,
+          subject,
+          clas,
+          theme,
+          skill
+        )
+        .subscribe(
+          (data) => {
+            if (Object.keys(data).length > 0) {
+              this.save_operation = "update";
+              this.record_id = data[0]["_id"];
+              this.extraresources_list = data[0]["extraresources"];
+              this.segments_list = data[0]["segment"];
+              // added by nayak on 21-09-2020 to set segment 1 selected bydefault
+              if (this.segments_list.length > 0) {
+                //this.segment_select_onchange(0);
+                this.load_segment(0);
+              }
+            } else {
+              this.save_operation = "save";
+              this.record_id = "";
+              this.extraresources_list = [];
+              this.segments_list = [];
+            }
+            this.hide_Loading_indicator = true;
+          },
+          (error) => {},
+          () => {}
+        );
     } else {
       this.hide_Loading_indicator = true;
       this.hide_createnewsegment_button = true;
@@ -563,16 +634,20 @@ export class EceactivitiesComponent implements OnInit {
   async save_btn_click(selected_tab) {
     let body = {};
     if (selected_tab == "textcontent_tab") {
-      if (this.content_value == undefined || this.content_value == null || this.content_value == "") {
+      if (
+        this.content_value == undefined ||
+        this.content_value == null ||
+        this.content_value == ""
+      ) {
         swal.fire("info", "Please add some content !!!", "warning");
       } else {
         if (this.save_operation == "save") {
           body = {
             preferedlanguage: this.selected_preflanguage,
-            program: 'ece',
+            program: "ece",
             themeid: this.selected_themeid,
-            themename:  this.selected_themename,
-            subject: 'na',
+            themename: this.selected_themename,
+            subject: "na",
             class: this.selected_class,
             skillsetid: this.selected_skillsetid,
             skillsetname: this.selected_skillsetname,
@@ -618,9 +693,13 @@ export class EceactivitiesComponent implements OnInit {
 
         this.currentFileUpload = this.selectedFiles.item(0);
         console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
-        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
+        this.galleryService
+          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+          .subscribe((event) => {
             if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round((100 * event.loaded) / event.total);
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
             } else if (event instanceof HttpResponse) {
               this.s3path = event.body["s3path"];
               console.log("File is completely uploaded!->" + this.s3path);
@@ -628,10 +707,10 @@ export class EceactivitiesComponent implements OnInit {
               if (this.save_operation == "save") {
                 body = {
                   preferedlanguage: this.selected_preflanguage,
-                  program: 'ece',
+                  program: "ece",
                   themeid: this.selected_themeid,
-                  themename:  this.selected_themename,
-                  subject: 'na',
+                  themename: this.selected_themename,
+                  subject: "na",
                   class: this.selected_class,
                   skillsetid: this.selected_skillsetid,
                   skillsetname: this.selected_skillsetname,
@@ -678,19 +757,23 @@ export class EceactivitiesComponent implements OnInit {
         this.progress.percentage = 0;
 
         this.currentFileUpload = this.selectedFiles.item(0);
-        this.galleryService.pushFileToStorage(this.currentFileUpload, null, this.s3name).subscribe((event) => {
+        this.galleryService
+          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+          .subscribe((event) => {
             if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round((100 * event.loaded) / event.total);
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
             } else if (event instanceof HttpResponse) {
               this.s3path = event.body["s3path"];
               this.hideProgressbar = true;
               if (this.save_operation == "save") {
                 body = {
                   preferedlanguage: this.selected_preflanguage,
-                  program: 'ece',
+                  program: "ece",
                   themeid: this.selected_themeid,
-                  themename:  this.selected_themename,
-                  subject: 'na',
+                  themename: this.selected_themename,
+                  subject: "na",
                   class: this.selected_class,
                   skillsetid: this.selected_skillsetid,
                   skillsetname: this.selected_skillsetname,
@@ -733,37 +816,71 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   async save_record(body) {
-    this.eceactivitiesService.createmasteractivities(body).subscribe((data) => {
-      swal.fire("Successful", "Data saved successfully", "success");
-      this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
-    },(error) => {},() => {});
+    this.eceactivitiesService.createmasteractivities(body).subscribe(
+      (data) => {
+        swal.fire("Successful", "Data saved successfully", "success");
+        this.load_record(
+          this.selected_preflanguage,
+          this.selected_program,
+          this.selected_subject,
+          this.selected_class,
+          this.selected_themeid,
+          this.selected_skillsetid
+        );
+      },
+      (error) => {},
+      () => {}
+    );
   }
 
   async update_record(id, body) {
-    this.eceactivitiesService.updatemasteractivities(id, body).subscribe((data) => {
-      swal.fire("Successful", "Data updated successfully", "success");
-      this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_class, this.selected_themeid, this.selected_skillsetid);
-    },(error) => {},() => {});
+    this.eceactivitiesService.updatemasteractivities(id, body).subscribe(
+      (data) => {
+        swal.fire("Successful", "Data updated successfully", "success");
+        this.load_record(
+          this.selected_preflanguage,
+          this.selected_program,
+          this.selected_subject,
+          this.selected_class,
+          this.selected_themeid,
+          this.selected_skillsetid
+        );
+      },
+      (error) => {},
+      () => {}
+    );
   }
 
   opencontentsmodal(content) {
     this.content_value = "";
-    this.modalReference = this.modalService.open(content, {size: "lg", backdrop: "static"});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    },(reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openupdatetextcontentsmodal(content) {
     this.content_value = this.selected_segment.value;
-    this.modalReference = this.modalService.open(content, {size: "lg", backdrop: "static"});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    },(reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      backdrop: "static",
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   openupdateimagecontentsmodal(content) {
