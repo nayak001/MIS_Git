@@ -66,6 +66,7 @@ export class PgeactivitiesComponent implements OnInit {
 
   hide_Loading_indicator: boolean;
   hide_createnewsegment_button: boolean = false;
+  isSelected: boolean = true;
 
   closeResult: string;
   modalReference: any;

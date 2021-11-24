@@ -52,10 +52,8 @@
                       class="form-control"
                     >
                       <option value="">Select</option>
-                      <option value="en" [selected]="isSelected">
-                        English
-                      </option>
-                      <option value="od">ଓଡିଆ</option>
+                      <option value="en">English</option>
+                      <option value="od" [selected]="isSelected">ଓଡିଆ</option>
                       <option value="hi">हिंदी</option>
                     </select>
                   </span>
@@ -800,13 +798,10 @@
                       <tr>
                         <td>
                           <div class="file-upload">
-                            <input
-                              multiple
-                              type="file"
-                              #fileInput
-                              (change)="filechooser_onchange($event)"
-                              accept="image/x-png,image/gif,image/jpeg"
-                            />
+                            <input <<<<<<< HEAD multiple ======= >>>>>>>
+                            9c03fa3441278a61dc2d654ca13a89886e21b844 type="file"
+                            #fileInput (change)="filechooser_onchange($event)"
+                            accept="image/x-png,image/gif,image/jpeg" />
                           </div>
                         </td>
                         <td></td>

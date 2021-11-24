@@ -96,6 +96,7 @@ export class EceactivitiesComponent implements OnInit {
   hide_Loading_indicator: boolean;
   hide_createnewsegment_button: boolean = false;
   hideSubject_select: boolean = false;
+  isSelected: boolean = true;
 
   closeResult: string;
   modalReference: any;
