@@ -127,7 +127,11 @@
                                           [hidden]="hideProgressbar"
                                         >
                                           <div
-                                            class="progress-bar progress-bar-info progress-bar-striped"
+                                            class="
+                                              progress-bar
+                                              progress-bar-info
+                                              progress-bar-striped
+                                            "
                                             role="progressbar"
                                             attr.aria-valuenow="{{
                                               progress.percentage
@@ -145,10 +149,13 @@
                                     </div>
                                     <div class="row">
                                       <div
-                                        class="col col-lg-10 col-md-10 col-sm-10"
+                                        class="
+                                          col col-lg-10 col-md-10 col-sm-10
+                                        "
                                       >
                                         <div class="file-upload">
                                           <input
+                                            multiple
                                             type="file"
                                             #fileInput
                                             (change)="
@@ -220,7 +227,11 @@
                                           [hidden]="hideProgressbar"
                                         >
                                           <div
-                                            class="progress-bar progress-bar-info progress-bar-striped"
+                                            class="
+                                              progress-bar
+                                              progress-bar-info
+                                              progress-bar-striped
+                                            "
                                             role="progressbar"
                                             attr.aria-valuenow="{{
                                               progress.percentage
@@ -238,10 +249,13 @@
                                     </div>
                                     <div class="row">
                                       <div
-                                        class="col col-lg-10 col-md-10 col-sm-10"
+                                        class="
+                                          col col-lg-10 col-md-10 col-sm-10
+                                        "
                                       >
                                         <div class="file-upload">
                                           <input
+                                            multiple
                                             type="file"
                                             #fileInput
                                             (change)="
@@ -289,7 +303,7 @@
                       >
                         <option value="">Select</option>
                         <option value="en">English</option>
-                        <option value="od">ଓଡିଆ</option>
+                        <option value="od" [selected]="isSelected">ଓଡିଆ</option>
                         <!-- <option value="hi">हिंदी</option> -->
                       </select>
                     </span>
@@ -667,6 +681,7 @@
               <div class="col col-lg-10 col-md-10 col-sm-10">
                 <div class="file-upload">
                   <input
+                    multiple
                     type="file"
                     #fileInput
                     (change)="filechooser_onchange($event)"
@@ -890,6 +905,7 @@
               <div class="col col-lg-10 col-md-10 col-sm-10">
                 <div class="file-upload">
                   <input
+                    multiple
                     type="file"
                     #fileInput
                     (change)="filechooser_onchange($event)"
