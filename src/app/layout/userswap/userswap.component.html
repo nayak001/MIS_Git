@@ -1,0 +1,270 @@
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>USER SWAP</h4>
+            </div>
+            <div class="col">
+              <!-- <button
+                (click)="navigate_to_registrationpage(null)"
+                class="btn btn-sm btn-primary float-right"
+                type="button"
+              >
+                <i class="fa fa-user-plus" aria-hidden="true"></i
+                >&nbsp;&nbsp;&nbsp;Create New User
+              </button> -->
+            </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <div
+            id="loading_indicator"
+            class="loading_indicator"
+            [hidden]="hideLoading_indicator"
+          >
+            <span class=""
+              ><img
+                src="assets/images/loader3.gif"
+                alt="Loading. Please wait..."
+            /></span>
+          </div>
+          <div class="row">
+            <div class="col col-lg-1 col-md-1 col-sm-1">
+              <i class="fa fa-search" aria-hidden="true"></i
+              ><span class="bold-font">&nbsp;Search</span>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <select
+                  value="{{ selected_searchfilter }}"
+                  (change)="searchfilter_select_onchange($event)"
+                  class="form-control"
+                >
+                  <option value="username">Username</option>
+                  <option value="centername">Centername</option>
+                </select>
+              </div>
+            </div>
+            <div class="col col-lg-8 col-md-8 col-sm-8">
+              <input type="text" (keyup)="search($event.target.value)" />
+            </div>
+          </div>
+          <div class="records_found">
+            {{ data ? data.length : 0 }} Record(s) found
+          </div>
+
+          <table
+            class="table"
+            [mfData]="filterData"
+            #mf="mfDataTable"
+            [mfRowsOnPage]="10"
+          >
+            <div class="container" *ngFor="let user of mf.data">
+              <div class="image">
+                <img
+                  src="{{
+                    user.image == undefined ||
+                    user.image == null ||
+                    user.image == ''
+                      ? './../../../../assets/images/default-user-profile-image.jpg'
+                      : user.image
+                  }}"
+                  onerror="this.onerror=null; this.src='./../../../../assets/images/default-user-profile-image.jpg'"
+                />
+              </div>
+
+              <div class="wraper">
+                <div (click)="show_user_details(userdetailmodal, user)">
+                  <h1>
+                    User id - <span>{{ user.userid }}</span>
+                  </h1>
+                </div>
+
+                <div (click)="show_user_details(userdetailmodal, user)">
+                  <h1>
+                    Username -
+                    <span>{{ user.username | titlecase }}</span>
+                  </h1>
+                </div>
+
+                <div class="">
+                  <h1>
+                    UserType -
+                    <span>
+                      {{ user.usertype ? (user.usertype | titlecase) : "NA" }}
+                    </span>
+                  </h1>
+                </div>
+
+                <div class="">
+                  <h1>
+                    Manager name -
+                    <span>{{
+                      user.managername ? (user.managername | titlecase) : "NA"
+                    }}</span>
+                  </h1>
+                </div>
+              </div>
+              <div class="buttons">
+                <button
+                  (click)="navigate_to_registrationpage(user)"
+                  type="button"
+                >
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+
+                <button
+                  type="button"
+                  (click)="deleteFormSubmitAction(user._id)"
+                >
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div>
+                <div colspan="4">
+                  <mfBootstrapPaginator></mfBootstrapPaginator>
+                </div>
+              </div>
+            </div>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #userdetailmodal let-c="close" let-d="dismiss">
+  <div
+    style="
+      font-size: 25px;
+      color: #ffffff;
+      background: #4a90ac;
+      padding: 10px 50px;
+    "
+  >
+    {{ userdetail_username | titlecase }}
+  </div>
+  <div style="width: 100%; height: 400px; overflow-x: hidden; overflow-y: auto">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">ID</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_userid }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Password</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_password }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Type</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_usertype | titlecase }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Gender</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_gender | titlecase }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Phone</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_phone }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Address</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_address | titlecase }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Email ID</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_emailid }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Status</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_status | titlecase }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Center</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_centername | titlecase }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3"></div>
+        <div class="col row-fluid">{{ userdetail_centerid }}</div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Manager</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_managername | titlecase }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3"></div>
+        <div class="col row-fluid">{{ userdetail_managerid }}</div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">State</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_statevalue | titlecase }} ({{ userdetail_statecode }})
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">District</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_districtvalue | titlecase }} ({{
+            userdetail_districtid
+          }})
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Block</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_block | titlecase }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col col-xl-3 col-lg-3">Joined on</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          {{ userdetail_createdon | date: "dd-MM-yyyy" }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="c('Close click')">
+      OK
+    </button>
+  </div>
+</ng-template>

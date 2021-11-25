@@ -1,86 +1,174 @@
-<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+<nav
+  class="sidebar"
+  [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }"
+>
   <div class="list-group">
-    <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+    <a
+      routerLink="/dashboard"
+      [routerLinkActive]="['router-link-active']"
+      class="list-group-item"
+    >
       <i class="fa fa-fw fa-dashboard"></i>&nbsp;
-      <span>{{ 'Dashboard' | translate }}</span>
+      <span>{{ "Dashboard" | translate }}</span>
     </a>
-    <ngb-accordion [closeOthers]="true"> <!-- activeIds="master_accordion"> -->
+    <ngb-accordion [closeOthers]="true">
+      <!-- activeIds="master_accordion"> -->
       <ngb-panel id="master_accordion">
         <ng-template ngbPanelTitle>
           <span><b>Masters</b></span>
         </ng-template>
         <ng-template ngbPanelContent>
-          <a [routerLink]="['/usertype']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/usertype']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-users"></i>&nbsp;
-            <span>{{ 'User Types' | translate }}</span>
+            <span>{{ "User Types" | translate }}</span>
           </a>
-          <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/users']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-male"></i>&nbsp;
-            <span>{{ 'Users' | translate }}</span>
+            <span>{{ "Users" | translate }}</span>
           </a>
-          <a [routerLink]="['/centers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/userswap']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
+            <i class="fa fa-fw fa-male"></i>&nbsp;
+            <span>{{ "User Swap" | translate }}</span>
+          </a>
+          <a
+            [routerLink]="['/centers']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
-            <span>{{ 'Centers' | translate }}</span>
+            <span>{{ "Centers" | translate }}</span>
           </a>
-          <a [routerLink]="['/allocatedcenters']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/allocatedcenters']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-child"></i>&nbsp;
-            <span>{{ 'Allocated Centers' | translate }}</span>
+            <span>{{ "Allocated Centers" | translate }}</span>
           </a>
-          <a [routerLink]="['/eceactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/eceactivities']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-child"></i>&nbsp;
-            <span>{{ 'ECE Activities' | translate }}</span>
+            <span>{{ "ECE Activities" | translate }}</span>
           </a>
-          <a [routerLink]="['/pgeactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/pgeactivities']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-child"></i>&nbsp;
-            <span>{{ 'PGE Activities' | translate }}</span>
+            <span>{{ "PGE Activities" | translate }}</span>
           </a>
-          <a [routerLink]="['/versionmanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/versionmanager']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-vine"></i>&nbsp;
-            <span>{{ 'Version Manager' | translate }}</span>
+            <span>{{ "Version Manager" | translate }}</span>
           </a>
-          <a [routerLink]="['/passcodemanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/passcodemanager']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-fax"></i>&nbsp;
-            <span>{{ 'Passcode Manager' | translate }}</span>
+            <span>{{ "Passcode Manager" | translate }}</span>
           </a>
-          <a [routerLink]="['/udisemanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/udisemanager']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-cc"></i>&nbsp;
-            <span>{{ 'UDISE Manager' | translate }}</span>
+            <span>{{ "UDISE Manager" | translate }}</span>
           </a>
-          <a [routerLink]="['/dashboardslidermanager']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/dashboardslidermanager']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-caret-square-o-right"></i>&nbsp;
-            <span>{{ 'Dashboard Slider' | translate }}</span>
+            <span>{{ "Dashboard Slider" | translate }}</span>
           </a>
-          <a [routerLink]="['/postcallactivities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/postcallactivities']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-phone"></i>&nbsp;
-            <span>{{ 'Post Call Activities' | translate }}</span>
+            <span>{{ "Post Call Activities" | translate }}</span>
           </a>
-		      <a [routerLink]="['/surveymaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/surveymaster']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
-            <span>{{ 'Survey Master' | translate }}</span>
+            <span>{{ "Survey Master" | translate }}</span>
           </a>
-          <a [routerLink]="['/surveyreport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/surveyreport']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
-            <span>{{ 'Survey Report' | translate }}</span>
+            <span>{{ "Survey Report" | translate }}</span>
           </a>
-          <a [routerLink]="['/teacherprofile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/teacherprofile']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-address-book"></i>&nbsp;
-            <span>{{ 'Teachers Profile' | translate }}</span>
+            <span>{{ "Teachers Profile" | translate }}</span>
           </a>
-          <a [routerLink]="['/managersfeedbackform']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/managersfeedbackform']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-question-circle-o"></i>&nbsp;
-            <span>{{ 'Feedback Form' | translate }}</span>
+            <span>{{ "Feedback Form" | translate }}</span>
           </a>
-          <a [routerLink]="['/blockdistrict']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/blockdistrict']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-address-card-o"></i>&nbsp;
-            <span>{{ 'Blocks & Districts' | translate }}</span>
+            <span>{{ "Blocks & Districts" | translate }}</span>
           </a>
-          <a [routerLink]="['/sendSMS']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/sendSMS']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-envelope-o"></i>&nbsp;
-            <span>{{ 'Send SMS' | translate }}</span>
+            <span>{{ "Send SMS" | translate }}</span>
           </a>
-          <a [routerLink]="['/pushnotification']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/pushnotification']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-commenting"></i>&nbsp;
-            <span>{{ 'Push Notification' | translate }}</span>
+            <span>{{ "Push Notification" | translate }}</span>
           </a>
           <!-- <a [routerLink]="['/centerfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-comments"></i>&nbsp;
@@ -90,9 +178,13 @@
             <i class="fa fa-fw fa-money"></i>&nbsp;
             <span>{{ 'Payment Info' | translate }}</span>
           </a> -->
-          <a [routerLink]="['/assessmentmaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/assessmentmaster']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-wpexplorer"></i>&nbsp;
-            <span>{{ 'Assessment Master' | translate }}</span>
+            <span>{{ "Assessment Master" | translate }}</span>
           </a>
           <!-- <a [routerLink]="['/assessmentinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-calendar"></i>&nbsp;
@@ -102,13 +194,21 @@
             <i class="fa fa-fw fa-ticket"></i>&nbsp;
             <span>{{ 'Community Visit' | translate }}</span>
           </a> -->
-          <a [routerLink]="['/issues']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/issues']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-question-circle-o"></i>&nbsp;
-            <span>{{ 'Issues' | translate }}</span>
+            <span>{{ "Issues" | translate }}</span>
           </a>
-          <a [routerLink]="['/message']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/message']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-commenting-o"></i>&nbsp;
-            <span>{{ 'Message' | translate }}</span>
+            <span>{{ "Message" | translate }}</span>
           </a>
           <!-- <a [routerLink]="['/activities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-child"></i>&nbsp;
@@ -118,70 +218,122 @@
             <i class="fa fa-fw fa-check-square-o"></i>&nbsp;
             <span>{{ 'Center allocation' | translate }}</span>
           </a> -->
-          <a [routerLink]="['/baselinetest']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/baselinetest']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-file-code-o"></i>&nbsp;
-            <span>{{ 'Baseline test' | translate }}</span>
+            <span>{{ "Baseline test" | translate }}</span>
           </a>
-          <a [routerLink]="['/mastermanagertraining1']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/mastermanagertraining1']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-ticket"></i>&nbsp;
-            <span>{{ 'Managers Training' | translate }}</span>
+            <span>{{ "Managers Training" | translate }}</span>
           </a>
           <!-- <a [routerLink]="['/masterteachertraining1']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
             <span>{{ 'Training Module' | translate }}</span>
           </a> -->
-          <a [routerLink]="['/teacherbaseline']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/teacherbaseline']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-grav"></i>&nbsp;
-            <span>{{ 'Teacher Baseline' | translate }}</span>
+            <span>{{ "Teacher Baseline" | translate }}</span>
           </a>
-          <a [routerLink]="['/ppt']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/ppt']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-grav"></i>&nbsp;
-            <span>{{ 'Preprogram Training' | translate }}</span>
+            <span>{{ "Preprogram Training" | translate }}</span>
           </a>
-          <a [routerLink]="['/pptreport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/pptreport']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-eercast"></i>&nbsp;
-            <span>{{ 'PPT Report' | translate }}</span>
+            <span>{{ "PPT Report" | translate }}</span>
           </a>
-          <a [routerLink]="['/masterteachertraining2']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/masterteachertraining2']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-grav"></i>&nbsp;
-            <span>{{ 'Teacher Training' | translate }}</span>
+            <span>{{ "Teacher Training" | translate }}</span>
           </a>
-          <a [routerLink]="['/offlinetraining']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/offlinetraining']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-grav"></i>&nbsp;
-            <span>{{ 'Offline Training' | translate }}</span>
+            <span>{{ "Offline Training" | translate }}</span>
           </a>
-          <a [routerLink]="['/trainingmisc']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/trainingmisc']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-grav"></i>&nbsp;
-            <span>{{ 'Training MISC' | translate }}</span>
+            <span>{{ "Training MISC" | translate }}</span>
           </a>
 
           <!-- <a [routerLink]="['/userfeedback']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-comments"></i>&nbsp;
             <span>{{ 'User Feedback' | translate }}</span>
           </a> -->
-          <a [routerLink]="['/usersession']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/usersession']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-history"></i>&nbsp;
-            <span>{{ 'User Session' | translate }}</span>
+            <span>{{ "User Session" | translate }}</span>
           </a>
-          <a [routerLink]="['/skillchartfileupload']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/skillchartfileupload']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-ticket"></i>&nbsp;
-            <span>{{ 'Skillchart Files' | translate }}</span>
+            <span>{{ "Skillchart Files" | translate }}</span>
           </a>
-          <a [routerLink]="['/gallery']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/gallery']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-archive"></i>&nbsp;
-            <span>{{ 'Gallery' | translate }}</span>
+            <span>{{ "Gallery" | translate }}</span>
           </a>
           <!-- <a [routerLink]="['/managersbox']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-archive"></i>&nbsp;
             <span>{{ 'Managers Box' | translate }}</span>
           </a> -->
-          <a [routerLink]="['/tzworkshoplevel']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/tzworkshoplevel']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-braille"></i>&nbsp;
-            <span>{{ 'WS Level' | translate }}</span>
+            <span>{{ "WS Level" | translate }}</span>
           </a>
-          <a [routerLink]="['/tzworkshopcontent']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/tzworkshopcontent']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-calendar-o"></i>&nbsp;
-            <span>{{ 'WS Content' | translate }}</span>
+            <span>{{ "WS Content" | translate }}</span>
           </a>
         </ng-template>
       </ngb-panel>
@@ -191,9 +343,13 @@
           <span><b>Managers</b></span>
         </ng-template>
         <ng-template ngbPanelContent>
-          <a [routerLink]="['/manager_todo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/manager_todo']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-microchip"></i>&nbsp;
-            <span>{{ 'To Do Listings' | translate }}</span>
+            <span>{{ "To Do Listings" | translate }}</span>
           </a>
           <!-- <a [routerLink]="['/dailyinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-id-badge"></i>&nbsp;
@@ -249,29 +405,53 @@
           <span><b>Workshop</b></span>
         </ng-template>
         <ng-template ngbPanelContent>
-          <a [routerLink]="['/leapgeneralinfo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/leapgeneralinfo']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-podcast"></i>&nbsp;
-            <span>{{ 'LEAP General Info' | translate }}</span>
+            <span>{{ "LEAP General Info" | translate }}</span>
           </a>
-          <a [routerLink]="['/leapgrouptask']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/leapgrouptask']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-podcast"></i>&nbsp;
-            <span>{{ 'LEAP Group Task' | translate }}</span>
+            <span>{{ "LEAP Group Task" | translate }}</span>
           </a>
-          <a [routerLink]="['/leapindpractice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/leapindpractice']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-podcast"></i>&nbsp;
-            <span>{{ 'LEAP Individual Practice' | translate }}</span>
+            <span>{{ "LEAP Individual Practice" | translate }}</span>
           </a>
-          <a [routerLink]="['/schoolgenifo']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/schoolgenifo']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-podcast"></i>&nbsp;
-            <span>{{ 'School General Info' | translate }}</span>
+            <span>{{ "School General Info" | translate }}</span>
           </a>
-          <a [routerLink]="['/schoolgrouptask']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/schoolgrouptask']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-podcast"></i>&nbsp;
-            <span>{{ 'School Group Task' | translate }}</span>
+            <span>{{ "School Group Task" | translate }}</span>
           </a>
-          <a [routerLink]="['/schoolindpractice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/schoolindpractice']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-fw fa-podcast"></i>&nbsp;
-            <span>{{ 'School Individual Practice ' | translate }}</span>
+            <span>{{ "School Individual Practice " | translate }}</span>
           </a>
         </ng-template>
       </ngb-panel>
@@ -281,25 +461,45 @@
           <span><b>Reports</b></span>
         </ng-template>
         <ng-template ngbPanelContent>
-          <a [routerLink]="['/centerDetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/centerDetails']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-            <span>{{ 'Center Details ' | translate }}</span>
+            <span>{{ "Center Details " | translate }}</span>
           </a>
-          <a [routerLink]="['/studentDetailsPage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/studentDetailsPage']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-            <span>{{ 'Student Details' | translate }}</span>
+            <span>{{ "Student Details" | translate }}</span>
           </a>
-          <a [routerLink]="['/managerDetails']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/managerDetails']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-            <span>{{ 'Manager Details' | translate }}</span>
+            <span>{{ "Manager Details" | translate }}</span>
           </a>
-          <a [routerLink]="['/individualTeachersEducatorPage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/individualTeachersEducatorPage']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-            <span>{{ 'Teachers Details' | translate }}</span>
+            <span>{{ "Teachers Details" | translate }}</span>
           </a>
-          <a [routerLink]="['/teacherperformancereport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/teacherperformancereport']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-            <span>{{ 'Teachers Training Details' | translate }}</span>
+            <span>{{ "Teachers Training Details" | translate }}</span>
           </a>
         </ng-template>
       </ngb-panel>
@@ -309,9 +509,13 @@
           <span><b>HBL</b></span>
         </ng-template>
         <ng-template ngbPanelContent>
-          <a [routerLink]="['/homebasemaster']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <a
+            [routerLink]="['/homebasemaster']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
             <i class="fa fa-ravelry" aria-hidden="true"></i>&nbsp;
-            <span>{{ 'HBL Master' | translate }}</span>
+            <span>{{ "HBL Master" | translate }}</span>
           </a>
           <!-- <a [routerLink]="['/hblactivityreport']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;
@@ -319,7 +523,6 @@
           </a> -->
         </ng-template>
       </ngb-panel>
-
     </ngb-accordion>
 
     <!-- <a [routerLink]="['/leap']" [routerLinkActive]="['router-link-active']" class="list-group-item">
@@ -342,8 +545,6 @@
       <i class="fa fa-fw fa-home"></i>&nbsp;
       <span>{{ 'School Readiness' | translate }}</span>
     </a> -->
-
-
 
     <!--<a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-edit"></i>&nbsp;
@@ -450,8 +651,12 @@
       </div>
     </div>-->
   </div>
-  <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+  <div
+    class="toggle-button"
+    [ngClass]="{ collapsed: collapsed }"
+    (click)="toggleCollapsed()"
+  >
     <i class="fa fa-fw fa-angle-double-left"></i>&nbsp;
-    <span>{{ 'Compact Menu' | translate }}</span>
+    <span>{{ "Compact Menu" | translate }}</span>
   </div>
 </nav>
