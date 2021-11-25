@@ -1,379 +1,1010 @@
 <div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <div class="card mb-3">
-                <div class="card-header">
-					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
-							<h4>Gallery</h4>
-						</div>
-					</div>					
-				</div>
-				<div class="card-body table-responsive">
-					<!-- ========= Tabs Started Here ========  -->
-					<ngb-tabset class="tabset1">
-						<!-- ==== Manager App Tab Start ====  -->
-						<ngb-tab>
-							<ng-template ngbTabTitle>
-								<div (click)="tab_on_change('managerapp_tab')">Manager App</div>
-							</ng-template>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>Gallery</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <!-- ========= Tabs Started Here ========  -->
+          <ngb-tabset class="tabset1">
+            <!-- ==== Manager App Tab Start ====  -->
+            <ngb-tab>
+              <ng-template ngbTabTitle>
+                <div (click)="tab_on_change('managerapp_tab')">Manager App</div>
+              </ng-template>
 
-							<ng-template ngbTabContent>
-								<div class="tab_container">
-									<div class="row">
-										<!-- File uploader -->
-										<div class="col col-lg-5 col-md-5 col-sm-5">
-											<div class="filechooser">
-												<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-													<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-														attr.aria-valuenow="{{progress.percentage}}"
-														aria-valuemin="0" aria-valuemax="100" 
-														[ngStyle]="{width:progress.percentage+'%'}">
-														{{progress.percentage}}%
-													</div>
-												</div>
-												<div>
-													<label class="">
-														<input type="file" #fileInput (change)="filechooser_onchange($event)">
-													</label>
-												</div>
-											</div>
-										</div>
-										<!-- Folder list -->
-										<div class="col col-lg-2 col-md-2 col-sm-2">
-											<select id="selected_preflanguage" value="{{selected_directory}}"  (change)="directory_select_onchange($event)" class="form-control">
-												<option value="">Root</option>
-												<option *ngFor="let d of directories_list" value="{{ d }}">{{ d }}</option>
-											</select>
-										</div>
-										<!-- upload button -->
-										<div class="col col-lg-2 col-md-2 col-sm-2">
-											<div class="fileuploadbutton">
-												<button class="btn btn-success" [disabled]="!selectedFiles" (click)="uploadfile_button_click('managerapp')">Upload</button>
-											</div>
-										</div>
-										<!-- Create folder button -->
-										<div class="col">
-											<div class="fileuploadbutton">
-												<button class="btn btn-link" (click)="create_s3directory_button_click('managerapp')">
-													<img src="assets/images/filetypeicons/create_folder.png" title="Create Folder" alt="Create Folder" style=" width: 14%; float: right;" />
-													Create Folder
-												</button>
-											</div>
-										</div>
-									</div>
-									<hr>
-									<div class="row">
-										<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-											<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-										</div>
+              <ng-template ngbTabContent>
+                <div class="tab_container">
+                  <div class="row">
+                    <!-- File uploader -->
+                    <div class="col col-lg-5 col-md-5 col-sm-5">
+                      <div class="filechooser">
+                        <div
+                          *ngIf="currentFileUpload"
+                          class="progress"
+                          [hidden]="hideProgressbar"
+                        >
+                          <div
+                            class="
+                              progress-bar
+                              progress-bar-info
+                              progress-bar-striped
+                            "
+                            role="progressbar"
+                            attr.aria-valuenow="{{ progress.percentage }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            [ngStyle]="{ width: progress.percentage + '%' }"
+                          >
+                            {{ progress.percentage }}%
+                          </div>
+                        </div>
+                        <div>
+                          <label class="">
+                            <input
+                              multiple
+                              type="file"
+                              #fileInput
+                              (change)="filechooser_onchange($event)"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Folder list -->
+                    <div class="col col-lg-2 col-md-2 col-sm-2">
+                      <select
+                        id="selected_preflanguage"
+                        value="{{ selected_directory }}"
+                        (change)="directory_select_onchange($event)"
+                        class="form-control"
+                      >
+                        <option value="">Root</option>
+                        <option
+                          *ngFor="let d of directories_list"
+                          value="{{ d }}"
+                        >
+                          {{ d }}
+                        </option>
+                      </select>
+                    </div>
+                    <!-- upload button -->
+                    <div class="col col-lg-2 col-md-2 col-sm-2">
+                      <div class="fileuploadbutton">
+                        <button
+                          class="btn btn-success"
+                          [disabled]="!selectedFiles"
+                          (click)="uploadfile_button_click('managerapp')"
+                        >
+                          Upload
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Create folder button -->
+                    <div class="col">
+                      <div class="fileuploadbutton">
+                        <button
+                          class="btn btn-link"
+                          (click)="
+                            create_s3directory_button_click('managerapp')
+                          "
+                        >
+                          <img
+                            src="assets/images/filetypeicons/create_folder.png"
+                            title="Create Folder"
+                            alt="Create Folder"
+                            style="width: 14%; float: right"
+                          />
+                          Create Folder
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div
+                      id="loading_indicator"
+                      class="loading_indicator"
+                      [hidden]="hideLoading_indicator"
+                    >
+                      <span class=""
+                        ><img
+                          src="assets/images/loader3.gif"
+                          alt="Loading. Please wait..."
+                      /></span>
+                    </div>
 
-										<!-- Main Contents -->
-										<div class="row" [hidden]="hide_content1" style="width: 100%;">
-											<div class="col-lg-3 col-md-3 col-sm-3 align_center" *ngFor="let dt of filelist">
-												<div class="" (click)="fileresource_on_click(dt)" style="cursor: pointer;">
-													<div class="">
-														<span *ngIf="dt.filetype.toLowerCase()=='jpg' || dt.filetype.toLowerCase()=='jpeg' || dt.filetype.toLowerCase()=='png' || dt.filetype.toLowerCase()=='gif' || dt.filetype.toLowerCase()=='bmp' || dt.filetype.toLowerCase()=='ico' || dt.filetype.toLowerCase()=='tiff'"  class="">
-															<img src="assets/images/filetypeicons/filetype_bmp.png" alt="Image File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='mpeg' || dt.filetype.toLowerCase()=='mpg' || dt.filetype.toLowerCase()=='mp4' || dt.filetype.toLowerCase()=='m4p' || dt.filetype.toLowerCase()=='3gp' || dt.filetype.toLowerCase()=='avi' || dt.filetype.toLowerCase()=='mov' || dt.filetype.toLowerCase()=='flv' || dt.filetype.toLowerCase()=='wmv' || dt.filetype.toLowerCase()=='webm'"  class="">
-															<img src="assets/images/filetypeicons/filetype_avi.png" alt="Video File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='mp3' || dt.filetype.toLowerCase()=='aac' || dt.filetype.toLowerCase()=='m4a' || dt.filetype.toLowerCase()=='wma' || dt.filetype.toLowerCase()=='rm' || dt.filetype.toLowerCase()=='aiff' || dt.filetype.toLowerCase()=='wav' || dt.filetype.toLowerCase()=='ogg'"  class="">
-															<img src="assets/images/filetypeicons/filetype_mp3.png" alt="Audio File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='pdf'"  class="">
-															<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='doc' || dt.filetype.toLowerCase()=='docx' || dt.filetype.toLowerCase()=='odt'"  class="">
-															<img src="assets/images/filetypeicons/filetype_doc.png" alt="Doc File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='xls' || dt.filetype.toLowerCase()=='xlsx' || dt.filetype.toLowerCase()=='csv' || dt.filetype.toLowerCase()=='ods'"  class="">
-															<img src="assets/images/filetypeicons/filetype_xls.png" alt="Excel File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='ppt' || dt.filetype.toLowerCase()=='pptx'"  class="">
-															<img src="assets/images/filetypeicons/filetype_ppt.png" alt="Ppt File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='txt' || dt.filetype.toLowerCase()=='md' || dt.filetype.toLowerCase()=='css' || dt.filetype.toLowerCase()=='js' || dt.filetype.toLowerCase()=='ts' || dt.filetype.toLowerCase()=='htm' || dt.filetype.toLowerCase()=='html'"  class="">
-															<img src="assets/images/filetypeicons/filetype_txt.png" alt="Text File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='zip' || dt.filetype.toLowerCase()=='rar'"  class="">
-															<img src="assets/images/filetypeicons/filetype_zip.png" alt="Zip File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='directory'"  class="">
-															<img src="assets/images/filetypeicons/folder.jpg" alt="Folder" class="iconsize" />
-														</span>
-													</div>
-													<div class="">
-														<!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
-															<span class="bold_font">{{ dt.displayname }}</span>
-														<!-- </a> -->
-													</div>
-												</div>
-												<div class="">
-													<button (click)="delete_button_click(dt)" class="btn btn-link" style="color: red;"><i class="fa fa-trash" aria-hidden="true"></i></button>
-												</div>
-											</div>
-										</div>
+                    <!-- Main Contents -->
+                    <div
+                      class="row"
+                      [hidden]="hide_content1"
+                      style="width: 100%"
+                    >
+                      <div
+                        class="col-lg-3 col-md-3 col-sm-3 align_center"
+                        *ngFor="let dt of filelist"
+                      >
+                        <div
+                          class=""
+                          (click)="fileresource_on_click(dt)"
+                          style="cursor: pointer"
+                        >
+                          <div class="">
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'jpg' ||
+                                dt.filetype.toLowerCase() == 'jpeg' ||
+                                dt.filetype.toLowerCase() == 'png' ||
+                                dt.filetype.toLowerCase() == 'gif' ||
+                                dt.filetype.toLowerCase() == 'bmp' ||
+                                dt.filetype.toLowerCase() == 'ico' ||
+                                dt.filetype.toLowerCase() == 'tiff'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_bmp.png"
+                                alt="Image File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'mpeg' ||
+                                dt.filetype.toLowerCase() == 'mpg' ||
+                                dt.filetype.toLowerCase() == 'mp4' ||
+                                dt.filetype.toLowerCase() == 'm4p' ||
+                                dt.filetype.toLowerCase() == '3gp' ||
+                                dt.filetype.toLowerCase() == 'avi' ||
+                                dt.filetype.toLowerCase() == 'mov' ||
+                                dt.filetype.toLowerCase() == 'flv' ||
+                                dt.filetype.toLowerCase() == 'wmv' ||
+                                dt.filetype.toLowerCase() == 'webm'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_avi.png"
+                                alt="Video File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'mp3' ||
+                                dt.filetype.toLowerCase() == 'aac' ||
+                                dt.filetype.toLowerCase() == 'm4a' ||
+                                dt.filetype.toLowerCase() == 'wma' ||
+                                dt.filetype.toLowerCase() == 'rm' ||
+                                dt.filetype.toLowerCase() == 'aiff' ||
+                                dt.filetype.toLowerCase() == 'wav' ||
+                                dt.filetype.toLowerCase() == 'ogg'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_mp3.png"
+                                alt="Audio File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="dt.filetype.toLowerCase() == 'pdf'"
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_pdf.png"
+                                alt="Pdf File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'doc' ||
+                                dt.filetype.toLowerCase() == 'docx' ||
+                                dt.filetype.toLowerCase() == 'odt'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_doc.png"
+                                alt="Doc File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'xls' ||
+                                dt.filetype.toLowerCase() == 'xlsx' ||
+                                dt.filetype.toLowerCase() == 'csv' ||
+                                dt.filetype.toLowerCase() == 'ods'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_xls.png"
+                                alt="Excel File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'ppt' ||
+                                dt.filetype.toLowerCase() == 'pptx'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_ppt.png"
+                                alt="Ppt File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'txt' ||
+                                dt.filetype.toLowerCase() == 'md' ||
+                                dt.filetype.toLowerCase() == 'css' ||
+                                dt.filetype.toLowerCase() == 'js' ||
+                                dt.filetype.toLowerCase() == 'ts' ||
+                                dt.filetype.toLowerCase() == 'htm' ||
+                                dt.filetype.toLowerCase() == 'html'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_txt.png"
+                                alt="Text File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'zip' ||
+                                dt.filetype.toLowerCase() == 'rar'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_zip.png"
+                                alt="Zip File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="dt.filetype.toLowerCase() == 'directory'"
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/folder.jpg"
+                                alt="Folder"
+                                class="iconsize"
+                              />
+                            </span>
+                          </div>
+                          <div class="">
+                            <!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
+                            <span class="bold_font">{{ dt.displayname }}</span>
+                            <!-- </a> -->
+                          </div>
+                        </div>
+                        <div class="">
+                          <button
+                            (click)="delete_button_click(dt)"
+                            class="btn btn-link"
+                            style="color: red"
+                          >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
 
-										<!-- Inside Folder Contents -->
-										<div [hidden]="hide_content2">
-											<div class="row">
-												<button (click)="back_button_click()" class="btn btn-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back</button>
-											</div>
-											<div class="row" style="width: 100%;">
-												<div *ngFor="let dt of filelist_inside_directory" class="col-lg-3 col-md-3 col-sm-3 align_center">
-													<div class="" (click)="fileresource_on_click(dt)" style="cursor: pointer;">
-														<div class="">
-															<span *ngIf="dt.filetype.toLowerCase()=='jpg' || dt.filetype.toLowerCase()=='jpeg' || dt.filetype.toLowerCase()=='png' || dt.filetype.toLowerCase()=='gif' || dt.filetype.toLowerCase()=='bmp' || dt.filetype.toLowerCase()=='ico' || dt.filetype.toLowerCase()=='tiff'"  class="">
-																<img src="assets/images/filetypeicons/filetype_bmp.png" alt="Image File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='mpeg' || dt.filetype.toLowerCase()=='mpg' || dt.filetype.toLowerCase()=='mp4' || dt.filetype.toLowerCase()=='m4p' || dt.filetype.toLowerCase()=='3gp' || dt.filetype.toLowerCase()=='avi' || dt.filetype.toLowerCase()=='mov' || dt.filetype.toLowerCase()=='flv' || dt.filetype.toLowerCase()=='wmv' || dt.filetype.toLowerCase()=='webm'"  class="">
-																<img src="assets/images/filetypeicons/filetype_avi.png" alt="Video File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='mp3' || dt.filetype.toLowerCase()=='aac' || dt.filetype.toLowerCase()=='m4a' || dt.filetype.toLowerCase()=='wma' || dt.filetype.toLowerCase()=='rm' || dt.filetype.toLowerCase()=='aiff' || dt.filetype.toLowerCase()=='wav' || dt.filetype.toLowerCase()=='ogg'"  class="">
-																<img src="assets/images/filetypeicons/filetype_mp3.png" alt="Audio File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='pdf'"  class="">
-																<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='doc' || dt.filetype.toLowerCase()=='docx' || dt.filetype.toLowerCase()=='odt'"  class="">
-																<img src="assets/images/filetypeicons/filetype_doc.png" alt="Doc File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='xls' || dt.filetype.toLowerCase()=='xlsx' || dt.filetype.toLowerCase()=='csv' || dt.filetype.toLowerCase()=='ods'"  class="">
-																<img src="assets/images/filetypeicons/filetype_xls.png" alt="Excel File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='ppt' || dt.filetype.toLowerCase()=='pptx'"  class="">
-																<img src="assets/images/filetypeicons/filetype_ppt.png" alt="Ppt File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='txt' || dt.filetype.toLowerCase()=='md' || dt.filetype.toLowerCase()=='css' || dt.filetype.toLowerCase()=='js' || dt.filetype.toLowerCase()=='ts' || dt.filetype.toLowerCase()=='htm' || dt.filetype.toLowerCase()=='html'"  class="">
-																<img src="assets/images/filetypeicons/filetype_txt.png" alt="Text File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='zip' || dt.filetype.toLowerCase()=='rar'"  class="">
-																<img src="assets/images/filetypeicons/filetype_zip.png" alt="Zip File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='directory'"  class="">
-																<img src="assets/images/filetypeicons/folder.jpg" alt="Folder" class="iconsize" />
-															</span>
-														</div>
-														<div class="">
-															<!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
-																<span class="bold_font">{{ dt.displayname }}</span>
-															<!-- </a> -->
-														</div>
-													</div>
-													<div class="">
-														<button (click)="delete_button_click(dt)" class="btn btn-link" style="color: red;"><i class="fa fa-trash" aria-hidden="true"></i></button>
-													</div>
-												</div>
-											</div>
-										</div>
-										
+                    <!-- Inside Folder Contents -->
+                    <div [hidden]="hide_content2">
+                      <div class="row">
+                        <button
+                          (click)="back_button_click()"
+                          class="btn btn-primary"
+                        >
+                          <i
+                            class="fa fa-arrow-circle-left"
+                            aria-hidden="true"
+                          ></i
+                          >Back
+                        </button>
+                      </div>
+                      <div class="row" style="width: 100%">
+                        <div
+                          *ngFor="let dt of filelist_inside_directory"
+                          class="col-lg-3 col-md-3 col-sm-3 align_center"
+                        >
+                          <div
+                            class=""
+                            (click)="fileresource_on_click(dt)"
+                            style="cursor: pointer"
+                          >
+                            <div class="">
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'jpg' ||
+                                  dt.filetype.toLowerCase() == 'jpeg' ||
+                                  dt.filetype.toLowerCase() == 'png' ||
+                                  dt.filetype.toLowerCase() == 'gif' ||
+                                  dt.filetype.toLowerCase() == 'bmp' ||
+                                  dt.filetype.toLowerCase() == 'ico' ||
+                                  dt.filetype.toLowerCase() == 'tiff'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_bmp.png"
+                                  alt="Image File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'mpeg' ||
+                                  dt.filetype.toLowerCase() == 'mpg' ||
+                                  dt.filetype.toLowerCase() == 'mp4' ||
+                                  dt.filetype.toLowerCase() == 'm4p' ||
+                                  dt.filetype.toLowerCase() == '3gp' ||
+                                  dt.filetype.toLowerCase() == 'avi' ||
+                                  dt.filetype.toLowerCase() == 'mov' ||
+                                  dt.filetype.toLowerCase() == 'flv' ||
+                                  dt.filetype.toLowerCase() == 'wmv' ||
+                                  dt.filetype.toLowerCase() == 'webm'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_avi.png"
+                                  alt="Video File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'mp3' ||
+                                  dt.filetype.toLowerCase() == 'aac' ||
+                                  dt.filetype.toLowerCase() == 'm4a' ||
+                                  dt.filetype.toLowerCase() == 'wma' ||
+                                  dt.filetype.toLowerCase() == 'rm' ||
+                                  dt.filetype.toLowerCase() == 'aiff' ||
+                                  dt.filetype.toLowerCase() == 'wav' ||
+                                  dt.filetype.toLowerCase() == 'ogg'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_mp3.png"
+                                  alt="Audio File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="dt.filetype.toLowerCase() == 'pdf'"
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_pdf.png"
+                                  alt="Pdf File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'doc' ||
+                                  dt.filetype.toLowerCase() == 'docx' ||
+                                  dt.filetype.toLowerCase() == 'odt'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_doc.png"
+                                  alt="Doc File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'xls' ||
+                                  dt.filetype.toLowerCase() == 'xlsx' ||
+                                  dt.filetype.toLowerCase() == 'csv' ||
+                                  dt.filetype.toLowerCase() == 'ods'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_xls.png"
+                                  alt="Excel File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'ppt' ||
+                                  dt.filetype.toLowerCase() == 'pptx'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_ppt.png"
+                                  alt="Ppt File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'txt' ||
+                                  dt.filetype.toLowerCase() == 'md' ||
+                                  dt.filetype.toLowerCase() == 'css' ||
+                                  dt.filetype.toLowerCase() == 'js' ||
+                                  dt.filetype.toLowerCase() == 'ts' ||
+                                  dt.filetype.toLowerCase() == 'htm' ||
+                                  dt.filetype.toLowerCase() == 'html'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_txt.png"
+                                  alt="Text File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'zip' ||
+                                  dt.filetype.toLowerCase() == 'rar'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_zip.png"
+                                  alt="Zip File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="dt.filetype.toLowerCase() == 'directory'"
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/folder.jpg"
+                                  alt="Folder"
+                                  class="iconsize"
+                                />
+                              </span>
+                            </div>
+                            <div class="">
+                              <!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
+                              <span class="bold_font">{{
+                                dt.displayname
+                              }}</span>
+                              <!-- </a> -->
+                            </div>
+                          </div>
+                          <div class="">
+                            <button
+                              (click)="delete_button_click(dt)"
+                              class="btn btn-link"
+                              style="color: red"
+                            >
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <!-- ====== Manager App Tab End =====  -->
 
-									</div>
-								</div>
-							</ng-template>
-						</ngb-tab>
-						<!-- ====== Manager App Tab End =====  -->
+            <!-- ===== Teacher App Tab Start ====  -->
+            <ngb-tab>
+              <ng-template ngbTabTitle>
+                <div (click)="tab_on_change('teacherapp_tab')">Teacher App</div>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="tab_container">
+                  <div class="row">
+                    <!-- File uploader -->
+                    <div class="col col-lg-5 col-md-5 col-sm-5">
+                      <div class="filechooser">
+                        <div
+                          *ngIf="currentFileUpload"
+                          class="progress"
+                          [hidden]="hideProgressbar"
+                        >
+                          <div
+                            class="
+                              progress-bar
+                              progress-bar-info
+                              progress-bar-striped
+                            "
+                            role="progressbar"
+                            attr.aria-valuenow="{{ progress.percentage }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            [ngStyle]="{ width: progress.percentage + '%' }"
+                          >
+                            {{ progress.percentage }}%
+                          </div>
+                        </div>
+                        <div>
+                          <label class="">
+                            <input
+                              type="file"
+                              #fileInput
+                              (change)="filechooser_onchange($event)"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Folder list -->
+                    <div class="col col-lg-2 col-md-2 col-sm-2">
+                      <select
+                        id="selected_preflanguage"
+                        value="{{ selected_directory }}"
+                        (change)="directory_select_onchange($event)"
+                        class="form-control"
+                      >
+                        <option value="">Root</option>
+                        <option
+                          *ngFor="let d of directories_list"
+                          value="{{ d }}"
+                        >
+                          {{ d }}
+                        </option>
+                      </select>
+                    </div>
+                    <!-- upload button -->
+                    <div class="col col-lg-2 col-md-2 col-sm-2">
+                      <div class="fileuploadbutton">
+                        <button
+                          class="btn btn-success"
+                          [disabled]="!selectedFiles"
+                          (click)="uploadfile_button_click('teacherapp')"
+                        >
+                          Upload
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Create folder button -->
+                    <div class="col">
+                      <div class="fileuploadbutton">
+                        <button
+                          class="btn btn-link"
+                          (click)="
+                            create_s3directory_button_click('teacherapp')
+                          "
+                        >
+                          <img
+                            src="assets/images/filetypeicons/create_folder.png"
+                            title="Create Folder"
+                            alt="Create Folder"
+                            style="width: 14%; float: right"
+                          />
+                          Create Folder
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div
+                      id="loading_indicator"
+                      class="loading_indicator"
+                      [hidden]="hideLoading_indicator"
+                    >
+                      <span class=""
+                        ><img
+                          src="assets/images/loader3.gif"
+                          alt="Loading. Please wait..."
+                      /></span>
+                    </div>
 
+                    <!-- Main Contents -->
+                    <div
+                      class="row"
+                      [hidden]="hide_content1"
+                      style="width: 100%"
+                    >
+                      <div
+                        class="col-lg-3 col-md-3 col-sm-3 align_center"
+                        *ngFor="let dt of filelist"
+                      >
+                        <div
+                          class=""
+                          (click)="fileresource_on_click(dt)"
+                          style="cursor: pointer"
+                        >
+                          <div class="">
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'jpg' ||
+                                dt.filetype.toLowerCase() == 'jpeg' ||
+                                dt.filetype.toLowerCase() == 'png' ||
+                                dt.filetype.toLowerCase() == 'gif' ||
+                                dt.filetype.toLowerCase() == 'bmp' ||
+                                dt.filetype.toLowerCase() == 'ico' ||
+                                dt.filetype.toLowerCase() == 'tiff'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_bmp.png"
+                                alt="Image File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'mpeg' ||
+                                dt.filetype.toLowerCase() == 'mpg' ||
+                                dt.filetype.toLowerCase() == 'mp4' ||
+                                dt.filetype.toLowerCase() == 'm4p' ||
+                                dt.filetype.toLowerCase() == '3gp' ||
+                                dt.filetype.toLowerCase() == 'avi' ||
+                                dt.filetype.toLowerCase() == 'mov' ||
+                                dt.filetype.toLowerCase() == 'flv' ||
+                                dt.filetype.toLowerCase() == 'wmv' ||
+                                dt.filetype.toLowerCase() == 'webm'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_avi.png"
+                                alt="Video File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'mp3' ||
+                                dt.filetype.toLowerCase() == 'aac' ||
+                                dt.filetype.toLowerCase() == 'm4a' ||
+                                dt.filetype.toLowerCase() == 'wma' ||
+                                dt.filetype.toLowerCase() == 'rm' ||
+                                dt.filetype.toLowerCase() == 'aiff' ||
+                                dt.filetype.toLowerCase() == 'wav' ||
+                                dt.filetype.toLowerCase() == 'ogg'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_mp3.png"
+                                alt="Audio File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="dt.filetype.toLowerCase() == 'pdf'"
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_pdf.png"
+                                alt="Pdf File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'doc' ||
+                                dt.filetype.toLowerCase() == 'docx' ||
+                                dt.filetype.toLowerCase() == 'odt'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_doc.png"
+                                alt="Doc File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'xls' ||
+                                dt.filetype.toLowerCase() == 'xlsx' ||
+                                dt.filetype.toLowerCase() == 'csv' ||
+                                dt.filetype.toLowerCase() == 'ods'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_xls.png"
+                                alt="Excel File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'ppt' ||
+                                dt.filetype.toLowerCase() == 'pptx'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_ppt.png"
+                                alt="Ppt File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'txt' ||
+                                dt.filetype.toLowerCase() == 'md' ||
+                                dt.filetype.toLowerCase() == 'css' ||
+                                dt.filetype.toLowerCase() == 'js' ||
+                                dt.filetype.toLowerCase() == 'ts' ||
+                                dt.filetype.toLowerCase() == 'htm' ||
+                                dt.filetype.toLowerCase() == 'html'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_txt.png"
+                                alt="Text File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="
+                                dt.filetype.toLowerCase() == 'zip' ||
+                                dt.filetype.toLowerCase() == 'rar'
+                              "
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/filetype_zip.png"
+                                alt="Zip File"
+                                class="iconsize"
+                              />
+                            </span>
+                            <span
+                              *ngIf="dt.filetype.toLowerCase() == 'directory'"
+                              class=""
+                            >
+                              <img
+                                src="assets/images/filetypeicons/folder.jpg"
+                                alt="Folder"
+                                class="iconsize"
+                              />
+                            </span>
+                          </div>
+                          <div class="">
+                            <!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
+                            <span class="bold_font">{{ dt.displayname }}</span>
+                            <!-- </a> -->
+                          </div>
+                        </div>
+                        <div class="">
+                          <button
+                            (click)="delete_button_click(dt)"
+                            class="btn btn-link"
+                            style="color: red"
+                          >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
 
-
-
-
-
-
-
-
-						<!-- ===== Teacher App Tab Start ====  -->
-						<ngb-tab>
-							<ng-template ngbTabTitle>
-								<div (click)="tab_on_change('teacherapp_tab')">Teacher App</div>
-							</ng-template>	
-							<ng-template ngbTabContent>
-								<div class="tab_container">
-									<div class="row">
-										<!-- File uploader -->
-										<div class="col col-lg-5 col-md-5 col-sm-5">
-											<div class="filechooser">
-												<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-													<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-														attr.aria-valuenow="{{progress.percentage}}"
-														aria-valuemin="0" aria-valuemax="100" 
-														[ngStyle]="{width:progress.percentage+'%'}">
-														{{progress.percentage}}%
-													</div>
-												</div>
-												<div>
-													<label class="">
-														<input type="file" #fileInput (change)="filechooser_onchange($event)">
-													</label>
-												</div>
-											</div>
-										</div>
-										<!-- Folder list -->
-										<div class="col col-lg-2 col-md-2 col-sm-2">
-											<select id="selected_preflanguage" value="{{selected_directory}}"  (change)="directory_select_onchange($event)" class="form-control">
-												<option value="">Root</option>
-												<option *ngFor="let d of directories_list" value="{{ d }}">{{ d }}</option>
-											</select>
-										</div>
-										<!-- upload button -->
-										<div class="col col-lg-2 col-md-2 col-sm-2">
-											<div class="fileuploadbutton">
-												<button class="btn btn-success" [disabled]="!selectedFiles" (click)="uploadfile_button_click('teacherapp')">Upload</button>
-											</div>
-										</div>
-										<!-- Create folder button -->
-										<div class="col">
-											<div class="fileuploadbutton">
-												<button class="btn btn-link" (click)="create_s3directory_button_click('teacherapp')">
-													<img src="assets/images/filetypeicons/create_folder.png" title="Create Folder" alt="Create Folder" style=" width: 14%; float: right;" />
-													Create Folder
-												</button>
-											</div>
-										</div>
-									</div>
-									<hr>
-									<div class="row">
-										<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-											<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-										</div>
-
-										<!-- Main Contents -->
-										<div class="row" [hidden]="hide_content1" style="width: 100%;">
-											<div class="col-lg-3 col-md-3 col-sm-3 align_center" *ngFor="let dt of filelist">
-												<div class="" (click)="fileresource_on_click(dt)" style="cursor: pointer;">
-													<div class="">
-														<span *ngIf="dt.filetype.toLowerCase()=='jpg' || dt.filetype.toLowerCase()=='jpeg' || dt.filetype.toLowerCase()=='png' || dt.filetype.toLowerCase()=='gif' || dt.filetype.toLowerCase()=='bmp' || dt.filetype.toLowerCase()=='ico' || dt.filetype.toLowerCase()=='tiff'"  class="">
-															<img src="assets/images/filetypeicons/filetype_bmp.png" alt="Image File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='mpeg' || dt.filetype.toLowerCase()=='mpg' || dt.filetype.toLowerCase()=='mp4' || dt.filetype.toLowerCase()=='m4p' || dt.filetype.toLowerCase()=='3gp' || dt.filetype.toLowerCase()=='avi' || dt.filetype.toLowerCase()=='mov' || dt.filetype.toLowerCase()=='flv' || dt.filetype.toLowerCase()=='wmv' || dt.filetype.toLowerCase()=='webm'"  class="">
-															<img src="assets/images/filetypeicons/filetype_avi.png" alt="Video File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='mp3' || dt.filetype.toLowerCase()=='aac' || dt.filetype.toLowerCase()=='m4a' || dt.filetype.toLowerCase()=='wma' || dt.filetype.toLowerCase()=='rm' || dt.filetype.toLowerCase()=='aiff' || dt.filetype.toLowerCase()=='wav' || dt.filetype.toLowerCase()=='ogg'"  class="">
-															<img src="assets/images/filetypeicons/filetype_mp3.png" alt="Audio File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='pdf'"  class="">
-															<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='doc' || dt.filetype.toLowerCase()=='docx' || dt.filetype.toLowerCase()=='odt'"  class="">
-															<img src="assets/images/filetypeicons/filetype_doc.png" alt="Doc File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='xls' || dt.filetype.toLowerCase()=='xlsx' || dt.filetype.toLowerCase()=='csv' || dt.filetype.toLowerCase()=='ods'"  class="">
-															<img src="assets/images/filetypeicons/filetype_xls.png" alt="Excel File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='ppt' || dt.filetype.toLowerCase()=='pptx'"  class="">
-															<img src="assets/images/filetypeicons/filetype_ppt.png" alt="Ppt File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='txt' || dt.filetype.toLowerCase()=='md' || dt.filetype.toLowerCase()=='css' || dt.filetype.toLowerCase()=='js' || dt.filetype.toLowerCase()=='ts' || dt.filetype.toLowerCase()=='htm' || dt.filetype.toLowerCase()=='html'"  class="">
-															<img src="assets/images/filetypeicons/filetype_txt.png" alt="Text File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='zip' || dt.filetype.toLowerCase()=='rar'"  class="">
-															<img src="assets/images/filetypeicons/filetype_zip.png" alt="Zip File" class="iconsize" />
-														</span>
-														<span *ngIf="dt.filetype.toLowerCase()=='directory'"  class="">
-															<img src="assets/images/filetypeicons/folder.jpg" alt="Folder" class="iconsize" />
-														</span>
-													</div>
-													<div class="">
-														<!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
-															<span class="bold_font">{{ dt.displayname }}</span>
-														<!-- </a> -->
-													</div>
-												</div>
-												<div class="">
-													<button (click)="delete_button_click(dt)" class="btn btn-link" style="color: red;"><i class="fa fa-trash" aria-hidden="true"></i></button>
-												</div>
-											</div>
-										</div>
-
-										<!-- Inside Folder Contents -->
-										<div [hidden]="hide_content2">
-											<div class="row">
-												<button (click)="back_button_click()" class="btn btn-primary"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back</button>
-											</div>
-											<div class="row" style="width: 100%;">
-												<div *ngFor="let dt of filelist_inside_directory" class="col-lg-3 col-md-3 col-sm-3 align_center">
-													<div class="" (click)="fileresource_on_click(dt)" style="cursor: pointer;">
-														<div class="">
-															<span *ngIf="dt.filetype.toLowerCase()=='jpg' || dt.filetype.toLowerCase()=='jpeg' || dt.filetype.toLowerCase()=='png' || dt.filetype.toLowerCase()=='gif' || dt.filetype.toLowerCase()=='bmp' || dt.filetype.toLowerCase()=='ico' || dt.filetype.toLowerCase()=='tiff'"  class="">
-																<img src="assets/images/filetypeicons/filetype_bmp.png" alt="Image File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='mpeg' || dt.filetype.toLowerCase()=='mpg' || dt.filetype.toLowerCase()=='mp4' || dt.filetype.toLowerCase()=='m4p' || dt.filetype.toLowerCase()=='3gp' || dt.filetype.toLowerCase()=='avi' || dt.filetype.toLowerCase()=='mov' || dt.filetype.toLowerCase()=='flv' || dt.filetype.toLowerCase()=='wmv' || dt.filetype.toLowerCase()=='webm'"  class="">
-																<img src="assets/images/filetypeicons/filetype_avi.png" alt="Video File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='mp3' || dt.filetype.toLowerCase()=='aac' || dt.filetype.toLowerCase()=='m4a' || dt.filetype.toLowerCase()=='wma' || dt.filetype.toLowerCase()=='rm' || dt.filetype.toLowerCase()=='aiff' || dt.filetype.toLowerCase()=='wav' || dt.filetype.toLowerCase()=='ogg'"  class="">
-																<img src="assets/images/filetypeicons/filetype_mp3.png" alt="Audio File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='pdf'"  class="">
-																<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='doc' || dt.filetype.toLowerCase()=='docx' || dt.filetype.toLowerCase()=='odt'"  class="">
-																<img src="assets/images/filetypeicons/filetype_doc.png" alt="Doc File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='xls' || dt.filetype.toLowerCase()=='xlsx' || dt.filetype.toLowerCase()=='csv' || dt.filetype.toLowerCase()=='ods'"  class="">
-																<img src="assets/images/filetypeicons/filetype_xls.png" alt="Excel File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='ppt' || dt.filetype.toLowerCase()=='pptx'"  class="">
-																<img src="assets/images/filetypeicons/filetype_ppt.png" alt="Ppt File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='txt' || dt.filetype.toLowerCase()=='md' || dt.filetype.toLowerCase()=='css' || dt.filetype.toLowerCase()=='js' || dt.filetype.toLowerCase()=='ts' || dt.filetype.toLowerCase()=='htm' || dt.filetype.toLowerCase()=='html'"  class="">
-																<img src="assets/images/filetypeicons/filetype_txt.png" alt="Text File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='zip' || dt.filetype.toLowerCase()=='rar'"  class="">
-																<img src="assets/images/filetypeicons/filetype_zip.png" alt="Zip File" class="iconsize" />
-															</span>
-															<span *ngIf="dt.filetype.toLowerCase()=='directory'"  class="">
-																<img src="assets/images/filetypeicons/folder.jpg" alt="Folder" class="iconsize" />
-															</span>
-														</div>
-														<div class="">
-															<!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
-																<span class="bold_font">{{ dt.displayname }}</span>
-															<!-- </a> -->
-														</div>
-													</div>
-													<div class="">
-														<button (click)="delete_button_click(dt)" class="btn btn-link" style="color: red;"><i class="fa fa-trash" aria-hidden="true"></i></button>
-													</div>
-												</div>
-											</div>
-										</div>
-										
-
-									</div>
-								</div>
-							</ng-template>
-						</ngb-tab>
-						<!-- ===== Teacher App Tab End ======  -->
-					</ngb-tabset>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				</div>
-            </div>                       
-        </div>        
+                    <!-- Inside Folder Contents -->
+                    <div [hidden]="hide_content2">
+                      <div class="row">
+                        <button
+                          (click)="back_button_click()"
+                          class="btn btn-primary"
+                        >
+                          <i
+                            class="fa fa-arrow-circle-left"
+                            aria-hidden="true"
+                          ></i
+                          >Back
+                        </button>
+                      </div>
+                      <div class="row" style="width: 100%">
+                        <div
+                          *ngFor="let dt of filelist_inside_directory"
+                          class="col-lg-3 col-md-3 col-sm-3 align_center"
+                        >
+                          <div
+                            class=""
+                            (click)="fileresource_on_click(dt)"
+                            style="cursor: pointer"
+                          >
+                            <div class="">
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'jpg' ||
+                                  dt.filetype.toLowerCase() == 'jpeg' ||
+                                  dt.filetype.toLowerCase() == 'png' ||
+                                  dt.filetype.toLowerCase() == 'gif' ||
+                                  dt.filetype.toLowerCase() == 'bmp' ||
+                                  dt.filetype.toLowerCase() == 'ico' ||
+                                  dt.filetype.toLowerCase() == 'tiff'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_bmp.png"
+                                  alt="Image File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'mpeg' ||
+                                  dt.filetype.toLowerCase() == 'mpg' ||
+                                  dt.filetype.toLowerCase() == 'mp4' ||
+                                  dt.filetype.toLowerCase() == 'm4p' ||
+                                  dt.filetype.toLowerCase() == '3gp' ||
+                                  dt.filetype.toLowerCase() == 'avi' ||
+                                  dt.filetype.toLowerCase() == 'mov' ||
+                                  dt.filetype.toLowerCase() == 'flv' ||
+                                  dt.filetype.toLowerCase() == 'wmv' ||
+                                  dt.filetype.toLowerCase() == 'webm'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_avi.png"
+                                  alt="Video File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'mp3' ||
+                                  dt.filetype.toLowerCase() == 'aac' ||
+                                  dt.filetype.toLowerCase() == 'm4a' ||
+                                  dt.filetype.toLowerCase() == 'wma' ||
+                                  dt.filetype.toLowerCase() == 'rm' ||
+                                  dt.filetype.toLowerCase() == 'aiff' ||
+                                  dt.filetype.toLowerCase() == 'wav' ||
+                                  dt.filetype.toLowerCase() == 'ogg'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_mp3.png"
+                                  alt="Audio File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="dt.filetype.toLowerCase() == 'pdf'"
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_pdf.png"
+                                  alt="Pdf File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'doc' ||
+                                  dt.filetype.toLowerCase() == 'docx' ||
+                                  dt.filetype.toLowerCase() == 'odt'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_doc.png"
+                                  alt="Doc File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'xls' ||
+                                  dt.filetype.toLowerCase() == 'xlsx' ||
+                                  dt.filetype.toLowerCase() == 'csv' ||
+                                  dt.filetype.toLowerCase() == 'ods'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_xls.png"
+                                  alt="Excel File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'ppt' ||
+                                  dt.filetype.toLowerCase() == 'pptx'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_ppt.png"
+                                  alt="Ppt File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'txt' ||
+                                  dt.filetype.toLowerCase() == 'md' ||
+                                  dt.filetype.toLowerCase() == 'css' ||
+                                  dt.filetype.toLowerCase() == 'js' ||
+                                  dt.filetype.toLowerCase() == 'ts' ||
+                                  dt.filetype.toLowerCase() == 'htm' ||
+                                  dt.filetype.toLowerCase() == 'html'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_txt.png"
+                                  alt="Text File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="
+                                  dt.filetype.toLowerCase() == 'zip' ||
+                                  dt.filetype.toLowerCase() == 'rar'
+                                "
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/filetype_zip.png"
+                                  alt="Zip File"
+                                  class="iconsize"
+                                />
+                              </span>
+                              <span
+                                *ngIf="dt.filetype.toLowerCase() == 'directory'"
+                                class=""
+                              >
+                                <img
+                                  src="assets/images/filetypeicons/folder.jpg"
+                                  alt="Folder"
+                                  class="iconsize"
+                                />
+                              </span>
+                            </div>
+                            <div class="">
+                              <!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
+                              <span class="bold_font">{{
+                                dt.displayname
+                              }}</span>
+                              <!-- </a> -->
+                            </div>
+                          </div>
+                          <div class="">
+                            <button
+                              (click)="delete_button_click(dt)"
+                              class="btn btn-link"
+                              style="color: red"
+                            >
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <!-- ===== Teacher App Tab End ======  -->
+          </ngb-tabset>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

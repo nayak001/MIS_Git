@@ -37,6 +37,8 @@ export class AssessmentmasterComponent implements OnInit {
   level_select_option_list: any = [];
   stage_select_option_list: any = [];
 
+  isSelected: boolean = true;
+
   constructor(
     public router: Router,
     private assessmentmasterService: AssessmentmasterService,
@@ -165,7 +167,7 @@ export class AssessmentmasterComponent implements OnInit {
         { value: "month3", text: "Assessment 3" },
         { value: "month4", text: "Assessment 4" },
         { value: "month5", text: "Assessment 5" },
-        { value: "month6", text: "Assessment 6" },
+        { value: "month6", text: "Midline" },
         { value: "month7", text: "Assessment 7" },
         { value: "month8", text: "Assessment 8" },
         { value: "month9", text: "Assessment 9" },

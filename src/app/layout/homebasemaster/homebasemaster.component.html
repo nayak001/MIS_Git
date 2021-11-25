@@ -1,284 +1,485 @@
 <div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <div class="card mb-3">
-                <div class="card-header">
-					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
-							<h4>Home Base Master</h4>
-						</div>
-						<div class="col">
-							<button (click)="open(addactivitydoc,null,null,'add')"  class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp;Upload Activity Documents&nbsp;&nbsp;&nbsp;</button>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>Home Base Master</h4>
+            </div>
+            <div class="col">
+              <button
+                (click)="open(addactivitydoc, null, null, 'add')"
+                class="btn btn-sm btn-primary float-right"
+                type="button"
+              >
+                &nbsp;&nbsp;&nbsp;Upload Activity Documents&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </div>
+        </div>
 
-						</div>
-					</div>					
-				</div>
-				
-				<div class="card-body table-responsive">
-					<div class="row">
-						<div class="col col-xl-2 col-lg-2">
-							Select Language
-						</div>
-						<div class="col col-xl-2 col-lg-2">
-							<select id="selected_preflanguage" value="{{selected_preflanguage}}"  (change)="preflanguage_select_onchange($event)" class="form-control">
-								<option value="">Select</option>
-								<option value="en" [selected]="isSelected">English</option>
-								<option value="od">ଓଡିଆ</option>
-								<option value="hi">हिंदी</option>
-							</select>
-						</div>
-						<div class="col col-xl-2 col-lg-2">
-							Select class
-						</div>
-						<div class="col col-xl-2 col-lg-2">
-							<select value="" (change)="onselect_change_class($event)" class="form-control">
-								<option value="">Select</option>
-								<option value="0" selected>0(ECE)</option>			<option value="1">1(PGE)</option>
-								<option value="2">2(PGE)</option>
-								<option value="3">3(PGE)</option>
-								<option value="4">4(PGE)</option>	
-								<option value="5">5(PGE)</option>					
-							</select>
-						</div>
-						<div class="col col-xl-2 col-lg-2">
-							Select subject
-						</div>
-						<div class="col col-xl-2 col-lg-2">
-							<select value="" (change)="onselect_assesment_select($event)" class="form-control">
-								<option value="">Select</option>
-								<option value="baseline" selected>Baseline</option>
-								<option *ngIf = 'selected_class == "0"'  value="eceActivity">ECE Activity</option>			
-								<option *ngIf = 'selected_class != "0"'  value="odia">Odia Activity</option>
-								<option *ngIf = 'selected_class != "0"'  value="math">Math Activity</option>
-								<option *ngIf = 'selected_class != "0"' value="english">English Activity</option>
-								<option value="assesment">Assesment</option>	
-								<option value="endline">Endline</option>					
-							</select>
-						</div>
-					</div>
-					<div class="card-body table-responsive" *ngIf = 'show_month'>
-						<div class="row">
-							<div class="col col-xl-2 col-lg-2">
-								Select Month
-							</div>
-							<div class="col col-xl-2 col-lg-2">
-								<select value="" (change)="onselect_change_month($event)" class="form-control">
-									<option value="">Select</option>
-									<option value="month1" selected>month1</option>			<option value="month2">month2</option>
-									<option value="month3">month3</option>
-									<option value="month4">month4</option>
-									<option value="month5">month5</option>	
-									<option value="month6">month6</option>
-									<option value="month7">month7</option>	
-									<option value="month8">month8</option>
-									<option value="month9">month9</option>
-									<option value="month10">month10</option>
-									<option value="month11">month11</option>
-									<option value="month12">month12</option>				
-								</select>
-							</div>
-						  </div>
-					  </div>
-				</div>
+        <div class="card-body table-responsive">
+          <div class="row">
+            <div class="col col-xl-2 col-lg-2">Select Language</div>
+            <div class="col col-xl-2 col-lg-2">
+              <select
+                id="selected_preflanguage"
+                value="{{ selected_preflanguage }}"
+                (change)="preflanguage_select_onchange($event)"
+                class="form-control"
+              >
+                <option value="">Select</option>
+                <option value="en">English</option>
+                <option value="od" [selected]="isSelected">ଓଡିଆ</option>
+                <option value="hi">हिंदी</option>
+              </select>
+            </div>
+            <div class="col col-xl-2 col-lg-2">Select class</div>
+            <div class="col col-xl-2 col-lg-2">
+              <select
+                value=""
+                (change)="onselect_change_class($event)"
+                class="form-control"
+              >
+                <option value="">Select</option>
+                <option value="0" selected>0(ECE)</option>
+                <option value="1">1(PGE)</option>
+                <option value="2">2(PGE)</option>
+                <option value="3">3(PGE)</option>
+                <option value="4">4(PGE)</option>
+                <option value="5">5(PGE)</option>
+              </select>
+            </div>
+            <div class="col col-xl-2 col-lg-2">Select subject</div>
+            <div class="col col-xl-2 col-lg-2">
+              <select
+                value=""
+                (change)="onselect_assesment_select($event)"
+                class="form-control"
+              >
+                <option value="">Select</option>
+                <option value="baseline" selected>Baseline</option>
+                <option *ngIf="selected_class == '0'" value="eceActivity">
+                  ECE Activity
+                </option>
+                <option *ngIf="selected_class != '0'" value="odia">
+                  Odia Activity
+                </option>
+                <option *ngIf="selected_class != '0'" value="math">
+                  Math Activity
+                </option>
+                <option *ngIf="selected_class != '0'" value="english">
+                  English Activity
+                </option>
+                <option value="assesment">Assesment</option>
+                <option value="endline">Endline</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body table-responsive" *ngIf="show_month">
+            <div class="row">
+              <div class="col col-xl-2 col-lg-2">Select Month</div>
+              <div class="col col-xl-2 col-lg-2">
+                <select
+                  value=""
+                  (change)="onselect_change_month($event)"
+                  class="form-control"
+                >
+                  <option value="">Select</option>
+                  <option value="month1" selected>month1</option>
+                  <option value="month2">month2</option>
+                  <option value="month3">month3</option>
+                  <option value="month4">month4</option>
+                  <option value="month5">month5</option>
+                  <option value="month6">month6</option>
+                  <option value="month7">month7</option>
+                  <option value="month8">month8</option>
+                  <option value="month9">month9</option>
+                  <option value="month10">month10</option>
+                  <option value="month11">month11</option>
+                  <option value="month12">month12</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
 
-				<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-					<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-				</div>
+        <div
+          id="loading_indicator"
+          class="loading_indicator"
+          [hidden]="hideLoading_indicator"
+        >
+          <span class=""
+            ><img src="assets/images/loader3.gif" alt="Loading. Please wait..."
+          /></span>
+        </div>
 
-				<div id="content_div" class="pad25" [hidden]="hideContent_div" >
-					<ngb-tabset>
-						 <!-- QUIZ TAB --> 
-						 <ngb-tab>
-							<ng-template ngbTabTitle><b>Assesment</b></ng-template>
-							<ng-template ngbTabContent>
-								<div class="tab_content_height margintop30">
-									<table class="table50">
-										<tr>
-											<td>
-												<span class="bold-font">Add Assesment:</span>
-												<span class="addbtn" (click)="open(addmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
-											</td>
-										</tr>
-										<tr *ngFor="let assessmentquestion of alldata; let i = index;" class="tbl_tr">
-											<td>
-												<div class="q_container">
-													<div class="row">
-														<div class="col col-xl-12 col-lg-12 q_div">
-															{{ i+1 }}. {{ assessmentquestion.assessmentquestion }}
-														</div>
-													</div>
-												</div>
-											</td>
-											<td class="tbl_td">
-												<div>
-													<span class="addbtn" (click)="open(editmodal,assessmentquestion,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-													<span class="delbtn" (click)="open(deletemodal,assessmentquestion._id,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-												</div>
-											</td>
-										</tr>
-									</table>
-								</div>
-								<!-- <div>
+        <div id="content_div" class="pad25" [hidden]="hideContent_div">
+          <ngb-tabset>
+            <!-- QUIZ TAB -->
+            <ngb-tab>
+              <ng-template ngbTabTitle><b>Assesment</b></ng-template>
+              <ng-template ngbTabContent>
+                <div class="tab_content_height margintop30">
+                  <table class="table50">
+                    <tr>
+                      <td>
+                        <span class="bold-font">Add Assesment:</span>
+                        <span
+                          class="addbtn"
+                          (click)="open(addmodal, null, null, 'add')"
+                          ><i class="fa fa-plus-square" aria-hidden="true"></i
+                        ></span>
+                      </td>
+                    </tr>
+                    <tr
+                      *ngFor="let assessmentquestion of alldata; let i = index"
+                      class="tbl_tr"
+                    >
+                      <td>
+                        <div class="q_container">
+                          <div class="row">
+                            <div class="col col-xl-12 col-lg-12 q_div">
+                              {{ i + 1 }}.
+                              {{ assessmentquestion.assessmentquestion }}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="tbl_td">
+                        <div>
+                          <span
+                            class="addbtn"
+                            (click)="
+                              open(editmodal, assessmentquestion, i, 'edit')
+                            "
+                            ><i
+                              class="fa fa-pencil-square-o"
+                              aria-hidden="true"
+                            ></i
+                          ></span>
+                          <span
+                            class="delbtn"
+                            (click)="
+                              open(
+                                deletemodal,
+                                assessmentquestion._id,
+                                i,
+                                'delete'
+                              )
+                            "
+                            ><i
+                              class="fa fa-minus-square"
+                              aria-hidden="true"
+                            ></i
+                          ></span>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <!-- <div>
 									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
 								</div> -->
-							</ng-template>
-						</ngb-tab>
-					</ngb-tabset>
-					
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
 
-					<!-- Quiz Modal starts from here -->
-					<ng-template #addmodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row padd15">
-								<input [(ngModel)]="add_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="addquiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-						
-					<ng-template #editmodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row padd15">
-								<input value="{{edit_q_question}}" [(ngModel)]="edit_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="updatequiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
+          <!-- Quiz Modal starts from here -->
+          <ng-template #addmodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row padd15">
+                <input
+                  [(ngModel)]="add_q_question"
+                  type="text"
+                  class="form-control input-underline input-lg"
+                  placeholder="Question"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button type="button" class="btn btn-primary" (click)="addquiz()">
+                &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
 
-					<!-- delete quiz -->
-					<ng-template #deletemodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row">
-							<img src="assets/images/warning.png" class="warning-icon">											
-							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record!</span>									
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-danger" (click)="delquiz()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					<ng-template #activitydeletemodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row">
-							<img src="assets/images/warning.png" class="warning-icon">											
-							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this file!</span>									
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-danger" (click)="deleteactivity()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					<ng-template #addactivitydoc let-c="close" let-d="dismiss">
-						<div class="modal-body">
-							<div style="width: 100%; padding: 10px;">
-								<button type="button" class="btn btn-light" (click)="c('Close click')" style="float: right;"><i class="fa fa-times" aria-hidden="true"></i></button>
-							</div>											
-							<div>
-								<div class="tab_content_height margintop30" style="  margin-right: 100px;
-									width: 462px;">
-										<table class="table50">
-											<tr>
-												<td>
-													<span class="bold-font">Upload Activity Document:</span>
-													<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-															<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-															attr.aria-valuenow="{{progress.percentage}}"
-															aria-valuemin="0" aria-valuemax="100" 
-															[ngStyle]="{width:progress.percentage+'%'}">
-															{{progress.percentage}}%
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="file-upload">
-														<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="pdf" />
-													</div>
-												</td>
-												<td>
-												
-												</td>
-											</tr>
-											<tr class="tbl_tr" *ngFor="let doc of activity_doc; let i = index;">
-												<td>
-													<div class="q_container">
-														<div class="row">
-															<span class="">
-																<img src="assets/images/filetypeicons/filetype_pdf.png" alt="Pdf File" class="iconsize" style="width: 100px;"/>
-															</span>
-															<span class="delbtn" (click)="open(activitydeletemodal, doc,i,'delete')" style="   margin-top: -15px;
-															margin-left: -18px;
-														"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-														</div>
-													</div>
-													
-													<div class="">
-														<!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
-															<span class="bold_font">{{ doc.displayname }}</span>
-														<!-- </a> -->
-													</div>
-												</td>
-												
-											</tr>
-										</table>
-									</div>
-									<button type="button" class="btn btn-primary" (click)="uploadactivitydoc()" style = "margin-top: 10px;margin-left: 307px;">Upload Documents</button>
-							</div>
-							
-						</div>
-					</ng-template>
-					<ng-template #deletecontentmodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row">
-							<img src="assets/images/warning.png" class="warning-icon">											
-							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record!</span>									
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-danger" (click)="deletecontent()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					<ng-template #deleteimagemodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row">
-							<img src="assets/images/warning.png" class="warning-icon">											
-							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record!</span>									
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-danger" (click)="delelteimage()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					<ng-template #deletevediomodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row">
-							<img src="assets/images/warning.png" class="warning-icon">											
-							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record!</span>									
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-danger" (click)="vediodelete()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					<div>
-						
-						<!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button> -->
-					</div>
-				</div>
-            </div>                       
-        </div>        
+          <ng-template #editmodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row padd15">
+                <input
+                  value="{{ edit_q_question }}"
+                  [(ngModel)]="edit_q_question"
+                  type="text"
+                  class="form-control input-underline input-lg"
+                  placeholder="Question"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="updatequiz()"
+              >
+                &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+
+          <!-- delete quiz -->
+          <ng-template #deletemodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row">
+                <img src="assets/images/warning.png" class="warning-icon" />
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this record!</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button type="button" class="btn btn-danger" (click)="delquiz()">
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+          <ng-template #activitydeletemodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row">
+                <img src="assets/images/warning.png" class="warning-icon" />
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this file!</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="deleteactivity()"
+              >
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+          <ng-template #addactivitydoc let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div style="width: 100%; padding: 10px">
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  (click)="c('Close click')"
+                  style="float: right"
+                >
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div>
+                <div
+                  class="tab_content_height margintop30"
+                  style="margin-right: 100px; width: 462px"
+                >
+                  <table class="table50">
+                    <tr>
+                      <td>
+                        <span class="bold-font">Upload Activity Document:</span>
+                        <div
+                          *ngIf="currentFileUpload"
+                          class="progress"
+                          [hidden]="hideProgressbar"
+                        >
+                          <div
+                            class="
+                              progress-bar
+                              progress-bar-info
+                              progress-bar-striped
+                            "
+                            role="progressbar"
+                            attr.aria-valuenow="{{ progress.percentage }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            [ngStyle]="{ width: progress.percentage + '%' }"
+                          >
+                            {{ progress.percentage }}%
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="file-upload">
+                          <input
+                            type="file"
+                            #fileInput
+                            (change)="filechooser_onchange($event)"
+                            accept="pdf"
+                          />
+                        </div>
+                      </td>
+                      <td></td>
+                    </tr>
+                    <tr
+                      class="tbl_tr"
+                      *ngFor="let doc of activity_doc; let i = index"
+                    >
+                      <td>
+                        <div class="q_container">
+                          <div class="row">
+                            <span class="">
+                              <img
+                                src="assets/images/filetypeicons/filetype_pdf.png"
+                                alt="Pdf File"
+                                class="iconsize"
+                                style="width: 100px"
+                              />
+                            </span>
+                            <span
+                              class="delbtn"
+                              (click)="
+                                open(activitydeletemodal, doc, i, 'delete')
+                              "
+                              style="margin-top: -15px; margin-left: -18px"
+                              ><i
+                                class="fa fa-minus-square"
+                                aria-hidden="true"
+                              ></i
+                            ></span>
+                          </div>
+                        </div>
+
+                        <div class="">
+                          <!-- <a href="{{ baseUrl }}{{ dt.s3name }}"> -->
+                          <span class="bold_font">{{ doc.displayname }}</span>
+                          <!-- </a> -->
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="uploadactivitydoc()"
+                  style="margin-top: 10px; margin-left: 307px"
+                >
+                  Upload Documents
+                </button>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #deletecontentmodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row">
+                <img src="assets/images/warning.png" class="warning-icon" />
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this record!</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="deletecontent()"
+              >
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+          <ng-template #deleteimagemodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row">
+                <img src="assets/images/warning.png" class="warning-icon" />
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this record!</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="delelteimage()"
+              >
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+          <ng-template #deletevediomodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row">
+                <img src="assets/images/warning.png" class="warning-icon" />
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this record!</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="vediodelete()"
+              >
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+          <div>
+            <!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button> -->
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
