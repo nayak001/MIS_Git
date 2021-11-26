@@ -69,6 +69,7 @@
     "@angular/cli": "7.0.4",
     "@angular/compiler-cli": "7.0.2",
     "@angular/language-service": "7.0.2",
+    "@schematics/angular": "^7.0.4",
     "@types/core-js": "^2.5.3",
     "@types/croppie": "^2.5.4",
     "@types/datatables.net": "^1.10.17",

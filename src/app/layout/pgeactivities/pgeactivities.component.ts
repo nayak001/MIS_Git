@@ -93,6 +93,7 @@ export class PgeactivitiesComponent implements OnInit {
     this.selected_class = "";
     this.selected_subject = "";
     this.selected_skillsetid = "";
+    this.selected_preflanguage = "od";
 
     this.content_value = "";
     this.video_value = [];

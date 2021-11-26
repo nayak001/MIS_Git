@@ -44,6 +44,7 @@ export class AssessmentmasterComponent implements OnInit {
     private assessmentmasterService: AssessmentmasterService,
     private modalService: NgbModal
   ) {
+    this.selected_preflanguage = "od";
     this.selected_program = "";
     this.selected_level = "";
     this.selected_subject = "";
@@ -116,6 +117,8 @@ export class AssessmentmasterComponent implements OnInit {
   }
 
   preflanguage_select_onchange(event) {
+    console.log("lang check", event);
+
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
