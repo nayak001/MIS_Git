@@ -426,34 +426,39 @@ export class PgeactivitiesComponent implements OnInit {
     } else {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
-      this.currentFileUpload = this.selectedFiles.item(0);
-      this.galleryService
-        .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-        .subscribe((event) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(
-              (100 * event.loaded) / event.total
-            );
-          } else if (event instanceof HttpResponse) {
-            this.hideProgressbar = true;
-            this.s3path = event.body["s3path"];
-            let newobj = {
-              type: "resources",
-              displayname: this.displayname,
-              s3name: this.s3name,
-              filetype: this.filetype,
-              s3_url: this.s3path,
-              preview_url: this.s3path,
-              value: this.s3path,
-            };
-            this.extraresources_list.push(newobj);
-            let body = {
-              extraresources: this.extraresources_list,
-            };
-            this.update_record(this.record_id, body);
-            this.modalReference.close();
-          }
-        });
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.displayname = this.selectedFiles[i].name;
+        this.filetype = this.displayname.split(".").pop();
+        this.s3name = new Date().getTime() + "." + this.filetype;
+        this.currentFileUpload = this.selectedFiles.item(i);
+        this.galleryService
+          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+          .subscribe((event) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
+            } else if (event instanceof HttpResponse) {
+              this.hideProgressbar = true;
+              this.s3path = event.body["s3path"];
+              let newobj = {
+                type: "resources",
+                displayname: this.displayname,
+                s3name: this.s3name,
+                filetype: this.filetype,
+                s3_url: this.s3path,
+                preview_url: this.s3path,
+                value: this.s3path,
+              };
+              this.extraresources_list.push(newobj);
+              let body = {
+                extraresources: this.extraresources_list,
+              };
+              this.update_record(this.record_id, body);
+              this.modalReference.close();
+            }
+          });
+      }
     }
   }
 
@@ -627,62 +632,66 @@ export class PgeactivitiesComponent implements OnInit {
       } else {
         this.hideProgressbar = false;
         this.progress.percentage = 0;
-
-        this.currentFileUpload = this.selectedFiles.item(0);
-        this.galleryService
-          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-          .subscribe((event) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round(
-                (100 * event.loaded) / event.total
-              );
-            } else if (event instanceof HttpResponse) {
-              this.s3path = event.body["s3path"];
-              this.hideProgressbar = true;
-              if (this.save_operation == "save") {
-                body = {
-                  preferedlanguage: this.selected_preflanguage,
-                  program: "pge",
-                  themeid: "",
-                  themename: "na",
-                  subject: this.selected_subject,
-                  class: this.selected_class,
-                  skillsetid: this.selected_skillsetid,
-                  skillsetname: this.selected_skillsetname,
-                  segment: [
-                    {
-                      type: "image_content",
-                      displayname: this.displayname,
-                      s3name: this.s3name,
-                      filetype: this.filetype,
-                      s3_url: this.s3path,
-                      preview_url: this.s3path,
-                      value: this.s3path,
-                    },
-                  ],
-                  extraresources: [],
-                };
-                this.save_record(body);
-                this.modalReference.close();
-              } else {
-                let newobj = {
-                  type: "image_content",
-                  displayname: this.displayname,
-                  s3name: this.s3name,
-                  filetype: this.filetype,
-                  s3_url: this.s3path,
-                  preview_url: this.s3path,
-                  value: this.s3path,
-                };
-                this.segments_list.push(newobj);
-                body = {
-                  segment: this.segments_list,
-                };
-                this.update_record(this.record_id, body);
-                this.modalReference.close();
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          this.displayname = this.selectedFiles[i].name;
+          this.filetype = this.displayname.split(".").pop();
+          this.s3name = new Date().getTime() + "." + this.filetype;
+          this.currentFileUpload = this.selectedFiles.item(i);
+          this.galleryService
+            .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+            .subscribe((event) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress.percentage = Math.round(
+                  (100 * event.loaded) / event.total
+                );
+              } else if (event instanceof HttpResponse) {
+                this.s3path = event.body["s3path"];
+                this.hideProgressbar = true;
+                if (this.save_operation == "save") {
+                  body = {
+                    preferedlanguage: this.selected_preflanguage,
+                    program: "pge",
+                    themeid: "",
+                    themename: "na",
+                    subject: this.selected_subject,
+                    class: this.selected_class,
+                    skillsetid: this.selected_skillsetid,
+                    skillsetname: this.selected_skillsetname,
+                    segment: [
+                      {
+                        type: "image_content",
+                        displayname: this.displayname,
+                        s3name: this.s3name,
+                        filetype: this.filetype,
+                        s3_url: this.s3path,
+                        preview_url: this.s3path,
+                        value: this.s3path,
+                      },
+                    ],
+                    extraresources: [],
+                  };
+                  this.save_record(body);
+                  this.modalReference.close();
+                } else {
+                  let newobj = {
+                    type: "image_content",
+                    displayname: this.displayname,
+                    s3name: this.s3name,
+                    filetype: this.filetype,
+                    s3_url: this.s3path,
+                    preview_url: this.s3path,
+                    value: this.s3path,
+                  };
+                  this.segments_list.push(newobj);
+                  body = {
+                    segment: this.segments_list,
+                  };
+                  this.update_record(this.record_id, body);
+                  this.modalReference.close();
+                }
               }
-            }
-          });
+            });
+        }
       }
     } else if (selected_tab == "video_tab") {
       if (this.selectedFiles == undefined || this.selectedFiles == null) {
@@ -690,62 +699,66 @@ export class PgeactivitiesComponent implements OnInit {
       } else {
         this.hideProgressbar = false;
         this.progress.percentage = 0;
-
-        this.currentFileUpload = this.selectedFiles.item(0);
-        this.galleryService
-          .pushFileToStorage(this.currentFileUpload, null, this.s3name)
-          .subscribe((event) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress.percentage = Math.round(
-                (100 * event.loaded) / event.total
-              );
-            } else if (event instanceof HttpResponse) {
-              this.s3path = event.body["s3path"];
-              this.hideProgressbar = true;
-              if (this.save_operation == "save") {
-                body = {
-                  preferedlanguage: this.selected_preflanguage,
-                  program: "pge",
-                  themeid: "",
-                  themename: "na",
-                  subject: this.selected_subject,
-                  class: this.selected_class,
-                  skillsetid: this.selected_skillsetid,
-                  skillsetname: this.selected_skillsetname,
-                  segment: [
-                    {
-                      type: "video_content",
-                      displayname: this.displayname,
-                      s3name: this.s3name,
-                      filetype: this.filetype,
-                      s3_url: this.s3path,
-                      preview_url: this.s3path,
-                      value: this.s3path,
-                    },
-                  ],
-                  extraresources: [],
-                };
-                this.save_record(body);
-                this.modalReference.close();
-              } else {
-                let newobj = {
-                  type: "video_content",
-                  displayname: this.displayname,
-                  s3name: this.s3name,
-                  filetype: this.filetype,
-                  s3_url: this.s3path,
-                  preview_url: this.s3path,
-                  value: this.s3path,
-                };
-                this.segments_list.push(newobj);
-                body = {
-                  segment: this.segments_list,
-                };
-                this.update_record(this.record_id, body);
-                this.modalReference.close();
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          this.displayname = this.selectedFiles[i].name;
+          this.filetype = this.displayname.split(".").pop();
+          this.s3name = new Date().getTime() + "." + this.filetype;
+          this.currentFileUpload = this.selectedFiles.item(i);
+          this.galleryService
+            .pushFileToStorage(this.currentFileUpload, null, this.s3name)
+            .subscribe((event) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progress.percentage = Math.round(
+                  (100 * event.loaded) / event.total
+                );
+              } else if (event instanceof HttpResponse) {
+                this.s3path = event.body["s3path"];
+                this.hideProgressbar = true;
+                if (this.save_operation == "save") {
+                  body = {
+                    preferedlanguage: this.selected_preflanguage,
+                    program: "pge",
+                    themeid: "",
+                    themename: "na",
+                    subject: this.selected_subject,
+                    class: this.selected_class,
+                    skillsetid: this.selected_skillsetid,
+                    skillsetname: this.selected_skillsetname,
+                    segment: [
+                      {
+                        type: "video_content",
+                        displayname: this.displayname,
+                        s3name: this.s3name,
+                        filetype: this.filetype,
+                        s3_url: this.s3path,
+                        preview_url: this.s3path,
+                        value: this.s3path,
+                      },
+                    ],
+                    extraresources: [],
+                  };
+                  this.save_record(body);
+                  this.modalReference.close();
+                } else {
+                  let newobj = {
+                    type: "video_content",
+                    displayname: this.displayname,
+                    s3name: this.s3name,
+                    filetype: this.filetype,
+                    s3_url: this.s3path,
+                    preview_url: this.s3path,
+                    value: this.s3path,
+                  };
+                  this.segments_list.push(newobj);
+                  body = {
+                    segment: this.segments_list,
+                  };
+                  this.update_record(this.record_id, body);
+                  this.modalReference.close();
+                }
               }
-            }
-          });
+            });
+        }
       }
     }
   }

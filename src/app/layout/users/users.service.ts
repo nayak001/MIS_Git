@@ -10,64 +10,28 @@ const baseUrl = environment.baseUrl;
 })
 export class UsersService {
 	constructor(private http: HttpClient) { }
-
-	getallusertypes(){
-		return this.http.get(baseUrl+'getallusertypes/',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text'
-		});
-	}
-
-	getallactiveusertypes(){
-		return this.http.get(baseUrl+'getallactiveusertypes/',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text'
-		});
-	}
-	getalluserCount() {
-		return this.http.get(baseUrl+'getalluserCount',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text'
-		});
-	}
-
-	gettotalusers(){
-		return this.http.get(baseUrl+'gettotalusers',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text'
-		});
-	}
-
 	gettotalusersbyusertype(usertype){
 		return this.http.get(baseUrl+'gettotalusersbyusertype/'+usertype,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
 	}
 
-	getalluser(page, limit){
-		return this.http.get(baseUrl+'getalluser?page_no=' + page + '&limit=' + limit,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text'
-		});
+	getdistrictsofstate(stateid){
+		return this.http.get(baseUrl+'getdistrictsofstate/'+stateid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
+	}
+
+	getblocksofdistricts(stateid, districtid){
+		return this.http.get(baseUrl+'getblocksofdistricts/'+stateid+'/'+districtid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
 	}
 
 	getuserbyuserid(userid){
-		return this.http.get(baseUrl+'getuserbyuserid/'+userid,
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text'
-		});
+		return this.http.get(baseUrl+'getuserbyuserid/'+userid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
 	}
 
-	getallactiveteacherprofiles(){
-		return this.http.get(baseUrl+'getallactiveteacherprofiles',
-		{
-			headers: new HttpHeaders().set('Content-Type', 'application/json')
-			//responseType: 'text'
-		});
+	getallprimarypasscodes(userid){
+		return this.http.get(baseUrl+'getallprimarypasscodes/'+userid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
+	}
+
+	getallschoolsregistered(){
+		return this.http.get(baseUrl+'getallschoolsregisteredgroupbypasscode',{headers: new HttpHeaders().set('Content-Type', 'application/json')});
 	}
 
 	createnewuser(user){
@@ -78,9 +42,9 @@ export class UsersService {
 		});
 	}
 
-	updateuser(id,user){
+	updateuser(id,body){
 		return this.http.put(baseUrl+'updateuser/'+id,
-		user,{
+		body,{
 			headers: new HttpHeaders().set('Content-Type', 'application/json')
 			,responseType: 'text'
 		});
