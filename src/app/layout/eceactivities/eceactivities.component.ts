@@ -29,6 +29,7 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_themeid = "";
     this.selected_skillsetid = "";
     this.selected_class = "";
+
     this.content_value = "";
     this.video_value = [];
 
@@ -62,7 +63,7 @@ export class EceactivitiesComponent implements OnInit {
 
   save_operation: string = "";
   record_id: string = "";
-  selected_preflanguage = "";
+  selected_preflanguage;
   selected_program: string = "ece";
   selected_subject: string = "";
   selected_themeid: string = "";
