@@ -344,7 +344,6 @@ export class UserswapComponent implements OnInit {
       newusername: this.new_username,
       emailid: this.new_userid,
       usertype: this.selected_usertype,
-      passcode: this.selected_passcode,
       schoolname: this.selected_schoolname,
       udisecode: this.selected_udisecode,
       phone: this.selected_phone,
