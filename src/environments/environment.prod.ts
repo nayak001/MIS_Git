@@ -1,12 +1,11 @@
 export const environment = {
   production: true,
-  //baseUrl: 'http://localhost:1234/thinkzone/',          // Local
-  //baseUrl: 'http://52.142.12.50:1234/thinkzone/',
+  //baseUrl: 'http://localhost:1234/thinkzone/',    // Local
+  //baseUrl: 'http://3.137.106.19:1234/thinkzone/', // Test IP
+  //baseUrl: "http://3.135.181.145:1234/thinkzone/", // Production IP
 
-  //baseUrl: "https://thinkzone.info/thinkzone/", // New Testing
-  //baseUrl: 'http://3.137.106.19:1234/thinkzone/', // New Testing
-  //baseUrl: 'https://thinkzone.org/thinkzone/', // Production
-  baseUrl: "http://3.135.181.145:1234/thinkzone/", // Production
+  //baseUrl: "https://thinkzone.info/thinkzone/", // Test https
+  //baseUrl: 'https://thinkzone.org/thinkzone/', // Production https
 
   ImageURL: "http://3.135.181.145:1234/thinkzone/getimage/",
   uploadURL: "http://3.135.181.145:1234/thinkzone/trainingcontentsuploads",
