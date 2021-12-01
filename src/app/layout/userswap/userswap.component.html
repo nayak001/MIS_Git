@@ -1,5 +1,4 @@
 <div [@routerTransition]>
-  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-3">
@@ -9,14 +8,37 @@
               <h4>USER SWAP</h4>
             </div>
             <div class="col">
-              <!-- <button
-                (click)="navigate_to_registrationpage(null)"
-                class="btn btn-sm btn-primary float-right"
-                type="button"
-              >
-                <i class="fa fa-user-plus" aria-hidden="true"></i
-                >&nbsp;&nbsp;&nbsp;Create New User
-              </button> -->
+              <div class="row">
+                <div
+                  class="col col-xl-4 col-lg-4"
+                  style="font-weight: bold; text-align: right; margin-top: 7px"
+                >
+                  User Type
+                </div>
+                <div class="col col-xl-4 col-lg-4">
+                  <select
+                    value="{{ selected_usertype }}"
+                    [(ngModel)]="selected_usertype"
+                    (change)="selected_usertype_onchange($event)"
+                    class="form-control"
+                  >
+                    <option *ngFor="let opt of usertypelist" value="{{ opt }}">
+                      {{ opt | titlecase }}
+                    </option>
+                  </select>
+                </div>
+                <!-- <div class="col col-xl-4 col-lg-4">
+                  <button
+                    (click)="open(newmanagermodal, null, 'new')"
+                    class="btn btn-sm btn-primary float-right"
+                    style="padding: 8px"
+                    type="button"
+                  >
+                    <i class="fa fa-user-plus" aria-hidden="true"></i
+                    >&nbsp;&nbsp;&nbsp;Create Manager
+                  </button>
+                </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -37,29 +59,18 @@
               <i class="fa fa-search" aria-hidden="true"></i
               ><span class="bold-font">&nbsp;Search</span>
             </div>
-            <div class="col">
-              <div class="form-group">
-                <select
-                  value="{{ selected_searchfilter }}"
-                  (change)="searchfilter_select_onchange($event)"
-                  class="form-control"
-                >
-                  <option value="username">Username</option>
-                  <option value="centername">Centername</option>
-                </select>
-              </div>
-            </div>
+
             <div class="col col-lg-8 col-md-8 col-sm-8">
               <input type="text" (keyup)="search($event.target.value)" />
             </div>
           </div>
           <div class="records_found">
-            {{ data ? data.length : 0 }} Record(s) found
+            {{ filterdata ? filterdata.length : 0 }} Record(s) found
           </div>
 
           <table
             class="table"
-            [mfData]="filterData"
+            [mfData]="filterdata"
             #mf="mfDataTable"
             [mfRowsOnPage]="10"
           >
@@ -77,51 +88,79 @@
                 />
               </div>
 
-              <div class="wraper">
-                <div (click)="show_user_details(userdetailmodal, user)">
-                  <h1>
-                    User id - <span>{{ user.userid }}</span>
-                  </h1>
+              <div
+                class="wraper"
+                (click)="open(userdetailmodal, user, 'details')"
+                style="cursor: pointer"
+              >
+                <div style="font-size: 20px; font-weight: bold">
+                  <div>{{ user.username | titlecase }}</div>
                 </div>
 
-                <div (click)="show_user_details(userdetailmodal, user)">
-                  <h1>
-                    Username -
-                    <span>{{ user.username | titlecase }}</span>
-                  </h1>
+                <div>
+                  <div>{{ user.userid }}</div>
+                </div>
+
+                <div
+                  class=""
+                  *ngIf="selected_usertype == 'manager'; else elsepart"
+                >
+                  <div>
+                    {{
+                      user.managertype ? (user.managertype | titlecase) : "NA"
+                    }}
+                  </div>
+                </div>
+                <ng-template #elsepart>
+                  <div>
+                    {{ user.usertype ? (user.usertype | titlecase) : "NA" }}
+                  </div>
+                </ng-template>
+
+                <div class="" *ngIf="selected_usertype == 'school'">
+                  <div>
+                    {{ user.schoolname | uppercase }} ({{ user.udisecode }})
+                  </div>
                 </div>
 
                 <div class="">
-                  <h1>
-                    UserType -
-                    <span>
-                      {{ user.usertype ? (user.usertype | titlecase) : "NA" }}
-                    </span>
-                  </h1>
+                  <div>
+                    Passcode-
+                    {{ user.passcode ? (user.passcode | uppercase) : "NA" }}
+                  </div>
                 </div>
 
-                <div class="">
-                  <h1>
-                    Manager name -
-                    <span>{{
+                <div
+                  *ngIf="
+                    user.usertype == 'anganwadi' ||
+                    user.usertype == 'fellow' ||
+                    user.usertype == 'school'
+                  "
+                  class=""
+                >
+                  <div>
+                    Manager -<span>{{
                       user.managername ? (user.managername | titlecase) : "NA"
                     }}</span>
-                  </h1>
+                  </div>
                 </div>
               </div>
               <div class="buttons">
-                <button
-                  (click)="navigate_to_registrationpage(user)"
+                <!-- <button
+                  class="btn btn-sm btn-danger float-right"
+                  (click)="delete_user(user._id)"
                   type="button"
-                >
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
-                </button>
-
-                <button
-                  type="button"
-                  (click)="deleteFormSubmitAction(user._id)"
                 >
                   <i class="fa fa-trash" aria-hidden="true"></i>
+                </button> -->
+                <button
+                  class="btn btn-sm btn-primary float-right"
+                  (click)="open(usereditmodal, user, 'edit')"
+                  type="button"
+                  style="margin-right: 5px"
+                >
+                  <i class="fa fa-exchange" aria-hidden="true"></i>
+                  Swap
                 </button>
               </div>
             </div>
@@ -129,6 +168,8 @@
             <div>
               <div>
                 <div colspan="4">
+                  <!-- <ngb-pagination (click)="getPageNo($event)" [collectionSize]="totalPage.count" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination> -->
+                  <!--<mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>-->
                   <mfBootstrapPaginator></mfBootstrapPaginator>
                 </div>
               </div>
@@ -149,115 +190,113 @@
       padding: 10px 50px;
     "
   >
-    {{ userdetail_username | titlecase }}
+    {{ selected_username | titlecase }}
   </div>
   <div style="width: 100%; height: 400px; overflow-x: hidden; overflow-y: auto">
     <div class="modal-body">
       <div class="row">
         <div class="col col-xl-3 col-lg-3">ID</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_userid }}
+          {{ selected_userid }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Password</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_password }}
+          {{ selected_password }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Type</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_usertype | titlecase }}
+          {{ selected_usertype | titlecase }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Gender</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_gender | titlecase }}
+          {{ selected_gender | titlecase }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Phone</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_phone }}
+          {{ selected_phone }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Address</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_address | titlecase }}
+          {{ selected_address | titlecase }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Email ID</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_emailid }}
+          {{ selected_emailid }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Status</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_status | titlecase }}
+          {{ selected_status | titlecase }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Center</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_centername | titlecase }}
+          {{ selected_centername | titlecase }}
         </div>
       </div>
       <div class="row">
         <div class="col col-xl-3 col-lg-3"></div>
-        <div class="col row-fluid">{{ userdetail_centerid }}</div>
+        <div class="col row-fluid">{{ selected_centerid }}</div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Manager</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_managername | titlecase }}
+          {{ selected_managername | titlecase }}
         </div>
       </div>
       <div class="row">
         <div class="col col-xl-3 col-lg-3"></div>
-        <div class="col row-fluid">{{ userdetail_managerid }}</div>
+        <div class="col row-fluid">{{ selected_managerid }}</div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">State</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_statevalue | titlecase }} ({{ userdetail_statecode }})
+          {{ selected_statename | titlecase }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">District</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_districtvalue | titlecase }} ({{
-            userdetail_districtid
-          }})
+          {{ selected_districtname | titlecase }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Block</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_block | titlecase }}
+          {{ selected_blockname | titlecase }}
         </div>
       </div>
       <hr />
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Joined on</div>
         <div class="col row-fluid" style="font-weight: bold">
-          {{ userdetail_createdon | date: "dd-MM-yyyy" }}
+          {{ selected_createdon | date: "dd-MM-yyyy" }}
         </div>
       </div>
     </div>
@@ -265,6 +304,483 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="c('Close click')">
       OK
+    </button>
+  </div>
+</ng-template>
+<ng-template #newmanagermodal let-c="close" let-d="dismiss">
+  <div
+    style="
+      font-size: 25px;
+      color: #ffffff;
+      background: #4a90ac;
+      padding: 10px 50px;
+    "
+  >
+    New Manager
+  </div>
+  <div style="width: 100%; height: 510px; overflow-x: hidden; overflow-y: auto">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">User ID</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="selected_userid"
+            [(ngModel)]="selected_userid"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="User ID"
+          />
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">User Name</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="selected_username"
+            [(ngModel)]="selected_username"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="User Name"
+          />
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Password</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="selected_password"
+            [(ngModel)]="selected_password"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="Password"
+          />
+        </div>
+      </div>
+
+      <!-- <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Passcode</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input [value]="selected_passcode" [(ngModel)]="selected_passcode" type="text" class="form-control input-underline input-lg" placeholder="Passcode">
+        </div>
+      </div> -->
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Mobile No.</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="selected_phone"
+            [(ngModel)]="selected_phone"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="Mobile Number"
+          />
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Manager Type</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_managertype }}"
+            (change)="selected_managertype_onchange($event)"
+            class="form-control"
+          >
+            <option value="manager">Manager</option>
+            <option value="crc">CRC</option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Gender</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_gender }}"
+            (change)="selected_gender_onchange($event)"
+            class="form-control"
+          >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Qualification</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_qualification }}"
+            (change)="selected_qualification_onchange($event)"
+            class="form-control"
+          >
+            <option value="matriculate">Matriculate</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="graduate">Graduate</option>
+            <option value="masters">Masters</option>
+            <option value="doctorate">Doctorate</option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">State</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_stateid }}"
+            (change)="selected_state_onchange($event)"
+            class="form-control"
+          >
+            <option value="20">Odisha</option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">District</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_districtid }}"
+            (change)="selected_district_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
+              {{ dist.districtname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Block</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_blockid }}"
+            (change)="selected_block_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option *ngFor="let block of allblockdata" value="{{ block._id }}">
+              {{ block.blockname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="create_user()">
+      Create Manager
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #usereditmodal let-c="close" let-d="dismiss">
+  <div
+    style="
+      font-size: 25px;
+      color: #ffbfbf;
+      background: #4a90ac;
+      padding: 5px 50px;
+      text-align: center;
+      text-decoration: underline;
+    "
+  >
+    <b>USER SWAP</b>
+  </div>
+  <div
+    style="
+      font-size: 25px;
+      color: #ffffff;
+      background: #4a90ac;
+      padding: 5px 50px;
+      text-align: center;
+    "
+  >
+    {{ selected_username }}
+  </div>
+  <div
+    style="
+      font-size: 14px;
+      color: #ffffff;
+      background: #4a90ac;
+      padding: 0px 50px;
+      text-align: center;
+    "
+  >
+    {{ selected_userid }}
+  </div>
+  <div style="width: 100%; height: 400px; overflow-x: hidden; overflow-y: auto">
+    <div class="modal-body">
+      <div class="loading_indicator" [hidden]="hideLoading_indicator2">
+        <span class=""
+          ><img src="assets/images/loader3.gif" alt="Loading. Please wait..."
+        /></span>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Old User id</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="selected_userid"
+            [(ngModel)]="selected_userid"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="Old User id"
+          />
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">New User id</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="new_userid"
+            [(ngModel)]="new_userid"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="New User id"
+          />
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">New User name</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="new_username"
+            [(ngModel)]="new_username"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="New User Name"
+          />
+        </div>
+      </div>
+
+      <div class="row bottomgap5" [hidden]="hide_usertype">
+        <div class="col col-xl-4 col-lg-4 form_label">User Type</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_usertype }}"
+            (change)="selected_usertype_onchange($event)"
+            class="form-control"
+          >
+            <option value="anganwadi">Anganwadi</option>
+            <option value="fellow">Fellow</option>
+            <option value="school">School</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row bottomgap5" [hidden]="hide_password">
+        <div class="col col-xl-4 col-lg-4 form_label">Password</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="selected_password"
+            [(ngModel)]="selected_password"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="Password"
+          />
+        </div>
+      </div>
+
+      <!-- <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Passcode</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_passcode }}"
+            (change)="selected_passcode_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let pass of passcodedata"
+              value="{{ pass.passcode }}"
+            >
+              {{ pass.passcode }}
+            </option>
+          </select>
+        </div>
+      </div> -->
+
+      <div class="row bottomgap5" [hidden]="hide_school">
+        <div class="col col-xl-4 col-lg-4 form_label">School</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_udisecode }}"
+            (change)="selected_school_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let school of schooldata"
+              value="{{ school.udisecode }}"
+            >
+              {{ school.schoolname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Mobile No.</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="selected_phone"
+            [(ngModel)]="selected_phone"
+            type="text"
+            class="form-control input-underline input-lg"
+            placeholder="Mobile Number"
+          />
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Gender</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_gender }}"
+            (change)="selected_gender_onchange($event)"
+            class="form-control"
+          >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Qualification</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_qualification }}"
+            (change)="selected_qualification_onchange($event)"
+            class="form-control"
+          >
+            <option value="matriculate">Matriculate</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="graduate">Graduate</option>
+            <option value="masters">Masters</option>
+            <option value="doctorate">Doctorate</option>
+          </select>
+        </div>
+      </div> -->
+
+      <!-- <div class="row bottomgap5" [hidden]="hide_manager">
+        <div class="col col-xl-4 col-lg-4 form_label">Manager</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select value="{{selected_managerid}}" (change)="selected_manager_onchange($event)" class="form-control">
+            <option value=""></option>
+          </select>
+        </div>
+      </div> -->
+
+      <div class="row bottomgap5" [hidden]="hide_managertype">
+        <div class="col col-xl-4 col-lg-4 form_label">Manager Type</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_managertype }}"
+            (change)="selected_managertype_onchange($event)"
+            class="form-control"
+          >
+            <option value="manager">Manager</option>
+            <option value="crc">CRC</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">State</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_stateid }}"
+            (change)="selected_state_onchange($event)"
+            class="form-control"
+          >
+            <option value="20">Odisha</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">District</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_districtid }}"
+            (change)="selected_district_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
+              {{ dist.districtname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Block</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_blockid }}"
+            (change)="selected_block_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option *ngFor="let block of allblockdata" value="{{ block._id }}">
+              {{ block.blockname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Status</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_status }}"
+            (change)="selected_status_onchange($event)"
+            class="form-control"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="update_user()">
+      Update
     </button>
   </div>
 </ng-template>
