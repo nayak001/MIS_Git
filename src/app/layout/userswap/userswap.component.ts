@@ -83,7 +83,7 @@ export class UserswapComponent implements OnInit {
   }
 
   ngOnInit() {}
-
+  
   getallUsers() {
     this.hideLoading_indicator = false;
     this.usersService.gettotalusersbyusertype(this.selected_usertype).subscribe(
@@ -191,6 +191,7 @@ export class UserswapComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_usertype = selectedOptionValue;
+
     this.getallUsers();
     this.setpasscodelist();
   }
@@ -415,6 +416,7 @@ export class UserswapComponent implements OnInit {
       this.setschoollist();
       this.setpasscodelist();
     }
+
     this.changeDetectorRef.detectChanges();
     this.modalReference = this.modalService.open(modal, {
       backdrop: "static",
@@ -429,7 +431,7 @@ export class UserswapComponent implements OnInit {
       }
     );
   }
-
+  
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return "by pressing ESC";
