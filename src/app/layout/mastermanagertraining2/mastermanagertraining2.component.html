@@ -1,327 +1,567 @@
 <div [@routerTransition]>
-    <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
-    <div class="row">
-        <div class="col col-xl-12 col-lg-12">
-            <div class="card mb-3">
-                <div class="card-header">
-					<div class="row">
-						<div class="col col-xl-4 col-lg-4">
-							<h4>MANAGERS TRAINING CONTENT</h4>
-						</div>
-					</div>					
-				</div>
-				
-				<div class="card-body table-responsive">
-					<div class="row divpad10">
-						<div class=" col col-lg-1 col-md-1 col-sm-1">
-							<button (click)="back_btn_click()" class="btn btn-light" type="button" style="border-radius: 1.25rem;"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;&nbsp;Back</button>
-						</div>
-						<div class=" col col-lg-1 col-md-1 col-sm-1 bttm">Module:</div>
-						<div class=" col col-lg-4 col-md-4 col-sm-4 bttm bold-font">{{ selected_modulename | titlecase }}</div>
-						<div class=" col col-lg-2 col-md-2 col-sm-2 bttm">Submodule:</div>
-						<div class=" col col-lg-4 col-md-4 col-sm-4 bttm bold-font">{{ selected_submodulename | titlecase }}</div>
-					</div>
-				</div>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>MANAGERS TRAINING CONTENT</h4>
+            </div>
+          </div>
+        </div>
 
-				<div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-					<span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-				</div>
+        <div class="card-body table-responsive">
+          <div class="row divpad10">
+            <div class="col col-lg-1 col-md-1 col-sm-1">
+              <button
+                (click)="back_btn_click()"
+                class="btn btn-light"
+                type="button"
+                style="border-radius: 1.25rem"
+              >
+                <i class="fa fa-arrow-circle-left" aria-hidden="true"></i
+                >&nbsp;&nbsp;Back
+              </button>
+            </div>
+            <div class="col col-lg-1 col-md-1 col-sm-1 bttm">Module:</div>
+            <div class="col col-lg-4 col-md-4 col-sm-4 bttm bold-font">
+              {{ selected_modulename | titlecase }}
+            </div>
+            <div class="col col-lg-2 col-md-2 col-sm-2 bttm">Submodule:</div>
+            <div class="col col-lg-4 col-md-4 col-sm-4 bttm bold-font">
+              {{ selected_submodulename | titlecase }}
+            </div>
+          </div>
+        </div>
 
-				<!-- =================================================== -->
-				
-				<div class="card-body table-responsive">
-					<div class="card-body">
-						<ngb-tabset>
-							<ngb-tab>
-								<ng-template ngbTabTitle><b>CONTENTS</b></ng-template>
-								<ng-template ngbTabContent>
-									<div class="tab_content_height">
-										<!-- text content -->
-										<div>
-											<ckeditor [editor]="Editor"  [(ngModel)]="content_value" data="{{content_value}}"></ckeditor>
-										</div>
-									</div>
-									<div>
-										<button (click)="save_btn_click('text')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</ng-template>
-							</ngb-tab>
+        <div
+          id="loading_indicator"
+          class="loading_indicator"
+          [hidden]="hideLoading_indicator"
+        >
+          <span class=""
+            ><img src="assets/images/loader3.gif" alt="Loading. Please wait..."
+          /></span>
+        </div>
 
-							<ngb-tab>
-								<ng-template ngbTabTitle><b>QUIZES</b></ng-template>
-								<ng-template ngbTabContent>
-									<div class="tab_content_height">
-										<!-- quiz content -->
-										<table class="table50">
-											<tr>
-												<td>
-													<span class="spanbtn" (click)="open(addmodal,null,null,'add')"><i class="fa fa-plus-square" aria-hidden="true"></i> ADD QUIZ</span>
-												</td>
-											</tr>
-											<tr *ngFor="let quiz of quiz_value; let i = index;" class="tbl_tr">
-												<td>
-													<div class="q_container">
-														<div class="row">
-															<div class="col col-xl-12 col-lg-12 q_div">
-																{{ i+1 }}. {{ quiz.question }}
-															</div>
-														</div>
-														<div class="row">
-															<div class="col col-xl-6 col-lg-6">
-																A. {{ quiz.A }}
-															</div>
-															<div class="col col-xl-6 col-lg-6">
-																B. {{ quiz.B }}
-															</div>
-														</div>
-														<div class="row">
-															<div class="col col-xl-6 col-lg-6">
-																C. {{ quiz.C }}
-															</div>
-															<div class="col col-xl-6 col-lg-6">
-																D. {{ quiz.D }}
-															</div>
-														</div>
-														<div class="row">
-															<div class="col col-xl-12 col-lg-12 ans_div">
-																Ans. {{ quiz.answer | uppercase }}
-															</div>
-														</div>
-													</div>
-												</td>
-												<td class="tbl_td">
-													<div>
-														<span class="addbtn" (click)="open(editmodal,quiz,i,'edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-														<span class="delbtn" (click)="open(deletemodal,quiz,i,'delete')"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-													</div>
-												</td>
-											</tr>
-										</table>
-									</div>
-									<div>
-										<button (click)="save_btn_click('quiz')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</ng-template>
-							</ngb-tab>
+        <!-- =================================================== -->
 
-							<ngb-tab>
-								<ng-template ngbTabTitle><b>IMAGES</b></ng-template>
-								<ng-template ngbTabContent>
-									<div class="tab_content_height">
-										<!-- image content -->
-										<table class="table50">
-											<tr>
-												<td>
-													<span class="bold-font">Upload image:</span>
-													<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-															<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-															attr.aria-valuenow="{{progress.percentage}}"
-															aria-valuemin="0" aria-valuemax="100" 
-															[ngStyle]="{width:progress.percentage+'%'}">
-															{{progress.percentage}}%
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr style="border: 1px solid gray; background-color: #d9d8d8;">
-												<td>
-													<div class="file-upload">
-														<!-- <input type="file" name="image" ng2FileSelect [uploader]="uploader" accept="image/x-png,image/gif,image/jpeg" /> -->
-														<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="image/x-png,image/gif,image/jpeg" />
-													</div>
-												</td>
-												<td>
-													<!-- <button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp; Upload &nbsp;&nbsp;&nbsp;</button> -->
-													<!-- <button class="btn btn-success" [disabled]="!selectedFiles" (click)="uploadfile_button_click()">Upload</button> -->
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="image_preview_container">
-														<div class="image_preview" *ngFor="let flash of flashcard_value; let i = index;">
-															<div>
-																<img src="{{ flash.s3path }}" class="image" />
-															</div>
-															<div class="delbtn" (click)="delete_button_click('image', flash, i)">
-																<i class="fa fa-times-circle" aria-hidden="true"></i>
-															</div>
-														</div>
-													</div>
-												</td>
-												<td></td>
-											</tr>
-										</table>
-									</div>
-									<div>
-										<button (click)="save_btn_click('image')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</ng-template>
-							</ngb-tab>
+        <div class="card-body table-responsive">
+          <div class="card-body">
+            <ngb-tabset>
+              <ngb-tab>
+                <ng-template ngbTabTitle><b>CONTENTS</b></ng-template>
+                <ng-template ngbTabContent>
+                  <div class="tab_content_height">
+                    <!-- text content -->
+                    <div>
+                      <ckeditor
+                        [editor]="Editor"
+                        [(ngModel)]="content_value"
+                        data="{{ content_value }}"
+                      ></ckeditor>
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      (click)="save_btn_click('text')"
+                      class="btn btn-sm btn-primary float-right"
+                      type="button"
+                    >
+                      &nbsp;&nbsp;&nbsp;
+                      {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;
+                    </button>
+                  </div>
+                </ng-template>
+              </ngb-tab>
 
-							<ngb-tab>
-								<ng-template ngbTabTitle><b>VIDEOS</b></ng-template>
-								<ng-template ngbTabContent>
-									<div class="tab_content_height">
-										<table class="table50">
-											<tr>
-												<td>
-													<span class="bold-font">Upload video:</span>
-													<div *ngIf="currentFileUpload" class="progress" [hidden]="hideProgressbar">
-															<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" 
-															attr.aria-valuenow="{{progress.percentage}}"
-															aria-valuemin="0" aria-valuemax="100" 
-															[ngStyle]="{width:progress.percentage+'%'}">
-															{{progress.percentage}}%
-														</div>
-													</div>
-												</td>
-											</tr>
-											<tr style="border: 1px solid gray; background-color: #d9d8d8;">
-												<td>
-													<div class="file-upload">
-														<input type="file" #fileInput (change)="filechooser_onchange($event)" accept="video/mp4,video/x-m4v,video/*" />
-													</div>
-												</td>
-												<td></td>
-											</tr>
-											<tr>
-												<td>
-													<div class="image_preview_container">
-														<div class="image_preview" *ngFor="let video of video_value; let i = index;">
-															<div style="text-align: center;">
-																<span><img class="lazy" src="assets/images/play-circle.svg" alt="play video" style="width: 50%;"></span><br>
-																<span class="">{{ video.displayname }}</span>
-															</div>
-															<div class="delbtn" (click)="delete_button_click('video', video, i)">
-																<i class="fa fa-times-circle" aria-hidden="true"></i>
-															</div>
-														</div>
-													</div>
-												</td>
-												<td></td>
-											</tr>
-										</table>
-									</div>
-									<div>
-										<button (click)="save_btn_click('video')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
-									</div>
-								</ng-template>
-							</ngb-tab>
-						</ngb-tabset>
-					</div>
-				</div>
-				<!-- =================================================== -->
+              <ngb-tab>
+                <ng-template ngbTabTitle><b>QUIZES</b></ng-template>
+                <ng-template ngbTabContent>
+                  <div class="tab_content_height">
+                    <!-- quiz content -->
+                    <table class="table50">
+                      <tr>
+                        <td>
+                          <span
+                            class="spanbtn"
+                            (click)="open(addmodal, null, null, 'add')"
+                            ><i
+                              class="fa fa-plus-square"
+                              aria-hidden="true"
+                            ></i>
+                            ADD QUIZ</span
+                          >
+                        </td>
+                      </tr>
+                      <tr
+                        *ngFor="let quiz of quiz_value; let i = index"
+                        class="tbl_tr"
+                      >
+                        <td>
+                          <div class="q_container">
+                            <div class="row">
+                              <div class="col col-xl-12 col-lg-12 q_div">
+                                {{ i + 1 }}. {{ quiz.question }}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col col-xl-6 col-lg-6">
+                                A. {{ quiz.A }}
+                              </div>
+                              <div class="col col-xl-6 col-lg-6">
+                                B. {{ quiz.B }}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col col-xl-6 col-lg-6">
+                                C. {{ quiz.C }}
+                              </div>
+                              <div class="col col-xl-6 col-lg-6">
+                                D. {{ quiz.D }}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col col-xl-12 col-lg-12 ans_div">
+                                Ans. {{ quiz.answer | uppercase }}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="tbl_td">
+                          <div>
+                            <span
+                              class="addbtn"
+                              (click)="open(editmodal, quiz, i, 'edit')"
+                              ><i
+                                class="fa fa-pencil-square-o"
+                                aria-hidden="true"
+                              ></i
+                            ></span>
+                            <span
+                              class="delbtn"
+                              (click)="open(deletemodal, quiz, i, 'delete')"
+                              ><i
+                                class="fa fa-minus-square"
+                                aria-hidden="true"
+                              ></i
+                            ></span>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div>
+                    <button
+                      (click)="save_btn_click('quiz')"
+                      class="btn btn-sm btn-primary float-right"
+                      type="button"
+                    >
+                      &nbsp;&nbsp;&nbsp;
+                      {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;
+                    </button>
+                  </div>
+                </ng-template>
+              </ngb-tab>
 
-				<div id="" class="" [hidden]="hideContent_div" >
-					<!-- Quiz Modal starts from here -->
-					<ng-template #addmodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row padd15">
-								<input [(ngModel)]="add_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
-							</div>
-							<div class="row marginb10">
-								<div class="col col-lg-1 col-md-1">A</div>
-								<div class="col col-lg-4 col-md-4">
-									<input [(ngModel)]="add_q_optionA" type="text" class="form-control input-underline input-lg" placeholder="Option A">
-								</div>
-								<div class="col col-lg-2 col-md-2"></div>
-								<div class="col col-lg-1 col-md-1">B</div>
-								<div class="col col-lg-4 col-md-4">
-									<input [(ngModel)]="add_q_optionB" type="text" class="form-control input-underline input-lg" placeholder="Option B">
-								</div>
-							</div>
-							<div class="row marginb10">
-								<div class="col col-lg-1 col-md-1">C</div>
-								<div class="col col-lg-4 col-md-4">
-									<input [(ngModel)]="add_q_optionC" type="text" class="form-control input-underline input-lg" placeholder="Option C">
-								</div>
-								<div class="col col-lg-2 col-md-2"></div>
-								<div class="col col-lg-1 col-md-1">D</div>
-								<div class="col col-lg-4 col-md-4">
-									<input [(ngModel)]="add_q_optionD" type="text" class="form-control input-underline input-lg" placeholder="Option D">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col col-lg-1 col-md-1">Ans</div>
-								<div class="col col-lg-4 col-md-4">
-									<select value="" (change)="onselect_addq_select($event)" class="form-control">
-										<option value="">Select</option>
-										<option value="A">A</option>
-										<option value="B">B</option>
-										<option value="C">C</option>
-										<option value="D">D</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="addquiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-					
-						
-					<ng-template #editmodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row padd15">
-								<input value="{{edit_q_question}}" [(ngModel)]="edit_q_question" type="text" class="form-control input-underline input-lg" placeholder="Question">
-							</div>
-							<div class="row marginb10">
-								<div class="col col-lg-1 col-md-1">A</div>
-								<div class="col col-lg-4 col-md-4">
-									<input value="{{edit_q_optionA}}" [(ngModel)]="edit_q_optionA" type="text" class="form-control input-underline input-lg" placeholder="Option A">
-								</div>
-								<div class="col col-lg-2 col-md-2"></div>
-								<div class="col col-lg-1 col-md-1">B</div>
-								<div class="col col-lg-4 col-md-4">
-									<input value="{{edit_q_optionB}}" [(ngModel)]="edit_q_optionB" type="text" class="form-control input-underline input-lg" placeholder="Option B">
-								</div>
-							</div>
-							<div class="row marginb10">
-								<div class="col col-lg-1 col-md-1">C</div>
-								<div class="col col-lg-4 col-md-4">
-									<input value="{{edit_q_optionC}}" [(ngModel)]="edit_q_optionC" type="text" class="form-control input-underline input-lg" placeholder="Option C">
-								</div>
-								<div class="col col-lg-2 col-md-2"></div>
-								<div class="col col-lg-1 col-md-1">D</div>
-								<div class="col col-lg-4 col-md-4">
-									<input value="{{edit_q_optionD}}" [(ngModel)]="edit_q_optionD" type="text" class="form-control input-underline input-lg" placeholder="Option D">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col col-lg-1 col-md-1">Ans</div>
-								<div class="col col-lg-4 col-md-4">
-									<select value="{{edit_q_ans}}" (change)="onselect_editq_select($event)" class="form-control">
-										<option value="">Select</option>
-										<option value="A">A</option>
-										<option value="B">B</option>
-										<option value="C">C</option>
-										<option value="D">D</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-primary" (click)="updatequiz()">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
+              <ngb-tab>
+                <ng-template ngbTabTitle><b>IMAGES</b></ng-template>
+                <ng-template ngbTabContent>
+                  <div class="tab_content_height">
+                    <!-- image content -->
+                    <table class="table50">
+                      <tr>
+                        <td>
+                          <span class="bold-font">Upload image:</span>
+                          <div
+                            *ngIf="currentFileUpload"
+                            class="progress"
+                            [hidden]="hideProgressbar"
+                          >
+                            <div
+                              class="
+                                progress-bar
+                                progress-bar-info
+                                progress-bar-striped
+                              "
+                              role="progressbar"
+                              attr.aria-valuenow="{{ progress.percentage }}"
+                              aria-valuemin="0"
+                              aria-valuemax="100"
+                              [ngStyle]="{ width: progress.percentage + '%' }"
+                            >
+                              {{ progress.percentage }}%
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        style="
+                          border: 1px solid gray;
+                          background-color: #d9d8d8;
+                        "
+                      >
+                        <td>
+                          <div class="file-upload">
+                            <!-- <input type="file" name="image" ng2FileSelect [uploader]="uploader" accept="image/x-png,image/gif,image/jpeg" /> -->
+                            <input
+                              multiple
+                              type="file"
+                              #fileInput
+                              (change)="filechooser_onchange($event)"
+                              accept="image/x-png,image/gif,image/jpeg"
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <!-- <button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-sm btn-primary" type="button">&nbsp;&nbsp;&nbsp; Upload &nbsp;&nbsp;&nbsp;</button> -->
+                          <!-- <button class="btn btn-success" [disabled]="!selectedFiles" (click)="uploadfile_button_click()">Upload</button> -->
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="image_preview_container">
+                            <div
+                              class="image_preview"
+                              *ngFor="
+                                let flash of flashcard_value;
+                                let i = index
+                              "
+                            >
+                              <div>
+                                <img src="{{ flash.s3path }}" class="image" />
+                              </div>
+                              <div
+                                class="delbtn"
+                                (click)="delete_button_click('image', flash, i)"
+                              >
+                                <i
+                                  class="fa fa-times-circle"
+                                  aria-hidden="true"
+                                ></i>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div>
+                    <button
+                      (click)="save_btn_click('image')"
+                      class="btn btn-sm btn-primary float-right"
+                      type="button"
+                    >
+                      &nbsp;&nbsp;&nbsp;
+                      {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;
+                    </button>
+                  </div>
+                </ng-template>
+              </ngb-tab>
 
-					<!-- delete quiz -->
-					<ng-template #deletemodal let-c="close" let-d="dismiss">
-						<div class="modal-body">											
-							<div class="row">
-							<img src="assets/images/warning.png" class="warning-icon">											
-							<span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this records!</span>									
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-							<button type="button" class="btn btn-danger" (click)="delquiz()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-						</div>
-					</ng-template>
-				</div>
-            </div>                       
-        </div>        
+              <ngb-tab>
+                <ng-template ngbTabTitle><b>VIDEOS</b></ng-template>
+                <ng-template ngbTabContent>
+                  <div class="tab_content_height">
+                    <table class="table50">
+                      <tr>
+                        <td>
+                          <span class="bold-font">Upload video:</span>
+                          <div
+                            *ngIf="currentFileUpload"
+                            class="progress"
+                            [hidden]="hideProgressbar"
+                          >
+                            <div
+                              class="
+                                progress-bar
+                                progress-bar-info
+                                progress-bar-striped
+                              "
+                              role="progressbar"
+                              attr.aria-valuenow="{{ progress.percentage }}"
+                              aria-valuemin="0"
+                              aria-valuemax="100"
+                              [ngStyle]="{ width: progress.percentage + '%' }"
+                            >
+                              {{ progress.percentage }}%
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        style="
+                          border: 1px solid gray;
+                          background-color: #d9d8d8;
+                        "
+                      >
+                        <td>
+                          <div class="file-upload">
+                            <input
+                              multiple
+                              type="file"
+                              #fileInput
+                              (change)="filechooser_onchange($event)"
+                              accept="video/mp4,video/x-m4v,video/*"
+                            />
+                          </div>
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="image_preview_container">
+                            <div
+                              class="image_preview"
+                              *ngFor="let video of video_value; let i = index"
+                            >
+                              <div style="text-align: center">
+                                <span
+                                  ><img
+                                    class="lazy"
+                                    src="assets/images/play-circle.svg"
+                                    alt="play video"
+                                    style="width: 50%" /></span
+                                ><br />
+                                <span class="">{{ video.displayname }}</span>
+                              </div>
+                              <div
+                                class="delbtn"
+                                (click)="delete_button_click('video', video, i)"
+                              >
+                                <i
+                                  class="fa fa-times-circle"
+                                  aria-hidden="true"
+                                ></i>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div>
+                    <button
+                      (click)="save_btn_click('video')"
+                      class="btn btn-sm btn-primary float-right"
+                      type="button"
+                    >
+                      &nbsp;&nbsp;&nbsp;
+                      {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;
+                    </button>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
+        <!-- =================================================== -->
+
+        <div id="" class="" [hidden]="hideContent_div">
+          <!-- Quiz Modal starts from here -->
+          <ng-template #addmodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row padd15">
+                <input
+                  [(ngModel)]="add_q_question"
+                  type="text"
+                  class="form-control input-underline input-lg"
+                  placeholder="Question"
+                />
+              </div>
+              <div class="row marginb10">
+                <div class="col col-lg-1 col-md-1">A</div>
+                <div class="col col-lg-4 col-md-4">
+                  <input
+                    [(ngModel)]="add_q_optionA"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Option A"
+                  />
+                </div>
+                <div class="col col-lg-2 col-md-2"></div>
+                <div class="col col-lg-1 col-md-1">B</div>
+                <div class="col col-lg-4 col-md-4">
+                  <input
+                    [(ngModel)]="add_q_optionB"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Option B"
+                  />
+                </div>
+              </div>
+              <div class="row marginb10">
+                <div class="col col-lg-1 col-md-1">C</div>
+                <div class="col col-lg-4 col-md-4">
+                  <input
+                    [(ngModel)]="add_q_optionC"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Option C"
+                  />
+                </div>
+                <div class="col col-lg-2 col-md-2"></div>
+                <div class="col col-lg-1 col-md-1">D</div>
+                <div class="col col-lg-4 col-md-4">
+                  <input
+                    [(ngModel)]="add_q_optionD"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Option D"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col col-lg-1 col-md-1">Ans</div>
+                <div class="col col-lg-4 col-md-4">
+                  <select
+                    value=""
+                    (change)="onselect_addq_select($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button type="button" class="btn btn-primary" (click)="addquiz()">
+                &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+
+          <ng-template #editmodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row padd15">
+                <input
+                  value="{{ edit_q_question }}"
+                  [(ngModel)]="edit_q_question"
+                  type="text"
+                  class="form-control input-underline input-lg"
+                  placeholder="Question"
+                />
+              </div>
+              <div class="row marginb10">
+                <div class="col col-lg-1 col-md-1">A</div>
+                <div class="col col-lg-4 col-md-4">
+                  <input
+                    value="{{ edit_q_optionA }}"
+                    [(ngModel)]="edit_q_optionA"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Option A"
+                  />
+                </div>
+                <div class="col col-lg-2 col-md-2"></div>
+                <div class="col col-lg-1 col-md-1">B</div>
+                <div class="col col-lg-4 col-md-4">
+                  <input
+                    value="{{ edit_q_optionB }}"
+                    [(ngModel)]="edit_q_optionB"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Option B"
+                  />
+                </div>
+              </div>
+              <div class="row marginb10">
+                <div class="col col-lg-1 col-md-1">C</div>
+                <div class="col col-lg-4 col-md-4">
+                  <input
+                    value="{{ edit_q_optionC }}"
+                    [(ngModel)]="edit_q_optionC"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Option C"
+                  />
+                </div>
+                <div class="col col-lg-2 col-md-2"></div>
+                <div class="col col-lg-1 col-md-1">D</div>
+                <div class="col col-lg-4 col-md-4">
+                  <input
+                    value="{{ edit_q_optionD }}"
+                    [(ngModel)]="edit_q_optionD"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Option D"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col col-lg-1 col-md-1">Ans</div>
+                <div class="col col-lg-4 col-md-4">
+                  <select
+                    value="{{ edit_q_ans }}"
+                    (change)="onselect_editq_select($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="updatequiz()"
+              >
+                &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+
+          <!-- delete quiz -->
+          <ng-template #deletemodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row">
+                <img src="assets/images/warning.png" class="warning-icon" />
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this records!</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button type="button" class="btn btn-danger" (click)="delquiz()">
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
