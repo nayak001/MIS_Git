@@ -545,6 +545,20 @@
       </div>
 
       <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Swap Type</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ swapType }}"
+            (change)="swapType_onchange($event)"
+            class="form-control"
+          >
+            <option value="newuser">New User</option>
+            <option value="olduser" [selected]="isSelected">Old User</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
         <div class="col col-xl-4 col-lg-4 form_label">Old User id</div>
         <div class="col row-fluid" style="font-weight: bold">
           <input

@@ -61,8 +61,15 @@ export class UserswapService {
     });
   }
 
-  swapuser(data) {
+  swapnewuser(data) {
     return this.http.post(baseUrl + "transferuserownership", data, {
+      headers: new HttpHeaders().set("Content-Type", "application/json"),
+      responseType: "text",
+    });
+  }
+
+  swapolduser(data) {
+    return this.http.post(baseUrl + "transferolduserownership", data, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       responseType: "text",
     });
