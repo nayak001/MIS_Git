@@ -220,6 +220,19 @@ const routes: Routes = [
         loadChildren: "./tchbaseline/tchbaseline.module#TchbaselineModule",
       },
       {
+        path: "nsdcexam",
+        loadChildren: "./nsdcexam/nsdcexam.module#NsdcExamModule",
+      },
+      {
+        path: "nsdcmastermodule",
+        loadChildren:
+          "./masternsdcmodule/masternsdcmodule.module#MasterNsdcModule",
+      },
+      {
+        path: "backtomaster",
+        loadChildren: "./nsdcexam/nsdcexam.module#NsdcExamModule",
+      },
+      {
         path: "leapgeneralinfo",
         loadChildren:
           "./leapgeneralinfo/leapgeneralinfo.module#LeapgeneralinfoModule",
