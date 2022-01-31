@@ -467,6 +467,7 @@
                   >Extension like .mp4, .pdf etc are NOT required.</b
                 ><br /><br />
                 <input
+                  multiple
                   [(ngModel)]="video_file_name"
                   type="text"
                   class="form-control input-underline input-lg"
@@ -562,6 +563,7 @@
                         <td>
                           <div class="file-upload">
                             <input
+                              multiple
                               type="file"
                               #fileInput
                               (change)="filechooser_onchange($event)"
@@ -639,6 +641,7 @@
                         <td>
                           <div class="file-upload">
                             <input
+                              multiple
                               type="file"
                               #fileInput
                               (change)="videochooser_onchange($event)"
@@ -810,6 +813,7 @@
                       <td>
                         <div class="file-upload">
                           <input
+                            multiple
                             type="file"
                             #fileInput
                             (change)="edit_filechooser_onchange($event)"
@@ -965,6 +969,7 @@
                       <td>
                         <div class="file-upload">
                           <input
+                            multiple
                             type="file"
                             #fileInput
                             (change)="edit_videochooser_onchange($event)"
