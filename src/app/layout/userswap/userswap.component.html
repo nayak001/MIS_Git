@@ -201,13 +201,13 @@
         </div>
       </div>
       <hr />
-      <div class="row">
+      <!-- <div class="row">
         <div class="col col-xl-3 col-lg-3">Password</div>
         <div class="col row-fluid" style="font-weight: bold">
           {{ selected_password }}
         </div>
       </div>
-      <hr />
+      <hr /> -->
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Type</div>
         <div class="col row-fluid" style="font-weight: bold">
@@ -229,13 +229,13 @@
         </div>
       </div>
       <hr />
-      <div class="row">
+      <!-- <div class="row">
         <div class="col col-xl-3 col-lg-3">Address</div>
         <div class="col row-fluid" style="font-weight: bold">
           {{ selected_address | titlecase }}
         </div>
       </div>
-      <hr />
+      <hr /> -->
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Email ID</div>
         <div class="col row-fluid" style="font-weight: bold">
@@ -250,7 +250,7 @@
         </div>
       </div>
       <hr />
-      <div class="row">
+      <!-- <div class="row">
         <div class="col col-xl-3 col-lg-3">Center</div>
         <div class="col row-fluid" style="font-weight: bold">
           {{ selected_centername | titlecase }}
@@ -260,7 +260,7 @@
         <div class="col col-xl-3 col-lg-3"></div>
         <div class="col row-fluid">{{ selected_centerid }}</div>
       </div>
-      <hr />
+      <hr /> -->
       <div class="row">
         <div class="col col-xl-3 col-lg-3">Manager</div>
         <div class="col row-fluid" style="font-weight: bold">
@@ -520,6 +520,7 @@
       background: #4a90ac;
       padding: 5px 50px;
       text-align: center;
+      text-transform: capitalize;
     "
   >
     {{ selected_username }}
@@ -541,6 +542,20 @@
         <span class=""
           ><img src="assets/images/loader3.gif" alt="Loading. Please wait..."
         /></span>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">Swap Type</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ swapType }}"
+            (change)="swapType_onchange($event)"
+            class="form-control"
+          >
+            <option value="newuser">New User</option>
+            <option value="olduser" [selected]="isSelected">Old User</option>
+          </select>
+        </div>
       </div>
 
       <div class="row bottomgap5">
@@ -582,7 +597,7 @@
         </div>
       </div>
 
-      <div class="row bottomgap5" [hidden]="hide_usertype">
+      <!-- <div class="row bottomgap5" [hidden]="hide_usertype">
         <div class="col col-xl-4 col-lg-4 form_label">User Type</div>
         <div class="col row-fluid" style="font-weight: bold">
           <select
@@ -595,9 +610,9 @@
             <option value="school">School</option>
           </select>
         </div>
-      </div>
+      </div> -->
 
-      <div class="row bottomgap5" [hidden]="hide_password">
+      <!-- <div class="row bottomgap5" [hidden]="hide_password">
         <div class="col col-xl-4 col-lg-4 form_label">Password</div>
         <div class="col row-fluid" style="font-weight: bold">
           <input
@@ -608,7 +623,7 @@
             placeholder="Password"
           />
         </div>
-      </div>
+      </div> -->
 
       <!-- <div class="row bottomgap5">
         <div class="col col-xl-4 col-lg-4 form_label">Passcode</div>

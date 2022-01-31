@@ -31,6 +31,7 @@ export class UserswapComponent implements OnInit {
   selected_userid: string = "";
   new_userid: string = "";
   new_username: string = "";
+  swapType: string = "olduser";
   selected_username: string = "";
   selected_password: string = "";
   selected_passcode: string = "";
@@ -60,6 +61,7 @@ export class UserswapComponent implements OnInit {
   hide_school: boolean = false;
   hide_manager: boolean = false;
   hide_managertype: boolean = false;
+  isSelected: boolean = true;
 
   //-------------
   selected_emailid: string = "";
@@ -83,7 +85,7 @@ export class UserswapComponent implements OnInit {
   }
 
   ngOnInit() {}
-  
+
   getallUsers() {
     this.hideLoading_indicator = false;
     this.usersService.gettotalusersbyusertype(this.selected_usertype).subscribe(
@@ -183,6 +185,15 @@ export class UserswapComponent implements OnInit {
         (error) => {},
         () => {}
       );
+  }
+
+  swapType_onchange(event: Event) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    // const selectedElementText = selectedOptions[selectedIndex].text;
+    this.swapType = selectedOptionValue;
+    console.log("swapType", this.swapType);
   }
 
   selected_usertype_onchange(event: Event) {
@@ -357,25 +368,43 @@ export class UserswapComponent implements OnInit {
       blockname: this.selected_blockname,
     };
 
-    console.log("swap data --->>>", data);
+    console.log("swap data --->>>", this.swapType);
 
     if (this.edituser_validation()) {
       this.hideLoading_indicator = false;
-      this.usersService.swapuser(data).subscribe(
-        (res) => {
-          this.hideLoading_indicator = true;
-          this.modalReference.close();
-          this.getallUsers();
-          this.reset_defaults();
-          console.log(res);
+      if (this.swapType == "olduser") {
+        this.usersService.swapolduser(data).subscribe(
+          (res) => {
+            this.hideLoading_indicator = true;
+            this.modalReference.close();
+            this.getallUsers();
+            this.reset_defaults();
+            console.log(res);
 
-          swal.fire("Success", "Data updated successfully.", "success");
-        },
-        (error) => {
-          console.log("swap err", error);
-        },
-        () => {}
-      );
+            swal.fire("Success", "User swapped successfully.", "success");
+          },
+          (error) => {
+            console.log("swap err", error);
+          },
+          () => {}
+        );
+      } else {
+        this.usersService.swapnewuser(data).subscribe(
+          (res) => {
+            this.hideLoading_indicator = true;
+            this.modalReference.close();
+            this.getallUsers();
+            this.reset_defaults();
+            console.log(res);
+
+            swal.fire("Success", "User swapped successfully.", "success");
+          },
+          (error) => {
+            console.log("swap err", error);
+          },
+          () => {}
+        );
+      }
     }
   }
 
@@ -431,7 +460,7 @@ export class UserswapComponent implements OnInit {
       }
     );
   }
-  
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return "by pressing ESC";
@@ -472,6 +501,7 @@ export class UserswapComponent implements OnInit {
     this.new_userid = "";
     this.new_username = "";
     this.data_to_db = {};
+    this.swapType = "olduser";
     this.show_hide();
   }
 
