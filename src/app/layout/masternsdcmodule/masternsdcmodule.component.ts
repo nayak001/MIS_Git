@@ -227,10 +227,9 @@ export class MasterNsdcComponent implements OnInit {
   all_fellows: any;
   async load_record() {
     // getalluser;
-    this.MasterNsdcService.getalluser().subscribe(
+    this.MasterNsdcService.getnsdcusers().subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
-          console.log("this.all_fellows", this.all_fellows);
           this.all_fellows = data;
         } else {
           this.all_fellows = [];
@@ -239,8 +238,62 @@ export class MasterNsdcComponent implements OnInit {
       (error) => {},
       () => {}
     );
+    // this.MasterNsdcService.getnsdcexamquestions("subjective").subscribe(
+    //   (data) => {
+    //     if (Object.keys(data).length > 0) {
+    //       this.dataid = data[0]._id;
+    //       this.quiz_value = data;
+    //       this.save_operation = "save";
+    //     } else {
+    //       this.quiz_value = [];
+    //     }
+    //   },
+    //   (error) => {},
+    //   () => {}
+    // );
   }
-
+  selected_user: any;
+  user_select_onchange() {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+    this.selected_user = selectedOptionValue;
+    this.MasterNsdcService.getansfromuser(this.selected_user).subscribe(
+      (data) => {
+        if (Object.keys(data).length > 0) {
+          this.quiz_value = data[0].questionanswer;
+        } else {
+        }
+      },
+      (error) => {},
+      () => {}
+    );
+  }
+  secured_mark: any;
+  save_mark() {
+    if (
+      this.secured_mark == "" ||
+      this.secured_mark == undefined ||
+      this.selected_user == undefined
+    ) {
+      swal.fire("info", "Please select user and mark!", "warning");
+    } else {
+      const body = {
+        evaluate: "complete",
+        score: this.secured_mark,
+        userid: this.selected_user,
+      };
+      this.MasterNsdcService.updateuserstatus(body).subscribe(
+        (data) => {
+          swal.fire("Success", "user status updated successfully", "success");
+          this.load_record();
+        },
+        (error) => {},
+        () => {}
+      );
+    }
+  }
   addquiz() {
     if (this.add_q_question == "" || this.selected_qans_val_add == "") {
       swal.fire(

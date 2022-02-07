@@ -25,7 +25,11 @@ export class MasterNsdcService {
       }
     );
   }
-
+  getnsdcexamquestions(questiontype) {
+    return this.http.get(baseUrl + "getnsdcexamquestions/" + questiontype, {
+      headers: new HttpHeaders().set("Content-Type", "application/json"),
+    });
+  }
   createteacherassesment(formData) {
     return this.http.post(baseUrl + "createteacherassessment", formData, {
       headers: new HttpHeaders()
@@ -34,7 +38,14 @@ export class MasterNsdcService {
       //,responseType: 'text'
     });
   }
-
+  updateuserstatus(formData) {
+    return this.http.post(baseUrl + "updateuserstatus", formData, {
+      headers: new HttpHeaders()
+        .set("enctype", "multipart/form-data")
+        .set("Accept", "application/json"),
+      //,responseType: 'text'
+    });
+  }
   updateteacherassesment(id, body) {
     return this.http.put(baseUrl + "updateteacherassessment/" + id, body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
@@ -80,26 +91,26 @@ export class MasterNsdcService {
     );
   }
 
-  getalluser() {
-    return this.http.get(baseUrl + "getalluser", {
+  getnsdcusers() {
+    return this.http.get(baseUrl + "getnsdcusers", {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //responseType: 'text'
     });
   }
 
-  createnewuser(user) {
-    return this.http.post(baseUrl + "createnewuser", user, {
+  getansfromuser(userid) {
+    return this.http.get(baseUrl + "getansfromuser/" + userid, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
-      responseType: "text",
+      //responseType: 'text'
     });
   }
 
-  updateuser(id, user) {
-    return this.http.put(baseUrl + "updateuser/" + id, user, {
-      headers: new HttpHeaders().set("Content-Type", "application/json"),
-      responseType: "text",
-    });
-  }
+  // updateuserstatus(body) {
+  //   return this.http.post(baseUrl + "updateuserstatus/" + body, {
+  //     headers: new HttpHeaders().set("Content-Type", "application/json"),
+  //     //responseType: "text",
+  //   });
+  // }
 
   deleteuser(id) {
     return this.http.delete(baseUrl + "deleteuser/" + id, {

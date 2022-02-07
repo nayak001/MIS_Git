@@ -26,8 +26,8 @@ export class NsdcExamService {
     });
   }
 
-  updateteacherassesment(id, body) {
-    return this.http.put(baseUrl + "updateteacherassessment/" + id, body, {
+  updatensdcquestion(id, body) {
+    return this.http.put(baseUrl + "updatensdcquestion/" + id, body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //responseType: 'text'
     });
@@ -45,7 +45,7 @@ export class NsdcExamService {
     });
   }
   deletecontent(id) {
-    return this.http.delete(baseUrl + "deleteteacherassessment/" + id, {
+    return this.http.put(baseUrl + "deletensdcquestion/" + id, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //,responseType: 'text'
     });

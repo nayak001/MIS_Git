@@ -45,13 +45,6 @@ export class NsdcExamComponent implements OnInit {
   selected_qans_val_add: string = "";
   selected_qans_text_add: string = "";
   currentFileUpload: File;
-  hideProgressbar: boolean = true;
-  progress: { percentage: number } = { percentage: 0 };
-  s3path: string = "";
-  currentvedioFileUpload: File;
-  hidevedioProgressbar: boolean = true;
-  vedioprogress: { percentage: number } = { percentage: 0 };
-  // quiz - edit
   edit_q_index: string = "";
   edit_q_qid: string = "";
   edit_q_question: string = "";
@@ -72,9 +65,6 @@ export class NsdcExamComponent implements OnInit {
   selected_modulename: string = "";
   selected_submoduleid: string = "";
   selected_submodulename: string = "";
-  public alltopic_list: any;
-  selected_topicid: any;
-  selected_topicname: any;
   public data: any;
   modalReference: any;
   closeResult: string;
@@ -84,24 +74,10 @@ export class NsdcExamComponent implements OnInit {
   hideContent_div: boolean;
 
   record_id: string = "";
-  content_value: string = "";
-  worksheet_value: any = [];
-  video_value: any = [];
-  flashcard_value: any = [];
   quiz_value: any = [];
   contents: any = [];
   selectedvedioFiles: any;
   displayvedioname: any;
-  vediofiletype: any;
-  s3vedioname: any;
-  edit_selectedFiles: any;
-  edit_displayname: any;
-  edit_filetype: any;
-  edit_s3name: any;
-  edit_selectedvedioFiles: any;
-  edit_displayvedioname: any;
-  edit_vediofiletype: any;
-  edit_s3vedioname: any;
   selected_question_type: any;
   objective_quiz_value: any;
   objective_dataid: any;
@@ -127,14 +103,6 @@ export class NsdcExamComponent implements OnInit {
     this.load_record();
   }
   selected_assesment: any = "baseline";
-  onselect_assesment_select(event) {
-    const selectedOptions = event.target["options"];
-    const selectedIndex = selectedOptions.selectedIndex;
-    const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_assesment = selectedOptionValue;
-    this.load_record();
-  }
   selected_category: any = "pedagogy";
   onselect_category_select(event) {
     const selectedOptions = event.target["options"];
@@ -164,6 +132,7 @@ export class NsdcExamComponent implements OnInit {
   }
   delete_q_qid: any;
   open(content, obj, index, flag) {
+    console.log("111111", content, obj, index, flag);
     // update
     if (flag == "add") {
       this.add_q_qid = "";
@@ -175,13 +144,14 @@ export class NsdcExamComponent implements OnInit {
       this.add_q_ans = "";
     } else if (flag == "edit") {
       this.edit_q_index = index;
-      this.edit_q_qid = obj.qid;
+      // this.edit_q_qid = obj.qid;
       this.edit_q_question = obj.question;
       this.edit_q_optionA = obj.A;
       this.edit_q_optionB = obj.B;
       this.edit_q_optionC = obj.C;
       this.edit_q_optionD = obj.D;
       this.edit_q_ans = obj.answer;
+      this.edit_q_qid = obj._id;
     } else if (flag == "delete") {
       this.delete_q_index = index;
       this.delete_q_qid = obj._id;
@@ -211,18 +181,6 @@ export class NsdcExamComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-  preflanguage_select_onchange(event) {
-    const selectedOptions = event.target["options"];
-    const selectedIndex = selectedOptions.selectedIndex;
-    const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_preflanguage = selectedOptionValue;
-    this.load_record();
-    // this.load_allmodules_list(this.selected_preflanguage);
-    // this.allsubmodules_list = [];
-    // this.alltopic_list=[];
-    // this.data = [];
-  }
   onselect_question_type(event) {
     this.add_q_question = "";
     const selectedOptions = event.target["options"];
@@ -230,13 +188,6 @@ export class NsdcExamComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_question_type = selectedOptionValue;
-  }
-  reset_contents() {
-    this.content_value = "";
-    this.video_value = [];
-    this.worksheet_value = [];
-    this.flashcard_value = [];
-    this.quiz_value = [];
   }
   dataid: any;
   async load_record() {
@@ -259,10 +210,8 @@ export class NsdcExamComponent implements OnInit {
     );
   }
   callMyFunction(value) {
-    console.log("hello", value);
     this.NsdcExamService.getnsdcexamquestions(value).subscribe(
       (data) => {
-        console.log("here", data);
         if (Object.keys(data).length > 0) {
           if (value == "objective") {
             this.objective_dataid = data[0]._id;
@@ -322,12 +271,9 @@ export class NsdcExamComponent implements OnInit {
   // this.modalReference.close();
   //}
   async delquiz() {
-    var contentdata;
-    var record_id;
-
     this.NsdcExamService.deletecontent(this.delete_q_qid).subscribe(
       (data) => {
-        swal.fire("Success", "Record updated successfully", "success");
+        swal.fire("Success", "Record deleted successfully", "success");
         this.load_record();
       },
       (error) => {},
@@ -336,7 +282,6 @@ export class NsdcExamComponent implements OnInit {
   }
 
   async save_btn_click() {
-    console.log("hii", this.add_q_question);
     if (this.add_q_question == "") {
       swal.fire("error", "Please add questions", "error");
     } else {
@@ -352,7 +297,6 @@ export class NsdcExamComponent implements OnInit {
           answer: this.selected_qans_val_add,
           questiontype: this.selected_question_type,
         };
-        console.log("here", body);
         this.NsdcExamService.savensdcexamquestions(body).subscribe(
           (data) => {
             swal.fire("Success", "assesment created successfully", "success");
@@ -367,7 +311,6 @@ export class NsdcExamComponent implements OnInit {
     }
   }
   async update_btn_click(value) {
-    console.log("i am here", value);
     if (this.save_operation == "update") {
       if (value == "subjective") {
         this.edit_q_optionA = "";
@@ -382,7 +325,6 @@ export class NsdcExamComponent implements OnInit {
           C: this.edit_q_optionC,
           D: this.edit_q_optionD,
           answer: this.selected_qans_val_edit,
-          questiontype: this.selected_question_type,
         };
       } else {
         var body = {
@@ -393,11 +335,9 @@ export class NsdcExamComponent implements OnInit {
           C: this.edit_q_optionC,
           D: this.edit_q_optionD,
           answer: this.selected_qans_val_edit,
-          questiontype: this.selected_question_type,
         };
       }
-
-      this.NsdcExamService.updateteacherassesment(this.dataid, body).subscribe(
+      this.NsdcExamService.updatensdcquestion(this.edit_q_qid, body).subscribe(
         (data) => {
           swal.fire("Success", "assesment updated successfully", "success");
           this.load_record();
