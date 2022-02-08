@@ -1,0 +1,539 @@
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>NSDC Assesment questions</h4>
+            </div>
+            <div class="col"></div>
+            <div class="col">
+              <button
+                (click)="nsdc_mastermoduleload()"
+                class="btn btn-sm btn-primary float-right"
+                type="button"
+              >
+                &nbsp;&nbsp;&nbsp;View Answer&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body table-responsive">
+          <div class="row">
+            <div class="col col-xl-3 col-lg-3">
+              <div>
+                Add Quiz<span
+                  class="addbtn"
+                  (click)="open(addmodal, null, null, 'add')"
+                  style="margin-right: 89px; margin-top: 45px"
+                  ><i class="fa fa-plus-square" aria-hidden="true"></i
+                ></span>
+              </div>
+
+              <!-- <button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button" style="margin-right: 89px;
+						  margin-top: 45px;">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
+						</div> -->
+            </div>
+          </div>
+
+          <div
+            id="loading_indicator"
+            class="loading_indicator"
+            [hidden]="hideLoading_indicator"
+          >
+            <span class=""
+              ><img
+                src="assets/images/loader3.gif"
+                alt="Loading. Please wait..."
+            /></span>
+          </div>
+
+          <div id="content_div" class="pad25" [hidden]="hideContent_div">
+            <ngb-tabset>
+              <!-- QUIZ TAB -->
+              <ngb-tab>
+                <ng-template ngbTabTitle
+                  ><b (click)="callMyFunction('subjective')"
+                    >Subjective</b
+                  ></ng-template
+                >
+                <ng-template ngbTabContent>
+                  <div class="tab_content_height margintop30">
+                    <table class="table50">
+                      <tr></tr>
+                      <tr>
+                        <td>
+                          <span class="bold-font">Quizes:</span>
+                        </td>
+                      </tr>
+                      <tr
+                        *ngFor="let quiz of quiz_value; let i = index"
+                        class="tbl_tr"
+                      >
+                        <td>
+                          <div class="q_container">
+                            <div class="row">
+                              <div class="col col-xl-12 col-lg-12 q_div">
+                                {{ i + 1 }}. {{ quiz.question }}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="tbl_td">
+                          <div>
+                            <span
+                              class="addbtn"
+                              (click)="
+                                open(subjectiveeditmodal, quiz, i, 'edit')
+                              "
+                              ><i
+                                class="fa fa-pencil-square-o"
+                                aria-hidden="true"
+                              ></i
+                            ></span>
+                            <span
+                              class="delbtn"
+                              (click)="open(deletemodal, quiz, i, 'delete')"
+                              ><i
+                                class="fa fa-minus-square"
+                                aria-hidden="true"
+                              ></i
+                            ></span>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <!-- <div>
+									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
+								</div> -->
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab>
+                <ng-template ngbTabTitle
+                  ><b (click)="callMyFunction('objective')"
+                    >Objective</b
+                  ></ng-template
+                >
+                <ng-template ngbTabContent>
+                  <div class="tab_content_height margintop30">
+                    <table class="table50">
+                      <tr></tr>
+                      <tr>
+                        <td>
+                          <span class="bold-font">Quizes:</span>
+                        </td>
+                      </tr>
+                      <tr
+                        *ngFor="let quiz of objective_quiz_value; let i = index"
+                        class="tbl_tr"
+                      >
+                        <td>
+                          <div class="q_container">
+                            <div class="row">
+                              <div class="col col-xl-12 col-lg-12 q_div">
+                                {{ i + 1 }}. {{ quiz.question }}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col col-xl-6 col-lg-6">
+                                A. {{ quiz.A }}
+                              </div>
+                              <div class="col col-xl-6 col-lg-6">
+                                B. {{ quiz.B }}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col col-xl-6 col-lg-6">
+                                C. {{ quiz.C }}
+                              </div>
+                              <div class="col col-xl-6 col-lg-6">
+                                D. {{ quiz.D }}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col col-xl-12 col-lg-12 ans_div">
+                                Ans. {{ quiz.answer | uppercase }}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="tbl_td">
+                          <div>
+                            <span
+                              class="addbtn"
+                              (click)="open(editmodal, quiz, i, 'edit')"
+                              ><i
+                                class="fa fa-pencil-square-o"
+                                aria-hidden="true"
+                              ></i
+                            ></span>
+                            <span
+                              class="delbtn"
+                              (click)="open(deletemodal, quiz, i, 'delete')"
+                              ><i
+                                class="fa fa-minus-square"
+                                aria-hidden="true"
+                              ></i
+                            ></span>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <!-- <div>
+									<button [disabled]="disable_button" (click)="save_btn_click('quiz_tab')" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button>
+								</div> -->
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+
+            <!-- Quiz Modal starts from here -->
+            <ng-template #addmodal let-c="close" let-d="dismiss">
+              <div class="modal-body">
+                <div class="row padd15">
+                  <div style="margin: 10px; margin-left: 1px">
+                    Select Question Type
+                  </div>
+                  <select
+                    value=""
+                    (change)="onselect_question_type($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option value="subjective" selected>Subjective</option>
+                    <option value="objective">Objective</option>
+                  </select>
+                </div>
+                <div class="row padd15">
+                  <input
+                    [(ngModel)]="add_q_question"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Question"
+                  />
+                </div>
+                <div
+                  class="row marginb10"
+                  *ngIf="this.selected_question_type === 'objective'"
+                >
+                  <div class="col col-lg-1 col-md-1">A</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <input
+                      [(ngModel)]="add_q_optionA"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Option A"
+                    />
+                  </div>
+                  <div class="col col-lg-2 col-md-2"></div>
+                  <div class="col col-lg-1 col-md-1">B</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <input
+                      [(ngModel)]="add_q_optionB"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Option B"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="row marginb10"
+                  *ngIf="this.selected_question_type === 'objective'"
+                >
+                  <div class="col col-lg-1 col-md-1">C</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <input
+                      [(ngModel)]="add_q_optionC"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Option C"
+                    />
+                  </div>
+                  <div class="col col-lg-2 col-md-2"></div>
+                  <div class="col col-lg-1 col-md-1">D</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <input
+                      [(ngModel)]="add_q_optionD"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Option D"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="row"
+                  *ngIf="this.selected_question_type === 'objective'"
+                >
+                  <div class="col col-lg-1 col-md-1">Ans</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <select
+                      value=""
+                      (change)="onselect_addq_select($event)"
+                      class="form-control"
+                    >
+                      <option value="">Select</option>
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                      <option value="D">D</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="c('Close click')"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="save_btn_click('quiz_tab')"
+                >
+                  &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </ng-template>
+
+            <ng-template #editmodal let-c="close" let-d="dismiss">
+              <div class="modal-body">
+                <div class="row padd15">
+                  <input
+                    value="{{ edit_q_question }}"
+                    [(ngModel)]="edit_q_question"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Question"
+                  />
+                </div>
+                <div class="row marginb10">
+                  <div class="col col-lg-1 col-md-1">A</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <input
+                      value="{{ edit_q_optionA }}"
+                      [(ngModel)]="edit_q_optionA"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Option A"
+                    />
+                  </div>
+                  <div class="col col-lg-2 col-md-2"></div>
+                  <div class="col col-lg-1 col-md-1">B</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <input
+                      value="{{ edit_q_optionB }}"
+                      [(ngModel)]="edit_q_optionB"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Option B"
+                    />
+                  </div>
+                </div>
+                <div class="row marginb10">
+                  <div class="col col-lg-1 col-md-1">C</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <input
+                      value="{{ edit_q_optionC }}"
+                      [(ngModel)]="edit_q_optionC"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Option C"
+                    />
+                  </div>
+                  <div class="col col-lg-2 col-md-2"></div>
+                  <div class="col col-lg-1 col-md-1">D</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <input
+                      value="{{ edit_q_optionD }}"
+                      [(ngModel)]="edit_q_optionD"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Option D"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col col-lg-1 col-md-1">Ans</div>
+                  <div class="col col-lg-4 col-md-4">
+                    <select
+                      value="{{ edit_q_ans }}"
+                      (change)="onselect_editq_select($event)"
+                      class="form-control"
+                    >
+                      <option value="">Select</option>
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                      <option value="D">D</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="c('Close click')"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="update_btn_click('objective')"
+                >
+                  &nbsp;&nbsp;&nbsp;update&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </ng-template>
+            <!-- subjective  quiz -->
+            <ng-template #subjectiveeditmodal let-c="close" let-d="dismiss">
+              <div class="modal-body">
+                <div class="row padd15">
+                  <input
+                    value="{{ edit_q_question }}"
+                    [(ngModel)]="edit_q_question"
+                    type="text"
+                    class="form-control input-underline input-lg"
+                    placeholder="Question"
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="c('Close click')"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="update_btn_click('subjective')"
+                >
+                  &nbsp;&nbsp;&nbsp;update&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </ng-template>
+            <!-- delete quiz -->
+            <ng-template #deletemodal let-c="close" let-d="dismiss">
+              <div class="modal-body">
+                <div class="row">
+                  <img src="assets/images/warning.png" class="warning-icon" />
+                  <span class="col col-xl-9 col-lg-9"
+                    >Are you sure, you want to remove this record!</span
+                  >
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="c('Close click')"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="delquiz()"
+                >
+                  &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </ng-template>
+            <ng-template #deletecontentmodal let-c="close" let-d="dismiss">
+              <div class="modal-body">
+                <div class="row">
+                  <img src="assets/images/warning.png" class="warning-icon" />
+                  <span class="col col-xl-9 col-lg-9"
+                    >Are you sure, you want to remove this record!</span
+                  >
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="c('Close click')"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="deletecontent()"
+                >
+                  &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </ng-template>
+            <ng-template #deleteimagemodal let-c="close" let-d="dismiss">
+              <div class="modal-body">
+                <div class="row">
+                  <img src="assets/images/warning.png" class="warning-icon" />
+                  <span class="col col-xl-9 col-lg-9"
+                    >Are you sure, you want to remove this record!</span
+                  >
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="c('Close click')"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="delelteimage()"
+                >
+                  &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </ng-template>
+            <ng-template #deletevediomodal let-c="close" let-d="dismiss">
+              <div class="modal-body">
+                <div class="row">
+                  <img src="assets/images/warning.png" class="warning-icon" />
+                  <span class="col col-xl-9 col-lg-9"
+                    >Are you sure, you want to remove this record!</span
+                  >
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="c('Close click')"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="vediodelete()"
+                >
+                  &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </ng-template>
+            <div>
+              <!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
