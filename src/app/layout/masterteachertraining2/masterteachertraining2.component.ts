@@ -581,8 +581,8 @@ export class Masterteachertraining2Component implements OnInit {
     } else {
       this.hidevedioProgressbar = false;
       this.vedioprogress.percentage = 0;
-      for (let i = 0; i < this.selectedFiles.length; i++) {
-        this.displayname = this.selectedFiles[i].name;
+      for (let i = 0; i < this.selectedvedioFiles.length; i++) {
+        this.displayname = this.selectedvedioFiles[i].name;
         this.filetype = this.displayname.split(".").pop();
         this.s3name = new Date().getTime() + "." + this.filetype;
         this.currentvedioFileUpload = this.selectedvedioFiles.item(i);
@@ -881,11 +881,13 @@ export class Masterteachertraining2Component implements OnInit {
       .subscribe(
         (data) => {
           swal.fire("Success", "Record updated successfully", "success");
+          /*
           this.updatetchtrainingpercentage(
             this.selected_moduleid,
             this.selected_submoduleid,
             this.selected_topicid
           );
+          */
           this.load_record();
         },
         (error) => {},
@@ -979,6 +981,7 @@ export class Masterteachertraining2Component implements OnInit {
       this.text_to_preview = obj.content;
     } else if (flag == "previewvediomodal") {
       this.vedio_to_preview = obj.content;
+      console.log("###this.vedio_to_preview: ", this.vedio_to_preview);
     }
     this.modalReference = this.modalService.open(content, {
       backdrop: "static",
