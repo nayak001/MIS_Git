@@ -247,6 +247,14 @@
             <span>{{ "Teacher Baseline" | translate }}</span>
           </a>
           <a
+            [routerLink]="['/nsdcexam']"
+            [routerLinkActive]="['router-link-active']"
+            class="list-group-item"
+          >
+            <i class="fa fa-fw fa-grav"></i>&nbsp;
+            <span>{{ "NSDC" | translate }}</span>
+          </a>
+          <a
             [routerLink]="['/ppt']"
             [routerLinkActive]="['router-link-active']"
             class="list-group-item"
