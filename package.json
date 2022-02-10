@@ -57,7 +57,7 @@
     "ngx-infinite-scroll": "^9.1.0",
     "ngx-sortable": "^1.0.3",
     "ngx-swiper-wrapper": "^10.0.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "rxjs": "6.3.3",
     "sweetalert2": "^8.18.3",
     "tslib": "^1.11.1",
