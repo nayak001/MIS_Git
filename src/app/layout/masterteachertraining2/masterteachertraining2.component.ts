@@ -20,7 +20,7 @@ const URL = environment.uploadURL;
 export class Masterteachertraining2Component implements OnInit {
   // video
   isSelected: boolean = true;
-  selected_preflanguage: any;
+  selected_preflanguage: string = "od";
   disable_button: boolean;
   video_file_name: string = "";
   divs: number[] = [];
@@ -112,7 +112,6 @@ export class Masterteachertraining2Component implements OnInit {
   ) {
     this.hideLoading_indicator = true;
     this.hideContent_div = true;
-    this.selected_preflanguage = "en";
   }
 
   ngOnInit() {

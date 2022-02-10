@@ -33,7 +33,7 @@
                 <option value="">Select</option>
                 <option value="en">English</option>
                 <option value="od" [selected]="isSelected">ଓଡିଆ</option>
-                <option value="hi">हिंदी</option>
+                <!-- <option value="hi">हिंदी</option> -->
               </select>
             </div>
             <div class="col col-xl-2 col-lg-2">Select class</div>
@@ -44,8 +44,8 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-                <option value="0" selected>0(ECE)</option>
-                <option value="1">1(PGE)</option>
+                <!-- <option value="0" >0(ECE)</option> -->
+                <option value="1" selected>1(PGE)</option>
                 <option value="2">2(PGE)</option>
                 <option value="3">3(PGE)</option>
                 <option value="4">4(PGE)</option>
@@ -61,7 +61,7 @@
               >
                 <option value="">Select</option>
                 <option value="baseline" selected>Baseline</option>
-                <option *ngIf="selected_class == '0'" value="eceActivity">
+                <!-- <option *ngIf="selected_class == '0'" value="eceActivity">
                   ECE Activity
                 </option>
                 <option *ngIf="selected_class != '0'" value="odia">
@@ -73,7 +73,7 @@
                 <option *ngIf="selected_class != '0'" value="english">
                   English Activity
                 </option>
-                <option value="assesment">Assesment</option>
+                <option value="assesment">Assesment</option> -->
                 <option value="endline">Endline</option>
               </select>
             </div>
@@ -319,11 +319,7 @@
                           [hidden]="hideProgressbar"
                         >
                           <div
-                            class="
-                              progress-bar
-                              progress-bar-info
-                              progress-bar-striped
-                            "
+                            class="progress-bar progress-bar-info progress-bar-striped"
                             role="progressbar"
                             attr.aria-valuenow="{{ progress.percentage }}"
                             aria-valuemin="0"
