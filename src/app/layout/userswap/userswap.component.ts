@@ -368,7 +368,7 @@ export class UserswapComponent implements OnInit {
       blockname: this.selected_blockname,
     };
 
-    console.log("swap data --->>>", this.swapType);
+    console.log("swap data --->>>", data);
 
     if (this.edituser_validation()) {
       this.hideLoading_indicator = false;
@@ -824,12 +824,12 @@ export class UserswapComponent implements OnInit {
     ) {
       swal.fire("Info", "Please enter User name", "info");
       return false;
-    } else if (
-      this.selected_username.length < 4 ||
-      this.selected_username.length > 20
-    ) {
-      swal.fire("Info", "User name must be between 5 to 20 characters", "info");
-      return false;
+      // } else if (
+      //   this.selected_username.length < 4 ||
+      //   this.selected_username.length > 20
+      // ) {
+      //   swal.fire("Info", "User name must be between 5 to 20 characters", "info");
+      //   return false;
     } else if (
       this.selected_usertype == undefined ||
       this.selected_usertype == null ||
