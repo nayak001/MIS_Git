@@ -12,6 +12,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxCroppieModule } from "ngx-croppie";
 
 import { UserswapService } from "./userswap.service";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { UserswapService } from "./userswap.service";
     ReactiveFormsModule,
     AutocompleteLibModule,
     NgxCroppieModule,
+    NgMultiSelectDropDownModule,
   ],
   declarations: [UserswapComponent],
   providers: [UserswapService],

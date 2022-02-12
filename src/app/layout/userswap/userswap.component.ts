@@ -62,6 +62,7 @@ export class UserswapComponent implements OnInit {
   hide_manager: boolean = false;
   hide_managertype: boolean = false;
   isSelected: boolean = true;
+  isNewUser: boolean = false;
 
   //-------------
   selected_emailid: string = "";
@@ -69,6 +70,9 @@ export class UserswapComponent implements OnInit {
   selected_centername: string = "";
   selected_centerid: string = "";
   selected_createdon: string = "";
+
+  userMultiSelectSettings = {};
+  filteredUserList = [];
 
   constructor(
     private modalService: NgbModal,
@@ -84,7 +88,9 @@ export class UserswapComponent implements OnInit {
     this.getallschoollistbypasscode();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initialize_user_multiselect();
+  }
 
   getallUsers() {
     this.hideLoading_indicator = false;
@@ -99,13 +105,35 @@ export class UserswapComponent implements OnInit {
     );
   }
 
+  filterUser() {
+    this.filteredUserList = this.alluserdata.filter(
+      (arr) => arr.userid !== this.selected_userid
+    );
+  }
+
+  initialize_user_multiselect() {
+    // this.district_multiselect_selectedlist = [];
+    this.userMultiSelectSettings = {
+      singleSelection: true,
+      idField: "userid",
+      textField: "username",
+      itemsShowLimit: 1,
+      allowSearchFilter: true,
+    };
+  }
+
+  onUserSelect(data) {
+    this.new_userid = data.userid;
+    this.new_username = data.username;
+  }
+
   getpasscodebymanagerid() {
     this.hideLoading_indicator2 = false;
     this.usersService.getallprimarypasscodes(null).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
           this.allpasscodedata = data;
-          console.log("--> All Passcodes: ", this.allpasscodedata);
+
           this.setpasscodelist();
         } else {
           this.allpasscodedata = [];
@@ -135,7 +163,6 @@ export class UserswapComponent implements OnInit {
     this.hideLoading_indicator2 = false;
     this.usersService.getallschoolsregistered().subscribe(
       (data) => {
-        console.log("--> All Schools: ", data);
         if (Object.keys(data).length > 0) this.allschooldata = data;
         else this.allschooldata = [];
         this.setschoollist();
@@ -193,7 +220,16 @@ export class UserswapComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     // const selectedElementText = selectedOptions[selectedIndex].text;
     this.swapType = selectedOptionValue;
-    console.log("swapType", this.swapType);
+
+    this.checkSwapType();
+  }
+
+  checkSwapType() {
+    if (this.swapType == "newuser") {
+      this.isNewUser = true;
+    } else {
+      this.isNewUser = false;
+    }
   }
 
   selected_usertype_onchange(event: Event) {
@@ -350,7 +386,7 @@ export class UserswapComponent implements OnInit {
   }
 
   update_user() {
-    let data = {
+    let newUserdata = {
       olduserid: this.selected_userid,
       newuserid: this.new_userid,
       newusername: this.new_username,
@@ -368,19 +404,23 @@ export class UserswapComponent implements OnInit {
       blockname: this.selected_blockname,
     };
 
-    console.log("swap data --->>>", data);
+    let existingUserData = {
+      olduserid: this.selected_userid,
+      newuserid: this.new_userid,
+      newusername: this.new_username,
+    };
 
     if (this.edituser_validation()) {
       this.hideLoading_indicator = false;
       if (this.swapType == "olduser") {
-        this.usersService.swapolduser(data).subscribe(
+        //console.log("old data", existingUserData);
+        this.usersService.swapolduser(existingUserData).subscribe(
           (res) => {
             this.hideLoading_indicator = true;
             this.modalReference.close();
             this.getallUsers();
             this.reset_defaults();
-            console.log(res);
-
+            // console.log(res);
             swal.fire("Success", "User swapped successfully.", "success");
           },
           (error) => {
@@ -389,14 +429,14 @@ export class UserswapComponent implements OnInit {
           () => {}
         );
       } else {
-        this.usersService.swapnewuser(data).subscribe(
+        //console.log("new data", newUserdata);
+        this.usersService.swapnewuser(newUserdata).subscribe(
           (res) => {
             this.hideLoading_indicator = true;
             this.modalReference.close();
             this.getallUsers();
             this.reset_defaults();
-            console.log(res);
-
+            //console.log(res);
             swal.fire("Success", "User swapped successfully.", "success");
           },
           (error) => {
@@ -444,6 +484,7 @@ export class UserswapComponent implements OnInit {
       this.set_values(user);
       this.setschoollist();
       this.setpasscodelist();
+      this.filterUser();
     }
 
     this.changeDetectorRef.detectChanges();
