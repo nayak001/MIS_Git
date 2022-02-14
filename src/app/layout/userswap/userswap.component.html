@@ -574,14 +574,16 @@
         </div>
       </div>
 
-      <div class="row bottomgap5 spac">
-        <div class="col col-xl-4 col-lg-4 form_label">
+      <!-- class="row bottomgap5 spac" -->
+      <!-- class="col col-xl-4 col-lg-4 form_label" -->
+      <div>
+        <div>
           <ng-multiselect-dropdown
             [placeholder]="'Select a user to swap with '"
             [data]="filteredUserList"
             (onSelect)="onUserSelect($event)"
             [settings]="userMultiSelectSettings"
-            style="width: 70%; margin-bottom: 10px"
+            style="width: 10%; margin: 6px"
           >
           </ng-multiselect-dropdown>
         </div>
