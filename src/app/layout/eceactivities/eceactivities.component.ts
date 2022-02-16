@@ -63,7 +63,7 @@ export class EceactivitiesComponent implements OnInit {
 
   save_operation: string = "";
   record_id: string = "";
-  selected_preflanguage;
+  selected_preflanguage = "od";
   selected_program: string = "ece";
   selected_subject: string = "";
   selected_themeid: string = "";

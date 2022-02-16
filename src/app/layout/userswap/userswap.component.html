@@ -380,7 +380,7 @@
           <input
             [value]="selected_phone"
             [(ngModel)]="selected_phone"
-            type="text"
+            type="number"
             class="form-control input-underline input-lg"
             placeholder="Mobile Number"
           />
@@ -503,7 +503,7 @@
 <ng-template #usereditmodal let-c="close" let-d="dismiss">
   <div
     style="
-      font-size: 25px;
+      font-size: 32px;
       color: #ffbfbf;
       background: #4a90ac;
       padding: 5px 50px;
@@ -513,7 +513,7 @@
   >
     <b>USER SWAP</b>
   </div>
-  <div
+  <!-- <div
     style="
       font-size: 25px;
       color: #ffffff;
@@ -527,7 +527,7 @@
   </div>
   <div
     style="
-      font-size: 14px;
+      font-size: 20px;
       color: #ffffff;
       background: #4a90ac;
       padding: 0px 50px;
@@ -535,7 +535,7 @@
     "
   >
     {{ selected_userid }}
-  </div>
+  </div> -->
   <div style="width: 100%; height: 400px; overflow-x: hidden; overflow-y: auto">
     <div class="modal-body">
       <div class="loading_indicator" [hidden]="hideLoading_indicator2">
@@ -545,108 +545,53 @@
       </div>
 
       <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">User Name</div>
+        <div class="col col-xl-4 col-lg-4 form_label">
+          <p>{{ selected_username }}</p>
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
+        <div class="col col-xl-4 col-lg-4 form_label">User ID</div>
+        <div class="col col-xl-4 col-lg-4 form_label">
+          <p>{{ selected_userid }}</p>
+        </div>
+      </div>
+
+      <div class="row bottomgap5">
         <div class="col col-xl-4 col-lg-4 form_label">Swap Type</div>
-        <div class="col row-fluid" style="font-weight: bold">
+        <div class="col col-xl-4 col-lg-4 form_label">
           <select
             value="{{ swapType }}"
             (change)="swapType_onchange($event)"
             class="form-control"
           >
-            <option value="newuser">New User</option>
-            <option value="olduser" [selected]="isSelected">Old User</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row bottomgap5">
-        <div class="col col-xl-4 col-lg-4 form_label">Old User id</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <input
-            [value]="selected_userid"
-            [(ngModel)]="selected_userid"
-            type="text"
-            class="form-control input-underline input-lg"
-            placeholder="Old User id"
-          />
-        </div>
-      </div>
-
-      <div class="row bottomgap5">
-        <div class="col col-xl-4 col-lg-4 form_label">New User id</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <input
-            [value]="new_userid"
-            [(ngModel)]="new_userid"
-            type="text"
-            class="form-control input-underline input-lg"
-            placeholder="New User id"
-          />
-        </div>
-      </div>
-
-      <div class="row bottomgap5">
-        <div class="col col-xl-4 col-lg-4 form_label">New User name</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <input
-            [value]="new_username"
-            [(ngModel)]="new_username"
-            type="text"
-            class="form-control input-underline input-lg"
-            placeholder="New User Name"
-          />
-        </div>
-      </div>
-
-      <!-- <div class="row bottomgap5" [hidden]="hide_usertype">
-        <div class="col col-xl-4 col-lg-4 form_label">User Type</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_usertype }}"
-            (change)="selected_usertype_onchange($event)"
-            class="form-control"
-          >
-            <option value="anganwadi">Anganwadi</option>
-            <option value="fellow">Fellow</option>
-            <option value="school">School</option>
-          </select>
-        </div>
-      </div> -->
-
-      <!-- <div class="row bottomgap5" [hidden]="hide_password">
-        <div class="col col-xl-4 col-lg-4 form_label">Password</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <input
-            [value]="selected_password"
-            [(ngModel)]="selected_password"
-            type="text"
-            class="form-control input-underline input-lg"
-            placeholder="Password"
-          />
-        </div>
-      </div> -->
-
-      <!-- <div class="row bottomgap5">
-        <div class="col col-xl-4 col-lg-4 form_label">Passcode</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_passcode }}"
-            (change)="selected_passcode_onchange($event)"
-            class="form-control"
-          >
-            <option value=""></option>
-            <option
-              *ngFor="let pass of passcodedata"
-              value="{{ pass.passcode }}"
-            >
-              {{ pass.passcode }}
+            <option value="newuser">With new user</option>
+            <option value="olduser" [selected]="isSelected">
+              With existing user
             </option>
           </select>
         </div>
-      </div> -->
+      </div>
 
-      <div class="row bottomgap5" [hidden]="hide_school">
+      <!-- class="row bottomgap5 spac" -->
+      <!-- class="col col-xl-4 col-lg-4 form_label" -->
+      <div>
+        <div>
+          <ng-multiselect-dropdown
+            [placeholder]="'Select a user to swap with '"
+            [data]="filteredUserList"
+            (onSelect)="onUserSelect($event)"
+            [settings]="userMultiSelectSettings"
+            style="width: 10%; margin: 6px"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+
+      <div *ngIf="isNewUser" class="row bottomgap5 spac" [hidden]="hide_school">
         <div class="col col-xl-4 col-lg-4 form_label">School</div>
-        <div class="col row-fluid" style="font-weight: bold">
+        <div class="col col-xl-4 col-lg-4 form_label" style="font-weight: bold">
           <select
             value="{{ selected_udisecode }}"
             (change)="selected_school_onchange($event)"
@@ -663,20 +608,20 @@
         </div>
       </div>
 
-      <div class="row bottomgap5">
+      <div *ngIf="isNewUser" class="row bottomgap5 spac">
         <div class="col col-xl-4 col-lg-4 form_label">Mobile No.</div>
         <div class="col row-fluid" style="font-weight: bold">
           <input
             [value]="selected_phone"
             [(ngModel)]="selected_phone"
-            type="text"
+            type="number"
             class="form-control input-underline input-lg"
             placeholder="Mobile Number"
           />
         </div>
       </div>
 
-      <div class="row bottomgap5">
+      <div *ngIf="isNewUser" class="row bottomgap5 spac">
         <div class="col col-xl-4 col-lg-4 form_label">Gender</div>
         <div class="col row-fluid" style="font-weight: bold">
           <select
@@ -690,33 +635,11 @@
         </div>
       </div>
 
-      <!-- <div class="row bottomgap5">
-        <div class="col col-xl-4 col-lg-4 form_label">Qualification</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_qualification }}"
-            (change)="selected_qualification_onchange($event)"
-            class="form-control"
-          >
-            <option value="matriculate">Matriculate</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="graduate">Graduate</option>
-            <option value="masters">Masters</option>
-            <option value="doctorate">Doctorate</option>
-          </select>
-        </div>
-      </div> -->
-
-      <!-- <div class="row bottomgap5" [hidden]="hide_manager">
-        <div class="col col-xl-4 col-lg-4 form_label">Manager</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select value="{{selected_managerid}}" (change)="selected_manager_onchange($event)" class="form-control">
-            <option value=""></option>
-          </select>
-        </div>
-      </div> -->
-
-      <div class="row bottomgap5" [hidden]="hide_managertype">
+      <div
+        *ngIf="isNewUser"
+        class="row bottomgap5 spac"
+        [hidden]="hide_managertype"
+      >
         <div class="col col-xl-4 col-lg-4 form_label">Manager Type</div>
         <div class="col row-fluid" style="font-weight: bold">
           <select
@@ -730,7 +653,7 @@
         </div>
       </div>
 
-      <div class="row bottomgap5">
+      <div *ngIf="isNewUser" class="row bottomgap5 spac">
         <div class="col col-xl-4 col-lg-4 form_label">State</div>
         <div class="col row-fluid" style="font-weight: bold">
           <select
@@ -743,7 +666,7 @@
         </div>
       </div>
 
-      <div class="row bottomgap5">
+      <div *ngIf="isNewUser" class="row bottomgap5 spac">
         <div class="col col-xl-4 col-lg-4 form_label">District</div>
         <div class="col row-fluid" style="font-weight: bold">
           <select
@@ -759,7 +682,7 @@
         </div>
       </div>
 
-      <div class="row bottomgap5">
+      <div *ngIf="isNewUser" class="row bottomgap5 spac">
         <div class="col col-xl-4 col-lg-4 form_label">Block</div>
         <div class="col row-fluid" style="font-weight: bold">
           <select
