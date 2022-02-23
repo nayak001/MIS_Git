@@ -211,6 +211,22 @@
         />
       </div>
     </div>
+    <br />
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Expire Duration</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <select
+          value="{{ expire_duration }}"
+          (change)="expire_duration_onchange($event)"
+          class="form-control"
+        >
+          <option value="">Select Expire Duration</option>
+          <option value="120">4 months</option>
+          <option value="360">12 months</option>
+        </select>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="c('Close click')">

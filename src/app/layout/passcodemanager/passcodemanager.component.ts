@@ -23,9 +23,15 @@ export class PasscodemanagerComponent implements OnInit {
   original_passcode: any = "";
   selected_userid: any = "";
   selected_username: any = "";
+  selected_usertype: string = "";
   selected_recordid: string = "";
   selected_passcode: string = "";
   selected_managertype: any = "";
+  selected_passcodetype: any = "";
+  expire_duration: number;
+  regdt: string;
+  expdt: string;
+  passcodeStatus: string;
 
   flag: string = "";
   hideLoading_indicator: boolean = true;
@@ -53,7 +59,7 @@ export class PasscodemanagerComponent implements OnInit {
     this.hideLoading_indicator = false;
     this.passcodemanagerService.getallpasscode().subscribe(
       (data) => {
-        //console.log('--> all passcode: ',data);
+        console.log("--> all passcode: ", data);
         this.data = data;
         this.filterData = data;
         this.hideLoading_indicator = true;
@@ -69,9 +75,15 @@ export class PasscodemanagerComponent implements OnInit {
     this.selected_recordid = "";
     this.selected_userid = "";
     this.selected_username = "";
+    this.selected_usertype = "";
     this.selected_managertype = "";
     this.selected_passcode = "";
     this.original_passcode = "";
+    this.selected_passcodetype = "";
+    this.passcodeStatus = "";
+    this.expire_duration = null;
+    this.regdt = "";
+    this.expdt = "";
   }
 
   reset_manager() {
@@ -90,6 +102,38 @@ export class PasscodemanagerComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_managertype = selectedOptionValue;
+  }
+
+  expire_duration_onchange(event: Event) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectedElementText = selectedOptions[selectedIndex].text;
+    this.expire_duration = parseInt(selectedOptionValue);
+
+    let expiredate = new Date().setDate(
+      new Date().getDate() + this.expire_duration
+    );
+    this.regdt =
+      new Date().getMonth() +
+      1 +
+      "-" +
+      new Date().getDate() +
+      "-" +
+      new Date().getFullYear();
+    this.expdt =
+      new Date(expiredate).getMonth() +
+      1 +
+      "-" +
+      new Date(expiredate).getDate() +
+      "-" +
+      new Date(expiredate).getFullYear();
+
+    if (this.expire_duration == 120) {
+      this.selected_passcodetype = "4month";
+    } else {
+      this.selected_passcodetype = "1year";
+    }
   }
 
   validate_passcode() {
@@ -140,6 +184,12 @@ export class PasscodemanagerComponent implements OnInit {
         "Passcode should content letters and numeric !!!",
         "warning"
       );
+      return false;
+    } else if (
+      this.expire_duration == null ||
+      this.expire_duration == undefined
+    ) {
+      swal.fire("Info", "Please enter passcode expire duration !!!", "warning");
       return false;
     } else {
       return true;
@@ -280,13 +330,22 @@ export class PasscodemanagerComponent implements OnInit {
   create_passcode() {
     this.hideLoading_indicator = false;
     this.disable_save_button = true;
+
     let body = {
       userid: this.selected_userid,
       username: this.selected_username.toLowerCase(),
+      usertype: this.selected_usertype,
       managertype: this.selected_managertype.toLowerCase(),
       passcode: this.selected_passcode.toUpperCase(),
-      passcodetype: "",
+      passcodetype: this.selected_passcodetype,
+      passcodestatus: "active",
+      validfordays: this.expire_duration,
+      registeredon: this.regdt,
+      expireon: this.expdt,
     };
+
+    //console.log("passcode create--->>>", body);
+
     this.passcodemanagerService.createnewpasscode(body).subscribe(
       (data2) => {
         this.disable_save_button = false;
@@ -305,13 +364,22 @@ export class PasscodemanagerComponent implements OnInit {
   update_passcode() {
     this.disable_save_button = true;
     this.hideLoading_indicator = false;
+
     let body = {
       userid: this.selected_userid,
       username: this.selected_username.toLowerCase(),
+      usertype: this.selected_usertype,
       managertype: this.selected_managertype.toLowerCase(),
       passcode: this.selected_passcode.toUpperCase(),
-      passcodetype: "",
+      passcodetype: this.selected_passcodetype,
+      passcodestatus: this.passcodeStatus,
+      validfordays: this.expire_duration,
+      registeredon: this.regdt,
+      expireon: this.expdt,
     };
+
+    //console.log("passcode update--->>>", body);
+
     this.passcodemanagerService
       .updatepasscode(this.selected_recordid, body)
       .subscribe(
@@ -428,19 +496,26 @@ export class PasscodemanagerComponent implements OnInit {
 
   open(content, param, flag) {
     this.flag = flag;
-
+    // console.log("param--->>>", param);
     if (flag == "add") {
       this.selected_userid = param.userid;
       this.selected_username = param.username;
+      this.selected_usertype = param.usertype;
       this.selected_managertype = "";
       this.selected_passcode = "";
     } else if (flag == "edit") {
       this.selected_recordid = param._id;
       this.selected_userid = param.userid;
       this.selected_username = param.username;
+      this.selected_usertype = param.usertype;
       this.selected_managertype = param.managertype;
       this.selected_passcode = param.passcode;
       this.original_passcode = param.passcode;
+      this.selected_passcodetype = param.passcodetype;
+      this.passcodeStatus = param.passcodestatus;
+      this.expire_duration = param.validfordays;
+      this.regdt = param.registeredon;
+      this.expdt = param.expireon;
     } else if (flag == "delete") {
       this.selected_recordid = param._id;
     } else if (flag == "mgr") {
