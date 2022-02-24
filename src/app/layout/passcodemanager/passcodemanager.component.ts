@@ -60,8 +60,8 @@ export class PasscodemanagerComponent implements OnInit {
     this.passcodemanagerService.getallpasscode().subscribe(
       (data) => {
         console.log("--> all passcode: ", data);
-        this.data = data;
-        this.filterData = data;
+        this.data = data["data"];
+        this.filterData = this.data;
         this.hideLoading_indicator = true;
       },
       (error) => {},
@@ -400,23 +400,23 @@ export class PasscodemanagerComponent implements OnInit {
       );
   }
 
-  // Set Passcode as Primary
-  // Set primary is basically to know which passcode is currently using
-  setprimary(record) {
-    let recordid = record._id;
-    let userid = record.userid;
-    this.hideLoading_indicator = false;
-    this.passcodemanagerService.setprimary(recordid, userid).subscribe(
-      (data) => {
-        swal.fire("Success", "This passcode is set as primary", "success");
-        this.getallPasscode();
-        this.hideLoading_indicator = true;
-        this.reset_passcode();
-      },
-      (error) => {},
-      () => {}
-    );
-  }
+  // // Set Passcode as Primary
+  // // Set primary is basically to know which passcode is currently using
+  // setprimary(record) {
+  //   let recordid = record._id;
+  //   let userid = record.userid;
+  //   this.hideLoading_indicator = false;
+  //   this.passcodemanagerService.setprimary(recordid, userid).subscribe(
+  //     (data) => {
+  //       swal.fire("Success", "This passcode is set as primary", "success");
+  //       this.getallPasscode();
+  //       this.hideLoading_indicator = true;
+  //       this.reset_passcode();
+  //     },
+  //     (error) => {},
+  //     () => {}
+  //   );
+  // }
 
   // Delete passcode
   delete_passcode_btnclick(passcodedata) {

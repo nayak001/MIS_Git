@@ -88,10 +88,149 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col">
-                      <div>{{ row.passcodesarr.length }} Passcode(s)</div>
-                    </div>
+
+                  <div>
+                    <table style="width: 100%">
+                      <tr>
+                        <td style="width: 50%; border-right: 2px solid grey">
+                          <div class="row">
+                            <div
+                              class="col"
+                              style="
+                                font-size: 20px;
+                                font-weight: bold;
+                                margin-bottom: 20px;
+                              "
+                            >
+                              <div>1 Year</div>
+                            </div>
+                          </div>
+                          <div>
+                            <div *ngIf="row.plan_1year.length <= 0">
+                              No Passcodes found
+                            </div>
+                            <div *ngFor="let psd of row.plan_1year" class="row">
+                              <div
+                                [ngStyle]="{
+                                  'background-color':
+                                    psd.passcodestatus == 'active'
+                                      ? '#75ea75'
+                                      : '#a1a2a3'
+                                }"
+                                class="col col-lg-6 col-md-6 col-sm-6"
+                                style="
+                                  font-size: 18px;
+                                  font-weight: bold;
+                                  background: #a1a2a3;
+                                  color: #000000;
+                                  padding: 10px;
+                                  margin-bottom: 10px;
+                                  margin-left: 15px;
+                                  box-shadow: -1px 3px 5px 0px black;
+                                "
+                              >
+                                {{ psd.passcode }}
+                                <div style="font-size: 10px">
+                                  Expire Date: {{ psd.expireon }}
+                                </div>
+                              </div>
+                              <div class="col">
+                                <!-- <button
+                                  type="button"
+                                  class="btn btn-sm btn-link"
+                                  (click)="open(addeditmodal, psd, 'edit')"
+                                  style="color: #5a5959; font-weight: bold"
+                                >
+                                  Update
+                                </button> -->
+                                <button
+                                  type="button"
+                                  class="btn btn-sm btn-link"
+                                  (click)="delete_passcode_btnclick(psd)"
+                                  style="
+                                    color: #5a5959;
+                                    font-weight: bold;
+                                    padding-top: 20px;
+                                  "
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td style="width: 50%">
+                          <div class="row">
+                            <div
+                              class="col"
+                              style="
+                                font-size: 20px;
+                                font-weight: bold;
+                                margin-bottom: 20px;
+                              "
+                            >
+                              <div>4 Month</div>
+                            </div>
+                          </div>
+                          <div>
+                            <div *ngIf="row.plan_4month.length <= 0">
+                              No Passcodes found
+                            </div>
+                            <div
+                              *ngFor="let psd of row.plan_4month"
+                              class="row"
+                            >
+                              <div
+                                [ngStyle]="{
+                                  'background-color':
+                                    psd.passcodestatus == 'active'
+                                      ? '#75ea75'
+                                      : '#a1a2a3'
+                                }"
+                                class="col col-lg-6 col-md-6 col-sm-6"
+                                style="
+                                  font-size: 18px;
+                                  font-weight: bold;
+                                  background: #a1a2a3;
+                                  color: #000000;
+                                  padding: 10px;
+                                  margin-bottom: 10px;
+                                  margin-left: 15px;
+                                  box-shadow: -1px 3px 5px 0px black;
+                                "
+                              >
+                                {{ psd.passcode }}
+                                <div style="font-size: 10px">
+                                  Expire Date: {{ psd.expireon }}
+                                </div>
+                              </div>
+                              <div class="col">
+                                <!-- <button
+                                  type="button"
+                                  class="btn btn-sm btn-link"
+                                  (click)="open(addeditmodal, psd, 'edit')"
+                                  style="color: #5a5959; font-weight: bold"
+                                >
+                                  Update
+                                </button> -->
+                                <button
+                                  type="button"
+                                  class="btn btn-sm btn-link"
+                                  (click)="delete_passcode_btnclick(psd)"
+                                  style="
+                                    color: #5a5959;
+                                    font-weight: bold;
+                                    padding-top: 20px;
+                                  "
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
                   </div>
                   <div>
                     <div *ngFor="let psd of row.passcodesarr" class="row">
@@ -115,22 +254,22 @@
                         ></i>
                       </div>
                       <div class="col">
-                        <button
+                        <!-- <button
                           type="button"
                           class="btn btn-sm btn-link"
                           (click)="setprimary(psd)"
                           style="color: #5a5959; font-weight: bold"
                         >
                           Set primary
-                        </button>
-                        <button
+                        </button> -->
+                        <!-- <button
                           type="button"
                           class="btn btn-sm btn-link"
                           (click)="open(addeditmodal, psd, 'edit')"
                           style="color: #5a5959; font-weight: bold"
                         >
                           Update
-                        </button>
+                        </button> -->
                         <button
                           type="button"
                           class="btn btn-sm btn-link"
