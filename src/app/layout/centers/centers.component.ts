@@ -279,7 +279,6 @@ export class CentersComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          //console.log('-->id: ',id)
           this.deleteFormSubmitAction(id);
         }
       });
@@ -299,7 +298,6 @@ export class CentersComponent implements OnInit {
 
   open(content, center) {
     if (Object.keys(center).length > 0) {
-      //console.log('--> Selected center: ',center)
       this.centersubmitaction = "Update";
       this.document_id = center._id;
       this.selected_centername =

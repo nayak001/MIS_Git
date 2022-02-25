@@ -132,7 +132,6 @@ export class NsdcExamComponent implements OnInit {
   }
   delete_q_qid: any;
   open(content, obj, index, flag) {
-    console.log("111111", content, obj, index, flag);
     // update
     if (flag == "add") {
       this.add_q_qid = "";
@@ -195,7 +194,6 @@ export class NsdcExamComponent implements OnInit {
       this.selected_question_type
     ).subscribe(
       (data) => {
-        console.log("here", data);
         if (Object.keys(data).length > 0) {
           this.dataid = data[0]._id;
           this.quiz_value = data;

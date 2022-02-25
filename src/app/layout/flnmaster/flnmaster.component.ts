@@ -343,14 +343,6 @@ export class FlnMasterComponent implements OnInit {
     this.load_record();
   }
   deleteactivity() {
-    // this.hideProgressbar = true;
-    // this.progress.percentage = 0;
-    // this.s3path = '';
-
-    // const body = {
-    // 	activitydocument : '',
-    // 	displayname : ''
-    // }
     this.FlnService.deletecontent(this.delete_doc_id).subscribe(
       (data) => {
         swal.fire("Success", "document deleted successfully", "success");
@@ -361,7 +353,6 @@ export class FlnMasterComponent implements OnInit {
       () => {}
     );
     this.modalReference.close();
-    // this.load_activity_record();
   }
 
   async addquiz() {

@@ -326,7 +326,6 @@
                             <option value="class3">3(PGE)</option>
                             <option value="class4">4(PGE)</option>
                             <option value="class5">5(PGE)</option>
-                            <!-- <option value="hi">हिंदी</option> -->
                           </select>
                         </div>
                         <span class="bold-font">Upload Activity Document:</span>
@@ -431,58 +430,6 @@
                 type="button"
                 class="btn btn-danger"
                 (click)="deletecontent()"
-              >
-                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
-              </button>
-            </div>
-          </ng-template>
-          <ng-template #deleteimagemodal let-c="close" let-d="dismiss">
-            <div class="modal-body">
-              <div class="row">
-                <img src="assets/images/warning.png" class="warning-icon" />
-                <span class="col col-xl-9 col-lg-9"
-                  >Are you sure, you want to remove this record!</span
-                >
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-default"
-                (click)="c('Close click')"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                (click)="delelteimage()"
-              >
-                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
-              </button>
-            </div>
-          </ng-template>
-          <ng-template #deletevediomodal let-c="close" let-d="dismiss">
-            <div class="modal-body">
-              <div class="row">
-                <img src="assets/images/warning.png" class="warning-icon" />
-                <span class="col col-xl-9 col-lg-9"
-                  >Are you sure, you want to remove this record!</span
-                >
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-default"
-                (click)="c('Close click')"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                (click)="vediodelete()"
               >
                 &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
               </button>

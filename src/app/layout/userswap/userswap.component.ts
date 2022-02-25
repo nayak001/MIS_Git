@@ -413,14 +413,12 @@ export class UserswapComponent implements OnInit {
     if (this.edituser_validation()) {
       this.hideLoading_indicator = false;
       if (this.swapType == "olduser") {
-        //console.log("old data", existingUserData);
         this.usersService.swapolduser(existingUserData).subscribe(
           (res) => {
             this.hideLoading_indicator = true;
             this.modalReference.close();
             this.getallUsers();
             this.reset_defaults();
-            // console.log(res);
             swal.fire("Success", "User swapped successfully.", "success");
           },
           (error) => {
@@ -429,14 +427,12 @@ export class UserswapComponent implements OnInit {
           () => {}
         );
       } else {
-        //console.log("new data", newUserdata);
         this.usersService.swapnewuser(newUserdata).subscribe(
           (res) => {
             this.hideLoading_indicator = true;
             this.modalReference.close();
             this.getallUsers();
             this.reset_defaults();
-            //console.log(res);
             swal.fire("Success", "User swapped successfully.", "success");
           },
           (error) => {

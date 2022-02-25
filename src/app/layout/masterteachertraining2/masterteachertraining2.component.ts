@@ -847,7 +847,6 @@ export class Masterteachertraining2Component implements OnInit {
   }
   updatetchtrainingpercentage(moduleid, submoduleid, topicid) {
     // this.masterteachertraining1Service.gettchtrainingdetails(moduleid,submoduleid).subscribe(data => {
-    // 	console.log("hii i am hereee12",data)
     // 	},
     // 	error => {},
     // 	() => {}
@@ -980,7 +979,6 @@ export class Masterteachertraining2Component implements OnInit {
       this.text_to_preview = obj.content;
     } else if (flag == "previewvediomodal") {
       this.vedio_to_preview = obj.content;
-      console.log("###this.vedio_to_preview: ", this.vedio_to_preview);
     }
     this.modalReference = this.modalService.open(content, {
       backdrop: "static",
