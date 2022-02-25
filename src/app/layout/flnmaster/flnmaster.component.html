@@ -409,32 +409,6 @@
               </div>
             </div>
           </ng-template>
-          <ng-template #deletecontentmodal let-c="close" let-d="dismiss">
-            <div class="modal-body">
-              <div class="row">
-                <img src="assets/images/warning.png" class="warning-icon" />
-                <span class="col col-xl-9 col-lg-9"
-                  >Are you sure, you want to remove this record!</span
-                >
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-default"
-                (click)="c('Close click')"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                (click)="deletecontent()"
-              >
-                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
-              </button>
-            </div>
-          </ng-template>
           <div>
             <!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button> -->
           </div>
