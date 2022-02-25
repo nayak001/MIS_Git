@@ -429,7 +429,7 @@ export class UserswapComponent implements OnInit {
           () => {}
         );
       } else {
-        //console.log("new data", newUserdata);
+        console.log("new data", newUserdata);
         this.usersService.swapnewuser(newUserdata).subscribe(
           (res) => {
             this.hideLoading_indicator = true;
@@ -543,6 +543,7 @@ export class UserswapComponent implements OnInit {
     this.new_username = "";
     this.data_to_db = {};
     this.swapType = "olduser";
+    this.isNewUser = false;
     this.show_hide();
   }
 

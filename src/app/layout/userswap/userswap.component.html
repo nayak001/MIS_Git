@@ -576,7 +576,7 @@
 
       <!-- class="row bottomgap5 spac" -->
       <!-- class="col col-xl-4 col-lg-4 form_label" -->
-      <div>
+      <div *ngIf="!isNewUser">
         <div>
           <ng-multiselect-dropdown
             [placeholder]="'Select a user to swap with '"
@@ -586,6 +586,32 @@
             style="width: 10%; margin: 6px"
           >
           </ng-multiselect-dropdown>
+        </div>
+      </div>
+
+      <div *ngIf="isNewUser" class="row bottomgap5 spac">
+        <div class="col col-xl-4 col-lg-4 form_label">New User ID</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="new_userid"
+            [(ngModel)]="new_userid"
+            type="email"
+            class="form-control input-underline input-lg"
+            placeholder="New User ID"
+          />
+        </div>
+      </div>
+
+      <div *ngIf="isNewUser" class="row bottomgap5 spac">
+        <div class="col col-xl-4 col-lg-4 form_label">New Username</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <input
+            [value]="new_username"
+            [(ngModel)]="new_username"
+            type="email"
+            class="form-control input-underline input-lg"
+            placeholder="New Username"
+          />
         </div>
       </div>
 
