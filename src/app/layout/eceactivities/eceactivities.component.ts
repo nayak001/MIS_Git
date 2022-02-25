@@ -126,21 +126,14 @@ export class EceactivitiesComponent implements OnInit {
   ngOnInit() {}
 
   filechooser_onchange(event) {
-    console.log("Selected files ", event.target.files[0]);
-    console.log("Type of::---", typeof event.target.files);
-
     if (event.target.files.length > 0) {
       this.selectedFiles = event.target.files;
-      console.log(this.selectedFiles);
 
       this.displayname = event.target.files[0].name;
-      console.log(this.displayname);
 
       this.filetype = this.displayname.split(".").pop();
-      console.log(this.filetype);
 
       this.s3name = new Date().getTime() + "." + this.filetype;
-      console.log(this.s3name);
     } else {
       this.displayname = "";
       this.selectedFiles = null;
@@ -341,7 +334,6 @@ export class EceactivitiesComponent implements OnInit {
 
   delete_segment() {
     let segment_to_delete = this.segments_list[this.selected_segment_index];
-    console.log("-->segment_to_delete: " + JSON.stringify(segment_to_delete));
     let file_to_delete = segment_to_delete.s3name;
     this.segments_list.splice(this.selected_segment_index, 1);
     const body = {
@@ -354,7 +346,6 @@ export class EceactivitiesComponent implements OnInit {
     ) {
       this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(
         (data1) => {
-          console.log("@@@s3 data delete: " + JSON.stringify(data1));
           this.update_record(this.record_id, body);
           this.go_btn_click();
         },
@@ -400,11 +391,9 @@ export class EceactivitiesComponent implements OnInit {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
       this.galleryService
         .pushFileToStorage(this.currentFileUpload, null, this.s3name)
         .subscribe((event) => {
-          console.log("$$$event: " + JSON.stringify(event));
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(
               (100 * event.loaded) / event.total
@@ -412,7 +401,6 @@ export class EceactivitiesComponent implements OnInit {
           } else if (event instanceof HttpResponse) {
             this.hideProgressbar = true;
             this.s3path = event.body["s3path"];
-            console.log("File is completely uploaded!->" + this.s3path);
             let newobj = {
               type: "image_content",
               displayname: this.displayname,
@@ -442,11 +430,9 @@ export class EceactivitiesComponent implements OnInit {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
       this.galleryService
         .pushFileToStorage(this.currentFileUpload, null, this.s3name)
         .subscribe((event) => {
-          console.log("$$$event: " + JSON.stringify(event));
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(
               (100 * event.loaded) / event.total
@@ -454,7 +440,6 @@ export class EceactivitiesComponent implements OnInit {
           } else if (event instanceof HttpResponse) {
             this.hideProgressbar = true;
             this.s3path = event.body["s3path"];
-            console.log("File is completely uploaded!->" + this.s3path);
             let newobj = {
               type: "video_content",
               displayname: this.displayname,
@@ -501,19 +486,14 @@ export class EceactivitiesComponent implements OnInit {
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       for (let i = 0; i < this.selectedFiles.length; i++) {
-        console.log(this.selectedFiles);
-
         this.displayname = this.selectedFiles[i].name;
         this.filetype = this.displayname.split(".").pop();
         this.s3name = new Date().getTime() + "." + this.filetype;
         this.currentFileUpload = this.selectedFiles.item(i);
-        console.log("currentfile", this.currentFileUpload);
 
-        console.log("###selectedFiles: " + JSON.stringify(this.selectedFiles));
         this.galleryService
           .pushFileToStorage(this.currentFileUpload, null, this.s3name)
           .subscribe((event) => {
-            console.log("$$$event: " + JSON.stringify(event));
             if (event.type === HttpEventType.UploadProgress) {
               this.progress.percentage = Math.round(
                 (100 * event.loaded) / event.total
@@ -521,7 +501,6 @@ export class EceactivitiesComponent implements OnInit {
             } else if (event instanceof HttpResponse) {
               this.hideProgressbar = true;
               this.s3path = event.body["s3path"];
-              console.log("File is completely uploaded!->" + this.s3path);
               let newobj = {
                 type: "resources",
                 displayname: this.displayname,
@@ -531,7 +510,6 @@ export class EceactivitiesComponent implements OnInit {
                 preview_url: this.s3path,
                 value: this.s3path,
               };
-              console.log("s3name===", this.s3name);
 
               this.extraresources_list.push(newobj);
               let body = {
@@ -565,7 +543,6 @@ export class EceactivitiesComponent implements OnInit {
 
   delete_resource_file(index_position) {
     let resource_to_delete = this.extraresources_list[index_position];
-    console.log("-->resource_to_delete: " + JSON.stringify(resource_to_delete));
     let file_to_delete = resource_to_delete.s3name;
     this.extraresources_list.splice(index_position, 1);
     const body = {
@@ -573,7 +550,6 @@ export class EceactivitiesComponent implements OnInit {
     };
     this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(
       (data1) => {
-        console.log("@@@s3 data delete: " + JSON.stringify(data1));
         this.update_record(this.record_id, body);
         this.go_btn_click();
       },
@@ -707,7 +683,6 @@ export class EceactivitiesComponent implements OnInit {
             preview_url: null,
             value: this.content_value,
           };
-          console.log(newobj);
 
           this.segments_list.push(newobj);
           body = {
@@ -729,9 +704,6 @@ export class EceactivitiesComponent implements OnInit {
           this.filetype = this.displayname.split(".").pop();
           this.s3name = new Date().getTime() + "." + this.filetype;
           this.currentFileUpload = this.selectedFiles.item(i);
-          console.log(
-            "###selectedFiles: " + JSON.stringify(this.selectedFiles)
-          );
           this.galleryService
             .pushFileToStorage(this.currentFileUpload, null, this.s3name)
             .subscribe((event) => {
@@ -741,7 +713,6 @@ export class EceactivitiesComponent implements OnInit {
                 );
               } else if (event instanceof HttpResponse) {
                 this.s3path = event.body["s3path"];
-                console.log("File is completely uploaded!->" + this.s3path);
                 this.hideProgressbar = true;
                 if (this.save_operation === "save") {
                   body = {
@@ -1067,7 +1038,6 @@ export class EceactivitiesComponent implements OnInit {
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   delflashcard(i) {
-    console.log("-->Index Value= " + i);
     swal
       .fire({
         title: "Are you sure?",

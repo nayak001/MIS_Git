@@ -435,7 +435,6 @@ export class PreprogramTrainingComponent implements OnInit {
       .deleteppttrainingsubmodulebyid(this.submoduleid)
       .subscribe(
         (data) => {
-          console.log("###delete response: ", data);
           this.modalReference.close();
           this.hideLoading_indicator2 = true;
           this.load_allsubmodules_list(
@@ -495,13 +494,6 @@ export class PreprogramTrainingComponent implements OnInit {
                 .createnewppttrainingtopic(subtopicbody)
                 .subscribe(
                   (data) => {
-                    console.log(
-                      "data1234",
-                      Object.keys(data).length > 0,
-                      this.selected_submodule_modulename,
-                      this.selected_submodule_name,
-                      this.subtopicname_tosave
-                    );
                     if (Object.keys(data).length > 0) {
                       // this.sendMessageToallUser(this.selected_submodule_modulename,this.selected_submodule_name,this.subtopicname_tosave)
                       this.hideLoading_indicator3 = true;
@@ -548,7 +540,6 @@ export class PreprogramTrainingComponent implements OnInit {
     this.preprogramteachertrainingService.getalluser().subscribe(
       (data) => {
         this.all_users = data;
-        console.log(" this.all_users", this.all_users);
         if (Object.keys(data).length > 0) {
           let id = "" + new Date().getTime();
           let title = this.txt_title;
@@ -564,7 +555,6 @@ export class PreprogramTrainingComponent implements OnInit {
           this.preprogramteachertrainingService.createnewmessage(obj).subscribe(
             (data) => {
               // location.reload();
-              console.log("hi i am here", data);
             },
             (error) => {},
             () => {}
@@ -635,7 +625,6 @@ export class PreprogramTrainingComponent implements OnInit {
       .deleteppttrainingtopicbyid(this.topicid)
       .subscribe(
         (data) => {
-          console.log("###delete response: ", data);
           this.modalReference.close();
           this.hideLoading_indicator3 = true;
           this.load_alltopic_list(

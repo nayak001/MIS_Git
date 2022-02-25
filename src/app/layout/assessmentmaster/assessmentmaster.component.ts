@@ -117,8 +117,6 @@ export class AssessmentmasterComponent implements OnInit {
   }
 
   preflanguage_select_onchange(event) {
-    console.log("lang check", event);
-
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
