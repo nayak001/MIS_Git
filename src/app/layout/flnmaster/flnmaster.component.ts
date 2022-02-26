@@ -235,6 +235,7 @@ export class FlnMasterComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_activity_class = selectedOptionValue;
     this.load_record();
+    this.load_activity_record();
   }
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target["options"];
@@ -284,11 +285,14 @@ export class FlnMasterComponent implements OnInit {
   }
   delete_doc_id: any;
   async load_activity_record() {
-    this.FlnService.getflnactivitydocument().subscribe(
+    this.FlnService.getflnactivitydocument(
+      this.selected_activity_class
+    ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
           this.activity_doc = data;
         } else {
+          this.activity_doc = [];
         }
       },
       (error) => {},
