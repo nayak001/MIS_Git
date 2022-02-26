@@ -32,8 +32,8 @@ export class FlnService {
     );
   }
 
-  getflnactivitydocument() {
-    return this.http.get(baseUrl + "getflnactivitydocument", {
+  getflnactivitydocument(activityclass) {
+    return this.http.get(baseUrl + "getflnactivitydocument/" + activityclass, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
