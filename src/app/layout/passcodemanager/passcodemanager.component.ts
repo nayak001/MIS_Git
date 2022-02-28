@@ -29,8 +29,8 @@ export class PasscodemanagerComponent implements OnInit {
   selected_managertype: any = "";
   selected_passcodetype: any = "";
   expire_duration: number;
-  regdt: string;
-  expdt: string;
+  regdt: any;
+  expdt: any;
   passcodeStatus: string;
 
   flag: string = "";
@@ -96,14 +96,6 @@ export class PasscodemanagerComponent implements OnInit {
     this.disable_save_button = false;
   }
 
-  selected_managertype_onchange(event: Event) {
-    const selectedOptions = event.target["options"];
-    const selectedIndex = selectedOptions.selectedIndex;
-    const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectedElementText = selectedOptions[selectedIndex].text;
-    this.selected_managertype = selectedOptionValue;
-  }
-
   expire_duration_onchange(event: Event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -111,29 +103,13 @@ export class PasscodemanagerComponent implements OnInit {
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.expire_duration = parseInt(selectedOptionValue);
 
-    let expiredate = new Date().setDate(
+    this.selected_passcodetype =
+      this.expire_duration == 120 ? "4month" : "1year";
+
+    this.regdt = new Date();
+    this.expdt = new Date().setDate(
       new Date().getDate() + this.expire_duration
     );
-    this.regdt =
-      new Date().getMonth() +
-      1 +
-      "-" +
-      new Date().getDate() +
-      "-" +
-      new Date().getFullYear();
-    this.expdt =
-      new Date(expiredate).getMonth() +
-      1 +
-      "-" +
-      new Date(expiredate).getDate() +
-      "-" +
-      new Date(expiredate).getFullYear();
-
-    if (this.expire_duration == 120) {
-      this.selected_passcodetype = "4month";
-    } else {
-      this.selected_passcodetype = "1year";
-    }
   }
 
   validate_passcode() {
@@ -237,55 +213,6 @@ export class PasscodemanagerComponent implements OnInit {
       return false;
     } else {
       return true;
-    }
-  }
-
-  // Create Manager
-  async create_manager() {
-    if (this.validate_manager()) {
-      this.disable_save_button = true;
-      const user = {
-        userid: this.manager_email,
-        username: this.manager_name,
-        usertype: "manager",
-        emailid: this.manager_email,
-        password: this.manager_password,
-        status: "active",
-        contactnumber: this.manager_phone,
-      };
-
-      await this.passcodemanagerService
-        .checkemailavailability(this.manager_email)
-        .subscribe(
-          (data) => {
-            if (Object.keys(data).length > 0) {
-              if (data["check"] == 1) {
-                this.disable_save_button = false;
-                swal.fire("Failed", "Email id already taken.", "warning");
-              } else {
-                this.passcodemanagerService.createnewuser(user).subscribe(
-                  (data) => {
-                    this.disable_save_button = false;
-                    this.getallPasscode();
-                    swal.fire(
-                      "Success",
-                      "Manager created successfully.",
-                      "success"
-                    );
-                    this.modalReference.close();
-                  },
-                  (error) => {},
-                  () => {}
-                );
-              }
-            } else {
-              this.disable_save_button = false;
-              swal.fire("Failed", "Something went wrong.", "warning");
-            }
-          },
-          (error) => {},
-          () => {}
-        );
     }
   }
 
@@ -455,7 +382,7 @@ export class PasscodemanagerComponent implements OnInit {
             .subscribe((data2) => {
               console.log("--> Passcode usability: ", data2);
               if (data2["count"] == 0) {
-                this.delete_passcode(record_id, userid);
+                this.delete_passcode(record_id, userid, passcode.toUpperCase());
               } else {
                 swal.fire(
                   "Failed",
@@ -470,18 +397,20 @@ export class PasscodemanagerComponent implements OnInit {
       });
   }
 
-  delete_passcode(record_id, userid) {
+  delete_passcode(record_id, userid, passcode) {
     this.hideLoading_indicator = false;
-    this.passcodemanagerService.deletepasscode(record_id, userid).subscribe(
-      (data) => {
-        swal.fire("Success", "Passcode removed " + data["status"], "success");
-        this.getallPasscode();
-        this.hideLoading_indicator = true;
-        this.reset_passcode();
-      },
-      (error) => {},
-      () => {}
-    );
+    this.passcodemanagerService
+      .deletepasscode(record_id, userid, passcode)
+      .subscribe(
+        (data) => {
+          swal.fire("Success", "Passcode removed " + data["status"], "success");
+          this.getallPasscode();
+          this.hideLoading_indicator = true;
+          this.reset_passcode();
+        },
+        (error) => {},
+        () => {}
+      );
   }
 
   search(term: string) {
@@ -507,7 +436,7 @@ export class PasscodemanagerComponent implements OnInit {
       this.selected_userid = param.userid;
       this.selected_username = param.username;
       this.selected_usertype = param.usertype;
-      this.selected_managertype = "";
+      this.selected_managertype = param.managertype;
       this.selected_passcode = "";
     } else if (flag == "edit") {
       this.selected_recordid = param._id;

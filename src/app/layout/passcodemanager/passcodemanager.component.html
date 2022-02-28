@@ -86,6 +86,9 @@
                       <div style="font-size: 12px; color: #858484">
                         {{ row.userid }}
                       </div>
+                      <div style="font-size: 12px; color: #858484">
+                        {{ row.managertype }}
+                      </div>
                     </div>
                   </div>
 
@@ -131,7 +134,8 @@
                               >
                                 {{ psd.passcode }}
                                 <div style="font-size: 10px">
-                                  Expire Date: {{ psd.expireon }}
+                                  Expire Date:
+                                  {{ psd.expireon | date: "mediumDate" }}
                                 </div>
                               </div>
                               <div class="col">
@@ -197,7 +201,8 @@
                               >
                                 {{ psd.passcode }}
                                 <div style="font-size: 10px">
-                                  Expire Date: {{ psd.expireon }}
+                                  Expire Date:
+                                  {{ psd.expireon | date: "mediumDate" }}
                                 </div>
                               </div>
                               <div class="col">
@@ -313,22 +318,6 @@
     <br />
 
     <div class="row">
-      <div class="col col-xl-4 col-lg-4">Manager Type</div>
-      <div class="col col-xl-8 col-lg-8 row-fluid">
-        <select
-          value="{{ selected_managertype }}"
-          (change)="selected_managertype_onchange($event)"
-          class="form-control"
-        >
-          <option value="">Select Manger type</option>
-          <option value="manager">Manager</option>
-          <option value="crc">CRC</option>
-        </select>
-      </div>
-    </div>
-    <br />
-
-    <div class="row">
       <div class="col col-xl-4 col-lg-4">Passcode</div>
       <div class="col col-xl-8 col-lg-8 row-fluid">
         <input
@@ -367,96 +356,6 @@
       type="button"
       class="btn btn-primary"
       (click)="addupdate_passcode()"
-      [disabled]="disable_save_button"
-    >
-      &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
-    </button>
-  </div>
-</ng-template>
-
-<!-- =================Add Manager Modal=================== -->
-<ng-template #addmanagermodal let-c="close" let-d="dismiss">
-  <div class="modal-body">
-    <!-- Add contents Here -->
-    <div class="row">
-      <div class="col col-xl-4 col-lg-4">Manager Name</div>
-      <div class="col">
-        <div class="form-group">
-          <input
-            id="manager_name"
-            [value]="manager_name"
-            [(ngModel)]="manager_name"
-            type="text"
-            class="form-control input-underline input-lg"
-            placeholder="Manager name"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col col-xl-4 col-lg-4">Email ID</div>
-      <div class="col">
-        <div class="form-group">
-          <input
-            value="{{ manager_email }}"
-            [(ngModel)]="manager_email"
-            type="text"
-            class="form-control input-underline input-lg"
-            placeholder="Mail ID"
-            autocomplete="off"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col col-xl-4 col-lg-4">Password</div>
-      <div class="col col-xl-5 col-lg-5">
-        <div class="form-group">
-          <input
-            [type]="passwordfield_type"
-            value="{{ manager_password }}"
-            [(ngModel)]="manager_password"
-            class="form-control input-underline input-lg"
-            placeholder="Password"
-          />
-        </div>
-      </div>
-      <div class="col col-xl-3 col-lg-3">
-        <button
-          type="button"
-          class="btn btn-warning float-right"
-          (click)="show_hide_passwordfield()"
-        >
-          <i class="fa fa-eye-slash" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col col-xl-4 col-lg-4">Mobile number</div>
-      <div class="col">
-        <div class="form-group">
-          <input
-            value="{{ manager_phone }}"
-            [(ngModel)]="manager_phone"
-            type="text"
-            class="form-control input-underline input-lg"
-            placeholder="Mobile Number"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default" (click)="c('Close click')">
-      Cancel
-    </button>
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="create_manager()"
       [disabled]="disable_save_button"
     >
       &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
