@@ -432,12 +432,16 @@ export class PasscodemanagerComponent implements OnInit {
       })
       .then((result) => {
         if (result.value) {
-          this.verify_delete(passcodedata._id, passcodedata.passcode);
+          this.verify_delete(
+            passcodedata._id,
+            passcodedata.userid,
+            passcodedata.passcode
+          );
         }
       });
   }
 
-  verify_delete(record_id, passcode) {
+  verify_delete(record_id, userid, passcode) {
     console.log("--> Verify delete: " + passcode);
     this.passcodemanagerService
       .checkpasscodeexistance(passcode.toUpperCase())
@@ -451,11 +455,13 @@ export class PasscodemanagerComponent implements OnInit {
             .subscribe((data2) => {
               console.log("--> Passcode usability: ", data2);
               if (data2["count"] == 0) {
-                this.delete_passcode(record_id);
+                this.delete_passcode(record_id, userid);
               } else {
                 swal.fire(
                   "Failed",
-                  "Passcode: " + passcode + " is already in use",
+                  "Passcode: " +
+                    passcode +
+                    " can not be deleted, because it is used in multiple user records.",
                   "warning"
                 );
               }
@@ -464,9 +470,9 @@ export class PasscodemanagerComponent implements OnInit {
       });
   }
 
-  delete_passcode(record_id) {
+  delete_passcode(record_id, userid) {
     this.hideLoading_indicator = false;
-    this.passcodemanagerService.deletepasscode(record_id).subscribe(
+    this.passcodemanagerService.deletepasscode(record_id, userid).subscribe(
       (data) => {
         swal.fire("Success", "Passcode removed " + data["status"], "success");
         this.getallPasscode();

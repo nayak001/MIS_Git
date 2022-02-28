@@ -47,8 +47,8 @@ export class PasscodemanagerService {
     });
   }
 
-  deletepasscode(id) {
-    return this.http.delete(baseUrl + "deletepasscode/" + id, {
+  deletepasscode(id, userid) {
+    return this.http.delete(baseUrl + "deletepasscode/" + id + "/" + userid, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
