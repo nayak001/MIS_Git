@@ -201,7 +201,6 @@ export class PgeactivitiesComponent implements OnInit {
   // ====================================== Segment related codes started from here =================================
 
   segment_select_onchange(value) {
-    console.log("segment_select_onchange", this.selected_segment_index);
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
@@ -542,7 +541,6 @@ export class PgeactivitiesComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            console.log("-->data: ", data);
             if (Object.keys(data).length > 0) {
               this.save_operation = "update";
               this.record_id = data[0]["_id"];
@@ -998,7 +996,6 @@ export class PgeactivitiesComponent implements OnInit {
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   delflashcard(i) {
-    console.log("-->Index Value= " + i);
     swal
       .fire({
         title: "Are you sure?",

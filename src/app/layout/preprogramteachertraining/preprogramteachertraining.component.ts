@@ -844,12 +844,6 @@ export class PreprogrmateachertrainingComponent implements OnInit {
       );
   }
   updatetchtrainingpercentage(moduleid, submoduleid, topicid) {
-    // this.masterteachertraining1Service.gettchtrainingdetails(moduleid,submoduleid).subscribe(data => {
-    // 	console.log("hii i am hereee12",data)
-    // 	},
-    // 	error => {},
-    // 	() => {}
-    // );
     this.preprogramteachertrainingService
       .updatetchtrainingpercentage(moduleid, submoduleid, topicid)
       .subscribe(

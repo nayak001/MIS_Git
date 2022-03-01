@@ -1,39 +1,40 @@
-import { Injectable } from '@angular/core';
-import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
+import { Injectable } from "@angular/core";
+import { AbstractControl, ValidatorFn } from "@angular/forms";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { environment } from "../../../environments/environment.prod";
 
 const baseUrl = environment.baseUrl;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DashboardService {
-	constructor(
-		private http: HttpClient
-	) { }
-  
-	getallstudents(){
-		return this.http.get( baseUrl+'dboard_getalldashboardcountdata', { headers:new HttpHeaders().set('Content-Type', 'application/json') });
-	}
+  constructor(private http: HttpClient) {}
 
-	getdashboarddetails(apiurl){
-		console.log('--> calling api: '+(baseUrl+''+apiurl));
-		return this.http.get( baseUrl+''+apiurl, { headers:new HttpHeaders().set('Content-Type', 'application/json') });
-	}
+  getallstudents() {
+    return this.http.get(baseUrl + "dboard_getalldashboardcountdata", {
+      headers: new HttpHeaders().set("Content-Type", "application/json"),
+    });
+  }
 
-	// getCenterDetails(){
-	// 	return this.http.get(baseUrl+'centerDetails', {
-	// 		headers: new HttpHeaders().set('Content-Type', 'application/json')
-	// 		//responseType: 'text' 
-	// 	});	
-	// }
+  getdashboarddetails(apiurl) {
+    return this.http.get(baseUrl + "" + apiurl, {
+      headers: new HttpHeaders().set("Content-Type", "application/json"),
+    });
+  }
 
-	// 	getBlocks(){
-	// 		return this.http.get(baseUrl+'disticBlockDetails', {
-	// 			headers: new HttpHeaders().set('Content-Type', 'application/json')
-	// 			//responseType: 'text' 
-	// 		});	
-	// 	}
-	// }
+  // getCenterDetails(){
+  // 	return this.http.get(baseUrl+'centerDetails', {
+  // 		headers: new HttpHeaders().set('Content-Type', 'application/json')
+  // 		//responseType: 'text'
+  // 	});
+  // }
+
+  // 	getBlocks(){
+  // 		return this.http.get(baseUrl+'disticBlockDetails', {
+  // 			headers: new HttpHeaders().set('Content-Type', 'application/json')
+  // 			//responseType: 'text'
+  // 		});
+  // 	}
+  // }
 }

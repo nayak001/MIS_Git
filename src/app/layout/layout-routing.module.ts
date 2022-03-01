@@ -224,6 +224,10 @@ const routes: Routes = [
         loadChildren: "./nsdcexam/nsdcexam.module#NsdcExamModule",
       },
       {
+        path: "flnmaster",
+        loadChildren: "./flnmaster/flnmaster.module#FlnmasterModule",
+      },
+      {
         path: "nsdcmastermodule",
         loadChildren:
           "./masternsdcmodule/masternsdcmodule.module#MasterNsdcModule",

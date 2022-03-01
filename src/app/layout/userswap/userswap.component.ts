@@ -37,7 +37,7 @@ export class UserswapComponent implements OnInit {
   selected_passcode: string = "";
   selected_usertype: string = "fellow";
   selected_gender: string = "female";
-  selected_phone: string = "";
+  selected_phone: any;
   selected_qualification: string = "graduate";
   selected_udisecode: string = "";
   selected_schoolname: string = "";
@@ -719,6 +719,8 @@ export class UserswapComponent implements OnInit {
   }
 
   savemanager_validation() {
+    console.log();
+
     let regex_email =
       /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     let regex_phone = /^((\\+91-?)|0)?[0-9]{10}$/;
@@ -760,14 +762,16 @@ export class UserswapComponent implements OnInit {
     } else if (
       this.selected_phone == undefined ||
       this.selected_phone == null ||
-      this.selected_phone.trim() == ""
+      this.selected_phone.toString().length != 10
     ) {
       swal.fire("Info", "Please enter valid Mobile number", "info");
       return false;
-    } else if (!this.selected_phone.match(regex_phone)) {
-      swal.fire("Info", "Not a valid Mobile number", "info");
-      return false;
-    } else if (
+    }
+    // else if (!this.selected_phone.match(regex_phone)) {
+    //   swal.fire("Info", "Not a valid Mobile number", "info");
+    //   return false;
+    // }
+    else if (
       this.selected_managertype == undefined ||
       this.selected_managertype == null ||
       this.selected_managertype.trim() == ""
@@ -822,14 +826,16 @@ export class UserswapComponent implements OnInit {
     } else if (
       this.selected_phone == undefined ||
       this.selected_phone == null ||
-      this.selected_phone.trim() == ""
+      this.selected_phone.toString().length != 10
     ) {
       swal.fire("Info", "Please enter valid Mobile number", "info");
       return false;
-    } else if (!this.selected_phone.match(regex_phone)) {
-      swal.fire("Info", "Not a valid Mobile number", "info");
-      return false;
-    } else if (
+    }
+    // else if (!this.selected_phone.match(regex_phone)) {
+    //   swal.fire("Info", "Not a valid Mobile number", "info");
+    //   return false;
+    // }
+    else if (
       this.selected_managertype == undefined ||
       this.selected_managertype == null ||
       this.selected_managertype.trim() == ""
@@ -873,6 +879,20 @@ export class UserswapComponent implements OnInit {
       //   swal.fire("Info", "User name must be between 5 to 20 characters", "info");
       //   return false;
     } else if (
+      this.new_userid == undefined ||
+      this.new_userid == null ||
+      this.new_userid.trim() == ""
+    ) {
+      swal.fire("Info", "Please enter valid New User ID", "info");
+      return false;
+    } else if (
+      this.new_username == undefined ||
+      this.new_username == null ||
+      this.new_username.trim() == ""
+    ) {
+      swal.fire("Info", "Please enter valid New Username", "info");
+      return false;
+    } else if (
       this.selected_usertype == undefined ||
       this.selected_usertype == null ||
       this.selected_usertype.trim() == ""
@@ -882,14 +902,16 @@ export class UserswapComponent implements OnInit {
     } else if (
       this.selected_phone == undefined ||
       this.selected_phone == null ||
-      this.selected_phone.trim() == ""
+      this.selected_phone.toString().length != 10
     ) {
       swal.fire("Info", "Please enter valid Mobile number", "info");
       return false;
-    } else if (!this.selected_phone.match(regex_phone)) {
-      swal.fire("Info", "Not a valid Mobile number", "info");
-      return false;
-    } else {
+    }
+    // else if (!this.selected_phone.match(regex_phone)) {
+    //   swal.fire("Info", "Not a valid Mobile number", "info");
+    //   return false;
+    // }
+    else {
       this.data_to_db = {
         usertype: this.selected_usertype.toLowerCase(),
         username: this.selected_username.toLowerCase(),

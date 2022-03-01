@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { UsersService } from './../../users/users.service';
-import { environment } from './../../../../environments/environment.prod';
+import { Component, OnInit } from "@angular/core";
+import { Router, NavigationEnd } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { UsersService } from "./../../users/users.service";
+import { environment } from "./../../../../environments/environment.prod";
 
 const version = environment.version;
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit {
   version: string = version;
   public pushRightClass: string;
-  dbid: string = '';
-  currentuser_userid: string = '';
-  currentuser_password: string = '';
-  currentuser_username: string = '';
-  currentuser_type: string = '';
+  dbid: string = "";
+  currentuser_userid: string = "";
+  currentuser_password: string = "";
+  currentuser_username: string = "";
+  currentuser_type: string = "";
 
   hide_span_username: boolean = false;
   hide_span_password: boolean = false;
@@ -38,18 +38,29 @@ export class HeaderComponent implements OnInit {
     private modalService: NgbModal,
     private usersService: UsersService
   ) {
-    this.currentuser_userid = localStorage.getItem('_currentuser_userid');
-    this.currentuser_password = localStorage.getItem('_currentuser_password');
-    this.currentuser_username = localStorage.getItem('_currentuser_username');
-    this.currentuser_type = localStorage.getItem('_currentuser_type');
+    this.currentuser_userid = localStorage.getItem("_currentuser_userid");
+    this.currentuser_password = localStorage.getItem("_currentuser_password");
+    this.currentuser_username = localStorage.getItem("_currentuser_username");
+    this.currentuser_type = localStorage.getItem("_currentuser_type");
     this.getuserdbid();
 
-    this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
-    this.translate.setDefaultLang('en');
+    this.translate.addLangs([
+      "en",
+      "fr",
+      "ur",
+      "es",
+      "it",
+      "fa",
+      "de",
+      "zh-CHS",
+    ]);
+    this.translate.setDefaultLang("en");
     const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+    this.translate.use(
+      browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : "en"
+    );
 
-    this.router.events.subscribe(val => {
+    this.router.events.subscribe((val) => {
       if (
         val instanceof NavigationEnd &&
         window.innerWidth <= 992 &&
@@ -61,28 +72,28 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pushRightClass = 'push-right';
+    this.pushRightClass = "push-right";
     this.reset();
   }
 
   isToggled(): boolean {
-    const dom: Element = document.querySelector('body');
+    const dom: Element = document.querySelector("body");
     return dom.classList.contains(this.pushRightClass);
   }
 
   toggleSidebar() {
-    const dom: any = document.querySelector('body');
+    const dom: any = document.querySelector("body");
     dom.classList.toggle(this.pushRightClass);
   }
 
   rltAndLtr() {
-    const dom: any = document.querySelector('body');
-    dom.classList.toggle('rtl');
+    const dom: any = document.querySelector("body");
+    dom.classList.toggle("rtl");
   }
 
   onLoggedout() {
     localStorage.clear();
-    this.router.navigate(['login']);
+    this.router.navigate(["login"]);
   }
 
   changeLang(language: string) {
@@ -90,12 +101,12 @@ export class HeaderComponent implements OnInit {
   }
 
   getuserdbid() {
-    this.usersService.getuserbyuserid(this.currentuser_userid).subscribe(data => {
-      //console.log("data",data)
-      this.dbid = data[0]['_id'];
-    },
-      error => { },
-      () => { }
+    this.usersService.getuserbyuserid(this.currentuser_userid).subscribe(
+      (data) => {
+        this.dbid = data[0]["_id"];
+      },
+      (error) => {},
+      () => {}
     );
   }
 
@@ -106,16 +117,17 @@ export class HeaderComponent implements OnInit {
   btn_save_click() {
     let obj = {
       username: this.currentuser_username,
-      password: this.currentuser_password
-    }
-    this.usersService.updateuser(this.dbid, obj).subscribe(data => {
-      this.modalReference.close();
-      alert('Profile save ' + data);
-      //location.reload();
-      this.onLoggedout();
-    },
-      error => { },
-      () => { }
+      password: this.currentuser_password,
+    };
+    this.usersService.updateuser(this.dbid, obj).subscribe(
+      (data) => {
+        this.modalReference.close();
+        alert("Profile save " + data);
+        //location.reload();
+        this.onLoggedout();
+      },
+      (error) => {},
+      () => {}
     );
     this.reset();
   }
@@ -142,19 +154,25 @@ export class HeaderComponent implements OnInit {
 
   open(content) {
     this.reset();
-    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false });
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.modalReference = this.modalService.open(content, {
+      backdrop: "static",
+      keyboard: false,
     });
+    this.modalReference.result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
+      return "by pressing ESC";
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
+      return "by clicking on a backdrop";
     } else {
       return `with: ${reason}`;
     }
