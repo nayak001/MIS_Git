@@ -410,40 +410,40 @@ export class UserswapComponent implements OnInit {
       newusername: this.new_username,
     };
 
-    if (this.selected_userid == this.new_userid) {
-      swal.fire("Info", "User id cant be same", "info");
-    } else {
-      if (this.edituser_validation()) {
-        this.hideLoading_indicator = false;
-        if (this.swapType == "olduser") {
-          this.usersService.swapolduser(existingUserData).subscribe(
-            (res) => {
-              this.hideLoading_indicator = true;
-              this.modalReference.close();
-              this.getallUsers();
-              this.reset_defaults();
-              swal.fire("Success", "User swapped successfully.", "success");
-            },
-            (error) => {
-              console.log("swap err", error);
-            },
-            () => {}
-          );
-        } else {
-          this.usersService.swapnewuser(newUserdata).subscribe(
-            (res) => {
-              this.hideLoading_indicator = true;
-              this.modalReference.close();
-              this.getallUsers();
-              this.reset_defaults();
-              swal.fire("Success", "User swapped successfully.", "success");
-            },
-            (error) => {
-              console.log("swap err", error);
-            },
-            () => {}
-          );
-        }
+    if (this.edituser_validation()) {
+      this.hideLoading_indicator = false;
+      if (this.swapType == "olduser") {
+        //console.log("old data", existingUserData);
+        this.usersService.swapolduser(existingUserData).subscribe(
+          (res) => {
+            this.hideLoading_indicator = true;
+            this.modalReference.close();
+            this.getallUsers();
+            this.reset_defaults();
+            // console.log(res);
+            swal.fire("Success", "User swapped successfully.", "success");
+          },
+          (error) => {
+            console.log("swap err", error);
+          },
+          () => {}
+        );
+      } else {
+        console.log("new data", newUserdata);
+        this.usersService.swapnewuser(newUserdata).subscribe(
+          (res) => {
+            this.hideLoading_indicator = true;
+            this.modalReference.close();
+            this.getallUsers();
+            this.reset_defaults();
+            //console.log(res);
+            swal.fire("Success", "User swapped successfully.", "success");
+          },
+          (error) => {
+            console.log("swap err", error);
+          },
+          () => {}
+        );
       }
     }
   }
