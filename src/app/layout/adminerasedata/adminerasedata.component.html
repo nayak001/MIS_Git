@@ -1,0 +1,106 @@
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>Erase Data</h4>
+            </div>
+          </div>
+        </div>
+
+        <!-- content displayed here -->
+        <div class="card-body table-responsive">
+          <!-- filters -->
+          <div class="">
+            <div class="row">
+              <div class="col col-xl-3 col-lg-3">
+                <select
+                  value="{{ preferedlanguage_filter }}"
+                  (change)="preferedlanguage_filter_onchange($event)"
+                  class="form-control"
+                >
+                  <option value="select" selected="selected">Select</option>
+                  <option value="satabdeeramesh@gmail.com">Satabdee</option>
+                  <option value="satabdeeramesh@gmail.com">Uttam</option>
+                </select>
+              </div>
+              <div class="col col-xl-3 col-lg-3">
+                <input
+                  type="checkbox"
+                  id="vehicle1"
+                  name="vehicle1"
+                  value="Bike"
+                />
+                <label for="vehicle1"> ALL</label><br />
+                <input
+                  type="checkbox"
+                  id="vehicle1"
+                  name="vehicle1"
+                  value="Bike"
+                />
+                <label for="vehicle1"> USERDATA</label><br />
+                <input
+                  type="checkbox"
+                  id="vehicle2"
+                  name="vehicle2"
+                  value="Car"
+                />
+                <label for="vehicle2"> BASELINE</label><br />
+                <input
+                  type="checkbox"
+                  id="vehicle3"
+                  name="vehicle3"
+                  value="Boat"
+                />
+                <label for="vehicle3"> PPT</label><br />
+                <input
+                  type="checkbox"
+                  id="vehicle3"
+                  name="vehicle3"
+                  value="Boat"
+                />
+                <label for="vehicle3"> MONTHLY</label><br />
+              </div>
+              <div class="col col-xl-3 col-lg-3">
+                <input
+                  type="checkbox"
+                  id="vehicle3"
+                  name="vehicle3"
+                  value="Boat"
+                />
+                <label for="vehicle3"> ENDLINE</label><br />
+                <input
+                  type="checkbox"
+                  id="vehicle3"
+                  name="vehicle3"
+                  value="Boat"
+                />
+                <label for="vehicle3"> NSDC EXAM</label><br />
+                <input type="submit" value="Submit" />
+              </div>
+            </div>
+          </div>
+          <!-- ======= -->
+          <div
+            id="loading_indicator"
+            class="loading_indicator"
+            [hidden]="hideLoading_indicator"
+          >
+            <span class=""
+              ><img
+                src="assets/images/loader3.gif"
+                alt="Loading. Please wait..."
+            /></span>
+          </div>
+          <div>
+            <div class="row"></div>
+            <div class="row"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

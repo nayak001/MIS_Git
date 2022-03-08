@@ -285,6 +285,11 @@ const routes: Routes = [
         loadChildren: "./gallery/gallery.module#GalleryModule",
       },
       {
+        path: "erasedata",
+        loadChildren:
+          "./adminerasedata/adminerasedata.module#AdminerasedataModule",
+      },
+      {
         path: "skillchartfileupload",
         loadChildren:
           "./skillchartfileupload/skillchartfileupload.module#SkillchartfileuploadModule",
