@@ -11,38 +11,14 @@ const baseUrl = environment.baseUrl;
 export class PasscodemanagerService {
   constructor(private http: HttpClient) {}
 
-  getallmanager() {
-    return this.http.get(baseUrl + "/getallmanager", {
-      headers: new HttpHeaders().set("Content-Type", "application/json"),
-    });
-  }
-
   getallpasscode() {
     return this.http.get(baseUrl + "/getallapasscode", {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
 
-  checkpasscodeexistance(passcode) {
-    return this.http.get(baseUrl + "checkpasscodeexistance/" + passcode, {
-      headers: new HttpHeaders().set("Content-Type", "application/json"),
-    });
-  }
-
-  checkpasscodeusability(passcode) {
-    return this.http.get(baseUrl + "checkpasscodeusability/" + passcode, {
-      headers: new HttpHeaders().set("Content-Type", "application/json"),
-    });
-  }
-
   createnewpasscode(body) {
     return this.http.post(baseUrl + "savepasscode", body, {
-      headers: new HttpHeaders().set("Content-Type", "application/json"),
-    });
-  }
-
-  updatepasscode(id, body) {
-    return this.http.put(baseUrl + "updatepasscode/" + id, body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
@@ -56,14 +32,14 @@ export class PasscodemanagerService {
     );
   }
 
-  createnewuser(body) {
-    return this.http.post(baseUrl + "createnewuser", body, {
+  checkpasscodeexistance(passcode) {
+    return this.http.get(baseUrl + "checkpasscodeexistance/" + passcode, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
 
-  checkemailavailability(emailid) {
-    return this.http.get(baseUrl + "checkemailavailability/" + emailid, {
+  checkpasscodeusability(passcode) {
+    return this.http.get(baseUrl + "checkpasscodeusability/" + passcode, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
