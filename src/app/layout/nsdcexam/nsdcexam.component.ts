@@ -96,7 +96,8 @@ export class NsdcExamComponent implements OnInit {
     this.selected_assesment = "baseline";
   }
   nsdc_mastermoduleload() {
-    this.router.navigate(["/nsdcmastermodule"]);
+    //this.router.navigate(["/nsdcmastermodule"]);
+    this.router.navigate(["/nsdc"]);
   }
 
   ngOnInit() {

@@ -220,6 +220,10 @@ const routes: Routes = [
         loadChildren: "./tchbaseline/tchbaseline.module#TchbaselineModule",
       },
       {
+        path: "nsdc",
+        loadChildren: "./nsdc/nsdc.module#NsdcModule",
+      },
+      {
         path: "nsdcexam",
         loadChildren: "./nsdcexam/nsdcexam.module#NsdcExamModule",
       },

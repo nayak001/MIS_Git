@@ -1,0 +1,162 @@
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>NSDC Dashboard</h4>
+            </div>
+            <div class="col"></div>
+            <div class="col">
+              <button
+                (click)="goto('nsdcexam')"
+                class="btn btn-sm btn-primary float-right"
+                type="button"
+              >
+                &nbsp;&nbsp;&nbsp;Manage NSDC&nbsp;&nbsp;&nbsp;
+              </button>
+              <button
+                (click)="goto('nsdcmastermodule')"
+                class="btn btn-sm btn-primary float-right"
+                type="button"
+                style="margin-right: 5px"
+              >
+                &nbsp;&nbsp;&nbsp;View Answer&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body table-responsive">
+          <div
+            id="loading_indicator"
+            class="loading_indicator"
+            [hidden]="hideLoading_indicator"
+          >
+            <span class=""
+              ><img
+                src="assets/images/loader3.gif"
+                alt="Loading. Please wait..."
+            /></span>
+          </div>
+
+          <!-- filter bar -->
+          <div class="full_width">
+            <div class="row">
+              <div class="col col-lg-3 col-md-3 col-sm-3">
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Year'"
+                  [data]="year_list"
+                  [settings]="year_multiselect_settings"
+                  (onSelect)="year_multiselect_onselectitem($event)"
+                  (onDeSelect)="year_multiselect_ondeselectitem($event)"
+                  (onSelectAll)="year_multiselect_onselectall($event)"
+                  style="width: 70%; margin-left: 10px"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col col-lg-3 col-md-3 col-sm-3">
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Manager'"
+                  [data]="manager_list"
+                  [settings]="manager_multiselect_settings"
+                  (onSelect)="manager_multiselect_onselectitem($event)"
+                  (onDeSelect)="manager_multiselect_ondeselectitem($event)"
+                  (onSelectAll)="manager_multiselect_onselectall($event)"
+                  style="width: 70%; margin-left: 10px"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col col-lg-3 col-md-3 col-sm-3">
+                <ng-multiselect-dropdown
+                  [placeholder]="'Select Passcode'"
+                  [data]="passcode_list"
+                  [settings]="passcode_multiselect_settings"
+                  (onSelect)="passcode_multiselect_onselectitem($event)"
+                  (onDeSelect)="passcode_multiselect_ondeselectitem($event)"
+                  (onSelectAll)="passcode_multiselect_onselectall($event)"
+                  style="width: 70%; margin-left: 10px"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col col-lg-3 col-md-3 col-sm-3">
+                <button
+                  (click)="search_btnclick()"
+                  class="btn btn-block btn-primary float-right"
+                  type="button"
+                  style="margin-top: 23px"
+                >
+                  &nbsp;&nbsp;&nbsp;Search&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- report area -->
+          <div class="row">
+            <div class="full_width report_container">
+              <div class="full_width report_page">
+                <div class="heading"><u>Fellows NSDC Report</u></div>
+
+                <div class="row">
+                  <div class="col col-lg-3 col-md-3 col-sm-3">
+                    <div class="heading2">Total Fellows Appeared</div>
+                  </div>
+                  <div class="col">: {{ total_fellows_appeared }}</div>
+                </div>
+                <div class="row">
+                  <div class="col col-lg-3 col-md-3 col-sm-3">
+                    <div class="heading2">Total Fellows Pending</div>
+                  </div>
+                  <div class="col">: {{ total_fellows_pending }}</div>
+                </div>
+                <div class="row">
+                  <div class="col col-lg-3 col-md-3 col-sm-3">
+                    <div class="heading2">Total Fellows Complete</div>
+                  </div>
+                  <div class="col">: {{ total_fellows_complete }}</div>
+                </div>
+
+                <table class="full_width" style="margin-top: 20px">
+                  <thead>
+                    <th>Manager Name</th>
+                    <th style="text-align: center">Total Appeared</th>
+                    <th style="text-align: center">Evaluation Pending</th>
+                    <th style="text-align: center">Evaluation Complete</th>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="let reportdata of report_list"
+                      style="border-top: 1px solid #eaeaea"
+                    >
+                      <td style="width: 40%">
+                        {{
+                          (reportdata.managername
+                            ? reportdata.managername
+                            : "anonymous"
+                          ) | titlecase
+                        }}
+                      </td>
+                      <td style="width: 20%; text-align: center">
+                        {{ reportdata.total }}
+                      </td>
+                      <td style="width: 20%; text-align: center">
+                        {{ reportdata.pending }}
+                      </td>
+                      <td style="width: 20%; text-align: center">
+                        {{ reportdata.complete }}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot></tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

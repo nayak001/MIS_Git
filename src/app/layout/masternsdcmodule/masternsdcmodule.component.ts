@@ -114,7 +114,8 @@ export class MasterNsdcComponent implements OnInit {
     this.hideContent_div = false;
   }
   nsdc_mastermoduleload() {
-    this.router.navigate(["/backtomaster"]);
+    //this.router.navigate(["/backtomaster"]);
+    this.router.navigate(["/nsdc"]);
   }
   ngOnInit() {
     this.load_record();
