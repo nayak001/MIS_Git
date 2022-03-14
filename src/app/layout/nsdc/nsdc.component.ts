@@ -16,6 +16,10 @@ const URL = environment.uploadURL;
 export class NsdcComponent implements OnInit {
   // Filters
   manager_passcode_list: any = [];
+  param_year: any = "all";
+  param_managerid: any = "all";
+  param_passcode: any = "all";
+
   // Year
   year_list: any = [{ yearid: 2022, yearname: "2022" }];
   year_multiselect_settings: any = {};
@@ -48,7 +52,14 @@ export class NsdcComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getnsdcreport();
+    this.param_year = "all";
+    this.param_managerid = "all";
+    this.param_passcode = "all";
+    this.getnsdcreport(
+      this.param_year,
+      this.param_managerid,
+      this.param_passcode
+    );
     this.initialize_year_multiselect();
     this.initialize_manager_multiselect();
     this.initialize_passcode_multiselect();
@@ -150,47 +161,49 @@ export class NsdcComponent implements OnInit {
     );
   }
 
-  getnsdcreport() {
+  getnsdcreport(year, managerid, passcode) {
     this.hideLoading_indicator = false;
     this.report_list = [];
-    this.nsdcService.getmanagerwisensdcreport().subscribe(
-      (data) => {
-        if (Object.keys(data).length > 0) {
-          if (data["status"] == "200") {
-            this.report_list = data["data"];
+    this.nsdcService
+      .getmanagerwisensdcreport(year, managerid, passcode)
+      .subscribe(
+        (data) => {
+          if (Object.keys(data).length > 0) {
+            if (data["status"] == "200") {
+              this.report_list = data["data"];
 
-            this.total_fellows_appeared = this.report_list.reduce(
-              (sum, ele) =>
-                sum + (parseInt(ele.total) ? parseInt(ele.total) : 0),
-              0
-            );
-            this.total_fellows_pending = this.report_list.reduce(
-              (sum, ele) =>
-                sum + (parseInt(ele.total) ? parseInt(ele.pending) : 0),
-              0
-            );
-            this.total_fellows_complete = this.report_list.reduce(
-              (sum, ele) =>
-                sum + (parseInt(ele.total) ? parseInt(ele.complete) : 0),
-              0
-            );
+              this.total_fellows_appeared = this.report_list.reduce(
+                (sum, ele) =>
+                  sum + (parseInt(ele.total) ? parseInt(ele.total) : 0),
+                0
+              );
+              this.total_fellows_pending = this.report_list.reduce(
+                (sum, ele) =>
+                  sum + (parseInt(ele.total) ? parseInt(ele.pending) : 0),
+                0
+              );
+              this.total_fellows_complete = this.report_list.reduce(
+                (sum, ele) =>
+                  sum + (parseInt(ele.total) ? parseInt(ele.complete) : 0),
+                0
+              );
+            } else {
+              this.report_list = [];
+              this.total_fellows_appeared = 0;
+              this.total_fellows_pending = 0;
+              this.total_fellows_complete = 0;
+            }
           } else {
             this.report_list = [];
             this.total_fellows_appeared = 0;
             this.total_fellows_pending = 0;
             this.total_fellows_complete = 0;
           }
-        } else {
-          this.report_list = [];
-          this.total_fellows_appeared = 0;
-          this.total_fellows_pending = 0;
-          this.total_fellows_complete = 0;
-        }
-        this.hideLoading_indicator = true;
-      },
-      (error) => {},
-      () => {}
-    );
+          this.hideLoading_indicator = true;
+        },
+        (error) => {},
+        () => {}
+      );
   }
 
   search_btnclick() {
@@ -201,6 +214,26 @@ export class NsdcComponent implements OnInit {
       this.selected_manager.userid,
       "    selected passcode ",
       this.selected_passcode.passcode
+    );
+    this.param_year =
+      this.selected_year.yearid == undefined ||
+      this.selected_year.yearid == null
+        ? "all"
+        : this.selected_year.yearid;
+    this.param_managerid =
+      this.selected_manager.userid == undefined ||
+      this.selected_manager.userid == null
+        ? "all"
+        : this.selected_manager.userid;
+    this.param_passcode =
+      this.selected_passcode.passcode == undefined ||
+      this.selected_passcode.passcode == null
+        ? "all"
+        : this.selected_passcode.passcode;
+    this.getnsdcreport(
+      this.param_year,
+      this.param_managerid,
+      this.param_passcode
     );
   }
 }

@@ -84,7 +84,7 @@
               <div class="col col-lg-3 col-md-3 col-sm-3">
                 <button
                   (click)="search_btnclick()"
-                  class="btn btn-block btn-primary float-right"
+                  class="btn btn-block btn-secondary float-right"
                   type="button"
                   style="margin-top: 23px"
                 >
@@ -99,24 +99,63 @@
             <div class="full_width report_container">
               <div class="full_width report_page">
                 <div class="heading"><u>Fellows NSDC Report</u></div>
+                <br />
 
-                <div class="row">
-                  <div class="col col-lg-3 col-md-3 col-sm-3">
-                    <div class="heading2">Total Fellows Appeared</div>
+                <div style="padding: 10px; border: 1px solid gray">
+                  <div class="row">
+                    <div class="col col-lg-6 col-md-6 col-sm-6">
+                      <div class="row">
+                        <div class="col col-lg-6 col-md-6 col-sm-6">
+                          <div class="heading2">Total Fellows Appeared</div>
+                        </div>
+                        <div class="col">: {{ total_fellows_appeared }}</div>
+                      </div>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-6">
+                      <div class="row">
+                        <div class="col col-lg-6 col-md-6 col-sm-6">
+                          <div class="heading2">Year</div>
+                        </div>
+                        <div class="col">: {{ param_year }}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col">: {{ total_fellows_appeared }}</div>
-                </div>
-                <div class="row">
-                  <div class="col col-lg-3 col-md-3 col-sm-3">
-                    <div class="heading2">Total Fellows Pending</div>
+                  <div class="row">
+                    <div class="col col-lg-6 col-md-6 col-sm-6">
+                      <div class="row">
+                        <div class="col col-lg-6 col-md-6 col-sm-6">
+                          <div class="heading2">Total Fellows Pending</div>
+                        </div>
+                        <div class="col">: {{ total_fellows_pending }}</div>
+                      </div>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-6">
+                      <div class="row">
+                        <div class="col col-lg-6 col-md-6 col-sm-6 float-right">
+                          <div class="heading2">Manager</div>
+                        </div>
+                        <div class="col">: {{ param_managerid }}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col">: {{ total_fellows_pending }}</div>
-                </div>
-                <div class="row">
-                  <div class="col col-lg-3 col-md-3 col-sm-3">
-                    <div class="heading2">Total Fellows Complete</div>
+                  <div class="row">
+                    <div class="col col-lg-6 col-md-6 col-sm-6">
+                      <div class="row">
+                        <div class="col col-lg-6 col-md-6 col-sm-6">
+                          <div class="heading2">Total Fellows Complete</div>
+                        </div>
+                        <div class="col">: {{ total_fellows_complete }}</div>
+                      </div>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-6">
+                      <div class="row">
+                        <div class="col col-lg-6 col-md-6 col-sm-6">
+                          <div class="heading2">Passcode</div>
+                        </div>
+                        <div class="col">: {{ param_passcode }}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col">: {{ total_fellows_complete }}</div>
                 </div>
 
                 <table class="full_width" style="margin-top: 20px">
