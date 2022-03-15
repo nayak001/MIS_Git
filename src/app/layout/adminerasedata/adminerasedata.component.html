@@ -19,67 +19,74 @@
               <div class="col col-xl-3 col-lg-3">
                 <select
                   value="{{ preferedlanguage_filter }}"
-                  (change)="preferedlanguage_filter_onchange($event)"
+                  (change)="userid_onchange($event)"
                   class="form-control"
                 >
-                  <option value="select" selected="selected">Select</option>
+                  <option value="">Select</option>
                   <option value="satabdeeramesh@gmail.com">Satabdee</option>
                   <option value="satabdeeramesh@gmail.com">Uttam</option>
+                  <option value="shreeyamishra334@gmail.com">Shreeya</option>
                 </select>
               </div>
               <div class="col col-xl-3 col-lg-3">
                 <input
                   type="checkbox"
-                  id="vehicle1"
-                  name="vehicle1"
-                  value="Bike"
+                  id="all"
+                  data-md-icheck
+                  (change)="allchanged($event, data)"
                 />
-                <label for="vehicle1"> ALL</label><br />
+                <label for="all"> ALL</label><br />
                 <input
                   type="checkbox"
-                  id="vehicle1"
-                  name="vehicle1"
-                  value="Bike"
+                  id="userdata"
+                  data-md-icheck
+                  [checked]="userdata"
+                  (change)="userDataCheckboxChanged($event, data)"
                 />
-                <label for="vehicle1"> USERDATA</label><br />
+                <label for="userdata"> USERDATA</label><br />
                 <input
                   type="checkbox"
-                  id="vehicle2"
-                  name="vehicle2"
-                  value="Car"
+                  id="baseline"
+                  data-md-icheck
+                  [checked]="baseline"
+                  (change)="baselineCheckboxChanged($event, data)"
                 />
-                <label for="vehicle2"> BASELINE</label><br />
+                <label for="baseline"> BASELINE</label><br />
                 <input
                   type="checkbox"
-                  id="vehicle3"
-                  name="vehicle3"
-                  value="Boat"
+                  id="ppt"
+                  data-md-icheck
+                  [checked]="pptdata"
+                  (change)="pptCheckboxChanged($event, data)"
                 />
-                <label for="vehicle3"> PPT</label><br />
+                <label for="ppt"> PPT</label><br />
                 <input
                   type="checkbox"
-                  id="vehicle3"
-                  name="vehicle3"
-                  value="Boat"
+                  id="monthly"
+                  data-md-icheck
+                  [checked]="monthly"
+                  (change)="monthlyCheckboxChanged($event, data)"
                 />
-                <label for="vehicle3"> MONTHLY</label><br />
+                <label for="monthly"> MONTHLY</label><br />
               </div>
               <div class="col col-xl-3 col-lg-3">
                 <input
                   type="checkbox"
-                  id="vehicle3"
-                  name="vehicle3"
-                  value="Boat"
+                  id="endline"
+                  data-md-icheck
+                  [checked]="endline"
+                  (change)="endlineCheckboxChanged($event, data)"
                 />
-                <label for="vehicle3"> ENDLINE</label><br />
+                <label for="endline"> ENDLINE</label><br />
                 <input
                   type="checkbox"
-                  id="vehicle3"
-                  name="vehicle3"
-                  value="Boat"
+                  id="nsdc"
+                  data-md-icheck
+                  [checked]="nsdcexam"
+                  (change)="nsdcCheckboxChanged($event, data)"
                 />
-                <label for="vehicle3"> NSDC EXAM</label><br />
-                <input type="submit" value="Submit" />
+                <label for="nsdc"> NSDC EXAM</label><br />
+                <input type="submit" value="Submit" (click)="eraseData()" />
               </div>
             </div>
           </div>
