@@ -19,7 +19,7 @@ export class AdminEraseDataComponent implements OnInit {
   modalReference: any;
   closeResult: string;
   hideLoading_indicator: boolean = true;
-  isChecked: boolean = false;
+  allChecked: boolean = false;
   userdata: boolean = false;
   pptdata: boolean = false;
   monthly: boolean = false;
@@ -34,43 +34,120 @@ export class AdminEraseDataComponent implements OnInit {
 
   ngOnInit() {}
   data = [];
+
   allchanged(e, centerObj) {
-    this.isChecked = e.target.checked;
-    if (this.isChecked) {
+    this.allChecked = e.target.checked;
+    this.userdata = e.target.checked;
+    this.pptdata = e.target.checked;
+    this.monthly = e.target.checked;
+    this.baseline = e.target.checked;
+    this.endline = e.target.checked;
+    this.nsdcexam = e.target.checked;
+    this.checkStatus();
+
+    // this.allChecked = e.target.checked;
+    // if (this.allChecked) {
+    //   this.data.push("all");
+    //   this.userdata = true;
+    //   this.pptdata = true;
+    //   this.monthly = true;
+    //   this.baseline = true;
+    //   this.endline = true;
+    //   this.nsdcexam = true;
+    // } else {
+    //   this.data = [];
+    //   this.userdata = false;
+    //   this.pptdata = false;
+    //   this.monthly = false;
+    //   this.baseline = false;
+    //   this.endline = false;
+    //   this.nsdcexam = false;
+    // }
+  }
+
+  checkStatus() {
+    if (
+      (this.userdata &&
+        this.baseline &&
+        this.pptdata &&
+        this.monthly &&
+        this.endline &&
+        this.nsdcexam) == true
+    ) {
+      this.allChecked = true;
       this.data.push("all");
-      this.userdata = true;
-      this.pptdata = true;
-      this.monthly = true;
-      this.baseline = true;
-      this.endline = true;
-      this.nsdcexam = true;
     } else {
-      this.userdata = false;
-      this.pptdata = false;
-      this.monthly = false;
-      this.baseline = false;
-      this.endline = false;
-      this.nsdcexam = false;
+      this.allChecked = false;
+      this.data = this.data.filter((e) => e !== "all");
     }
   }
-  userDataCheckboxChanged(e, value) {
-    this.data.push("user");
+
+  userDataCheckboxChanged(e) {
+    this.allChecked = false;
+    this.userdata = e.target.checked;
+    this.checkStatus();
+    if (this.userdata == true) {
+      this.data.push("user");
+    } else if (this.userdata == false) {
+      this.data = this.data.filter((e) => e !== "user");
+    }
   }
-  baselineCheckboxChanged(e, value) {
-    this.data.push("baseline");
+
+  baselineCheckboxChanged(e) {
+    this.allChecked = false;
+    this.baseline = e.target.checked;
+    this.checkStatus();
+    if (this.baseline == true) {
+      this.data.push("baseline");
+    } else {
+      this.data = this.data.filter((e) => e !== "baseline");
+    }
   }
-  pptCheckboxChanged(e, value) {
-    this.data.push("ppt");
+
+  pptCheckboxChanged(e) {
+    this.allChecked = false;
+    this.pptdata = e.target.checked;
+    this.checkStatus();
+    if (this.pptdata == true) {
+      this.data.push("ppt");
+    } else {
+      this.data = this.data.filter((e) => e !== "ppt");
+    }
   }
-  monthlyCheckboxChanged(e, value) {
-    this.data.push("training");
+
+  monthlyCheckboxChanged(e) {
+    this.allChecked = false;
+    this.monthly = e.target.checked;
+    this.checkStatus();
+    if (this.monthly == true) {
+      this.data.push("training");
+    } else {
+      this.data = this.data.filter((e) => e !== "training");
+    }
   }
-  endlineCheckboxChanged(e, value) {
-    this.data.push("endline");
+
+  endlineCheckboxChanged(e) {
+    this.allChecked = false;
+    this.endline = e.target.checked;
+    this.checkStatus();
+    if (this.endline == true) {
+      this.data.push("endline");
+    } else {
+      this.data = this.data.filter((e) => e !== "endline");
+    }
   }
-  nsdcCheckboxChanged(e, value) {
-    this.data.push("nsdcexam");
+
+  nsdcCheckboxChanged(e) {
+    this.allChecked = false;
+    this.nsdcexam = e.target.checked;
+    this.checkStatus();
+    if (this.nsdcexam == true) {
+      this.data.push("nsdcexam");
+    } else {
+      this.data = this.data.filter((e) => e !== "nsdcexam");
+    }
   }
+
   userid: any;
   userid_onchange(event) {
     const selectedOptions = event.target["options"];
@@ -79,6 +156,7 @@ export class AdminEraseDataComponent implements OnInit {
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.userid = selectedOptionValue;
   }
+
   eraseData() {
     if (this.data.length < 0 || this.userid == "" || this.userid == undefined) {
       swal.fire(
@@ -90,11 +168,12 @@ export class AdminEraseDataComponent implements OnInit {
       let body = {
         models: this.data,
       };
+
       this.AdminEraseDataService.updateUserData(this.userid, body).subscribe(
         (data2) => {
           swal.fire("Success", "Record updated successfully", "success");
           this.hideLoading_indicator = true;
-          this.isChecked = false;
+          this.allChecked = false;
           this.data = [];
           window.location.reload();
         },
@@ -103,5 +182,4 @@ export class AdminEraseDataComponent implements OnInit {
       );
     }
   }
-  // ---------------------------- Display Result ----------------------
 }

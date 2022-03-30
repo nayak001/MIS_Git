@@ -23,9 +23,10 @@
                   class="form-control"
                 >
                   <option value="">Select</option>
+                  <option value="jyoti.bbsrodisha@gmail.com">Jyoti</option>
                   <option value="satabdeeramesh@gmail.com">Satabdee</option>
-                  <option value="satabdeeramesh@gmail.com">Uttam</option>
                   <option value="shreeyamishra334@gmail.com">Shreeya</option>
+                  <option value="satabdeeramesh@gmail.com">Uttam</option>
                 </select>
               </div>
               <div class="col col-xl-3 col-lg-3">
@@ -33,6 +34,7 @@
                   type="checkbox"
                   id="all"
                   data-md-icheck
+                  [checked]="allChecked"
                   (change)="allchanged($event, data)"
                 />
                 <label for="all"> ALL</label><br />
