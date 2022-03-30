@@ -45,6 +45,7 @@ export class AdminEraseDataComponent implements OnInit {
       this.endline = true;
       this.nsdcexam = true;
     } else {
+      this.data = [];
       this.userdata = false;
       this.pptdata = false;
       this.monthly = false;
@@ -54,22 +55,76 @@ export class AdminEraseDataComponent implements OnInit {
     }
   }
   userDataCheckboxChanged(e, value) {
-    this.data.push("user");
+    if (e.target.checked == true) {
+      this.data.push("user");
+    } else {
+      (<HTMLInputElement>document.getElementById("all")).checked = false;
+      this.isChecked == false;
+      const index = this.data.indexOf("all");
+      if (index > -1) {
+        this.data.splice(index, 1);
+      }
+    }
   }
   baselineCheckboxChanged(e, value) {
-    this.data.push("baseline");
+    if (e.target.checked == true) {
+      this.data.push("baseline");
+    } else {
+      (<HTMLInputElement>document.getElementById("all")).checked = false;
+      this.isChecked == false;
+      const index = this.data.indexOf("all");
+      if (index > -1) {
+        this.data.splice(index, 1);
+      }
+    }
   }
   pptCheckboxChanged(e, value) {
-    this.data.push("ppt");
+    if (e.target.checked == true) {
+      this.data.push("ppt");
+    } else {
+      (<HTMLInputElement>document.getElementById("all")).checked = false;
+      this.isChecked == false;
+      const index = this.data.indexOf("all");
+      if (index > -1) {
+        this.data.splice(index, 1);
+      }
+    }
   }
   monthlyCheckboxChanged(e, value) {
-    this.data.push("training");
+    if (e.target.checked == true) {
+      this.data.push("training");
+    } else {
+      (<HTMLInputElement>document.getElementById("all")).checked = false;
+      this.isChecked == false;
+      const index = this.data.indexOf("all");
+      if (index > -1) {
+        this.data.splice(index, 1);
+      }
+    }
   }
   endlineCheckboxChanged(e, value) {
-    this.data.push("endline");
+    if (e.target.checked == true) {
+      this.data.push("endline");
+    } else {
+      (<HTMLInputElement>document.getElementById("all")).checked = false;
+      this.isChecked == false;
+      const index = this.data.indexOf("all");
+      if (index > -1) {
+        this.data.splice(index, 1);
+      }
+    }
   }
   nsdcCheckboxChanged(e, value) {
-    this.data.push("nsdcexam");
+    if (e.target.checked == true) {
+      this.data.push("nsdcexam");
+    } else {
+      (<HTMLInputElement>document.getElementById("all")).checked = false;
+      this.isChecked == false;
+      const index = this.data.indexOf("all");
+      if (index > -1) {
+        this.data.splice(index, 1);
+      }
+    }
   }
   userid: any;
   userid_onchange(event) {
@@ -80,7 +135,14 @@ export class AdminEraseDataComponent implements OnInit {
     this.userid = selectedOptionValue;
   }
   eraseData() {
-    if (this.data.length < 0 || this.userid == "" || this.userid == undefined) {
+    console.log("data", this.data);
+    if (this.userid == "" || this.userid == undefined) {
+      swal.fire(
+        "info",
+        "Please select one which you want to remove data !!!",
+        "warning"
+      );
+    } else if (this.data.length == 0) {
       swal.fire(
         "info",
         "Please select one which you want to remove data !!!",
