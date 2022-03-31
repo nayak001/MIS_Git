@@ -158,7 +158,14 @@ export class AdminEraseDataComponent implements OnInit {
   }
 
   eraseData() {
-    if (this.data.length < 0 || this.userid == "" || this.userid == undefined) {
+    console.log("data", this.data);
+    if (this.userid == "" || this.userid == undefined) {
+      swal.fire(
+        "info",
+        "Please select one which you want to remove data !!!",
+        "warning"
+      );
+    } else if (this.data.length == 0) {
       swal.fire(
         "info",
         "Please select one which you want to remove data !!!",
