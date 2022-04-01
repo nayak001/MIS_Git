@@ -16,8 +16,8 @@ export class PasscodemanagerComponent implements OnInit {
   modalReference: any;
   closeResult: string;
 
-  public data: any;
-  public filterData: any;
+  data: any;
+  filterData: any;
 
   search_text: any = "";
   original_passcode: any = "";
@@ -36,12 +36,6 @@ export class PasscodemanagerComponent implements OnInit {
   flag: string = "";
   hideLoading_indicator: boolean = true;
 
-  manager_name: any = "";
-  manager_id: any = "";
-  manager_email: any = "";
-  manager_password: any = "";
-  manager_phone: any = "";
-  passwordfield_type: any = "password";
   disable_save_button: boolean = false;
 
   constructor(
@@ -84,16 +78,6 @@ export class PasscodemanagerComponent implements OnInit {
     this.expire_duration = null;
     this.regdt = "";
     this.expdt = "";
-  }
-
-  reset_manager() {
-    this.manager_name = "";
-    this.manager_id = "";
-    this.manager_email = "";
-    this.manager_password = "";
-    this.manager_phone = "";
-    this.passwordfield_type = "password";
-    this.disable_save_button = false;
   }
 
   expire_duration_onchange(event: Event) {
@@ -172,50 +156,6 @@ export class PasscodemanagerComponent implements OnInit {
     }
   }
 
-  validate_manager() {
-    let phoneregex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    let emailidregex =
-      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-
-    if (
-      this.manager_name == undefined ||
-      this.manager_name == null ||
-      this.manager_name.trim() == ""
-    ) {
-      swal.fire("Info", "Please enter Username", "warning");
-      return false;
-    } else if (
-      this.manager_email == undefined ||
-      this.manager_email == null ||
-      this.manager_email.trim() == ""
-    ) {
-      swal.fire("Info", "Please enter an Email id.", "warning");
-      return false;
-    } else if (!this.manager_email.match(emailidregex)) {
-      swal.fire("Info", "Not a valid Email id.", "warning");
-      return false;
-    } else if (
-      this.manager_password == undefined ||
-      this.manager_password == null ||
-      this.manager_password.trim() == ""
-    ) {
-      swal.fire("Info", "Please enter Password.", "warning");
-      return false;
-    } else if (
-      this.manager_phone == undefined ||
-      this.manager_phone == null ||
-      this.manager_phone.trim() == ""
-    ) {
-      swal.fire("Info", "Please enter a Mobile number.", "warning");
-      return false;
-    } else if (!this.manager_phone.match(phoneregex)) {
-      swal.fire("Info", "Not a valid Mobile Number.", "warning");
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   async addupdate_passcode() {
     console.log("--> " + this.flag + " Passcode: " + this.selected_passcode);
     if (this.validate_passcode()) {
@@ -224,26 +164,7 @@ export class PasscodemanagerComponent implements OnInit {
         .subscribe((data1) => {
           console.log("--> Passcode exitance: ", data1);
           if (data1["count"] == 0) {
-            if (this.flag == "add") {
-              this.create_passcode();
-            } else if (this.flag == "edit") {
-              this.passcodemanagerService
-                .checkpasscodeusability(this.original_passcode.toUpperCase())
-                .subscribe((data2) => {
-                  console.log("--> Passcode usability: ", data2);
-                  if (data2["count"] == 0) {
-                    this.update_passcode();
-                  } else {
-                    swal.fire(
-                      "Failed",
-                      "Passcode: " +
-                        this.original_passcode +
-                        " is already in use",
-                      "warning"
-                    );
-                  }
-                });
-            }
+            this.create_passcode();
           } else {
             swal.fire("Failed", "Passcode already exists", "warning");
           }
@@ -286,64 +207,6 @@ export class PasscodemanagerComponent implements OnInit {
       () => {}
     );
   }
-
-  // Update Passcode
-  update_passcode() {
-    this.disable_save_button = true;
-    this.hideLoading_indicator = false;
-
-    let body = {
-      userid: this.selected_userid,
-      username: this.selected_username.toLowerCase(),
-      usertype: this.selected_usertype,
-      managertype: this.selected_managertype.toLowerCase(),
-      passcode: this.selected_passcode.toUpperCase(),
-      passcodetype: this.selected_passcodetype,
-      passcodestatus: this.passcodeStatus,
-      validfordays: this.expire_duration,
-      registeredon: this.regdt,
-      expireon: this.expdt,
-    };
-
-    //console.log("passcode update--->>>", body);
-
-    this.passcodemanagerService
-      .updatepasscode(this.selected_recordid, body)
-      .subscribe(
-        (data2) => {
-          this.disable_save_button = false;
-          this.modalReference.close();
-          swal.fire(
-            "Success",
-            "Passcode updated " + data2["status"],
-            "success"
-          );
-          this.getallPasscode();
-          this.hideLoading_indicator = true;
-          this.reset_passcode();
-        },
-        (error) => {},
-        () => {}
-      );
-  }
-
-  // // Set Passcode as Primary
-  // // Set primary is basically to know which passcode is currently using
-  // setprimary(record) {
-  //   let recordid = record._id;
-  //   let userid = record.userid;
-  //   this.hideLoading_indicator = false;
-  //   this.passcodemanagerService.setprimary(recordid, userid).subscribe(
-  //     (data) => {
-  //       swal.fire("Success", "This passcode is set as primary", "success");
-  //       this.getallPasscode();
-  //       this.hideLoading_indicator = true;
-  //       this.reset_passcode();
-  //     },
-  //     (error) => {},
-  //     () => {}
-  //   );
-  // }
 
   // Delete passcode
   delete_passcode_btnclick(passcodedata) {
@@ -424,11 +287,6 @@ export class PasscodemanagerComponent implements OnInit {
     }
   }
 
-  show_hide_passwordfield() {
-    if (this.passwordfield_type == "password") this.passwordfield_type = "text";
-    else this.passwordfield_type = "password";
-  }
-
   open(content, param, flag) {
     this.flag = flag;
     // console.log("param--->>>", param);
@@ -438,23 +296,8 @@ export class PasscodemanagerComponent implements OnInit {
       this.selected_usertype = param.usertype;
       this.selected_managertype = param.managertype;
       this.selected_passcode = "";
-    } else if (flag == "edit") {
-      this.selected_recordid = param._id;
-      this.selected_userid = param.userid;
-      this.selected_username = param.username;
-      this.selected_usertype = param.usertype;
-      this.selected_managertype = param.managertype;
-      this.selected_passcode = param.passcode;
-      this.original_passcode = param.passcode;
-      this.selected_passcodetype = param.passcodetype;
-      this.passcodeStatus = param.passcodestatus;
-      this.expire_duration = param.validfordays;
-      this.regdt = param.registeredon;
-      this.expdt = param.expireon;
     } else if (flag == "delete") {
       this.selected_recordid = param._id;
-    } else if (flag == "mgr") {
-      this.reset_manager();
     } else {
       this.reset_passcode();
     }
