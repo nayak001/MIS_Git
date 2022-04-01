@@ -35,7 +35,7 @@ export class AdminEraseDataComponent implements OnInit {
   ngOnInit() {}
   data = [];
 
-  allchanged(e, centerObj) {
+  allchanged(e) {
     this.allChecked = e.target.checked;
     this.userdata = e.target.checked;
     this.pptdata = e.target.checked;
@@ -44,25 +44,6 @@ export class AdminEraseDataComponent implements OnInit {
     this.endline = e.target.checked;
     this.nsdcexam = e.target.checked;
     this.checkStatus();
-
-    // this.allChecked = e.target.checked;
-    // if (this.allChecked) {
-    //   this.data.push("all");
-    //   this.userdata = true;
-    //   this.pptdata = true;
-    //   this.monthly = true;
-    //   this.baseline = true;
-    //   this.endline = true;
-    //   this.nsdcexam = true;
-    // } else {
-    //   this.data = [];
-    //   this.userdata = false;
-    //   this.pptdata = false;
-    //   this.monthly = false;
-    //   this.baseline = false;
-    //   this.endline = false;
-    //   this.nsdcexam = false;
-    // }
   }
 
   checkStatus() {
@@ -158,14 +139,7 @@ export class AdminEraseDataComponent implements OnInit {
   }
 
   eraseData() {
-    console.log("data", this.data);
-    if (this.userid == "" || this.userid == undefined) {
-      swal.fire(
-        "info",
-        "Please select one which you want to remove data !!!",
-        "warning"
-      );
-    } else if (this.data.length == 0) {
+    if (this.data.length < 0 || this.userid == "" || this.userid == undefined) {
       swal.fire(
         "info",
         "Please select one which you want to remove data !!!",
