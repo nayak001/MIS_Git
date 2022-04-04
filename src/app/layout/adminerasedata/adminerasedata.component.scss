@@ -1,0 +1,107 @@
+/*
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+*/
+table {
+  table-layout: fixed;
+  width: 100%;
+  border: 1px solid #d7d7d7;
+}
+table td {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  vertical-align: top;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  color: gray;
+}
+.bold-font {
+  font-size: 11px !important;
+  font-weight: bold;
+  color: #2e2ef9;
+  font-family: "Arial";
+}
+.modal-footer {
+  border-top: 1px solid #848484;
+  background-color: #c3c3c3;
+}
+.btn {
+  border-radius: 0rem;
+}
+.modal-text {
+  font-size: 22px;
+  color: #505050;
+}
+.warning-icon {
+  width: 40px;
+  height: 40px;
+  margin-left: 40px;
+}
+.validation-error-message {
+  color: red;
+  font-size: 10px;
+  font-weight: bold;
+}
+.modal_textbox {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #b7b7b7;
+  margin-bottom: 30px;
+  font-family: arial;
+  font-size: 12px;
+}
+.modal_textbox:focus {
+  outline-width: 0;
+}
+.dropdown-check-list {
+  display: inline-block;
+}
+
+.dropdown-check-list .anchor {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 50px 5px 10px;
+  border: 1px solid #ccc;
+}
+
+.dropdown-check-list .anchor:after {
+  position: absolute;
+  content: "";
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  padding: 5px;
+  right: 10px;
+  top: 20%;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+.dropdown-check-list .anchor:active:after {
+  right: 8px;
+  top: 21%;
+}
+
+.dropdown-check-list ul.items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.dropdown-check-list ul.items li {
+  list-style: none;
+}
+
+.dropdown-check-list.visible .anchor {
+  color: #0094ff;
+}
+
+.dropdown-check-list.visible .items {
+  display: block;
+}
