@@ -52,6 +52,12 @@ export class MasterNsdcService {
       //responseType: 'text'
     });
   }
+  deleteusernsdcans(userid) {
+    return this.http.delete(baseUrl + "deleteusernsdcans/" + userid, {
+      headers: new HttpHeaders().set("Content-Type", "application/json"),
+      // responseType: "text",
+    });
+  }
   updatetrainingcontentsbyid(id, body) {
     return this.http.put(baseUrl + "ppt_updatecontentbyid/" + id, body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),

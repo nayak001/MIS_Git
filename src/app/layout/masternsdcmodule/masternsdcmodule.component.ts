@@ -113,9 +113,8 @@ export class MasterNsdcComponent implements OnInit {
     this.hideLoading_indicator = true;
     this.hideContent_div = false;
   }
-  nsdc_mastermoduleload() {
-    //this.router.navigate(["/backtomaster"]);
-    this.router.navigate(["/nsdc"]);
+  goto(path: string) {
+    this.router.navigate(["/" + path]);
   }
   ngOnInit() {
     this.load_record();
@@ -255,6 +254,8 @@ export class MasterNsdcComponent implements OnInit {
   }
   selected_user: any;
   user_select_onchange() {
+    this.mark = [0];
+    this.totalmarks = 0;
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
@@ -272,11 +273,65 @@ export class MasterNsdcComponent implements OnInit {
     );
   }
   secured_mark: any;
+  totalmarks: number = 0;
+  mark: any = [];
+  totalmark_update() {
+    console.log("called");
+    let sum = 0;
+
+    for (let i = 0; i < this.mark.length; i++) {
+      sum += this.mark[i];
+    }
+    this.totalmarks = sum;
+    console.log(sum);
+    console.log(this.mark.length);
+    console.log(this.quiz_value.length);
+
+    console.log(this.totalmarks);
+    console.log(this.mark);
+  }
+  delete_user_nsdcdata() {
+    if (this.selected_user == undefined) {
+      swal.fire("info", "Please select user!", "warning");
+    } else {
+      swal
+        .fire({
+          title: "Are you sure?",
+          text: "Do you want to remove this record?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
+        })
+        .then((result) => {
+          if (result.value) {
+            this.MasterNsdcService.deleteusernsdcans(
+              this.selected_user
+            ).subscribe(
+              () => {
+                swal.fire(
+                  "Success",
+                  "user data deleted successfully",
+                  "success"
+                );
+                this.load_record();
+              },
+              (error) => {},
+              () => {}
+            );
+          }
+        });
+    }
+  }
   save_mark() {
+    this.secured_mark = this.totalmarks;
+    console.log(this.secured_mark);
     if (
       this.secured_mark == "" ||
       this.secured_mark == undefined ||
-      this.selected_user == undefined
+      this.selected_user == undefined ||
+      this.quiz_value.length != this.mark.length
     ) {
       swal.fire("info", "Please select user and mark!", "warning");
     } else {
@@ -288,6 +343,9 @@ export class MasterNsdcComponent implements OnInit {
       this.MasterNsdcService.updateuserstatus(body).subscribe(
         (data) => {
           swal.fire("Success", "user status updated successfully", "success");
+          console.log(body);
+          this.mark = [0];
+          this.totalmarks = 0;
           this.load_record();
         },
         (error) => {},
