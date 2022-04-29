@@ -39,7 +39,7 @@
     "angular-ng-autocomplete": "^1.1.14",
     "angular2-multiselect-dropdown": "^4.2.2",
     "angular4-multiselect-dropdown": "^2.0.0",
-    "async": "^2.6.3",
+    "async": "^2.6.4",
     "bigint-as-any-ts": "^1.0.2",
     "chart.js": "2.7.3",
     "core-js": "2.5.7",
