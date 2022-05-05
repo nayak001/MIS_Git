@@ -11,16 +11,7 @@
             <div class="col"></div>
             <div class="col">
               <button
-                (click)="goto('updatensdcmark')"
-                class="btn btn-sm btn-primary float-right"
-                type="button"
-              >
-                &nbsp;&nbsp;&nbsp;Update User Mark&nbsp;&nbsp;&nbsp;
-              </button>
-            </div>
-            <div class="col">
-              <button
-                (click)="goto('nsdc')"
+                (click)="goto('nsdcmastermodule')"
                 class="btn btn-sm btn-primary float-right"
                 type="button"
               >
@@ -51,7 +42,7 @@
             </div>
             <div class="col col-xl-3 col-lg-3">
               <label style="margin: 10px; margin-left: 1px" for="quantity"
-                >Total Mark:</label
+                >Updated Mark:</label
               >
               <input
                 readonly
@@ -66,6 +57,22 @@
               />
             </div>
             <div class="col col-xl-3 col-lg-3">
+              <label style="margin: 10px; margin-left: 1px" for="quantity"
+                >Previous Mark:</label
+              >
+              <input
+                readonly
+                type="number"
+                id="quantity"
+                name="quantity"
+                min="1"
+                max="100"
+                class="form-control"
+                value="{{ previous_mark }}"
+                [(ngModel)]="secured_mark"
+              />
+            </div>
+            <div class="col col-xl-3 col-lg-3">
               <button
                 [disabled]="disable_button"
                 (click)="save_mark()"
@@ -73,19 +80,7 @@
                 type="button"
                 style="margin-right: 100px; margin-top: 45px"
               >
-                &nbsp;&nbsp;&nbsp;
-                {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;
-              </button>
-            </div>
-            <div class="col col-xl-3 col-lg-3">
-              <button
-                [disabled]="disable_button"
-                (click)="delete_user_nsdcdata()"
-                class="btn btn-danger btn-sm"
-                type="button"
-                style="margin-right: 100px; margin-top: 45px"
-              >
-                &nbsp;&nbsp;&nbsp; Delete User Answer &nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp; SAVE &nbsp;&nbsp;&nbsp;
               </button>
             </div>
           </div>
