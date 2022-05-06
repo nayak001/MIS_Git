@@ -119,12 +119,14 @@ export class UserswapComponent implements OnInit {
       textField: "username",
       itemsShowLimit: 1,
       allowSearchFilter: true,
+      closeDropDownOnSelection: true,
     };
   }
 
   onUserSelect(data) {
     this.new_userid = data.userid;
     this.new_username = data.username;
+    //console.log("$$$on select data: ", data);
   }
 
   getpasscodebymanagerid() {
@@ -222,6 +224,8 @@ export class UserswapComponent implements OnInit {
     this.swapType = selectedOptionValue;
 
     this.checkSwapType();
+    this.new_userid = "";
+    this.new_username = "";
   }
 
   checkSwapType() {
