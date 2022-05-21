@@ -68,7 +68,7 @@ export class Masterteachertraining1Service {
   createnewtrainingmodule(modulebody) {
     return this.http.post(baseUrl + "createnewtrainingmodule", modulebody, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
-      responseType: "text",
+      //responseType: "text",
     });
   }
 
@@ -155,6 +155,18 @@ export class Masterteachertraining1Service {
         headers: new HttpHeaders().set("Content-Type", "application/json"),
         responseType: "text",
       }
+    );
+  }
+
+  //"/teacherTrainingModuleAddNotification/:dataname/:datatype"
+  moduleAddNotification(dataname, datatype) {
+    return this.http.get(
+      baseUrl +
+        "teacherTrainingModuleAddNotification/" +
+        dataname +
+        "/" +
+        datatype,
+      { headers: new HttpHeaders().set("Content-Type", "application/json") }
     );
   }
 }
