@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from "@angular/core";
 import { routerTransition } from "../../router.animations";
 import { Router } from "@angular/router";
 import { HttpResponse, HttpEventType } from "@angular/common/http";
-import { FlnService } from "./flnmaster.service";
+import { UpdatensdcmarkService } from "./updatensdcmark.service";
 import { ManagersboxService } from "../managersbox/managersbox.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -10,15 +10,13 @@ import swal from "sweetalert2";
 
 import { environment } from "../../../environments/environment.prod";
 const URL = environment.uploadURL;
-
 @Component({
-  selector: "app-flnmaster",
-  templateUrl: "./flnmaster.component.html",
-  styleUrls: ["./flnmaster.component.scss"],
+  selector: "app-updatensdcmark",
+  templateUrl: "./updatensdcmark.component.html",
+  styleUrls: ["./updatensdcmark.component.scss"],
   animations: [routerTransition()],
 })
-export class FlnMasterComponent implements OnInit {
-  // video
+export class UpdatensdcmarkComponent implements OnInit {
   isSelected: boolean = true;
   selected_preflanguage: any;
   disable_button: boolean;
@@ -88,8 +86,7 @@ export class FlnMasterComponent implements OnInit {
   worksheet_value: any = [];
   video_value: any = [];
   flashcard_value: any = [];
-  quiz_value: string = "";
-  activity_documents: any = [];
+  quiz_value: any = [];
   contents: any = [];
   selectedvedioFiles: any;
   displayvedioname: any;
@@ -104,69 +101,41 @@ export class FlnMasterComponent implements OnInit {
   edit_vediofiletype: any;
   edit_s3vedioname: any;
   public Editor = ClassicEditor;
+  previous_mark: number;
 
   constructor(
     private modalService: NgbModal,
     public router: Router,
-    private FlnService: FlnService,
+    private UpdatensdcmarkService: UpdatensdcmarkService,
     private managersboxService: ManagersboxService
   ) {
     this.hideLoading_indicator = true;
     this.hideContent_div = false;
-    this.selected_preflanguage = "od";
-    this.selected_assesment = "baseline";
   }
-
+  goto(path: string) {
+    this.router.navigate(["/" + path]);
+  }
   ngOnInit() {
     this.load_record();
-    this.load_activity_record();
   }
   selected_assesment: any = "baseline";
-  show_month: boolean = false;
   onselect_assesment_select(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_assesment = selectedOptionValue;
-    if (
-      this.selected_assesment == "baseline" ||
-      this.selected_assesment == "endline"
-    ) {
-      this.show_month = false;
-    } else {
-      this.show_month = true;
-    }
     this.load_record();
   }
-
-  onselect_change_class(event) {
+  selected_category: any = "pedagogy";
+  onselect_category_select(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_class = selectedOptionValue;
+    this.selected_category = selectedOptionValue;
     this.load_record();
   }
-
-  onselect_assesment_subject(event) {
-    const selectedOptions = event.target["options"];
-    const selectedIndex = selectedOptions.selectedIndex;
-    const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_subject = selectedOptionValue;
-    this.load_record();
-  }
-
-  onselect_change_month(event) {
-    const selectedOptions = event.target["options"];
-    const selectedIndex = selectedOptions.selectedIndex;
-    const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_month = selectedOptionValue;
-    this.load_record();
-  }
-
   onselect_editq_select(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -185,8 +154,7 @@ export class FlnMasterComponent implements OnInit {
     this.selected_qans_val_add = selectedOptionValue;
     this.selected_qans_text_add = selectElementText;
   }
-  delete_ques_id: any;
-  edit_ques_id: any;
+  delete_q_qid: any;
   open(content, obj, index, flag) {
     // update
     if (flag == "add") {
@@ -200,16 +168,15 @@ export class FlnMasterComponent implements OnInit {
     } else if (flag == "edit") {
       this.edit_q_index = index;
       this.edit_q_qid = obj.qid;
-      this.edit_q_question = obj.assessmentquestion;
+      this.edit_q_question = obj.question;
       this.edit_q_optionA = obj.A;
       this.edit_q_optionB = obj.B;
       this.edit_q_optionC = obj.C;
       this.edit_q_optionD = obj.D;
       this.edit_q_ans = obj.answer;
-      this.edit_ques_id = obj._id;
     } else if (flag == "delete") {
-      this.delete_ques_id = obj;
-      this.delete_doc_id = obj._id;
+      this.delete_q_index = index;
+      this.delete_q_qid = obj._id;
     } else if (flag == "addvideo") {
     } else if (flag == "addworksheet") {
     } else {
@@ -236,16 +203,6 @@ export class FlnMasterComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-  selected_activity_class: any;
-  activity_class_select_onchange(event) {
-    const selectedOptions = event.target["options"];
-    const selectedIndex = selectedOptions.selectedIndex;
-    const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_activity_class = selectedOptionValue;
-    this.load_record();
-    this.load_activity_record();
-  }
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -263,191 +220,250 @@ export class FlnMasterComponent implements OnInit {
     this.video_value = [];
     this.worksheet_value = [];
     this.flashcard_value = [];
-    this.quiz_value = "";
+    this.quiz_value = [];
   }
   dataid: any;
-  activity_doc: any = [];
-  selected_class: any = 1;
-  selected_month: any = "month0";
-  selected_subject: any = "select";
-  alldata: any;
+  all_fellows: any;
   async load_record() {
-    this.FlnService.getallflnmasterdata(
-      this.selected_assesment,
-      this.selected_preflanguage,
-      this.selected_class,
-      this.selected_subject
-    ).subscribe(
+    // getalluser;
+    this.UpdatensdcmarkService.getupdatensdcusers().subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
-          this.alldata = data;
-          this.dataid = data[0]._id;
-          this.hideProgressbar = false;
-          this.save_operation = "update";
+          this.all_fellows = data;
         } else {
-          this.quiz_value = "";
-          this.alldata = [];
-          this.save_operation = "save";
+          this.all_fellows = [];
         }
       },
       (error) => {},
       () => {}
     );
+    // this.UpdatensdcmarkService.getnsdcexamquestions("subjective").subscribe(
+    //   (data) => {
+    //     if (Object.keys(data).length > 0) {
+    //       this.dataid = data[0]._id;
+    //       this.quiz_value = data;
+    //       this.save_operation = "save";
+    //     } else {
+    //       this.quiz_value = [];
+    //     }
+    //   },
+    //   (error) => {},
+    //   () => {}
+    // );
   }
-  delete_doc_id: any;
-  async load_activity_record() {
-    this.FlnService.getflnactivitydocument(
-      this.selected_activity_class
-    ).subscribe(
+  selected_user: any;
+  user_select_onchange() {
+    this.mark = [0];
+    this.previous_mark = 0;
+    this.totalmarks = 0;
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+    this.selected_user = selectedOptionValue;
+    this.UpdatensdcmarkService.getansfromuser(this.selected_user).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
-          this.activity_doc = data;
-        } else {
-          this.activity_doc = [];
-        }
-      },
-      (error) => {},
-      () => {}
-    );
-  }
+          this.quiz_value = data[0].questionanswer;
+          this.previous_mark = data[0].score;
+          console.log(data[0].score);
 
-  addquiz12() {
-    if (this.add_q_question == "") {
-      swal.fire("info", "Please add the question!!!", "warning");
+          console.log(this.quiz_value);
+        } else {
+        }
+      },
+      (error) => {},
+      () => {}
+    );
+  }
+  secured_mark: any;
+  totalmarks: number = 0;
+  mark: any = [];
+  totalmark_update() {
+    console.log("called");
+    let sum = 0;
+
+    for (let i = 0; i < this.mark.length; i++) {
+      sum += this.mark[i];
+    }
+    this.totalmarks = sum;
+    console.log(sum);
+    console.log(this.mark.length);
+    console.log(this.quiz_value.length);
+
+    console.log(this.totalmarks);
+    console.log(this.mark);
+  }
+  // delete_user_nsdcdata() {
+  //   if (this.selected_user == undefined) {
+  //     swal.fire("info", "Please select user!", "warning");
+  //   } else {
+  //     swal
+  //       .fire({
+  //         title: "Are you sure?",
+  //         text: "Do you want to remove this record?",
+  //         type: "warning",
+  //         showCancelButton: true,
+  //         confirmButtonColor: "#3085d6",
+  //         cancelButtonColor: "#d33",
+  //         confirmButtonText: "Yes",
+  //       })
+  //       .then((result) => {
+  //         if (result.value) {
+  //           this.UpdatensdcmarkService.deleteusernsdcans(
+  //             this.selected_user
+  //           ).subscribe(
+  //             () => {
+  //               swal.fire(
+  //                 "Success",
+  //                 "user data deleted successfully",
+  //                 "success"
+  //               );
+  //               this.load_record();
+  //             },
+  //             (error) => {},
+  //             () => {}
+  //           );
+  //         }
+  //       });
+  //   }
+  // }
+  save_mark() {
+    this.secured_mark = this.totalmarks;
+    console.log(this.secured_mark);
+    if (
+      this.secured_mark == "" ||
+      this.secured_mark == undefined ||
+      this.selected_user == undefined ||
+      this.quiz_value.length != this.mark.length
+    ) {
+      swal.fire("info", "Please select user and mark!", "warning");
+    } else {
+      const body = {
+        evaluate: "complete",
+        score: this.secured_mark,
+        userid: this.selected_user,
+      };
+      this.UpdatensdcmarkService.updateuserstatus(body).subscribe(
+        (data) => {
+          swal.fire("Success", "user status updated successfully", "success");
+          console.log(body);
+          this.mark = [0];
+          this.totalmarks = 0;
+          this.load_record();
+        },
+        (error) => {},
+        () => {}
+      );
+    }
+  }
+  addquiz() {
+    if (this.add_q_question == "" || this.selected_qans_val_add == "") {
+      swal.fire(
+        "info",
+        "Please fill at least two options with answer!!!",
+        "warning"
+      );
     } else {
       let obj = {
         qid: new Date().getTime(),
         question: this.add_q_question,
-        // "A": (this.add_q_optionA == '')?'':this.add_q_optionA,
-        // "B": (this.add_q_optionB == '')?'':this.add_q_optionB,
-        // "C": (this.add_q_optionC == '')?'':this.add_q_optionC,
-        // "D": (this.add_q_optionD == '')?'':this.add_q_optionD,
-        // "answer": this.selected_qans_val_add
+        A: this.add_q_optionA == "" ? "" : this.add_q_optionA,
+        B: this.add_q_optionB == "" ? "" : this.add_q_optionB,
+        C: this.add_q_optionC == "" ? "" : this.add_q_optionC,
+        D: this.add_q_optionD == "" ? "" : this.add_q_optionD,
+        answer: this.selected_qans_val_add,
       };
-      this.quiz_value = this.add_q_question;
+      this.quiz_value.push(obj);
       this.modalReference.close();
     }
   }
   updatequiz() {
-    const body = {
-      assessmentquestion: this.edit_q_question,
-    };
-    this.quiz_value = this.edit_q_question;
-    this.modalReference.close();
-    this.FlnService.updateflnmasterdata(this.edit_ques_id, body).subscribe(
-      (data) => {
-        swal.fire("Success", "assesment updated successfully", "success");
-        this.load_record();
-      },
-      (error) => {},
-      () => {}
-    );
-  }
-  openUploadDocModal() {}
-  delquiz() {
-    //this.quiz_value.splice(this.delete_q_index, 1);
-    this.FlnService.deleteflncontent(this.delete_ques_id).subscribe(
-      (data) => {
-        swal.fire("Success", "assesment deleted successfully", "success");
-        this.load_record();
-      },
-      (error) => {},
-      () => {}
-    );
-    this.modalReference.close();
-    this.load_record();
-  }
-  deleteactivity() {
-    this.FlnService.deletecontent(this.delete_doc_id).subscribe(
-      (data) => {
-        swal.fire("Success", "document deleted successfully", "success");
-        this.load_activity_record();
-        this.modalReference.close();
-      },
-      (error) => {},
-      () => {}
-    );
+    //let obj = {
+    // qid:this.edit_q_qid,
+    // question: this.edit_q_question,
+    // A: this.edit_q_optionA,
+    // B: this.edit_q_optionB,
+    // C: this.edit_q_optionC,
+    // D: this.edit_q_optionD,
+    // answer: this.selected_qans_val_edit
+    //}
+    //this.quiz_value.splice(this.edit_q_index, 1, obj);
     this.modalReference.close();
   }
 
-  async addquiz() {
-    if (this.add_q_question == "") {
-      swal.fire("info", "Please add the question!!!", "warning");
-    } else {
+  //delquiz(){
+  // this.quiz_value.splice(this.delete_q_index, 1);
+  // this.modalReference.close();
+  //}
+  async delquiz() {
+    var contentdata;
+    var record_id;
+
+    // this.MasterNsdcService.deletecontent(this.delete_q_qid).subscribe(
+    //   (data) => {
+    //     swal.fire("Success", "Record updated successfully", "success");
+    //     this.load_record();
+    //   },
+    //   (error) => {},
+    //   () => {}
+    // );
+  }
+
+  async save_btn_click() {
+    this.save_operation = "save";
+    if (this.save_operation == "save") {
       const body = {
-        assessmentquestion: this.add_q_question,
+        qid: new Date().getTime(),
+        question: this.add_q_question,
+        A: this.add_q_optionA == "" ? "" : this.add_q_optionA,
+        B: this.add_q_optionB == "" ? "" : this.add_q_optionB,
+        C: this.add_q_optionC == "" ? "" : this.add_q_optionC,
+        D: this.add_q_optionD == "" ? "" : this.add_q_optionD,
+        answer: this.selected_qans_val_add,
         language: this.selected_preflanguage,
         type: this.selected_assesment,
-        class: this.selected_class,
-        subject: this.selected_subject,
+        category: this.selected_category,
       };
-      console.log("body", body);
-
-      this.FlnService.createflnmasterdata(body).subscribe(
-        (data) => {
-          swal.fire("Success", "assesment created successfully", "success");
-          this.load_record();
-        },
-        (error) => {},
-        () => {}
-      );
-      this.modalReference.close();
+      // this.MasterNsdcService.createteacherassesment(body).subscribe(
+      //   (data) => {
+      //     swal.fire("Success", "assesment created successfully", "success");
+      //     this.load_record();
+      //   },
+      //   (error) => {},
+      //   () => {}
+      // );
+    } else {
+      swal.fire("info", "Something went wrong !!!", "warning");
     }
   }
-
-  selectedFiles: FileList;
-  displayname: string;
-  filetype: string;
-  s3name: string;
-  filechooser_onchange(event) {
-    if (event.target.files.length > 0) {
-      this.selectedFiles = event.target.files;
-      this.displayname = event.target.files[0].name;
-      this.filetype = this.displayname.split(".").pop();
-      this.s3name = new Date().getTime() + "." + this.filetype;
-      this.hideProgressbar = false;
-      this.progress.percentage = 0;
-      this.currentFileUpload = this.selectedFiles.item(0);
-      this.FlnService.pushFileToStorage(
-        this.currentFileUpload,
-        this.s3name
-      ).subscribe((event) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          this.progress.percentage = Math.round(
-            (100 * event.loaded) / event.total
-          );
-        } else if (event instanceof HttpResponse) {
-          this.s3path = event.body["s3path"];
-          this.hideProgressbar = true;
-        }
-      });
-    } else {
-      this.displayname = "";
-      this.selectedFiles = null;
-    }
-  }
-  uploadactivitydoc() {
-    if (this.s3path == "") {
-      swal.fire("info", "Please add the activity!!!", "warning");
-    } else {
+  async update_btn_click() {
+    if (this.save_operation == "update") {
       const body = {
-        class: this.selected_activity_class,
-        activitydocument: this.s3path,
-        filetype: this.filetype,
-        displayname: this.displayname,
+        qid: this.edit_q_qid,
+        question: this.edit_q_question,
+        A: this.edit_q_optionA,
+        B: this.edit_q_optionB,
+        C: this.edit_q_optionC,
+        D: this.edit_q_optionD,
+        answer: this.selected_qans_val_edit,
+        language: this.selected_preflanguage,
+        type: this.selected_assesment,
+        category: this.selected_category,
       };
-      this.FlnService.saveactivitydocument(body).subscribe(
-        (data) => {
-          swal.fire("Success", "activity saved successfully", "success");
-          this.load_record();
-          this.load_activity_record();
-          this.hideProgressbar = false;
-          this.progress.percentage = 0;
-          this.modalReference.close();
-        },
-        (error) => {},
-        () => {}
-      );
+      // this.MasterNsdcService.updateteacherassesment(
+      //   this.dataid,
+      //   body
+      // ).subscribe(
+      //   (data) => {
+      //     swal.fire("Success", "assesment updated successfully", "success");
+      //     this.load_record();
+      //   },
+      //   (error) => {},
+      //   () => {}
+      // );
+    } else {
+      swal.fire("info", "Something went wrong !!!", "warning");
     }
   }
 }

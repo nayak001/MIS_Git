@@ -224,6 +224,11 @@ const routes: Routes = [
         loadChildren: "./nsdc/nsdc.module#NsdcModule",
       },
       {
+        path: "updatensdcmark",
+        loadChildren:
+          "./updatensdcmark/updatensdcmark.module#UpdatensdcmarkModule",
+      },
+      {
         path: "nsdcexam",
         loadChildren: "./nsdcexam/nsdcexam.module#NsdcExamModule",
       },
@@ -287,6 +292,11 @@ const routes: Routes = [
       {
         path: "gallery",
         loadChildren: "./gallery/gallery.module#GalleryModule",
+      },
+      {
+        path: "erasedata",
+        loadChildren:
+          "./adminerasedata/adminerasedata.module#AdminerasedataModule",
       },
       {
         path: "skillchartfileupload",

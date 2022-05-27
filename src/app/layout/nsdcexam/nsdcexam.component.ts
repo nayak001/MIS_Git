@@ -270,14 +270,16 @@ export class NsdcExamComponent implements OnInit {
   // this.modalReference.close();
   //}
   async delquiz() {
-    this.NsdcExamService.deletecontent(this.delete_q_qid).subscribe(
-      (data) => {
-        swal.fire("Success", "Record deleted successfully", "success");
-        this.load_record();
-      },
-      (error) => {},
-      () => {}
-    );
+    console.log(this.delete_q_qid);
+
+    // this.NsdcExamService.deletecontent(this.delete_q_qid).subscribe(
+    //   (data) => {
+    //     swal.fire("Success", "Record deleted successfully", "success");
+    //     this.load_record();
+    //   },
+    //   (error) => {},
+    //   () => {}
+    // );
   }
 
   async save_btn_click() {
@@ -336,6 +338,8 @@ export class NsdcExamComponent implements OnInit {
           answer: this.selected_qans_val_edit,
         };
       }
+      console.log(this.edit_q_qid);
+
       this.NsdcExamService.updatensdcquestion(this.edit_q_qid, body).subscribe(
         (data) => {
           swal.fire("Success", "assesment updated successfully", "success");

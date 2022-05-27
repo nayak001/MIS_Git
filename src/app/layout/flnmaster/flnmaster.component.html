@@ -56,24 +56,24 @@
             <div class="col col-xl-2 col-lg-2">
               <select
                 value=""
+                (change)="onselect_assesment_subject($event)"
+                class="form-control"
+              >
+                <option value="">Select</option>
+                <option value="odia">Odia</option>
+                <option value="maths">Maths</option>
+                <option value="english">English</option>
+              </select>
+            </div>
+            <div class="col col-xl-2 col-lg-2">Select assessment</div>
+            <div class="col col-xl-2 col-lg-2">
+              <select
+                value=""
                 (change)="onselect_assesment_select($event)"
                 class="form-control"
               >
                 <option value="">Select</option>
                 <option value="baseline" selected>Baseline</option>
-                <!-- <option *ngIf="selected_class == '0'" value="eceActivity">
-                  ECE Activity
-                </option>
-                <option *ngIf="selected_class != '0'" value="odia">
-                  Odia Activity
-                </option>
-                <option *ngIf="selected_class != '0'" value="math">
-                  Math Activity
-                </option>
-                <option *ngIf="selected_class != '0'" value="english">
-                  English Activity
-                </option>
-                <option value="assesment">Assesment</option> -->
                 <option value="endline">Endline</option>
               </select>
             </div>
