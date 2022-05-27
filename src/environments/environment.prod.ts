@@ -5,7 +5,8 @@ export const environment = {
   //baseUrl: "http://3.135.181.145:1234/thinkzone/", // Production IP
 
   //baseUrl: "https://thinkzone.info/thinkzone/", // Test https
-  baseUrl: "https://thinkzone.org/thinkzone/", // Production https
+  // baseUrl: "https://thinkzone.org/thinkzone/", // Production https
+  baseUrl: "https://thinkzone.co/thinkzone/", // Production New
 
   ImageURL: "http://3.135.181.145:1234/thinkzone/getimage/",
   uploadURL: "http://3.135.181.145:1234/thinkzone/trainingcontentsuploads",
