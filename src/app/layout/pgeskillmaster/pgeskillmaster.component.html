@@ -5,9 +5,16 @@
       <div class="card mb-3">
         <div class="card-header">
           <div class="row">
-						<div class="col col-xl-1 col-lg-1">
-							<button type="button" class="btn back_button" (click)="back_buttonclick()"><i class="fa fa-reply" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Back</button>
-						</div>
+            <div class="col col-xl-1 col-lg-1">
+              <button
+                type="button"
+                class="btn back_button"
+                (click)="back_buttonclick()"
+              >
+                <i class="fa fa-reply" aria-hidden="true"></i
+                >&nbsp;&nbsp;&nbsp;Back
+              </button>
+            </div>
             <div class="col col-xl-4 col-lg-4">
               <h4>PGE SKILL MASTER</h4>
             </div>
@@ -15,7 +22,12 @@
         </div>
 
         <div class="card-body table-responsive">
-          <table class="table table-striped" [mfData]="skillset_list" #mf="mfDataTable" [mfRowsOnPage]="4">
+          <table
+            class="table table-striped"
+            [mfData]="skillset_list"
+            #mf="mfDataTable"
+            [mfRowsOnPage]="4"
+          >
             <thead>
               <tr>
                 <th style="width: 30%">Prefered Language</th>
@@ -24,24 +36,39 @@
               </tr>
               <tr>
                 <td>
-                  <select id="selected_preferedlanguage" value="{{ selected_preferedlanguage }}" (change)="preflanguage_select_onchange($event)" class="form-control">
+                  <select
+                    id="selected_preferedlanguage"
+                    value="{{ selected_preferedlanguage }}"
+                    (change)="preflanguage_select_onchange($event)"
+                    class="form-control"
+                  >
                     <option value="">Select</option>
                     <option value="en">English</option>
-                    <option value="od">ଓଡିଆ</option>
+                    <option value="od" [selected]="isSelected">ଓଡିଆ</option>
                     <!-- <option value="hi">हिंदी</option> -->
                   </select>
                 </td>
                 <td>
-                  <select id="select_subject" value="{{ selected_subject }}" (change)="subject_select_onchange($event)" class="form-control">
+                  <select
+                    id="select_subject"
+                    value="{{ selected_subject }}"
+                    (change)="subject_select_onchange($event)"
+                    class="form-control"
+                  >
                     <option value="">Select</option>
                     <option value="math">Math</option>
                     <option value="english">English</option>
                     <option value="odia">Odia</option>
+                    <option value="evs">EVS</option>
                   </select>
                 </td>
 
                 <td>
-                  <select value="" (change)="class_select_onchange($event.target.value)" class="form-control">
+                  <select
+                    value=""
+                    (change)="class_select_onchange($event.target.value)"
+                    class="form-control"
+                  >
                     <option value="">Select</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -58,8 +85,14 @@
           </table>
         </div>
 
-        <div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator">
-          <span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." /></span>
+        <div
+          id="loading_indicator"
+          class="loading_indicator"
+          [hidden]="hideLoading_indicator"
+        >
+          <span class=""
+            ><img src="assets/images/loader3.gif" alt="Loading. Please wait..."
+          /></span>
         </div>
 
         <div id="content_div" class="pad25" [hidden]="hide_records_panel">
@@ -68,7 +101,14 @@
               <th>Skills</th>
               <th></th>
               <th>
-                <button (click)="open(addmodal, 'add', null)" class="btn btn-sm btn-primary float-right" type="button"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Add New Skill</button>
+                <button
+                  (click)="open(addmodal, 'add', null)"
+                  class="btn btn-sm btn-primary float-right"
+                  type="button"
+                >
+                  <i class="fa fa-plus" aria-hidden="true"></i
+                  >&nbsp;&nbsp;&nbsp;Add New Skill
+                </button>
               </th>
             </tr>
 
@@ -79,8 +119,16 @@
               </td>
               <td class="third_td_width">
                 <div>
-                  <span class="delbtn" (click)="open(deletemodal, 'delete', skillset)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-                  <span class="editbtn" (click)="open(editmodal, 'edit', skillset)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                  <span
+                    class="delbtn"
+                    (click)="open(deletemodal, 'delete', skillset)"
+                    ><i class="fa fa-minus-square" aria-hidden="true"></i
+                  ></span>
+                  <span
+                    class="editbtn"
+                    (click)="open(editmodal, 'edit', skillset)"
+                    ><i class="fa fa-pencil-square-o" aria-hidden="true"></i
+                  ></span>
                 </div>
               </td>
             </tr>
@@ -94,15 +142,35 @@
                 <span class="bold-font">Add Skill:</span>
               </div>
               <div class="row">
-                <div class="col col-xl-4 col-lg-4" style="margin-top: 10px;"> Skill Name</div>
+                <div class="col col-xl-4 col-lg-4" style="margin-top: 10px">
+                  Skill Name
+                </div>
                 <div class="col">
-                  <input type="text" [value]="" [(ngModel)]="selected_skillsetname" class="form-control" placeholder="Skill Name"/>
+                  <input
+                    type="text"
+                    [value]=""
+                    [(ngModel)]="selected_skillsetname"
+                    class="form-control"
+                    placeholder="Skill Name"
+                  />
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-              <button type="button" (click)="save_record()" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                (click)="save_record()"
+                class="btn btn-primary"
+              >
+                &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
+              </button>
             </div>
           </ng-template>
 
@@ -113,15 +181,35 @@
                 <span class="bold-font">Update Skill:</span>
               </div>
               <div class="row">
-                <div class="col col-xl-4 col-lg-4" style="margin-top: 10px;"> Skill Name</div>
+                <div class="col col-xl-4 col-lg-4" style="margin-top: 10px">
+                  Skill Name
+                </div>
                 <div class="col">
-                  <input type="text" [value]="selected_skillsetname" [(ngModel)]="selected_skillsetname" class="form-control" placeholder="Skill Name"/>
+                  <input
+                    type="text"
+                    [value]="selected_skillsetname"
+                    [(ngModel)]="selected_skillsetname"
+                    class="form-control"
+                    placeholder="Skill Name"
+                  />
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-              <button type="button" (click)="update_record()" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                (click)="update_record()"
+                class="btn btn-primary"
+              >
+                &nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;
+              </button>
             </div>
           </ng-template>
 
@@ -130,12 +218,26 @@
             <div class="modal-body">
               <div class="row">
                 <img src="assets/images/warning.png" class="warning-icon" />
-                <span class="col col-xl-9 col-lg-9">Are you sure, you want to remove this record !</span>
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this record !</span
+                >
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-              <button type="button" (click)="delete_record()" class="btn btn-danger">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                (click)="delete_record()"
+                class="btn btn-danger"
+              >
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+              </button>
             </div>
           </ng-template>
         </div>
