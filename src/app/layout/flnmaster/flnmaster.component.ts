@@ -103,6 +103,7 @@ export class FlnMasterComponent implements OnInit {
   edit_displayvedioname: any;
   edit_vediofiletype: any;
   edit_s3vedioname: any;
+  isPGE: boolean = true;
   public Editor = ClassicEditor;
 
   constructor(
@@ -146,7 +147,15 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_class = selectedOptionValue;
+    this.checkProgram();
     this.load_record();
+  }
+
+  checkProgram() {
+    if (this.selected_class == 0) {
+      this.isPGE = false;
+      this.selected_subject = "na";
+    } else this.isPGE = true;
   }
 
   onselect_assesment_subject(event) {
