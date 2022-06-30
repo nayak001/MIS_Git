@@ -14,3 +14,14 @@
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+.colBtns {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-around;
+
+  button {
+    margin: 10px;
+  }
+}
