@@ -403,8 +403,12 @@ export class Masterteachertraining2Component implements OnInit {
       B: this.edit_q_optionB,
       C: this.edit_q_optionC,
       D: this.edit_q_optionD,
-      answer: this.selected_qans_val_edit,
+      answer:
+        this.selected_qans_val_edit == ""
+          ? (this.selected_qans_val_edit = this.edit_q_ans)
+          : this.selected_qans_val_edit,
     };
+    this.selected_qans_val_edit = "";
     this.quiz_value.splice(this.edit_q_index, 1, obj);
     this.modalReference.close();
   }
