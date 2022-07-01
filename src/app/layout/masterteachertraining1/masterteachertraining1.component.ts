@@ -217,13 +217,33 @@ export class Masterteachertraining1Component implements OnInit {
                       this.masterteachertraining1Service
                         .moduleAddNotification(modulebody.modulename, "module")
                         .subscribe(
-                          (data) => {
-                            this.modalReference.close();
-                            this.hideLoading_indicator1 = true;
-                            this.load_allmodules_list(
-                              this.selected_preflanguage
-                            );
-                            this.modulename_toupdate = "";
+                          (data: any) => {
+                            if (data.status == "success") {
+                              this.masterteachertraining1Service
+                                .moduleAddNotification(
+                                  modulebody.modulename,
+                                  "module"
+                                )
+                                .subscribe(
+                                  (data) => {
+                                    this.modalReference.close();
+                                    this.hideLoading_indicator1 = true;
+                                    this.load_allmodules_list(
+                                      this.selected_preflanguage
+                                    );
+                                    this.modulename_toupdate = "";
+                                  },
+                                  (err) => {},
+                                  () => {}
+                                );
+                            } else {
+                              this.modalReference.close();
+                              this.hideLoading_indicator1 = true;
+                              this.load_allmodules_list(
+                                this.selected_preflanguage
+                              );
+                              this.modulename_toupdate = "";
+                            }
                           },
                           (err) => {},
                           () => {}
@@ -543,11 +563,11 @@ export class Masterteachertraining1Component implements OnInit {
                           )
                           .subscribe(
                             (data) => {
-                              this.sendMessageToallUser(
-                                this.selected_submodule_modulename,
-                                this.selected_submodule_name,
-                                this.subtopicname_tosave
-                              );
+                              // this.sendMessageToallUser(
+                              //   this.selected_submodule_modulename,
+                              //   this.selected_submodule_name,
+                              //   this.subtopicname_tosave
+                              // );
                               this.hideLoading_indicator3 = true;
                               this.load_alltopic_list(
                                 this.selected_submodule_moduleid,
@@ -559,11 +579,11 @@ export class Masterteachertraining1Component implements OnInit {
                             () => {}
                           );
                       } else {
-                        this.sendMessageToallUser(
-                          this.selected_submodule_modulename,
-                          this.selected_submodule_name,
-                          this.subtopicname_tosave
-                        );
+                        // this.sendMessageToallUser(
+                        //   this.selected_submodule_modulename,
+                        //   this.selected_submodule_name,
+                        //   this.subtopicname_tosave
+                        // );
                         this.hideLoading_indicator3 = true;
                         this.load_alltopic_list(
                           this.selected_submodule_moduleid,
@@ -587,48 +607,48 @@ export class Masterteachertraining1Component implements OnInit {
   all_users: any;
   txt_title: String;
   txt_message: String;
-  sendMessageToallUser(modulename, submodulename, subtopicname) {
-    this.txt_title = "New topic added";
-    this.txt_message =
-      "New topic" +
-      " " +
-      subtopicname +
-      " " +
-      "added in" +
-      " " +
-      submodulename +
-      "  " +
-      "under" +
-      "  " +
-      modulename;
-    this.masterteachertraining1Service.getalluser().subscribe(
-      (data) => {
-        this.all_users = data;
-        if (Object.keys(data).length > 0) {
-          let id = "" + new Date().getTime();
-          let title = this.txt_title;
-          let message = this.txt_message;
-          let status = "unread";
-          let obj = {
-            id: id,
-            userid_list: this.all_users,
-            title: title,
-            message: message,
-            status: status,
-          };
-          this.masterteachertraining1Service.createnewmessage(obj).subscribe(
-            (data) => {
-              // location.reload();
-            },
-            (error) => {},
-            () => {}
-          );
-        }
-      },
-      (error) => {},
-      () => {}
-    );
-  }
+  // sendMessageToallUser(modulename, submodulename, subtopicname) {
+  //   this.txt_title = "New topic added";
+  //   this.txt_message =
+  //     "New topic" +
+  //     " " +
+  //     subtopicname +
+  //     " " +
+  //     "added in" +
+  //     " " +
+  //     submodulename +
+  //     "  " +
+  //     "under" +
+  //     "  " +
+  //     modulename;
+  //   this.masterteachertraining1Service.getalluser().subscribe(
+  //     (data) => {
+  //       this.all_users = data;
+  //       if (Object.keys(data).length > 0) {
+  //         let id = "" + new Date().getTime();
+  //         let title = this.txt_title;
+  //         let message = this.txt_message;
+  //         let status = "unread";
+  //         let obj = {
+  //           id: id,
+  //           userid_list: this.all_users,
+  //           title: title,
+  //           message: message,
+  //           status: status,
+  //         };
+  //         this.masterteachertraining1Service.createnewmessage(obj).subscribe(
+  //           (data) => {
+  //             // location.reload();
+  //           },
+  //           (error) => {},
+  //           () => {}
+  //         );
+  //       }
+  //     },
+  //     (error) => {},
+  //     () => {}
+  //   );
+  // }
 
   updatetopic_btnclick() {
     this.topic_toupdate = this.topic_toupdate.toUpperCase().toLowerCase();

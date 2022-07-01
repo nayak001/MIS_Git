@@ -131,7 +131,29 @@ export class PreprogramTrainingComponent implements OnInit {
               this.preprogramteachertrainingService
                 .createnewppttrainingmodule(modulebody)
                 .subscribe(
-                  (data) => {
+                  (data: any) => {
+                    if (data.status == "success") {
+                      this.preprogramteachertrainingService
+                        .moduleAddNotification(modulebody.modulename, "module")
+                        .subscribe(
+                          (data) => {
+                            this.hideLoading_indicator1 = true;
+                            this.load_allmodules_list(
+                              this.selected_preflanguage
+                            );
+                            this.modulename_tosave = "";
+                            this.disable_button = false;
+                          },
+                          (err) => {},
+                          () => {}
+                        );
+                    } else {
+                      this.hideLoading_indicator1 = true;
+                      this.load_allmodules_list(this.selected_preflanguage);
+                      this.modulename_tosave = "";
+                      this.disable_button = false;
+                    }
+
                     this.hideLoading_indicator1 = true;
                     this.load_allmodules_list(this.selected_preflanguage);
                     this.modulename_tosave = "";
@@ -179,6 +201,7 @@ export class PreprogramTrainingComponent implements OnInit {
         );
     }
   }
+
   updatemodule_btnclick() {
     this.modulename_toupdate = this.modulename_toupdate
       .toUpperCase()
@@ -208,11 +231,28 @@ export class PreprogramTrainingComponent implements OnInit {
               this.preprogramteachertrainingService
                 .updateppttrainingmodulebyid(this.module_id, modulebody)
                 .subscribe(
-                  (data) => {
-                    this.modalReference.close();
-                    this.hideLoading_indicator1 = true;
-                    this.load_allmodules_list(this.selected_preflanguage);
-                    this.modulename_toupdate = "";
+                  (data: any) => {
+                    if (data.status == "success") {
+                      this.preprogramteachertrainingService
+                        .moduleAddNotification(modulebody.modulename, "module")
+                        .subscribe(
+                          (data) => {
+                            this.modalReference.close();
+                            this.hideLoading_indicator1 = true;
+                            this.load_allmodules_list(
+                              this.selected_preflanguage
+                            );
+                            this.modulename_toupdate = "";
+                          },
+                          (err) => {},
+                          () => {}
+                        );
+                    } else {
+                      this.modalReference.close();
+                      this.hideLoading_indicator1 = true;
+                      this.load_allmodules_list(this.selected_preflanguage);
+                      this.modulename_toupdate = "";
+                    }
                   },
                   (error) => {},
                   () => {}
@@ -230,8 +270,6 @@ export class PreprogramTrainingComponent implements OnInit {
       .deleteppttrainingmodulebyid(this.moduleid)
       .subscribe(
         (data) => {
-          console.log("###delete response: ", data);
-
           this.modalReference.close();
           this.hideLoading_indicator1 = true;
           this.load_allmodules_list(this.selected_preflanguage);
@@ -352,14 +390,35 @@ export class PreprogramTrainingComponent implements OnInit {
               this.preprogramteachertrainingService
                 .createpptnewtrainingsubmodule(submodulebody)
                 .subscribe(
-                  (data) => {
-                    this.hideLoading_indicator2 = true;
-                    this.load_allsubmodules_list(
-                      this.selected_submodule_moduleid,
-                      this.selected_preflanguage
-                    );
-                    this.submodulename_tosave = "";
-                    this.disable_button = false;
+                  (data: any) => {
+                    if (data.status == "success") {
+                      this.preprogramteachertrainingService
+                        .moduleAddNotification(
+                          submodulebody.submodulename,
+                          "submodule"
+                        )
+                        .subscribe(
+                          (data) => {
+                            this.hideLoading_indicator2 = true;
+                            this.load_allsubmodules_list(
+                              this.selected_submodule_moduleid,
+                              this.selected_preflanguage
+                            );
+                            this.submodulename_tosave = "";
+                            this.disable_button = false;
+                          },
+                          (err) => {},
+                          () => {}
+                        );
+                    } else {
+                      this.hideLoading_indicator2 = true;
+                      this.load_allsubmodules_list(
+                        this.selected_submodule_moduleid,
+                        this.selected_preflanguage
+                      );
+                      this.submodulename_tosave = "";
+                      this.disable_button = false;
+                    }
                   },
                   (error) => {},
                   () => {
@@ -410,14 +469,35 @@ export class PreprogramTrainingComponent implements OnInit {
               this.preprogramteachertrainingService
                 .updateppttrainingsubmodulebyid(this.submodule_id, modulebody)
                 .subscribe(
-                  (data) => {
-                    this.modalReference.close();
-                    this.hideLoading_indicator2 = true;
-                    this.load_allsubmodules_list(
-                      this.selected_submodule_moduleid,
-                      this.selected_preflanguage
-                    );
-                    this.submodulename_toupdate = "";
+                  (data: any) => {
+                    if (data.status == "success") {
+                      this.preprogramteachertrainingService
+                        .moduleAddNotification(
+                          modulebody.submodulename,
+                          "submodule"
+                        )
+                        .subscribe(
+                          (data) => {
+                            this.modalReference.close();
+                            this.hideLoading_indicator2 = true;
+                            this.load_allsubmodules_list(
+                              this.selected_submodule_moduleid,
+                              this.selected_preflanguage
+                            );
+                            this.submodulename_toupdate = "";
+                          },
+                          (err) => {},
+                          () => {}
+                        );
+                    } else {
+                      this.modalReference.close();
+                      this.hideLoading_indicator2 = true;
+                      this.load_allsubmodules_list(
+                        this.selected_submodule_moduleid,
+                        this.selected_preflanguage
+                      );
+                      this.submodulename_toupdate = "";
+                    }
                   },
                   (error) => {},
                   () => {}
@@ -447,6 +527,7 @@ export class PreprogramTrainingComponent implements OnInit {
         () => {}
       );
   }
+
   savesubtopic_btnclick() {
     this.disable_button = true;
     this.subtopicname_tosave = this.subtopicname_tosave
@@ -493,9 +574,24 @@ export class PreprogramTrainingComponent implements OnInit {
               this.preprogramteachertrainingService
                 .createnewppttrainingtopic(subtopicbody)
                 .subscribe(
-                  (data) => {
-                    if (Object.keys(data).length > 0) {
-                      // this.sendMessageToallUser(this.selected_submodule_modulename,this.selected_submodule_name,this.subtopicname_tosave)
+                  (data: any) => {
+                    if (data.status == "success") {
+                      this.preprogramteachertrainingService
+                        .moduleAddNotification(subtopicbody.topicname, "topic")
+                        .subscribe(
+                          (data) => {
+                            this.hideLoading_indicator3 = true;
+                            this.load_alltopic_list(
+                              this.selected_submodule_moduleid,
+                              this.selected_preflanguage
+                            );
+                            this.subtopicname_tosave = "";
+                            this.disable_button = false;
+                          },
+                          (err) => {},
+                          () => {}
+                        );
+                    } else {
                       this.hideLoading_indicator3 = true;
                       this.load_alltopic_list(
                         this.selected_submodule_moduleid,
@@ -523,48 +619,48 @@ export class PreprogramTrainingComponent implements OnInit {
   all_users: any;
   txt_title: String;
   txt_message: String;
-  sendMessageToallUser(modulename, submodulename, subtopicname) {
-    this.txt_title = "New topic added";
-    this.txt_message =
-      "New topic" +
-      " " +
-      subtopicname +
-      " " +
-      "added in" +
-      " " +
-      submodulename +
-      "  " +
-      "under" +
-      "  " +
-      modulename;
-    this.preprogramteachertrainingService.getalluser().subscribe(
-      (data) => {
-        this.all_users = data;
-        if (Object.keys(data).length > 0) {
-          let id = "" + new Date().getTime();
-          let title = this.txt_title;
-          let message = this.txt_message;
-          let status = "unread";
-          let obj = {
-            id: id,
-            userid_list: this.all_users,
-            title: title,
-            message: message,
-            status: status,
-          };
-          this.preprogramteachertrainingService.createnewmessage(obj).subscribe(
-            (data) => {
-              // location.reload();
-            },
-            (error) => {},
-            () => {}
-          );
-        }
-      },
-      (error) => {},
-      () => {}
-    );
-  }
+  // sendMessageToallUser(modulename, submodulename, subtopicname) {
+  //   this.txt_title = "New topic added";
+  //   this.txt_message =
+  //     "New topic" +
+  //     " " +
+  //     subtopicname +
+  //     " " +
+  //     "added in" +
+  //     " " +
+  //     submodulename +
+  //     "  " +
+  //     "under" +
+  //     "  " +
+  //     modulename;
+  //   this.preprogramteachertrainingService.getalluser().subscribe(
+  //     (data) => {
+  //       this.all_users = data;
+  //       if (Object.keys(data).length > 0) {
+  //         let id = "" + new Date().getTime();
+  //         let title = this.txt_title;
+  //         let message = this.txt_message;
+  //         let status = "unread";
+  //         let obj = {
+  //           id: id,
+  //           userid_list: this.all_users,
+  //           title: title,
+  //           message: message,
+  //           status: status,
+  //         };
+  //         this.preprogramteachertrainingService.createnewmessage(obj).subscribe(
+  //           (data) => {
+  //             // location.reload();
+  //           },
+  //           (error) => {},
+  //           () => {}
+  //         );
+  //       }
+  //     },
+  //     (error) => {},
+  //     () => {}
+  //   );
+  // }
 
   updatetopic_btnclick() {
     this.topic_toupdate = this.topic_toupdate.toUpperCase().toLowerCase();
@@ -600,14 +696,32 @@ export class PreprogramTrainingComponent implements OnInit {
               this.preprogramteachertrainingService
                 .updateppttrainingtopicbyid(this.submodule_topic_id, body)
                 .subscribe(
-                  (data) => {
-                    this.modalReference.close();
-                    this.hideLoading_indicator3 = true;
-                    this.load_alltopic_list(
-                      this.selected_submodule_moduleid,
-                      this.selected_preflanguage
-                    );
-                    this.topic_toupdate = "";
+                  (data: any) => {
+                    if (data.status == "success") {
+                      this.preprogramteachertrainingService
+                        .moduleAddNotification(body.topicname, "topic")
+                        .subscribe(
+                          (data) => {
+                            this.modalReference.close();
+                            this.hideLoading_indicator3 = true;
+                            this.load_alltopic_list(
+                              this.selected_submodule_moduleid,
+                              this.selected_preflanguage
+                            );
+                            this.topic_toupdate = "";
+                          },
+                          (err) => {},
+                          () => {}
+                        );
+                    } else {
+                      this.modalReference.close();
+                      this.hideLoading_indicator3 = true;
+                      this.load_alltopic_list(
+                        this.selected_submodule_moduleid,
+                        this.selected_preflanguage
+                      );
+                      this.topic_toupdate = "";
+                    }
                   },
                   (error) => {},
                   () => {}
