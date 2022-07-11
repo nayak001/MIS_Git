@@ -6,47 +6,18 @@
         <div class="card-header">
           <div class="row">
             <div class="col col-xl-4 col-lg-4">
-              <h4>PGE ACTIVITIES</h4>
+              <h4>NSDC Certificate</h4>
             </div>
+            <div class="col"></div>
             <div class="col">
-              <div>
-                <button
-                  (click)="click_to_add_skill()"
-                  class="btn btn-primary float-right"
-                  type="button"
-                  title="Add Segment"
-                >
-                  <i class="fa fa-book" aria-hidden="true"></i
-                  >&nbsp;&nbsp;&nbsp;Skillset Manager&nbsp;&nbsp;&nbsp;
-                </button>
-                <button
-                  [hidden]="hide_createnewsegment_button"
-                  (click)="opencontentsmodal(addcontentsmodal)"
-                  class="btn btn-primary float-right"
-                  type="button"
-                  title="Add Segment"
-                >
-                  <i class="fa fa-plus" aria-hidden="true"></i
-                  >&nbsp;&nbsp;&nbsp;Create New Segment&nbsp;&nbsp;&nbsp;
-                </button>
-                <button
-                  [hidden]="hide_createnewsegment_button"
-                  (click)="opencontentsmodal(addresourcesmodal)"
-                  class="btn btn-warning float-right"
-                  type="button"
-                  title="Add Resources"
-                >
-                  <i class="fa fa-plus" aria-hidden="true"></i
-                  >&nbsp;&nbsp;&nbsp;Create New Resource&nbsp;&nbsp;&nbsp;
-                </button>
-              </div>
+              <button
+                (click)="nsdc_mastermoduleload()"
+                class="btn btn-sm btn-primary float-right"
+                type="button"
+              >
+                &nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;
+              </button>
             </div>
-
-            <!-- <div class="col">
-								<div>
-									<button (click)="opencontentsmodal(addcontentsmodal)"  class="btn btn-primary float-right" type="button" title="Add Segment"  ><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Create New Skill&nbsp;&nbsp;&nbsp; </button>
-								</div>
-							</div> -->
           </div>
         </div>
 
@@ -140,9 +111,8 @@
                               <ng-template ngbTabContent>
                                 <div class="tab_content">
                                   <div class="row">
-                                    <div class="image_preview_container">
+                                    <div>
                                       <div
-                                        class="image_preview"
                                         *ngFor="
                                           let flash of image_value;
                                           let i = index
@@ -330,50 +300,20 @@
               <td style="width: 20%; padding-right: 30px; vertical-align: top">
                 <div>
                   <div>
-                    <span class="bold-font">Prefered Language</span>
+                    <span class="bold-font">Manager</span>
                     <span>
                       <select
-                        id="selected_preflanguage"
-                        value="{{ selected_preflanguage }}"
-                        (change)="preflanguage_select_onchange($event)"
-                        class="form-control"
-                      >
-                        <option value="">Select</option>
-                        <option value="en">English</option>
-                        <option value="od" [selected]="isSelected">ଓଡିଆ</option>
-                        <!-- <option value="hi">हिंदी</option> -->
-                      </select>
-                    </span>
-                  </div>
-                  <br />
-
-                  <!-- <div>
-										<span class="bold-font">Program</span>
-										<span>
-											<select id="select_program" value="{{selected_program}}"  (change)="program_select_onchange($event)" class="form-control">
-												<option value="">Select</option>
-												<option value="ece">ECE</option>
-												<option value="pge">PGE</option>
-											</select>
-										</span>
-									</div>
-									<br /> -->
-
-                  <div>
-                    <span class="bold-font">Class</span>
-                    <span>
-                      <select
-                        id="selected_class"
-                        value="{{ selected_class }}"
-                        (change)="class_select_onchange($event.target.value)"
+                        id="managerid"
+                        value="{{ managerid }}"
+                        (change)="managerSelectOnChange($event.target.value)"
                         class="form-control"
                       >
                         <option value="">Select</option>
                         <option
-                          *ngFor="let opt of class_select_option_list"
-                          value="{{ opt.value }}"
+                          *ngFor="let opt of managerdata"
+                          value="{{ opt.userid }}"
                         >
-                          {{ opt.text | titlecase }}
+                          {{ opt.username | titlecase }}
                         </option>
                       </select>
                     </span>
@@ -381,50 +321,16 @@
                   <br />
 
                   <div>
-                    <span class="bold-font">Subject</span>
+                    <span class="bold-font">Fellow List</span>
                     <span>
                       <select
-                        id="select_subject"
-                        value="{{ selected_subject }}"
-                        (change)="subject_select_onchange($event)"
+                        [(ngModel)]="selecteduserdata"
+                        (ngModelChange)="userSelectOnChange($event)"
                         class="form-control"
                       >
                         <option value="">Select</option>
-                        <option value="math">Math</option>
-                        <option value="english">English</option>
-                        <option value="odia">Odia</option>
-                        <option value="evs">EVS</option>
-                      </select>
-                    </span>
-                  </div>
-                  <br />
-
-                  <!-- <div>
-										<span class="bold-font">{{ skillset_label }}</span>
-										<span>
-											<select id="selected_month" value="{{selected_month}}"  (change)="month_select_onchange($event.target.value)" class="form-control">
-												<option value="">Select</option>
-												<option *ngFor="let opt of month_select_option_list;" value="{{ opt.value }}">{{ opt.text | titlecase }}</option>
-											</select>
-										</span>
-									</div>
-									<br /> -->
-
-                  <div>
-                    <span class="bold-font">Skill</span>
-                    <span>
-                      <select
-                        id="selected_skillsetid"
-                        value="{{ selected_skillsetid }}"
-                        (change)="skill_select_onchange($event.target.value)"
-                        class="form-control"
-                      >
-                        <option value="">Select</option>
-                        <option
-                          *ngFor="let opt of skill_select_option_list"
-                          value="{{ opt.skillsetid }}"
-                        >
-                          {{ opt.skillsetname | titlecase }}
+                        <option *ngFor="let opt of userdata" [ngValue]="opt">
+                          {{ opt.username | titlecase }}
                         </option>
                       </select>
                     </span>
@@ -432,13 +338,7 @@
                 </div>
               </td>
 
-              <td
-                style="
-                  width: 60%;
-                  background-color: #615f5f;
-                  vertical-align: top;
-                "
-              >
+              <td style="width: 0%; background-color: #615f5f">
                 <div
                   id="loading_indicator"
                   [hidden]="hide_Loading_indicator"
@@ -453,6 +353,7 @@
                 </div>
                 <div class="mobile_view">
                   <div
+                    style="margin: 50px"
                     #show_segment_details
                     [innerHTML]="current_segment_details"
                   ></div>
@@ -460,146 +361,38 @@
               </td>
 
               <!-- Select Segment Panel -->
-              <td style="width: 20%; padding-left: 20px; vertical-align: top">
-                <div [hidden]="hide_createnewsegment_button">
-                  <div class="row">
-                    <div class="col col-lg-6 col-md-6 col-sm-6">
-                      <div class="bold-font">
-                        Segment
-                        <button
-                          (click)="openreordersegments(reordersegments)"
-                          class="btn btn-light float-right"
-                          type="button"
-                          title="Add Segment"
-                          style="font-size: 10px"
-                        >
-                          Reorder Segment
-                        </button>
-                      </div>
-                    </div>
-                    <div class="col col-lg-6 col-md-6 col-sm-6">
-                      <div>
-                        <select
-                          value="{{ selected_segment_index }}"
-                          (change)="segment_select_onchange($event)"
-                          class="form-control"
-                        >
-                          <!-- <option value="-1">Select</option> -->
-                          <option
-                            *ngFor="let seg of segments_list; let i = index"
-                            value="{{ i }}"
-                          >
-                            {{ i + 1 }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <br />
-                  <div class="row" *ngIf="selected_segment_index != -1">
-                    <div class="col col-lg-4 col-md-4 col-sm-4">
-                      <div>
-                        <button
-                          (click)="update_segment_btn_click()"
-                          class="btn btn-primary"
-                          type="button"
-                          title="Edit"
-                        >
-                          <i
-                            class="fa fa-pencil-square-o"
-                            aria-hidden="true"
-                          ></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div
-                      class="col col-lg-4 col-md-4 col-sm-4"
-                      style="text-align: center"
-                    >
-                      <div>
-                        <button
-                          (click)="preview_segment_btn_click()"
-                          class="btn btn-primary"
-                          type="button"
-                          title="Preview"
-                        >
-                          <i class="fa fa-play-circle-o" aria-hidden="true"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="col col-lg-4 col-md-4 col-sm-4">
-                      <div>
-                        <button
-                          (click)="delete_segment_btn_click()"
-                          class="btn btn-danger float-right"
-                          type="button"
-                          title="Delete"
-                        >
-                          <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <br />
-                  <div class="row" style="width: 100%">
-                    <div class="col">
-                      <div class="bold-font">Resources</div>
-                    </div>
-                  </div>
-                  <br />
+              <td style="width: 20%; padding-left: 30px; vertical-align: top">
+                <div *ngIf="showBtns" class="btns">
                   <div
-                    style="
-                      background: #fafafa;
-                      width: 100%;
-                      height: 365px;
-                      overflow: auto;
-                    "
+                    *ngIf="showUploadBtn"
+                    class="col col-lg-4 col-md-4 col-sm-4"
+                    style="text-align: center"
                   >
-                    <div>
-                      <div
-                        *ngFor="
-                          let resources of extraresources_list;
-                          let i = index
-                        "
-                        style="
-                          background: white;
-                          width: 95%;
-                          padding: 10px;
-                          margin-top: 10px;
-                          border-bottom: 1px solid lightgrey;
-                          border-left: 1px solid lightgrey;
-                          border-radius: 3px;
-                        "
-                      >
-                        <div class="row">
-                          <div class="col col-lg-10 col-md-10 col-sm-10">
-                            <i class="fa fa-file-text" aria-hidden="true"></i
-                            >&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a
-                              href="{{ resources.s3_url }}"
-                              target="_blank"
-                              style="text-decoration: none"
-                              >{{ resources.displayname }}</a
-                            >
-                          </div>
-                          <div
-                            (click)="delete_resource_btn_click(i)"
-                            class="col col-lg-2 col-md-2 col-sm-2"
-                            style="
-                              text-align: right;
-                              color: red;
-                              vertical-align: top;
-                              cursor: pointer;
-                            "
-                          >
-                            <i
-                              class="fa fa-window-close"
-                              aria-hidden="true"
-                            ></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <button
+                      (click)="opencontentsmodal(addresourcesmodal)"
+                      class="btn btn-warning float-right"
+                      type="button"
+                      title="Upload Certificate"
+                    >
+                      <i class="fa fa-upload" aria-hidden="true"></i> Upload
+                    </button>
+                  </div>
+
+                  <br />
+
+                  <div
+                    *ngIf="showDeleteBtn"
+                    class="col col-lg-4 col-md-4 col-sm-4"
+                    style="text-align: center"
+                  >
+                    <button
+                      (click)="deleteCert()"
+                      class="btn btn-warning float-right"
+                      type="button"
+                      title="Delete Certificate"
+                    >
+                      <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                    </button>
                   </div>
                 </div>
               </td>
@@ -673,10 +466,12 @@
         <div id="content_div" class="pad25">
           <!-- Image Contents  -->
           <div class="row">
-            <div class="image_preview_container">
-              <div style="text-align: center">
-                <img src="{{ image_value }}" class="image2" />
-              </div>
+            <div style="text-align: center">
+              <!-- <img src="{{ certificateUrl }}" class="image2" /> -->
+              <img
+                src="https://shared001.s3.us-east-2.amazonaws.com/1631102942216.png"
+                class="image2"
+              />
             </div>
           </div>
 

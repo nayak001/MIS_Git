@@ -44,7 +44,7 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-                <!-- <option value="0" >0(ECE)</option> -->
+                <option value="0">0(ECE)</option>
                 <option value="1" selected>1(PGE)</option>
                 <option value="2">2(PGE)</option>
                 <option value="3">3(PGE)</option>
@@ -52,8 +52,10 @@
                 <option value="5">5(PGE)</option>
               </select>
             </div>
-            <div class="col col-xl-2 col-lg-2">Select subject</div>
-            <div class="col col-xl-2 col-lg-2">
+            <div *ngIf="isPGE" class="col col-xl-2 col-lg-2">
+              Select subject
+            </div>
+            <div *ngIf="isPGE" class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_assesment_subject($event)"
@@ -63,6 +65,7 @@
                 <option value="odia">Odia</option>
                 <option value="maths">Maths</option>
                 <option value="english">English</option>
+                <option value="evs">EVS</option>
               </select>
             </div>
             <div class="col col-xl-2 col-lg-2">Select assessment</div>
@@ -78,7 +81,7 @@
               </select>
             </div>
           </div>
-          <div class="card-body table-responsive" *ngIf="show_month">
+          <!-- <div class="card-body table-responsive" *ngIf="show_month">
             <div class="row">
               <div class="col col-xl-2 col-lg-2">Select Month</div>
               <div class="col col-xl-2 col-lg-2">
@@ -103,7 +106,7 @@
                 </select>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <div
@@ -321,11 +324,12 @@
                             class="form-control"
                           >
                             <option value="">Select</option>
-                            <option value="class1" selected>1(PGE)</option>
-                            <option value="class2">2(PGE)</option>
-                            <option value="class3">3(PGE)</option>
-                            <option value="class4">4(PGE)</option>
-                            <option value="class5">5(PGE)</option>
+                            <option value="0" selected>0(ECE)</option>
+                            <option value="1" selected>1(PGE)</option>
+                            <option value="2">2(PGE)</option>
+                            <option value="3">3(PGE)</option>
+                            <option value="4">4(PGE)</option>
+                            <option value="5">5(PGE)</option>
                           </select>
                         </div>
                         <span class="bold-font">Upload Activity Document:</span>
