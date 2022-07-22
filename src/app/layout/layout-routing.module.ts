@@ -207,6 +207,10 @@ const routes: Routes = [
           "./versionmanager/versionmanager.module#VersionmanagerModule",
       },
       {
+        path: "whatsappbot",
+        loadChildren: "./whatsappbot/whatsappbot.module#WhatsappbotModule",
+      },
+      {
         path: "udisemanager",
         loadChildren: "./udisemanager/udisemanager.module#UdisemanagerModule",
       },

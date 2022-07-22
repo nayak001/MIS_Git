@@ -1,0 +1,154 @@
+<div [@routerTransition]>
+  <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col col-xl-4 col-lg-4">
+              <h4>WHATSAPP BOT</h4>
+            </div>
+            <div class="col float-right">
+              <button
+                type="button"
+                class="btn btn-primary float-right"
+                (click)="open(showcontactsmodal)"
+              >
+                Get All Numbers
+                <i class="fa fa-get-pocket" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- content displayed here -->
+        <div class="card-body table-responsive">
+          <!-- Content area -->
+          <!-- Upload and View panel -->
+          <div class="row">
+            <div class="col">
+              <input
+                type="file"
+                class="upload"
+                (change)="readCSV($event.target.files)"
+              />
+            </div>
+
+            <div class="col">
+              <button
+                type="button"
+                class="btn btn-primary float-right"
+                (click)="sendtemplatedmediamessage()"
+              >
+                Send WhatsApp Message
+                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="contacts-heading">
+                Contacts: {{ contactsFromCSV_count }}
+              </div>
+              <div class="contacts-box">
+                <ul>
+                  <li *ngFor="let contact of contactsFromCSV">{{ contact }}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+              <div class="contacts-box">
+                <div *ngFor="let status of messageSentResponseArr" class="row">
+                  <div class="col">
+                    <div *ngIf="status.sent == 1">
+                      <i
+                        class="fa fa-check-circle-o"
+                        style="color: green"
+                        aria-hidden="true"
+                      ></i>
+                    </div>
+                    <div *ngIf="status.sent == 0">
+                      <i
+                        class="fa fa-times-circle-o"
+                        style="color: red"
+                        aria-hidden="true"
+                      ></i>
+                    </div>
+                  </div>
+                  <div class="col">{{ status.contact }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- -------------------------------------- -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show All Contacts Modal -->
+<ng-template #showcontactsmodal let-c="close" let-d="dismiss">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-primary float-right"
+          (click)="getallmobilenos()"
+        >
+          Get All Contacts
+          <i class="fa fa-get-pocket" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Loading indicator -->
+    <div
+      id="loading_indicator"
+      class="loading_indicator"
+      [hidden]="hideLoading_indicator"
+    >
+      <img src="assets/images/loader4.gif" alt="Loading. Please wait..." />
+    </div>
+    <div [hidden]="!hideLoading_indicator">
+      <!-- Contacts count and Download Button -->
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <div class="col heading-text">
+              All Contacts: {{ allcontacts_count }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Contacts table list -->
+      <div class="row">
+        <div class="col">
+          <div class="contacts-box">
+            <div *ngFor="let data of allcontacts" class="row">
+              <div class="col">{{ data.contact }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button
+            type="button"
+            class="btn btn-primary float-right"
+            (click)="downloadCSV()"
+          >
+            Download Contacts
+            <i class="fa fa-download" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="c('Close click')">
+      Close
+    </button>
+  </div>
+</ng-template>
