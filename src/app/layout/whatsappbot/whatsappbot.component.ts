@@ -41,7 +41,6 @@ export class WhatsappbotComponent implements OnInit {
 
   ngOnInit() {
     this.hideLoading_indicator = true;
-    //this.getallwhatsappnos();
   }
   downloadCSV() {
     let data = this.allcontacts;
