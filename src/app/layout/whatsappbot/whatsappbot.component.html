@@ -57,26 +57,50 @@
               </div>
             </div>
             <div class="col">
-              <div class="contacts-box">
-                <div *ngFor="let status of messageSentResponseArr" class="row">
-                  <div class="col">
-                    <div *ngIf="status.sent == 1">
-                      <i
-                        class="fa fa-check-circle-o"
-                        style="color: green"
-                        aria-hidden="true"
-                      ></i>
+              <!-- Loading indicator 2 -->
+              <div
+                id="loading_indicator"
+                class="loading_indicator"
+                [hidden]="hideLoading_indicator2"
+              >
+                <img
+                  src="assets/images/loader4.gif"
+                  alt="Loading. Please wait..."
+                />
+              </div>
+              <div [hidden]="!hideLoading_indicator2">
+                <div class="contacts-box">
+                  <div
+                    *ngFor="let status of messageSentResponseArr"
+                    class="row"
+                  >
+                    <div class="col col-lg-1 col-md-1 col-sm-1">
+                      <div *ngIf="status.sent == 1">
+                        <i
+                          class="fa fa-check-circle-o"
+                          style="color: green"
+                          aria-hidden="true"
+                        ></i>
+                      </div>
+                      <div *ngIf="status.sent == 0">
+                        <i
+                          class="fa fa-times-circle-o"
+                          style="color: red"
+                          aria-hidden="true"
+                        ></i>
+                      </div>
                     </div>
-                    <div *ngIf="status.sent == 0">
-                      <i
-                        class="fa fa-times-circle-o"
-                        style="color: red"
-                        aria-hidden="true"
-                      ></i>
-                    </div>
+                    <div class="col">{{ status.contact }}</div>
                   </div>
-                  <div class="col">{{ status.contact }}</div>
                 </div>
+                <button
+                  type="button"
+                  class="btn btn-primary float-right"
+                  (click)="downloadWhatsappResponse()"
+                >
+                  Download Results
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -103,15 +127,15 @@
         </button>
       </div>
     </div>
-    <!-- Loading indicator -->
+    <!-- Loading indicator 1 -->
     <div
       id="loading_indicator"
       class="loading_indicator"
-      [hidden]="hideLoading_indicator"
+      [hidden]="hideLoading_indicator1"
     >
       <img src="assets/images/loader4.gif" alt="Loading. Please wait..." />
     </div>
-    <div [hidden]="!hideLoading_indicator">
+    <div [hidden]="!hideLoading_indicator1">
       <!-- Contacts count and Download Button -->
       <div class="row">
         <div class="col">
@@ -137,7 +161,7 @@
           <button
             type="button"
             class="btn btn-primary float-right"
-            (click)="downloadCSV()"
+            (click)="downloadAllContacts()"
           >
             Download Contacts
             <i class="fa fa-download" aria-hidden="true"></i>

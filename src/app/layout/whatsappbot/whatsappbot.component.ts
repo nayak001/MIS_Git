@@ -13,12 +13,13 @@ import { saveAs } from "file-saver";
   animations: [routerTransition()],
 })
 export class WhatsappbotComponent implements OnInit {
-  hideLoading_indicator: boolean = true;
+  hideLoading_indicator1: boolean = true;
+  hideLoading_indicator2: boolean = true;
   // contact limit to send
   contact_limit: number = 1000;
 
   // fetch data and download csv
-  allcontacts: any;
+  allcontacts: any = [];
   allcontacts_count: number = 0;
 
   // upload and read csv
@@ -40,33 +41,69 @@ export class WhatsappbotComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.hideLoading_indicator = true;
+    this.hideLoading_indicator1 = true;
+    this.hideLoading_indicator2 = true;
   }
-  downloadCSV() {
-    let data = this.allcontacts;
-    const replacer = (key, value) => (value === null ? "" : value);
-    const header = Object.keys(data[0]);
-    let csv = data.map((row) =>
-      header
-        .map((fieldName) => JSON.stringify(row[fieldName], replacer))
-        .join(",")
-    );
-    csv.unshift(header.join(","));
-    let csvArray = csv.join("\r\n");
+  downloadAllContacts() {
+    if (this.allcontacts.length > 0) {
+      let data = this.allcontacts;
+      const replacer = (key, value) => (value === null ? "" : value);
+      const header = Object.keys(data[0]);
+      let csv = data.map((row) =>
+        header
+          .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+          .join(",")
+      );
+      csv.unshift(header.join(","));
+      let csvArray = csv.join("\r\n");
 
-    var blob = new Blob([csvArray], { type: "text/csv;charset=utf-8;" });
+      var blob = new Blob([csvArray], { type: "text/csv;charset=utf-8;" });
 
-    // set file name
-    var currdate = new Date();
-    var csvfilename =
-      "contacts" +
-      currdate.getDate() +
-      "-" +
-      (currdate.getMonth() + 1) +
-      "-" +
-      currdate.getFullYear() +
-      ".csv";
-    saveAs(blob, csvfilename);
+      // set file name
+      var currdate = new Date();
+      var csvfilename =
+        "contacts" +
+        currdate.getDate() +
+        "-" +
+        (currdate.getMonth() + 1) +
+        "-" +
+        currdate.getFullYear() +
+        ".csv";
+      saveAs(blob, csvfilename);
+    } else {
+      alert("Nothing to download");
+    }
+  }
+
+  downloadWhatsappResponse() {
+    if (this.messageSentResponseArr.length > 0) {
+      let data = this.messageSentResponseArr;
+      const replacer = (key, value) => (value === null ? "" : value);
+      const header = Object.keys(data[0]);
+      let csv = data.map((row) =>
+        header
+          .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+          .join(",")
+      );
+      csv.unshift(header.join(","));
+      let csvArray = csv.join("\r\n");
+
+      var blob = new Blob([csvArray], { type: "text/csv;charset=utf-8;" });
+
+      // set file name
+      var currdate = new Date();
+      var csvfilename =
+        "result" +
+        currdate.getDate() +
+        "-" +
+        (currdate.getMonth() + 1) +
+        "-" +
+        currdate.getFullYear() +
+        ".csv";
+      saveAs(blob, csvfilename);
+    } else {
+      alert("Nothing to download");
+    }
   }
 
   readCSV(files: FileList) {
@@ -108,12 +145,12 @@ export class WhatsappbotComponent implements OnInit {
   }
 
   getallmobilenos() {
-    this.hideLoading_indicator = false;
+    this.hideLoading_indicator1 = false;
     this.whatsappbotService.getallmobilenos().subscribe(
       (data) => {
         this.allcontacts = data["data"] ? data["data"] : [];
         this.allcontacts_count = this.allcontacts.length;
-        this.hideLoading_indicator = true;
+        this.hideLoading_indicator1 = true;
       },
       (error) => {},
       () => {}
@@ -121,7 +158,7 @@ export class WhatsappbotComponent implements OnInit {
   }
 
   filterwhatsappnos() {
-    this.hideLoading_indicator = false;
+    this.hideLoading_indicator1 = false;
     var allcontactsobj = { contacts: this.allcontacts };
     this.whatsappbotService.filterwhatsappnos(allcontactsobj).subscribe(
       (data) => {
@@ -129,7 +166,7 @@ export class WhatsappbotComponent implements OnInit {
 
         // this.allwhatsappcontacts = data["data"] ? data["data"] : [];
         // this.allwhatsappcontacts_count = this.allwhatsappcontacts.length;
-        this.hideLoading_indicator = true;
+        this.hideLoading_indicator1 = true;
       },
       (error) => {},
       () => {}
@@ -138,9 +175,10 @@ export class WhatsappbotComponent implements OnInit {
 
   async sendtemplatedmediamessage() {
     if (this.contactsFromCSV.length > 0) {
-      this.hideLoading_indicator = false;
+      this.hideLoading_indicator2 = false;
       let arr = [];
       for (let i = 0; i < this.contactsFromCSV.length; i++) {
+        this.hideLoading_indicator2 = false;
         setTimeout(() => {
           this.whatsappbotService
             .sendtemplatedmediamessage(this.contactsFromCSV[i])
@@ -150,6 +188,7 @@ export class WhatsappbotComponent implements OnInit {
             });
         }, 2000);
       }
+      this.hideLoading_indicator2 = true;
       this.messageSentResponseArr = arr;
     } else {
       // show alert
@@ -157,7 +196,7 @@ export class WhatsappbotComponent implements OnInit {
   }
 
   sendtemplatedmediamessages() {
-    this.hideLoading_indicator = false;
+    this.hideLoading_indicator1 = false;
     var allcontactsobj = { contacts: this.allcontacts };
     this.whatsappbotService
       .sendtemplatedmediamessages(allcontactsobj)
@@ -167,7 +206,7 @@ export class WhatsappbotComponent implements OnInit {
 
           // this.allwhatsappcontacts = data["data"] ? data["data"] : [];
           // this.allwhatsappcontacts_count = this.allwhatsappcontacts.length;
-          this.hideLoading_indicator = true;
+          this.hideLoading_indicator1 = true;
         },
         (error) => {},
         () => {}
