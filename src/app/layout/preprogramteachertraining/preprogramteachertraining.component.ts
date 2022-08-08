@@ -304,6 +304,7 @@ export class PreprogrmateachertrainingComponent implements OnInit {
         )
         .subscribe(
           (data) => {
+            console.log(data);
             if (Object.keys(data).length > 0) {
               this.save_operation = "update";
               this.record_id = data[0]["_id"];
@@ -537,6 +538,25 @@ export class PreprogrmateachertrainingComponent implements OnInit {
       swal.fire("content added successfully!");
     }
   }
+  addquestion() {
+    let obj = {
+      contentid: new Date().getTime(),
+      question: this.add_q_question,
+      A: this.add_q_optionA,
+      B: this.add_q_optionB,
+      C: this.add_q_optionC,
+      D: this.add_q_optionD,
+      answer: this.selected_qans_val_add,
+      type: "question",
+    };
+    if (this.save_operation == "save") {
+      this.contents.push(obj);
+    } else {
+      console.log("save", obj);
+      this.allcontent.push(obj);
+    }
+    swal.fire("Quiz added successfully!");
+  }
   addimage() {
     if (this.selectedFiles == undefined || this.selectedFiles == null) {
       swal.fire("info", "Please select image file", "warning");
@@ -614,6 +634,8 @@ export class PreprogrmateachertrainingComponent implements OnInit {
     }
   }
   savecontent() {
+    console.log(this.contents, "this.contents");
+
     if (this.save_operation == "save" && this.contents.length > 0) {
       const body = {
         moduleid: this.selected_moduleid,
@@ -629,6 +651,8 @@ export class PreprogrmateachertrainingComponent implements OnInit {
         quiz: this.quiz_value,
         language: this.selected_preflanguage,
       };
+      console.log(body);
+
       this.save_record(body);
       this.s3vedioname = "";
       this.s3vediopath = "";

@@ -52,6 +52,7 @@ export class TeacherbaselineComponent implements OnInit {
   hidevedioProgressbar: boolean = true;
   vedioprogress: { percentage: number } = { percentage: 0 };
   // quiz - edit
+  edit_q_id: string = "";
   edit_q_index: string = "";
   edit_q_qid: string = "";
   edit_q_question: string = "";
@@ -157,6 +158,9 @@ export class TeacherbaselineComponent implements OnInit {
   }
   delete_q_qid: any;
   open(content, obj, index, flag) {
+    console.log(content, "content", obj, "obj", index, "index", flag, "flag");
+    console.log(typeof obj._id);
+
     // update
     if (flag == "add") {
       this.add_q_qid = "";
@@ -167,6 +171,7 @@ export class TeacherbaselineComponent implements OnInit {
       this.add_q_optionD = "";
       this.add_q_ans = "";
     } else if (flag == "edit") {
+      this.edit_q_id = obj._id;
       this.edit_q_index = index;
       this.edit_q_qid = obj.qid;
       this.edit_q_question = obj.question;
@@ -334,13 +339,17 @@ export class TeacherbaselineComponent implements OnInit {
         B: this.edit_q_optionB,
         C: this.edit_q_optionC,
         D: this.edit_q_optionD,
-        answer: this.selected_qans_val_edit,
+        answer:
+          this.selected_qans_val_edit == ""
+            ? (this.selected_qans_val_edit = this.edit_q_ans)
+            : this.selected_qans_val_edit,
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
       };
+      this.selected_qans_val_edit = "";
       this.TeacherbaselineService.updateteacherassesment(
-        this.dataid,
+        this.edit_q_id,
         body
       ).subscribe(
         (data) => {
