@@ -207,6 +207,63 @@
                                 <div [innerHTML]="data.content"></div>
                                 <!-- <ckeditor  [editor]="Editor" [(ngModel)]="data.content" data="{{data.content}}"></ckeditor> -->
                               </div>
+                              <div *ngIf="data.type == 'question'">
+                                <div class="q_container">
+                                  <div class="row">
+                                    <div class="col col-xl-12 col-lg-12 q_div">
+                                      {{ i + 1 }}. {{ data.question }}
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col col-xl-6 col-lg-6">
+                                      A. {{ data.A }}
+                                    </div>
+                                    <div class="col col-xl-6 col-lg-6">
+                                      B. {{ data.B }}
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col col-xl-6 col-lg-6">
+                                      C. {{ data.C }}
+                                    </div>
+                                    <div class="col col-xl-6 col-lg-6">
+                                      D. {{ data.D }}
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div
+                                      class="col col-xl-12 col-lg-12 ans_div"
+                                    >
+                                      Ans. {{ data.answer | uppercase }}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div>
+                                  <!-- <span
+                                    class="addbtn"
+                                    (click)="open(editmodal, quiz, i, 'edit')"
+                                    ><i
+                                      class="fa fa-pencil-square-o"
+                                      aria-hidden="true"
+                                    ></i
+                                  ></span> -->
+                                  <span
+                                    class="delbtn"
+                                    (click)="
+                                      opencontent(
+                                        deletecontentmodal,
+                                        data,
+                                        i,
+                                        'deletecontentmodal'
+                                      )
+                                    "
+                                    ><i
+                                      class="fa fa-minus-square"
+                                      aria-hidden="true"
+                                    ></i
+                                  ></span>
+                                </div>
+                              </div>
                               <div *ngIf="data.type == 'image'">
                                 <div>
                                   <span
@@ -779,11 +836,7 @@
                             [hidden]="hideProgressbar"
                           >
                             <div
-                              class="
-                                progress-bar
-                                progress-bar-info
-                                progress-bar-striped
-                              "
+                              class="progress-bar progress-bar-info progress-bar-striped"
                               role="progressbar"
                               attr.aria-valuenow="{{ progress.percentage }}"
                               aria-valuemin="0"
@@ -832,6 +885,82 @@
                     Upload Image
                   </button>
                 </div>
+                <div class="modal-body">
+                  <div class="row padd15">
+                    <input
+                      [(ngModel)]="add_q_question"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Question"
+                    />
+                  </div>
+                  <div class="row marginb10">
+                    <div class="col col-lg-1 col-md-1">A</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <input
+                        [(ngModel)]="add_q_optionA"
+                        type="text"
+                        class="form-control input-underline input-lg"
+                        placeholder="Option A"
+                      />
+                    </div>
+                    <div class="col col-lg-2 col-md-2"></div>
+                    <div class="col col-lg-1 col-md-1">B</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <input
+                        [(ngModel)]="add_q_optionB"
+                        type="text"
+                        class="form-control input-underline input-lg"
+                        placeholder="Option B"
+                      />
+                    </div>
+                  </div>
+                  <div class="row marginb10">
+                    <div class="col col-lg-1 col-md-1">C</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <input
+                        [(ngModel)]="add_q_optionC"
+                        type="text"
+                        class="form-control input-underline input-lg"
+                        placeholder="Option C"
+                      />
+                    </div>
+                    <div class="col col-lg-2 col-md-2"></div>
+                    <div class="col col-lg-1 col-md-1">D</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <input
+                        [(ngModel)]="add_q_optionD"
+                        type="text"
+                        class="form-control input-underline input-lg"
+                        placeholder="Option D"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-lg-1 col-md-1">Ans</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <select
+                        value=""
+                        (change)="onselect_addq_select($event)"
+                        class="form-control"
+                      >
+                        <option value="">Select</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="addquestion()"
+                  style="margin-top: 10px; margin-left: 350px"
+                >
+                  Add Quiz
+                </button>
                 <div>
                   <div
                     class="tab_content_height margintop30"
@@ -847,11 +976,7 @@
                             [hidden]="hidevedioProgressbar"
                           >
                             <div
-                              class="
-                                progress-bar
-                                progress-bar-info
-                                progress-bar-striped
-                              "
+                              class="progress-bar progress-bar-info progress-bar-striped"
                               role="vedioprogress"
                               attr.aria-valuenow="{{
                                 vedioprogress.percentage
@@ -1029,11 +1154,7 @@
                           [hidden]="hideProgressbar"
                         >
                           <div
-                            class="
-                              progress-bar
-                              progress-bar-info
-                              progress-bar-striped
-                            "
+                            class="progress-bar progress-bar-info progress-bar-striped"
                             role="progressbar"
                             attr.aria-valuenow="{{ progress.percentage }}"
                             aria-valuemin="0"
@@ -1180,11 +1301,7 @@
                           [hidden]="hidevedioProgressbar"
                         >
                           <div
-                            class="
-                              progress-bar
-                              progress-bar-info
-                              progress-bar-striped
-                            "
+                            class="progress-bar progress-bar-info progress-bar-striped"
                             role="vedioprogress"
                             attr.aria-valuenow="{{ vedioprogress.percentage }}"
                             aria-valuemin="0"

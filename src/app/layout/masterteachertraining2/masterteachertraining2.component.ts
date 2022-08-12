@@ -539,6 +539,25 @@ export class Masterteachertraining2Component implements OnInit {
       swal.fire("content added successfully!");
     }
   }
+  addquestion() {
+    let obj = {
+      contentid: new Date().getTime(),
+      question: this.add_q_question,
+      A: this.add_q_optionA,
+      B: this.add_q_optionB,
+      C: this.add_q_optionC,
+      D: this.add_q_optionD,
+      answer: this.selected_qans_val_add,
+      type: "question",
+    };
+    if (this.save_operation == "save") {
+      this.contents.push(obj);
+    } else {
+      console.log("save", obj);
+      this.allcontent.push(obj);
+    }
+    swal.fire("Quiz added successfully!");
+  }
   addimage() {
     if (this.selectedFiles == undefined || this.selectedFiles == null) {
       swal.fire("info", "Please select image file", "warning");

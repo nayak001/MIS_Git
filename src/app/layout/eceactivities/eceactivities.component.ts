@@ -201,6 +201,30 @@ export class EceactivitiesComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_class = selectedOptionValue;
 
+    this.theme_select_option_list = [
+      { value: "bodyparts", text: "Body Parts" },
+      {
+        value: "animalsbirds&theirsounds",
+        text: "Animals, Birds & their Sounds",
+      },
+      {
+        value: "flowersfruits&vegetables",
+        text: "Flowers, Fruits & Vegetables",
+      },
+      { value: "house&accessories", text: "House & Accessories" },
+      { value: "transportation", text: "Transportation" },
+      { value: "occupation", text: "Occupation" },
+      { value: "serviceprovidingcenter", text: "Service Providing Center" },
+      { value: "insects", text: "Insects" },
+      { value: "environment", text: "Environment" },
+      { value: "seasons", text: "Seasons" },
+    ];
+    this.skill_select_option_list = [
+      { value: "physical", text: "Physical" },
+      { value: "memory", text: "Memory" },
+      { value: "social&emotional", text: "Social & Emotional" },
+      { value: "language", text: "Language" },
+    ];
     this.selected_subject = this.selected_program == "ece" ? "na" : "";
     this.selected_themeid = "";
     this.selected_themename = "";
