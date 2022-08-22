@@ -344,6 +344,7 @@ export class GalleryComponent implements OnInit {
   }
 
   deletes3file(filedata) {
+    console.log("-->filedata: ", filedata);
     let filename = filedata.s3name;
     let filedirectory = filedata.s3directory;
     this.hideLoading_indicator = false;
