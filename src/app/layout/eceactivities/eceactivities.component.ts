@@ -10,6 +10,8 @@ import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { EceactivitiesService } from "./eceactivities.service";
 import { GalleryService } from "./../gallery/gallery.service";
 
+import { ManagersboxService } from "./../managersbox/managersbox.service";
+
 @Component({
   selector: "app-eceactivities",
   templateUrl: "./eceactivities.component.html",
@@ -22,7 +24,8 @@ export class EceactivitiesComponent implements OnInit {
     private modalService: NgbModal,
     public router: Router,
     private eceactivitiesService: EceactivitiesService,
-    private galleryService: GalleryService
+    private galleryService: GalleryService,
+    private managersboxService: ManagersboxService
   ) {
     this.selected_program = "ece";
     this.selected_subject = "";
@@ -359,6 +362,13 @@ export class EceactivitiesComponent implements OnInit {
   delete_segment() {
     let segment_to_delete = this.segments_list[this.selected_segment_index];
     let file_to_delete = segment_to_delete.s3name;
+    console.log(
+      "--> file_to_delete: ",
+      file_to_delete,
+      "    segment_to_delete: ",
+      segment_to_delete
+    );
+
     this.segments_list.splice(this.selected_segment_index, 1);
     const body = {
       segment: this.segments_list,
@@ -368,10 +378,16 @@ export class EceactivitiesComponent implements OnInit {
       this.selected_segment_type == "image_content" ||
       this.selected_segment_type == "video_content"
     ) {
+      // Delete from db
       this.galleryService.deleteFromStorage(null, file_to_delete).subscribe(
         (data1) => {
-          this.update_record(this.record_id, body);
-          this.go_btn_click();
+          // Delete from S3
+          this.managersboxService
+            .deleteFromStorage(file_to_delete)
+            .subscribe((event) => {
+              this.update_record(this.record_id, body);
+              this.go_btn_click();
+            });
         },
         (error) => {},
         () => {}

@@ -422,6 +422,7 @@ export class Masterteachertraining2Component implements OnInit {
     var record_id;
     var indexdelete = this.delete_content_index;
     var del_content_id = this.del_content_id;
+
     this.data.forEach(function (value, key) {
       if (value.content != undefined) {
         value.content.forEach(function (item, key) {
@@ -451,6 +452,9 @@ export class Masterteachertraining2Component implements OnInit {
     var record_id;
     var indexdelete = this.delete_content_index;
     var del_image_id = this.del_image_id;
+    console.log("--> File tobe delted: ", del_image_id);
+
+    // Delete from local data
     this.data.forEach(function (value, key) {
       if (value.content != undefined) {
         value.content.forEach(function (item, key) {
@@ -462,39 +466,59 @@ export class Masterteachertraining2Component implements OnInit {
         });
       }
     });
+
+    // Delete from db
     this.masterteachertraining2Service
       .deletecontent(record_id, contentdata)
       .subscribe(
         (data) => {
-          swal.fire("Success", "Record updated successfully", "success");
-          this.load_record();
+          // Delete from S3
+          this.managersboxService
+            .deleteFromStorage(del_image_id)
+            .subscribe((event) => {
+              swal.fire("Success", "Record updated successfully", "success");
+              this.load_record();
+            });
         },
         (error) => {},
         () => {}
       );
   }
+
   vediodelete() {
     var contentdata;
     var record_id;
     var indexdelete = this.delete_content_index;
     var del_vedio_id = this.del_vedio_id;
+    var s3_file: any = "";
+
+    // Delete from local
     this.data.forEach(function (value, key) {
       if (value.content != undefined) {
         value.content.forEach(function (item, key) {
           if (item.contentid == del_vedio_id) {
             record_id = value._id;
+            s3_file = item.vedio_path;
             value.content.splice(key, 1);
             contentdata = value.content;
           }
         });
       }
     });
+    console.log("--> File tobe delted: ", s3_file);
+
+    // Delete from db
     this.masterteachertraining2Service
       .deletecontent(record_id, contentdata)
       .subscribe(
         (data) => {
-          swal.fire("Success", "Record updated successfully", "success");
-          this.load_record();
+          // Delete from S3
+          this.managersboxService
+            .deleteFromStorage(s3_file)
+            .subscribe((event) => {
+              swal.fire("Success", "Record updated successfully", "success");
+              this.load_record();
+            });
         },
         (error) => {},
         () => {}
@@ -967,6 +991,8 @@ export class Masterteachertraining2Component implements OnInit {
   image_to_preview: any;
   vedio_to_preview: any;
   opencontent(content, obj, index, flag) {
+    console.log("--> obj: ", obj, "    index: ", index, "    flag: ", flag);
+
     this.content_value = "";
     this.s3path = "";
     this.s3vediopath = "";

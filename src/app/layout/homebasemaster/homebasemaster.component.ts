@@ -179,6 +179,7 @@ export class HomebaseMasterComponent implements OnInit {
   delete_ques_id: any;
   edit_ques_id: any;
   open(content, obj, index, flag) {
+    console.log("--> obj: ", obj, "    index: ", index, "    flag: ", flag);
     // update
     if (flag == "add") {
       this.add_q_qid = "";
@@ -338,18 +339,25 @@ export class HomebaseMasterComponent implements OnInit {
     this.load_record();
   }
   deleteactivity() {
-    // this.hideProgressbar = true;
-    // this.progress.percentage = 0;
-    // this.s3path = '';
+    // -------------------------- Get S3 File Name ----------------------------
+    var selected_obj = this.delete_ques_id;
+    var s3_filepath = selected_obj ? selected_obj.activitydocument : "";
+    var s3_filename = s3_filepath
+      ? s3_filepath.substring(s3_filepath.lastIndexOf("/") + 1)
+      : "";
+    console.log("Obj: ", selected_obj, "   s3_filename: ", s3_filename);
+    // ------------------------------------------------------------------------
 
-    // const body = {
-    // 	activitydocument : '',
-    // 	displayname : ''
-    // }
+    // Delete from db
     this.HomebaseService.deletecontent(this.delete_doc_id).subscribe(
       (data) => {
-        swal.fire("Success", "document deleted successfully", "success");
-        this.load_activity_record();
+        // Delete from S3
+        this.managersboxService
+          .deleteFromStorage(s3_filename)
+          .subscribe((event) => {
+            swal.fire("Success", "document deleted successfully", "success");
+            this.load_activity_record();
+          });
       },
       (error) => {},
       () => {}
