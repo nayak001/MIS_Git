@@ -125,7 +125,11 @@ export class Masterteachertraining1Component implements OnInit {
                   (data: any) => {
                     if (data.status == "success") {
                       this.masterteachertraining1Service
-                        .moduleAddNotification(modulebody.modulename, "module")
+                        .moduleAddNotification(
+                          "training",
+                          modulebody.modulename,
+                          "module"
+                        )
                         .subscribe(
                           (data) => {
                             this.hideLoading_indicator1 = true;
@@ -215,12 +219,17 @@ export class Masterteachertraining1Component implements OnInit {
                   (data: any) => {
                     if (data.status == "success") {
                       this.masterteachertraining1Service
-                        .moduleAddNotification(modulebody.modulename, "module")
+                        .moduleAddNotification(
+                          "training",
+                          modulebody.modulename,
+                          "module"
+                        )
                         .subscribe(
                           (data: any) => {
                             if (data.status == "success") {
                               this.masterteachertraining1Service
                                 .moduleAddNotification(
+                                  "training",
                                   modulebody.modulename,
                                   "module"
                                 )
@@ -390,6 +399,7 @@ export class Masterteachertraining1Component implements OnInit {
                     if (data.status == "success") {
                       this.masterteachertraining1Service
                         .moduleAddNotification(
+                          "training",
                           submodulebody.submodulename,
                           "submodule"
                         )
@@ -463,6 +473,7 @@ export class Masterteachertraining1Component implements OnInit {
                     if (data.status == "success") {
                       this.masterteachertraining1Service
                         .moduleAddNotification(
+                          "training",
                           modulebody.submodulename,
                           "submodule"
                         )
@@ -558,6 +569,7 @@ export class Masterteachertraining1Component implements OnInit {
                       if (data.status == "success") {
                         this.masterteachertraining1Service
                           .moduleAddNotification(
+                            "training",
                             subtopicbody.topicname,
                             "topic"
                           )
@@ -684,7 +696,11 @@ export class Masterteachertraining1Component implements OnInit {
                   (data: any) => {
                     if (data.status == "success") {
                       this.masterteachertraining1Service
-                        .moduleAddNotification(body.topicname, "topic")
+                        .moduleAddNotification(
+                          "training",
+                          body.topicname,
+                          "topic"
+                        )
                         .subscribe(
                           (data) => {
                             this.modalReference.close();
