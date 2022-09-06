@@ -32,6 +32,8 @@ export class GalleryComponent implements OnInit {
   s3name: string = "";
   filetype: string = "";
   s3path: string = "";
+  fileSize:any;
+
 
   // TAB
   selected_tab: string = "managerapp_tab";
@@ -233,61 +235,92 @@ export class GalleryComponent implements OnInit {
 
   filechooser_onchange(event) {
     if (event.target.files.length > 0) {
+      // console.log(event.target.files[0].size,"size1")
       this.selectedFiles = event.target.files;
-      this.displayname = event.target.files[0].name;
+      this.displayname = event.target.files[0].name.replace(/\s/g);
+      // console.log(this.displayname,"name");
       this.filetype = this.displayname.split(".").pop();
       this.s3name = new Date().getTime() + "." + this.filetype;
+      this.fileSize=(event.target.files[0].size) / 1048576
+     
+
     } else {
       this.displayname = "";
       this.selectedFiles = null;
+      
+       
     }
+
   }
 
   uploadfile_button_click(apptype) {
-    this.apptype = apptype;
-    this.hideProgressbar = false;
-    this.progress.percentage = 0;
-    for (let i = 0; i < this.selectedFiles.length; i++) {
-      this.displayname = this.selectedFiles[i].name;
-      this.filetype = this.displayname.split(".").pop();
-      this.s3name = new Date().getTime() + "." + this.filetype;
-      this.currentFileUpload = this.selectedFiles.item(i);
-      this.selected_directory =
-        this.selected_directory == undefined ||
-        this.selected_directory == null ||
-        this.selected_directory == ""
-          ? ""
-          : this.selected_directory;
-
-      this.galleryService
-        .pushFileToStorage(
-          this.currentFileUpload,
-          this.selected_directory,
-          this.s3name
-        )
-        .subscribe((event) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(
-              (100 * event.loaded) / event.total
-            );
-          } else if (event instanceof HttpResponse) {
-            this.s3path = event.body["s3path"];
-            let body = {
-              displayname: this.displayname,
-              s3name: this.s3name,
-              filetype: this.filetype,
-              s3path: this.s3path,
-              s3directory: this.selected_directory,
-              type: "file",
-              app: this.apptype,
-            };
-            this.savetodb(body);
-            this.hideProgressbar = true;
-            this.fileInputVariable.nativeElement.value = "";
-          }
-        });
+ 
+//  console.log(this.fileSize,"size2")
+    if(this.fileSize > 5) {
+      // alert("File is too big!");
+      swal
+      .fire({
+        title: "File is too big",
+        text: "Please upload less than 5mb file",
+        type: "error",
+        
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Reupload",
+      })
+    } else{
+      this.apptype = apptype;
+      this.hideProgressbar = false;
+      this.progress.percentage = 0;
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        
+        this.displayname = this.selectedFiles[i].name.replace(/\s/g, '');
+       
+        // console.log("disname", this.displayname);
+        
+        
+        this.filetype = this.displayname.split(".").pop();
+        this.s3name = new Date().getTime() + "." + this.filetype;
+        this.currentFileUpload = this.selectedFiles.item(i);
+        this.selected_directory =
+          this.selected_directory == undefined ||
+          this.selected_directory == null ||
+          this.selected_directory == ""
+            ? ""
+            : this.selected_directory;
+  
+        this.galleryService
+          .pushFileToStorage(
+            this.currentFileUpload,
+            this.selected_directory,
+            this.s3name
+          )
+          .subscribe((event) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
+            } else if (event instanceof HttpResponse) {
+              this.s3path = event.body["s3path"];
+              let body = {
+                displayname: this.displayname,
+                s3name: this.s3name,
+                filetype: this.filetype,
+                s3path: this.s3path,
+                s3directory: this.selected_directory,
+                type: "file",
+                app: this.apptype,
+              };
+              this.savetodb(body);
+              this.hideProgressbar = true;
+              this.fileInputVariable.nativeElement.value = "";
+            }
+          });
+      }
+      //this.selectedFiles = undefined;
     }
-    //this.selectedFiles = undefined;
+
+    
   }
 
   savetodb(body) {
@@ -344,7 +377,6 @@ export class GalleryComponent implements OnInit {
   }
 
   deletes3file(filedata) {
-    console.log("-->filedata: ", filedata);
     let filename = filedata.s3name;
     let filedirectory = filedata.s3directory;
     this.hideLoading_indicator = false;
