@@ -134,7 +134,11 @@ export class PreprogramTrainingComponent implements OnInit {
                   (data: any) => {
                     if (data.status == "success") {
                       this.preprogramteachertrainingService
-                        .moduleAddNotification(modulebody.modulename, "module")
+                        .moduleAddNotification(
+                          "ppt",
+                          modulebody.modulename,
+                          "module"
+                        )
                         .subscribe(
                           (data) => {
                             this.hideLoading_indicator1 = true;
@@ -234,7 +238,11 @@ export class PreprogramTrainingComponent implements OnInit {
                   (data: any) => {
                     if (data.status == "success") {
                       this.preprogramteachertrainingService
-                        .moduleAddNotification(modulebody.modulename, "module")
+                        .moduleAddNotification(
+                          "ppt",
+                          modulebody.modulename,
+                          "module"
+                        )
                         .subscribe(
                           (data) => {
                             this.modalReference.close();
@@ -394,6 +402,7 @@ export class PreprogramTrainingComponent implements OnInit {
                     if (data.status == "success") {
                       this.preprogramteachertrainingService
                         .moduleAddNotification(
+                          "ppt",
                           submodulebody.submodulename,
                           "submodule"
                         )
@@ -473,6 +482,7 @@ export class PreprogramTrainingComponent implements OnInit {
                     if (data.status == "success") {
                       this.preprogramteachertrainingService
                         .moduleAddNotification(
+                          "ppt",
                           modulebody.submodulename,
                           "submodule"
                         )
@@ -577,7 +587,11 @@ export class PreprogramTrainingComponent implements OnInit {
                   (data: any) => {
                     if (data.status == "success") {
                       this.preprogramteachertrainingService
-                        .moduleAddNotification(subtopicbody.topicname, "topic")
+                        .moduleAddNotification(
+                          "ppt",
+                          subtopicbody.topicname,
+                          "topic"
+                        )
                         .subscribe(
                           (data) => {
                             this.hideLoading_indicator3 = true;
@@ -699,7 +713,7 @@ export class PreprogramTrainingComponent implements OnInit {
                   (data: any) => {
                     if (data.status == "success") {
                       this.preprogramteachertrainingService
-                        .moduleAddNotification(body.topicname, "topic")
+                        .moduleAddNotification("ppt", body.topicname, "topic")
                         .subscribe(
                           (data) => {
                             this.modalReference.close();

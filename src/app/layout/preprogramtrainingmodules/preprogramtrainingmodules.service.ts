@@ -157,10 +157,12 @@ export class PreprogramtrainingService {
     );
   }
 
-  moduleAddNotification(dataname, datatype) {
+  moduleAddNotification(trainintype, dataname, datatype) {
     return this.http.get(
       baseUrl +
         "teacherTrainingModuleAddNotification/" +
+        trainintype +
+        "/" +
         dataname +
         "/" +
         datatype,

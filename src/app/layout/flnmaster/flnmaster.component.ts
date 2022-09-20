@@ -130,8 +130,11 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_assesment = selectedOptionValue;
+    console.log("assessment", this.selected_assesment);
+
     if (
       this.selected_assesment == "baseline" ||
+      this.selected_assesment == "midline" ||
       this.selected_assesment == "endline"
     ) {
       this.show_month = false;
@@ -165,6 +168,7 @@ export class FlnMasterComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
     this.load_record();
+    console.log("subj", this.selected_subject);
   }
 
   onselect_change_month(event) {
