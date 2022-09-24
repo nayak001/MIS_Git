@@ -11,7 +11,6 @@ import { HeaderComponent } from "./components/header/header.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TeacherprofilecreateComponent } from "./teacherprofilecreate/teacherprofilecreate.component";
 import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
-import { SupervisorcontrolComponent } from './supervisorcontrol/supervisorcontrol.component';
 
 @NgModule({
   imports: [
@@ -29,7 +28,6 @@ import { SupervisorcontrolComponent } from './supervisorcontrol/supervisorcontro
     SidebarComponent,
     HeaderComponent,
     TeacherprofilecreateComponent,
-    SupervisorcontrolComponent,
   ],
   entryComponents: [TeacherprofilecreateComponent],
 })

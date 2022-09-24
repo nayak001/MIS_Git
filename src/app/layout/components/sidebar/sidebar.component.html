@@ -107,17 +107,14 @@
       <span>{{ "UDISE Manager" | translate }}</span>
     </a>
 
-
     <a
-    [routerLink]="['/supervisorcontrol']"
-    [routerLinkActive]="['router-link-active']"
-    class="list-group-item"
-  >
-  <i class="fa fa-user-secret" aria-hidden="true"></i>&nbsp;
-    <span>{{ "SuperVisor Controller" | translate }}</span>
-  </a>
- 
-
+      [routerLink]="['/supervisorcontroller']"
+      [routerLinkActive]="['router-link-active']"
+      class="list-group-item"
+    >
+      <i class="fa fa-user-secret" aria-hidden="true"></i>&nbsp;
+      <span>{{ "SuperVisor Controller" | translate }}</span>
+    </a>
 
     <a
       [routerLink]="['/dashboardslidermanager']"
@@ -208,8 +205,6 @@
       <span>{{ "Assessment Master" | translate }}</span>
     </a>
 
-  
-    
     <a
       [routerLink]="['/homebasemaster']"
       [routerLinkActive]="['router-link-active']"
