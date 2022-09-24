@@ -430,17 +430,17 @@ export class MasterNsdcComponent implements OnInit {
         score: this.secured_mark,
         userid: this.selected_user,
       };
-      // this.MasterNsdcService.updateuserstatus(body).subscribe(
-      //   (data) => {
-      //     swal.fire("Success", "user status updated successfully", "success");
-      //     console.log(body);
-      //     this.mark = [0];
-      //     this.totalmarks = 0;
-      //     this.load_record();
-      //   },
-      //   (error) => {},
-      //   () => {}
-      // );
+      this.MasterNsdcService.updateuserstatus(body).subscribe(
+        (data) => {
+          swal.fire("Success", "user status updated successfully", "success");
+          console.log(body);
+          this.mark = [0];
+          this.totalmarks = 0;
+          this.load_record();
+        },
+        (error) => {},
+        () => {}
+      );
     }
   }
 
