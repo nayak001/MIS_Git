@@ -433,10 +433,12 @@ export class MasterNsdcComponent implements OnInit {
       this.MasterNsdcService.updateuserstatus(body).subscribe(
         (data) => {
           swal.fire("Success", "user status updated successfully", "success");
-          console.log(body);
-          this.mark = [0];
-          this.totalmarks = 0;
-          this.load_record();
+          this.evaluated = true;
+          this.notEvaluated = false;
+
+          // this.mark = [0];
+          // this.totalmarks = 0;
+          // this.load_record();
         },
         (error) => {},
         () => {}
