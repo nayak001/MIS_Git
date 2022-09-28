@@ -106,6 +106,19 @@
                 for="quantity"
                 >NOT EVALUATED</label
               >
+              <label
+                *ngIf="notEvaluated == true || evaluated == true"
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  justify-content: flex-start;
+                  font-size: 20px;
+                  font-weight: 900;
+                  color: rgb(229, 8, 137);
+                "
+                for="quantity"
+                >Appeared on: {{ examDt }}</label
+              >
             </div>
 
             <div class="col col-xl-3 col-lg-3">
@@ -115,7 +128,7 @@
                 (click)="save_mark()"
                 class="btn btn-sm btn-primary float-right"
                 type="button"
-                style="margin-top: 45px; margin-left: 50px"
+                style="margin-top: 45px"
               >
                 &nbsp;&nbsp;&nbsp;
                 {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;

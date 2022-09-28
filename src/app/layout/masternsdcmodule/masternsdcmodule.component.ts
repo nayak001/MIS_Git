@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from "@angular/core";
 import { routerTransition } from "../../router.animations";
 import { Router } from "@angular/router";
 import { HttpResponse, HttpEventType } from "@angular/common/http";
+import { DatePipe } from "@angular/common";
 import { MasterNsdcService } from "./masternsdcmodule.service";
 import { ManagersboxService } from "../managersbox/managersbox.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
@@ -112,7 +113,9 @@ export class MasterNsdcComponent implements OnInit {
   passcode: string;
   evaluated: boolean = false;
   notEvaluated: boolean = false;
+  examDt: any;
   public Editor = ClassicEditor;
+  datePipe = new DatePipe("en-US");
 
   constructor(
     private modalService: NgbModal,
@@ -206,6 +209,7 @@ export class MasterNsdcComponent implements OnInit {
         if (Object.keys(data).length > 0) {
           this.totalmarks = data[0].score;
           this.quiz_value = data[0].questionanswer;
+          this.examDt = this.datePipe.transform(data[0].createdon, "MMM d, y");
         }
 
         if (this.totalmarks == 0) {
