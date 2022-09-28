@@ -159,10 +159,12 @@ export class Masterteachertraining1Service {
     );
   }
 
-  moduleAddNotification(dataname, datatype) {
+  moduleAddNotification(trainingtype, dataname, datatype) {
     return this.http.get(
       baseUrl +
         "teacherTrainingModuleAddNotification/" +
+        trainingtype +
+        "/" +
         dataname +
         "/" +
         datatype,
