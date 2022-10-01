@@ -7,6 +7,6 @@ const baseUrl = environment.baseUrl;
 @Injectable({
   providedIn: "root",
 })
-export class SupervisorcontrollerService {
+export class AnganwadicontrollerService {
   constructor(private http: HttpClient) {}
 }

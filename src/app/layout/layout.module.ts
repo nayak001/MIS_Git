@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TeacherprofilecreateComponent } from "./teacherprofilecreate/teacherprofilecreate.component";
 import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +29,7 @@ import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
     SidebarComponent,
     HeaderComponent,
     TeacherprofilecreateComponent,
+  
   ],
   entryComponents: [TeacherprofilecreateComponent],
 })

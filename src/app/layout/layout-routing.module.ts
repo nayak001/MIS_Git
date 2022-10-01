@@ -215,9 +215,9 @@ const routes: Routes = [
         loadChildren: "./udisemanager/udisemanager.module#UdisemanagerModule",
       },
       {
-        path: "supervisorcontroller",
+        path: "anganwadicontroller",
         loadChildren:
-          "./supervisorcontroller/supervisorcontroller.module#SupervisorcontrollerModule",
+          "./anganwadicontroller/anganwadicontroller.module#AnganwadicontrollerModule",
       },
       {
         path: "dashboardslidermanager",

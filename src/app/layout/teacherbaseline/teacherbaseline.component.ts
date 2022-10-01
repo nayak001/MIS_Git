@@ -138,6 +138,18 @@ export class TeacherbaselineComponent implements OnInit {
     this.selected_category = selectedOptionValue;
     this.load_record();
   }
+
+  
+
+  onselect_type_select(event) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+    // this.selected_type = selectedOptionValue;
+    this.load_record();
+  }
+
   onselect_editq_select(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -233,7 +245,8 @@ export class TeacherbaselineComponent implements OnInit {
     this.TeacherbaselineService.getallteacherassesment(
       this.selected_assesment,
       this.selected_preflanguage,
-      this.selected_category
+      this.selected_category,
+      // this.selected_type
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
@@ -317,6 +330,7 @@ export class TeacherbaselineComponent implements OnInit {
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
+        // userType:this.selected_type
       };
       this.TeacherbaselineService.createteacherassesment(body).subscribe(
         (data) => {
@@ -346,6 +360,7 @@ export class TeacherbaselineComponent implements OnInit {
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
+        // userType:this.selected_type
       };
       this.selected_qans_val_edit = "";
       this.TeacherbaselineService.updateteacherassesment(
