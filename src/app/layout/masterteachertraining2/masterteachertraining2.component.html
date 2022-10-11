@@ -38,6 +38,7 @@
             <thead>
               <tr>
                 <th style="width: 25%">Language</th>
+                <th style="width: 25%">Type</th>
                 <th style="width: 25%">Module</th>
                 <th style="width: 25%">Sub-module</th>
                 <th style="width: 25%">Topic</th>
@@ -57,6 +58,17 @@
                       <option value="hi">हिंदी</option>
                     </select>
                   </span>
+                </td>
+                <td>
+                  <select
+                    value=""
+                    (change)="onselect_type_select($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select Type</option>
+                    <option value="0" >Anganwadi</option>
+                    <option value="1">Fellow</option>
+                  </select>
                 </td>
                 <td>
                   <select

@@ -9,6 +9,7 @@ import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import swal from "sweetalert2";
 
 import { environment } from "../../../environments/environment.prod";
+import { timeStamp } from "console";
 const URL = environment.uploadURL;
 
 @Component({
@@ -104,6 +105,7 @@ export class FlnMasterComponent implements OnInit {
   edit_vediofiletype: any;
   edit_s3vedioname: any;
   isPGE: boolean = true;
+  isECE: boolean = true;
   public Editor = ClassicEditor;
 
   constructor(
@@ -146,29 +148,49 @@ export class FlnMasterComponent implements OnInit {
 
   onselect_change_class(event) {
     const selectedOptions = event.target["options"];
+   
     const selectedIndex = selectedOptions.selectedIndex;
+    console.log("index-->",selectedIndex)
     const selectedOptionValue = selectedOptions[selectedIndex].value;
+    console.log("value-->",selectedOptionValue)
     const selectElementText = selectedOptions[selectedIndex].text;
+    console.log("elementtext-->",selectElementText)
     this.selected_class = selectedOptionValue;
+    console.log("selected_class -->",this.selected_class)
     this.checkProgram();
     this.load_record();
   }
 
   checkProgram() {
     if (this.selected_class == 0) {
+      console.log("selected class -->",this.selected_class)
       this.isPGE = false;
+      
       this.selected_subject = "na";
+      
+      
     } else this.isPGE = true;
   }
 
   onselect_assesment_subject(event) {
     const selectedOptions = event.target["options"];
+   
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
     this.load_record();
     console.log("subj", this.selected_subject);
+  }
+
+  onselect_assesment_skills(event){
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+    this.selected_skills = selectedOptionValue;
+    this.load_record();
+    console.log("skilss", this.selected_skills);
   }
 
   onselect_change_month(event) {
@@ -284,13 +306,16 @@ export class FlnMasterComponent implements OnInit {
   selected_class: any = 1;
   selected_month: any = "month0";
   selected_subject: any = "select";
+  selected_skills: any = "select";
   alldata: any;
   async load_record() {
     this.FlnService.getallflnmasterdata(
       this.selected_assesment,
       this.selected_preflanguage,
       this.selected_class,
-      this.selected_subject
+      this.selected_subject,
+     
+     
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
@@ -409,6 +434,7 @@ export class FlnMasterComponent implements OnInit {
         type: this.selected_assesment,
         class: this.selected_class,
         subject: this.selected_subject,
+        skills: this.selected_skills,
       };
       console.log("body", body);
 

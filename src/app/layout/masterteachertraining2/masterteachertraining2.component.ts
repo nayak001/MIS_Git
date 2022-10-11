@@ -68,6 +68,7 @@ export class Masterteachertraining2Component implements OnInit {
 
   public allmodules_list: any;
   public allsubmodules_list: any;
+  selected_type:any;
   selected_moduleid: string = "";
   selected_modulename: string = "";
   selected_submoduleid: string = "";
@@ -152,6 +153,7 @@ export class Masterteachertraining2Component implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_preflanguage = selectedOptionValue;
+    console.log("language-->",this.selected_preflanguage )
     this.load_allmodules_list(this.selected_preflanguage);
     this.allsubmodules_list = [];
     this.alltopic_list = [];
@@ -215,12 +217,22 @@ export class Masterteachertraining2Component implements OnInit {
     }
   }
 
+onselect_type_select(event){
+  const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+    this.selected_type = selectedOptionValue;
+    console.log("type-->",  this.selected_type )
+}
+
   onselect_modules_select(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_moduleid = selectedOptionValue;
+    console.log("moduleid-->", this.selected_moduleid)
     this.selected_modulename = selectElementText;
 
     this.load_allsubmodules_list(this.selected_moduleid);
@@ -234,6 +246,7 @@ export class Masterteachertraining2Component implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_submoduleid = selectedOptionValue;
+    console.log("submoduleid-->",this.selected_submoduleid)
     this.selected_submodulename = selectElementText;
     // this.load_record();
 
@@ -247,6 +260,7 @@ export class Masterteachertraining2Component implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_topicid = selectedOptionValue;
+    console.log("topicid-->",this.selected_topicid)
     this.selected_topicname = selectElementText;
     this.load_record();
 

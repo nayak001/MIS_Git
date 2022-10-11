@@ -227,6 +227,11 @@ const routes: Routes = [
         path: "nsdc",
         loadChildren: "./nsdc/nsdc.module#NsdcModule",
       },
+    
+      {
+        path: "supervisorcontroller",
+        loadChildren: "./supervisorcontroller/supervisorcontroller.module#SupervisorcontrollerModule",
+      },
       {
         path: "updatensdcmark",
         loadChildren:
