@@ -8,6 +8,54 @@
           <div class="col col-xl-4 col-lg-4">
             <h4>Anganwadi Controller</h4>
           </div>
+          <div class="row">
+           
+            <div class="col row-fluid" style="font-weight: bold">
+            <span class=" float-right">State</span>  <select
+                value="{{ selected_stateid }}"
+                (change)="selected_state_onchange($event)"
+                class="form-control"
+              >
+                <option value="20">Odisha</option>
+              </select>
+            </div>
+          </div>
+    
+          <hr />
+    
+          <div class="row">
+           
+            <div class="col row-fluid" style="font-weight: bold">
+              <span class=" float-right">District</span>   <select
+                value="{{ selected_districtid }}"
+                (change)="selected_district_onchange($event)"
+                class="form-control"
+              >
+                <option value=""></option>
+                <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
+                  {{ dist.districtname | titlecase }}
+                </option>
+              </select>
+            </div>
+          </div>
+    
+          <hr />
+    
+          <div class="row">
+          
+            <div class="col row-fluid" style="font-weight: bold">
+              <span class=" float-right">Block</span> <select
+                value="{{ selected_blockid }}"
+                (change)="selected_block_onchange($event)"
+                class="form-control"
+              >
+                <option value=""></option>
+                <option *ngFor="let block of allblockdata" value="{{ block._id }}">
+                  {{ block.blockname | titlecase }}
+                </option>
+              </select>
+            </div>
+          </div>
           <div class="col">
             <button type="button" class="btn btn-primary float-right" (click)="open(savemodal, 'save')">&nbsp;&nbsp;&nbsp;Add Anganwadi&nbsp;&nbsp;&nbsp;</button>
           </div>
@@ -24,19 +72,19 @@
             <!-- Records List -->
             <div class="col col-xl-6 col-lg-6">
               <div class="row">
-                <div class="col col-xl-4 col-lg-4"><h2> Record(s)</h2></div>
+                <div class="col col-xl-4 col-lg-4"><h2>{{ allanganwadicontrollerlist.length }} Record(s)</h2></div>
                 <div class="col col-xl-6 col-lg-6">
                   <input (keyup)='search($event.target.value)' type="text" placeholder="Search" class="modal_textbox">
                 </div>
               </div>
               <div class="">
                 <table>
-                  <tr *ngFor="let row of alludisecodeslist; let i = index;" (click)="record_onselect(row)">
-                    <!-- <td style="width: 10%">{{ i+1 }}</td> -->
+                  <tr *ngFor="let row of allanganwadicontrollerlist; let i = index;" (click)="record_onselect(row)">
+                    <td style="width: 10%">{{ i+1 }}</td>
                     <td style="width: 80%">
-                      <div class="row">AnganWadi Name</div>
-                      <div class="row">id</div>
-                      <div class="row">Awc Code</div>
+                      <div class="row"> Anganwadi Name:-{{ row.username }}</div>
+                      <div class="row">Awc Code:-{{ row.usercode }}</div>
+                      <div class="row">Pass Code:-{{ row.passcode }}</div>
                      
                     
                     </td>
@@ -50,18 +98,22 @@
               <div class="row">
                 <div class="col col-xl-4 col-lg-4"><h2>Details</h2></div>
                 <div class="col" [hidden]="no_record_selected">
-                  <button type="button" class="btn btn-danger float-right btn-sm" (click)="delete_data()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+                  <button type="button" class="btn btn-danger float-right btn-sm" (click)="deleteusercode()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
                   <button type="button" class="btn btn-secondary float-right btn-sm" (click)="open(updatemodal, 'update')">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
                 </div>
               </div>
               <div class="" [hidden]="no_record_selected">
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">Anganwadi Name</div>
-                  <div class="col">:ThinkZone</div>
+                  <div class="col">:{{ username }}</div>
                 </div>
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">Awc Code</div>
-                  <div class="col">:awc225</div>
+                  <div class="col">: {{ usercode }}</div>
+                </div>
+                <div class="row">
+                  <div class="col col-xl-4 col-lg-4">Pass Code</div>
+                  <div class="col">: {{ passcode }}</div>
                 </div>
               </div>
               <div class=""></div>
@@ -79,21 +131,76 @@
 <ng-template #savemodal let-c="close" let-d="dismiss">
 	<div class="modal-body">
 		<div class="row">
-			<div class="col col-xl-4 col-lg-4">UDISE code</div>
+			<div class="col col-xl-4 col-lg-4">Awccode</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value=""  type="text" placeholder="UDISE Code" class="modal_textbox">
+				<input value="{{ usercode }}" [(ngModel)]="usercode"  type="text" placeholder="Awccode" class="modal_textbox">
 			</div>
 		</div>
 		<div class="row">
-			<div class="col col-xl-4 col-lg-4">Schoolname</div>
+			<div class="col col-xl-4 col-lg-4">Anganwadiname</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value=""  type="text" placeholder="School Name" class="modal_textbox">
+				<input value="{{ username }}" [(ngModel)]="username"  type="text" placeholder="Anganwadi Name" class="modal_textbox">
 			</div>
+      
 		</div>
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Passcode</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <input value="{{ passcode }}" [(ngModel)]="passcode"  type="text" placeholder="Passcode" class="modal_textbox">
+      </div>
+      </div>
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">State</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_stateid }}"
+            (change)="selected_state_onchange($event)"
+            class="form-control"
+          >
+            <option value="20">Odisha</option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">District</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_districtid }}"
+            (change)="selected_district_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
+              {{ dist.districtname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Block</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_blockid }}"
+            (change)="selected_block_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option *ngFor="let block of allblockdata" value="{{ block._id }}">
+              {{ block.blockname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-		<button type="button" class="btn btn-primary" (click)="save_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+		<button type="button" class="btn btn-primary" (click)="addusercode()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
 	</div>
 </ng-template>
 
@@ -101,21 +208,76 @@
 <ng-template #updatemodal let-c="close" let-d="dismiss">
 	<div class="modal-body">
 		<div class="row">
-			<div class="col col-xl-4 col-lg-4">UDISE code</div>
+			<div class="col col-xl-4 col-lg-4">Awccode</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value=""  type="text" placeholder="UDISE Code" class="modal_textbox">
+				<input value="{{ usercode }}" [(ngModel)]="usercode"  type="text" placeholder="Awc Code" class="modal_textbox">
 			</div>
 		</div>
 		<div class="row">
-			<div class="col col-xl-4 col-lg-4">Schoolname</div>
+			<div class="col col-xl-4 col-lg-4">Anganwadiname</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value=""  type="text" placeholder="School Name" class="modal_textbox">
+				<input value="{{ username }}" [(ngModel)]="username"  type="text" placeholder="Anganwadi Name" class="modal_textbox">
 			</div>
+      
 		</div>
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Passcode</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <input value="{{ passcode }}" [(ngModel)]="passcode"  type="text" placeholder="Passcode" class="modal_textbox">
+      </div>
+      </div>
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">State</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_stateid }}"
+            (change)="selected_state_onchange($event)"
+            class="form-control"
+          >
+            <option value="20">Odisha</option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">District</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_districtid }}"
+            (change)="selected_district_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
+              {{ dist.districtname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="col col-xl-4 col-lg-4 form_label">Block</div>
+        <div class="col row-fluid" style="font-weight: bold">
+          <select
+            value="{{ selected_blockid }}"
+            (change)="selected_block_onchange($event)"
+            class="form-control"
+          >
+            <option value=""></option>
+            <option *ngFor="let block of allblockdata" value="{{ block._id }}">
+              {{ block.blockname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-		<button type="button" class="btn btn-primary" (click)="update_data()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+		<button type="button" class="btn btn-primary" (click)="updateusercode()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
 	</div>
 </ng-template>
 

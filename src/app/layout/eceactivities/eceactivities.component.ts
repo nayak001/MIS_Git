@@ -181,6 +181,8 @@ export class EceactivitiesComponent implements OnInit {
       { value: "memory", text: "Memory" },
       { value: "social&emotional", text: "Social & Emotional" },
       { value: "language", text: "Language" },
+      // { value: "odia", text: "odia" },
+      // { value: "english", text: "english" },
     ];
     this.class_select_option_list = [
       { value: "1", text: "1" },
@@ -227,6 +229,8 @@ export class EceactivitiesComponent implements OnInit {
       { value: "memory", text: "Memory" },
       { value: "social&emotional", text: "Social & Emotional" },
       { value: "language", text: "Language" },
+      // { value: "odia", text: "odia" },
+      // { value: "english", text: "english" },
     ];
     this.selected_subject = this.selected_program == "ece" ? "na" : "";
     this.selected_themeid = "";
