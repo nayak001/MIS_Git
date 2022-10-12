@@ -79,10 +79,11 @@ export class TeacherbaselineComponent implements OnInit {
   public data: any;
   modalReference: any;
   closeResult: string;
-
+  aww: boolean= false;
   save_operation: string = "save";
   hideLoading_indicator: boolean;
   hideContent_div: boolean;
+  selected_type:string
 
   record_id: string = "";
   content_value: string = "";
@@ -139,14 +140,13 @@ export class TeacherbaselineComponent implements OnInit {
     this.load_record();
   }
 
-  
-
   onselect_type_select(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    // this.selected_type = selectedOptionValue;
+    this.selected_type = selectedOptionValue;
+   this.selected_type == "aww"  ?  this.aww = true : this.aww
     this.load_record();
   }
 
