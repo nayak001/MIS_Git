@@ -54,16 +54,16 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-                <option value="pedagogy" selected>
+                <option value="pedagogy" *ngIf="aww==false" selected>
                   Child Development and Pedagogy
                 </option>
-                <option value="odia">Odia</option>
-                <option value="math">Math</option>
-                <option value="english">English</option>
-                <option value="technology">Technology</option>
+                <option value="odia" *ngIf="aww==false">Odia</option>
+                <option value="math" *ngIf="aww==false">Math</option>
+                <option value="english" *ngIf="aww==false">English</option>
+                <option value="technology" *ngIf="aww==false">Technology</option>
 
 
-                <option value="child development" *ngIf="aww==true">Child development</option>
+                <option value="child development" *ngIf="aww==true"  >Child development</option>
                 <option value="preschool education" *ngIf="aww==true">Preschool education</option>
                 <option value="developmentally appropriate activities" *ngIf="aww==true">
                   Developmentally appropriate activities

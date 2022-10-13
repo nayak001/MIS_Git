@@ -146,7 +146,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_type = selectedOptionValue;
-   this.selected_type == "aww"  ?  this.aww = true : this.aww
+   this.selected_type == "aww"  ?  this.aww = true : this.aww = false
     this.load_record();
   }
 
