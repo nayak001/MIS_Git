@@ -17,9 +17,15 @@ export class AnganwadicontrollerComponent implements OnInit {
   flag: string = "";
   no_record_selected: boolean = false;
 
-  usercode: string = "";
-  username: string = "";
+  anganwadicode: string = "";
+  anganwadiname: string = "";
   passcode:string ="";
+  stateid:string="";
+  state: string="";
+ districtid:string="";
+ district:string="";
+  blockid:string="";
+  block: string="";
   alldistrictdata: any;
   allblockdata: any;
   selected_stateid: string = "20";
@@ -46,12 +52,12 @@ export class AnganwadicontrollerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getusercode();
+   
   }
   getusercode(){
 
     this.hideLoading_indicator = false;
-    this.angawadicontrollerService.getusercode().subscribe(
+    this.angawadicontrollerService.getusercode(this.selected_stateid, this.selected_districtid, this.selected_blockid).subscribe(
       (data) => {
         if (
           data == undefined ||
@@ -77,54 +83,68 @@ export class AnganwadicontrollerComponent implements OnInit {
       () => {}
     );
   }
+
   record_onselect(row) {
     //this.reset();
     this.selected_record = row;
     this.record_id = row._id;
-    this.usercode = row.usercode;
-    this.username = row.username;
+    this.anganwadicode = row.anganwadicode;
+    this.anganwadiname = row.anganwadiname;
     this.passcode =row.passcode;
   }
   reset() {
-    this.usercode = "";
-    this.username = "";
+    this.anganwadicode = "";
+    this.anganwadiname = "";
     this.passcode="";
   }
 
   addusercode() {
     if (
-      this.usercode == null ||
-      this.usercode == undefined ||
-      this.usercode == ""
+      this.anganwadicode == null ||
+      this.anganwadicode == undefined ||
+      this.anganwadicode == ""
     ) {
       swal.fire("Info", "Awc Code is not valid", "warning");
     } else if (
-      this.username == null ||
-      this.username == undefined ||
-      this.username == ""
+      this.anganwadiname == null ||
+      this.anganwadiname == undefined ||
+      this.anganwadiname == ""
     ) {
       swal.fire("Info", "Anganwadiname is not valid", "warning");
     }
-    else if (
-      this.passcode == null ||
-      this.passcode == undefined ||
-      this.passcode == ""
-    ){
-      swal.fire("Info", "Pass code is not valid", "warning")
-    }else {
+    
+    // else if (
+    //   this.passcode == null ||
+    //   this.passcode == undefined ||
+    //   this.passcode == ""
+    // ){
+    //   swal.fire("Info", "Pass code is not valid", "warning")
+    // }
+    else {
       this.hideLoading_indicator = false;
+      console.log("check", this.selected_blockid, this.selected_districtid);
+      
       this.angawadicontrollerService
-        .checkanganwadicodeexistance(this.usercode)
+        .checkanganwadicodeexistance(this.anganwadicode)
         .subscribe(
           (data1) => {
             if (Object.keys(data1).length > 0) {
               swal.fire("Info", " Code already exists", "warning");
             } else {
               let body = {
-                usercode: this.usercode,
-                username: this.username,
-                passcode:this.passcode,
+                anganwadicode: this.anganwadicode,
+                anganwadiname: this.anganwadiname,
+                passcode: this.passcode,
+                stateid: this.selected_stateid,
+                state: this.selected_statename,
+               districtid:this.selected_stateid,
+               district: this.selected_districtname,
+                blockid:this.selected_blockid,
+                block:this.selected_blockname,
+
               };
+              // console.log("body", body);
+              
               this.angawadicontrollerService.addusercode(body).subscribe(
                 (data2) => {
                   this.modalReference.close();
@@ -133,7 +153,7 @@ export class AnganwadicontrollerComponent implements OnInit {
                     "Anganwadi Record saved successfully",
                     "success"
                   );
-                  this.getusercode();
+                  // this.getusercode();
                   this.hideLoading_indicator = true;
                   this.reset();
                 },
@@ -151,35 +171,36 @@ export class AnganwadicontrollerComponent implements OnInit {
   
   updateusercode() {
     if (
-      this.usercode == null ||
-      this.usercode == undefined ||
-      this.usercode == ""
+      this.anganwadicode == null ||
+      this.anganwadicode == undefined ||
+      this.anganwadicode == ""
     ) {
       swal.fire("Info", "AwcCode is not valid", "warning");
     } else if (
-      this.username == null ||
-      this.username == undefined ||
-      this.username == ""
+      this.anganwadiname == null ||
+      this.anganwadiname == undefined ||
+      this.anganwadiname == ""
     ) {
       swal.fire("Info", "Anganwadiname is not valid", "warning");
     }
-    else if (
-      this.passcode == null ||
-      this.passcode == undefined ||
-      this.passcode == ""
-    ){
-      swal.fire("Info", "Pass code is not valid", "warning")
-    } else {
+    // else if (
+    //   this.passcode == null ||
+    //   this.passcode == undefined ||
+    //   this.passcode == ""
+    // ){
+    //   swal.fire("Info", "Pass code is not valid", "warning")
+    // } 
+    else {
       this.hideLoading_indicator = false;
       this.angawadicontrollerService
-        .checkanganwadicodeexistance(this.usercode)
+        .checkanganwadicodeexistance(this.anganwadiname)
         .subscribe(
           (data1) => {
             if (Object.keys(data1).length > 0) {
               if (data1[0]._id == this.record_id) {
                 let body = {
-                  udisecode: this.usercode,
-                  schoolname: this.username,
+                  udisecode: this.anganwadicode,
+                  schoolname: this.anganwadiname,
                   passcode:this.passcode,
                 };
                 this.angawadicontrollerService
@@ -204,9 +225,15 @@ export class AnganwadicontrollerComponent implements OnInit {
               }
             } else {
               let body = {
-                usercode: this.usercode,
-                username: this.username,
+                anganwadicode: this.anganwadicode,
+                anganwadiname: this.anganwadiname,
                 passcode:this.passcode,
+                stateid:this.stateid,
+                state: this.state,
+               districtid:this.districtid,
+               district: this.district,
+                blockid:this.blockid,
+                block:this.block,
               };
               this.angawadicontrollerService
                 .updateusercode(this.record_id, body)
@@ -273,7 +300,7 @@ export class AnganwadicontrollerComponent implements OnInit {
       this.allanganwadicontrollerlist = this.allanganwadicontrollerlist_bkp;
     } else {
       this.allanganwadicontrollerlist = this.allanganwadicontrollerlist_bkp.filter((element) =>
-        element.username
+        element.anganwadiname
           .trim()
           .toLowerCase()
           .includes(term.trim().toLowerCase())
@@ -285,13 +312,13 @@ export class AnganwadicontrollerComponent implements OnInit {
     this.flag = flag;
 
     if (flag == "save") {
-      this.usercode = "";
-      this.username = "";
-      this.passcode ="";
+      this.anganwadicode = "";
+      this.anganwadiname = "";
+      // this.passcode ="";
     } else if (flag == "update") {
-      this.usercode = this.selected_record.usercode;
-      this.username = this.selected_record.username;
-      this.passcode = this.selected_record.passcode;
+      this.anganwadicode = this.selected_record.anganwadicode;
+      this.anganwadiname = this.selected_record.anganwadiname;
+      // this.passcode = this.selected_record.passcode;
 
     }
 
@@ -352,6 +379,10 @@ export class AnganwadicontrollerComponent implements OnInit {
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_districtid = selectedOptionValue;
     this.selected_districtname = selectedElementText;
+    console.log("selected_districtid", this.selected_districtid );
+    console.log("selected_districtname", this.selected_districtname );
+
+    
     this.getblocksofdistricts();
   }
 
@@ -362,6 +393,9 @@ export class AnganwadicontrollerComponent implements OnInit {
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_blockid = selectedOptionValue;
     this.selected_blockname = selectedElementText;
+    console.log("selected_blockid", this.selected_blockid );
+    console.log("selected_blockname", this.selected_blockname );
+    this.getusercode();
   }
 
   private getDismissReason(reason: any): string {

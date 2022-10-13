@@ -83,7 +83,7 @@
                     <td style="width: 10%">{{ i+1 }}</td>
                     <td style="width: 80%">
                       <div class="row"> Anganwadi Name:-{{ row.username }}</div>
-                      <div class="row">Awc Code:-{{ row.usercode }}</div>
+                      <div class="row">Awc Code:-{{ row.anganwadicode }}</div>
                       <div class="row">Pass Code:-{{ row.passcode }}</div>
                      
                     
@@ -109,7 +109,7 @@
                 </div>
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">Awc Code</div>
-                  <div class="col">: {{ usercode }}</div>
+                  <div class="col">: {{ anganwadicode }}</div>
                 </div>
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">Pass Code</div>
@@ -130,73 +130,72 @@
 <!-- Save Modal starts from here -->
 <ng-template #savemodal let-c="close" let-d="dismiss">
 	<div class="modal-body">
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4 form_label">State</div>
+      <div class="col row-fluid" style="font-weight: bold">
+        <select
+          value="{{ selected_stateid }}"
+          (change)="selected_state_onchange($event)"
+          class="form-control"
+        >
+          <option value="20">Odisha</option>
+        </select>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4 form_label">District</div>
+      <div class="col row-fluid" style="font-weight: bold">
+        <select
+          value="{{ selected_districtid }}"
+          (change)="selected_district_onchange($event)"
+          class="form-control"
+        >
+          <option value=""></option>
+          <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
+            {{ dist.districtname | titlecase }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4 form_label">Block</div>
+      <div class="col row-fluid" style="font-weight: bold">
+        <select
+          value="{{ selected_blockid }}"
+          (change)="selected_block_onchange($event)"
+          class="form-control"
+        >
+          <option value=""></option>
+          <option *ngFor="let block of allblockdata" value="{{ block._id }}">
+            {{ block.blockname | titlecase }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <hr />
 		<div class="row">
+      
 			<div class="col col-xl-4 col-lg-4">Awccode</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value="{{ usercode }}" [(ngModel)]="usercode"  type="text" placeholder="Awccode" class="modal_textbox">
+				<input value="{{ anganwadicode }}" [(ngModel)]="anganwadicode"  type="text" placeholder="Awccode" class="modal_textbox">
 			</div>
 		</div>
+    <hr />
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Anganwadiname</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value="{{ username }}" [(ngModel)]="username"  type="text" placeholder="Anganwadi Name" class="modal_textbox">
+				<input value="{{ anganwadiname }}" [(ngModel)]="anganwadiname"  type="text" placeholder="Anganwadi Name" class="modal_textbox">
 			</div>
       
 		</div>
-    <div class="row">
-      <div class="col col-xl-4 col-lg-4">Passcode</div>
-      <div class="col col-xl-8 col-lg-8 row-fluid">
-        <input value="{{ passcode }}" [(ngModel)]="passcode"  type="text" placeholder="Passcode" class="modal_textbox">
-      </div>
-      </div>
-      <div class="row">
-        <div class="col col-xl-4 col-lg-4 form_label">State</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_stateid }}"
-            (change)="selected_state_onchange($event)"
-            class="form-control"
-          >
-            <option value="20">Odisha</option>
-          </select>
-        </div>
-      </div>
+    
 
-      <hr />
-
-      <div class="row">
-        <div class="col col-xl-4 col-lg-4 form_label">District</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_districtid }}"
-            (change)="selected_district_onchange($event)"
-            class="form-control"
-          >
-            <option value=""></option>
-            <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
-              {{ dist.districtname | titlecase }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <hr />
-
-      <div class="row">
-        <div class="col col-xl-4 col-lg-4 form_label">Block</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_blockid }}"
-            (change)="selected_block_onchange($event)"
-            class="form-control"
-          >
-            <option value=""></option>
-            <option *ngFor="let block of allblockdata" value="{{ block._id }}">
-              {{ block.blockname | titlecase }}
-            </option>
-          </select>
-        </div>
-      </div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
@@ -207,73 +206,71 @@
 <!-- Update Modal starts from here -->
 <ng-template #updatemodal let-c="close" let-d="dismiss">
 	<div class="modal-body">
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4 form_label">State</div>
+      <div class="col row-fluid" style="font-weight: bold">
+        <select
+          value="{{ selected_stateid }}"
+          (change)="selected_state_onchange($event)"
+          class="form-control"
+        >
+          <option value="20">Odisha</option>
+        </select>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4 form_label">District</div>
+      <div class="col row-fluid" style="font-weight: bold">
+        <select
+          value="{{ selected_districtid }}"
+          (change)="selected_district_onchange($event)"
+          class="form-control"
+        >
+          <option value=""></option>
+          <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
+            {{ dist.districtname | titlecase }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4 form_label">Block</div>
+      <div class="col row-fluid" style="font-weight: bold">
+        <select
+          value="{{ selected_blockid }}"
+          (change)="selected_block_onchange($event)"
+          class="form-control"
+        >
+          <option value=""></option>
+          <option *ngFor="let block of allblockdata" value="{{ block._id }}">
+            {{ block.blockname | titlecase }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <hr />
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Awccode</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value="{{ usercode }}" [(ngModel)]="usercode"  type="text" placeholder="Awc Code" class="modal_textbox">
+				<input value="{{ anganwadicode }}" [(ngModel)]="anganwadicode"  type="text" placeholder="Awc Code" class="modal_textbox">
 			</div>
 		</div>
+    <hr />
+
 		<div class="row">
 			<div class="col col-xl-4 col-lg-4">Anganwadiname</div>
 			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value="{{ username }}" [(ngModel)]="username"  type="text" placeholder="Anganwadi Name" class="modal_textbox">
+				<input value="{{ anganwadiname }}" [(ngModel)]="anganwadiname"  type="text" placeholder="Anganwadi Name" class="modal_textbox">
 			</div>
       
 		</div>
-    <div class="row">
-      <div class="col col-xl-4 col-lg-4">Passcode</div>
-      <div class="col col-xl-8 col-lg-8 row-fluid">
-        <input value="{{ passcode }}" [(ngModel)]="passcode"  type="text" placeholder="Passcode" class="modal_textbox">
-      </div>
-      </div>
-      <div class="row">
-        <div class="col col-xl-4 col-lg-4 form_label">State</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_stateid }}"
-            (change)="selected_state_onchange($event)"
-            class="form-control"
-          >
-            <option value="20">Odisha</option>
-          </select>
-        </div>
-      </div>
 
-      <hr />
-
-      <div class="row">
-        <div class="col col-xl-4 col-lg-4 form_label">District</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_districtid }}"
-            (change)="selected_district_onchange($event)"
-            class="form-control"
-          >
-            <option value=""></option>
-            <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
-              {{ dist.districtname | titlecase }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <hr />
-
-      <div class="row">
-        <div class="col col-xl-4 col-lg-4 form_label">Block</div>
-        <div class="col row-fluid" style="font-weight: bold">
-          <select
-            value="{{ selected_blockid }}"
-            (change)="selected_block_onchange($event)"
-            class="form-control"
-          >
-            <option value=""></option>
-            <option *ngFor="let block of allblockdata" value="{{ block._id }}">
-              {{ block.blockname | titlecase }}
-            </option>
-          </select>
-        </div>
-      </div>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
