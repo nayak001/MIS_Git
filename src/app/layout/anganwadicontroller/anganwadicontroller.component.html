@@ -82,7 +82,7 @@
                   <tr *ngFor="let row of allanganwadicontrollerlist; let i = index;" (click)="record_onselect(row)">
                     <td style="width: 10%">{{ i+1 }}</td>
                     <td style="width: 80%">
-                      <div class="row"> Anganwadi Name:-{{ row.username }}</div>
+                      <div class="row"> Anganwadi Name:-{{ row.anganwadiname }}</div>
                       <div class="row">Awc Code:-{{ row.anganwadicode }}</div>
                       <div class="row">Pass Code:-{{ row.passcode }}</div>
                      
@@ -105,15 +105,17 @@
               <div class="" [hidden]="no_record_selected">
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">Anganwadi Name</div>
-                  <div class="col">:{{ username }}</div>
+                  <div class="col">:{{ anganwadiname  }}</div>
                 </div>
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">Awc Code</div>
-                  <div class="col">: {{ anganwadicode }}</div>
+                  <div class="col">: {{ anganwadicode
+                  }}</div>
                 </div>
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">Pass Code</div>
-                  <div class="col">: {{ passcode }}</div>
+                  <div class="col">: {{ passcode
+                  }}</div>
                 </div>
               </div>
               <div class=""></div>

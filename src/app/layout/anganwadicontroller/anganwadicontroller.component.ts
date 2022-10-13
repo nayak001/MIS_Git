@@ -52,7 +52,7 @@ export class AnganwadicontrollerComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+    this.getusercode();
   }
   getusercode(){
 
@@ -71,6 +71,7 @@ export class AnganwadicontrollerComponent implements OnInit {
           this.no_record_selected = true;
         } else {
           this.allanganwadicontrollerlist = data;
+          console.log("alllist-->",this.allanganwadicontrollerlist)
           this.allanganwadicontrollerlist_bkp = data;
           this.selected_record = data[0];
           this.record_id = this.selected_record._id;
@@ -137,13 +138,13 @@ export class AnganwadicontrollerComponent implements OnInit {
                 passcode: this.passcode,
                 stateid: this.selected_stateid,
                 state: this.selected_statename,
-               districtid:this.selected_stateid,
+               districtid:this.selected_districtid,
                district: this.selected_districtname,
                 blockid:this.selected_blockid,
                 block:this.selected_blockname,
 
               };
-              // console.log("body", body);
+               console.log("body", body);
               
               this.angawadicontrollerService.addusercode(body).subscribe(
                 (data2) => {
@@ -153,7 +154,7 @@ export class AnganwadicontrollerComponent implements OnInit {
                     "Anganwadi Record saved successfully",
                     "success"
                   );
-                  // this.getusercode();
+                   this.getusercode();
                   this.hideLoading_indicator = true;
                   this.reset();
                 },
@@ -201,7 +202,7 @@ export class AnganwadicontrollerComponent implements OnInit {
                 let body = {
                   udisecode: this.anganwadicode,
                   schoolname: this.anganwadiname,
-                  passcode:this.passcode,
+                  // passcode:this.passcode,
                 };
                 this.angawadicontrollerService
                   .updateusercode(this.record_id, body)
@@ -227,13 +228,13 @@ export class AnganwadicontrollerComponent implements OnInit {
               let body = {
                 anganwadicode: this.anganwadicode,
                 anganwadiname: this.anganwadiname,
-                passcode:this.passcode,
-                stateid:this.stateid,
-                state: this.state,
-               districtid:this.districtid,
-               district: this.district,
-                blockid:this.blockid,
-                block:this.block,
+                passcode: this.passcode,
+                stateid: this.selected_stateid,
+                state: this.selected_statename,
+               districtid:this.selected_districtid,
+               district: this.selected_districtname,
+                blockid:this.selected_blockid,
+                block:this.selected_blockname,
               };
               this.angawadicontrollerService
                 .updateusercode(this.record_id, body)
