@@ -139,6 +139,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_category = selectedOptionValue;
+    console.log("category-->",this.selected_category )
     this.load_record();
   }
 
@@ -149,6 +150,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_type = selectedOptionValue;
    this.selected_type == "aww"  ?  this.aww = true : this.aww = false
+   console.log("type-->",this.selected_type)
     this.load_record();
   }
 
