@@ -158,18 +158,25 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
+    const selectElementText = selectedOptions[selectedIndex].text.toLowerCase();
     console.log("elementtext-->",selectElementText)
     this.selected_program = selectElementText ;
     console.log("selected program-->",this.selected_program)
+    
+    this.checkProgram();
+    this.load_record();
+  }
+  onselect_change_class2(event){
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
     this.selected_class = selectedOptionValue;
     console.log("selected class-->",this.selected_class)
-    this.checkProgram();
     this.load_record();
   }
 
   checkProgram() {
-      if (this.selected_program == "PGE") {
+      if (this.selected_program == "pge") {
       
         this.isPGE = true;
         this.isECE = false;
@@ -309,12 +316,13 @@ export class FlnMasterComponent implements OnInit {
   }
   dataid: any;
   activity_doc: any = [];
-  selected_class: any = 1;
+  selected_class: any ;
   selected_month: any = "month0";
-  selected_subject: any = "odia";
-  selected_program:any = "PGE";
+  selected_subject: any = "";
+  selected_program:any = "";
   alldata: any;
   async load_record() {
+    console.log("program-->",  this. selected_program,)
     this.FlnService.getallflnmasterdata(
       this.selected_assesment,
       this.selected_preflanguage,
@@ -322,7 +330,9 @@ export class FlnMasterComponent implements OnInit {
       this.selected_class,
       this.selected_subject,
      
+     
     ).subscribe(
+      
       (data) => {
         if (Object.keys(data).length > 0) {
           this.alldata = data;

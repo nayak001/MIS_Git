@@ -55,11 +55,11 @@
             </div>
 
 
-            <div  class="col col-xl-2 col-lg-2">Select class</div>
-            <div  class="col col-xl-2 col-lg-2">
+            <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">Select class</div>
+            <div  *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
               <select
                 value=""
-                (change)="onselect_change_class($event)"
+                (change)="onselect_change_class2($event)"
                 class="form-control"
               >
                 <option value="">Select</option>
@@ -72,11 +72,11 @@
               </select>
             </div>
 
-            <div  class="col col-xl-2 col-lg-2">Select class</div>
-            <div  class="col col-xl-2 col-lg-2">
+            <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">Select class</div>
+            <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">
               <select
                 value=""
-                (change)="onselect_change_class($event)"
+                (change)="onselect_change_class2($event)"
                 class="form-control"
               >
                 <option value="">Select</option>
@@ -89,10 +89,10 @@
             </div>
 
 
-            <div  class="col col-xl-2 col-lg-2">
+            <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
               Select subject
             </div>
-            <div  class="col col-xl-2 col-lg-2">
+            <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_assesment_subject($event)"
@@ -105,11 +105,11 @@
                 <option value="evs">EVS</option>
               </select>
             </div>
-             <div   class="col col-xl-2 col-lg-2">
+             <div *ngIf = "isECE == true"  class="col col-xl-2 col-lg-2">
               Select Skills
             </div>
           
-            <div   class="col col-xl-2 col-lg-2">
+            <div *ngIf = "isECE == true"  class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_assesment_subject($event)"
