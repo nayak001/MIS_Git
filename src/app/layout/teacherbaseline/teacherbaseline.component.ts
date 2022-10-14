@@ -130,6 +130,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_assesment = selectedOptionValue;
+    console.log("assessment-->",this.selected_assesment )
     this.load_record();
   }
   selected_category: any = "pedagogy";
@@ -161,6 +162,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_usertype = selectedOptionValue;
+    console.log("type-->",this.selected_usertype)
     // this.load_record();
     
   }
@@ -264,14 +266,15 @@ export class TeacherbaselineComponent implements OnInit {
       this.selected_assesment,
       this.selected_preflanguage,
       this.selected_category,
-      this.selected_type,
-      // this.selected_usertype
+      // this.selected_type,
+       this.selected_usertype
       
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
           this.dataid = data[0]._id;
           this.quiz_value = data;
+          console.log("quiz value-->", this.quiz_value)
           this.save_operation = "update";
         } else {
           this.quiz_value = [];
@@ -350,7 +353,7 @@ export class TeacherbaselineComponent implements OnInit {
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
-        userType:this.selected_usertype
+        usertype:this.selected_usertype
       };
       this.TeacherbaselineService.createteacherassesment(body).subscribe(
         (data) => {

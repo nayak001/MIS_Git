@@ -36,7 +36,7 @@
               <div style="margin: 10px; margin-left: 1px">Select Type</div>
               <select
                 value=""
-                (change)="onselect_type_select($event)"
+                (change)="onselect_usertype_select($event)"
                 class="form-control"
               >
                 <option value="">Select</option>
@@ -54,7 +54,7 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-                <option value="pedagogy" *ngIf="aww==false" selected>
+                <option value="pedagogy" *ngIf="aww==false" >
                    Pedagogy
                 </option>
                 <option value="odia" *ngIf="aww==false">Odia</option>
@@ -80,7 +80,7 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-                <option value="baseline" selected>Baseline</option>
+                <option value="baseline" >Baseline</option>
                 <option value="endline">Endline</option>
               </select>
             </div>
