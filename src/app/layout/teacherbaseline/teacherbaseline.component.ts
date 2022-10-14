@@ -159,6 +159,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_usertype = selectedOptionValue;
+    // this.load_record();
     
   }
 
@@ -186,7 +187,7 @@ export class TeacherbaselineComponent implements OnInit {
  
   open(content, obj, index, flag) {
     console.log(content, "content", obj, "obj", index, "index", flag, "flag");
-    // console.log(typeof obj._id);s
+    // console.log(typeof obj._id);
 
     // update
     if (flag == "add") {
@@ -261,8 +262,9 @@ export class TeacherbaselineComponent implements OnInit {
       this.selected_assesment,
       this.selected_preflanguage,
       this.selected_category,
-      // this.selected_type
-      this.selected_usertype
+      this.selected_type,
+      // this.selected_usertype
+      
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
@@ -376,7 +378,7 @@ export class TeacherbaselineComponent implements OnInit {
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
-        // userType:this.selected_type
+        userType:this.selected_type
       };
       this.selected_qans_val_edit = "";
       this.TeacherbaselineService.updateteacherassesment(
