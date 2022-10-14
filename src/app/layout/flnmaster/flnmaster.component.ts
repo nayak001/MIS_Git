@@ -9,7 +9,6 @@ import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import swal from "sweetalert2";
 
 import { environment } from "../../../environments/environment.prod";
-import { timeStamp } from "console";
 const URL = environment.uploadURL;
 
 @Component({
@@ -147,50 +146,57 @@ export class FlnMasterComponent implements OnInit {
   }
 
   onselect_change_class(event) {
+    // const selectedOptions = event.target["options"];
+    // const selectedIndex = selectedOptions.selectedIndex;
+    // const selectedOptionValue = selectedOptions[selectedIndex].value;
+    // const selectElementText = selectedOptions[selectedIndex].text;
+    // console.log("elementtext-->",selectElementText)
+    // this.selected_class = selectedOptionValue;
+    // console.log("selected class-->",this.selected_class)
+    // this.checkProgram();
+    // this.load_record();
     const selectedOptions = event.target["options"];
-   
     const selectedIndex = selectedOptions.selectedIndex;
-    console.log("index-->",selectedIndex)
     const selectedOptionValue = selectedOptions[selectedIndex].value;
-    console.log("value-->",selectedOptionValue)
     const selectElementText = selectedOptions[selectedIndex].text;
     console.log("elementtext-->",selectElementText)
+    this.selected_program = selectElementText ;
+    console.log("selected program-->",this.selected_program)
     this.selected_class = selectedOptionValue;
-    console.log("selected_class -->",this.selected_class)
+    console.log("selected class-->",this.selected_class)
     this.checkProgram();
     this.load_record();
   }
 
   checkProgram() {
-    if (this.selected_class == 0) {
-      console.log("selected class -->",this.selected_class)
+      if (this.selected_program == "PGE") {
+      
+        this.isPGE = true;
+        this.isECE = false;
+        console.log("isPge2-->", this.isPGE)
+        console.log("isece2-->", this.isECE)
+
+      
+      // this.selected_subject = "na";
+    } else{
       this.isPGE = false;
+      this.isECE = true;
+      console.log("isPge1-->", this.isPGE)
+      console.log("isece1-->", this.isECE)
+    }
+    
+   
       
-      this.selected_subject = "na";
-      
-      
-    } else this.isPGE = true;
   }
 
   onselect_assesment_subject(event) {
     const selectedOptions = event.target["options"];
-   
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
     this.load_record();
     console.log("subj", this.selected_subject);
-  }
-
-  onselect_assesment_skills(event){
-    const selectedOptions = event.target["options"];
-    const selectedIndex = selectedOptions.selectedIndex;
-    const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_skills = selectedOptionValue;
-    this.load_record();
-    console.log("skilss", this.selected_skills);
   }
 
   onselect_change_month(event) {
@@ -305,21 +311,22 @@ export class FlnMasterComponent implements OnInit {
   activity_doc: any = [];
   selected_class: any = 1;
   selected_month: any = "month0";
-  selected_subject: any = "select";
-  selected_skills: any = "select";
+  selected_subject: any = "odia";
+  selected_program:any = "PGE";
   alldata: any;
   async load_record() {
     this.FlnService.getallflnmasterdata(
       this.selected_assesment,
       this.selected_preflanguage,
+      this. selected_program,
       this.selected_class,
       this.selected_subject,
-     
      
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
           this.alldata = data;
+          console.log("alldata-->",this.alldata)
           this.dataid = data[0]._id;
           this.hideProgressbar = false;
           this.save_operation = "update";
@@ -434,9 +441,9 @@ export class FlnMasterComponent implements OnInit {
         type: this.selected_assesment,
         class: this.selected_class,
         subject: this.selected_subject,
-        skills: this.selected_skills,
+        program:this.selected_program,
       };
-      console.log("body", body);
+      console.log("bodyfln", body);
 
       this.FlnService.createflnmasterdata(body).subscribe(
         (data) => {

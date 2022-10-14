@@ -11,4 +11,17 @@ const baseUrl = environment.baseUrl;
 
 export class SupervisorcontrollerService {
     constructor(private http: HttpClient) { }
+
+
+    savesupervisordetails(body){
+      return this.http.post(baseUrl+'savesupervisordetails',body,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    }
+
+    checkanganwadinameexistance(anganwadiname){				
+      return this.http.get(baseUrl+'checkanganwadinameexistance/'+anganwadiname,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
+    }
+    getallsupervisordetails(){				
+      return this.http.get(baseUrl+'getallsupervisordetails',{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
+    }
+
 }

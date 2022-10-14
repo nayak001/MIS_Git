@@ -36,56 +36,90 @@
                 <!-- <option value="hi">हिंदी</option> -->
               </select>
             </div>
-            <div class="col col-xl-2 col-lg-2">Select class</div>
-            <div class="col col-xl-2 col-lg-2">
+
+            <div  class="col col-xl-2 col-lg-2">Select Program</div>
+            <div  class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_change_class($event)"
                 class="form-control"
               >
                 <option value="">Select</option>
-                <!-- <option value="0">0(ECE)</option> -->
-                <option value="0" >1(ECE)</option>
-                <option value="0">2(ECE)</option>
-                <option value="0">3(ECE)</option>
-                <option value="1" selected>1(PGE)</option>
-                <option value="2">2(PGE)</option>
-                <option value="3">3(PGE)</option>
-                <option value="4">4(PGE)</option>
-                <option value="5">5(PGE)</option>
+             
+              
+                <option value="1" >PGE</option>
+                <option value="2">ECE</option>
+             
+           
               </select>
             </div>
-            <div *ngIf="isPGE" class="col col-xl-2 col-lg-2">
+
+
+            <div  class="col col-xl-2 col-lg-2">Select class</div>
+            <div  class="col col-xl-2 col-lg-2">
+              <select
+                value=""
+                (change)="onselect_change_class($event)"
+                class="form-control"
+              >
+                <option value="">Select</option>
+                <option value="1" >1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              
+              </select>
+            </div>
+
+            <div  class="col col-xl-2 col-lg-2">Select class</div>
+            <div  class="col col-xl-2 col-lg-2">
+              <select
+                value=""
+                (change)="onselect_change_class($event)"
+                class="form-control"
+              >
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                
+              
+              </select>
+            </div>
+
+
+            <div  class="col col-xl-2 col-lg-2">
               Select subject
             </div>
-            <div *ngIf="isPGE" class="col col-xl-2 col-lg-2">
+            <div  class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_assesment_subject($event)"
                 class="form-control"
               >
-                <option value="">Select</option>
+                <option value="">Select Subject</option>
                 <option value="odia">Odia</option>
                 <option value="maths">Maths</option>
                 <option value="english">English</option>
                 <option value="evs">EVS</option>
               </select>
             </div>
-
-            <div  *ngIf="!isPGE" class="col col-xl-2 col-lg-2">
+             <div   class="col col-xl-2 col-lg-2">
               Select Skills
             </div>
-            <div  *ngIf="!isPGE" class="col col-xl-2 col-lg-2">
+          
+            <div   class="col col-xl-2 col-lg-2">
               <select
                 value=""
-                (change)="onselect_assesment_skills($event)"
+                (change)="onselect_assesment_subject($event)"
                 class="form-control"
               >
-                <option value="">Select</option>
-                <option value="skill1">Skill 1</option>
-                <option value="skill2">Skill 2</option>
-                <option value="skill3">Skill 3</option>
+                <option value="">Select Skills</option>
+                <option value="foundationalliteracy">Foundational Literacy</option>
+                <option value="foundationalnumeracy">Foundational Numeracy</option>
                
+          
               </select>
             </div>
             <div class="col col-xl-2 col-lg-2">Select assessment</div>
@@ -346,9 +380,6 @@
                           >
                             <option value="">Select</option>
                             <option value="0" selected>0(ECE)</option>
-                            <option value="0" >1(ECE)</option>
-                            <option value="0" >2(ECE)</option>
-                            <option value="0" >3(ECE)</option>
                             <option value="1" selected>1(PGE)</option>
                             <option value="2">2(PGE)</option>
                             <option value="3">3(PGE)</option>

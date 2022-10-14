@@ -17,7 +17,7 @@ const baseUrl = environment.baseUrl;
 export class FlnService {
   constructor(private http: HttpClient) {}
 
-  getallflnmasterdata(type, language, selectedclass, subject) {
+  getallflnmasterdata(type, language,program, selectedclass, subject) {
     return this.http.get(
       baseUrl +
         "getflnmasterdata/" +
@@ -25,9 +25,13 @@ export class FlnService {
         "/" +
         language +
         "/" +
+        program +
+        "/" +
         selectedclass +
         "/" +
-        subject,
+        subject ,
+        
+       
       {
         headers: new HttpHeaders().set("Content-Type", "application/json"),
       }
