@@ -64,6 +64,8 @@ export class TeacherbaselineComponent implements OnInit {
   selected_qans_val_edit: string = "";
   selected_qans_text_edit: string = "";
 
+  usertype:string=""
+  selected_usertype:string=""
   // quiz - delete
   delete_q_index: string = "";
 
@@ -79,10 +81,11 @@ export class TeacherbaselineComponent implements OnInit {
   public data: any;
   modalReference: any;
   closeResult: string;
-
+  aww: boolean= false;
   save_operation: string = "save";
   hideLoading_indicator: boolean;
   hideContent_div: boolean;
+  selected_type:string
 
   record_id: string = "";
   content_value: string = "";
@@ -136,19 +139,33 @@ export class TeacherbaselineComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_category = selectedOptionValue;
+    console.log("category-->",this.selected_category )
     this.load_record();
   }
-
-  
 
   onselect_type_select(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
-    // this.selected_type = selectedOptionValue;
+    this.selected_type = selectedOptionValue;
+   this.selected_type == "aww"  ?  this.aww = true : this.aww = false
+   console.log("type-->",this.selected_type)
     this.load_record();
   }
+
+  onselect_usertype_select(event) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+
+    this.selected_usertype = selectedOptionValue;
+    // this.load_record();
+    
+  }
+
+
 
   onselect_editq_select(value) {
     const selectedOptions = event.target["options"];
@@ -169,9 +186,10 @@ export class TeacherbaselineComponent implements OnInit {
     this.selected_qans_text_add = selectElementText;
   }
   delete_q_qid: any;
+ 
   open(content, obj, index, flag) {
     console.log(content, "content", obj, "obj", index, "index", flag, "flag");
-    console.log(typeof obj._id);
+    // console.log(typeof obj._id);
 
     // update
     if (flag == "add") {
@@ -246,7 +264,9 @@ export class TeacherbaselineComponent implements OnInit {
       this.selected_assesment,
       this.selected_preflanguage,
       this.selected_category,
-      // this.selected_type
+      this.selected_type,
+      // this.selected_usertype
+      
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
@@ -330,7 +350,7 @@ export class TeacherbaselineComponent implements OnInit {
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
-        // userType:this.selected_type
+        userType:this.selected_usertype
       };
       this.TeacherbaselineService.createteacherassesment(body).subscribe(
         (data) => {
@@ -360,7 +380,7 @@ export class TeacherbaselineComponent implements OnInit {
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
-        // userType:this.selected_type
+        userType:this.selected_type
       };
       this.selected_qans_val_edit = "";
       this.TeacherbaselineService.updateteacherassesment(

@@ -40,16 +40,11 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-               
+
                 <option value="fellow">Fellow</option>
                 <option value="aww">AWW</option>
-                
               </select>
             </div>
-
-
-
-
 
             <div class="col col-xl-3 col-lg-3">
               <div style="margin: 10px; margin-left: 1px">Select Category</div>
@@ -59,13 +54,22 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-                <option value="pedagogy" selected>
-                  Child Development and Pedagogy
+                <option value="pedagogy" *ngIf="aww==false" selected>
+                   Pedagogy
                 </option>
-                <option value="odia">Odia</option>
-                <option value="math">Math</option>
-                <option value="english">English</option>
-                <option value="technology">Technology</option>
+                <option value="odia" *ngIf="aww==false">Odia</option>
+                <option value="math" *ngIf="aww==false">Math</option>
+                <option value="english" *ngIf="aww==false">English</option>
+                <option value="technology" *ngIf="aww==false">Technology</option>
+
+
+                <option value="child development" *ngIf="aww==true"  >Child development</option>
+                <option value="preschool education" *ngIf="aww==true">Preschool education</option>
+                <option value="developmentally appropriate activities" *ngIf="aww==true">
+                  Developmentally appropriate activities
+                </option>
+                <option value="communication and engagement" *ngIf="aww==true">Communication and engagement</option>
+                <option value="fln" *ngIf="aww==true">FLN</option>
               </select>
             </div>
             <div class="col col-xl-3 col-lg-3">

@@ -224,14 +224,17 @@ export class EceactivitiesComponent implements OnInit {
       { value: "environment", text: "Environment" },
       { value: "seasons", text: "Seasons" },
     ];
+    ////////////////////////////////////////////////Skilll__start/////////////////////////////////////////////////////
     this.skill_select_option_list = [
       { value: "physical", text: "Physical" },
       { value: "memory", text: "Memory" },
       { value: "social&emotional", text: "Social & Emotional" },
       { value: "language", text: "Language" },
-      // { value: "odia", text: "odia" },
-      // { value: "english", text: "english" },
+      { value: "odia", text: "odia" },
+      { value: "english", text: "english" },
     ];
+    ////////////////////////////////////////////////Skilll_End/////////////////////////////////////////////////////
+
     this.selected_subject = this.selected_program == "ece" ? "na" : "";
     this.selected_themeid = "";
     this.selected_themename = "";
