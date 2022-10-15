@@ -145,24 +145,30 @@ export class TeacherbaselineComponent implements OnInit {
   }
 
   onselect_type_select(event) {
+    console.log("called");
+    
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_type = selectedOptionValue;
-   this.selected_type == "aww"  ?  this.aww = true : this.aww = false
-   console.log("type-->",this.selected_type)
+  
+   console.log("usertype-->",this.aww)
     this.load_record();
   }
 
   onselect_usertype_select(event) {
+
+    console.log("event", event);
+    
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_usertype = selectedOptionValue;
-    console.log("type-->",this.selected_usertype)
+    this.selected_usertype == "aww"  ?  this.aww = true : this.aww = false
+    console.log("usertype", this.selected_usertype, "aww", this.aww)
     // this.load_record();
     
   }
