@@ -371,7 +371,9 @@ export class AnganwadicontrollerComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_stateid = selectedOptionValue;
+    // console.log("stateid->",this.selected_stateid)
     this.selected_statename = selectedElementText;
+    
   }
   selected_district_onchange(event: Event) {
     const selectedOptions = event.target["options"];
@@ -379,6 +381,7 @@ export class AnganwadicontrollerComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_districtid = selectedOptionValue;
+    
     this.selected_districtname = selectedElementText;
     console.log("selected_districtid", this.selected_districtid );
     console.log("selected_districtname", this.selected_districtname );
