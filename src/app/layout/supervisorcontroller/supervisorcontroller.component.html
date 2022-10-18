@@ -38,7 +38,9 @@
               <!-- Records List -->
               <div class="col col-xl-6 col-lg-6">
                 <div class="row">
-                  <div class="col col-xl-4 col-lg-4"><h2>{{supervisordata.length}}Record(s)</h2></div>
+                  <div class="col col-xl-4 col-lg-4">
+                    <h2>{{ supervisordata.length }}Record(s)</h2>
+                  </div>
                   <div class="col col-xl-6 col-lg-6">
                     <input
                       type="text"
@@ -49,11 +51,14 @@
                 </div>
                 <div class="">
                   <table>
-                    <tr *ngFor="let row of supervisordata; let i = index" (click)="record_onselect(row)">
+                    <tr
+                      *ngFor="let row of supervisordata; let i = index"
+                      (click)="record_onselect(row)"
+                    >
                       <td style="width: 10%">1</td>
                       <td style="width: 80%">
-                        <div class="row">{{row.passcode}}</div>
-                        <div class="row">{{row.anganwadiname}}</div>
+                        <div class="row">{{ row.passcode }}</div>
+                        <div class="row">{{ row.anganwadiname }}</div>
                       </td>
                     </tr>
                   </table>
@@ -82,11 +87,11 @@
                 <div class="" [hidden]="no_record_selected">
                   <div class="row">
                     <div class="col col-xl-4 col-lg-4">Supervisor Passcode</div>
-                    <div class="col">:{{txt_passcode}}</div>
+                    <div class="col">:{{ txt_passcode }}</div>
                   </div>
                   <div class="row">
                     <div class="col col-xl-4 col-lg-4">Anganwadi Name</div>
-                    <div class="col">: {{txt_anganwadiname}}</div>
+                    <div class="col">: {{ txt_anganwadiname }}</div>
                   </div>
                 </div>
                 <div class=""></div>
@@ -115,6 +120,66 @@
         />
       </div>
     </div>
+
+    <!-- block and district -->
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">State</div>
+      <div class="col col-xl-8 col-lg-8">
+        <div class="form-group">
+          <select
+            (change)="selected_state_onchange($event)"
+            class="form-control"
+            placeholder="State"
+          >
+            <option value=""></option>
+            <option value="">ODISHA</option>
+            <!-- <option
+              *ngFor="let st of allstate_districts"
+              value="{{ st.code }}"
+            >
+              {{ st.name }}
+            </option> -->
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">District</div>
+      <div class="col col-xl-8 col-lg-8">
+        <div class="form-group">
+          <select
+            (change)="selected_district_onchange($event)"
+            class="form-control"
+            placeholder="State"
+          >
+            <option value=""></option>
+            <option *ngFor="let dist of alldistrictdata" value="{{ dist.id }}">
+              {{ dist.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Block</div>
+      <div class="col col-xl-8 col-lg-8">
+        <div class="form-group">
+          <select
+          value="{{ selected_blockid }}"
+          (change)="selected_block_onchange($event)"
+            class="form-control"
+            placeholder="State"
+          >
+            <option value=""></option>
+            <option *ngFor="let block of allblockdata" value="{{block._id }}">
+              {{ block.blockname | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col col-xl-4 col-lg-4">Anganwadi List</div>
       <div class="col col-xl-8 col-lg-8 row-fluid">
@@ -131,7 +196,6 @@
               type="checkbox"
               name="item.name"
               (change)="onchange()"
-           
               [(ngModel)]="item.isselected"
             />
           </div>
@@ -143,7 +207,7 @@
     <button type="button" class="btn btn-default" (click)="c('Close click')">
       Cancel
     </button>
-    <button type="button" class="btn btn-primary"  (click)="save_data()" >
+    <button type="button" class="btn btn-primary" (click)="save_data()">
       &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
     </button>
   </div>

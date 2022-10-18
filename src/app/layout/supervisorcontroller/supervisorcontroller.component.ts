@@ -30,6 +30,23 @@ export class SupervisorcontrollerComponent implements OnInit {
   closeResult: string;
   hideLoading_indicator: boolean = true;
 
+  allstate_districts: any = [];
+  alldistrictdata: any;
+
+  all_districts: any = [];
+  selected_districtid: any = "";
+  selected_districtvalue: any = "";
+  selected_districtname: any = "";
+
+  selected_statecode: any = "";
+  selected_stateid: any = "";
+  selected_statename: any = "";
+  selected_statevalue: any = "";
+
+  selected_blockid: any = "";
+  selected_blockname: any = "";
+  allblockdata: any;
+
   constructor(
     private modalService: NgbModal,
     public router: Router,
@@ -39,8 +56,8 @@ export class SupervisorcontrollerComponent implements OnInit {
   ngOnInit() {
     this.getcourses();
     this.getalludisecodes();
-
     this._anganwadiselect = new anganwadiselect();
+    
   }
 
   getalludisecodes() {
@@ -79,9 +96,9 @@ export class SupervisorcontrollerComponent implements OnInit {
     this.selected_record = row;
     this.record_id = row._id;
     this.txt_passcode = row.passcode;
-    console.log("onselect passcode-->",this.txt_passcode)
-   this.txt_anganwadiname = row.anganwadiname;
-    console.log("onselect anganwadiname-->", this.txt_anganwadiname)
+    console.log("onselect passcode-->", this.txt_passcode);
+    this.txt_anganwadiname = row.anganwadiname;
+    console.log("onselect anganwadiname-->", this.txt_anganwadiname);
   }
 
   reset() {
@@ -165,6 +182,78 @@ export class SupervisorcontrollerComponent implements OnInit {
         );
     }
   }
+
+  getdistrictsofstate() {
+    this.hideLoading_indicator = false;
+    this.supervisorcontrollerService.getdistrictsofstate(this.selected_stateid).subscribe(
+      (data) => {
+        this.alldistrictdata = data;
+        console.log("district data-->",data)
+        this.hideLoading_indicator = true;
+      },
+      (error) => {},
+      () => {}
+    );
+  }
+
+  getblocksofdistricts() {
+    this.hideLoading_indicator = false;
+    this.supervisorcontrollerService
+      .getblocksofdistricts(this.selected_stateid, this.selected_districtid)
+      .subscribe(
+        (data) => {
+          this.allblockdata = data;
+          console.log("block data-->",data)
+          this.hideLoading_indicator = true;
+        },
+        (error) => {},
+        () => {}
+      );
+  }
+
+  selected_state_onchange(event: Event) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectedElementText = selectedOptions[selectedIndex].text;
+    this.selected_stateid = selectedOptionValue;
+     console.log("stateid->",this.selected_stateid)
+    this.selected_statename = selectedElementText;
+    
+  }
+ 
+  selected_district_onchange(event: Event) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectedElementText = selectedOptions[selectedIndex].text;
+    this.selected_districtid = selectedOptionValue;
+    
+    this.selected_districtname = selectedElementText;
+    console.log("selected_districtid", this.selected_districtid );
+    console.log("selected_districtname", this.selected_districtname );
+
+    
+    this.getblocksofdistricts();
+  }
+
+  selected_block_onchange(event: Event) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectedElementText = selectedOptions[selectedIndex].text;
+    this.selected_blockid = selectedOptionValue;
+    this.selected_blockname = selectedElementText;
+    console.log("selected_blockid", this.selected_blockid );
+    console.log("selected_blockname", this.selected_blockname );
+    
+  }
+
+ 
+
+
+
+  
 
   // update_data() {
   //   if (
