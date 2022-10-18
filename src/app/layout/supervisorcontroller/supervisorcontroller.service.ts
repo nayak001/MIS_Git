@@ -30,12 +30,14 @@ export class SupervisorcontrollerService {
         // responseType: 'text'
       });
     }
-    getblocksofdistricts(stateid, districtid){
-      return this.http.get(baseUrl+'getblocksofdistricts/'+stateid+'/'+districtid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
-    }
     getdistrictsofstate(stateid){
       return this.http.get(baseUrl+'getdistrictsofstate/'+stateid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
     }
+
+    getblocksofdistricts(stateid, districtid){
+      return this.http.get(baseUrl+'getblocksofdistricts/'+stateid+'/'+districtid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    } 
+  
   
 
 }

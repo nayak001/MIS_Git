@@ -127,6 +127,7 @@
       <div class="col col-xl-8 col-lg-8">
         <div class="form-group">
           <select
+          value="{{ selected_stateid }}"
             (change)="selected_state_onchange($event)"
             class="form-control"
             placeholder="State"
@@ -148,13 +149,14 @@
       <div class="col col-xl-8 col-lg-8">
         <div class="form-group">
           <select
+          value="{{ selected_districtid }}"
             (change)="selected_district_onchange($event)"
             class="form-control"
             placeholder="State"
           >
             <option value=""></option>
             <option *ngFor="let dist of alldistrictdata" value="{{ dist.id }}">
-              {{ dist.name}}
+              {{ dist.districtname | titlecase}}
             </option>
           </select>
         </div>
