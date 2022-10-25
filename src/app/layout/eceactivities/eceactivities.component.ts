@@ -230,8 +230,7 @@ export class EceactivitiesComponent implements OnInit {
       { value: "memory", text: "Memory" },
       { value: "social&emotional", text: "Social & Emotional" },
       { value: "language", text: "Language" },
-      { value: "odia", text: "odia" },
-      { value: "english", text: "english" },
+ 
     ];
     ////////////////////////////////////////////////Skilll_End/////////////////////////////////////////////////////
 
