@@ -38,8 +38,8 @@ export class FlnService {
     );
   }
 
-  getflnactivitydocument(activityclass) {
-    return this.http.get(baseUrl + "getflnactivitydocument/" + activityclass, {
+  getflnactivitydocument(activityprogram,activityclass) {
+    return this.http.get(baseUrl + "getflnactivitydocument/" +activityprogram+"/"+ activityclass, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }

@@ -256,6 +256,9 @@
                   placeholder="Question"
                 />
               </div>
+           
+          
+          
             </div>
             <div class="modal-footer">
               <button
@@ -370,6 +373,60 @@
                   <table class="table50">
                     <tr>
                       <td>
+                      
+                        <div  class="col col-xl-2 col-lg-2">Select Program</div>
+                        <div  class="col col-xl-2 col-lg-2">
+                          <select
+                            value=""
+                            (change)="activity_program_select_onchange($event)"
+                            class="form-control"
+                          >
+                            <option value="">Select</option>
+                         
+                          
+                            <option value="pge" >PGE</option>
+                            <option value="ece">ECE</option>
+                         
+                       
+                          </select>
+                        </div>
+
+                        <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">Select class</div>
+                        <div  *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
+                          <select
+                            value=""
+                            (change)="activity_class_select_onchange($event)"
+                            class="form-control"
+                          >
+                            <option value="">Select</option>
+                            <option value="1" >1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          
+                          </select>
+                        </div>
+            
+                        <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">Select Level</div>
+                        <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">
+                          <select
+                            value=""
+                            (change)="activity_class_select_onchange($event)"
+                            class="form-control"
+                          >
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            
+                          
+                          </select>
+                        </div>
+            
+
+
+<!-- 
                         <span class="bold-font">Select class</span>
                         <div class="col col-xl-4 col-lg-4">
                           <select
@@ -386,7 +443,7 @@
                             <option value="4">4(PGE)</option>
                             <option value="5">5(PGE)</option>
                           </select>
-                        </div>
+                        </div> -->
                         <span class="bold-font">Upload Activity Document:</span>
                         <div
                           *ngIf="currentFileUpload"

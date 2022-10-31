@@ -23,6 +23,9 @@ export class SupervisorcontrollerService {
     getallsupervisordetails(){				
       return this.http.get(baseUrl+'getallsupervisordetails',{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
     }
+    getanganwadinamebysearch(anganwadiname){
+      return this.http.get(baseUrl+'getanganwadinamebysearch/'+anganwadiname,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
+    }
     getallstateanddistricts() {
       return this.http.get(baseUrl+'getallstateanddistricts',
       {
@@ -37,7 +40,15 @@ export class SupervisorcontrollerService {
     getblocksofdistricts(stateid, districtid){
       return this.http.get(baseUrl+'getblocksofdistricts/'+stateid+'/'+districtid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
     } 
+
+
   
-  
+    getallunassignedanganwadis(stateid,districtid,blockid){
+      return this.http.get(baseUrl+'getallunassignedanganwadis/'+stateid+ "/"+districtid+"/"+blockid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    }
+
+    updatesupervisordetails(body){
+      return this.http.put(baseUrl+'updatesupervisordetails/',body,{headers: new HttpHeaders().set('Content-Type', 'application/json')});
+    }
 
 }

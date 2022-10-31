@@ -292,9 +292,50 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_activity_class = selectedOptionValue;
+    console.log("selected class-->",this.selected_activity_class)
     this.load_record();
     this.load_activity_record();
+    this.checkProgram2();
+    
   }
+  selected_activity_program:any;
+  activity_program_select_onchange(event){
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+    this.selected_activity_program = selectedOptionValue;
+    console.log("selected program-->",this.selected_activity_program)
+    this.load_record();
+    this.load_activity_record();
+    this.checkProgram2();
+  }
+
+  checkProgram2() {
+    if ( this.selected_activity_program == "pge") {
+    
+      this.isPGE = true;
+      this.isECE = false;
+      console.log("isPge2-->", this.isPGE)
+      console.log("isece2-->", this.isECE)
+
+    
+    // this.selected_subject = "na";
+  } else{
+    this.isPGE = false;
+    this.isECE = true;
+    console.log("isPge1-->", this.isPGE)
+    console.log("isece1-->", this.isECE)
+  }
+  
+ 
+    
+}
+
+
+
+
+
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -353,11 +394,13 @@ export class FlnMasterComponent implements OnInit {
   delete_doc_id: any;
   async load_activity_record() {
     this.FlnService.getflnactivitydocument(
+      this.selected_activity_program,
       this.selected_activity_class
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
           this.activity_doc = data;
+          console.log("upload doc-->",this.activity_doc )
         } else {
           this.activity_doc = [];
         }
@@ -446,6 +489,7 @@ export class FlnMasterComponent implements OnInit {
       swal.fire("info", "Please add the question!!!", "warning");
     } else {
       const body = {
+        qid: new Date().getTime(),
         assessmentquestion: this.add_q_question,
         language: this.selected_preflanguage,
         type: this.selected_assesment,
@@ -503,6 +547,7 @@ export class FlnMasterComponent implements OnInit {
       swal.fire("info", "Please add the activity!!!", "warning");
     } else {
       const body = {
+        program:this.selected_activity_program,
         class: this.selected_activity_class,
         activitydocument: this.s3path,
         filetype: this.filetype,
