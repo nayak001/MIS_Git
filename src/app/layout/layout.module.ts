@@ -30,12 +30,9 @@ import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
     SidebarComponent,
     HeaderComponent,
     TeacherprofilecreateComponent,
-<<<<<<< HEAD
    
     // SupervisorcontrollerComponent,
-=======
   
->>>>>>> f26601221c1c3e22756754c3573abe82edc8d700
   ],
   entryComponents: [TeacherprofilecreateComponent],
 })
