@@ -26,6 +26,29 @@
                     <option value="hi">हिंदी</option>
                   </select>
                 </div>
+
+                
+              </div>
+
+              <div class="row">
+                <div class="col col-xl-6 col-lg-6" style="margin: auto">
+                  Prefered Type
+                </div>
+                <div class="col col-xl-6 col-lg-6">
+                  <select
+                    id="selected_preflanguage"
+                    value="{{ selected_preflanguage }}"
+                    (change)="preftype_select_onchange($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select</option>
+                    <option value="anganwadi">Anganwadi</option>
+                    <option value="fellow"  [selected]="isSelected">Fellow</option>
+                   
+                  </select>
+                </div>
+
+                
               </div>
               <!-- <span class="bold-font">Prefered Language</span>
 							<span>

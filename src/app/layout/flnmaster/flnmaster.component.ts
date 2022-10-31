@@ -104,6 +104,7 @@ export class FlnMasterComponent implements OnInit {
   edit_vediofiletype: any;
   edit_s3vedioname: any;
   isPGE: boolean = true;
+  isECE: boolean = true;
   public Editor = ClassicEditor;
 
   constructor(
@@ -145,20 +146,54 @@ export class FlnMasterComponent implements OnInit {
   }
 
   onselect_change_class(event) {
+    // const selectedOptions = event.target["options"];
+    // const selectedIndex = selectedOptions.selectedIndex;
+    // const selectedOptionValue = selectedOptions[selectedIndex].value;
+    // const selectElementText = selectedOptions[selectedIndex].text;
+    // console.log("elementtext-->",selectElementText)
+    // this.selected_class = selectedOptionValue;
+    // console.log("selected class-->",this.selected_class)
+    // this.checkProgram();
+    // this.load_record();
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_class = selectedOptionValue;
+    const selectElementText = selectedOptions[selectedIndex].text.toLowerCase();
+    console.log("elementtext-->",selectElementText)
+    this.selected_program = selectElementText ;
+    console.log("selected program-->",this.selected_program)
+    
     this.checkProgram();
+    this.load_record();
+  }
+  onselect_change_class2(event){
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    this.selected_class = selectedOptionValue;
+    console.log("selected class-->",this.selected_class)
     this.load_record();
   }
 
   checkProgram() {
-    if (this.selected_class == 0) {
+      if (this.selected_program == "pge") {
+      
+        this.isPGE = true;
+        this.isECE = false;
+        console.log("isPge2-->", this.isPGE)
+        console.log("isece2-->", this.isECE)
+
+      
+      // this.selected_subject = "na";
+    } else{
       this.isPGE = false;
-      this.selected_subject = "na";
-    } else this.isPGE = true;
+      this.isECE = true;
+      console.log("isPge1-->", this.isPGE)
+      console.log("isece1-->", this.isECE)
+    }
+    
+   
+      
   }
 
   onselect_assesment_subject(event) {
@@ -257,9 +292,50 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_activity_class = selectedOptionValue;
+    console.log("selected class-->",this.selected_activity_class)
     this.load_record();
     this.load_activity_record();
+    this.checkProgram2();
+    
   }
+  selected_activity_program:any;
+  activity_program_select_onchange(event){
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+    this.selected_activity_program = selectedOptionValue;
+    console.log("selected program-->",this.selected_activity_program)
+    this.load_record();
+    this.load_activity_record();
+    this.checkProgram2();
+  }
+
+  checkProgram2() {
+    if ( this.selected_activity_program == "pge") {
+    
+      this.isPGE = true;
+      this.isECE = false;
+      console.log("isPge2-->", this.isPGE)
+      console.log("isece2-->", this.isECE)
+
+    
+    // this.selected_subject = "na";
+  } else{
+    this.isPGE = false;
+    this.isECE = true;
+    console.log("isPge1-->", this.isPGE)
+    console.log("isece1-->", this.isECE)
+  }
+  
+ 
+    
+}
+
+
+
+
+
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -281,20 +357,27 @@ export class FlnMasterComponent implements OnInit {
   }
   dataid: any;
   activity_doc: any = [];
-  selected_class: any = 1;
+  selected_class: any ;
   selected_month: any = "month0";
-  selected_subject: any = "select";
+  selected_subject: any = "";
+  selected_program:any = "";
   alldata: any;
   async load_record() {
+    console.log("program-->",  this. selected_program,)
     this.FlnService.getallflnmasterdata(
       this.selected_assesment,
       this.selected_preflanguage,
+      this. selected_program,
       this.selected_class,
-      this.selected_subject
+      this.selected_subject,
+     
+     
     ).subscribe(
+      
       (data) => {
         if (Object.keys(data).length > 0) {
           this.alldata = data;
+          console.log("alldata-->",this.alldata)
           this.dataid = data[0]._id;
           this.hideProgressbar = false;
           this.save_operation = "update";
@@ -311,11 +394,13 @@ export class FlnMasterComponent implements OnInit {
   delete_doc_id: any;
   async load_activity_record() {
     this.FlnService.getflnactivitydocument(
+      this.selected_activity_program,
       this.selected_activity_class
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
           this.activity_doc = data;
+          console.log("upload doc-->",this.activity_doc )
         } else {
           this.activity_doc = [];
         }
@@ -404,13 +489,15 @@ export class FlnMasterComponent implements OnInit {
       swal.fire("info", "Please add the question!!!", "warning");
     } else {
       const body = {
+        qid: new Date().getTime(),
         assessmentquestion: this.add_q_question,
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         class: this.selected_class,
         subject: this.selected_subject,
+        program:this.selected_program,
       };
-      console.log("body", body);
+      console.log("bodyfln", body);
 
       this.FlnService.createflnmasterdata(body).subscribe(
         (data) => {
@@ -460,6 +547,7 @@ export class FlnMasterComponent implements OnInit {
       swal.fire("info", "Please add the activity!!!", "warning");
     } else {
       const body = {
+        program:this.selected_activity_program,
         class: this.selected_activity_class,
         activitydocument: this.s3path,
         filetype: this.filetype,
