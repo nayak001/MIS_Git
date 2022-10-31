@@ -30,7 +30,7 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_program = "ece";
     this.selected_subject = "";
     this.selected_themeid = "";
-    this.selected_skillsetid = "";
+    this.selected_skillsetid = null;
     this.selected_class = "";
 
     this.content_value = "";
@@ -156,7 +156,7 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_subject = "na";
     this.selected_themeid = "";
     this.selected_themename = "";
-    this.selected_skillsetid = "";
+    // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.theme_select_option_list = [
       { value: "bodyparts", text: "Body Parts" },
@@ -237,7 +237,7 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_subject = this.selected_program == "ece" ? "na" : "";
     this.selected_themeid = "";
     this.selected_themename = "";
-    this.selected_skillsetid = "";
+    // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.load_record(
       this.selected_preflanguage,
@@ -257,7 +257,7 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_themeid = selectedOptionValue;
     this.selected_themename = selectElementText;
 
-    this.selected_skillsetid = "";
+    // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.load_record(
       this.selected_preflanguage,
@@ -632,9 +632,9 @@ export class EceactivitiesComponent implements OnInit {
       theme != undefined &&
       theme != null &&
       theme != "" &&
-      skill != undefined &&
-      skill != null &&
-      skill != "" &&
+      // skill != undefined &&
+      // skill != null &&
+      // skill != "" &&
       clas != undefined &&
       clas != null &&
       clas != ""
@@ -646,6 +646,9 @@ export class EceactivitiesComponent implements OnInit {
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
+
+      console.log("check", skill);
+
       this.eceactivitiesService
         .getmasteractivitiydetails(
           preferedlanguage,
