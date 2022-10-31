@@ -369,14 +369,17 @@ export class SupervisorcontrollerComponent implements OnInit {
         passcode: this.txt_passcode,
         anganwadiList: assignedAnganwadis,
       };
+      
 
       console.log("setang", assignedAnganwadis);
       console.log("save", body);
 
-      // this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
-      //   (data2) => {
-      //     this.modalReference.close();
-      //     swal.fire(
+      this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
+        (data2) => {
+          console.log("data2",Object.keys( data2))
+          // this.modalReference.close();
+          // if(data2.status == "supervisorAlreadyExists")
+          // swal.fire(
       //       "Success",
       //       "Supervisor Record saved successfully",
       //       "success"
@@ -384,17 +387,17 @@ export class SupervisorcontrollerComponent implements OnInit {
       //     this.getallpasscodes();
       //     this.hideLoading_indicator = true;
       //     this.reset();
-      //   },
-      //   (error) => {},
-      //   () => {}
-      // );
-      // //  }
+        },
+        (error) => {},
+        () => {}
+       );
+       }
       // this.hideLoading_indicator = true;
       // },
       // (error) => {},
       // () => {};
       // );
-    }
+   // }
   }
 
   update_data() {
