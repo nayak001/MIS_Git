@@ -81,7 +81,7 @@ export class TeacherbaselineComponent implements OnInit {
   public data: any;
   modalReference: any;
   closeResult: string;
-  aww: boolean= false;
+  anganwadi: boolean= false;
   save_operation: string = "save";
   hideLoading_indicator: boolean;
   hideContent_div: boolean;
@@ -153,7 +153,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_type = selectedOptionValue;
   
-   console.log("usertype-->",this.aww)
+   console.log("usertype-->",this.anganwadi)
     this.load_record();
   }
 
@@ -167,8 +167,8 @@ export class TeacherbaselineComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_usertype = selectedOptionValue;
-    this.selected_usertype == "aww"  ?  this.aww = true : this.aww = false
-    console.log("usertype", this.selected_usertype, "aww", this.aww)
+    this.selected_usertype == "anganwadi"  ?  this.anganwadi = true : this.anganwadi = false
+    console.log("usertype", this.selected_usertype, "anganwadi", this.anganwadi)
     // this.load_record();
     
   }
