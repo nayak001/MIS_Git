@@ -14,8 +14,8 @@ export class AnganwadicontrollerService {
 		return this.http.get(baseUrl+'getallanganwadibyblock/'+stateid+ "/" +districtid+ "/" + blockid,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
 	}
 	
-	checkanganwadicodeexistance(usercode){				
-		return this.http.get(baseUrl+'checkanganwadinameexistance/'+usercode,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
+	 checkanganwadicodeexistance(usercode){				
+		return this.http.get(baseUrl+'checkanganwadiexistance/'+usercode,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
 	}
 
 	addusercode(body){
