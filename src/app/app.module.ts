@@ -13,6 +13,7 @@ import { RouterModule,  } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgxSortableModule } from 'ngx-sortable';
 // import { SupervisorControllerComponent } from './supervisor-controller/supervisor-controller.component';
+// import { AnganwadicontrollerComponent } from './anganwadicontroller/anganwadicontroller.component';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {

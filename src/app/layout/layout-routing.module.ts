@@ -215,6 +215,11 @@ const routes: Routes = [
         loadChildren: "./udisemanager/udisemanager.module#UdisemanagerModule",
       },
       {
+        path: "anganwadicontroller",
+        loadChildren:
+          "./anganwadicontroller/anganwadicontroller.module#AnganwadicontrollerModule",
+      },
+      {
         path: "dashboardslidermanager",
         loadChildren:
           "./dashboardslidermanager/dashboardslidermanager.module#DashboardslidermanagerModule",
