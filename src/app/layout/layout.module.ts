@@ -13,6 +13,9 @@ import { TeacherprofilecreateComponent } from "./teacherprofilecreate/teacherpro
 import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
 
 
+// import { SupervisorcontrollerComponent } from './supervisorcontroller/supervisorcontroller.component';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,7 +32,9 @@ import { DatePickerModule } from "@syncfusion/ej2-angular-calendars";
     SidebarComponent,
     HeaderComponent,
     TeacherprofilecreateComponent,
-  
+
+   
+    // SupervisorcontrollerComponent,
   ],
   entryComponents: [TeacherprofilecreateComponent],
 })

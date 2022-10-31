@@ -311,6 +311,26 @@ export class SupervisorcontrollerComponent implements OnInit {
     );
   }
 
+  onchange_update2() {
+    // console.log("clicked-->",this.selected_record)
+    this.allanganwadicontrollerlist = this.selected_record.anganwadiList.filter(
+      (x) =>  !x.isselected
+    );
+    // .map((x) => x.anganwadiname)
+    // .join(",")
+    // .toString();
+    // .push( this.anganwadi_push)
+
+    console.log("anganwadipush-->", this.selected_record.anganwadiList);
+
+    console.log("anganwadiname2-->", this.selected_record.anganwadiList);
+
+    console.log(
+      "anganwadiname3-->",
+      this.selected_record.anganwadiList.filter((x) => !x.isselected)
+    );
+  }
+
   save_data() {
     if (
       this.txt_passcode == null ||
@@ -343,7 +363,7 @@ export class SupervisorcontrollerComponent implements OnInit {
       //     swal.fire("Info", "Anganwadi name already exists", "warning");
       //   } else {
       const assignedAnganwadis = this.allanganwadicontrollerlist.filter(
-        (e) => e.isselected == true
+        (e) => e.isselected == true 
       );
       let body = {
         passcode: this.txt_passcode,
@@ -353,26 +373,26 @@ export class SupervisorcontrollerComponent implements OnInit {
       console.log("setang", assignedAnganwadis);
       console.log("save", body);
 
-      this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
-        (data2) => {
-          this.modalReference.close();
-          swal.fire(
-            "Success",
-            "Supervisor Record saved successfully",
-            "success"
-          );
-          this.getallpasscodes();
-          this.hideLoading_indicator = true;
-          this.reset();
-        },
-        (error) => {},
-        () => {}
-      );
-      //  }
-      this.hideLoading_indicator = true;
+      // this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
+      //   (data2) => {
+      //     this.modalReference.close();
+      //     swal.fire(
+      //       "Success",
+      //       "Supervisor Record saved successfully",
+      //       "success"
+      //     );
+      //     this.getallpasscodes();
+      //     this.hideLoading_indicator = true;
+      //     this.reset();
+      //   },
+      //   (error) => {},
+      //   () => {}
+      // );
+      // //  }
+      // this.hideLoading_indicator = true;
       // },
       // (error) => {},
-      () => {};
+      // () => {};
       // );
     }
   }
@@ -403,24 +423,24 @@ export class SupervisorcontrollerComponent implements OnInit {
       };
       console.log("update1-->", body);
 
-      this.supervisorcontrollerService.updatesupervisordetails(body).subscribe(
-        (data2) => {
-          console.log("update-->", body);
-          console.log("updatedata-->", data2);
-          this.modalReference.close();
-          swal.fire(
-            "Success",
-            "Supervisor Code updated successfully",
-            "success"
-          );
-          this.getallpasscodes();
-          // this.getanganwadiList();
-          this.hideLoading_indicator = true;
-          this.reset();
-        },
-        (error) => {},
-        () => {}
-      );
+      // this.supervisorcontrollerService.updatesupervisordetails(body).subscribe(
+      //   (data2) => {
+      //     console.log("update-->", body);
+      //     console.log("updatedata-->", data2);
+      //     this.modalReference.close();
+      //     swal.fire(
+      //       "Success",
+      //       "Supervisor Code updated successfully",
+      //       "success"
+      //     );
+      //     this.getallpasscodes();
+      //     // this.getanganwadiList();
+      //     this.hideLoading_indicator = true;
+      //     this.reset();
+      //   },
+      //   (error) => {},
+      //   () => {}
+      // );
 
       this.hideLoading_indicator = true;
 
@@ -503,7 +523,8 @@ export class SupervisorcontrollerComponent implements OnInit {
     } else if (flag == "update") {
       console.log("@@@@ selected_record", this.selected_record);
       this.txt_passcode = this.selected_record.passcode;
-      this.txt_anganwadiname = this.selected_record.anganwadiList
+      this.txt_anganwadiname =
+       this.selected_record.anganwadiList
         .filter((x) => x.isselected == true)
         .map((x) => x.anganwadiname)
         .join(",")

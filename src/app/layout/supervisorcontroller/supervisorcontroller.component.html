@@ -37,8 +37,8 @@
           <div>
             <div class="row">
               <!-- SEARCH -->
-               <div class="col col-xl-6 col-lg-6">
-                <div class="row">
+              <!-- <div class="col col-xl-6 col-lg-6"> -->
+                <!-- <div class="row">
                   <div class="col col-xl-4 col-lg-4">
 
                   </div>
@@ -51,29 +51,31 @@
                       class="modal_textbox"
                     />
                   </div>
-                </div>
-                <div class=""   *ngIf="this.sup == false">
-                    <!-- <h2>
-                      {{ allanganwadilist_bkp.anganwadiname.length }} Record(s)
-                    </h2> -->
-                  <table>
-                    <tr
-                      *ngFor="
-                        let row of allanganwadilist_bkp.anganwadiname;
-                        let i = index
-                      "
-                    >
-                      <td style="width: 10%">{{ i + 1 }}</td>
-                      <td style="width: 80%">
-                        <div class="row">{{ row.passcode }}</div>
-                        <div class="row">
-                          {{ row.anganwadiname }} Anganwadis found
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>  
+                </div> -->
+                
+              <!-- </div>   -->
+
+              <!-- <div class=""   *ngIf="this.sup == false"> -->
+                <!-- <h2>
+                  {{ allanganwadilist_bkp.anganwadiname.length }} Record(s)
+                </h2> -->
+              <!-- <table>
+                <tr
+                  *ngFor="
+                    let row of allanganwadilist_bkp.anganwadiname;
+                    let i = index
+                  "
+                >
+                  <td style="width: 10%">{{ i + 1 }}</td>
+                  <td style="width: 80%">
+                    <div class="row">{{ row.passcode }}</div>
+                    <div class="row">
+                      {{ row.anganwadiname }} Anganwadis found
+                    </div>
+                  </td>
+                </tr>
+              </table> -->
+            <!-- </div> -->
 
               <!-- SEARCH -->
 
@@ -191,7 +193,7 @@
 
         >
           <option></option>
-          <option value="27">Odisha</option>
+          <option value="20">Odisha</option>
         </select>
       </div>
     </div>
@@ -323,6 +325,32 @@
         </div>
       </div>
     </div>
+
+    <!-- <div class="row">
+      <div class="col col-xl-4 col-lg-4">Un-set Anganwadi List</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <div class="row">
+          <div class="col-35">
+            <div
+              *ngFor="
+                let item of this.selected_record.anganwadiList;
+                let i = index
+              "
+              class=""
+            >
+              <label>{{ item.anganwadiname }}</label>
+              <label>{{ item.isselected }}</label>
+              <input
+                type="checkbox"
+                [checked]="item.isselected"
+                (change)="onchange_update2()"
+                [(ngModel)]="item.isselected"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="c('Close click')">
