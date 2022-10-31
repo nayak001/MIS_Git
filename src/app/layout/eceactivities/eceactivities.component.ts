@@ -159,22 +159,24 @@ export class EceactivitiesComponent implements OnInit {
     // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.theme_select_option_list = [
-      { value: "bodyparts", text: "Body Parts" },
-      {
-        value: "animalsbirds&theirsounds",
-        text: "Animals, Birds & their Sounds",
+      { value: "meAndMyFamily ", 
+      text: "Me and my family"
       },
       {
-        value: "flowersfruits&vegetables",
-        text: "Flowers, Fruits & Vegetables",
+        value: "myHome",
+        text: "My home",
       },
-      { value: "house&accessories", text: "House & Accessories" },
-      { value: "transportation", text: "Transportation" },
-      { value: "occupation", text: "Occupation" },
-      { value: "serviceprovidingcenter", text: "Service Providing Center" },
-      { value: "insects", text: "Insects" },
-      { value: "environment", text: "Environment" },
+      {
+        value: "occupations",
+        text: "Occupations",
+      },
+      { value: "animalsAndBirds", text: "Animals and birds" },
+      { value: "plants,trees,flowers,fruits", text: "Plants, trees, flowers, fruits" },
+      { value: "transportation ", text: "Transportation " },
       { value: "seasons", text: "Seasons" },
+      { value: "myPhysicalEnvironment", text: "My physical environment" },
+      { value: "mySocialEnvironment ", text: "My social environment " },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     this.skill_select_option_list = [
       { value: "physical", text: "Physical" },
@@ -207,22 +209,24 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_class = selectedOptionValue;
 
     this.theme_select_option_list = [
-      { value: "bodyparts", text: "Body Parts" },
-      {
-        value: "animalsbirds&theirsounds",
-        text: "Animals, Birds & their Sounds",
+      { value: "meAndMyFamily", 
+      text: "Me and my family"
       },
       {
-        value: "flowersfruits&vegetables",
-        text: "Flowers, Fruits & Vegetables",
+        value: "myHome",
+        text: "My home",
       },
-      { value: "house&accessories", text: "House & Accessories" },
-      { value: "transportation", text: "Transportation" },
-      { value: "occupation", text: "Occupation" },
-      { value: "serviceprovidingcenter", text: "Service Providing Center" },
-      { value: "insects", text: "Insects" },
-      { value: "environment", text: "Environment" },
+      {
+        value: "occupations",
+        text: "Occupations",
+      },
+      { value: "animalsAndBirds", text: "Animals and birds" },
+      { value: "plants,trees,flowers,fruits", text: "Plants, trees, flowers, fruits" },
+      { value: "transportation ", text: "Transportation " },
       { value: "seasons", text: "Seasons" },
+      { value: "myPhysicalEnvironment", text: "My physical environment" },
+      { value: "mySocialEnvironment ", text: "My social environment " },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     ////////////////////////////////////////////////Skilll__start/////////////////////////////////////////////////////
     this.skill_select_option_list = [
