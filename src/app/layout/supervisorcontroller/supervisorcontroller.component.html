@@ -116,7 +116,7 @@
                           <!-- isselected = true -->
                           <!-- {{j+1}}. {{anganwadi.anganwadiname}} -->
 
-                          <div *ngIf="anganwadi.isselected == true">
+                          <div *ngIf="anganwadi.supervisorAssigned == true">
                             Selected:- {{ j + 1 }}.{{ anganwadi.anganwadiname }}
                           </div>
                         </div>
@@ -248,7 +248,7 @@
             type="checkbox"
             name="item.name"
             (change)="onchange()"
-            [(ngModel)]="item.isselected"
+            [(ngModel)]="item.supervisorAssigned"
           />
         </div>
       </div>
@@ -307,18 +307,18 @@
           <div class="col-35">
             <div
               *ngFor="
-                let item of this.selected_record.anganwadiList;
+                let item of this.select_anganwadiname;
                 let i = index
               "
               class=""
             >
               <label>{{ item.anganwadiname }}</label>
-              <label>{{ item.isselected }}</label>
+              <label>{{ item.supervisorAssigned }}</label>
               <input
                 type="checkbox"
-                [checked]="item.isselected"
+                [checked]="item.supervisorAssigned"
                 (change)="onchange_update()"
-                [(ngModel)]="item.isselected"
+                [(ngModel)]="item.supervisorAssigned"
               />
             </div>
           </div>
@@ -342,9 +342,9 @@
            
               <input
                 type="checkbox"
-             
+                [checked]="item.supervisorAssigned"
                 (change)="onchange_update()"
-             
+                [(ngModel)]="item.supervisorAssigned"
               />
             </div>
           </div>

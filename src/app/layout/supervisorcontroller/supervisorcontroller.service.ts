@@ -71,4 +71,9 @@ export class SupervisorcontrollerService {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
+  updateByAnganwadiCode(body){
+    return this.http.put(baseUrl + "updateByAnganwadiCode/", body, {
+      headers: new HttpHeaders().set("Content-Type", "application/json"),
+    });
+  }
 }
