@@ -106,29 +106,25 @@ export class SupervisorcontrollerComponent implements OnInit {
     );
   }
 
-  search(event:any) {
+  search(event: any) {
     this.values = event.target.value;
-    console.log("values-->",this.values)
+    console.log("values-->", this.values);
 
     this.hideLoading_indicator = false;
     this.sup = false;
-    console.log("sup-->",this.sup)
+    console.log("sup-->", this.sup);
     this.supervisorcontrollerService
       // .getanganwadinamebysearch(this.txt_anganwadiname)
-    .getanganwadinamebysearch(this.values
-      )
+      .getanganwadinamebysearch(this.values)
       .subscribe(
-
         (data) => {
-          this.allanganwadilist_bkp= data;
-          console.log("searchdata-->",this.allanganwadilist_bkp.anganwadiname)
+          this.allanganwadilist_bkp = data;
+          console.log("searchdata-->", this.allanganwadilist_bkp.anganwadiname);
           this.hideLoading_indicator = true;
-
         },
         (error) => {},
         () => {}
       );
-
   }
 
   record_onselect(row) {
@@ -314,7 +310,7 @@ export class SupervisorcontrollerComponent implements OnInit {
   onchange_update2() {
     // console.log("clicked-->",this.selected_record)
     this.allanganwadicontrollerlist = this.selected_record.anganwadiList.filter(
-      (x) =>  !x.isselected
+      (x) => !x.isselected
     );
     // .map((x) => x.anganwadiname)
     // .join(",")
@@ -363,41 +359,47 @@ export class SupervisorcontrollerComponent implements OnInit {
       //     swal.fire("Info", "Anganwadi name already exists", "warning");
       //   } else {
       const assignedAnganwadis = this.allanganwadicontrollerlist.filter(
-        (e) => e.isselected == true 
+        (e) => e.isselected == true
       );
       let body = {
         passcode: this.txt_passcode,
         anganwadiList: assignedAnganwadis,
       };
-      
 
       console.log("setang", assignedAnganwadis);
       console.log("save", body);
 
       this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
         (data2) => {
-          console.log("data2",Object.keys( data2))
-          // this.modalReference.close();
-          // if(data2.status == "supervisorAlreadyExists")
-          // swal.fire(
-      //       "Success",
-      //       "Supervisor Record saved successfully",
-      //       "success"
-      //     );
-      //     this.getallpasscodes();
-      //     this.hideLoading_indicator = true;
-      //     this.reset();
+          console.log("data2", Object.values(data2)[0]);
+          this.modalReference.close();
+          if (Object.values(data2)[0] == "supervisorAlreadyExists")
+            swal.fire(
+              "Supervisor already exists.",
+              "Supervisor Record saved failed",
+              "error"
+            );
+          else {
+            swal.fire(
+              "Success",
+              "Supervisor Record saved successfully",
+              "success"
+            );
+          }
+          this.getallpasscodes();
+          this.hideLoading_indicator = true;
+          this.reset();
         },
         (error) => {},
         () => {}
-       );
-       }
-      // this.hideLoading_indicator = true;
-      // },
-      // (error) => {},
-      // () => {};
-      // );
-   // }
+      );
+    }
+    // this.hideLoading_indicator = true;
+    // },
+    // (error) => {},
+    // () => {};
+    // );
+    // }
   }
 
   update_data() {
@@ -526,8 +528,7 @@ export class SupervisorcontrollerComponent implements OnInit {
     } else if (flag == "update") {
       console.log("@@@@ selected_record", this.selected_record);
       this.txt_passcode = this.selected_record.passcode;
-      this.txt_anganwadiname =
-       this.selected_record.anganwadiList
+      this.txt_anganwadiname = this.selected_record.anganwadiList
         .filter((x) => x.isselected == true)
         .map((x) => x.anganwadiname)
         .join(",")
