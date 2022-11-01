@@ -111,20 +111,20 @@ export class SupervisorcontrollerComponent implements OnInit {
     );
   }
 
-  search(event: any) {
+  search(event:  any) {
     this.values = event.target.value;
-    console.log("values-->", this.values);
+    console.log("values-->",  this.values);;
 
     this.hideLoading_indicator = false;
     this.sup = false;
-    console.log("sup-->", this.sup);
+    console.log("sup-->",  this.sup);;
     this.supervisorcontrollerService
       // .getanganwadinamebysearch(this.txt_anganwadiname)
       .getanganwadinamebysearch(this.values)
       .subscribe(
         (data) => {
-          this.allanganwadilist_bkp = data;
-          console.log("searchdata-->", this.allanganwadilist_bkp.anganwadiname);
+          this.allanganwadilist_bkp  = data;
+          console.log("searchdata-->",  this.allanganwadilist_bkp.anganwadiname);;
           this.hideLoading_indicator = true;
         },
         (error) => {},
@@ -373,15 +373,21 @@ export class SupervisorcontrollerComponent implements OnInit {
 
       this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
         (data2) => {
-          console.log("data2", Object.keys(data2));
-          // Object.keys(data).length <= 0
+          console.log("data2", Object.values(data2)[0]);
           this.modalReference.close();
-          // if(data2.status == "supervisorAlreadyExists")
-          swal.fire(
-            "Success",
-            "Supervisor Record saved successfully",
-            "success"
-          );
+          if (Object.values(data2)[0] == "supervisorAlreadyExists")
+            swal.fire(
+              "Supervisor already exists.",
+              "Supervisor Record saved failed",
+              "error"
+            );
+          else {
+            swal.fire(
+              "Success",
+              "Supervisor Record saved successfully",
+              "success"
+            );
+          }
           this.getallpasscodes();
           this.hideLoading_indicator = true;
           this.reset();
