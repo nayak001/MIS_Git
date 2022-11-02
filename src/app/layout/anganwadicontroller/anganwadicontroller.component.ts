@@ -175,7 +175,8 @@ export class AnganwadicontrollerComponent implements OnInit {
       this.anganwadicode == null ||
       this.anganwadicode == undefined ||
       this.anganwadicode == ""
-    ) {
+    ) 
+    {
       swal.fire("Info", "AwcCode is not valid", "warning");
     } else if (
       this.anganwadiname == null ||
@@ -183,6 +184,16 @@ export class AnganwadicontrollerComponent implements OnInit {
       this.anganwadiname == ""
     ) {
       swal.fire("Info", "Anganwadiname is not valid", "warning");
+    }
+    else if( this.selected_districtname == null ||
+      this.selected_districtname  == undefined ||
+      this.selected_districtname  == ""){
+      swal.fire("Info", "District is not valid", "warning");
+    }
+    else if( this.selected_blockname== null ||
+      this.selected_blockname == undefined ||
+      this.selected_blockname == ""){
+      swal.fire("Info", "Blok is not valid", "warning");
     }
     // else if (
     //   this.passcode == null ||
@@ -200,8 +211,15 @@ export class AnganwadicontrollerComponent implements OnInit {
             if (Object.keys(data1).length > 0) {
               if (data1[0]._id == this.record_id) {
                 let body = {
-                  udisecode: this.anganwadicode,
-                  schoolname: this.anganwadiname,
+                  anganwadicode: this.anganwadicode,
+                anganwadiname: this.anganwadiname,
+                passcode: this.passcode,
+                stateid: this.selected_stateid,
+                state: this.selected_statename,
+               districtid:this.selected_districtid,
+               district: this.selected_districtname,
+                blockid:this.selected_blockid,
+                block:this.selected_blockname,
                   // passcode:this.passcode,
                 };
                 this.angawadicontrollerService
