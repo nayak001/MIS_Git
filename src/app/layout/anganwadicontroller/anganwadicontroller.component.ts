@@ -205,7 +205,7 @@ export class AnganwadicontrollerComponent implements OnInit {
     else {
       this.hideLoading_indicator = false;
       this.angawadicontrollerService
-        .checkanganwadicodeexistance(this.anganwadiname)
+        .checkanganwadicodeexistance(this.anganwadicode)
         .subscribe(
           (data1) => {
             if (Object.keys(data1).length > 0) {
@@ -213,65 +213,71 @@ export class AnganwadicontrollerComponent implements OnInit {
                 let body = {
                   anganwadicode: this.anganwadicode,
                 anganwadiname: this.anganwadiname,
-                passcode: this.passcode,
+                // passcode: this.passcode,
                 stateid: this.selected_stateid,
                 state: this.selected_statename,
                districtid:this.selected_districtid,
                district: this.selected_districtname,
                 blockid:this.selected_blockid,
                 block:this.selected_blockname,
-                  // passcode:this.passcode,
+                 passcode:this.passcode,
                 };
-                this.angawadicontrollerService
-                  .updateusercode(this.record_id, body)
-                  .subscribe(
-                    (data2) => {
-                      this.modalReference.close();
-                      swal.fire(
-                        "Success",
-                        "Anganwadi Record updated successfully",
-                        "success"
-                      );
-                      this.getusercode();
-                      this.hideLoading_indicator = true;
-                      this.reset();
-                    },
-                    (error) => {},
-                    () => {}
-                  );
-              } else {
-                swal.fire("Info", "Anganwadi Code already exists", "warning");
+
+      console.log("body-->",body)
+          console.log("id-->",this.record_id)
+
+                // this.angawadicontrollerService
+                //   .updateusercode(this.record_id, body)
+                  // .subscribe(
+                  //   (data2) => {
+                  //     this.modalReference.close();
+                  //     swal.fire(
+                  //       "Success",
+                  //       "Anganwadi Record updated successfully",
+                  //       "success"
+                  //     );
+                  //     this.getusercode();
+                  //     this.hideLoading_indicator = true;
+                  //     this.reset();
+                  //   },
+                  //   (error) => {},
+                  //   () => {}
+                  // );
               }
-            } else {
-              let body = {
-                anganwadicode: this.anganwadicode,
-                anganwadiname: this.anganwadiname,
-                passcode: this.passcode,
-                stateid: this.selected_stateid,
-                state: this.selected_statename,
-               districtid:this.selected_districtid,
-               district: this.selected_districtname,
-                blockid:this.selected_blockid,
-                block:this.selected_blockname,
-              };
-              this.angawadicontrollerService
-                .updateusercode(this.record_id, body)
-                .subscribe(
-                  (data2) => {
-                    this.modalReference.close();
-                    swal.fire(
-                      "Success",
-                      "Anganwadi Record updated successfully",
-                      "success"
-                    );
-                    this.getusercode();
-                    this.hideLoading_indicator = true;
-                    this.reset();
-                  },
-                  (error) => {},
-                  () => {}
-                );
-            }
+              //  else {
+              //   swal.fire("Info", "Anganwadi Code already exists", "warning");
+              // }
+            } 
+            //else {
+            //   let body = {
+            //     anganwadicode: this.anganwadicode,
+            //     anganwadiname: this.anganwadiname,
+            //     passcode: this.passcode,
+            //     stateid: this.selected_stateid,
+            //     state: this.selected_statename,
+            //    districtid:this.selected_districtid,
+            //    district: this.selected_districtname,
+            //     blockid:this.selected_blockid,
+            //     block:this.selected_blockname,
+            //   };
+            //   this.angawadicontrollerService
+            //     .updateusercode(this.record_id, body)
+            //     .subscribe(
+            //       (data2) => {
+            //         this.modalReference.close();
+            //         swal.fire(
+            //           "Success",
+            //           "Anganwadi Record updated successfully",
+            //           "success"
+            //         );
+            //         this.getusercode();
+            //         this.hideLoading_indicator = true;
+            //         this.reset();
+            //       },
+            //       (error) => {},
+            //       () => {}
+            //     );
+            // }
             this.hideLoading_indicator = true;
           },
           (error) => {},
