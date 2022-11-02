@@ -172,6 +172,23 @@
                   placeholder="Assessment content"
                 ></textarea>
               </div>
+              <div>
+                <span class="bold-font">Instruction:</span>
+                <textarea
+                  [value]=""
+                  [(ngModel)]="instruction_value"
+                  class="area-width"
+                  placeholder="Instruction"
+                ></textarea>
+              </div>
+              <div>
+                <span class="bold-font">image:</span>
+               <input type="file" 
+               [value]=""
+               [(ngModel)]="image_value"
+               class="area-width"
+               />
+              </div>
             </div>
             <div class="modal-footer">
               <button
@@ -202,6 +219,23 @@
                   class="area-width"
                   placeholder="Assessment content"
                 ></textarea>
+              </div>
+              <div>
+                <span class="bold-font">Instruction:</span>
+                <textarea
+                  [value]="instruction_value"
+                  [(ngModel)]="instruction_value"
+                  class="area-width"
+                  placeholder="Instruction"
+                ></textarea>
+              </div>
+              <div>
+                <span class="bold-font">image:</span>
+               <input type="file" 
+               [value]="image_value"
+               [(ngModel)]="image_value"
+               class="area-width"
+               />
               </div>
             </div>
             <div class="modal-footer">
