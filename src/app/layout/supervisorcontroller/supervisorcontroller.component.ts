@@ -97,8 +97,8 @@ export class SupervisorcontrollerComponent implements OnInit {
           // this.allanganwadilist = data;
           this.supervisordata = data;
           this.sup = true;
-          console.log("sup1-->", this.sup);
-          console.log("supervisordata-->", this.supervisordata);
+          // console.log("sup1-->", this.sup);
+          // console.log("supervisordata-->", this.supervisordata);
           this.allanganwadilist_bkp = data;
           this.selected_record = data[0];
           this.record_id = this.selected_record._id;
@@ -116,15 +116,15 @@ export class SupervisorcontrollerComponent implements OnInit {
   record_onselect(row) {
     //this.reset();
     this.selected_record = row;
-    console.log("row", this.selected_record);
+    // console.log("row", this.selected_record);
     this.record_id = row._id;
-    console.log("id-->", this.record_id);
+    // console.log("id-->", this.record_id);
     this.txt_passcode = row.passcode;
-    console.log("onselect passcode-->", this.txt_passcode);
+    // console.log("onselect passcode-->", this.txt_passcode);
     this.txt_anganwadiname = row.anganwadiList.map(
       (item) => item.anganwadiname
     );
-    console.log("onselect anganwadiname-->", this.txt_anganwadiname);
+    // console.log("onselect anganwadiname-->", this.txt_anganwadiname);
 
     // this.anganwadimap = this.supervisordata.filter
     //   (element => element.anganwadiList.includes("anganwadiname")
@@ -156,14 +156,14 @@ export class SupervisorcontrollerComponent implements OnInit {
 
     // }
     // this.anganwadimap =  row.anganwadiList.map((x)=>x.anganwadiname);
-    console.log("onselect anganwadiname-->", this.anganwadimap);
+    // console.log("onselect anganwadiname-->", this.anganwadimap);
 
     // this.txt_anganwadiname = row.anganwadimap
 
     // .filter((x) => x.isselected == true)
     // .map((x) => x.anganwadiname);
 
-    console.log("onselect anganwadiname2-->", this.txt_anganwadiname);
+    // console.log("onselect anganwadiname2-->", this.txt_anganwadiname);
   }
 
   getanganwadiList() {
@@ -191,7 +191,7 @@ export class SupervisorcontrollerComponent implements OnInit {
             this.allanganwadicontrollerlist = data;
             this.allanganwadicontrollerlist_bkp = data;
 
-            console.log("alllanganwadiist-->", this.allanganwadicontrollerlist);
+            // console.log("alllanganwadiist-->", this.allanganwadicontrollerlist);
             this.allanganwadicontrollerlist_bkp = data;
 
             // this.selected_record = data[0];
@@ -230,15 +230,15 @@ export class SupervisorcontrollerComponent implements OnInit {
     // .map((x) => x.anganwadiname)
     // .join(",")
     // .toString();
-    console.log(
-      "anganwadiname-->",
-      // this.allanganwadicontrollerlist.anganwadiname
-      onchange
-    );
-    console.log(
-      "allangnawadicontrollerlist-->",
-      this.allanganwadicontrollerlist
-    );
+    // console.log(
+    //   "anganwadiname-->",
+    //   // this.allanganwadicontrollerlist.anganwadiname
+    //   onchange
+    // );
+    // console.log(
+    //   "allangnawadicontrollerlist-->",
+    //   this.allanganwadicontrollerlist
+    // );
 
     // console.log("clicked", this.allanganwadicontrollerlist.anganwadiname);
     //  this.getcourses()
@@ -264,13 +264,13 @@ export class SupervisorcontrollerComponent implements OnInit {
       ...this.select_anganwadiname,
       ...this.updateallanganwadicontrollerlist,
     ].filter((x) => x.supervisorAssigned == true);
-    console.log("addAnganwadi2-->", this.addAnganwadi);
+    // console.log("addAnganwadi2-->", this.addAnganwadi);
 
-    console.log("anganwadipush-->", this.select_anganwadiname);
-    console.log("addanganwadi-->", [
-      ...this.select_anganwadiname,
-      ...this.updateallanganwadicontrollerlist,
-    ]);
+    // console.log("anganwadipush-->", this.select_anganwadiname);
+    // console.log("addanganwadi-->", [
+    //   ...this.select_anganwadiname,
+    //   ...this.updateallanganwadicontrollerlist,
+    // ]);
 
     this.unsetAnganwadiListt = this.select_anganwadiname.filter(
       (x) => x.supervisorAssigned == false
@@ -309,12 +309,12 @@ export class SupervisorcontrollerComponent implements OnInit {
         districtid: this.selected_districtid,
       };
 
-      console.log("setang", assignedAnganwadis);
-      console.log("save", body);
+      // console.log("setang", assignedAnganwadis);
+      // console.log("save", body);
 
       this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
         (data2) => {
-          console.log("data2", Object.values(data2)[0]);
+          // console.log("data2", Object.values(data2)[0]);
           this.modalReference.close();
           if (Object.values(data2)[0] == "supervisorAlreadyExists")
             swal.fire(
@@ -363,7 +363,7 @@ export class SupervisorcontrollerComponent implements OnInit {
       const selectedAnganwadiList = this.select_anganwadiname.filter(
         (x) => x.supervisorAssigned == true
       );
-      console.log("selectedAnganwadiList-->", selectedAnganwadiList);
+      // console.log("selectedAnganwadiList-->", selectedAnganwadiList);
 
       let body = {
         passcode: this.txt_passcode,
@@ -377,13 +377,13 @@ export class SupervisorcontrollerComponent implements OnInit {
         districtid: this.selected_record.districtid,
         blockid: this.selected_record.blockid,
       };
-      console.log("update1-->", body);
-      console.log("update2-->", this.unsetAnganwadiList);
+      // console.log("update1-->", body);
+      // console.log("update2-->", this.unsetAnganwadiList);
 
       this.supervisorcontrollerService.updatesupervisordetails(body).subscribe(
         (data2) => {
-          console.log("update-->", body);
-          console.log("updatedata-->", data2);
+          // console.log("update-->", body);
+          // console.log("updatedata-->", data2);
           if (this.unsetAnganwadiListt.length == 0) {
             this.modalReference.close();
             swal.fire(
@@ -455,7 +455,7 @@ export class SupervisorcontrollerComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_stateid = selectedOptionValue;
-    console.log("stateid-->", this.selected_stateid);
+    // console.log("stateid-->", this.selected_stateid);
     this.selected_statename = selectedElementText;
   }
   selected_district_onchange(event: Event) {
@@ -464,10 +464,10 @@ export class SupervisorcontrollerComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_districtid = selectedOptionValue;
-    console.log("selected_districtid", this.selected_districtid);
+    // console.log("selected_districtid", this.selected_districtid);
     this.selected_districtname = selectedElementText;
 
-    console.log("selected_districtname", this.selected_districtname);
+    // console.log("selected_districtname", this.selected_districtname);
 
     this.getblocksofdistricts();
   }
@@ -478,10 +478,10 @@ export class SupervisorcontrollerComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_blockid = selectedOptionValue;
-    console.log("selected_blockid", this.selected_blockid);
+    // console.log("selected_blockid", this.selected_blockid);
     this.selected_blockname = selectedElementText;
 
-    console.log("selected_blockname", this.selected_blockname);
+    // console.log("selected_blockname", this.selected_blockname);
     this.getanganwadiList();
   }
 
@@ -499,7 +499,7 @@ export class SupervisorcontrollerComponent implements OnInit {
       this.selected_districtid = "";
     
     } else if (flag == "update") {
-      console.log("@@@@ selected_record", this.selected_record);
+      // console.log("@@@@ selected_record", this.selected_record);
       this.txt_passcode = this.selected_record.passcode;
       this.select_anganwadiname = this.selected_record.anganwadiList.filter(
         (x) => x.supervisorAssigned == true
@@ -507,7 +507,7 @@ export class SupervisorcontrollerComponent implements OnInit {
 
       this.anganwadiList = this.selected_record.anganwadiList;
 
-      console.log("selectanganwadiname-->", this.select_anganwadiname);
+      // console.log("selectanganwadiname-->", this.select_anganwadiname);
 
       this.supervisorcontrollerService
         .getallunassignedanganwadis(
@@ -527,10 +527,10 @@ export class SupervisorcontrollerComponent implements OnInit {
               this.no_record_selected = true;
             } else {
               this.updateallanganwadicontrollerlist = data;
-              console.log(
-                "updateanganwadi-->",
-                this.updateallanganwadicontrollerlist
-              );
+              // console.log(
+              //   "updateanganwadi-->",
+              //   this.updateallanganwadicontrollerlist
+              // );
             }
           },
 

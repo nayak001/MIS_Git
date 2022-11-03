@@ -38,7 +38,7 @@
             <div class="row">
               <!-- SEARCH -->
               <!-- <div class="col col-xl-6 col-lg-6"> -->
-                <!-- <div class="row">
+              <!-- <div class="row">
                   <div class="col col-xl-4 col-lg-4">
 
                   </div>
@@ -52,11 +52,11 @@
                     />
                   </div>
                 </div> -->
-                
+
               <!-- </div>   -->
 
               <!-- <div class=""   *ngIf="this.sup == false"> -->
-                <!-- <h2>
+              <!-- <h2>
                   {{ allanganwadilist_bkp.anganwadiname.length }} Record(s)
                 </h2> -->
               <!-- <table>
@@ -75,7 +75,7 @@
                   </td>
                 </tr>
               </table> -->
-            <!-- </div> -->
+              <!-- </div> -->
 
               <!-- SEARCH -->
 
@@ -102,25 +102,36 @@
                       (click)="record_onselect(row)"
                     >
                       <td style="width: 10%">{{ i + 1 }}</td>
-                      <td style="width: 80%">
-                        <div class="row">{{ row.passcode }}</div>
-                        <div class="row">
+                      <td style="width: 60%">
+                        {{ row.passcode }}
+                      </td>
+                      <!-- <div class="row">
                           ({{ row.anganwadiList.length }}) Anganwadis found
-                        </div>
-                        <div
+                        </div> -->
+                      <table
+                        *ngFor="
+                          let anganwadi of row.anganwadiList;
+                          let j = index
+                        "
+                      >
+                        <tr *ngIf="anganwadi.supervisorAssigned == true">
+                          <td style="width: 60%">
+                            {{ anganwadi.anganwadiname }}
+                          </td>
+                        </tr>
+                      </table>
+                      <!-- <div
                           *ngFor="
                             let anganwadi of row.anganwadiList;
                             let j = index
                           "
                         >
-                          <!-- isselected = true -->
-                          <!-- {{j+1}}. {{anganwadi.anganwadiname}} -->
+                         
 
                           <div *ngIf="anganwadi.supervisorAssigned == true">
                             Selected:- {{ j + 1 }}.{{ anganwadi.anganwadiname }}
                           </div>
-                        </div>
-                      </td>
+                        </div> -->
                     </tr>
                   </table>
                 </div>
@@ -190,7 +201,6 @@
           value="{{ selected_stateid }}"
           (change)="selected_state_onchange($event)"
           class="form-control"
-
         >
           <option></option>
           <option value="20">Odisha</option>
@@ -207,9 +217,8 @@
           value="{{ selected_districtid }}"
           (change)="selected_district_onchange($event)"
           class="form-control"
-
         >
-                  <!-- [(ngModel)]="selected_districtname" -->
+          <!-- [(ngModel)]="selected_districtname" -->
           <option value=""></option>
           <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
             {{ dist.districtname | titlecase }}
@@ -306,14 +315,11 @@
         <div class="row">
           <div class="col-35">
             <div
-              *ngFor="
-                let item of this.select_anganwadiname;
-                let i = index
-              "
+              *ngFor="let item of this.select_anganwadiname; let i = index"
               class=""
             >
               <label>{{ item.anganwadiname }}</label>
-              <label>{{ item.supervisorAssigned }}</label>
+              <!-- <label>{{ item.supervisorAssigned }}</label> -->
               <input
                 type="checkbox"
                 [checked]="item.supervisorAssigned"
@@ -339,7 +345,7 @@
               class=""
             >
               <label>{{ item.anganwadiname }}</label>
-           
+
               <input
                 type="checkbox"
                 [checked]="item.supervisorAssigned"
