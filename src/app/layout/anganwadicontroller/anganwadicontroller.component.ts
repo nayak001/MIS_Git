@@ -39,7 +39,7 @@ export class AnganwadicontrollerComponent implements OnInit {
   hideLoading_indicator2: boolean;
 
   selected_record: any = {};
-  record_id: string = "";
+  record_id: any;
   modalReference: any;
   closeResult: string;
   // hideLoading_indicator: boolean = true;
@@ -75,6 +75,7 @@ export class AnganwadicontrollerComponent implements OnInit {
           this.allanganwadicontrollerlist_bkp = data;
           this.selected_record = data[0];
           this.record_id = this.selected_record._id;
+          console.log(" this.record_id-->", this.record_id )
           this.record_onselect(this.selected_record);
           this.no_record_selected = false;
         }
@@ -85,10 +86,14 @@ export class AnganwadicontrollerComponent implements OnInit {
     );
   }
 
+  
+
   record_onselect(row) {
     //this.reset();
     this.selected_record = row;
+    console.log("selected record-->",this.selected_record)
     this.record_id = row._id;
+    console.log("idselect-->",row._id)
     this.anganwadicode = row.anganwadicode;
     this.anganwadiname = row.anganwadiname;
     this.passcode =row.passcode;
@@ -169,6 +174,10 @@ export class AnganwadicontrollerComponent implements OnInit {
         );
     }
   }
+
+
+  select_id:any;
+  
   
   updateusercode() {
     if (
@@ -204,16 +213,17 @@ export class AnganwadicontrollerComponent implements OnInit {
     // } 
     else {
       this.hideLoading_indicator = false;
-      this.angawadicontrollerService
-        .checkanganwadicodeexistance(this.anganwadicode)
-        .subscribe(
-          (data1) => {
-            if (Object.keys(data1).length > 0) {
-              if (data1[0]._id == this.record_id) {
+      // this.angawadicontrollerService
+      //   .checkanganwadicodeexistance(this.anganwadicode)
+
+        // .subscribe(
+          // (data1) => {
+            // if (Object.keys(data1).length > 0) {
+              // if (data1[0]._id == this.selected_record._id) {
                 let body = {
                   anganwadicode: this.anganwadicode,
                 anganwadiname: this.anganwadiname,
-                // passcode: this.passcode,
+               
                 stateid: this.selected_stateid,
                 state: this.selected_statename,
                districtid:this.selected_districtid,
@@ -223,31 +233,34 @@ export class AnganwadicontrollerComponent implements OnInit {
                  passcode:this.passcode,
                 };
 
-      console.log("body-->",body)
-          console.log("id-->",this.record_id)
+                this.select_id = this.selected_record._id;
+                console.log("this.select_id-->",   this.select_id)
+
+                 console.log("body-->",body)
+       
 
                 // this.angawadicontrollerService
-                //   .updateusercode(this.record_id, body)
-                  // .subscribe(
-                  //   (data2) => {
-                  //     this.modalReference.close();
-                  //     swal.fire(
-                  //       "Success",
-                  //       "Anganwadi Record updated successfully",
-                  //       "success"
-                  //     );
-                  //     this.getusercode();
-                  //     this.hideLoading_indicator = true;
-                  //     this.reset();
-                  //   },
-                  //   (error) => {},
-                  //   () => {}
-                  // );
-              }
+                //   .updateusercode(this.select_id, body)
+                //   .subscribe(
+                //     (data2) => {
+                //       console.log("data2-->",data2)
+                //       this.modalReference.close();
+                //       swal.fire(
+                //         "Success",
+                //         "Anganwadi Record updated successfully",
+                //         "success"
+                //       );
+                //       this.getusercode();
+                //       this.hideLoading_indicator = true;
+                //       this.reset();
+                //     }
+          
+                //  );
+           //  }
               //  else {
               //   swal.fire("Info", "Anganwadi Code already exists", "warning");
               // }
-            } 
+           /// } 
             //else {
             //   let body = {
             //     anganwadicode: this.anganwadicode,
@@ -273,16 +286,16 @@ export class AnganwadicontrollerComponent implements OnInit {
             //         this.getusercode();
             //         this.hideLoading_indicator = true;
             //         this.reset();
-            //       },
+              //  },
             //       (error) => {},
             //       () => {}
-            //     );
+              //  );
             // }
             this.hideLoading_indicator = true;
-          },
-          (error) => {},
-          () => {}
-        );
+         // },
+          // (error) => {},
+          // () => {}
+       // );
     }
   }
 

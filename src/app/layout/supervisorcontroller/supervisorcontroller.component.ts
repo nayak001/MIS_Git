@@ -112,26 +112,6 @@ export class SupervisorcontrollerComponent implements OnInit {
     );
   }
 
-  search(event: any) {
-    this.values = event.target.value;
-    console.log("values-->", this.values);
-
-    this.hideLoading_indicator = false;
-    this.sup = false;
-    console.log("sup-->", this.sup);
-    this.supervisorcontrollerService
-      // .getanganwadinamebysearch(this.txt_anganwadiname)
-      .getanganwadinamebysearch(this.values)
-      .subscribe(
-        (data) => {
-          this.allanganwadilist_bkp = data;
-          console.log("searchdata-->", this.allanganwadilist_bkp.anganwadiname);
-          this.hideLoading_indicator = true;
-        },
-        (error) => {},
-        () => {}
-      );
-  }
 
   record_onselect(row) {
     //this.reset();
@@ -187,14 +167,7 @@ export class SupervisorcontrollerComponent implements OnInit {
   }
 
   getanganwadiList() {
-    // this.allanganwadilist = [
-    //   { id: 1, anganwadiname: "Anganwadi 1", isselected: false },
-    //   { id: 2, anganwadiname: "Anganwadi 2", isselected: false },
-    //   { id: 3, anganwadiname: "Anganwadi 3", isselected: false },
-    //   { id: 4, anganwadiname: "Anganwadi 4", isselected: false },
-    //   { id: 5, anganwadiname: "Anganwadi 5", isselected: false },
-    //   { id: 6, anganwadiname: "Anganwadi 6", isselected: false },
-    // ];
+
     this.hideLoading_indicator = false;
     this.supervisorcontrollerService
       .getallunassignedanganwadis(
@@ -233,38 +206,18 @@ export class SupervisorcontrollerComponent implements OnInit {
       );
   }
 
-  // search(term: string) {
-  //   const serachfield = this.supervisordata.map((x) => x.anganwadiList);
-  //   console.log("seARchField-->", serachfield);
-  //   const filt = serachfield.forEach((element) => element.anganwadiname);
-  //   console.log("filt-->", filt);
-  //   if (!term) {
-  //     this.supervisordata = this.allanganwadilist_bkp;
-  //     console.log("search udise1-->", this.allanganwadilist_bkp);
-  //   } else {
-  //     this.allanganwadilist_bkp = this.supervisordata
-  //       .filter((x) => x.anganwadiList)
-  //       .map((x) => x.anganwadiname);
-
-  //     // .filter((element) =>
-  //     //   element.anganwadiname
-
-  //     // .trim()
-  //     // .toLowerCase()
-  //     // .includes(term.trim().toLowerCase())
-  //     // );
-  //   }
-  //   // console.log("search udise-->",this.allanganwadilist_bkp)
-  // }
-
+ 
   reset() {
     this.txt_passcode = "";
-    this.txt_anganwadiname = "";
-    //  this.allanganwadicontrollerlist = "";
+    // this.txt_anganwadiname = "";
+     this.allanganwadicontrollerlist = "";
+   
 
-    this.selected_districtname = "";
-    this.selected_blockname = "";
-    this.selected_statename = "";
+   
+    this.selected_stateid = "";
+    this.selected_blockid = "";
+    this.selected_districtid = "";
+ 
     // this.selected_statename = "";
     //  this.state = "";
   }
@@ -295,6 +248,8 @@ export class SupervisorcontrollerComponent implements OnInit {
   // }
 
   unsetAnganwadiListt: any;
+  addAnganwadi: any;
+
   onchange_update() {
     // console.log("clicked-->",this.selected_record)
     // this.allanganwadicontrollerlist = this.selected_record.anganwadiList.filter(
@@ -305,52 +260,27 @@ export class SupervisorcontrollerComponent implements OnInit {
     // .toString();
     // .push( this.anganwadi_push)
 
+    this.addAnganwadi = [
+      ...this.select_anganwadiname,
+      ...this.updateallanganwadicontrollerlist,
+    ].filter((x) => x.supervisorAssigned == true);
+    console.log("addAnganwadi2-->", this.addAnganwadi);
+
     console.log("anganwadipush-->", this.select_anganwadiname);
+    console.log("addanganwadi-->", [
+      ...this.select_anganwadiname,
+      ...this.updateallanganwadicontrollerlist,
+    ]);
 
     this.unsetAnganwadiListt = this.select_anganwadiname.filter(
       (x) => x.supervisorAssigned == false
     );
 
-    // console.log("unselect anganwadi-->", setAnganwadiList);
-
-    console.log("ang update2-->", this.updateallanganwadicontrollerlist);
-
-    const selected = this.allanganwadicontrollerlist.filter(
-      (x) => x.supervisorAssigned == false
-    );
-
-    console.log("selected-->", selected);
-
-    // const unselected = this.allanganwadicontrollerlist.filter(
-    //   (x) => x.supervisorAssigned == true
-    // );
-    // console.log("unselected-->",unselected)
-
-    // if (
-    //   this.select_anganwadiname.map((x) => x.supervisorAssigned == true) &&
-    //   this.updateallanganwadicontrollerlist.map((x) => x.supervisorAssigned == true)
-    // ) {
-    //   this.selected_anganwadiname = [
-    //     ...this.select_anganwadiname,
-    //     ...this.updateallanganwadicontrollerlist,
-    //   ];
-    //   console.log("selected_anganwadiname-->", this.selected_anganwadiname);
-    // } else if (
-    //   this.select_anganwadiname.map((x) => x.supervisorAssigned == false)
-    //   //  ||
-    //   // this.updateallanganwadicontrollerlist.map((x) => !x.isselected )
-    // ) {
-    //   console.log(
-    //     " this.unselected_anganwadiname",
-    //     this.selected_anganwadiname
-    //  );
-    // }
+   
+ 
+ 
   }
 
-  unselect() {
-    console.log("allangawadilist", this.anganwadiList);
-    console.log();
-  }
 
   save_data() {
     if (
@@ -367,22 +297,7 @@ export class SupervisorcontrollerComponent implements OnInit {
       swal.fire("Info", "Anganwadi List is not valid", "warning");
     } else {
       this.hideLoading_indicator = false;
-      // this.supervisorcontrollerService
-
-      //   .checkanganwadinameexistance(
-
-      //     this.allanganwadicontrollerlist.anganwadiname
-
-      //   )
-
-      // .subscribe(
-      // (data1) => {
-      //   console.log("data1-->",data1)
-      //   if (Object.keys(data1).length > 0) {
-      //     console.log("Object-->",Object)
-      //     console.log("Object.keys-->",Object.keys)
-      //     swal.fire("Info", "Anganwadi name already exists", "warning");
-      //   } else {
+   
       const assignedAnganwadis = this.allanganwadicontrollerlist.filter(
         (e) => e.supervisorAssigned == true
       );
@@ -453,7 +368,7 @@ export class SupervisorcontrollerComponent implements OnInit {
       let body = {
         passcode: this.txt_passcode,
         //  anganwadiList: this.allanganwadicontrollerlist,
-        anganwadiList: selectedAnganwadiList,
+        anganwadiList: this.addAnganwadi,
         // unsetAnganwadiList: this.selected_record.anganwadiList.filter(
         //   (x) => !x.isselected
         // ),
@@ -491,11 +406,6 @@ export class SupervisorcontrollerComponent implements OnInit {
             });
           }
 
-         
-
-          // this.supervisorcontrollerService.updateByAnganwadiCode(unselectBody).subscribe(
-
-          // )
           this.getallpasscodes();
           // this.getanganwadiList();
           this.hideLoading_indicator = true;
@@ -584,6 +494,10 @@ export class SupervisorcontrollerComponent implements OnInit {
     if (flag == "save") {
       this.txt_passcode = "";
       this.txt_anganwadiname = "";
+      this.selected_stateid = "";
+      this.selected_blockid = "";
+      this.selected_districtid = "";
+    
     } else if (flag == "update") {
       console.log("@@@@ selected_record", this.selected_record);
       this.txt_passcode = this.selected_record.passcode;

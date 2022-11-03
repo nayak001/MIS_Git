@@ -15,7 +15,7 @@ export class AnganwadicontrollerService {
 	}
 	
 	 checkanganwadicodeexistance(usercode){				
-		return this.http.get(baseUrl+'checkanganwadiexistancece/'+usercode,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
+		return this.http.get(baseUrl+'checkanganwadiexistance/'+usercode,{headers: new HttpHeaders().set('Content-Type', 'application/json')});			
 	}
 
 	addusercode(body){
