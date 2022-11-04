@@ -159,22 +159,25 @@ export class EceactivitiesComponent implements OnInit {
     // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.theme_select_option_list = [
-      { value: "bodyparts", text: "Body Parts" },
+      { value: "meAndMyFamily", text: "meAndMyFamily" },
       {
-        value: "animalsbirds&theirsounds",
-        text: "Animals, Birds & their Sounds",
+        value: "myHome",
+        text: "myHome",
       },
       {
-        value: "flowersfruits&vegetables",
-        text: "Flowers, Fruits & Vegetables",
+        value: "occupations",
+        text: "occupations",
       },
-      { value: "house&accessories", text: "House & Accessories" },
-      { value: "transportation", text: "Transportation" },
-      { value: "occupation", text: "Occupation" },
-      { value: "serviceprovidingcenter", text: "Service Providing Center" },
-      { value: "insects", text: "Insects" },
-      { value: "environment", text: "Environment" },
-      { value: "seasons", text: "Seasons" },
+      { value: "animalsAndBirds", text: "animalsAndBirds" },
+      {
+        value: "plants,trees,flowers,fruits",
+        text: "plants,trees,flowers,fruits",
+      },
+      { value: "seasons", text: "seasons" },
+      { value: "transportation", text: "transportation" },
+      { value: "myPhysicalEnvironment", text: "myPhysicalEnvironment" },
+      { value: "mySocialEnvironment", text: "mySocialEnvironment" },
+      { value: "myHealthAndHygiene", text: "myHealthAndHygiene" },
     ];
     this.skill_select_option_list = [
       { value: "physical", text: "Physical" },
@@ -207,22 +210,22 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_class = selectedOptionValue;
 
     this.theme_select_option_list = [
-      { value: "bodyparts", text: "Body Parts" },
+      { value: "meAndMyFamily", text: "Me and my family" },
+      { value: "myHome", text: "My home" },
       {
-        value: "animalsbirds&theirsounds",
-        text: "Animals, Birds & their Sounds",
+        value: "occupations",
+        text: "Occupations",
       },
+      { value: "animalsAndBirds", text: "animals and birds" },
       {
-        value: "flowersfruits&vegetables",
-        text: "Flowers, Fruits & Vegetables",
+        value: "plants,trees,flowers,fruits",
+        text: "plants, trees, flowers, fruits",
       },
-      { value: "house&accessories", text: "House & Accessories" },
-      { value: "transportation", text: "Transportation" },
-      { value: "occupation", text: "Occupation" },
-      { value: "serviceprovidingcenter", text: "Service Providing Center" },
-      { value: "insects", text: "Insects" },
-      { value: "environment", text: "Environment" },
-      { value: "seasons", text: "Seasons" },
+      { value: "seasons", text: "seasons" },
+      { value: "transportation", text: "transportation" },
+      { value: "myPhysicalEnvironment", text: "my physical environment" },
+      { value: "mySocialEnvironment", text: "my social environment" },
+      { value: "myHealthAndHygiene", text: "my health and hygiene" },
     ];
     ////////////////////////////////////////////////Skilll__start/////////////////////////////////////////////////////
     this.skill_select_option_list = [
@@ -230,7 +233,6 @@ export class EceactivitiesComponent implements OnInit {
       { value: "memory", text: "Memory" },
       { value: "social&emotional", text: "Social & Emotional" },
       { value: "language", text: "Language" },
- 
     ];
     ////////////////////////////////////////////////Skilll_End/////////////////////////////////////////////////////
 
@@ -647,8 +649,6 @@ export class EceactivitiesComponent implements OnInit {
 
       let preferedlanguage = preflanguage;
 
-      console.log("check", skill);
-
       this.eceactivitiesService
         .getmasteractivitiydetails(
           preferedlanguage,
@@ -720,6 +720,8 @@ export class EceactivitiesComponent implements OnInit {
             ],
             extraresources: [],
           };
+          //console.log("save body", body);
+
           this.save_record(body);
           this.modalReference.close();
         } else {
@@ -883,6 +885,8 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   async save_record(body) {
+    //console.log("saveAct", body);
+
     this.eceactivitiesService.createmasteractivities(body).subscribe(
       (data) => {
         swal.fire("Successful", "Data saved successfully", "success");
