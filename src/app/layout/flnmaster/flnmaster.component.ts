@@ -131,7 +131,7 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_assesment = selectedOptionValue;
-    console.log("assessment", this.selected_assesment);
+   // console.log("assessment", this.selected_assesment);
 
     if (
       this.selected_assesment == "baseline" ||
@@ -159,9 +159,9 @@ export class FlnMasterComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text.toLowerCase();
-    console.log("elementtext-->",selectElementText)
+   // console.log("elementtext-->",selectElementText)
     this.selected_program = selectElementText ;
-    console.log("selected program-->",this.selected_program)
+   // console.log("selected program-->",this.selected_program)
     
     this.checkProgram();
     this.load_record();
@@ -171,7 +171,7 @@ export class FlnMasterComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     this.selected_class = selectedOptionValue;
-    console.log("selected class-->",this.selected_class)
+   // console.log("selected class-->",this.selected_class)
     this.load_record();
   }
 
@@ -180,16 +180,16 @@ export class FlnMasterComponent implements OnInit {
       
         this.isPGE = true;
         this.isECE = false;
-        console.log("isPge2-->", this.isPGE)
-        console.log("isece2-->", this.isECE)
+        // console.log("isPge2-->", this.isPGE)
+        // console.log("isece2-->", this.isECE)
 
       
       // this.selected_subject = "na";
     } else{
       this.isPGE = false;
       this.isECE = true;
-      console.log("isPge1-->", this.isPGE)
-      console.log("isece1-->", this.isECE)
+      // console.log("isPge1-->", this.isPGE)
+      // console.log("isece1-->", this.isECE)
     }
     
    
@@ -203,7 +203,7 @@ export class FlnMasterComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
     this.load_record();
-    console.log("subj", this.selected_subject);
+    // console.log("subj", this.selected_subject);
   }
 
   onselect_change_month(event) {
@@ -236,7 +236,7 @@ export class FlnMasterComponent implements OnInit {
   delete_ques_id: any;
   edit_ques_id: any;
   open(content, obj, index, flag) {
-    console.log("--> obj: ", obj, "    index: ", index, "    flag: ", flag);
+    // console.log("--> obj: ", obj, "    index: ", index, "    flag: ", flag);
     // update
     if (flag == "add") {
       this.add_q_qid = "";
@@ -292,7 +292,7 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_activity_class = selectedOptionValue;
-    console.log("selected class-->",this.selected_activity_class)
+   // console.log("selected class-->",this.selected_activity_class)
     this.load_record();
     this.load_activity_record();
     this.checkProgram2();
@@ -305,7 +305,7 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_activity_program = selectedOptionValue;
-    console.log("selected program-->",this.selected_activity_program)
+   // console.log("selected program-->",this.selected_activity_program)
     this.load_record();
     this.load_activity_record();
     this.checkProgram2();
@@ -316,16 +316,16 @@ export class FlnMasterComponent implements OnInit {
     
       this.isPGE = true;
       this.isECE = false;
-      console.log("isPge2-->", this.isPGE)
-      console.log("isece2-->", this.isECE)
+      // console.log("isPge2-->", this.isPGE)
+      // console.log("isece2-->", this.isECE)
 
     
     // this.selected_subject = "na";
   } else{
     this.isPGE = false;
     this.isECE = true;
-    console.log("isPge1-->", this.isPGE)
-    console.log("isece1-->", this.isECE)
+    // console.log("isPge1-->", this.isPGE)
+    // console.log("isece1-->", this.isECE)
   }
   
  
@@ -363,7 +363,7 @@ export class FlnMasterComponent implements OnInit {
   selected_program:any = "";
   alldata: any;
   async load_record() {
-    console.log("program-->",  this. selected_program,)
+   // console.log("program-->",  this. selected_program,)
     this.FlnService.getallflnmasterdata(
       this.selected_assesment,
       this.selected_preflanguage,
@@ -377,7 +377,7 @@ export class FlnMasterComponent implements OnInit {
       (data) => {
         if (Object.keys(data).length > 0) {
           this.alldata = data;
-          console.log("alldata-->",this.alldata)
+         // console.log("alldata-->",this.alldata)
           this.dataid = data[0]._id;
           this.hideProgressbar = false;
           this.save_operation = "update";
@@ -400,7 +400,7 @@ export class FlnMasterComponent implements OnInit {
       (data) => {
         if (Object.keys(data).length > 0) {
           this.activity_doc = data;
-          console.log("upload doc-->",this.activity_doc )
+        //  console.log("upload doc-->",this.activity_doc )
         } else {
           this.activity_doc = [];
         }
@@ -463,7 +463,7 @@ export class FlnMasterComponent implements OnInit {
     var s3_filename = s3_filepath
       ? s3_filepath.substring(s3_filepath.lastIndexOf("/") + 1)
       : "";
-    console.log("Obj: ", selected_obj, "   s3_filename: ", s3_filename);
+  //  console.log("Obj: ", selected_obj, "   s3_filename: ", s3_filename);
     // ------------------------------------------------------------------------
 
     // Delete from db
@@ -497,7 +497,7 @@ export class FlnMasterComponent implements OnInit {
         subject: this.selected_subject,
         program:this.selected_program,
       };
-      console.log("bodyfln", body);
+     // console.log("bodyfln", body);
 
       this.FlnService.createflnmasterdata(body).subscribe(
         (data) => {

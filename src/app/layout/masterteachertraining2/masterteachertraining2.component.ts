@@ -272,6 +272,7 @@ onselect_type_select(event){
     this.selected_topicid = selectedOptionValue;
     console.log("topicid-->",this.selected_topicid)
     this.selected_topicname = selectElementText;
+    console.log("selected_topicname-->", this.selected_topicname)
     this.load_record();
 
     this.reset_contents();
