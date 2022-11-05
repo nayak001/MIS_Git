@@ -170,7 +170,7 @@ export class Masterteachertraining2Component implements OnInit {
   }
 
   load_allmodules_list(language,usertype) {
-    this.hideLoading_indicator = false;
+    // this.hideLoading_indicator = false;
     this.masterteachertraining2Service
       .getalltrainingmodules(language,usertype)
       .subscribe(
