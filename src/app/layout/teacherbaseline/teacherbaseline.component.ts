@@ -167,7 +167,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_usertype = selectedOptionValue;
-    this.selected_usertype == "aww"  ?  this.aww = true : this.aww = false
+    this.selected_usertype == "anganwadi"  ?  this.aww = true : this.aww = false
     console.log("usertype", this.selected_usertype)
     // this.load_record();
     
