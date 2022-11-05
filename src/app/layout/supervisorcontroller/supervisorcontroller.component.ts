@@ -478,10 +478,10 @@ export class SupervisorcontrollerComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectedElementText = selectedOptions[selectedIndex].text;
     this.selected_blockid = selectedOptionValue;
-    // console.log("selected_blockid", this.selected_blockid);
+    //  console.log("selected_blockid", this.selected_blockid);
     this.selected_blockname = selectedElementText;
 
-    // console.log("selected_blockname", this.selected_blockname);
+     console.log("selected_blockname", this.selected_blockname);
     this.getanganwadiList();
   }
 
