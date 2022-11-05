@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import swal from "sweetalert2";
 import { SupervisorcontrollerService } from "./supervisorcontroller.service";
 import { event } from "jquery";
+import { Subscriber } from "rxjs";
 @Component({
   selector: "app-supervisorcontroller",
   templateUrl: "./supervisorcontroller.component.html",
@@ -18,11 +19,16 @@ export class SupervisorcontrollerComponent implements OnInit {
   public allanganwadilist_bkp: any = [];
   public allanganwadilist: any = [];
   public supervisordata: any = [];
+  public updateallanganwadicontrollerlist: any = [];
   // _anganwadiselect: anganwadiselect;
 
   flag: string = "";
   no_record_selected: boolean = false;
   assignedAnganwadis: "";
+  selected_anganwadiname: any = [];
+  unselected_anganwadiname: any = [];
+  select_anganwadiname: any = [];
+  unselect_anganwadiname: "";
   txt_passcode: string = "";
   txt_anganwadiname: string = "";
   unsetAnganwadiList: string = "";
@@ -106,30 +112,6 @@ export class SupervisorcontrollerComponent implements OnInit {
     );
   }
 
-  search(event:any) {
-    this.values = event.target.value;
-    console.log("values-->",this.values)
-
-    this.hideLoading_indicator = false;
-    this.sup = false;
-    console.log("sup-->",this.sup)
-    this.supervisorcontrollerService
-      // .getanganwadinamebysearch(this.txt_anganwadiname)
-    .getanganwadinamebysearch(this.values
-      )
-      .subscribe(
-
-        (data) => {
-          this.allanganwadilist_bkp= data;
-          console.log("searchdata-->",this.allanganwadilist_bkp.anganwadiname)
-          this.hideLoading_indicator = true;
-
-        },
-        (error) => {},
-        () => {}
-      );
-
-  }
 
   record_onselect(row) {
     //this.reset();
@@ -185,14 +167,7 @@ export class SupervisorcontrollerComponent implements OnInit {
   }
 
   getanganwadiList() {
-    // this.allanganwadilist = [
-    //   { id: 1, anganwadiname: "Anganwadi 1", isselected: false },
-    //   { id: 2, anganwadiname: "Anganwadi 2", isselected: false },
-    //   { id: 3, anganwadiname: "Anganwadi 3", isselected: false },
-    //   { id: 4, anganwadiname: "Anganwadi 4", isselected: false },
-    //   { id: 5, anganwadiname: "Anganwadi 5", isselected: false },
-    //   { id: 6, anganwadiname: "Anganwadi 6", isselected: false },
-    // ];
+
     this.hideLoading_indicator = false;
     this.supervisorcontrollerService
       .getallunassignedanganwadis(
@@ -231,38 +206,18 @@ export class SupervisorcontrollerComponent implements OnInit {
       );
   }
 
-  // search(term: string) {
-  //   const serachfield = this.supervisordata.map((x) => x.anganwadiList);
-  //   console.log("seARchField-->", serachfield);
-  //   const filt = serachfield.forEach((element) => element.anganwadiname);
-  //   console.log("filt-->", filt);
-  //   if (!term) {
-  //     this.supervisordata = this.allanganwadilist_bkp;
-  //     console.log("search udise1-->", this.allanganwadilist_bkp);
-  //   } else {
-  //     this.allanganwadilist_bkp = this.supervisordata
-  //       .filter((x) => x.anganwadiList)
-  //       .map((x) => x.anganwadiname);
-
-  //     // .filter((element) =>
-  //     //   element.anganwadiname
-
-  //     // .trim()
-  //     // .toLowerCase()
-  //     // .includes(term.trim().toLowerCase())
-  //     // );
-  //   }
-  //   // console.log("search udise-->",this.allanganwadilist_bkp)
-  // }
-
+ 
   reset() {
     this.txt_passcode = "";
-    this.txt_anganwadiname = "";
-    //  this.allanganwadicontrollerlist = "";
+    // this.txt_anganwadiname = "";
+     this.allanganwadicontrollerlist = "";
+   
 
-    this.selected_districtname = "";
-    this.selected_blockname = "";
-    this.selected_statename = "";
+   
+    this.selected_stateid = "";
+    this.selected_blockid = "";
+    this.selected_districtid = "";
+ 
     // this.selected_statename = "";
     //  this.state = "";
   }
@@ -270,7 +225,7 @@ export class SupervisorcontrollerComponent implements OnInit {
   onchange() {
     // this.allanganwadicontrollerlist.anganwadiname =
     const onchange = this.allanganwadicontrollerlist.filter(
-      (x) => x.isselected == true
+      (x) => x.supervisorAssigned == false
     );
     // .map((x) => x.anganwadiname)
     // .join(",")
@@ -291,45 +246,41 @@ export class SupervisorcontrollerComponent implements OnInit {
   // onpasscodechange() {
   //   console.log("input", this.txt_passcode);
   // }
+
+  unsetAnganwadiListt: any;
+  addAnganwadi: any;
+
   onchange_update() {
     // console.log("clicked-->",this.selected_record)
-    this.allanganwadicontrollerlist = this.selected_record.anganwadiList.filter(
-      (x) => x.isselected == true
-    );
+    // this.allanganwadicontrollerlist = this.selected_record.anganwadiList.filter(
+    //   (x) => x.isselected == true
+    // );
     // .map((x) => x.anganwadiname)
     // .join(",")
     // .toString();
     // .push( this.anganwadi_push)
 
-    console.log("anganwadipush-->", this.selected_record.anganwadiList);
+    this.addAnganwadi = [
+      ...this.select_anganwadiname,
+      ...this.updateallanganwadicontrollerlist,
+    ].filter((x) => x.supervisorAssigned == true);
+    console.log("addAnganwadi2-->", this.addAnganwadi);
 
-    console.log("anganwadiname2-->", this.selected_record.anganwadiList);
+    console.log("anganwadipush-->", this.select_anganwadiname);
+    console.log("addanganwadi-->", [
+      ...this.select_anganwadiname,
+      ...this.updateallanganwadicontrollerlist,
+    ]);
 
-    console.log(
-      "anganwadiname3-->",
-      this.selected_record.anganwadiList.filter((x) => !x.isselected)
+    this.unsetAnganwadiListt = this.select_anganwadiname.filter(
+      (x) => x.supervisorAssigned == false
     );
+
+   
+ 
+ 
   }
 
-  onchange_update2() {
-    // console.log("clicked-->",this.selected_record)
-    this.allanganwadicontrollerlist = this.selected_record.anganwadiList.filter(
-      (x) =>  !x.isselected
-    );
-    // .map((x) => x.anganwadiname)
-    // .join(",")
-    // .toString();
-    // .push( this.anganwadi_push)
-
-    console.log("anganwadipush-->", this.selected_record.anganwadiList);
-
-    console.log("anganwadiname2-->", this.selected_record.anganwadiList);
-
-    console.log(
-      "anganwadiname3-->",
-      this.selected_record.anganwadiList.filter((x) => !x.isselected)
-    );
-  }
 
   save_data() {
     if (
@@ -346,55 +297,52 @@ export class SupervisorcontrollerComponent implements OnInit {
       swal.fire("Info", "Anganwadi List is not valid", "warning");
     } else {
       this.hideLoading_indicator = false;
-      // this.supervisorcontrollerService
-
-      //   .checkanganwadinameexistance(
-
-      //     this.allanganwadicontrollerlist.anganwadiname
-
-      //   )
-
-      // .subscribe(
-      // (data1) => {
-      //   console.log("data1-->",data1)
-      //   if (Object.keys(data1).length > 0) {
-      //     console.log("Object-->",Object)
-      //     console.log("Object.keys-->",Object.keys)
-      //     swal.fire("Info", "Anganwadi name already exists", "warning");
-      //   } else {
+   
       const assignedAnganwadis = this.allanganwadicontrollerlist.filter(
-        (e) => e.isselected == true 
+        (e) => e.supervisorAssigned == true
       );
       let body = {
         passcode: this.txt_passcode,
         anganwadiList: assignedAnganwadis,
+        blockid: this.selected_blockid,
+        stateid: this.selected_stateid,
+        districtid: this.selected_districtid,
       };
 
       console.log("setang", assignedAnganwadis);
       console.log("save", body);
 
-      // this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
-      //   (data2) => {
-      //     this.modalReference.close();
-      //     swal.fire(
-      //       "Success",
-      //       "Supervisor Record saved successfully",
-      //       "success"
-      //     );
-      //     this.getallpasscodes();
-      //     this.hideLoading_indicator = true;
-      //     this.reset();
-      //   },
-      //   (error) => {},
-      //   () => {}
-      // );
-      // //  }
-      // this.hideLoading_indicator = true;
-      // },
-      // (error) => {},
-      // () => {};
-      // );
+      this.supervisorcontrollerService.savesupervisordetails(body).subscribe(
+        (data2) => {
+          console.log("data2", Object.values(data2)[0]);
+          this.modalReference.close();
+          if (Object.values(data2)[0] == "supervisorAlreadyExists")
+            swal.fire(
+              "Supervisor already exists.",
+              "Supervisor Record saved failed",
+              "error"
+            );
+          else {
+            swal.fire(
+              "Success",
+              "Supervisor Record saved successfully",
+              "success"
+            );
+          }
+          this.getallpasscodes();
+          this.hideLoading_indicator = true;
+          this.reset();
+        },
+        (error) => {},
+        () => {}
+      );
     }
+    // this.hideLoading_indicator = true;
+    // },
+    // (error) => {},
+    // () => {};
+    // );
+    // }
   }
 
   update_data() {
@@ -405,42 +353,67 @@ export class SupervisorcontrollerComponent implements OnInit {
     ) {
       swal.fire("Info", "Passcode is not valid", "warning");
     } else if (
-      this.txt_anganwadiname == null ||
-      this.txt_anganwadiname == undefined ||
-      this.txt_anganwadiname == ""
+      this.select_anganwadiname == null ||
+      this.select_anganwadiname == undefined ||
+      this.select_anganwadiname == ""
     ) {
       swal.fire("Info", "Anganwaduname is not valid", "warning");
     } else {
       this.hideLoading_indicator = false;
+      const selectedAnganwadiList = this.select_anganwadiname.filter(
+        (x) => x.supervisorAssigned == true
+      );
+      console.log("selectedAnganwadiList-->", selectedAnganwadiList);
 
       let body = {
         passcode: this.txt_passcode,
-        anganwadiList: this.allanganwadicontrollerlist,
-        // anganwadiList:  this.selected_record.anganwadiList .filter((x) => x.isselected == true),
-        unsetAnganwadiList: this.selected_record.anganwadiList.filter(
-          (x) => !x.isselected
-        ),
+        //  anganwadiList: this.allanganwadicontrollerlist,
+        anganwadiList: this.addAnganwadi,
+        // unsetAnganwadiList: this.selected_record.anganwadiList.filter(
+        //   (x) => !x.isselected
+        // ),
+        // unsetAnganwadiList: this.updateallanganwadicontrollerlist,
+        stateid: this.selected_record.stateid,
+        districtid: this.selected_record.districtid,
+        blockid: this.selected_record.blockid,
       };
       console.log("update1-->", body);
+      console.log("update2-->", this.unsetAnganwadiList);
 
-      // this.supervisorcontrollerService.updatesupervisordetails(body).subscribe(
-      //   (data2) => {
-      //     console.log("update-->", body);
-      //     console.log("updatedata-->", data2);
-      //     this.modalReference.close();
-      //     swal.fire(
-      //       "Success",
-      //       "Supervisor Code updated successfully",
-      //       "success"
-      //     );
-      //     this.getallpasscodes();
-      //     // this.getanganwadiList();
-      //     this.hideLoading_indicator = true;
-      //     this.reset();
-      //   },
-      //   (error) => {},
-      //   () => {}
-      // );
+      this.supervisorcontrollerService.updatesupervisordetails(body).subscribe(
+        (data2) => {
+          console.log("update-->", body);
+          console.log("updatedata-->", data2);
+          if (this.unsetAnganwadiListt.length == 0) {
+            this.modalReference.close();
+            swal.fire(
+              "Success",
+              "Supervisor Code updated successfully",
+              "success"
+            );
+          } else {
+            this.unsetAnganwadiListt.forEach((e) => {
+              this.supervisorcontrollerService
+                .updateByAnganwadiCode(e)
+                .subscribe((data3) => {
+                  this.modalReference.close();
+                  swal.fire(
+                    "Success",
+                    "Supervisor Code updated successfully",
+                    "success"
+                  );
+                });
+            });
+          }
+
+          this.getallpasscodes();
+          // this.getanganwadiList();
+          this.hideLoading_indicator = true;
+          this.reset();
+        },
+        (error) => {},
+        () => {}
+      );
 
       this.hideLoading_indicator = true;
 
@@ -512,6 +485,7 @@ export class SupervisorcontrollerComponent implements OnInit {
     this.getanganwadiList();
   }
 
+  anganwadiList: any;
   // ----------------------------- Modal -------------------------------
   open(content, flag) {
     this.reset();
@@ -520,23 +494,54 @@ export class SupervisorcontrollerComponent implements OnInit {
     if (flag == "save") {
       this.txt_passcode = "";
       this.txt_anganwadiname = "";
+      this.selected_stateid = "";
+      this.selected_blockid = "";
+      this.selected_districtid = "";
+    
     } else if (flag == "update") {
       console.log("@@@@ selected_record", this.selected_record);
       this.txt_passcode = this.selected_record.passcode;
-      this.txt_anganwadiname =
-       this.selected_record.anganwadiList
-        .filter((x) => x.isselected == true)
-        .map((x) => x.anganwadiname)
-        .join(",")
-        .toString();
-      console.log("updateanganwadiname-->", this.txt_anganwadiname);
-      this.unsetAnganwadiList = this.selected_record.anganwadiList
-        .filter((x) => !x.isselected)
-        .map((x) => x.anganwadiname)
-        .join(",")
-        .toString();
+      this.select_anganwadiname = this.selected_record.anganwadiList.filter(
+        (x) => x.supervisorAssigned == true
+      );
 
-      console.log("updateunselectanganwadiname-->", this.unsetAnganwadiList);
+      this.anganwadiList = this.selected_record.anganwadiList;
+
+      console.log("selectanganwadiname-->", this.select_anganwadiname);
+
+      this.supervisorcontrollerService
+        .getallunassignedanganwadis(
+          this.selected_record.stateid,
+          this.selected_record.districtid,
+          this.selected_record.blockid
+        )
+        .subscribe(
+          (data) => {
+            if (
+              data == undefined ||
+              data == null ||
+              Object.keys(data).length <= 0
+            ) {
+              this.selected_record = {};
+              this.record_id = "";
+              this.no_record_selected = true;
+            } else {
+              this.updateallanganwadicontrollerlist = data;
+              console.log(
+                "updateanganwadi-->",
+                this.updateallanganwadicontrollerlist
+              );
+            }
+          },
+
+          (error) => {},
+          () => {}
+        );
+      // this.selected_record. anganwadiList
+      //   .filter((x) => !x.isselected)
+      //   .map((x) => x.anganwadiname)
+      //   .join(",")
+      //   .toString();
     }
 
     this.modalReference = this.modalService.open(content);
