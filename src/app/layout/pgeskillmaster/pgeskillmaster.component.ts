@@ -49,7 +49,7 @@ export class PgskillmasterComponent implements OnInit {
       : "/pgeactivities";
 
     this.selected_program = this.qp_program;
-    this.selected_preferedlanguage = "";
+    this.selected_preferedlanguage = "od";
     this.selected_subject = "";
     this.selected_class = "";
 
@@ -145,6 +145,8 @@ export class PgskillmasterComponent implements OnInit {
         )
         .subscribe(
           (data) => {
+            console.log("skilldata", data);
+
             this.skillset_list = data;
             this.hideLoading_indicator = true;
             this.hide_records_panel = false;
