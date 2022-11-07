@@ -21,7 +21,7 @@ export class Masterteachertraining2Component implements OnInit {
   // video
   isSelected: boolean = true;
   selected_preflanguage: string = "od";
-  selected_usertype:string="";
+  selected_usertype: string = "";
   disable_button: boolean;
   video_file_name: string = "";
   divs: number[] = [];
@@ -69,7 +69,7 @@ export class Masterteachertraining2Component implements OnInit {
 
   public allmodules_list: any;
   public allsubmodules_list: any;
-  selected_type:any;
+  selected_type: any;
   selected_moduleid: string = "";
   selected_modulename: string = "";
   selected_submoduleid: string = "";
@@ -118,7 +118,10 @@ export class Masterteachertraining2Component implements OnInit {
 
   ngOnInit() {
     this.reset_contents();
-    this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+    this.load_allmodules_list(
+      this.selected_preflanguage,
+      this.selected_usertype
+    );
     this.Editor.defaultConfig = {
       toolbar: {
         items: [
@@ -154,8 +157,11 @@ export class Masterteachertraining2Component implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_preflanguage = selectedOptionValue;
-    console.log("language-->",this.selected_preflanguage )
-    this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+    console.log("language-->", this.selected_preflanguage);
+    this.load_allmodules_list(
+      this.selected_preflanguage,
+      this.selected_usertype
+    );
     this.allsubmodules_list = [];
     this.alltopic_list = [];
     this.data = [];
@@ -169,14 +175,14 @@ export class Masterteachertraining2Component implements OnInit {
     this.quiz_value = [];
   }
 
-  load_allmodules_list(language,usertype) {
+  load_allmodules_list(language, usertype) {
     this.hideLoading_indicator = false;
     this.masterteachertraining2Service
-      .getalltrainingmodules(language,usertype)
+      .getalltrainingmodules(language, usertype)
       .subscribe(
         (data) => {
           this.allmodules_list = data;
-          console.log("modulelist-->", this.allmodules_list)
+          console.log("modulelist-->", this.allmodules_list);
           this.hideLoading_indicator = true;
         },
         (error) => {},
@@ -188,7 +194,11 @@ export class Masterteachertraining2Component implements OnInit {
     if (submoduleid != undefined && submoduleid != null && submoduleid != "") {
       this.hideLoading_indicator = false;
       this.masterteachertraining2Service
-        .getalltrainingtopics(this.selected_usertype,submoduleid, this.selected_preflanguage)
+        .getalltrainingtopics(
+          this.selected_usertype,
+          submoduleid,
+          this.selected_preflanguage
+        )
         .subscribe(
           (data) => {
             this.alltopic_list = data;
@@ -202,17 +212,21 @@ export class Masterteachertraining2Component implements OnInit {
     }
   }
   load_allsubmodules_list(moduleid) {
-    console.log("languagesub-->",this.selected_preflanguage)
+    console.log("languagesub-->", this.selected_preflanguage);
     if (moduleid != undefined && moduleid != null && moduleid != "") {
       this.hideLoading_indicator = false;
       this.masterteachertraining2Service
-   
-        .getalltrainingsubmodules(this.selected_usertype,moduleid,this.selected_preflanguage)
-       
+
+        .getalltrainingsubmodules(
+          this.selected_usertype,
+          moduleid,
+          this.selected_preflanguage
+        )
+
         .subscribe(
           (data) => {
             this.allsubmodules_list = data;
-            console.log("submodulelist-->",  this.allsubmodules_list)
+            console.log("submodulelist-->", this.allsubmodules_list);
             this.hideLoading_indicator = true;
           },
           (error) => {},
@@ -223,18 +237,21 @@ export class Masterteachertraining2Component implements OnInit {
     }
   }
 
-onselect_type_select(event){
-  const selectedOptions = event.target["options"];
+  onselect_type_select(event) {
+    const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_usertype = selectedOptionValue;
-    console.log("type-->",  this.selected_usertype )
-    this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+    console.log("type-->", this.selected_usertype);
+    this.load_allmodules_list(
+      this.selected_preflanguage,
+      this.selected_usertype
+    );
     // this.allsubmodules_list = [];
     // this.alltopic_list = [];
     // this.data = [];
-}
+  }
 
   onselect_modules_select(event) {
     const selectedOptions = event.target["options"];
@@ -242,7 +259,7 @@ onselect_type_select(event){
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_moduleid = selectedOptionValue;
-    console.log("moduleid-->", this.selected_moduleid)
+    console.log("moduleid-->", this.selected_moduleid);
     this.selected_modulename = selectElementText;
     this.reset_contents();
     this.load_allsubmodules_list(this.selected_moduleid);
@@ -256,7 +273,7 @@ onselect_type_select(event){
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_submoduleid = selectedOptionValue;
-    console.log("submoduleid-->",this.selected_submoduleid)
+    console.log("submoduleid-->", this.selected_submoduleid);
     this.selected_submodulename = selectElementText;
     // this.load_record();
 
@@ -270,7 +287,7 @@ onselect_type_select(event){
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_topicid = selectedOptionValue;
-    console.log("topicid-->",this.selected_topicid)
+    console.log("topicid-->", this.selected_topicid);
     this.selected_topicname = selectElementText;
     this.load_record();
 
@@ -324,6 +341,7 @@ onselect_type_select(event){
       this.masterteachertraining2Service
         .getalltrainingcontents(
           this.selected_usertype,
+
           this.selected_moduleid,
           this.selected_submoduleid,
           this.selected_topicid,
@@ -686,7 +704,7 @@ onselect_type_select(event){
   savecontent() {
     if (this.save_operation == "save" && this.contents.length > 0) {
       const body = {
-        usertype:this.selected_usertype,
+        usertype: this.selected_usertype,
         moduleid: this.selected_moduleid,
         modulename: this.selected_modulename,
         submoduleid: this.selected_submoduleid,
@@ -708,7 +726,7 @@ onselect_type_select(event){
       this.disable_button = false;
     } else if (this.save_operation == "update" && this.allcontent.length > 0) {
       const body = {
-        usertype:this.selected_usertype,
+        usertype: this.selected_usertype,
         moduleid: this.selected_moduleid,
         modulename: this.selected_modulename,
         submoduleid: this.selected_submoduleid,
@@ -886,7 +904,7 @@ onselect_type_select(event){
   }
   async save_btn_click(selected_tab) {
     const body = {
-      usertype:this.selected_usertype,
+      usertype: this.selected_usertype,
       moduleid: this.selected_moduleid,
       modulename: this.selected_modulename,
       submoduleid: this.selected_submoduleid,

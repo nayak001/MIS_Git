@@ -159,9 +159,7 @@ export class EceactivitiesComponent implements OnInit {
     // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.theme_select_option_list = [
-      { value: "meAndMyFamily ", 
-      text: "Me and my family"
-      },
+      { value: "meAndMyFamily ", text: "Me and my family" },
       {
         value: "myHome",
         text: "My home",
@@ -171,12 +169,15 @@ export class EceactivitiesComponent implements OnInit {
         text: "Occupations",
       },
       { value: "animalsAndBirds", text: "Animals and birds" },
-      { value: "plants,trees,flowers,fruits", text: "Plants, trees, flowers, fruits" },
+      {
+        value: "plants,trees,flowers,fruits",
+        text: "Plants, trees, flowers, fruits",
+      },
       { value: "transportation ", text: "Transportation " },
       { value: "seasons", text: "Seasons" },
       { value: "myPhysicalEnvironment", text: "My physical environment" },
       { value: "mySocialEnvironment ", text: "My social environment " },
-      { value: "myHealthAndHygiene", text: "My health and hygiene" },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     this.skill_select_option_list = [
       { value: "physical", text: "Physical" },
@@ -209,9 +210,8 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_class = selectedOptionValue;
 
     this.theme_select_option_list = [
-      { value: "meAndMyFamily", 
-      text: "Me and my family"
-      },
+      { value: "meAndMyFamily", text: "Me and my family" },
+      { value: "animalsAndBirds", text: "animals and birds" },
       {
         value: "myHome",
         text: "My home",
@@ -221,12 +221,15 @@ export class EceactivitiesComponent implements OnInit {
         text: "Occupations",
       },
       { value: "animalsAndBirds", text: "Animals and birds" },
-      { value: "plants,trees,flowers,fruits", text: "Plants, trees, flowers, fruits" },
+      {
+        value: "plants,trees,flowers,fruits",
+        text: "Plants, trees, flowers, fruits",
+      },
       { value: "transportation ", text: "Transportation " },
       { value: "seasons", text: "Seasons" },
       { value: "myPhysicalEnvironment", text: "My physical environment" },
       { value: "mySocialEnvironment ", text: "My social environment " },
-      { value: "myHealthAndHygiene", text: "My health and hygiene" },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     ////////////////////////////////////////////////Skilll__start/////////////////////////////////////////////////////
     this.skill_select_option_list = [
@@ -234,7 +237,6 @@ export class EceactivitiesComponent implements OnInit {
       { value: "memory", text: "Memory" },
       { value: "social&emotional", text: "Social & Emotional" },
       { value: "language", text: "Language" },
- 
     ];
     ////////////////////////////////////////////////Skilll_End/////////////////////////////////////////////////////
 
@@ -651,8 +653,6 @@ export class EceactivitiesComponent implements OnInit {
 
       let preferedlanguage = preflanguage;
 
-      console.log("check", skill);
-
       this.eceactivitiesService
         .getmasteractivitiydetails(
           preferedlanguage,
@@ -724,6 +724,8 @@ export class EceactivitiesComponent implements OnInit {
             ],
             extraresources: [],
           };
+          //console.log("save body", body);
+
           this.save_record(body);
           this.modalReference.close();
         } else {
@@ -887,6 +889,8 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   async save_record(body) {
+    //console.log("saveAct", body);
+
     this.eceactivitiesService.createmasteractivities(body).subscribe(
       (data) => {
         swal.fire("Successful", "Data saved successfully", "success");

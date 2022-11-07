@@ -36,10 +36,7 @@ export class FlnMasterComponent implements OnInit {
   // quiz - add
   add_q_index: string = "";
   add_q_qid: string = "";
-  add_q_iid: string = "";
   add_q_question: string = "";
-  add_q_instructions: string = "";
-
   add_q_optionA: string = "";
   add_q_optionB: string = "";
   add_q_optionC: string = "";
@@ -58,8 +55,6 @@ export class FlnMasterComponent implements OnInit {
   edit_q_index: string = "";
   edit_q_qid: string = "";
   edit_q_question: string = "";
-  edit_q_eid: string = "";
-  edit_q_instructions: string = "";
   edit_q_optionA: string = "";
   edit_q_optionB: string = "";
   edit_q_optionC: string = "";
@@ -241,8 +236,6 @@ export class FlnMasterComponent implements OnInit {
     if (flag == "add") {
       this.add_q_qid = "";
       this.add_q_question = "";
-      this.add_q_iid = "";
-      this.add_q_instructions = "";
       this.add_q_optionA = "";
       this.add_q_optionB = "";
       this.add_q_optionC = "";
@@ -252,8 +245,6 @@ export class FlnMasterComponent implements OnInit {
       this.edit_q_index = index;
       this.edit_q_qid = obj.qid;
       this.edit_q_question = obj.assessmentquestion;
-      this.edit_q_eid = obj.eid;
-      this.edit_q_instructions = obj.instructions;
       this.edit_q_optionA = obj.A;
       this.edit_q_optionB = obj.B;
       this.edit_q_optionC = obj.C;
@@ -402,13 +393,12 @@ export class FlnMasterComponent implements OnInit {
   }
 
   addquiz12() {
-    if (this.add_q_question == "" || this.add_q_instructions == "") {
+    if (this.add_q_question == "") {
       swal.fire("info", "Please add the question!!!", "warning");
     } else {
       let obj = {
         qid: new Date().getTime(),
         question: this.add_q_question,
-        instructions: this.add_q_instructions,
         // "A": (this.add_q_optionA == '')?'':this.add_q_optionA,
         // "B": (this.add_q_optionB == '')?'':this.add_q_optionB,
         // "C": (this.add_q_optionC == '')?'':this.add_q_optionC,
@@ -416,17 +406,14 @@ export class FlnMasterComponent implements OnInit {
         // "answer": this.selected_qans_val_add
       };
       this.quiz_value = this.add_q_question;
-      this.quiz_value = this.add_q_instructions;
       this.modalReference.close();
     }
   }
   updatequiz() {
     const body = {
       assessmentquestion: this.edit_q_question,
-      instructions: this.edit_q_instructions,
     };
     this.quiz_value = this.edit_q_question;
-    this.quiz_value = this.edit_q_instructions;
     this.modalReference.close();
     this.FlnService.updateflnmasterdata(this.edit_ques_id, body).subscribe(
       (data) => {
@@ -480,17 +467,12 @@ export class FlnMasterComponent implements OnInit {
   }
 
   async addquiz() {
-    if (this.add_q_question == "" || this.add_q_instructions == "") {
-      swal.fire(
-        "info",
-        "Please add the Question and Instruction!!!",
-        "warning"
-      );
+    if (this.add_q_question == "") {
+      swal.fire("info", "Please add the question!!!", "warning");
     } else {
       const body = {
         qid: new Date().getTime(),
         assessmentquestion: this.add_q_question,
-        instructions: this.add_q_instructions,
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         class: this.selected_class,

@@ -198,16 +198,8 @@
                         <div class="q_container">
                           <div class="row">
                             <div class="col col-xl-12 col-lg-12 q_div">
-                              <div>{{ i + 1 }}.</div>
-                              <div>
-                                <span>Question: </span>
-                                {{ assessmentquestion.assessmentquestion }}
-                              </div>
-
-                              <div>
-                                <span>Instruction: </span>
-                                {{ assessmentquestion.instructions }}
-                              </div>
+                              {{ i + 1 }}.
+                              {{ assessmentquestion.assessmentquestion }}
                             </div>
                           </div>
                         </div>
@@ -262,15 +254,6 @@
                   placeholder="Question"
                 />
               </div>
-              <div>
-                <span class="bold-font">Instruction:</span>
-                <textarea
-                  [value]=""
-                  [(ngModel)]="add_q_instructions"
-                  class="area-width"
-                  placeholder="Instruction"
-                ></textarea>
-              </div>
             </div>
             <div class="modal-footer">
               <button
@@ -296,15 +279,6 @@
                   class="form-control input-underline input-lg"
                   placeholder="Question"
                 />
-              </div>
-              <div>
-                <span class="bold-font">Instruction:</span>
-                <textarea
-                  [value]=""
-                  [(ngModel)]="edit_q_instructions"
-                  class="area-width"
-                  placeholder="Instruction"
-                ></textarea>
               </div>
             </div>
             <div class="modal-footer">

@@ -38,7 +38,7 @@
             <div class="row">
               <!-- SEARCH -->
               <!-- <div class="col col-xl-6 col-lg-6"> -->
-                <!-- <div class="row">
+              <!-- <div class="row">
                   <div class="col col-xl-4 col-lg-4">
 
                   </div>
@@ -52,11 +52,11 @@
                     />
                   </div>
                 </div> -->
-                
+
               <!-- </div>   -->
 
               <!-- <div class=""   *ngIf="this.sup == false"> -->
-                <!-- <h2>
+              <!-- <h2>
                   {{ allanganwadilist_bkp.anganwadiname.length }} Record(s)
                 </h2> -->
               <!-- <table>
@@ -75,7 +75,7 @@
                   </td>
                 </tr>
               </table> -->
-            <!-- </div> -->
+              <!-- </div> -->
 
               <!-- SEARCH -->
 
@@ -190,7 +190,6 @@
           value="{{ selected_stateid }}"
           (change)="selected_state_onchange($event)"
           class="form-control"
-
         >
           <option></option>
           <option value="20">Odisha</option>
@@ -207,9 +206,8 @@
           value="{{ selected_districtid }}"
           (change)="selected_district_onchange($event)"
           class="form-control"
-
         >
-                  <!-- [(ngModel)]="selected_districtname" -->
+          <!-- [(ngModel)]="selected_districtname" -->
           <option value=""></option>
           <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
             {{ dist.districtname | titlecase }}
@@ -306,10 +304,7 @@
         <div class="row">
           <div class="col-35">
             <div
-              *ngFor="
-                let item of this.select_anganwadiname;
-                let i = index
-              "
+              *ngFor="let item of this.select_anganwadiname; let i = index"
               class=""
             >
               <label>{{ item.anganwadiname }}</label>
@@ -339,7 +334,7 @@
               class=""
             >
               <label>{{ item.anganwadiname }}</label>
-           
+
               <input
                 type="checkbox"
                 [checked]="item.supervisorAssigned"
