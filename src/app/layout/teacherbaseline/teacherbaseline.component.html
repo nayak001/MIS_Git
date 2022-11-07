@@ -42,7 +42,7 @@
                 <option value="">Select</option>
 
                 <option value="fellow">Fellow</option>
-                <option value="anganwadi">AWW</option>
+                <option value="anganwadi">anganwadi</option>
               </select>
             </div>
 
@@ -54,22 +54,22 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-                <option value="pedagogy" *ngIf="aww==false" >
+                <option value="pedagogy" *ngIf="anganwadi==false" >
                    Pedagogy
                 </option>
-                <option value="odia" *ngIf="aww==false">Odia</option>
-                <option value="math" *ngIf="aww==false">Math</option>
-                <option value="english" *ngIf="aww==false">English</option>
-                <option value="technology" *ngIf="aww==false">Technology</option>
+                <option value="odia" *ngIf="anganwadi==false">Odia</option>
+                <option value="math" *ngIf="anganwadi==false">Math</option>
+                <option value="english" *ngIf="anganwadi==false">English</option>
+                <option value="technology" *ngIf="anganwadi==false">Technology</option>
 
 
-                <option value="childDevelopment" *ngIf="aww==true"  >Child development</option>
-                <option value="preschoolEducation" *ngIf="aww==true">Preschool education</option>
-                <option value="developmentallyAppropriateActivities" *ngIf="aww==true">
+                <option value="childDevelopment" *ngIf="anganwadi==true"  >Child development</option>
+                <option value="preschoolEducation" *ngIf="anganwadi==true">Preschool education</option>
+                <option value="developmentallyAppropriateActivities" *ngIf="anganwadi==true">
                   Developmentally appropriate activities
                 </option>
-                <option value="communicationAndEngagement" *ngIf="aww==true">Communication and engagement</option>
-                <option value="fln" *ngIf="aww==true">FLN</option>
+                <option value="communicationAndEngagement" *ngIf="anganwadi==true">Communication and engagement</option>
+                <option value="fln" *ngIf="anganwadi==true">FLN</option>
               </select>
             </div>
             <div class="col col-xl-3 col-lg-3">

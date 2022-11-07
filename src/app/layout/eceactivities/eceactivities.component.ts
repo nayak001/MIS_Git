@@ -159,25 +159,25 @@ export class EceactivitiesComponent implements OnInit {
     // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.theme_select_option_list = [
-      { value: "meAndMyFamily", text: "meAndMyFamily" },
+      { value: "meAndMyFamily ", text: "Me and my family" },
       {
         value: "myHome",
-        text: "myHome",
+        text: "My home",
       },
       {
         value: "occupations",
-        text: "occupations",
+        text: "Occupations",
       },
-      { value: "animalsAndBirds", text: "animalsAndBirds" },
+      { value: "animalsAndBirds", text: "Animals and birds" },
       {
         value: "plants,trees,flowers,fruits",
-        text: "plants,trees,flowers,fruits",
+        text: "Plants, trees, flowers, fruits",
       },
-      { value: "seasons", text: "seasons" },
-      { value: "transportation", text: "transportation" },
-      { value: "myPhysicalEnvironment", text: "myPhysicalEnvironment" },
-      { value: "mySocialEnvironment", text: "mySocialEnvironment" },
-      { value: "myHealthAndHygiene", text: "myHealthAndHygiene" },
+      { value: "transportation ", text: "Transportation " },
+      { value: "seasons", text: "Seasons" },
+      { value: "myPhysicalEnvironment", text: "My physical environment" },
+      { value: "mySocialEnvironment ", text: "My social environment " },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     this.skill_select_option_list = [
       { value: "physical", text: "Physical" },
@@ -211,21 +211,25 @@ export class EceactivitiesComponent implements OnInit {
 
     this.theme_select_option_list = [
       { value: "meAndMyFamily", text: "Me and my family" },
-      { value: "myHome", text: "My home" },
+      { value: "animalsAndBirds", text: "animals and birds" },
+      {
+        value: "myHome",
+        text: "My home",
+      },
       {
         value: "occupations",
         text: "Occupations",
       },
-      { value: "animalsAndBirds", text: "animals and birds" },
+      { value: "animalsAndBirds", text: "Animals and birds" },
       {
         value: "plants,trees,flowers,fruits",
-        text: "plants, trees, flowers, fruits",
+        text: "Plants, trees, flowers, fruits",
       },
-      { value: "seasons", text: "seasons" },
-      { value: "transportation", text: "transportation" },
-      { value: "myPhysicalEnvironment", text: "my physical environment" },
-      { value: "mySocialEnvironment", text: "my social environment" },
-      { value: "myHealthAndHygiene", text: "my health and hygiene" },
+      { value: "transportation ", text: "Transportation " },
+      { value: "seasons", text: "Seasons" },
+      { value: "myPhysicalEnvironment", text: "My physical environment" },
+      { value: "mySocialEnvironment ", text: "My social environment " },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     ////////////////////////////////////////////////Skilll__start/////////////////////////////////////////////////////
     this.skill_select_option_list = [
