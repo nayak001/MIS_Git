@@ -36,7 +36,10 @@ export class FlnMasterComponent implements OnInit {
   // quiz - add
   add_q_index: string = "";
   add_q_qid: string = "";
+  add_q_iid: string = "";
   add_q_question: string = "";
+  add_q_instructions: string = "";
+
   add_q_optionA: string = "";
   add_q_optionB: string = "";
   add_q_optionC: string = "";
@@ -55,6 +58,8 @@ export class FlnMasterComponent implements OnInit {
   edit_q_index: string = "";
   edit_q_qid: string = "";
   edit_q_question: string = "";
+  edit_q_eid: string = "";
+  edit_q_instructions: string = "";
   edit_q_optionA: string = "";
   edit_q_optionB: string = "";
   edit_q_optionC: string = "";
@@ -159,41 +164,36 @@ export class FlnMasterComponent implements OnInit {
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text.toLowerCase();
-    console.log("elementtext-->",selectElementText)
-    this.selected_program = selectElementText ;
-    console.log("selected program-->",this.selected_program)
-    
+    console.log("elementtext-->", selectElementText);
+    this.selected_program = selectElementText;
+    console.log("selected program-->", this.selected_program);
+
     this.checkProgram();
     this.load_record();
   }
-  onselect_change_class2(event){
+  onselect_change_class2(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     this.selected_class = selectedOptionValue;
-    console.log("selected class-->",this.selected_class)
+    console.log("selected class-->", this.selected_class);
     this.load_record();
   }
 
   checkProgram() {
-      if (this.selected_program == "pge") {
-      
-        this.isPGE = true;
-        this.isECE = false;
-        console.log("isPge2-->", this.isPGE)
-        console.log("isece2-->", this.isECE)
+    if (this.selected_program == "pge") {
+      this.isPGE = true;
+      this.isECE = false;
+      console.log("isPge2-->", this.isPGE);
+      console.log("isece2-->", this.isECE);
 
-      
       // this.selected_subject = "na";
-    } else{
+    } else {
       this.isPGE = false;
       this.isECE = true;
-      console.log("isPge1-->", this.isPGE)
-      console.log("isece1-->", this.isECE)
+      console.log("isPge1-->", this.isPGE);
+      console.log("isece1-->", this.isECE);
     }
-    
-   
-      
   }
 
   onselect_assesment_subject(event) {
@@ -241,6 +241,8 @@ export class FlnMasterComponent implements OnInit {
     if (flag == "add") {
       this.add_q_qid = "";
       this.add_q_question = "";
+      this.add_q_iid = "";
+      this.add_q_instructions = "";
       this.add_q_optionA = "";
       this.add_q_optionB = "";
       this.add_q_optionC = "";
@@ -250,6 +252,8 @@ export class FlnMasterComponent implements OnInit {
       this.edit_q_index = index;
       this.edit_q_qid = obj.qid;
       this.edit_q_question = obj.assessmentquestion;
+      this.edit_q_eid = obj.eid;
+      this.edit_q_instructions = obj.instructions;
       this.edit_q_optionA = obj.A;
       this.edit_q_optionB = obj.B;
       this.edit_q_optionC = obj.C;
@@ -292,49 +296,39 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_activity_class = selectedOptionValue;
-    console.log("selected class-->",this.selected_activity_class)
+    console.log("selected class-->", this.selected_activity_class);
     this.load_record();
     this.load_activity_record();
     this.checkProgram2();
-    
   }
-  selected_activity_program:any;
-  activity_program_select_onchange(event){
+  selected_activity_program: any;
+  activity_program_select_onchange(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_activity_program = selectedOptionValue;
-    console.log("selected program-->",this.selected_activity_program)
+    console.log("selected program-->", this.selected_activity_program);
     this.load_record();
     this.load_activity_record();
     this.checkProgram2();
   }
 
   checkProgram2() {
-    if ( this.selected_activity_program == "pge") {
-    
+    if (this.selected_activity_program == "pge") {
       this.isPGE = true;
       this.isECE = false;
-      console.log("isPge2-->", this.isPGE)
-      console.log("isece2-->", this.isECE)
+      console.log("isPge2-->", this.isPGE);
+      console.log("isece2-->", this.isECE);
 
-    
-    // this.selected_subject = "na";
-  } else{
-    this.isPGE = false;
-    this.isECE = true;
-    console.log("isPge1-->", this.isPGE)
-    console.log("isece1-->", this.isECE)
+      // this.selected_subject = "na";
+    } else {
+      this.isPGE = false;
+      this.isECE = true;
+      console.log("isPge1-->", this.isPGE);
+      console.log("isece1-->", this.isECE);
+    }
   }
-  
- 
-    
-}
-
-
-
-
 
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target["options"];
@@ -357,27 +351,24 @@ export class FlnMasterComponent implements OnInit {
   }
   dataid: any;
   activity_doc: any = [];
-  selected_class: any ;
+  selected_class: any;
   selected_month: any = "month0";
   selected_subject: any = "";
-  selected_program:any = "";
+  selected_program: any = "";
   alldata: any;
   async load_record() {
-    console.log("program-->",  this. selected_program,)
+    console.log("program-->", this.selected_program);
     this.FlnService.getallflnmasterdata(
       this.selected_assesment,
       this.selected_preflanguage,
-      this. selected_program,
+      this.selected_program,
       this.selected_class,
-      this.selected_subject,
-     
-     
+      this.selected_subject
     ).subscribe(
-      
       (data) => {
         if (Object.keys(data).length > 0) {
           this.alldata = data;
-          console.log("alldata-->",this.alldata)
+          console.log("alldata-->", this.alldata);
           this.dataid = data[0]._id;
           this.hideProgressbar = false;
           this.save_operation = "update";
@@ -400,7 +391,7 @@ export class FlnMasterComponent implements OnInit {
       (data) => {
         if (Object.keys(data).length > 0) {
           this.activity_doc = data;
-          console.log("upload doc-->",this.activity_doc )
+          console.log("upload doc-->", this.activity_doc);
         } else {
           this.activity_doc = [];
         }
@@ -411,12 +402,13 @@ export class FlnMasterComponent implements OnInit {
   }
 
   addquiz12() {
-    if (this.add_q_question == "") {
+    if (this.add_q_question == "" || this.add_q_instructions == "") {
       swal.fire("info", "Please add the question!!!", "warning");
     } else {
       let obj = {
         qid: new Date().getTime(),
         question: this.add_q_question,
+        instructions: this.add_q_instructions,
         // "A": (this.add_q_optionA == '')?'':this.add_q_optionA,
         // "B": (this.add_q_optionB == '')?'':this.add_q_optionB,
         // "C": (this.add_q_optionC == '')?'':this.add_q_optionC,
@@ -424,14 +416,17 @@ export class FlnMasterComponent implements OnInit {
         // "answer": this.selected_qans_val_add
       };
       this.quiz_value = this.add_q_question;
+      this.quiz_value = this.add_q_instructions;
       this.modalReference.close();
     }
   }
   updatequiz() {
     const body = {
       assessmentquestion: this.edit_q_question,
+      instructions: this.edit_q_instructions,
     };
     this.quiz_value = this.edit_q_question;
+    this.quiz_value = this.edit_q_instructions;
     this.modalReference.close();
     this.FlnService.updateflnmasterdata(this.edit_ques_id, body).subscribe(
       (data) => {
@@ -485,17 +480,22 @@ export class FlnMasterComponent implements OnInit {
   }
 
   async addquiz() {
-    if (this.add_q_question == "") {
-      swal.fire("info", "Please add the question!!!", "warning");
+    if (this.add_q_question == "" || this.add_q_instructions == "") {
+      swal.fire(
+        "info",
+        "Please add the Question and Instruction!!!",
+        "warning"
+      );
     } else {
       const body = {
         qid: new Date().getTime(),
         assessmentquestion: this.add_q_question,
+        instructions: this.add_q_instructions,
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         class: this.selected_class,
         subject: this.selected_subject,
-        program:this.selected_program,
+        program: this.selected_program,
       };
       console.log("bodyfln", body);
 
@@ -547,7 +547,7 @@ export class FlnMasterComponent implements OnInit {
       swal.fire("info", "Please add the activity!!!", "warning");
     } else {
       const body = {
-        program:this.selected_activity_program,
+        program: this.selected_activity_program,
         class: this.selected_activity_class,
         activitydocument: this.s3path,
         filetype: this.filetype,

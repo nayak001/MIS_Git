@@ -37,43 +37,24 @@
               </select>
             </div>
 
-            <div  class="col col-xl-2 col-lg-2">Select Program</div>
-            <div  class="col col-xl-2 col-lg-2">
+            <div class="col col-xl-2 col-lg-2">Select Program</div>
+            <div class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_change_class($event)"
                 class="form-control"
               >
                 <option value="">Select</option>
-             
-              
-                <option value="1" >PGE</option>
+
+                <option value="1">PGE</option>
                 <option value="2">ECE</option>
-             
-           
               </select>
             </div>
 
-
-            <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">Select class</div>
-            <div  *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
-              <select
-                value=""
-                (change)="onselect_change_class2($event)"
-                class="form-control"
-              >
-                <option value="">Select</option>
-                <option value="1" >1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              
-              </select>
+            <div *ngIf="isPGE == true" class="col col-xl-2 col-lg-2">
+              Select class
             </div>
-
-            <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">Select Level</div>
-            <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">
+            <div *ngIf="isPGE == true" class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_change_class2($event)"
@@ -83,16 +64,31 @@
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
-                
-              
+                <option value="4">4</option>
+                <option value="5">5</option>
               </select>
             </div>
 
+            <div *ngIf="isECE == true" class="col col-xl-2 col-lg-2">
+              Select Level
+            </div>
+            <div *ngIf="isECE == true" class="col col-xl-2 col-lg-2">
+              <select
+                value=""
+                (change)="onselect_change_class2($event)"
+                class="form-control"
+              >
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
 
-            <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
+            <div *ngIf="isPGE == true" class="col col-xl-2 col-lg-2">
               Select subject
             </div>
-            <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
+            <div *ngIf="isPGE == true" class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_assesment_subject($event)"
@@ -105,21 +101,23 @@
                 <option value="evs">EVS</option>
               </select>
             </div>
-             <div *ngIf = "isECE == true"  class="col col-xl-2 col-lg-2">
+            <div *ngIf="isECE == true" class="col col-xl-2 col-lg-2">
               Select Skills
             </div>
-          
-            <div *ngIf = "isECE == true"  class="col col-xl-2 col-lg-2">
+
+            <div *ngIf="isECE == true" class="col col-xl-2 col-lg-2">
               <select
                 value=""
                 (change)="onselect_assesment_subject($event)"
                 class="form-control"
               >
                 <option value="">Select Skills</option>
-                <option value="foundationalliteracy">Foundational Literacy</option>
-                <option value="foundationalnumeracy">Foundational Numeracy</option>
-               
-          
+                <option value="foundationalliteracy">
+                  Foundational Literacy
+                </option>
+                <option value="foundationalnumeracy">
+                  Foundational Numeracy
+                </option>
               </select>
             </div>
             <div class="col col-xl-2 col-lg-2">Select assessment</div>
@@ -200,8 +198,16 @@
                         <div class="q_container">
                           <div class="row">
                             <div class="col col-xl-12 col-lg-12 q_div">
-                              {{ i + 1 }}.
-                              {{ assessmentquestion.assessmentquestion }}
+                              <div>{{ i + 1 }}.</div>
+                              <div>
+                                <span>Question: </span>
+                                {{ assessmentquestion.assessmentquestion }}
+                              </div>
+
+                              <div>
+                                <span>Instruction: </span>
+                                {{ assessmentquestion.instructions }}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -256,9 +262,15 @@
                   placeholder="Question"
                 />
               </div>
-           
-          
-          
+              <div>
+                <span class="bold-font">Instruction:</span>
+                <textarea
+                  [value]=""
+                  [(ngModel)]="add_q_instructions"
+                  class="area-width"
+                  placeholder="Instruction"
+                ></textarea>
+              </div>
             </div>
             <div class="modal-footer">
               <button
@@ -284,6 +296,15 @@
                   class="form-control input-underline input-lg"
                   placeholder="Question"
                 />
+              </div>
+              <div>
+                <span class="bold-font">Instruction:</span>
+                <textarea
+                  [value]=""
+                  [(ngModel)]="edit_q_instructions"
+                  class="area-width"
+                  placeholder="Instruction"
+                ></textarea>
               </div>
             </div>
             <div class="modal-footer">
@@ -373,43 +394,30 @@
                   <table class="table50">
                     <tr>
                       <td>
-                      
-                        <div  class="col col-xl-2 col-lg-2">Select Program</div>
-                        <div  class="col col-xl-2 col-lg-2">
+                        <div class="col col-xl-2 col-lg-2">Select Program</div>
+                        <div class="col col-xl-2 col-lg-2">
                           <select
                             value=""
                             (change)="activity_program_select_onchange($event)"
                             class="form-control"
                           >
                             <option value="">Select</option>
-                         
-                          
-                            <option value="pge" >PGE</option>
+
+                            <option value="pge">PGE</option>
                             <option value="ece">ECE</option>
-                         
-                       
                           </select>
                         </div>
 
-                        <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">Select class</div>
-                        <div  *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
-                          <select
-                            value=""
-                            (change)="activity_class_select_onchange($event)"
-                            class="form-control"
-                          >
-                            <option value="">Select</option>
-                            <option value="1" >1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                          
-                          </select>
+                        <div
+                          *ngIf="isPGE == true"
+                          class="col col-xl-2 col-lg-2"
+                        >
+                          Select class
                         </div>
-            
-                        <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">Select Level</div>
-                        <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">
+                        <div
+                          *ngIf="isPGE == true"
+                          class="col col-xl-2 col-lg-2"
+                        >
                           <select
                             value=""
                             (change)="activity_class_select_onchange($event)"
@@ -419,14 +427,34 @@
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
-                            
-                          
+                            <option value="4">4</option>
+                            <option value="5">5</option>
                           </select>
                         </div>
-            
 
+                        <div
+                          *ngIf="isECE == true"
+                          class="col col-xl-2 col-lg-2"
+                        >
+                          Select Level
+                        </div>
+                        <div
+                          *ngIf="isECE == true"
+                          class="col col-xl-2 col-lg-2"
+                        >
+                          <select
+                            value=""
+                            (change)="activity_class_select_onchange($event)"
+                            class="form-control"
+                          >
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                          </select>
+                        </div>
 
-<!-- 
+                        <!-- 
                         <span class="bold-font">Select class</span>
                         <div class="col col-xl-4 col-lg-4">
                           <select
