@@ -215,6 +215,11 @@ const routes: Routes = [
         loadChildren: "./udisemanager/udisemanager.module#UdisemanagerModule",
       },
       {
+        path: "anganwadicontroller",
+        loadChildren:
+          "./anganwadicontroller/anganwadicontroller.module#AnganwadicontrollerModule",
+      },
+      {
         path: "dashboardslidermanager",
         loadChildren:
           "./dashboardslidermanager/dashboardslidermanager.module#DashboardslidermanagerModule",
@@ -226,6 +231,11 @@ const routes: Routes = [
       {
         path: "nsdc",
         loadChildren: "./nsdc/nsdc.module#NsdcModule",
+      },
+    
+      {
+        path: "supervisorcontroller",
+        loadChildren: "./supervisorcontroller/supervisorcontroller.module#SupervisorcontrollerModule",
       },
       {
         path: "updatensdcmark",

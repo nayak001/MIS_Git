@@ -98,7 +98,9 @@ export class BlockdistrictComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectedElementText = selectedOptions[selectedIndex].text;
 		this.selected_statecode = selectedOptionValue;
+		console.log("statecode-->",this.selected_statecode)
 		this.selected_statevalue = selectedElementText;
+		// console.log("statevalue-->",this.selected_statecode)
 		
 		this.all_districts = this.allstate_districts.filter(obj => {
 			return obj.code === selectedOptionValue
@@ -114,6 +116,7 @@ export class BlockdistrictComponent implements OnInit {
 		const selectedElementText = selectedOptions[selectedIndex].text;
 		this.selected_statecode_filter = selectedOptionValue;
 		this.selected_statevalue_filter = selectedElementText;
+		console.log("statecodefilter-->",this.selected_statevalue_filter)
 		this.getallblocksanddistrictsbystatecode(this.selected_statecode_filter);
     }
 
@@ -123,7 +126,9 @@ export class BlockdistrictComponent implements OnInit {
 		const selectedOptionValue = selectedOptions[selectedIndex].value;
 		const selectedElementText = selectedOptions[selectedIndex].text;
 		this.selected_districtid = selectedOptionValue;
+		console.log("districtid-->",this.selected_districtid)
 		this.selected_districtvalue = selectedElementText;
+		console.log("districtvalue-->",this.selected_districtvalue)
     }
 
 	formSubmitAction() {
@@ -144,8 +149,10 @@ export class BlockdistrictComponent implements OnInit {
 			statevalue : this.selected_statevalue,
 			districtid : this.selected_districtid,
 			districtvalue : this.selected_districtvalue,
-			block : this.block_name
+			block : this.block_name,
+			
 		};
+		console.log("block-->",this.block_name)
 		this.blockdistrictService.createnewblockdistrict(distobj).subscribe(data => {
 				this.modalReference.close();
 				location.reload();

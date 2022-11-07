@@ -11,9 +11,9 @@ const baseUrl = environment.baseUrl;
 export class Masterteachertraining1Service {
   constructor(private http: HttpClient) {}
 
-  getalltrainingtopics(submoduleid, language) {
+  getalltrainingtopics(usertype,submoduleid, language) {
     return this.http.get(
-      baseUrl + "getalltrainingtopics/" + submoduleid + "/" + language,
+      baseUrl + "getalltrainingtopics/" +usertype+"/"+ submoduleid + "/" + language,
       {
         headers: new HttpHeaders().set("Content-Type", "application/json"),
       }
@@ -51,8 +51,8 @@ export class Masterteachertraining1Service {
     });
   }
   // modules part
-  getalltrainingmodules(ln) {
-    return this.http.get(baseUrl + "getalltrainingmodules/" + ln, {
+  getalltrainingmodules(ln,type) {
+    return this.http.get(baseUrl + "getalltrainingmodules/" + ln + "/" + type, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //responseType: 'text'
     });
@@ -91,9 +91,9 @@ export class Masterteachertraining1Service {
   }
 
   // sub modules part
-  getalltrainingsubmodules(moduleid, language) {
+  getalltrainingsubmodules(usertype,moduleid, language) {
     return this.http.get(
-      baseUrl + "getalltrainingsubmodules/" + moduleid + "/" + language,
+      baseUrl + "getalltrainingsubmodules/" +usertype+"/" + moduleid + "/" + language,
       {
         headers: new HttpHeaders().set("Content-Type", "application/json"),
         //responseType: 'text'

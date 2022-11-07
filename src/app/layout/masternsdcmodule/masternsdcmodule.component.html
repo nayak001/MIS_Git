@@ -9,7 +9,7 @@
               <h4>Teacher Assesment question</h4>
             </div>
             <div class="col"></div>
-            <div class="col">
+            <!-- <div class="col">
               <button
                 (click)="goto('updatensdcmark')"
                 class="btn btn-sm btn-primary float-right"
@@ -17,7 +17,7 @@
               >
                 &nbsp;&nbsp;&nbsp;Update User Mark&nbsp;&nbsp;&nbsp;
               </button>
-            </div>
+            </div> -->
             <div class="col">
               <button
                 (click)="goto('nsdc')"
@@ -33,22 +33,38 @@
         <div class="card-body table-responsive">
           <div class="row">
             <div class="col col-xl-3 col-lg-3">
-              <div style="margin: 10px; margin-left: 1px">Select User</div>
-              <select
-                id="selected_user"
-                value="{{ selected_user }}"
-                (change)="user_select_onchange()"
-                class="form-control"
+              <div style="margin: 10px; margin-left: 1px">Select Manager</div>
+              <ng-multiselect-dropdown
+                [placeholder]="'Select Manager'"
+                [data]="managerData"
+                [settings]="searchableManagerSettings"
+                (onSelect)="managerOnChange($event)"
               >
-                <option value="">Select</option>
-                <option
-                  *ngFor="let opt of all_fellows"
-                  value="{{ opt.userid }}"
-                >
-                  {{ opt.userid | titlecase }}
-                </option>
-              </select>
+              </ng-multiselect-dropdown>
             </div>
+
+            <div class="col col-xl-3 col-lg-3">
+              <div style="margin: 10px; margin-left: 1px">Select Passcode</div>
+              <ng-multiselect-dropdown
+                [placeholder]="'Select Passcode'"
+                [data]="passcodeArr"
+                [settings]="searchablePasscodeSettings"
+                (onSelect)="passcodeOnChange($event)"
+              >
+              </ng-multiselect-dropdown>
+            </div>
+
+            <div class="col col-xl-3 col-lg-3">
+              <div style="margin: 10px; margin-left: 1px">Select User</div>
+              <ng-multiselect-dropdown
+                [placeholder]="'Select Users'"
+                [data]="all_fellows"
+                [settings]="searchableUserSettings"
+                (onSelect)="user_select_onchange($event)"
+              >
+              </ng-multiselect-dropdown>
+            </div>
+
             <div class="col col-xl-3 col-lg-3">
               <label style="margin: 10px; margin-left: 1px" for="quantity"
                 >Total Mark:</label
@@ -64,26 +80,80 @@
                 value="{{ totalmarks }}"
                 [(ngModel)]="secured_mark"
               />
+              <label
+                *ngIf="evaluated == true"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 20px;
+                  font-weight: 900;
+                  color: rgb(13, 222, 6);
+                "
+                for="quantity"
+                >EVALUATED</label
+              >
+              <label
+                *ngIf="notEvaluated == true"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 20px;
+                  font-weight: 900;
+                  color: rgb(229, 8, 8);
+                "
+                for="quantity"
+                >NOT EVALUATED</label
+              >
+              <label
+                *ngIf="notEvaluated == true || evaluated == true"
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  justify-content: flex-start;
+                  font-size: 20px;
+                  font-weight: 900;
+                  color: rgb(229, 8, 137);
+                "
+                for="quantity"
+                >Appeared on: {{ examDt }}</label
+              >
             </div>
+
             <div class="col col-xl-3 col-lg-3">
               <button
+                *ngIf="notEvaluated == true"
                 [disabled]="disable_button"
                 (click)="save_mark()"
                 class="btn btn-sm btn-primary float-right"
                 type="button"
-                style="margin-right: 100px; margin-top: 45px"
+                style="margin-top: 45px"
               >
                 &nbsp;&nbsp;&nbsp;
                 {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;
               </button>
+
+              <button
+                *ngIf="evaluated == true"
+                [disabled]="disable_button"
+                (click)="save_mark()"
+                class="btn btn-sm btn-primary float-right"
+                type="button"
+                style="margin-top: 45px; margin-left: 50px"
+              >
+                &nbsp;&nbsp;&nbsp; Update &nbsp;&nbsp;&nbsp;
+              </button>
             </div>
+
             <div class="col col-xl-3 col-lg-3">
               <button
+                *ngIf="evaluated == true"
                 [disabled]="disable_button"
                 (click)="delete_user_nsdcdata()"
-                class="btn btn-danger btn-sm"
+                class="btn btn-danger btn-sm float-right"
                 type="button"
-                style="margin-right: 100px; margin-top: 45px"
+                style="margin-top: 45px"
               >
                 &nbsp;&nbsp;&nbsp; Delete User Answer &nbsp;&nbsp;&nbsp;
               </button>
@@ -107,6 +177,7 @@
               <!-- QUIZ TAB -->
               <ngb-tab>
                 <ng-template ngbTabTitle><b>Assesment</b></ng-template>
+
                 <ng-template ngbTabContent>
                   <div class="tab_content_height margintop30">
                     <table class="table50">
@@ -136,7 +207,7 @@
                                 *ngIf="quiz.questiontype == 'subjective'"
                               >
                               {{ quiz.inputans }}
-</textarea
+                                </textarea
                               >
                               <div *ngIf="quiz.questiontype == 'subjective'">
                                 Mark:

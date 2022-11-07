@@ -2,11 +2,13 @@ import { Component, OnInit, ElementRef } from "@angular/core";
 import { routerTransition } from "../../router.animations";
 import { Router } from "@angular/router";
 import { HttpResponse, HttpEventType } from "@angular/common/http";
+import { DatePipe } from "@angular/common";
 import { MasterNsdcService } from "./masternsdcmodule.service";
 import { ManagersboxService } from "../managersbox/managersbox.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import swal from "sweetalert2";
+import { IDropdownSettings } from "ng-multiselect-dropdown";
 
 import { environment } from "../../../environments/environment.prod";
 const URL = environment.uploadURL;
@@ -102,7 +104,18 @@ export class MasterNsdcComponent implements OnInit {
   edit_displayvedioname: any;
   edit_vediofiletype: any;
   edit_s3vedioname: any;
+  searchableManagerSettings: IDropdownSettings = {};
+  searchablePasscodeSettings: IDropdownSettings = {};
+  searchableUserSettings: IDropdownSettings = {};
+  managerData: any;
+  managerid: string = "";
+  passcodeArr: any;
+  passcode: string;
+  evaluated: boolean = false;
+  notEvaluated: boolean = false;
+  examDt: any;
   public Editor = ClassicEditor;
+  datePipe = new DatePipe("en-US");
 
   constructor(
     private modalService: NgbModal,
@@ -112,13 +125,106 @@ export class MasterNsdcComponent implements OnInit {
   ) {
     this.hideLoading_indicator = true;
     this.hideContent_div = false;
+    this.searchableManagerSettings = {
+      singleSelection: true,
+      idField: "passcodesarr",
+      textField: "username",
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+      closeDropDownOnSelection: true,
+    };
+    this.searchablePasscodeSettings = {
+      singleSelection: true,
+      idField: "passcode",
+      textField: "passcode",
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+      closeDropDownOnSelection: true,
+    };
+    this.searchableUserSettings = {
+      singleSelection: true,
+      idField: "userid",
+      textField: "username",
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+      closeDropDownOnSelection: true,
+    };
   }
+
   goto(path: string) {
     this.router.navigate(["/" + path]);
   }
+
   ngOnInit() {
     this.load_record();
   }
+
+  managerOnChange(e) {
+    this.managerid = e.passcodesarr[0].userid;
+    this.passcodeArr = e.passcodesarr;
+
+    this.passcode = "";
+    this.selected_user = "";
+    this.totalmarks = 0;
+    this.evaluated = false;
+    this.notEvaluated = false;
+  }
+
+  passcodeOnChange(e) {
+    this.passcode = e.passcode;
+
+    this.getUserByMgridPscd();
+
+    this.selected_user = "";
+    this.totalmarks = 0;
+    this.evaluated = false;
+    this.notEvaluated = false;
+  }
+
+  getUserByMgridPscd() {
+    this.MasterNsdcService.getnsdcusers(
+      this.managerid,
+      this.passcode
+    ).subscribe(
+      (data) => {
+        if (Object.keys(data).length > 0) {
+          this.all_fellows = data;
+        } else {
+          this.all_fellows = [];
+        }
+      },
+      (error) => {},
+      () => {}
+    );
+  }
+
+  selected_user: any;
+  user_select_onchange(e) {
+    this.selected_user = e.userid;
+    this.mark = [0];
+    this.totalmarks = 0;
+
+    this.MasterNsdcService.getansfromuser(this.selected_user).subscribe(
+      (data) => {
+        if (Object.keys(data).length > 0) {
+          this.totalmarks = data[0].score;
+          this.quiz_value = data[0].questionanswer;
+          this.examDt = this.datePipe.transform(data[0].createdon, "MMM d, y");
+        }
+
+        if (this.totalmarks == 0) {
+          this.notEvaluated = true;
+          this.evaluated = false;
+        } else {
+          this.evaluated = true;
+          this.notEvaluated = false;
+        }
+      },
+      (error) => {},
+      () => {}
+    );
+  }
+
   selected_assesment: any = "baseline";
   onselect_assesment_select(event) {
     const selectedOptions = event.target["options"];
@@ -128,6 +234,7 @@ export class MasterNsdcComponent implements OnInit {
     this.selected_assesment = selectedOptionValue;
     this.load_record();
   }
+
   selected_category: any = "pedagogy";
   onselect_category_select(event) {
     const selectedOptions = event.target["options"];
@@ -137,6 +244,7 @@ export class MasterNsdcComponent implements OnInit {
     this.selected_category = selectedOptionValue;
     this.load_record();
   }
+
   onselect_editq_select(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -146,6 +254,7 @@ export class MasterNsdcComponent implements OnInit {
     this.selected_qans_val_edit = selectedOptionValue;
     this.selected_qans_text_edit = selectElementText;
   }
+
   onselect_addq_select(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -155,6 +264,7 @@ export class MasterNsdcComponent implements OnInit {
     this.selected_qans_val_add = selectedOptionValue;
     this.selected_qans_text_add = selectElementText;
   }
+
   delete_q_qid: any;
   open(content, obj, index, flag) {
     // update
@@ -182,10 +292,12 @@ export class MasterNsdcComponent implements OnInit {
     } else if (flag == "addworksheet") {
     } else {
     }
+
     this.modalReference = this.modalService.open(content, {
       backdrop: "static",
       keyboard: false,
     });
+
     this.modalReference.result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -195,6 +307,7 @@ export class MasterNsdcComponent implements OnInit {
       }
     );
   }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return "by pressing ESC";
@@ -204,6 +317,7 @@ export class MasterNsdcComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -216,6 +330,7 @@ export class MasterNsdcComponent implements OnInit {
     // this.alltopic_list=[];
     // this.data = [];
   }
+
   reset_contents() {
     this.content_value = "";
     this.video_value = [];
@@ -223,21 +338,23 @@ export class MasterNsdcComponent implements OnInit {
     this.flashcard_value = [];
     this.quiz_value = [];
   }
+
   dataid: any;
   all_fellows: any;
   async load_record() {
-    // getalluser;
-    this.MasterNsdcService.getnsdcusers().subscribe(
+    //passcodelist
+    this.MasterNsdcService.getallpasscodelist("manager").subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
-          this.all_fellows = data;
+          this.managerData = data;
         } else {
-          this.all_fellows = [];
+          this.managerData = [];
         }
       },
       (error) => {},
       () => {}
     );
+
     // this.MasterNsdcService.getnsdcexamquestions("subjective").subscribe(
     //   (data) => {
     //     if (Object.keys(data).length > 0) {
@@ -252,44 +369,20 @@ export class MasterNsdcComponent implements OnInit {
     //   () => {}
     // );
   }
-  selected_user: any;
-  user_select_onchange() {
-    this.mark = [0];
-    this.totalmarks = 0;
-    const selectedOptions = event.target["options"];
-    const selectedIndex = selectedOptions.selectedIndex;
-    const selectedOptionValue = selectedOptions[selectedIndex].value;
-    const selectElementText = selectedOptions[selectedIndex].text;
-    this.selected_user = selectedOptionValue;
-    this.MasterNsdcService.getansfromuser(this.selected_user).subscribe(
-      (data) => {
-        if (Object.keys(data).length > 0) {
-          this.quiz_value = data[0].questionanswer;
-        } else {
-        }
-      },
-      (error) => {},
-      () => {}
-    );
-  }
+
   secured_mark: any;
   totalmarks: number = 0;
   mark: any = [];
+
   totalmark_update() {
-    console.log("called");
     let sum = 0;
 
     for (let i = 0; i < this.mark.length; i++) {
       sum += this.mark[i];
     }
     this.totalmarks = sum;
-    console.log(sum);
-    console.log(this.mark.length);
-    console.log(this.quiz_value.length);
-
-    console.log(this.totalmarks);
-    console.log(this.mark);
   }
+
   delete_user_nsdcdata() {
     if (this.selected_user == undefined) {
       swal.fire("info", "Please select user!", "warning");
@@ -324,9 +417,10 @@ export class MasterNsdcComponent implements OnInit {
         });
     }
   }
+
   save_mark() {
     this.secured_mark = this.totalmarks;
-    console.log(this.secured_mark);
+
     if (
       this.secured_mark == "" ||
       this.secured_mark == undefined ||
@@ -343,16 +437,19 @@ export class MasterNsdcComponent implements OnInit {
       this.MasterNsdcService.updateuserstatus(body).subscribe(
         (data) => {
           swal.fire("Success", "user status updated successfully", "success");
-          console.log(body);
-          this.mark = [0];
-          this.totalmarks = 0;
-          this.load_record();
+          this.evaluated = true;
+          this.notEvaluated = false;
+
+          // this.mark = [0];
+          // this.totalmarks = 0;
+          // this.load_record();
         },
         (error) => {},
         () => {}
       );
     }
   }
+
   addquiz() {
     if (this.add_q_question == "" || this.selected_qans_val_add == "") {
       swal.fire(
@@ -374,6 +471,7 @@ export class MasterNsdcComponent implements OnInit {
       this.modalReference.close();
     }
   }
+
   updatequiz() {
     //let obj = {
     // qid:this.edit_q_qid,
