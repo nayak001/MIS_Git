@@ -140,8 +140,17 @@
             <tr *ngFor="let assessment of assessment_list; let i = index">
               <td class="first_td_width">{{ i + 1 }}</td>
               <td class="second_td_width">
-                <div>{{ assessment.question }}</div>
+                <div>
+                  <span style="color: black; font-weight: bold">Question: </span
+                  >{{ assessment.question }}
+                </div>
+                <div>
+                  <span style="color: black; font-weight: bold"
+                    >Instruction: </span
+                  >{{ assessment.instruction }}
+                </div>
               </td>
+
               <td class="third_td_width">
                 <div>
                   <span
@@ -181,14 +190,14 @@
                   placeholder="Instruction"
                 ></textarea>
               </div>
-              <div>
+              <!-- <div>
                 <span class="bold-font">image:</span>
                <input type="file" 
                [value]=""
                [(ngModel)]="image_value"
                class="area-width"
                />
-              </div>
+              </div> -->
             </div>
             <div class="modal-footer">
               <button
@@ -229,14 +238,15 @@
                   placeholder="Instruction"
                 ></textarea>
               </div>
-              <div>
+              <!-- <div>
                 <span class="bold-font">image:</span>
-               <input type="file" 
-               [value]="image_value"
-               [(ngModel)]="image_value"
-               class="area-width"
-               />
-              </div>
+                <input
+                  type="file"
+                  [value]="image_value"
+                  [(ngModel)]="image_value"
+                  class="area-width"
+                />
+              </div> -->
             </div>
             <div class="modal-footer">
               <button
