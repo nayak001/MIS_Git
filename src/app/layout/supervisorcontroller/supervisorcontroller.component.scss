@@ -2,17 +2,11 @@
 @import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
 @import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
 */
-table {
-  width: 60%;
-  border: 1px solid #d7d7d7;
-  margin-left: 15%;
-}
-table td {
-  vertical-align: top;
-  padding: 10px;
-  font-size: 15px;
-  font-weight: bold;
-  color: gray;
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 .bold-font {
   font-size: 11px !important;

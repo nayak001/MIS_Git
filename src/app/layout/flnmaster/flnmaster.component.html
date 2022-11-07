@@ -373,7 +373,7 @@
                           <select
                             value=""
                             (change)="activity_program_select_onchange($event)"
-                            class="form-control"
+                            class="form-control2"
                           >
                             <option value="">Select</option>
 
@@ -382,11 +382,28 @@
                           </select>
                         </div>
 
+<<<<<<< HEAD
                         <div
                           *ngIf="isPGE == true"
                           class="col col-xl-2 col-lg-2"
                         >
                           Select class
+=======
+                        <div *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">Select class</div>
+                        <div  *ngIf = "isPGE == true" class="col col-xl-2 col-lg-2">
+                          <select
+                            value=""
+                            (change)="activity_class_select_onchange($event)"
+                            class="form-control2"
+                          >
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
+>>>>>>> a7a5737d929c240d1b93121cb8409d27e9ae0526
                         </div>
                         <div
                           *ngIf="isPGE == true"
@@ -395,7 +412,7 @@
                           <select
                             value=""
                             (change)="activity_class_select_onchange($event)"
-                            class="form-control"
+                            class="form-control2"
                           >
                             <option value="">Select</option>
                             <option value="1">1</option>

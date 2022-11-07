@@ -60,17 +60,19 @@
                   </span>
                 </td>
                 <td>
-                  (change)="onselect_type_select($event)"
-                  class="form-control"
-                >
-                  <option value="">Select Type</option>
-                  <option value="anganwadi">Anganwadi</option>
-                  <option value="fellow">Fellow</option>
-                </select>
-              </td>
-              <td>
-                <select
-                  value=""
+                  <select
+                    value=""
+                    (change)="onselect_type_select($event)"
+                    class="form-control"
+                  >
+                    <option value="">Select Type</option>
+                    <option value="anganwadi">Anganwadi</option>
+                    <option value="fellow">Fellow</option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    value=""
                     (change)="onselect_modules_select($event)"
                     class="form-control"
                   >
@@ -825,7 +827,8 @@
                 </div>
                 <button
                   type="button"
-                  class="btn btn-primary"save_record
+                  class="btn btn-primary"
+                  save_record
                   (click)="addcontent()"
                   style="margin-top: 10px; margin-left: 350px"
                 >

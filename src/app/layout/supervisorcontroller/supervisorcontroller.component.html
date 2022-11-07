@@ -102,25 +102,36 @@
                       (click)="record_onselect(row)"
                     >
                       <td style="width: 10%">{{ i + 1 }}</td>
-                      <td style="width: 80%">
-                        <div class="row">{{ row.passcode }}</div>
-                        <div class="row">
+                      <td style="width: 60%">
+                        {{ row.passcode }}
+                      </td>
+                      <!-- <div class="row">
                           ({{ row.anganwadiList.length }}) Anganwadis found
-                        </div>
-                        <div
+                        </div> -->
+                      <table
+                        *ngFor="
+                          let anganwadi of row.anganwadiList;
+                          let j = index
+                        "
+                      >
+                        <tr *ngIf="anganwadi.supervisorAssigned == true">
+                          <td style="width: 60%">
+                            {{ anganwadi.anganwadiname }}
+                          </td>
+                        </tr>
+                      </table>
+                      <!-- <div
                           *ngFor="
                             let anganwadi of row.anganwadiList;
                             let j = index
                           "
                         >
-                          <!-- isselected = true -->
-                          <!-- {{j+1}}. {{anganwadi.anganwadiname}} -->
+                         
 
                           <div *ngIf="anganwadi.supervisorAssigned == true">
                             Selected:- {{ j + 1 }}.{{ anganwadi.anganwadiname }}
                           </div>
-                        </div>
-                      </td>
+                        </div> -->
                     </tr>
                   </table>
                 </div>
@@ -308,7 +319,7 @@
               class=""
             >
               <label>{{ item.anganwadiname }}</label>
-              <label>{{ item.supervisorAssigned }}</label>
+              <!-- <label>{{ item.supervisorAssigned }}</label> -->
               <input
                 type="checkbox"
                 [checked]="item.supervisorAssigned"
