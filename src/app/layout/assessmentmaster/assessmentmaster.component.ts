@@ -25,8 +25,7 @@ export class AssessmentmasterComponent implements OnInit {
   selected_stage: string = "";
   content_value: string = "";
   instruction_value: string = "";
-  image_value: string = "";
-
+  // image_value: string = "";
 
   save_operation: string = "";
   hideLoading_indicator: boolean;
@@ -54,9 +53,8 @@ export class AssessmentmasterComponent implements OnInit {
     this.selected_stage = "";
 
     this.content_value = "";
-    this.instruction_value="";
-    this.image_value ="";
-
+    this.instruction_value = "";
+    // this.image_value ="";
 
     this.hideLoading_indicator = true;
     this.hideContent_div = true;
@@ -117,8 +115,8 @@ export class AssessmentmasterComponent implements OnInit {
         );
     } else {
       this.content_value = "";
-      this.instruction_value="";
-    this.image_value ="";
+      this.instruction_value = "";
+      // this.image_value ="";
       this.hideLoading_indicator = true;
       this.hideContent_div = true;
     }
@@ -268,12 +266,10 @@ export class AssessmentmasterComponent implements OnInit {
       this.content_value.trim() == "" ||
       this.instruction_value == undefined ||
       this.instruction_value == null ||
-      this.instruction_value.trim() == "" ||
-      this.image_value == undefined ||
-      this.image_value == null ||
-      this.image_value.trim() == "" 
-   
-   
+      this.instruction_value.trim() == ""
+      // this.image_value == undefined ||
+      // this.image_value == null ||
+      // this.image_value.trim() == ""
     ) {
       alert("Please give assessment content");
     } else {
@@ -285,9 +281,10 @@ export class AssessmentmasterComponent implements OnInit {
         stage: this.selected_stage,
         subject: this.selected_subject,
         question: this.content_value,
-        instruction:this.instruction_value,
-        image:this.image_value,
+        instruction: this.instruction_value,
+        // image:this.image_value,
       };
+      // console.log(body, "data------------>");
       this.assessmentmasterService.createmasterassessmentmaster(body).subscribe(
         (data) => {
           this.modalReference.close();
@@ -313,10 +310,10 @@ export class AssessmentmasterComponent implements OnInit {
       this.content_value.trim() == "" ||
       this.instruction_value == undefined ||
       this.instruction_value == null ||
-      this.instruction_value.trim() == "" ||
-      this.image_value == undefined ||
-      this.image_value == null ||
-      this.image_value.trim() == "" 
+      this.instruction_value.trim() == ""
+      // this.image_value == undefined ||
+      // this.image_value == null ||
+      // this.image_value.trim() == ""
     ) {
       alert("Please give assessment content");
     } else {
@@ -328,9 +325,11 @@ export class AssessmentmasterComponent implements OnInit {
         stage: this.selected_stage,
         subject: this.selected_subject,
         question: this.content_value,
-        instruction:this.instruction_value,
-        image:this.image_value,
+        instruction: this.instruction_value,
+        // image:this.image_value,
       };
+      // console.log(body, "Update data------------>");
+
       this.assessmentmasterService
         .updatemasterassessmentmaster(this.record_id, body)
         .subscribe(
@@ -374,20 +373,20 @@ export class AssessmentmasterComponent implements OnInit {
       this.record_id = "";
       this.id = "";
       this.content_value = "";
-      this.instruction_value="";
-      this.image_value="";
+      this.instruction_value = "";
+      // this.image_value="";
     } else if (flag == "edit") {
       this.record_id = obj._id;
       this.id = obj.id;
       this.content_value = obj.question;
-      this.instruction_value=obj.instruction;
-      this.image_value=obj.image;
+      this.instruction_value = obj.instruction;
+      // this.image_value=obj.image;
     } else if (flag == "delete") {
       this.record_id = obj._id;
       this.id = obj.id;
       this.content_value = obj.question;
-      this.instruction_value=obj.instruction;
-      this.image_value=obj.image;
+      this.instruction_value = obj.instruction;
+      // this.image_value=obj.image;
     }
 
     this.modalReference = this.modalService.open(content, {
