@@ -37,8 +37,10 @@ export class FlnMasterComponent implements OnInit {
   add_q_index: string = "";
   add_q_qid: string = "";
   add_q_iid: string = "";
+  add_q_imid: string = "";
   add_q_question: string = "";
   add_q_instructions: string = "";
+  add_q_image: string = "";
 
   add_q_optionA: string = "";
   add_q_optionB: string = "";
@@ -60,6 +62,8 @@ export class FlnMasterComponent implements OnInit {
   edit_q_question: string = "";
   edit_q_eid: string = "";
   edit_q_instructions: string = "";
+  edit_q_imid: string = "";
+  edit_q_image: string = "";
   edit_q_optionA: string = "";
   edit_q_optionB: string = "";
   edit_q_optionC: string = "";
@@ -191,8 +195,8 @@ export class FlnMasterComponent implements OnInit {
     } else {
       this.isPGE = false;
       this.isECE = true;
-      console.log("isPge1-->", this.isPGE);
-      console.log("isece1-->", this.isECE);
+      // console.log("isPge1-->", this.isPGE);
+      // console.log("isece1-->", this.isECE);
     }
   }
 
@@ -203,7 +207,7 @@ export class FlnMasterComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
     this.load_record();
-    console.log("subj", this.selected_subject);
+    // console.log("subj", this.selected_subject);
   }
 
   onselect_change_month(event) {
@@ -242,7 +246,9 @@ export class FlnMasterComponent implements OnInit {
       this.add_q_qid = "";
       this.add_q_question = "";
       this.add_q_iid = "";
+      this.add_q_imid = "";
       this.add_q_instructions = "";
+      this.add_q_image = "";
       this.add_q_optionA = "";
       this.add_q_optionB = "";
       this.add_q_optionC = "";
@@ -254,6 +260,8 @@ export class FlnMasterComponent implements OnInit {
       this.edit_q_question = obj.assessmentquestion;
       this.edit_q_eid = obj.eid;
       this.edit_q_instructions = obj.instructions;
+      this.edit_q_imid = obj.imid;
+      this.edit_q_image = obj.image;
       this.edit_q_optionA = obj.A;
       this.edit_q_optionB = obj.B;
       this.edit_q_optionC = obj.C;
@@ -409,14 +417,18 @@ export class FlnMasterComponent implements OnInit {
         qid: new Date().getTime(),
         question: this.add_q_question,
         instructions: this.add_q_instructions,
+        image: this.add_q_image,
         // "A": (this.add_q_optionA == '')?'':this.add_q_optionA,
         // "B": (this.add_q_optionB == '')?'':this.add_q_optionB,
         // "C": (this.add_q_optionC == '')?'':this.add_q_optionC,
         // "D": (this.add_q_optionD == '')?'':this.add_q_optionD,
         // "answer": this.selected_qans_val_add
       };
+      console.log("obj -------->", obj);
+
       this.quiz_value = this.add_q_question;
       this.quiz_value = this.add_q_instructions;
+      this.quiz_value = this.add_q_image;
       this.modalReference.close();
     }
   }
@@ -424,9 +436,12 @@ export class FlnMasterComponent implements OnInit {
     const body = {
       assessmentquestion: this.edit_q_question,
       instructions: this.edit_q_instructions,
+      image: this.edit_q_image,
     };
+    console.log("body -------->", body);
     this.quiz_value = this.edit_q_question;
     this.quiz_value = this.edit_q_instructions;
+    this.quiz_value = this.edit_q_image;
     this.modalReference.close();
     this.FlnService.updateflnmasterdata(this.edit_ques_id, body).subscribe(
       (data) => {
@@ -491,6 +506,7 @@ export class FlnMasterComponent implements OnInit {
         qid: new Date().getTime(),
         assessmentquestion: this.add_q_question,
         instructions: this.add_q_instructions,
+        image: this.add_q_image,
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         class: this.selected_class,
