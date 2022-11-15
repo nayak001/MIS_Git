@@ -5,7 +5,11 @@ import { HttpResponse, HttpEventType } from "@angular/common/http";
 import { Masterteachertraining2Service } from "./masterteachertraining2.service";
 import { ManagersboxService } from "./../managersbox/managersbox.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { DomSanitizer } from "@angular/platform-browser";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+//import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import DecoupledEditor from "@haifahrul/ckeditor5-build-rich";
+
 import swal from "sweetalert2";
 
 import { environment } from "./../../../environments/environment.prod";
@@ -104,13 +108,33 @@ export class Masterteachertraining2Component implements OnInit {
   edit_displayvedioname: any;
   edit_vediofiletype: any;
   edit_s3vedioname: any;
-  public Editor = ClassicEditor;
+  //public Editor = ClassicEditor;
+  public Editor = DecoupledEditor;
+
+  //---------------------------- nrusingh- ckeditor : 07-11-2022 ------------------------------
+
+  ckeditorOnReady(e) {
+    //console.log("%%%: ", Array.from(e.ui.componentFactory.names()));
+    e.ui
+      .getEditableElement()
+      .parentElement.insertBefore(
+        e.ui.view.toolbar.element,
+        e.ui.getEditableElement()
+      );
+    // for image
+    e.plugins.get("FileRepository").createUploadAdapter = function (loader) {
+      console.log(btoa(loader.file));
+      return new UploadAdapter(loader);
+    };
+  }
+  //-------------------------------------------------------------------------------------------
 
   constructor(
     private modalService: NgbModal,
     public router: Router,
     private masterteachertraining2Service: Masterteachertraining2Service,
-    private managersboxService: ManagersboxService
+    private managersboxService: ManagersboxService,
+    private domSanitizer: DomSanitizer
   ) {
     this.hideLoading_indicator = true;
     this.hideContent_div = true;
@@ -148,9 +172,13 @@ export class Masterteachertraining2Component implements OnInit {
       table: {
         contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
       },
-      language: "en",
     };
   }
+
+  transformToHtml(htmlTextWithStyle) {
+    return this.domSanitizer.bypassSecurityTrustHtml(htmlTextWithStyle);
+  }
+
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -583,15 +611,17 @@ export class Masterteachertraining2Component implements OnInit {
   s3vediopath: any;
   obj: any;
   addcontent() {
+    console.log("@@@: ", this.content_value);
+
     if (
       this.content_value == "" ||
       this.content_value == undefined ||
       this.content_value == null
     ) {
       swal.fire("info", "Please add some content !!!", "warning");
-    } else if (this.content_value.length > 500) {
+    } /*else if (this.content_value.length > 500) {
       swal.fire("info", "you can add only 500 words", "warning");
-    } else {
+    } */ else {
       const obj = {
         contentid: new Date().getTime(),
         content: this.content_value,
@@ -1076,6 +1106,8 @@ export class Masterteachertraining2Component implements OnInit {
       this.vedio_to_preview = obj.content;
     }
     this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      windowClass: "modal-xl",
       backdrop: "static",
       keyboard: false,
     });
@@ -1134,5 +1166,26 @@ export class Masterteachertraining2Component implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+}
+
+export class UploadAdapter {
+  private loader;
+  constructor(loader) {
+    this.loader = loader;
+  }
+
+  upload() {
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          var myReader = new FileReader();
+          myReader.onloadend = (e) => {
+            resolve({ default: myReader.result });
+          };
+
+          myReader.readAsDataURL(file);
+        })
+    );
   }
 }
