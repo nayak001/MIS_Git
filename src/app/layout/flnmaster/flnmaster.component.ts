@@ -32,7 +32,10 @@ export class FlnMasterComponent implements OnInit {
   imageURL = environment.ImageURL;
   uploaded_image_name: string = "";
   uploaded_image_name_arr: any = [];
-
+  edit_selectedFiles: any;
+  edit_displayname: any;
+  edit_filetype: any;
+  edit_s3name: any;
   // quiz - add
   add_q_index: string = "";
   add_q_qid: string = "";
@@ -104,10 +107,11 @@ export class FlnMasterComponent implements OnInit {
   displayvedioname: any;
   vediofiletype: any;
   s3vedioname: any;
-  edit_selectedFiles: any;
-  edit_displayname: any;
-  edit_filetype: any;
-  edit_s3name: any;
+  add_selectedFiles: any;
+
+  add_displayname: any;
+  add_filetype: any;
+  add_s3name: any;
   edit_selectedvedioFiles: any;
   edit_displayvedioname: any;
   edit_vediofiletype: any;
@@ -452,6 +456,7 @@ export class FlnMasterComponent implements OnInit {
       () => {}
     );
   }
+
   openUploadDocModal() {}
   delquiz() {
     //this.quiz_value.splice(this.delete_q_index, 1);
@@ -494,7 +499,7 @@ export class FlnMasterComponent implements OnInit {
     this.modalReference.close();
   }
 
-  async addquiz() {
+  async saveQuizInstruction() {
     if (this.add_q_question == "" || this.add_q_instructions == "") {
       swal.fire(
         "info",
@@ -506,7 +511,7 @@ export class FlnMasterComponent implements OnInit {
         qid: new Date().getTime(),
         assessmentquestion: this.add_q_question,
         instructions: this.add_q_instructions,
-        image: this.add_q_image,
+        imageurl: this.s3path,
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         class: this.selected_class,
@@ -558,6 +563,62 @@ export class FlnMasterComponent implements OnInit {
       this.selectedFiles = null;
     }
   }
+
+  addimage() {
+    this.selectedFiles = this.add_selectedFiles;
+    if (this.selectedFiles == undefined || this.selectedFiles == null) {
+      swal.fire("info", "Please select image file", "warning");
+    } else {
+      this.hideProgressbar = false;
+      this.progress.percentage = 0;
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.displayname = this.selectedFiles[i].name;
+        console.log("displayname", this.displayname);
+
+        this.filetype = this.displayname.split(".").pop();
+        this.s3name = new Date().getTime() + "." + this.filetype;
+        this.currentFileUpload = this.selectedFiles.item(i);
+        this.managersboxService
+          .pushFileToStorage(this.currentFileUpload, this.s3name)
+          .subscribe((event) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress.percentage = Math.round(
+                (100 * event.loaded) / event.total
+              );
+            } else if (event instanceof HttpResponse) {
+              this.s3path = event.body["s3path"];
+              this.hideProgressbar = true;
+              const obj = {
+                contentid: this.s3name,
+                content: this.s3path,
+                type: "image",
+              };
+              if (this.save_operation == "save") {
+                this.contents.push(obj);
+              } else {
+                this.allcontent.push(obj);
+              }
+
+              console.log("uploadComplete");
+              alert("uploadComplete");
+            }
+          });
+      }
+    }
+  }
+
+  add_filechooser_onchange(event) {
+    if (event.target.files.length > 0) {
+      this.add_selectedFiles = event.target.files;
+      this.add_displayname = event.target.files[0].name;
+      this.add_filetype = this.add_displayname.split(".").pop();
+      this.add_s3name = new Date().getTime() + "." + this.add_filetype;
+    } else {
+      this.add_displayname = "";
+      this.add_selectedFiles = null;
+    }
+  }
+
   uploadactivitydoc() {
     if (this.s3path == "") {
       swal.fire("info", "Please add the activity!!!", "warning");

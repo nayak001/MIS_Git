@@ -283,10 +283,18 @@
                 <span class="bold-font">Image:</span>
                 <input
                   [(ngModel)]="add_q_image"
+                  (change)="add_filechooser_onchange($event)"
                   type="file"
                   class="area-width"
-                  placeholder="upload Image"
+                  accept="image/x-png,image/gif,image/jpeg"
                 />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="addimage()"
+                >
+                  UploadImage
+                </button>
               </div>
             </div>
             <div class="modal-footer">
@@ -297,7 +305,11 @@
               >
                 Cancel
               </button>
-              <button type="button" class="btn btn-primary" (click)="addquiz()">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="saveQuizInstruction()"
+              >
                 &nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;
               </button>
             </div>
@@ -332,6 +344,13 @@
                   class="form-control input-underline input-lg"
                   placeholder="Upload Image"
                 />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="addimage()"
+                >
+                  UploadImage
+                </button>
               </div>
             </div>
             <div class="modal-footer">
