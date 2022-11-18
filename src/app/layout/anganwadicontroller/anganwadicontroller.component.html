@@ -1,137 +1,179 @@
 <div [@routerTransition]>
   <!--<app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>-->
   <div class="row">
-      <div class="col col-xl-12 col-lg-12">
-          <div class="card mb-3">
-              <div class="card-header">
-        <div class="row">
-          <div class="col col-xl-4 col-lg-4">
-            <h4>Anganwadi Controller</h4>
-          </div>
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
           <div class="row">
-           
-            <div class="col row-fluid" style="font-weight: bold">
-            <span class=" float-right">State</span>  <select
-                value="{{ selected_stateid }}"
-                (change)="selected_state_onchange($event)"
-                class="form-control"
-              >
-                <option value="20">Odisha</option>
-              </select>
+            <div class="col col-xl-4 col-lg-4">
+              <h4>Anganwadi Controller</h4>
             </div>
-          </div>
-    
-          <hr />
-    
-          <div class="row">
-           
-            <div class="col row-fluid" style="font-weight: bold">
-              <span class=" float-right">District</span>   <select
-                value="{{ selected_districtid }}"
-                (change)="selected_district_onchange($event)"
-                class="form-control"
-              >
-                <option value=""></option>
-                <option *ngFor="let dist of alldistrictdata" value="{{ dist._id }}">
-                  {{ dist.districtname | titlecase }}
-                </option>
-              </select>
-            </div>
-          </div>
-    
-          <hr />
-    
-          <div class="row">
-          
-            <div class="col row-fluid" style="font-weight: bold">
-              <span class=" float-right">Block</span> <select
-                value="{{ selected_blockid }}"
-                (change)="selected_block_onchange($event)"
-                class="form-control"
-              >
-                <option value=""></option>
-                <option *ngFor="let block of allblockdata" value="{{ block._id }}">
-                  {{ block.blockname | titlecase }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="col">
-            <button type="button" class="btn btn-primary float-right" (click)="open(savemodal, 'save')">&nbsp;&nbsp;&nbsp;Add Anganwadi&nbsp;&nbsp;&nbsp;</button>
-          </div>
-        </div>
-              </div>
-
-              <!-- content displayed here -->
-              <div class="card-body table-responsive">
-        <div id="loading_indicator" class="loading_indicator" [hidden]="hideLoading_indicator" >
-          <span class=""><img src="assets/images/loader3.gif" alt="Loading. Please wait..." ></span>
-        </div>
-        <div>
-          <div class="row">
-            <!-- Records List -->
-            <div class="col col-xl-6 col-lg-6">
-              <div class="row">
-                <div class="col col-xl-4 col-lg-4"><h2>{{ allanganwadicontrollerlist.length }} Record(s)</h2></div>
-                <div class="col col-xl-6 col-lg-6">
-                  <input (keyup)='search($event.target.value)' type="text" placeholder="Search" class="modal_textbox">
-                </div>
-              </div>
-              <div class="">
-                <table>
-                  <tr *ngFor="let row of allanganwadicontrollerlist; let i = index;" (click)="record_onselect(row)">
-                    <td style="width: 10%">{{ i+1 }}</td>
-                    <td style="width: 80%">
-                      <div class="row"> Anganwadi Name:-{{ row.anganwadiname }}</div>
-                      <div class="row">Awc Code:-{{ row.anganwadicode }}</div>
-                      <div class="row">Pass Code:-{{ row.passcode }}</div>
-                     
-                    
-                    </td>
-                  </tr>
-                </table>
+            <div class="row">
+              <div class="col row-fluid" style="font-weight: bold">
+                <span class="float-right">State</span>
+                <select
+                  value="{{ selected_stateid }}"
+                  (change)="selected_state_onchange($event)"
+                  class="form-control"
+                >
+                  <option value="20">Odisha</option>
+                </select>
               </div>
             </div>
 
-            <!-- Deatils View -->
-            <div class="col row-fluid">
-              <div class="row">
-                <div class="col col-xl-4 col-lg-4"><h2>Details</h2></div>
-                <div class="col" [hidden]="no_record_selected">
-                  <button type="button" class="btn btn-danger float-right btn-sm" (click)="deleteusercode()">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
-                  <button type="button" class="btn btn-secondary float-right btn-sm" (click)="open(updatemodal, 'update')">&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;</button>
-                </div>
+            <hr />
+
+            <div class="row">
+              <div class="col row-fluid" style="font-weight: bold">
+                <span class="float-right">District</span>
+                <select
+                  value="{{ selected_districtid }}"
+                  (change)="selected_district_onchange($event)"
+                  class="form-control"
+                >
+                  <option value=""></option>
+                  <option
+                    *ngFor="let dist of alldistrictdata"
+                    value="{{ dist._id }}"
+                  >
+                    {{ dist.districtname | titlecase }}
+                  </option>
+                </select>
               </div>
-              <div class="" [hidden]="no_record_selected">
-                <div class="row">
-                  <div class="col col-xl-4 col-lg-4">Anganwadi Name</div>
-                  <div class="col">:{{ anganwadiname  }}</div>
-                </div>
-                <div class="row">
-                  <div class="col col-xl-4 col-lg-4">Awc Code</div>
-                  <div class="col">: {{ anganwadicode
-                  }}</div>
-                </div>
-                <div class="row">
-                  <div class="col col-xl-4 col-lg-4">Pass Code</div>
-                  <div class="col">: {{ passcode
-                  }}</div>
-                </div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+              <div class="col row-fluid" style="font-weight: bold">
+                <span class="float-right">Block</span>
+                <select
+                  value="{{ selected_blockid }}"
+                  (change)="selected_block_onchange($event)"
+                  class="form-control"
+                >
+                  <option value=""></option>
+                  <option
+                    *ngFor="let block of allblockdata"
+                    value="{{ block._id }}"
+                  >
+                    {{ block.blockname | titlecase }}
+                  </option>
+                </select>
               </div>
-              <div class=""></div>
+            </div>
+            <div class="col">
+              <button
+                type="button"
+                class="btn btn-primary float-right"
+                (click)="open(savemodal, 'save')"
+              >
+                &nbsp;&nbsp;&nbsp;Add Anganwadi&nbsp;&nbsp;&nbsp;
+              </button>
             </div>
           </div>
         </div>
-              </div>
+
+        <!-- content displayed here -->
+        <div class="card-body table-responsive">
+          <div
+            id="loading_indicator"
+            class="loading_indicator"
+            [hidden]="hideLoading_indicator"
+          >
+            <span class=""
+              ><img
+                src="assets/images/loader3.gif"
+                alt="Loading. Please wait..."
+            /></span>
           </div>
+          <div>
+            <div class="row">
+              <!-- Records List -->
+              <div class="col col-xl-6 col-lg-6">
+                <div class="row">
+                  <div class="col col-xl-4 col-lg-4">
+                    <h2>{{ allanganwadicontrollerlist.length }} Record(s)</h2>
+                  </div>
+                  <div class="col col-xl-6 col-lg-6">
+                    <input
+                      (keyup)="search($event.target.value)"
+                      type="text"
+                      placeholder="Search"
+                      class="modal_textbox"
+                    />
+                  </div>
+                </div>
+                <div class="">
+                  <table>
+                    <tr
+                      *ngFor="
+                        let row of allanganwadicontrollerlist;
+                        let i = index
+                      "
+                      (click)="record_onselect(row)"
+                    >
+                      <td style="width: 10%">{{ i + 1 }}</td>
+                      <td style="width: 80%">
+                        <div class="row">
+                          Anganwadi Name:-{{ row.anganwadiname }}
+                        </div>
+                        <div class="row">Awc Code:-{{ row.anganwadicode }}</div>
+                        <div class="row">Pass Code:-{{ row.passcode }}</div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Deatils View -->
+              <div class="col row-fluid">
+                <div class="row">
+                  <div class="col col-xl-4 col-lg-4"><h2>Details</h2></div>
+                  <div class="col" [hidden]="no_record_selected">
+                    <button
+                      type="button"
+                      class="btn btn-danger float-right btn-sm"
+                      (click)="deleteusercode()"
+                    >
+                      &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary float-right btn-sm"
+                      (click)="open(updatemodal, 'update')"
+                    >
+                      &nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;
+                    </button>
+                  </div>
+                </div>
+                <div class="" [hidden]="no_record_selected">
+                  <div class="row">
+                    <div class="col col-xl-4 col-lg-4">Anganwadi Name</div>
+                    <div class="col">:{{ anganwadiname }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-xl-4 col-lg-4">Awc Code</div>
+                    <div class="col">: {{ anganwadicode }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-xl-4 col-lg-4">Pass Code</div>
+                    <div class="col">: {{ passcode }}</div>
+                  </div>
+                </div>
+                <div class=""></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
 </div>
 
-
 <!-- Save Modal starts from here -->
 <ng-template #savemodal let-c="close" let-d="dismiss">
-	<div class="modal-body">
+  <div class="modal-body">
     <div class="row">
       <div class="col col-xl-4 col-lg-4 form_label">State</div>
       <div class="col row-fluid" style="font-weight: bold">
@@ -181,33 +223,45 @@
       </div>
     </div>
     <hr />
-		<div class="row">
-      
-			<div class="col col-xl-4 col-lg-4">Awccode</div>
-			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value="{{ anganwadicode }}" [(ngModel)]="anganwadicode"  type="text" placeholder="Awccode" class="modal_textbox">
-			</div>
-		</div>
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Awccode</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <input
+          value="{{ anganwadicode }}"
+          [(ngModel)]="anganwadicode"
+          type="text"
+          placeholder="Awccode"
+          class="modal_textbox"
+        />
+      </div>
+    </div>
     <hr />
-		<div class="row">
-			<div class="col col-xl-4 col-lg-4">Anganwadiname</div>
-			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value="{{ anganwadiname }}" [(ngModel)]="anganwadiname"  type="text" placeholder="Anganwadi Name" class="modal_textbox">
-			</div>
-      
-		</div>
-    
-
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-		<button type="button" class="btn btn-primary" (click)="addusercode()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
-	</div>
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Anganwadiname</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <input
+          value="{{ anganwadiname }}"
+          [(ngModel)]="anganwadiname"
+          type="text"
+          placeholder="Anganwadi Name"
+          class="modal_textbox"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="addusercode()">
+      &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
+    </button>
+  </div>
 </ng-template>
 
 <!-- Update Modal starts from here -->
 <ng-template #updatemodal let-c="close" let-d="dismiss">
-	<div class="modal-body">
+  <div class="modal-body">
     <div class="row">
       <div class="col col-xl-4 col-lg-4 form_label">State</div>
       <div class="col row-fluid" style="font-weight: bold">
@@ -217,7 +271,6 @@
           class="form-control"
         >
           <option value="20">Odisha</option>
-
         </select>
       </div>
     </div>
@@ -258,26 +311,39 @@
       </div>
     </div>
     <hr />
-		<div class="row">
-			<div class="col col-xl-4 col-lg-4">Awccode</div>
-			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value="{{ anganwadicode }}" [(ngModel)]="anganwadicode"  type="text" placeholder="Awc Code" class="modal_textbox">
-			</div>
-		</div>
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Awccode</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <input
+          value="{{ anganwadicode }}"
+          [(ngModel)]="anganwadicode"
+          type="text"
+          placeholder="Awc Code"
+          class="modal_textbox"
+        />
+      </div>
+    </div>
     <hr />
 
-		<div class="row">
-			<div class="col col-xl-4 col-lg-4">Anganwadiname</div>
-			<div class="col col-xl-8 col-lg-8 row-fluid">
-				<input value="{{ anganwadiname }}" [(ngModel)]="anganwadiname"  type="text" placeholder="Anganwadi Name" class="modal_textbox">
-			</div>
-      
-		</div>
-
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-default" (click)="c('Close click')">Cancel</button>
-		<button type="button" class="btn btn-primary" (click)="updateusercode()">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
-	</div>
+    <div class="row">
+      <div class="col col-xl-4 col-lg-4">Anganwadiname</div>
+      <div class="col col-xl-8 col-lg-8 row-fluid">
+        <input
+          value="{{ anganwadiname }}"
+          [(ngModel)]="anganwadiname"
+          type="text"
+          placeholder="Anganwadi Name"
+          class="modal_textbox"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="updateAnganwadi()">
+      &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
+    </button>
+  </div>
 </ng-template>
-

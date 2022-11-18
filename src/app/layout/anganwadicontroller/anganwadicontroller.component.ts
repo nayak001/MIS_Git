@@ -179,7 +179,7 @@ export class AnganwadicontrollerComponent implements OnInit {
 
   select_id: any;
 
-  updateusercode() {
+  updateAnganwadi() {
     if (
       this.anganwadicode == null ||
       this.anganwadicode == undefined ||
@@ -257,42 +257,41 @@ export class AnganwadicontrollerComponent implements OnInit {
               } else {
                 swal.fire("Info", "SuperVisor  already exists", "warning");
               }
+            } else {
+              let body = {
+                anganwadicode: this.anganwadicode,
+                anganwadiname: this.anganwadiname,
+                passcode: this.passcode,
+                stateid: this.selected_stateid,
+                state: this.selected_statename,
+                districtid: this.selected_districtid,
+                district: this.selected_districtname,
+                blockid: this.selected_blockid,
+                block: this.selected_blockname,
+              };
+              this.angawadicontrollerService
+                .updateusercode(this.record_id, body)
+                .subscribe(
+                  (data2) => {
+                    this.modalReference.close();
+                    swal.fire(
+                      "Success",
+                      "Anganwadi Record updated successfully",
+                      "success"
+                    );
+                    this.getusercode();
+                    this.hideLoading_indicator = true;
+                    this.reset();
+                  },
+                  (error) => {},
+                  () => {}
+                );
             }
-            //else {
-            //   let body = {
-            //     anganwadicode: this.anganwadicode,
-            //     anganwadiname: this.anganwadiname,
-            //     passcode: this.passcode,
-            //     stateid: this.selected_stateid,
-            //     state: this.selected_statename,
-            //    districtid:this.selected_districtid,
-            //    district: this.selected_districtname,
-            //     blockid:this.selected_blockid,
-            //     block:this.selected_blockname,
-            //   };
-            //   this.angawadicontrollerService
-            //     .updateusercode(this.record_id, body)
-            //     .subscribe(
-            //       (data2) => {
-            //         this.modalReference.close();
-            //         swal.fire(
-            //           "Success",
-            //           "Anganwadi Record updated successfully",
-            //           "success"
-            //         );
-            //         this.getusercode();
-            //         this.hideLoading_indicator = true;
-            //         this.reset();
-          }
-          //       (error) => {},
-          //       () => {}
+            this.hideLoading_indicator = true;
+          },
+          (error) => {},
+          () => {}
         );
-      // }
-      this.hideLoading_indicator = true;
-      // },
-      // (error) => {},
-      // () => {}
-      // );
     }
   }
 

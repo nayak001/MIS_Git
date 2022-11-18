@@ -32,7 +32,6 @@ export class FlnMasterComponent implements OnInit {
   imageURL = environment.ImageURL;
   uploaded_image_name: string = "";
   uploaded_image_name_arr: any = [];
-  edit_selectedFiles: any;
   edit_displayname: any;
   edit_filetype: any;
   edit_s3name: any;
@@ -58,6 +57,7 @@ export class FlnMasterComponent implements OnInit {
   s3path: string = "";
   currentvedioFileUpload: File;
   hidevedioProgressbar: boolean = true;
+
   vedioprogress: { percentage: number } = { percentage: 0 };
   // quiz - edit
   edit_q_index: string = "";
@@ -65,7 +65,7 @@ export class FlnMasterComponent implements OnInit {
   edit_q_question: string = "";
   edit_q_eid: string = "";
   edit_q_instructions: string = "";
-  edit_q_imid: string = "";
+  edit_image_id: string = "";
   edit_q_image: string = "";
   edit_q_optionA: string = "";
   edit_q_optionB: string = "";
@@ -108,6 +108,12 @@ export class FlnMasterComponent implements OnInit {
   vediofiletype: any;
   s3vedioname: any;
   add_selectedFiles: any;
+  update_selectedFiles: FileList;
+  update_displayname: any;
+  update_filetype: any;
+  update_s3name: any;
+  update_s3_path: any;
+  edit_s3_path: any;
 
   add_displayname: any;
   add_filetype: any;
@@ -264,7 +270,7 @@ export class FlnMasterComponent implements OnInit {
       this.edit_q_question = obj.assessmentquestion;
       this.edit_q_eid = obj.eid;
       this.edit_q_instructions = obj.instructions;
-      this.edit_q_imid = obj.imid;
+      this.edit_image_id = obj.imid;
       this.edit_q_image = obj.image;
       this.edit_q_optionA = obj.A;
       this.edit_q_optionB = obj.B;
@@ -440,12 +446,12 @@ export class FlnMasterComponent implements OnInit {
     const body = {
       assessmentquestion: this.edit_q_question,
       instructions: this.edit_q_instructions,
-      image: this.edit_q_image,
+      imageurl: this.update_s3_path,
     };
     console.log("body -------->", body);
     this.quiz_value = this.edit_q_question;
     this.quiz_value = this.edit_q_instructions;
-    this.quiz_value = this.edit_q_image;
+    this.quiz_value = this.edit_s3_path;
     this.modalReference.close();
     this.FlnService.updateflnmasterdata(this.edit_ques_id, body).subscribe(
       (data) => {
@@ -482,7 +488,7 @@ export class FlnMasterComponent implements OnInit {
     // ------------------------------------------------------------------------
 
     // Delete from db
-    this.FlnService.deletecontent(this.delete_doc_id).subscribe(
+    this.FlnService.deletecontent(this.delete_doc_id, "").subscribe(
       (data) => {
         // Delete from S3
         this.managersboxService
@@ -616,6 +622,81 @@ export class FlnMasterComponent implements OnInit {
     } else {
       this.add_displayname = "";
       this.add_selectedFiles = null;
+    }
+  }
+  // edit_s3_path: any;
+  updateimage() {
+    this.hideProgressbar = false;
+    this.progress.percentage = 0;
+    this.currentFileUpload = this.update_selectedFiles.item(0);
+
+    this.managersboxService
+      .pushFileToStorage(this.currentFileUpload, this.update_s3name)
+      .subscribe((event) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(
+            (100 * event.loaded) / event.total
+          );
+        } else if (event instanceof HttpResponse) {
+          this.update_s3_path = event.body["s3path"];
+          this.hideProgressbar = true;
+          const body = {
+            contentid: this.update_s3name,
+
+            content: this.update_s3_path,
+            type: "image",
+          };
+          // if (this.save_operation == "save") {
+          //   this.contents.push(body);
+          // } else {
+          //   this.allcontent.push(body);
+          // }
+          // console.log("uploadComplete");
+          // alert("uploadComplete");
+
+          console.log("data", body);
+          alert("uploadComplete");
+          var contentdata;
+          var record_id;
+          var edit_image_id = this.update_s3name;
+
+          // this.data.forEach(function (value, key) {
+          //   console.log("datas-------", this.data);
+
+          //   if (value.content != undefined) {
+          //     value.content.forEach(function (item, key) {
+          //       if (item.contentid == edit_image_id) {
+          //         record_id = value._id;
+          //         value.content.splice(key, 1, body);
+          //         contentdata = value.content;
+          //       }
+          //     });
+          //   }
+          // });
+          // this.FlnService.deletecontent(record_id, contentdata).subscribe(
+          //   (data) => {
+          //     swal.fire("Success", "Record updated successfully", "success");
+          //     this.load_record();
+          //     this.modalReference.close();
+          //   },
+          //   (error) => {},
+          //   () => {}
+          // );
+          // this.modalReference.close();
+        }
+      });
+  }
+
+  update_filechooser_onchange(event) {
+    if (event.target.files.length > 0) {
+      this.update_selectedFiles = event.target.files;
+      this.update_displayname = event.target.files[0].name;
+      console.log("displayname", this.update_displayname);
+      this.update_filetype = this.update_displayname.split(".").pop();
+      this.update_s3name = new Date().getTime() + "." + this.update_filetype;
+    } else {
+      this.update_displayname = "";
+      this.update_selectedFiles = null;
     }
   }
 

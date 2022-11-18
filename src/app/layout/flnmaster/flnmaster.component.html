@@ -203,17 +203,16 @@
                             <div class="col col-xl-12 col-lg-12 q_div">
                               <div>{{ i + 1 }}.</div>
                               <div>
-                                <span>Question: </span>
                                 {{ assessmentquestion.assessmentquestion }}
                               </div>
-
                               <div>
-                                <span>Instruction: </span>
-                                {{ assessmentquestion.instructions }}
+                                <img
+                                  class="image"
+                                  src="{{ assessmentquestion.imageurl }}"
+                                />
                               </div>
                               <div>
-                                <span>Images: </span>
-                                {{ assessmentquestion.imageurl }}
+                                {{ assessmentquestion.instructions }}
                               </div>
                             </div>
                           </div>
@@ -288,6 +287,29 @@
                   class="area-width"
                   accept="image/x-png,image/gif,image/jpeg"
                 />
+                <div
+                  *ngIf="currentFileUpload"
+                  class="progress"
+                  [hidden]="hideProgressbar"
+                >
+                  <div
+                    class="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar"
+                    attr.aria-valuenow="{{ progress.percentage }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    [ngStyle]="{ width: progress.percentage + '%' }"
+                  >
+                    {{ progress.percentage }}%
+                  </div>
+                </div>
+                <!-- <div class="image_preview_container">
+                  <div class="image_preview">
+                    <div>
+                      <img src="{{ s3_path }}" class="image" />
+                    </div> -->
+                <!-- </div> -->
+                <!-- </div> -->
                 <button
                   type="button"
                   class="btn btn-primary"
@@ -338,16 +360,40 @@
               <div>
                 <span class="bold-font">Image:</span>
                 <input
-                  value="{{ edit_q_image }}"
                   [(ngModel)]="edit_q_image"
+                  [value]=""
+                  (change)="update_filechooser_onchange($event)"
                   type="file"
-                  class="form-control input-underline input-lg"
-                  placeholder="Upload Image"
+                  class="area-width"
+                  accept="image/x-png,image/gif,image/jpeg"
                 />
+                <div
+                  *ngIf="currentFileUpload"
+                  class="progress"
+                  [hidden]="hideProgressbar"
+                >
+                  <div
+                    class="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar"
+                    attr.aria-valuenow="{{ progress.percentage }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    [ngStyle]="{ width: progress.percentage + '%' }"
+                  >
+                    {{ progress.percentage }}%
+                  </div>
+                </div>
+                <div class="image_preview_container">
+                  <div class="image_preview">
+                    <div>
+                      <img src="{{ update_s3_path }}" class="image" />
+                    </div>
+                  </div>
+                </div>
                 <button
                   type="button"
                   class="btn btn-primary"
-                  (click)="addimage()"
+                  (click)="updateimage()"
                 >
                   UploadImage
                 </button>
