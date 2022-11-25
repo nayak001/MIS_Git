@@ -17,7 +17,7 @@ const baseUrl = environment.baseUrl;
 export class FlnService {
   constructor(private http: HttpClient) {}
 
-  getallflnmasterdata(type, language,program, selectedclass, subject) {
+  getallflnmasterdata(type, language, program, selectedclass, subject) {
     return this.http.get(
       baseUrl +
         "getflnmasterdata/" +
@@ -29,19 +29,25 @@ export class FlnService {
         "/" +
         selectedclass +
         "/" +
-        subject ,
-        
-       
+        subject,
+
       {
         headers: new HttpHeaders().set("Content-Type", "application/json"),
       }
     );
   }
 
-  getflnactivitydocument(activityprogram,activityclass) {
-    return this.http.get(baseUrl + "getflnactivitydocument/" +activityprogram+"/"+ activityclass, {
-      headers: new HttpHeaders().set("Content-Type", "application/json"),
-    });
+  getflnactivitydocument(activityprogram, activityclass) {
+    return this.http.get(
+      baseUrl +
+        "getflnactivitydocument/" +
+        activityprogram +
+        "/" +
+        activityclass,
+      {
+        headers: new HttpHeaders().set("Content-Type", "application/json"),
+      }
+    );
   }
 
   saveactivitydocument(formData) {
@@ -79,8 +85,8 @@ export class FlnService {
       //,responseType: 'text'
     });
   }
-  deletecontent(id) {
-    return this.http.put(baseUrl + "delete_fln_activity/" + id, {
+  deletecontent(id, body) {
+    return this.http.put(baseUrl + "delete_fln_activity/" + id, body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //,responseType: 'text'
     });

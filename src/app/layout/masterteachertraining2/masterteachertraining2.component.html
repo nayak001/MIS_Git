@@ -5,10 +5,10 @@
       <div class="card mb-3">
         <div class="card-header">
           <div class="row">
-            <div class="col col-xl-4 col-lg-4">
+            <div class="col col-xl-6 col-lg-6">
               <h4>TEACHER TRAINING CONTENTS</h4>
             </div>
-            <div class="col"></div>
+
             <div class="col">
               <button
                 (click)="modulesubmodule_btn_click()"
@@ -37,11 +37,11 @@
           >
             <thead>
               <tr>
-                <th style="width: 25%">Language</th>
-                <th style="width: 25%">Type</th>
-                <th style="width: 25%">Module</th>
-                <th style="width: 25%">Sub-module</th>
-                <th style="width: 25%">Topic</th>
+                <th style="width: 15%">Language</th>
+                <th style="width: 20%">Type</th>
+                <th style="width: 22%">Module</th>
+                <th style="width: 23%">Sub-module</th>
+                <th style="width: 20%">Topic</th>
               </tr>
               <tr>
                 <td>
@@ -66,8 +66,8 @@
                     class="form-control"
                   >
                     <option value="">Select Type</option>
-                    <option value="anganwadi" >Anganwadi</option>
-                    <option value="fellow"  >Fellow</option>
+                    <option value="anganwadi">Anganwadi</option>
+                    <option value="fellow">Fellow</option>
                   </select>
                 </td>
                 <td>
@@ -139,20 +139,18 @@
             <ngb-tab>
               <ng-template ngbTabTitle><b>CONTENTS</b></ng-template>
               <ng-template ngbTabContent>
+                <div>
+                  <div>
+                    <span class="bold-font">Add Content:</span>
+                    <span
+                      class="addcontentbtn"
+                      (click)="opencontent(addcontentmodal, null, null, 'add')"
+                      ><i class="fa fa-plus-square" aria-hidden="true"></i
+                    ></span>
+                  </div>
+                </div>
                 <div class="tab_content_height margintop30">
                   <div class="">
-                    <div>
-                      <div>
-                        <span class="bold-font">Add Content:</span>
-                        <span
-                          class="addbtn"
-                          (click)="
-                            opencontent(addcontentmodal, null, null, 'add')
-                          "
-                          ><i class="fa fa-plus-square" aria-hidden="true"></i
-                        ></span>
-                      </div>
-                    </div>
                     <div class="tbl_tr">
                       <div>
                         <div class="">
@@ -161,11 +159,11 @@
                             *ngFor="let data of data; let i = index"
                           >
                             <div
-                              class="col col-xl-4 col-lg-4 tbl_tr"
+                              class="render_list_view_parent"
                               *ngFor="let data of data.content; let i = index"
                             >
                               <div *ngIf="data.type == 'content'">
-                                <div>
+                                <div style="width: 100%">
                                   <span
                                     class="addbtn"
                                     (click)="
@@ -176,7 +174,6 @@
                                         'editcontentmodal'
                                       )
                                     "
-                                    style="margin-left: 195px"
                                     title="edit"
                                     ><i
                                       class="fa fa-pencil-square-o"
@@ -199,7 +196,7 @@
                                       aria-hidden="true"
                                     ></i
                                   ></span>
-                                  <span
+                                  <!-- <span
                                     class="addbtn"
                                     (click)="
                                       opencontent(
@@ -214,9 +211,14 @@
                                       class="fa fa-play-circle-o"
                                       aria-hidden="true"
                                     ></i
-                                  ></span>
+                                  ></span> -->
                                 </div>
-                                <div [innerHTML]="data.content"></div>
+                                <div>
+                                  <div
+                                    class="render_list_view_child"
+                                    [innerHTML]="transformToHtml(data.content)"
+                                  ></div>
+                                </div>
                                 <!-- <ckeditor  [editor]="Editor" [(ngModel)]="data.content" data="{{data.content}}"></ckeditor> -->
                               </div>
                               <div *ngIf="data.type == 'question'">
@@ -288,7 +290,6 @@
                                         'editimagemodal'
                                       )
                                     "
-                                    style="margin-left: 195px"
                                     title="edit"
                                     ><i
                                       class="fa fa-pencil-square-o"
@@ -311,7 +312,7 @@
                                       aria-hidden="true"
                                     ></i
                                   ></span>
-                                  <span
+                                  <!-- <span
                                     class="addbtn"
                                     (click)="
                                       opencontent(
@@ -326,9 +327,16 @@
                                       class="fa fa-play-circle-o"
                                       aria-hidden="true"
                                     ></i
-                                  ></span>
+                                  ></span> -->
                                 </div>
-                                <img src="{{ data.content }}" class="image" />
+                                <div>
+                                  <div class="render_list_view_child">
+                                    <img
+                                      src="{{ data.content }}"
+                                      class="image1"
+                                    />
+                                  </div>
+                                </div>
                               </div>
                               <div *ngIf="data.type == 'vedio'">
                                 <div>
@@ -342,7 +350,6 @@
                                         'editvediomodal'
                                       )
                                     "
-                                    style="margin-left: 195px"
                                     title="edit"
                                     ><i
                                       class="fa fa-pencil-square-o"
@@ -384,10 +391,14 @@
                                 </div>
                                 <span
                                   ><div class="imgcenter">
-                                    <img
-                                      src="assets/images/download.jpeg"
-                                      class="imgpreview"
-                                    /></div></span
+                                    <div>
+                                      <div class="render_list_view_child">
+                                        <img
+                                          src="assets/images/download.jpeg"
+                                          class="imgpreview"
+                                        />
+                                      </div>
+                                    </div></div></span
                                 ><br />
                               </div>
                             </div>
@@ -797,12 +808,7 @@
               </button>
             </div>
           </ng-template>
-          <ng-template
-            #addcontentmodal
-            let-c="close"
-            let-d="dismiss"
-            style="width: 666px"
-          >
+          <!-- <ng-template #addcontentmodal let-c="close" let-d="dismiss" style="width: 666px" >
             <div style="width: 100%; padding: 10px">
               <button
                 type="button"
@@ -827,7 +833,8 @@
                 </div>
                 <button
                   type="button"
-                  class="btn btn-primary"save_record
+                  class="btn btn-primary"
+                  save_record
                   (click)="addcontent()"
                   style="margin-top: 10px; margin-left: 350px"
                 >
@@ -1075,8 +1082,8 @@
                 &nbsp;&nbsp;&nbsp;Save All&nbsp;&nbsp;&nbsp;
               </button>
             </div>
-          </ng-template>
-          <ng-template #editcontentmodal let-c="close" let-d="dismiss">
+          </ng-template> -->
+          <!-- <ng-template #editcontentmodal let-c="close" let-d="dismiss">
             <div style="width: 100%; padding: 10px">
               <button
                 type="button"
@@ -1115,7 +1122,7 @@
                 &nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;
               </button>
             </div>
-          </ng-template>
+          </ng-template> -->
           <ng-template #previewcontentmodal let-c="close" let-d="dismiss">
             <div style="width: 100%; padding: 10px">
               <button
@@ -1382,6 +1389,187 @@
               </button>
             </div>
           </ng-template>
+
+          <!-- -------------------------- nrusingh: 10-11-2022- ckeditor modified ------------------------------- -->
+          <!-- Add Content Modal -->
+          <ng-template
+            #addcontentmodal
+            let-c="close"
+            let-d="dismiss"
+            style="width: 666px"
+          >
+            <div style="width: 100%; padding: 10px">
+              <button
+                type="button"
+                class="btn btn-light"
+                (click)="c('Close click')"
+                style="float: right"
+              >
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row padd15">
+                <div class="tab_content_height margintop30" style="width: 100%">
+                  <ckeditor
+                    [editor]="Editor"
+                    [(ngModel)]="content_value"
+                    data="{{ content_value }}"
+                    (ready)="ckeditorOnReady($event)"
+                  ></ckeditor>
+
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    save_record
+                    (click)="addcontent()"
+                    style="margin-top: 10px; float: right"
+                  >
+                    Add Content
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <div class="row padd15">
+                    <input
+                      [(ngModel)]="add_q_question"
+                      type="text"
+                      class="form-control input-underline input-lg"
+                      placeholder="Question"
+                    />
+                  </div>
+                  <div class="row marginb10">
+                    <div class="col col-lg-1 col-md-1">A</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <input
+                        [(ngModel)]="add_q_optionA"
+                        type="text"
+                        class="form-control input-underline input-lg"
+                        placeholder="Option A"
+                      />
+                    </div>
+                    <div class="col col-lg-2 col-md-2"></div>
+                    <div class="col col-lg-1 col-md-1">B</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <input
+                        [(ngModel)]="add_q_optionB"
+                        type="text"
+                        class="form-control input-underline input-lg"
+                        placeholder="Option B"
+                      />
+                    </div>
+                  </div>
+                  <div class="row marginb10">
+                    <div class="col col-lg-1 col-md-1">C</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <input
+                        [(ngModel)]="add_q_optionC"
+                        type="text"
+                        class="form-control input-underline input-lg"
+                        placeholder="Option C"
+                      />
+                    </div>
+                    <div class="col col-lg-2 col-md-2"></div>
+                    <div class="col col-lg-1 col-md-1">D</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <input
+                        [(ngModel)]="add_q_optionD"
+                        type="text"
+                        class="form-control input-underline input-lg"
+                        placeholder="Option D"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-lg-1 col-md-1">Ans</div>
+                    <div class="col col-lg-4 col-md-4">
+                      <select
+                        value=""
+                        (change)="onselect_addq_select($event)"
+                        class="form-control"
+                      >
+                        <option value="">Select</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="addquestion()"
+                    style="margin-top: 10px; float: right"
+                  >
+                    Add Quiz
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+                style="margin-right: 9px"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="savecontent()"
+              >
+                &nbsp;&nbsp;&nbsp;Save All&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+
+          <!-- Edit Content Modal -->
+          <ng-template #editcontentmodal let-c="close" let-d="dismiss">
+            <div style="width: 100%; padding: 10px">
+              <button
+                type="button"
+                class="btn btn-light"
+                (click)="c('Close click')"
+                style="float: right"
+              >
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row padd15">
+                Content
+                <div class="tab_content_height margintop30">
+                  <ckeditor
+                    [editor]="Editor"
+                    [(ngModel)]="edit_content_value"
+                    data="{{ edit_content_value }}"
+                    (ready)="ckeditorOnReady($event)"
+                  ></ckeditor>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="updatecontent()"
+              >
+                &nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+          <!-- -------------------------------------------------------------------------------------------------- -->
           <div>
             <!-- <button (click)="save_btn_click()" class="btn btn-sm btn-primary float-right" type="button">&nbsp;&nbsp;&nbsp; {{ save_operation | titlecase }} &nbsp;&nbsp;&nbsp;</button> -->
           </div>
