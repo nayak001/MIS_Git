@@ -8,7 +8,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { DomSanitizer } from "@angular/platform-browser";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 //import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
-import DecoupledEditor from "@haifahrul/ckeditor5-build-rich";
+//import ClassicEditor from "@haifahrul/ckeditor5-build-rich";
 
 import swal from "sweetalert2";
 
@@ -109,7 +109,7 @@ export class Masterteachertraining2Component implements OnInit {
   edit_vediofiletype: any;
   edit_s3vedioname: any;
   //public Editor = ClassicEditor;
-  public Editor = DecoupledEditor;
+  public Editor = ClassicEditor;
 
   //---------------------------- nrusingh- ckeditor : 07-11-2022 ------------------------------
 
@@ -146,6 +146,7 @@ export class Masterteachertraining2Component implements OnInit {
       this.selected_preflanguage,
       this.selected_usertype
     );
+    
     this.Editor.defaultConfig = {
       toolbar: {
         items: [
@@ -173,6 +174,7 @@ export class Masterteachertraining2Component implements OnInit {
         contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
       },
     };
+    
   }
 
   transformToHtml(htmlTextWithStyle) {

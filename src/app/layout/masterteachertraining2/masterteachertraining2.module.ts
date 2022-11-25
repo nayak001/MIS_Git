@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { Masterteachertraining2RoutingModule } from "./masterteachertraining2-routing.module";
-//import { Masterteachertraining2Component } from "./masterteachertraining2.component";
+import { Masterteachertraining2Component } from "./masterteachertraining2.component";
 import { PageHeaderModule } from "./../../shared";
 import { DataTableModule } from "angular-6-datatable";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
@@ -23,7 +23,7 @@ import { Masterteachertraining2Service } from "./masterteachertraining2.service"
     FileUploadModule,
     NgbModule,
   ],
-  //declarations: [Masterteachertraining2Component],
+  declarations: [Masterteachertraining2Component],
   providers: [Masterteachertraining2Service],
 })
 export class Masterteachertraining2Module {}
