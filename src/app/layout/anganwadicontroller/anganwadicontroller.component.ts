@@ -54,6 +54,7 @@ export class AnganwadicontrollerComponent implements OnInit {
   ngOnInit() {
     this.getusercode();
   }
+
   getusercode() {
     this.hideLoading_indicator = false;
     this.angawadicontrollerService
@@ -76,11 +77,11 @@ export class AnganwadicontrollerComponent implements OnInit {
             this.no_record_selected = true;
           } else {
             this.allanganwadicontrollerlist = data;
-            console.log("alllist-->", this.allanganwadicontrollerlist);
+            // console.log("alllist-->", this.allanganwadicontrollerlist);
             this.allanganwadicontrollerlist_bkp = data;
             this.selected_record = data[0];
             this.record_id = this.selected_record._id;
-            console.log(" this.record_id-->", this.record_id);
+            // console.log(" this.record_id-->", this.record_id);
             this.record_onselect(this.selected_record);
             this.no_record_selected = false;
           }
@@ -101,6 +102,7 @@ export class AnganwadicontrollerComponent implements OnInit {
     this.anganwadiname = row.anganwadiname;
     this.passcode = row.passcode;
   }
+
   reset() {
     this.anganwadicode = "";
     this.anganwadiname = "";
@@ -180,6 +182,8 @@ export class AnganwadicontrollerComponent implements OnInit {
   select_id: any;
 
   updateAnganwadi() {
+    console.log("updt check");
+
     if (
       this.anganwadicode == null ||
       this.anganwadicode == undefined ||
@@ -214,85 +218,51 @@ export class AnganwadicontrollerComponent implements OnInit {
     // }
     else {
       this.hideLoading_indicator = false;
-      this.angawadicontrollerService
-        .checkanganwadicodeexistance(this.anganwadicode)
 
-        .subscribe(
-          (data1) => {
-            if (Object.keys(data1).length > 0) {
-              // if (data1[0]._id == this.selected_record._id) {
-              if ((this.selected_record.supervisorAssigned = true)) {
-                let body = {
-                  anganwadicode: this.anganwadicode,
-                  anganwadiname: this.anganwadiname,
-
-                  stateid: this.selected_stateid,
-                  state: this.selected_statename,
-                  districtid: this.selected_districtid,
-                  district: this.selected_districtname,
-                  blockid: this.selected_blockid,
-                  block: this.selected_blockname,
-                  passcode: this.passcode,
-                };
-
-                this.select_id = this.selected_record._id;
-                console.log("this.select_id-->", this.select_id);
-
-                console.log("body-->", body);
-
-                this.angawadicontrollerService
-                  .updateusercode(this.select_id, body)
-                  .subscribe((data2) => {
-                    console.log("data2-->", data2);
-                    this.modalReference.close();
-                    swal.fire(
-                      "Success",
-                      "Anganwadi Record updated successfully",
-                      "success"
-                    );
-                    this.getusercode();
-                    this.hideLoading_indicator = true;
-                    this.reset();
-                  });
-              } else {
-                swal.fire("Info", "SuperVisor  already exists", "warning");
-              }
-            } else {
-              let body = {
-                anganwadicode: this.anganwadicode,
-                anganwadiname: this.anganwadiname,
-                passcode: this.passcode,
-                stateid: this.selected_stateid,
-                state: this.selected_statename,
-                districtid: this.selected_districtid,
-                district: this.selected_districtname,
-                blockid: this.selected_blockid,
-                block: this.selected_blockname,
-              };
-              this.angawadicontrollerService
-                .updateusercode(this.record_id, body)
-                .subscribe(
-                  (data2) => {
-                    this.modalReference.close();
-                    swal.fire(
-                      "Success",
-                      "Anganwadi Record updated successfully",
-                      "success"
-                    );
-                    this.getusercode();
-                    this.hideLoading_indicator = true;
-                    this.reset();
-                  },
-                  (error) => {},
-                  () => {}
-                );
-            }
-            this.hideLoading_indicator = true;
-          },
-          (error) => {},
-          () => {}
+      if (this.selected_record.supervisorAssigned == true) {
+        swal.fire(
+          "Failure",
+          "Anganwadi Record cannot be updated because it is already assigned to a supervisor.",
+          "error"
         );
+        this.modalReference.close();
+        this.getusercode();
+        this.hideLoading_indicator = true;
+        this.reset();
+      } else {
+        let body = {
+          anganwadicode: this.anganwadicode,
+          anganwadiname: this.anganwadiname,
+          stateid: this.selected_stateid,
+          state: this.selected_statename,
+          districtid: this.selected_districtid,
+          district: this.selected_districtname,
+          blockid: this.selected_blockid,
+          block: this.selected_blockname,
+          passcode: this.passcode,
+        };
+
+        this.select_id = this.record_id;
+
+        console.log("body-->", body, "id", this.record_id);
+
+        this.angawadicontrollerService
+          .updateusercode(this.select_id, body)
+          .subscribe((data2) => {
+            console.log("data2-->", data2);
+            this.modalReference.close();
+            swal.fire(
+              "Success",
+              "Anganwadi Record updated successfully",
+              "success"
+            );
+            this.getusercode();
+            this.hideLoading_indicator = true;
+            this.reset();
+          });
+      }
     }
+    this.hideLoading_indicator = true;
   }
 
   deleteusercode() {
@@ -331,6 +301,7 @@ export class AnganwadicontrollerComponent implements OnInit {
         }
       });
   }
+
   search(term: string) {
     if (!term) {
       this.allanganwadicontrollerlist = this.allanganwadicontrollerlist_bkp;
@@ -355,6 +326,7 @@ export class AnganwadicontrollerComponent implements OnInit {
     } else if (flag == "update") {
       this.anganwadicode = this.selected_record.anganwadicode;
       this.anganwadiname = this.selected_record.anganwadiname;
+
       // this.passcode = this.selected_record.passcode;
     }
 
@@ -406,6 +378,7 @@ export class AnganwadicontrollerComponent implements OnInit {
     // console.log("stateid->",this.selected_stateid)
     this.selected_statename = selectedElementText;
   }
+
   selected_district_onchange(event: Event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -420,6 +393,16 @@ export class AnganwadicontrollerComponent implements OnInit {
     this.getblocksofdistricts();
   }
 
+  updatedDistrictOnChange(event: Event) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectedElementText = selectedOptions[selectedIndex].text;
+    this.selected_districtid = selectedOptionValue;
+    this.selected_districtname = selectedElementText;
+    this.getblocksofdistricts();
+  }
+
   selected_block_onchange(event: Event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -430,6 +413,16 @@ export class AnganwadicontrollerComponent implements OnInit {
     console.log("selected_blockid", this.selected_blockid);
     console.log("selected_blockname", this.selected_blockname);
     this.getusercode();
+  }
+
+  updatedBlockOnChange(e) {
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectedElementText = selectedOptions[selectedIndex].text;
+    this.selected_blockid = selectedOptionValue;
+    this.selected_blockname = selectedElementText;
+    console.log("e", this.selected_blockname);
   }
 
   private getDismissReason(reason: any): string {

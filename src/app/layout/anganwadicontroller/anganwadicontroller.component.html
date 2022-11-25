@@ -282,7 +282,7 @@
       <div class="col row-fluid" style="font-weight: bold">
         <select
           value="{{ selected_districtid }}"
-          (change)="selected_district_onchange($event)"
+          (change)="updatedDistrictOnChange($event)"
           class="form-control"
         >
           <option value=""></option>
@@ -300,7 +300,7 @@
       <div class="col row-fluid" style="font-weight: bold">
         <select
           value="{{ selected_blockid }}"
-          (change)="selected_block_onchange($event)"
+          (change)="updatedBlockOnChange($event)"
           class="form-control"
         >
           <option value=""></option>
