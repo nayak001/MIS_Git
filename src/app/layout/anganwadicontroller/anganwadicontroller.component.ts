@@ -221,8 +221,8 @@ export class AnganwadicontrollerComponent implements OnInit {
 
       if (this.selected_record.supervisorAssigned == true) {
         swal.fire(
-          "Failure",
-          "Anganwadi Record cannot be updated because it is already assigned to a supervisor.",
+          "Anganwadi Record cannot be updated!!!",
+          "It is already assigned to a supervisor.",
           "error"
         );
         this.modalReference.close();
