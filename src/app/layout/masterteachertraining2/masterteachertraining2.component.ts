@@ -5,7 +5,11 @@ import { HttpResponse, HttpEventType } from "@angular/common/http";
 import { Masterteachertraining2Service } from "./masterteachertraining2.service";
 import { ManagersboxService } from "./../managersbox/managersbox.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+import { DomSanitizer } from "@angular/platform-browser";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+//import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import DecoupledEditor from "@haifahrul/ckeditor5-build-rich";
+
 import swal from "sweetalert2";
 
 import { environment } from "./../../../environments/environment.prod";
@@ -21,7 +25,7 @@ export class Masterteachertraining2Component implements OnInit {
   // video
   isSelected: boolean = true;
   selected_preflanguage: string = "od";
-  selected_usertype:string="";
+  selected_usertype: string = "";
   disable_button: boolean;
   video_file_name: string = "";
   divs: number[] = [];
@@ -69,7 +73,7 @@ export class Masterteachertraining2Component implements OnInit {
 
   public allmodules_list: any;
   public allsubmodules_list: any;
-  selected_type:any;
+  selected_type: any;
   selected_moduleid: string = "";
   selected_modulename: string = "";
   selected_submoduleid: string = "";
@@ -104,13 +108,33 @@ export class Masterteachertraining2Component implements OnInit {
   edit_displayvedioname: any;
   edit_vediofiletype: any;
   edit_s3vedioname: any;
-  public Editor = ClassicEditor;
+  //public Editor = ClassicEditor;
+  public Editor = DecoupledEditor;
+
+  //---------------------------- nrusingh- ckeditor : 07-11-2022 ------------------------------
+
+  ckeditorOnReady(e) {
+    //console.log("%%%: ", Array.from(e.ui.componentFactory.names()));
+    e.ui
+      .getEditableElement()
+      .parentElement.insertBefore(
+        e.ui.view.toolbar.element,
+        e.ui.getEditableElement()
+      );
+    // for image
+    e.plugins.get("FileRepository").createUploadAdapter = function (loader) {
+      console.log(btoa(loader.file));
+      return new UploadAdapter(loader);
+    };
+  }
+  //-------------------------------------------------------------------------------------------
 
   constructor(
     private modalService: NgbModal,
     public router: Router,
     private masterteachertraining2Service: Masterteachertraining2Service,
-    private managersboxService: ManagersboxService
+    private managersboxService: ManagersboxService,
+    private domSanitizer: DomSanitizer
   ) {
     this.hideLoading_indicator = true;
     this.hideContent_div = true;
@@ -118,7 +142,10 @@ export class Masterteachertraining2Component implements OnInit {
 
   ngOnInit() {
     this.reset_contents();
-    this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+    this.load_allmodules_list(
+      this.selected_preflanguage,
+      this.selected_usertype
+    );
     this.Editor.defaultConfig = {
       toolbar: {
         items: [
@@ -145,17 +172,24 @@ export class Masterteachertraining2Component implements OnInit {
       table: {
         contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
       },
-      language: "en",
     };
   }
+
+  transformToHtml(htmlTextWithStyle) {
+    return this.domSanitizer.bypassSecurityTrustHtml(htmlTextWithStyle);
+  }
+
   preflanguage_select_onchange(event) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_preflanguage = selectedOptionValue;
-    console.log("language-->",this.selected_preflanguage )
-    this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+    console.log("language-->", this.selected_preflanguage);
+    this.load_allmodules_list(
+      this.selected_preflanguage,
+      this.selected_usertype
+    );
     this.allsubmodules_list = [];
     this.alltopic_list = [];
     this.data = [];
@@ -169,14 +203,14 @@ export class Masterteachertraining2Component implements OnInit {
     this.quiz_value = [];
   }
 
-  load_allmodules_list(language,usertype) {
+  load_allmodules_list(language, usertype) {
     // this.hideLoading_indicator = false;
     this.masterteachertraining2Service
-      .getalltrainingmodules(language,usertype)
+      .getalltrainingmodules(language, usertype)
       .subscribe(
         (data) => {
           this.allmodules_list = data;
-          console.log("modulelist-->", this.allmodules_list)
+          console.log("modulelist-->", this.allmodules_list);
           this.hideLoading_indicator = true;
         },
         (error) => {},
@@ -188,7 +222,11 @@ export class Masterteachertraining2Component implements OnInit {
     if (submoduleid != undefined && submoduleid != null && submoduleid != "") {
       this.hideLoading_indicator = false;
       this.masterteachertraining2Service
-        .getalltrainingtopics(this.selected_usertype,submoduleid, this.selected_preflanguage)
+        .getalltrainingtopics(
+          this.selected_usertype,
+          submoduleid,
+          this.selected_preflanguage
+        )
         .subscribe(
           (data) => {
             this.alltopic_list = data;
@@ -202,17 +240,21 @@ export class Masterteachertraining2Component implements OnInit {
     }
   }
   load_allsubmodules_list(moduleid) {
-    console.log("languagesub-->",this.selected_preflanguage)
+    console.log("languagesub-->", this.selected_preflanguage);
     if (moduleid != undefined && moduleid != null && moduleid != "") {
       this.hideLoading_indicator = false;
       this.masterteachertraining2Service
-   
-        .getalltrainingsubmodules(this.selected_usertype,moduleid,this.selected_preflanguage)
-       
+
+        .getalltrainingsubmodules(
+          this.selected_usertype,
+          moduleid,
+          this.selected_preflanguage
+        )
+
         .subscribe(
           (data) => {
             this.allsubmodules_list = data;
-            console.log("submodulelist-->",  this.allsubmodules_list)
+            console.log("submodulelist-->", this.allsubmodules_list);
             this.hideLoading_indicator = true;
           },
           (error) => {},
@@ -223,18 +265,21 @@ export class Masterteachertraining2Component implements OnInit {
     }
   }
 
-onselect_type_select(event){
-  const selectedOptions = event.target["options"];
+  onselect_type_select(event) {
+    const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_usertype = selectedOptionValue;
-    console.log("type-->",  this.selected_usertype )
-    this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+    console.log("type-->", this.selected_usertype);
+    this.load_allmodules_list(
+      this.selected_preflanguage,
+      this.selected_usertype
+    );
     // this.allsubmodules_list = [];
     // this.alltopic_list = [];
     // this.data = [];
-}
+  }
 
   onselect_modules_select(event) {
     const selectedOptions = event.target["options"];
@@ -242,7 +287,7 @@ onselect_type_select(event){
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_moduleid = selectedOptionValue;
-    console.log("moduleid-->", this.selected_moduleid)
+    console.log("moduleid-->", this.selected_moduleid);
     this.selected_modulename = selectElementText;
     this.reset_contents();
     this.load_allsubmodules_list(this.selected_moduleid);
@@ -256,7 +301,7 @@ onselect_type_select(event){
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_submoduleid = selectedOptionValue;
-    console.log("submoduleid-->",this.selected_submoduleid)
+    console.log("submoduleid-->", this.selected_submoduleid);
     this.selected_submodulename = selectElementText;
     // this.load_record();
 
@@ -270,9 +315,8 @@ onselect_type_select(event){
     const selectElementText = selectedOptions[selectedIndex].text;
 
     this.selected_topicid = selectedOptionValue;
-    console.log("topicid-->",this.selected_topicid)
+    console.log("topicid-->", this.selected_topicid);
     this.selected_topicname = selectElementText;
-    console.log("selected_topicname-->", this.selected_topicname)
     this.load_record();
 
     this.reset_contents();
@@ -325,6 +369,7 @@ onselect_type_select(event){
       this.masterteachertraining2Service
         .getalltrainingcontents(
           this.selected_usertype,
+
           this.selected_moduleid,
           this.selected_submoduleid,
           this.selected_topicid,
@@ -566,15 +611,17 @@ onselect_type_select(event){
   s3vediopath: any;
   obj: any;
   addcontent() {
+    console.log("@@@: ", this.content_value);
+
     if (
       this.content_value == "" ||
       this.content_value == undefined ||
       this.content_value == null
     ) {
       swal.fire("info", "Please add some content !!!", "warning");
-    } else if (this.content_value.length > 500) {
+    } /*else if (this.content_value.length > 500) {
       swal.fire("info", "you can add only 500 words", "warning");
-    } else {
+    } */ else {
       const obj = {
         contentid: new Date().getTime(),
         content: this.content_value,
@@ -634,7 +681,6 @@ onselect_type_select(event){
                 content: this.s3path,
                 type: "image",
               };
-              console.log("save image-->",obj)
               if (this.save_operation == "save") {
                 this.contents.push(obj);
               } else {
@@ -688,7 +734,7 @@ onselect_type_select(event){
   savecontent() {
     if (this.save_operation == "save" && this.contents.length > 0) {
       const body = {
-        usertype:this.selected_usertype,
+        usertype: this.selected_usertype,
         moduleid: this.selected_moduleid,
         modulename: this.selected_modulename,
         submoduleid: this.selected_submoduleid,
@@ -702,7 +748,6 @@ onselect_type_select(event){
         quiz: this.quiz_value,
         language: this.selected_preflanguage,
       };
-      console.log("save all-->",body)
       this.save_record(body);
       this.s3vedioname = "";
       this.s3vediopath = "";
@@ -711,7 +756,7 @@ onselect_type_select(event){
       this.disable_button = false;
     } else if (this.save_operation == "update" && this.allcontent.length > 0) {
       const body = {
-        usertype:this.selected_usertype,
+        usertype: this.selected_usertype,
         moduleid: this.selected_moduleid,
         modulename: this.selected_modulename,
         submoduleid: this.selected_submoduleid,
@@ -889,7 +934,7 @@ onselect_type_select(event){
   }
   async save_btn_click(selected_tab) {
     const body = {
-      usertype:this.selected_usertype,
+      usertype: this.selected_usertype,
       moduleid: this.selected_moduleid,
       modulename: this.selected_modulename,
       submoduleid: this.selected_submoduleid,
@@ -982,7 +1027,6 @@ onselect_type_select(event){
       this.displayname = event.target.files[0].name;
       this.filetype = this.displayname.split(".").pop();
       this.s3name = new Date().getTime() + "." + this.filetype;
-      console.log("s3name training onchange-->", this.s3name)
     } else {
       this.displayname = "";
       this.selectedFiles = null;
@@ -1062,6 +1106,8 @@ onselect_type_select(event){
       this.vedio_to_preview = obj.content;
     }
     this.modalReference = this.modalService.open(content, {
+      size: "lg",
+      windowClass: "modal-xl",
       backdrop: "static",
       keyboard: false,
     });
@@ -1120,5 +1166,26 @@ onselect_type_select(event){
     } else {
       return `with: ${reason}`;
     }
+  }
+}
+
+export class UploadAdapter {
+  private loader;
+  constructor(loader) {
+    this.loader = loader;
+  }
+
+  upload() {
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          var myReader = new FileReader();
+          myReader.onloadend = (e) => {
+            resolve({ default: myReader.result });
+          };
+
+          myReader.readAsDataURL(file);
+        })
+    );
   }
 }
