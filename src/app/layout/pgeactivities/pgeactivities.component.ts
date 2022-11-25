@@ -50,6 +50,9 @@ export class PgeactivitiesComponent implements OnInit {
     { value: "3", text: "3" },
     { value: "4", text: "4" },
     { value: "5", text: "5" },
+    { value: "6", text: "6" },
+    { value: "7", text: "7" },
+    { value: "8", text: "8" },
   ];
   skill_select_option_list: any = [];
 
@@ -102,13 +105,6 @@ export class PgeactivitiesComponent implements OnInit {
     this.video_value = [];
 
     //this.skillset_label = 'Skill Set';
-    this.class_select_option_list = [
-      { value: "1", text: "1" },
-      { value: "2", text: "2" },
-      { value: "3", text: "3" },
-      { value: "4", text: "4" },
-      { value: "5", text: "5" },
-    ];
 
     this.hide_Loading_indicator = true;
     this.hide_createnewsegment_button = true;
