@@ -634,6 +634,7 @@ onselect_type_select(event){
                 content: this.s3path,
                 type: "image",
               };
+              console.log("save image-->",obj)
               if (this.save_operation == "save") {
                 this.contents.push(obj);
               } else {
@@ -701,6 +702,7 @@ onselect_type_select(event){
         quiz: this.quiz_value,
         language: this.selected_preflanguage,
       };
+      console.log("save all-->",body)
       this.save_record(body);
       this.s3vedioname = "";
       this.s3vediopath = "";
@@ -980,6 +982,7 @@ onselect_type_select(event){
       this.displayname = event.target.files[0].name;
       this.filetype = this.displayname.split(".").pop();
       this.s3name = new Date().getTime() + "." + this.filetype;
+      console.log("s3name training onchange-->", this.s3name)
     } else {
       this.displayname = "";
       this.selectedFiles = null;

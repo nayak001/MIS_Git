@@ -203,7 +203,7 @@ export class FlnMasterComponent implements OnInit {
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_subject = selectedOptionValue;
     this.load_record();
-    // console.log("subj", this.selected_subject);
+     console.log("subj", this.selected_subject);
   }
 
   onselect_change_month(event) {
@@ -305,7 +305,7 @@ export class FlnMasterComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_activity_program = selectedOptionValue;
-   // console.log("selected program-->",this.selected_activity_program)
+    // console.log("selected program-->",this.selected_activity_program)
     this.load_record();
     this.load_activity_record();
     this.checkProgram2();
@@ -410,6 +410,8 @@ export class FlnMasterComponent implements OnInit {
     );
   }
 
+ 
+
   addquiz12() {
     if (this.add_q_question == "") {
       swal.fire("info", "Please add the question!!!", "warning");
@@ -496,8 +498,9 @@ export class FlnMasterComponent implements OnInit {
         class: this.selected_class,
         subject: this.selected_subject,
         program:this.selected_program,
+       
       };
-     // console.log("bodyfln", body);
+     console.log("bodyfln", body);
 
       this.FlnService.createflnmasterdata(body).subscribe(
         (data) => {
@@ -521,6 +524,7 @@ export class FlnMasterComponent implements OnInit {
       this.displayname = event.target.files[0].name;
       this.filetype = this.displayname.split(".").pop();
       this.s3name = new Date().getTime() + "." + this.filetype;
+      console.log("s3name-->", this.s3name)
       this.hideProgressbar = false;
       this.progress.percentage = 0;
       this.currentFileUpload = this.selectedFiles.item(0);

@@ -9,6 +9,65 @@
               <h4>SUPERVISOR CONTROLLER</h4>
             </div>
 
+            <div class = "update" >
+              <div class="row">
+                <div class="col col-xl-4 col-lg-4 form_label">State</div>
+                <div class="col row-fluid" style="font-weight: bold">
+                  <select
+                    value="{{ selected_stateid2}}"
+                    (change)="selected_state_onchange2($event)"
+                    class="form-control"
+                  >
+                    <option></option>
+                    <option value="20">Odisha</option>
+                  </select>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row">
+                <div class="col col-xl-4 col-lg-4 form_label">District</div>
+                <div class="col row-fluid" style="font-weight: bold">
+                  <select
+                    value="{{ selected_districtid2 }}"
+                    (change)="selected_district_onchange2($event)"
+                    class="form-control"
+                  >
+                    <!-- [(ngModel)]="selected_districtname" -->
+                    <option value=""></option>
+                    <option
+                      *ngFor="let dist of alldistrictdata"
+                      value="{{ dist._id }}"
+                    >
+                      {{ dist.districtname | titlecase }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row">
+                <div class="col col-xl-4 col-lg-4 form_label">Block</div>
+                <div class="col row-fluid" style="font-weight: bold">
+                  <select
+                    value="{{ selected_blockid2 }}"
+                    (change)="selected_block_onchange2($event)"
+                    class="form-control"
+                  >
+                    <option value=""></option>
+                    <option
+                      *ngFor="let block of allblockdata"
+                      value="{{ block._id }}"
+                    >
+                      {{ block.blockname | titlecase }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <div class="col">
               <button
                 type="button"
@@ -36,51 +95,13 @@
           </div>
           <div>
             <div class="row">
-              <!-- SEARCH -->
-              <!-- <div class="col col-xl-6 col-lg-6"> -->
-              <!-- <div class="row">
-                  <div class="col col-xl-4 col-lg-4">
+            
 
-                  </div>
-                  <div class="col col-xl-6 col-lg-6">
-                  
-                    <input
-                      (keyup)="search($event)"
-                      type="text"
-                      placeholder="Search"
-                      class="modal_textbox"
-                    />
-                  </div>
-                </div> -->
-
-              <!-- </div>   -->
-
-              <!-- <div class=""   *ngIf="this.sup == false"> -->
-              <!-- <h2>
-                  {{ allanganwadilist_bkp.anganwadiname.length }} Record(s)
-                </h2> -->
-              <!-- <table>
-                <tr
-                  *ngFor="
-                    let row of allanganwadilist_bkp.anganwadiname;
-                    let i = index
-                  "
-                >
-                  <td style="width: 10%">{{ i + 1 }}</td>
-                  <td style="width: 80%">
-                    <div class="row">{{ row.passcode }}</div>
-                    <div class="row">
-                      {{ row.anganwadiname }} Anganwadis found
-                    </div>
-                  </td>
-                </tr>
-              </table> -->
-              <!-- </div> -->
-
-              <!-- SEARCH -->
+              <hr />
 
               <!-- Records List -->
-              <div class="col col-xl-6 col-lg-6" *ngIf="this.sup == true">
+           
+              <div class="col col-xl-6 col-lg-6" >
                 <!-- <div class="col col-xl-6 col-lg-6" > -->
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">
@@ -97,6 +118,13 @@
                 </div>
                 <div class="">
                   <table>
+                    <tr>
+                      <th>Sl No.</th>
+                      <th>Passcode</th>
+
+                      <th>Anganwadi Name</th>
+                    </tr>
+
                     <tr
                       *ngFor="let row of supervisordata; let i = index"
                       (click)="record_onselect(row)"
@@ -105,22 +133,17 @@
                       <td style="width: 60%">
                         {{ row.passcode }}
                       </td>
-                      <!-- <div class="row">
+                      <div *ngFor="let item of row.anganwadiList">
+                        <td style="width: 60%">
+                          {{ item.anganwadiname }}
+                        </td>
+                      </div>
+                    </tr>
+                    <!-- <div class="row">
                           ({{ row.anganwadiList.length }}) Anganwadis found
                         </div> -->
-                      <table
-                        *ngFor="
-                          let anganwadi of row.anganwadiList;
-                          let j = index
-                        "
-                      >
-                        <tr *ngIf="anganwadi.supervisorAssigned == true">
-                          <td style="width: 60%">
-                            {{ anganwadi.anganwadiname }}
-                          </td>
-                        </tr>
-                      </table>
-                      <!-- <div
+                  </table>
+                  <!-- <div
                           *ngFor="
                             let anganwadi of row.anganwadiList;
                             let j = index
@@ -132,8 +155,6 @@
                             Selected:- {{ j + 1 }}.{{ anganwadi.anganwadiname }}
                           </div>
                         </div> -->
-                    </tr>
-                  </table>
                 </div>
               </div>
 
@@ -159,6 +180,16 @@
                   </div>
                 </div>
                 <div class="" [hidden]="no_record_selected">
+
+                  <div class="row">
+                    <div class="col col-xl-4 col-lg-4">Supervisor Id</div>
+                    <div class="col">:{{ supervisorid }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-xl-4 col-lg-4">Supervisor Name</div>
+                    <div class="col">:{{supervisorname }}</div>
+                  </div>
+                 
                   <div class="row">
                     <div class="col col-xl-4 col-lg-4">Supervisor Passcode</div>
                     <div class="col">:{{ txt_passcode }}</div>
@@ -256,7 +287,7 @@
           <input
             type="checkbox"
             name="item.name"
-            (change)="onchange()"
+            (click)="onchange(item)"
             [(ngModel)]="item.supervisorAssigned"
           />
         </div>
@@ -323,7 +354,7 @@
               <input
                 type="checkbox"
                 [checked]="item.supervisorAssigned"
-                (change)="onchange_update()"
+                (change)="onchange_update(item)"
                 [(ngModel)]="item.supervisorAssigned"
               />
             </div>
@@ -349,7 +380,7 @@
               <input
                 type="checkbox"
                 [checked]="item.supervisorAssigned"
-                (change)="onchange_update()"
+                (change)="onchange_update(item)"
                 [(ngModel)]="item.supervisorAssigned"
               />
             </div>

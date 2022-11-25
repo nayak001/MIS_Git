@@ -73,6 +73,7 @@
                 <option value="8">8</option>
               
               </select>
+             
             </div>
 
             <div *ngIf = "isECE == true" class="col col-xl-2 col-lg-2">Select Level</div>
@@ -89,6 +90,7 @@
                 
               
               </select>
+              
             </div>
 
 
@@ -119,8 +121,8 @@
                 class="form-control"
               >
                 <option value="">Select Skills</option>
-                <option value="foundationalliteracy">Foundational Literacy</option>
-                <option value="foundationalnumeracy">Foundational Numeracy</option>
+                <option value="foundationaLiteracy">Foundational Literacy</option>
+                <option value="foundationalNumeracy">Foundational Numeracy</option>
                
           
               </select>
@@ -138,6 +140,9 @@
                 <option value="endline">Endline</option>
               </select>
             </div>
+           
+
+          
           </div>
           <!-- <div class="card-body table-responsive" *ngIf="show_month">
             <div class="row">
@@ -206,6 +211,11 @@
                               {{ i + 1 }}.
                               {{ assessmentquestion.assessmentquestion }}
                             </div>
+                            <div class="col col-xl-12 col-lg-12 q_div">
+                             <img
+                             {{assessmentquestion.imageurl}}
+                             />
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -259,7 +269,55 @@
                   placeholder="Question"
                 />
               </div>
-           
+              <table class="table50">
+                <tr>
+                  <td>
+                    <span class="bold-font">Upload image:</span>
+                    <div
+                      *ngIf="currentFileUpload"
+                      class="progress"
+                      [hidden]="hideProgressbar"
+                    >
+                      <div
+                        class="progress-bar progress-bar-info progress-bar-striped"
+                        role="progressbar"
+                        attr.aria-valuenow="{{ progress.percentage }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [ngStyle]="{ width: progress.percentage + '%' }"
+                      >
+                        {{ progress.percentage }}%
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="file-upload">
+                      <input
+                        multiple
+                        type="file"
+                        #fileInput
+                        (change)="filechooser_onchange($event)"
+                        accept="image/x-png,image/gif,image/jpeg"
+                      />
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div *ngIf="s3path" class="image_preview_container">
+                      <div class="image_preview">
+                        <div>
+                          <img src="{{ s3path }}" class="image" />
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+              </table>
           
           
             </div>
