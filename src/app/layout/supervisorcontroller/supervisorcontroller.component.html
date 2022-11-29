@@ -9,12 +9,12 @@
               <h4>SUPERVISOR CONTROLLER</h4>
             </div>
 
-            <div class = "update" >
+            <div class="update">
               <div class="row">
                 <div class="col col-xl-4 col-lg-4 form_label">State</div>
                 <div class="col row-fluid" style="font-weight: bold">
                   <select
-                    value="{{ selected_stateid2}}"
+                    value="{{ selected_stateid2 }}"
                     (change)="selected_state_onchange2($event)"
                     class="form-control"
                   >
@@ -95,13 +95,11 @@
           </div>
           <div>
             <div class="row">
-            
-
               <hr />
 
               <!-- Records List -->
-           
-              <div class="col col-xl-6 col-lg-6" >
+
+              <div class="col col-xl-6 col-lg-6">
                 <!-- <div class="col col-xl-6 col-lg-6" > -->
                 <div class="row">
                   <div class="col col-xl-4 col-lg-4">
@@ -180,16 +178,15 @@
                   </div>
                 </div>
                 <div class="" [hidden]="no_record_selected">
-
                   <div class="row">
                     <div class="col col-xl-4 col-lg-4">Supervisor Id</div>
                     <div class="col">:{{ supervisorid }}</div>
                   </div>
                   <div class="row">
                     <div class="col col-xl-4 col-lg-4">Supervisor Name</div>
-                    <div class="col">:{{supervisorname }}</div>
+                    <div class="col">:{{ supervisorname }}</div>
                   </div>
-                 
+
                   <div class="row">
                     <div class="col col-xl-4 col-lg-4">Supervisor Passcode</div>
                     <div class="col">:{{ txt_passcode }}</div>
