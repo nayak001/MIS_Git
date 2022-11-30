@@ -2,55 +2,56 @@
 @import url("http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
 @import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
 */
-table{
-    width: 60%;
-    border: 1px solid #d7d7d7;
-    margin-left: 15%;
+table {
+  width: 60%;
+  border: 1px solid #d7d7d7;
+  margin-left: 15%;
 }
-table td{
-    vertical-align: top;
-    padding: 10px;
-    font-size: 15px;
-    font-weight: bold;
-    color: gray;
+table td {
+  vertical-align: top;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  color: rgb(2, 2, 2);
 }
-.bold-font{
-	font-size: 11px !important;
-	font-weight: bold;
-	color: #2e2ef9;
-	font-family: 'Arial';
+tr:hover {
+  background-color: rgba(114, 110, 110, 0.733);
 }
-.modal-footer{
-    border-top: 1px solid #848484;
-    background-color: #c3c3c3;
+.bold-font {
+  font-size: 11px !important;
+  font-weight: bold;
+  color: #2e2ef9;
+  font-family: "Arial";
 }
-.btn{
-	border-radius: 0rem;
+.modal-footer {
+  border-top: 1px solid #848484;
+  background-color: #c3c3c3;
 }
-.modal-text{
-	font-size: 22px;
-    color: #505050;
+.btn {
+  border-radius: 0rem;
 }
-.warning-icon{
-	width: 40px;
-	height: 40px;
-	margin-left: 40px;
+.modal-text {
+  font-size: 22px;
+  color: #505050;
 }
-.validation-error-message{
-	color: red;
-    font-size: 10px;
-    font-weight: bold;
+.warning-icon {
+  width: 40px;
+  height: 40px;
+  margin-left: 40px;
 }
-.modal_textbox{
-	width: 100%;
-    border: none;
-    border-bottom: 1px solid #b7b7b7;
-    margin-bottom: 30px;
-    font-family: arial;
-    font-size: 12px;
-
+.validation-error-message {
+  color: red;
+  font-size: 10px;
+  font-weight: bold;
+}
+.modal_textbox {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #b7b7b7;
+  margin-bottom: 30px;
+  font-family: arial;
+  font-size: 12px;
 }
 .modal_textbox:focus {
-    outline-width: 0;
+  outline-width: 0;
 }
-
