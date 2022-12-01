@@ -166,6 +166,7 @@ export class Masterteachertraining2Component implements OnInit {
         "fontBackgroundColor",
         "highlight",
         "|",
+        "horizontalLine",
         "link",
         "CKFinder",
         "imageUpload",
