@@ -12,7 +12,10 @@ table td{
     padding: 10px;
     font-size: 15px;
     font-weight: bold;
-    color: gray;
+    color: rgb(9, 9, 9);
+}
+tr:hover{
+    background-color: #505050b4;
 }
 .bold-font{
 	font-size: 11px !important;
