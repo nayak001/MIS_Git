@@ -11,6 +11,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { FileUploadModule } from "ng2-file-upload";
 
 import { MasterNsdcService } from "./masternsdcmodule.service";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 @NgModule({
   imports: [
     CommonModule,
@@ -22,6 +23,7 @@ import { MasterNsdcService } from "./masternsdcmodule.service";
     CKEditorModule,
     FileUploadModule,
     NgbModule,
+    NgMultiSelectDropDownModule,
   ],
   declarations: [MasterNsdcComponent],
   providers: [MasterNsdcService],

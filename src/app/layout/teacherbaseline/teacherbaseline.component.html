@@ -31,6 +31,21 @@
                 <option value="hi">हिंदी</option>
               </select>
             </div>
+
+            <div class="col col-xl-3 col-lg-3">
+              <div style="margin: 10px; margin-left: 1px">Select Usertype</div>
+              <select
+                value=""
+                (change)="onselect_usertype_select($event)"
+                class="form-control"
+              >
+                <option value="">Select</option>
+
+                <option value="fellow">Fellow</option>
+                <option value="anganwadi">anganwadi</option>
+              </select>
+            </div>
+
             <div class="col col-xl-3 col-lg-3">
               <div style="margin: 10px; margin-left: 1px">Select Category</div>
               <select
@@ -39,24 +54,33 @@
                 class="form-control"
               >
                 <option value="">Select</option>
-                <option value="pedagogy" selected>
-                  Child Development and Pedagogy
+                <option value="pedagogy" *ngIf="anganwadi==false" >
+                   Pedagogy
                 </option>
-                <option value="odia">Odia</option>
-                <option value="math">Math</option>
-                <option value="english">English</option>
-                <option value="technology">Technology</option>
+                <option value="odia" *ngIf="anganwadi==false">Odia</option>
+                <option value="math" *ngIf="anganwadi==false">Math</option>
+                <option value="english" *ngIf="anganwadi==false">English</option>
+                <option value="technology" *ngIf="anganwadi==false">Technology</option>
+
+
+                <option value="childDevelopment" *ngIf="anganwadi==true"  >Child development</option>
+                <option value="preschoolEducation" *ngIf="anganwadi==true">Preschool education</option>
+                <option value="developmentallyAppropriateActivities" *ngIf="anganwadi==true">
+                  Developmentally appropriate activities
+                </option>
+                <option value="communicationAndEngagement" *ngIf="anganwadi==true">Communication and engagement</option>
+                <option value="fln" *ngIf="anganwadi==true">FLN</option>
               </select>
             </div>
             <div class="col col-xl-3 col-lg-3">
-              <div style="margin: 10px; margin-left: 1px">Select Program</div>
+              <div style="margin: 10px; margin-left: 1px">Select Assessment Type</div>
               <select
                 value=""
                 (change)="onselect_assesment_select($event)"
                 class="form-control"
               >
                 <option value="">Select</option>
-                <option value="baseline" selected>Baseline</option>
+                <option value="baseline" >Baseline</option>
                 <option value="endline">Endline</option>
               </select>
             </div>

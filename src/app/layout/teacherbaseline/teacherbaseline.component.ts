@@ -64,6 +64,8 @@ export class TeacherbaselineComponent implements OnInit {
   selected_qans_val_edit: string = "";
   selected_qans_text_edit: string = "";
 
+  usertype:string=""
+  selected_usertype:string=""
   // quiz - delete
   delete_q_index: string = "";
 
@@ -79,10 +81,11 @@ export class TeacherbaselineComponent implements OnInit {
   public data: any;
   modalReference: any;
   closeResult: string;
-
+  anganwadi: boolean= false;
   save_operation: string = "save";
   hideLoading_indicator: boolean;
   hideContent_div: boolean;
+  selected_type:string
 
   record_id: string = "";
   content_value: string = "";
@@ -127,6 +130,7 @@ export class TeacherbaselineComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_assesment = selectedOptionValue;
+    console.log("assessment-->",this.selected_assesment )
     this.load_record();
   }
   selected_category: any = "pedagogy";
@@ -136,8 +140,41 @@ export class TeacherbaselineComponent implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_category = selectedOptionValue;
+    console.log("category-->",this.selected_category )
     this.load_record();
   }
+
+  onselect_type_select(event) {
+    console.log("called");
+    
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+    this.selected_type = selectedOptionValue;
+  
+   console.log("usertype-->",this.anganwadi)
+    this.load_record();
+  }
+
+  onselect_usertype_select(event) {
+
+    console.log("event", event);
+    
+    const selectedOptions = event.target["options"];
+    const selectedIndex = selectedOptions.selectedIndex;
+    const selectedOptionValue = selectedOptions[selectedIndex].value;
+    const selectElementText = selectedOptions[selectedIndex].text;
+
+    this.selected_usertype = selectedOptionValue;
+    this.selected_usertype == "anganwadi"  ?  this.anganwadi = true : this.anganwadi = false
+    console.log("usertype", this.selected_usertype, "anganwadi", this.anganwadi)
+    // this.load_record();
+    
+  }
+
+
+
   onselect_editq_select(value) {
     const selectedOptions = event.target["options"];
     const selectedIndex = selectedOptions.selectedIndex;
@@ -157,9 +194,10 @@ export class TeacherbaselineComponent implements OnInit {
     this.selected_qans_text_add = selectElementText;
   }
   delete_q_qid: any;
+ 
   open(content, obj, index, flag) {
     console.log(content, "content", obj, "obj", index, "index", flag, "flag");
-    console.log(typeof obj._id);
+    // console.log(typeof obj._id);
 
     // update
     if (flag == "add") {
@@ -233,12 +271,16 @@ export class TeacherbaselineComponent implements OnInit {
     this.TeacherbaselineService.getallteacherassesment(
       this.selected_assesment,
       this.selected_preflanguage,
-      this.selected_category
+      this.selected_category,
+      // this.selected_type,
+       this.selected_usertype
+      
     ).subscribe(
       (data) => {
         if (Object.keys(data).length > 0) {
           this.dataid = data[0]._id;
           this.quiz_value = data;
+          console.log("quiz value-->", this.quiz_value)
           this.save_operation = "update";
         } else {
           this.quiz_value = [];
@@ -317,6 +359,7 @@ export class TeacherbaselineComponent implements OnInit {
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
+        usertype:this.selected_usertype
       };
       this.TeacherbaselineService.createteacherassesment(body).subscribe(
         (data) => {
@@ -346,6 +389,7 @@ export class TeacherbaselineComponent implements OnInit {
         language: this.selected_preflanguage,
         type: this.selected_assesment,
         category: this.selected_category,
+        userType:this.selected_type
       };
       this.selected_qans_val_edit = "";
       this.TeacherbaselineService.updateteacherassesment(

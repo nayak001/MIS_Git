@@ -244,6 +244,7 @@ export class UdisemanagerComponent implements OnInit {
   search(term: string) {
     if (!term) {
       this.alludisecodeslist = this.alludisecodeslist_bkp;
+      console.log("search udise1-->",this.alludisecodeslist)
     } else {
       this.alludisecodeslist = this.alludisecodeslist_bkp.filter((element) =>
         element.schoolname
@@ -252,6 +253,7 @@ export class UdisemanagerComponent implements OnInit {
           .includes(term.trim().toLowerCase())
       );
     }
+    console.log("search udise-->",this.alludisecodeslist_bkp)
   }
 
   // ----------------------------- Modal -------------------------------

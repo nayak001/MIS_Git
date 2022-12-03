@@ -25,11 +25,13 @@ export class MasterNsdcService {
       }
     );
   }
+
   getnsdcexamquestions(questiontype) {
     return this.http.get(baseUrl + "getnsdcexamquestions/" + questiontype, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
+
   createteacherassesment(formData) {
     return this.http.post(baseUrl + "createteacherassessment", formData, {
       headers: new HttpHeaders()
@@ -38,6 +40,7 @@ export class MasterNsdcService {
       //,responseType: 'text'
     });
   }
+
   updateuserstatus(formData) {
     return this.http.post(baseUrl + "updateuserstatus", formData, {
       headers: new HttpHeaders()
@@ -46,30 +49,35 @@ export class MasterNsdcService {
       //,responseType: 'text'
     });
   }
+
   updateteacherassesment(id, body) {
     return this.http.put(baseUrl + "updateteacherassessment/" + id, body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //responseType: 'text'
     });
   }
+
   deleteusernsdcans(userid) {
     return this.http.delete(baseUrl + "deleteusernsdcans/" + userid, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       // responseType: "text",
     });
   }
+
   updatetrainingcontentsbyid(id, body) {
     return this.http.put(baseUrl + "ppt_updatecontentbyid/" + id, body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //,responseType: 'text'
     });
   }
+
   updatetrainingcontents(id, body) {
     return this.http.put(baseUrl + "updatetrainingcontentsbyid/" + id, body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //,responseType: 'text'
     });
   }
+
   deletecontent(id) {
     return this.http.delete(baseUrl + "deleteteacherassessment/" + id, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
@@ -97,11 +105,21 @@ export class MasterNsdcService {
     );
   }
 
-  getnsdcusers() {
-    return this.http.get(baseUrl + "getnsdcusers", {
+  getallpasscodelist(managertype) {
+    return this.http.get(baseUrl + "getAllPasscodeData/" + managertype, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
       //responseType: 'text'
     });
+  }
+
+  getnsdcusers(managerid, passcode) {
+    return this.http.get(
+      baseUrl + "getnsdcusers/" + managerid + "/" + passcode,
+      {
+        headers: new HttpHeaders().set("Content-Type", "application/json"),
+        //responseType: 'text'
+      }
+    );
   }
 
   getansfromuser(userid) {

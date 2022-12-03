@@ -106,6 +106,17 @@
       <i class="fa fa-fw fa-cc"></i>&nbsp;
       <span>{{ "UDISE Manager" | translate }}</span>
     </a>
+
+    <a
+      [routerLink]="['/anganwadicontroller']"
+      [routerLinkActive]="['router-link-active']"
+      class="list-group-item"
+    >
+    <i class="fa fa-hourglass-half" aria-hidden="true"></i>
+    &nbsp;
+      <span>{{ "Anganwadi Controller" | translate }}</span>
+    </a>
+
     <a
       [routerLink]="['/dashboardslidermanager']"
       [routerLinkActive]="['router-link-active']"
@@ -194,6 +205,7 @@
       <i class="fa fa-fw fa-wpexplorer"></i>&nbsp;
       <span>{{ "Assessment Master" | translate }}</span>
     </a>
+
     <a
       [routerLink]="['/homebasemaster']"
       [routerLinkActive]="['router-link-active']"
@@ -302,6 +314,16 @@
       <i class="fa fa-fw fa-grav"></i>&nbsp;
       <span>{{ "Teacher Training" | translate }}</span>
     </a>
+
+    <a
+    [routerLink]="['/supervisorcontroller']"
+    [routerLinkActive]="['router-link-active']"
+    class="list-group-item"
+  >
+    <i class="fa fa-fw fa-grav"></i>&nbsp;
+    <span>{{ "Supervisor Controller" | translate }}</span>
+  </a>
+
     <a
       [routerLink]="['/offlinetraining']"
       [routerLinkActive]="['router-link-active']"

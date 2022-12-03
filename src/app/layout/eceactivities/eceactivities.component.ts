@@ -30,7 +30,7 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_program = "ece";
     this.selected_subject = "";
     this.selected_themeid = "";
-    this.selected_skillsetid = "";
+    this.selected_skillsetid = null;
     this.selected_class = "";
 
     this.content_value = "";
@@ -156,31 +156,36 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_subject = "na";
     this.selected_themeid = "";
     this.selected_themename = "";
-    this.selected_skillsetid = "";
+    // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.theme_select_option_list = [
-      { value: "bodyparts", text: "Body Parts" },
+      { value: "meAndMyFamily ", text: "Me and my family" },
       {
-        value: "animalsbirds&theirsounds",
-        text: "Animals, Birds & their Sounds",
+        value: "myHome",
+        text: "My home",
       },
       {
-        value: "flowersfruits&vegetables",
-        text: "Flowers, Fruits & Vegetables",
+        value: "occupations",
+        text: "Occupations",
       },
-      { value: "house&accessories", text: "House & Accessories" },
-      { value: "transportation", text: "Transportation" },
-      { value: "occupation", text: "Occupation" },
-      { value: "serviceprovidingcenter", text: "Service Providing Center" },
-      { value: "insects", text: "Insects" },
-      { value: "environment", text: "Environment" },
+      { value: "animalsAndBirds", text: "Animals and birds" },
+      {
+        value: "plants,trees,flowers,fruits",
+        text: "Plants, trees, flowers, fruits",
+      },
+      { value: "transportation ", text: "Transportation " },
       { value: "seasons", text: "Seasons" },
+      { value: "myPhysicalEnvironment", text: "My physical environment" },
+      { value: "mySocialEnvironment ", text: "My social environment " },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     this.skill_select_option_list = [
       { value: "physical", text: "Physical" },
       { value: "memory", text: "Memory" },
       { value: "social&emotional", text: "Social & Emotional" },
       { value: "language", text: "Language" },
+      // { value: "odia", text: "odia" },
+      // { value: "english", text: "english" },
     ];
     this.class_select_option_list = [
       { value: "1", text: "1" },
@@ -205,33 +210,40 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_class = selectedOptionValue;
 
     this.theme_select_option_list = [
-      { value: "bodyparts", text: "Body Parts" },
+      { value: "meAndMyFamily", text: "Me and my family" },
+      { value: "animalsAndBirds", text: "animals and birds" },
       {
-        value: "animalsbirds&theirsounds",
-        text: "Animals, Birds & their Sounds",
+        value: "myHome",
+        text: "My home",
       },
       {
-        value: "flowersfruits&vegetables",
-        text: "Flowers, Fruits & Vegetables",
+        value: "occupations",
+        text: "Occupations",
       },
-      { value: "house&accessories", text: "House & Accessories" },
-      { value: "transportation", text: "Transportation" },
-      { value: "occupation", text: "Occupation" },
-      { value: "serviceprovidingcenter", text: "Service Providing Center" },
-      { value: "insects", text: "Insects" },
-      { value: "environment", text: "Environment" },
+      { value: "animalsAndBirds", text: "Animals and birds" },
+      {
+        value: "plants,trees,flowers,fruits",
+        text: "Plants, trees, flowers, fruits",
+      },
+      { value: "transportation ", text: "Transportation " },
       { value: "seasons", text: "Seasons" },
+      { value: "myPhysicalEnvironment", text: "My physical environment" },
+      { value: "mySocialEnvironment ", text: "My social environment " },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
+    ////////////////////////////////////////////////Skilll__start/////////////////////////////////////////////////////
     this.skill_select_option_list = [
       { value: "physical", text: "Physical" },
       { value: "memory", text: "Memory" },
       { value: "social&emotional", text: "Social & Emotional" },
       { value: "language", text: "Language" },
     ];
+    ////////////////////////////////////////////////Skilll_End/////////////////////////////////////////////////////
+
     this.selected_subject = this.selected_program == "ece" ? "na" : "";
     this.selected_themeid = "";
     this.selected_themename = "";
-    this.selected_skillsetid = "";
+    // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.load_record(
       this.selected_preflanguage,
@@ -251,7 +263,7 @@ export class EceactivitiesComponent implements OnInit {
     this.selected_themeid = selectedOptionValue;
     this.selected_themename = selectElementText;
 
-    this.selected_skillsetid = "";
+    // this.selected_skillsetid = "";
     this.selected_skillsetname = "";
     this.load_record(
       this.selected_preflanguage,
@@ -626,9 +638,9 @@ export class EceactivitiesComponent implements OnInit {
       theme != undefined &&
       theme != null &&
       theme != "" &&
-      skill != undefined &&
-      skill != null &&
-      skill != "" &&
+      // skill != undefined &&
+      // skill != null &&
+      // skill != "" &&
       clas != undefined &&
       clas != null &&
       clas != ""
@@ -640,6 +652,7 @@ export class EceactivitiesComponent implements OnInit {
       this.hide_createnewsegment_button = false;
 
       let preferedlanguage = preflanguage;
+
       this.eceactivitiesService
         .getmasteractivitiydetails(
           preferedlanguage,
@@ -711,6 +724,8 @@ export class EceactivitiesComponent implements OnInit {
             ],
             extraresources: [],
           };
+          //console.log("save body", body);
+
           this.save_record(body);
           this.modalReference.close();
         } else {
@@ -874,6 +889,8 @@ export class EceactivitiesComponent implements OnInit {
   }
 
   async save_record(body) {
+    //console.log("saveAct", body);
+
     this.eceactivitiesService.createmasteractivities(body).subscribe(
       (data) => {
         swal.fire("Successful", "Data saved successfully", "success");
