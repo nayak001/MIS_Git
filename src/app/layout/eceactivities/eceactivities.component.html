@@ -68,6 +68,7 @@
                                       [editor]="Editor1"
                                       [(ngModel)]="content_value"
                                       data=""
+                                      (ready)="ckeditorOnReady($event)"
                                     ></ckeditor>
                                   </div>
                                   <br />
@@ -418,7 +419,7 @@
                 <div class="mobile_view">
                   <div
                     #show_segment_details
-                    [innerHTML]="current_segment_details"
+                    [innerHTML]="transformToHtml(current_segment_details)"
                   ></div>
                 </div>
               </td>
@@ -595,11 +596,17 @@
         <div id="content_div" class="pad25">
           <!-- Text Contents  -->
           <div>
-            <ckeditor
+            <!-- <ckeditor
               #editor
               [editor]="Editor2"
               [(ngModel)]="content_value"
               data="{{ content_value }}"
+            ></ckeditor> -->
+            <ckeditor
+              [editor]="Editor2"
+              [(ngModel)]="content_value"
+              data="{{ content_value }}"
+              (ready)="ckeditorOnReady($event)"
             ></ckeditor>
           </div>
           <br />

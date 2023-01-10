@@ -5,10 +5,10 @@ import { HttpResponse, HttpEventType } from "@angular/common/http";
 import { Masterteachertraining2Service } from "./masterteachertraining2.service";
 import { ManagersboxService } from "./../managersbox/managersbox.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
-import { DomSanitizer } from "@angular/platform-browser";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 //import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 import DecoupledEditor from "@haifahrul/ckeditor5-build-rich";
+import { DomSanitizer } from "@angular/platform-browser";
 
 import swal from "sweetalert2";
 

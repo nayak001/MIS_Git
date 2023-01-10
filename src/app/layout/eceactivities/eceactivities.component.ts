@@ -5,7 +5,10 @@ import { routerTransition } from "../../router.animations";
 import { Router } from "@angular/router";
 import { HttpResponse, HttpEventType } from "@angular/common/http";
 import swal from "sweetalert2";
+
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import DecoupledEditor from "@haifahrul/ckeditor5-build-rich";
+import { DomSanitizer } from "@angular/platform-browser";
 
 import { EceactivitiesService } from "./eceactivities.service";
 import { GalleryService } from "./../gallery/gallery.service";
@@ -20,12 +23,80 @@ import { ManagersboxService } from "./../managersbox/managersbox.service";
   animations: [routerTransition()],
 })
 export class EceactivitiesComponent implements OnInit {
+  //---------------------------- nrusingh- ckeditor : 07-11-2022 ------------------------------
+
+  public Editor1 = DecoupledEditor;
+  public Editor2 = DecoupledEditor;
+
+  ckeditorOnReady(e) {
+    e.ui
+      .getEditableElement()
+      .parentElement.insertBefore(
+        e.ui.view.toolbar.element,
+        e.ui.getEditableElement()
+      );
+    // for image
+    e.plugins.get("FileRepository").createUploadAdapter = function (loader) {
+      //console.log(btoa(loader.file));
+      return new UploadAdapter(loader);
+    };
+  }
+
+  public editor_config = {
+    fontSize: {
+      options: [9, 11, 13, "default", 17, 19, 21],
+    },
+    toolbar: [
+      "undo",
+      "redo",
+      "|",
+      "heading",
+      "fontFamily",
+      "fontSize",
+      "|",
+      "bold",
+      "italic",
+      "underline",
+      "fontColor",
+      "fontBackgroundColor",
+      "highlight",
+      "|",
+      "horizontalLine",
+      "link",
+      "CKFinder",
+      "imageUpload",
+      "mediaEmbed",
+      "|",
+      "alignment",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "indent",
+      "outdent",
+      "|",
+      "insertTable",
+      "blockQuote",
+      "specialCharacters",
+    ],
+    shouldNotGroupWhenFull: true,
+    language: "en",
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
+  };
+
+  //-------------------------------------------------------------------------------------------
+
   constructor(
     private modalService: NgbModal,
     public router: Router,
     private eceactivitiesService: EceactivitiesService,
     private galleryService: GalleryService,
-    private managersboxService: ManagersboxService
+    private managersboxService: ManagersboxService,
+    private domSanitizer: DomSanitizer
   ) {
     this.selected_program = "ece";
     this.selected_subject = "";
@@ -61,8 +132,8 @@ export class EceactivitiesComponent implements OnInit {
   filetype: string;
   s3name: string;
 
-  public Editor1 = ClassicEditor;
-  public Editor2 = ClassicEditor;
+  // public Editor1 = ClassicEditor;
+  // public Editor2 = ClassicEditor;
 
   save_operation: string = "";
   record_id: string = "";
@@ -126,7 +197,14 @@ export class EceactivitiesComponent implements OnInit {
     dropZoneHeight: "50px", // default 50
   };
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.Editor1.defaultConfig = this.editor_config;
+    this.Editor2.defaultConfig = this.editor_config;
+  }
+
+  transformToHtml(htmlTextWithStyle) {
+    return this.domSanitizer.bypassSecurityTrustHtml(htmlTextWithStyle);
+  }
 
   filechooser_onchange(event) {
     if (event.target.files.length > 0) {
@@ -1115,5 +1193,28 @@ export class EceactivitiesComponent implements OnInit {
           this.update_record(this.record_id, body);
         }
       });
+  }
+}
+
+export class UploadAdapter {
+  private loader;
+  constructor(loader) {
+    this.loader = loader;
+  }
+
+  upload() {
+    console.log("HI");
+
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          var myReader = new FileReader();
+          myReader.onloadend = (e) => {
+            resolve({ default: myReader.result });
+          };
+
+          myReader.readAsDataURL(file);
+        })
+    );
   }
 }

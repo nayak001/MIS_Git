@@ -197,7 +197,9 @@
                                     ></i
                                   ></span>
                                 </div>
-                                <div [innerHTML]="data.content"></div>
+                                <div
+                                  [innerHTML]="transformToHtml(data.content)"
+                                ></div>
                                 <!-- <ckeditor  [editor]="Editor" [(ngModel)]="data.content" data="{{data.content}}"></ckeditor> -->
                               </div>
                               <div *ngIf="data.type == 'image'">
@@ -804,6 +806,7 @@
                     [editor]="Editor"
                     [(ngModel)]="content_value"
                     data="{{ content_value }}"
+                    (ready)="ckeditorOnReady($event)"
                   ></ckeditor>
                 </div>
                 <button
@@ -1078,6 +1081,7 @@
                     [editor]="Editor"
                     [(ngModel)]="edit_content_value"
                     data="{{ edit_content_value }}"
+                    (ready)="ckeditorOnReady($event)"
                   ></ckeditor>
                 </div>
               </div>
@@ -1117,6 +1121,7 @@
                     [editor]="Editor"
                     [(ngModel)]="text_to_preview"
                     data="{{ text_to_preview }}"
+                    (ready)="ckeditorOnReady($event)"
                   ></ckeditor>
                 </div>
               </div>
