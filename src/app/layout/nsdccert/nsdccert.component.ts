@@ -200,7 +200,7 @@ export class NsdccertComponent implements OnInit {
   }
 
   uploadCert(s3path) {
-    let body = { certificate: s3path, certificatestatus: "complete" };
+    let body = {certificate: s3path, certificatestatus: "complete"};
     this.nsdccertservice.addnsdccert(this._id, body).subscribe(
       (data) => {
         swal.fire("Success", "Certificate added successfully", "success");
@@ -508,6 +508,7 @@ export class NsdccertComponent implements OnInit {
 
   // Resources
   add_resources_btn_click() {
+    console.log("save image-->")
     if (this.save_operation == "save") {
       swal.fire("info", "Please add atleast one segment first", "warning");
       this.modalReference.close();
@@ -516,17 +517,23 @@ export class NsdccertComponent implements OnInit {
       this.progress.percentage = 0;
       for (let i = 0; i < this.selectedFiles.length; i++) {
         this.displayname = this.selectedFiles[i].name;
+        console.log("this.displayname-->", this.displayname)
         this.filetype = this.displayname.split(".").pop();
+        console.log(" this.filetype-->",  this.filetype)
         this.s3name = new Date().getTime() + "." + this.filetype;
+        console.log("this.s3name-->", this.s3name)
         this.currentFileUpload = this.selectedFiles.item(i);
+        console.log(" this.currentFileUpload-->",  this.currentFileUpload)
         this.galleryService
           .pushFileToStorage(this.currentFileUpload, null, this.s3name)
           .subscribe((event) => {
+            console.log("event-->",event)
             if (event.type === HttpEventType.UploadProgress) {
               this.progress.percentage = Math.round(
                 (100 * event.loaded) / event.total
               );
             } else if (event instanceof HttpResponse) {
+              console.log("checked-->",event instanceof HttpResponse)
               this.hideProgressbar = true;
               this.s3path = event.body["s3path"];
               this.uploadCert(this.s3path);
