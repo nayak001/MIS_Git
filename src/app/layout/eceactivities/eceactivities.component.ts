@@ -255,7 +255,7 @@ export class EceactivitiesComponent implements OnInit {
       { value: "seasons", text: "Seasons" },
       { value: "myPhysicalEnvironment", text: "My physical environment" },
       { value: "mySocialEnvironment ", text: "My social environment " },
-      { value: "myHealthAndHygiene", text: "My health and hygiene" },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     this.skill_select_option_list = [
       { value: "physical", text: "Physical" },
@@ -307,7 +307,7 @@ export class EceactivitiesComponent implements OnInit {
       { value: "seasons", text: "Seasons" },
       { value: "myPhysicalEnvironment", text: "My physical environment" },
       { value: "mySocialEnvironment ", text: "My social environment " },
-      { value: "myHealthAndHygiene", text: "My health and hygiene" },
+      { value: "myHealthAndHygiene", text: "My health and hygiene" },
     ];
     ////////////////////////////////////////////////Skilll__start/////////////////////////////////////////////////////
     this.skill_select_option_list = [
