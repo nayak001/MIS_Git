@@ -5,6 +5,8 @@ import { Router, NavigationExtras } from "@angular/router";
 import { HttpResponse, HttpEventType } from "@angular/common/http";
 import swal from "sweetalert2";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import DecoupledEditor from "@haifahrul/ckeditor5-build-rich";
+import { DomSanitizer } from "@angular/platform-browser";
 
 import { PgeactivitiesService } from "./pgeactivities.service";
 import { GalleryService } from "./../gallery/gallery.service";
@@ -19,6 +21,74 @@ import { ManagersboxService } from "./../managersbox/managersbox.service";
   animations: [routerTransition()],
 })
 export class PgeactivitiesComponent implements OnInit {
+  // public Editor1 = ClassicEditor;
+  // public Editor2 = ClassicEditor;
+  //---------------------------- nrusingh- ckeditor : 07-11-2022 ------------------------------
+
+  public Editor1 = DecoupledEditor;
+  public Editor2 = DecoupledEditor;
+
+  ckeditorOnReady(e) {
+    e.ui
+      .getEditableElement()
+      .parentElement.insertBefore(
+        e.ui.view.toolbar.element,
+        e.ui.getEditableElement()
+      );
+    // for image
+    e.plugins.get("FileRepository").createUploadAdapter = function (loader) {
+      //console.log(btoa(loader.file));
+      return new UploadAdapter(loader);
+    };
+  }
+
+  public editor_config = {
+    fontSize: {
+      options: [9, 11, 13, "default", 17, 19, 21],
+    },
+    toolbar: [
+      "undo",
+      "redo",
+      "|",
+      "heading",
+      "fontFamily",
+      "fontSize",
+      "|",
+      "bold",
+      "italic",
+      "underline",
+      "fontColor",
+      "fontBackgroundColor",
+      "highlight",
+      "|",
+      "horizontalLine",
+      "link",
+      "CKFinder",
+      "imageUpload",
+      "mediaEmbed",
+      "|",
+      "alignment",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "indent",
+      "outdent",
+      "|",
+      "insertTable",
+      "blockQuote",
+      "specialCharacters",
+    ],
+    shouldNotGroupWhenFull: true,
+    language: "en",
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
+  };
+
+  //-------------------------------------------------------------------------------------------
   @ViewChild("updatetextcontentsmodal") updatetextcontentsmodal: any;
   @ViewChild("updateimagecontentsmodal") updateimagecontentsmodal: any;
   @ViewChild("updatevideocontentsmodal") updatevideocontentsmodal: any;
@@ -31,9 +101,6 @@ export class PgeactivitiesComponent implements OnInit {
   displayname: string;
   filetype: string;
   s3name: string;
-
-  public Editor1 = ClassicEditor;
-  public Editor2 = ClassicEditor;
 
   save_operation: string = "";
   record_id: string = "";
@@ -93,7 +160,8 @@ export class PgeactivitiesComponent implements OnInit {
     public router: Router,
     private pgeactivitiesService: PgeactivitiesService,
     private galleryService: GalleryService,
-    private managersboxService: ManagersboxService
+    private managersboxService: ManagersboxService,
+    private domSanitizer: DomSanitizer
   ) {
     this.selected_program = "pge";
     this.selected_class = "";
@@ -110,7 +178,14 @@ export class PgeactivitiesComponent implements OnInit {
     this.hide_createnewsegment_button = true;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.Editor1.defaultConfig = this.editor_config;
+    this.Editor2.defaultConfig = this.editor_config;
+  }
+
+  transformToHtml(htmlTextWithStyle) {
+    return this.domSanitizer.bypassSecurityTrustHtml(htmlTextWithStyle);
+  }
 
   filechooser_onchange(event) {
     if (event.target.files.length > 0) {
@@ -1145,4 +1220,27 @@ export class PgeactivitiesComponent implements OnInit {
     }
     this.load_record(this.selected_preflanguage, this.selected_program, this.selected_subject, this.selected_month, this.selected_skillsetid, this.selected_class);
   }*/
+}
+
+export class UploadAdapter {
+  private loader;
+  constructor(loader) {
+    this.loader = loader;
+  }
+
+  upload() {
+    console.log("HI");
+
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          var myReader = new FileReader();
+          myReader.onloadend = (e) => {
+            resolve({ default: myReader.result });
+          };
+
+          myReader.readAsDataURL(file);
+        })
+    );
+  }
 }
