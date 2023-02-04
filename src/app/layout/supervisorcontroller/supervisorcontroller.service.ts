@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { AbstractControl, ValidatorFn } from "@angular/forms";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "./../../../environments/environment.prod";
+import { BlockdistrictComponent } from "../blockdistrict/blockdistrict.component";
 
 const baseUrl = environment.baseUrl;
 
@@ -23,8 +24,8 @@ export class SupervisorcontrollerService {
       { headers: new HttpHeaders().set("Content-Type", "application/json") }
     );
   }
-  getallsupervisordetails() {
-    return this.http.get(baseUrl + "getallsupervisordetails", {
+  getallsupervisordetails(stateid,districtid,blockid) {
+    return this.http.get(baseUrl + "getSupervisorDetails/" +stateid + "/" + districtid + "/" + blockid ,{
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }
@@ -67,7 +68,7 @@ export class SupervisorcontrollerService {
   }
 
   updatesupervisordetails(body) {
-    return this.http.put(baseUrl + "updatesupervisordetails/", body, {
+    return this.http.put(baseUrl + "updateSupervisorDetails/", body, {
       headers: new HttpHeaders().set("Content-Type", "application/json"),
     });
   }

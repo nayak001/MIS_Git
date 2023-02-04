@@ -41,9 +41,9 @@
                     (change)="preftype_select_onchange($event)"
                     class="form-control"
                   >
-                    <option value="">Select</option>
+                    <option value=""   [selected]="isSelected">Select</option>
                     <option value="anganwadi">Anganwadi</option>
-                    <option value="fellow"  [selected]="isSelected">Fellow</option>
+                    <option value="fellow">Fellow</option>
                    
                   </select>
                 </div>
