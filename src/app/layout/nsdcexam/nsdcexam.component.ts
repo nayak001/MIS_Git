@@ -271,15 +271,14 @@ export class NsdcExamComponent implements OnInit {
   //}
   async delquiz() {
     console.log(this.delete_q_qid);
-
-    // this.NsdcExamService.deletecontent(this.delete_q_qid).subscribe(
-    //   (data) => {
-    //     swal.fire("Success", "Record deleted successfully", "success");
-    //     this.load_record();
-    //   },
-    //   (error) => {},
-    //   () => {}
-    // );
+    this.NsdcExamService.deletecontent(this.delete_q_qid).subscribe(
+      (data) => {
+        swal.fire("Success", "Record deleted successfully", "success");
+        this.load_record();
+      },
+      (error) => {},
+      () => {}
+    );
   }
 
   async save_btn_click() {

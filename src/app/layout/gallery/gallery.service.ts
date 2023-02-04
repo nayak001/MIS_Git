@@ -34,7 +34,9 @@ export class GalleryService {
 		let uploadurl = '';
 		uploadurl = (directory == undefined || directory == null || directory == '') ? 's3api/uploadroot/'+s3name : 's3api/uploaddir/'+directory+'/'+s3name;
 		const formdata: FormData = new FormData();
-		formdata.append('file', file);
+		formdata.append('file', file); 
+		console.log("formdata-->",formdata)
+		console.log("file-->",file)
 		const req = new HttpRequest('POST', baseUrl+uploadurl, formdata, {
 			reportProgress: true,
 			//responseType: 'text'

@@ -186,7 +186,7 @@ supervisorname:any;
 
   reset() {
     this.txt_passcode = "";
-    this.txt_anganwadiname = "";
+    // this.txt_anganwadiname = "";
     //  this.allanganwadicontrollerlist = "";
 
     this.selected_districtname = "";
@@ -429,9 +429,9 @@ if( this.setAnganwadiList){
       swal.fire("Info", "Anganwaduname is not valid", "warning");
     } else {
       this.hideLoading_indicator = false;
-      const selectedAnganwadiList = this.select_anganwadiname.filter(
-        (x) => x.supervisorAssigned == true
-      );
+      // const selectedAnganwadiList = this.select_anganwadiname.filter(
+      //   (x) => x.supervisorAssigned == true
+      // );
       // console.log("selectedAnganwadiList-->", selectedAnganwadiList);
 
       let body = {
@@ -459,9 +459,9 @@ if( this.setAnganwadiList){
               "success"
             );
           }
-          this.getallpasscodes();
+           this.getallpasscodes();
           this.hideLoading_indicator = true;
-          this.reset();
+          // this.reset();
         },
 
         )
@@ -620,7 +620,7 @@ if( this.setAnganwadiList){
             ) {
               this.selected_record = {};
               this.record_id = "";
-              this.no_record_selected = true;
+              //this.no_record_selected = true;
             } else {
               this.updateallanganwadicontrollerlist = data;
               console.log(
