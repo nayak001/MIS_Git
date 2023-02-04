@@ -156,11 +156,11 @@
                         <div class="">
                           <div
                             class="row"
-                            *ngFor="let data of data; let i = index"
+                            *ngFor="let pdata of data; let i = index"
                           >
                             <div
                               class="render_list_view_parent"
-                              *ngFor="let data of data.content; let i = index"
+                              *ngFor="let data of pdata.content; let i = index"
                             >
                               <div *ngIf="data.type == 'content'">
                                 <div style="width: 100%">
@@ -265,10 +265,10 @@
                                     class="delbtn"
                                     (click)="
                                       opencontent(
-                                        deletecontentmodal,
-                                        data,
+                                        deletequestionmodal,
+                                        pdata,
                                         i,
-                                        'deletecontentmodal'
+                                        'deletequestionmodal'
                                       )
                                     "
                                     ><i
@@ -1565,6 +1565,34 @@
                 (click)="updatecontent()"
               >
                 &nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;
+              </button>
+            </div>
+          </ng-template>
+
+          <!-- Delete question modal -->
+          <ng-template #deletequestionmodal let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <div class="row">
+                <img src="assets/images/warning.png" class="warning-icon" />
+                <span class="col col-xl-9 col-lg-9"
+                  >Are you sure, you want to remove this question!</span
+                >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                (click)="c('Close click')"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="deletequestion()"
+              >
+                &nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;
               </button>
             </div>
           </ng-template>

@@ -5,10 +5,10 @@ import { HttpResponse, HttpEventType } from "@angular/common/http";
 import { Masterteachertraining2Service } from "./masterteachertraining2.service";
 import { ManagersboxService } from "./../managersbox/managersbox.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
-import { DomSanitizer } from "@angular/platform-browser";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 //import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
-//import ClassicEditor from "@haifahrul/ckeditor5-build-rich";
+import DecoupledEditor from "@haifahrul/ckeditor5-build-rich";
+import { DomSanitizer } from "@angular/platform-browser";
 
 import swal from "sweetalert2";
 
@@ -114,7 +114,6 @@ export class Masterteachertraining2Component implements OnInit {
   //---------------------------- nrusingh- ckeditor : 07-11-2022 ------------------------------
 
   ckeditorOnReady(e) {
-    //console.log("%%%: ", Array.from(e.ui.componentFactory.names()));
     e.ui
       .getEditableElement()
       .parentElement.insertBefore(
@@ -123,7 +122,7 @@ export class Masterteachertraining2Component implements OnInit {
       );
     // for image
     e.plugins.get("FileRepository").createUploadAdapter = function (loader) {
-      console.log(btoa(loader.file));
+      //console.log(btoa(loader.file));
       return new UploadAdapter(loader);
     };
   }
@@ -146,22 +145,45 @@ export class Masterteachertraining2Component implements OnInit {
       this.selected_preflanguage,
       this.selected_usertype
     );
-    
+
     this.Editor.defaultConfig = {
-      toolbar: {
-        items: [
-          "heading",
-          "|",
-          "bold",
-          "italic",
-          "|",
-          "bulletedList",
-          "numberedList",
-          "|",
-          "undo",
-          "redo",
-        ],
+      fontSize: {
+        options: [9, 11, 13, "default", 17, 19, 21],
       },
+      toolbar: [
+        "undo",
+        "redo",
+        "|",
+        "heading",
+        "fontFamily",
+        "fontSize",
+        "|",
+        "bold",
+        "italic",
+        "underline",
+        "fontColor",
+        "fontBackgroundColor",
+        "highlight",
+        "|",
+        "horizontalLine",
+        "link",
+        "CKFinder",
+        "imageUpload",
+        "mediaEmbed",
+        "|",
+        "alignment",
+        "bulletedList",
+        "numberedList",
+        "|",
+        "indent",
+        "outdent",
+        "|",
+        "insertTable",
+        "blockQuote",
+        "specialCharacters",
+      ],
+      shouldNotGroupWhenFull: true,
+      language: "en",
       image: {
         toolbar: [
           "imageStyle:full",
@@ -174,7 +196,6 @@ export class Masterteachertraining2Component implements OnInit {
         contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
       },
     };
-    
   }
 
   transformToHtml(htmlTextWithStyle) {
@@ -187,7 +208,6 @@ export class Masterteachertraining2Component implements OnInit {
     const selectedOptionValue = selectedOptions[selectedIndex].value;
     const selectElementText = selectedOptions[selectedIndex].text;
     this.selected_preflanguage = selectedOptionValue;
-    console.log("language-->", this.selected_preflanguage);
     this.load_allmodules_list(
       this.selected_preflanguage,
       this.selected_usertype
@@ -242,7 +262,6 @@ export class Masterteachertraining2Component implements OnInit {
     }
   }
   load_allsubmodules_list(moduleid) {
-    console.log("languagesub-->", this.selected_preflanguage);
     if (moduleid != undefined && moduleid != null && moduleid != "") {
       this.hideLoading_indicator = false;
       this.masterteachertraining2Service
@@ -519,6 +538,35 @@ export class Masterteachertraining2Component implements OnInit {
       );
   }
 
+  async deletequestion() {
+    var contentdata;
+    var contentid;
+    var indexdelete = this.delete_content_index;
+    var del_question_id = this.del_question_id;
+
+    this.data.forEach(function (value, key) {
+      if (value.content != undefined) {
+        value.content.forEach(function (item, key) {
+          if (item.contentid == del_question_id) {
+            contentid = value._id;
+            value.content.splice(key, 1);
+            contentdata = value.content;
+          }
+        });
+      }
+    });
+    this.masterteachertraining2Service
+      .deletecontent(contentid, contentdata)
+      .subscribe(
+        (data) => {
+          swal.fire("Success", "Record updated successfully", "success");
+          this.load_record();
+        },
+        (error) => {},
+        () => {}
+      );
+  }
+
   delelteimage() {
     // this.deleteallcontent(this.record_id,this.del_image_id)
     var contentdata;
@@ -613,8 +661,6 @@ export class Masterteachertraining2Component implements OnInit {
   s3vediopath: any;
   obj: any;
   addcontent() {
-    console.log("@@@: ", this.content_value);
-
     if (
       this.content_value == "" ||
       this.content_value == undefined ||
@@ -979,9 +1025,7 @@ export class Masterteachertraining2Component implements OnInit {
     this.masterteachertraining2Service
       .updatetchtrainingpercentage(moduleid, submoduleid, topicid)
       .subscribe(
-        (data) => {
-          console.log("hii i am hereee12", data);
-        },
+        (data) => {},
         (error) => {},
         () => {}
       );
@@ -1068,6 +1112,9 @@ export class Masterteachertraining2Component implements OnInit {
   text_to_preview: any;
   image_to_preview: any;
   vedio_to_preview: any;
+  delete_question_index: any;
+  del_question_id: any;
+
   opencontent(content, obj, index, flag) {
     console.log("--> obj: ", obj, "    index: ", index, "    flag: ", flag);
 
@@ -1106,7 +1153,11 @@ export class Masterteachertraining2Component implements OnInit {
       this.text_to_preview = obj.content;
     } else if (flag == "previewvediomodal") {
       this.vedio_to_preview = obj.content;
+    } else if (flag == "deletequestionmodal") {
+      this.delete_question_index = index;
+      this.del_question_id = obj.content[index].contentid;
     }
+
     this.modalReference = this.modalService.open(content, {
       size: "lg",
       windowClass: "modal-xl",
