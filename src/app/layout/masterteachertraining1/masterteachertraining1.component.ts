@@ -73,18 +73,21 @@ export class Masterteachertraining1Component implements OnInit {
   }
 
   ngOnInit() {
-    this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+    this.load_allmodules_list(
+      this.selected_preflanguage,
+      this.selected_usertype
+    );
   }
 
   // modules part
-  load_allmodules_list(language,usertype) {
+  load_allmodules_list(language, usertype) {
     // this.hideLoading_indicator1 = false;
     this.masterteachertraining1Service
-      .getalltrainingmodules(language,usertype)
+      .getalltrainingmodules(language, usertype)
       .subscribe(
         (data) => {
           this.allmodules_list = data;
-         // console.log("modulelist-->", this.allmodules_list)
+          // console.log("modulelist-->", this.allmodules_list)
           this.hideLoading_indicator1 = true;
         },
         (error) => {},
@@ -122,7 +125,6 @@ export class Masterteachertraining1Component implements OnInit {
               // console.log("usertype-->", this.selected_usertype)
               let modulebody = {
                 moduleid: curr_date.getTime(),
-               
                 modulename: this.modulename_tosave,
                 language: this.selected_preflanguage,
                 usertype: this.selected_usertype,
@@ -152,7 +154,10 @@ export class Masterteachertraining1Component implements OnInit {
                         );
                     } else {
                       this.hideLoading_indicator1 = true;
-                      this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+                      this.load_allmodules_list(
+                        this.selected_preflanguage,
+                        this.selected_usertype
+                      );
                       this.modulename_tosave = "";
                     }
                   },
@@ -179,7 +184,10 @@ export class Masterteachertraining1Component implements OnInit {
     // console.log("language-->",this.selected_preflanguage)
     if (this.selected_preflanguage != "") {
       this.masterteachertraining1Service
-        .getalltrainingmodules(this.selected_preflanguage,this.selected_usertype)
+        .getalltrainingmodules(
+          this.selected_preflanguage,
+          this.selected_usertype
+        )
         .subscribe(
           (data) => {
             if (data) {
@@ -210,7 +218,10 @@ export class Masterteachertraining1Component implements OnInit {
     // console.log("usertype-->", this.selected_usertype )
     if (this.selected_preflanguage != "") {
       this.masterteachertraining1Service
-        .getalltrainingmodules(this.selected_preflanguage,this.selected_usertype)
+        .getalltrainingmodules(
+          this.selected_preflanguage,
+          this.selected_usertype
+        )
         .subscribe(
           (data) => {
             if (data) {
@@ -228,7 +239,6 @@ export class Masterteachertraining1Component implements OnInit {
         );
     }
   }
-
 
   updatemodule_btnclick() {
     this.modulename_toupdate = this.modulename_toupdate
@@ -305,7 +315,10 @@ export class Masterteachertraining1Component implements OnInit {
                     } else {
                       this.modalReference.close();
                       this.hideLoading_indicator1 = true;
-                      this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+                      this.load_allmodules_list(
+                        this.selected_preflanguage,
+                        this.selected_usertype
+                      );
                       this.modulename_toupdate = "";
                     }
                   },
@@ -327,7 +340,10 @@ export class Masterteachertraining1Component implements OnInit {
         (data) => {
           this.modalReference.close();
           this.hideLoading_indicator1 = true;
-          this.load_allmodules_list(this.selected_preflanguage,this.selected_usertype);
+          this.load_allmodules_list(
+            this.selected_preflanguage,
+            this.selected_usertype
+          );
           this.load_allsubmodules_list(
             this.selected_usertype,
             this.selected_submodule_moduleid,
@@ -372,11 +388,22 @@ export class Masterteachertraining1Component implements OnInit {
     );
   }
 
-  load_alltopic_list(usertype,submoduleid, language) {
-    if (submoduleid != undefined && submoduleid != null && submoduleid != "" && usertype != undefined && usertype != null && usertype != "") {
+  load_alltopic_list(usertype, submoduleid, language) {
+    if (
+      submoduleid != undefined &&
+      submoduleid != null &&
+      submoduleid != "" &&
+      usertype != undefined &&
+      usertype != null &&
+      usertype != ""
+    ) {
       this.hideLoading_indicator3 = false;
       this.masterteachertraining1Service
-        .getalltrainingtopics(this.selected_usertype,this.selected_submodule_id, language)
+        .getalltrainingtopics(
+          this.selected_usertype,
+          this.selected_submodule_id,
+          language
+        )
         .subscribe(
           (data) => {
             this.alltopic_list = data;
@@ -391,11 +418,22 @@ export class Masterteachertraining1Component implements OnInit {
     }
   }
 
-  load_allsubmodules_list(usertype,moduleid, language) {
-    if (moduleid != undefined && moduleid != null && moduleid != "" && usertype != undefined && usertype != null && usertype != "") {
+  load_allsubmodules_list(usertype, moduleid, language) {
+    if (
+      moduleid != undefined &&
+      moduleid != null &&
+      moduleid != "" &&
+      usertype != undefined &&
+      usertype != null &&
+      usertype != ""
+    ) {
       this.hideLoading_indicator2 = false;
       this.masterteachertraining1Service
-        .getalltrainingsubmodules(this.selected_usertype,moduleid, this.selected_preflanguage)
+        .getalltrainingsubmodules(
+          this.selected_usertype,
+          moduleid,
+          this.selected_preflanguage
+        )
         .subscribe(
           (data) => {
             this.allsubmodules_list = data;
@@ -444,7 +482,7 @@ export class Masterteachertraining1Component implements OnInit {
                 submoduleid: curr_date.getTime(),
                 submodulename: this.submodulename_tosave,
                 language: this.selected_preflanguage,
-                usertype:this.selected_usertype,
+                usertype: this.selected_usertype,
               };
               this.masterteachertraining1Service
                 .createnewtrainingsubmodule(submodulebody)
@@ -614,10 +652,12 @@ export class Masterteachertraining1Component implements OnInit {
               alert("Topic name already exists.");
             } else {
               let curr_date = new Date();
+
               let subtopicbody = {
-                usertype:this.selected_usertype,
-                topicid: curr_date.getTime(),
+                usertype: this.selected_usertype,
+                moduleid: this.selected_submodule_moduleid,
                 submoduleid: this.selected_submodule_id,
+                topicid: curr_date.getTime(),
                 topicname: this.subtopicname_tosave,
                 language: this.selected_preflanguage,
               };
