@@ -33,16 +33,35 @@
                 (change)="readCSV($event.target.files)"
               />
             </div>
-
             <div class="col">
-              <button
-                type="button"
-                class="btn btn-primary float-right"
-                (click)="sendtemplatedmediamessage()"
+              Sent message(s): {{ currentMessageNumber }} /
+              {{ contactsFromCSV.length }}
+            </div>
+            <div class="col">
+              <div
+                id="loading_indicator"
+                class="loading_indicator"
+                [hidden]="hideLoading_indicator2"
               >
-                Send WhatsApp Message
-                <i class="fa fa-whatsapp" aria-hidden="true"></i>
-              </button>
+                <img
+                  src="assets/images/loader3.gif"
+                  alt="Loading. Please wait..."
+                />
+              </div>
+              <div
+                id="loading_indicator"
+                class="loading_indicator"
+                [hidden]="hide_sendmessage_buuton"
+              >
+                <button
+                  type="button"
+                  class="btn btn-primary float-right"
+                  (click)="sendtemplatedmediamessage()"
+                >
+                  Send WhatsApp Message
+                  <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -58,17 +77,17 @@
             </div>
             <div class="col">
               <!-- Loading indicator 2 -->
-              <div
+              <!-- <div
                 id="loading_indicator"
                 class="loading_indicator"
                 [hidden]="hideLoading_indicator2"
               >
                 <img
-                  src="assets/images/loader4.gif"
+                  src="assets/images/loader3.gif"
                   alt="Loading. Please wait..."
                 />
-              </div>
-              <div [hidden]="!hideLoading_indicator2">
+              </div> -->
+              <div>
                 <div class="contacts-box">
                   <div
                     *ngFor="let status of messageSentResponseArr"
@@ -93,6 +112,7 @@
                     <div class="col">{{ status.contact }}</div>
                   </div>
                 </div>
+
                 <button
                   type="button"
                   class="btn btn-primary float-right"

@@ -15,6 +15,7 @@ import { saveAs } from "file-saver";
 export class WhatsappbotComponent implements OnInit {
   hideLoading_indicator1: boolean = true;
   hideLoading_indicator2: boolean = true;
+  hide_sendmessage_buuton: boolean = false;
   // contact limit to send
   contact_limit: number = 1000;
 
@@ -27,6 +28,7 @@ export class WhatsappbotComponent implements OnInit {
   contactsFromCSV_count: number = 0;
 
   // response
+  currentMessageNumber: any = 0;
   messageSentResponseArr: any = [];
 
   // Modal
@@ -43,6 +45,8 @@ export class WhatsappbotComponent implements OnInit {
   ngOnInit() {
     this.hideLoading_indicator1 = true;
     this.hideLoading_indicator2 = true;
+    this.hide_sendmessage_buuton = false;
+    this.currentMessageNumber = 0;
   }
   downloadAllContacts() {
     if (this.allcontacts.length > 0) {
@@ -176,8 +180,37 @@ export class WhatsappbotComponent implements OnInit {
   async sendtemplatedmediamessage() {
     if (this.contactsFromCSV.length > 0) {
       this.hideLoading_indicator2 = false;
+      this.hide_sendmessage_buuton = true;
       let arr = [];
-      for (let i = 0; i < this.contactsFromCSV.length; i++) {
+
+      // ------------ new code modification started ----------
+      // if not requirfe delete this block and un comment others
+      let i = 0;
+      let loop = async () => {
+        this.hideLoading_indicator2 = false;
+        this.currentMessageNumber = i + 1;
+        this.messageSentResponseArr = arr;
+        await this.whatsappbotService
+          .sendtemplatedmediamessage(this.contactsFromCSV[i])
+          .then(function (res) {
+            console.log("step: ", i, " -res: ", res);
+            arr.push(res);
+          });
+        i++;
+        if (i < this.contactsFromCSV.length) {
+          setTimeout(() => {
+            loop();
+          }, 500); // Wait for 1 second before next iteration
+        } else {
+          this.hideLoading_indicator2 = true;
+          this.hide_sendmessage_buuton = false;
+        }
+      };
+      loop();
+      // ------------------------------------------------------
+
+      // ------------------- old code  started ----------------
+      /*for (let i = 0; i < this.contactsFromCSV.length; i++) {
         this.hideLoading_indicator2 = false;
         setTimeout(() => {
           this.whatsappbotService
@@ -186,12 +219,14 @@ export class WhatsappbotComponent implements OnInit {
               console.log("res: ", res);
               arr.push(res);
             });
-        }, 2000);
-      }
+        }, 5000);
+      }*/
       this.hideLoading_indicator2 = true;
       this.messageSentResponseArr = arr;
+      // ------------------------------------------------------
     } else {
       // show alert
+      alert("No contacts found!");
     }
   }
 
